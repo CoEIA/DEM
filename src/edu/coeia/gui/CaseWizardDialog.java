@@ -99,17 +99,17 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
         // initializing index location for case
-        indexLocationTextField.setText(PATH);
+        caseLocationTextField.setText(PATH);
 
         // add listener for index name text feild
-        indexNameTextField.getDocument().addDocumentListener(new DocumentListener() {
+        caseNameTextField.getDocument().addDocumentListener(new DocumentListener() {
 
             public void insertUpdate(DocumentEvent e) {
-                checkforIndexLocationName();
+                checkforCaseLocationPath();
             }
 
             public void removeUpdate(DocumentEvent e) {
-                checkforIndexLocationName();
+                checkforCaseLocationPath();
             }
 
             public void changedUpdate(DocumentEvent e) {
@@ -133,9 +133,9 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         indexWizardPanel = new javax.swing.JPanel();
         indexInfoPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        indexNameTextField = new javax.swing.JTextField();
+        caseNameTextField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        indexLocationTextField = new javax.swing.JTextField();
+        caseLocationTextField = new javax.swing.JTextField();
         browseButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         investigatorTextField = new javax.swing.JTextField();
@@ -223,15 +223,15 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         indexInfoPanel.setMaximumSize(new java.awt.Dimension(608, 361));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel1.setText("Index Name:");
+        jLabel1.setText("Case Name:");
 
-        indexNameTextField.setText(" ");
+        caseNameTextField.setText(" ");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel2.setText("Index Location:");
+        jLabel2.setText("Case Location:");
 
-        indexLocationTextField.setEditable(false);
-        indexLocationTextField.setText(" ");
+        caseLocationTextField.setEditable(false);
+        caseLocationTextField.setText(" ");
 
         browseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         browseButton.setText("Browse...");
@@ -267,9 +267,9 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(indexNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
+                    .addComponent(caseNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, indexInfoPanelLayout.createSequentialGroup()
-                        .addComponent(indexLocationTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+                        .addComponent(caseLocationTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(browseButton))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
@@ -281,11 +281,11 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             .addGroup(indexInfoPanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(indexNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(caseNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(indexLocationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(caseLocationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(browseButton)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
@@ -1045,21 +1045,21 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void checkforIndexLocationName() {
-        String text = indexNameTextField.getText().trim();
+    private void checkforCaseLocationPath() {
+        String text = caseNameTextField.getText().trim();
         
         if (! CaseNameChecker.isInvalidText(text)) {
-            indexLocationTextField.setText(PATH + "\\" + text);
+            caseLocationTextField.setText(PATH + "\\" + text);
         } else {
             String word = CaseNameChecker.removeInvalid(text);
-            indexLocationTextField.setText(PATH + "\\" + word);
+            caseLocationTextField.setText(PATH + "\\" + word);
         }
     }    
 
@@ -1113,10 +1113,10 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         if (path != null) {
             PATH = path;
 
-            if (indexNameTextField.getText().trim().isEmpty()) {
-                indexLocationTextField.setText(path);
+            if (caseNameTextField.getText().trim().isEmpty()) {
+                caseLocationTextField.setText(path);
             } else {
-                indexLocationTextField.setText(path + "\\" + indexNameTextField.getText().trim());
+                caseLocationTextField.setText(path + "\\" + caseNameTextField.getText().trim());
             }
         }
     }//GEN-LAST:event_browseButtonActionPerformed
@@ -1124,7 +1124,15 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         switch (currentIndex) {
             case 0:
+                if ( checkIndexInfoPanel() )
+                    next();
+                break;
+                
             case 1:
+                if ( checkIndexFileSystemPanel() )
+                    next();
+                break;
+                
             case 2:
             case 3:
                 next();
@@ -1135,7 +1143,113 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                 break;
         }
     }//GEN-LAST:event_nextButtonActionPerformed
+        
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        switch (currentIndex) {
+            case 1:
+                backFirst();
+                break;
 
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                back();
+                break;
+        }
+    }//GEN-LAST:event_backButtonActionPerformed
+
+    /*
+     * Check The IndexPanelInfo Before Go to the Next Panel
+     * Check caseName if empty or is its existed
+     * @return true if the all information are correct
+     */
+    private boolean checkIndexInfoPanel() {
+        String caseName = getCaseName(caseLocationTextField.getText().trim());
+
+        if (caseName == null || caseName.isEmpty()) {
+            showErrorMessage("You must choose a Case Name","Empty Index Name");
+            return false;
+        }
+        
+        if (caseExists(caseName)) {
+            showErrorMessage("The Case Name is Already Taken, Choose Another Name","Case Name Exists");
+            return false;
+        }
+
+        if (caseName.contains("-")) { // doesn't needed now, case name checker will remove this character!
+            showErrorMessage("Case Name Should Not Contains Illegal Chatacters (-)", "Please Change Case Name And Remove Any Special Character");
+            return false;
+        }
+        
+        String investigator = investigatorTextField.getText().trim();
+        if (investigator.isEmpty()) {
+            showErrorMessage("Investigator name is empty","Please Write A Clear Investigator Name");
+            return false;
+        }
+        
+        return (true);
+    }
+    
+    
+    /**
+     * Check The indexFileSystemPanel Panel
+     * Check if there is Document and Extensions is empty
+     * And Check if there is Extensions selected and no Documents
+     */
+    public boolean checkIndexFileSystemPanel() {
+        int size = documentModel.size();
+
+        ArrayList<String> ext = new ArrayList<String>();
+        addExtension(ext);
+
+        if (size > 0 && ext.isEmpty() || ext.size() > 0 && size == 0) {
+            showErrorMessage("You Should Select Some Documents And Extension in This Case","Please Select Documents and Extensions Now");
+            return false;
+        }
+        
+        return true;
+    }
+    
+    
+    /**
+    /*
+     * Check if their is folder name in case location text field
+     */
+    private String getCaseName(String path) {
+        File file = new File(path);
+        String name = file.getName();
+
+        if (name.equalsIgnoreCase("CASES")) {
+            return null;
+        }
+
+        return name;
+    }
+
+    /*
+     * Check if Case Exists
+     * @return true if there is case with this name
+     */
+    private boolean caseExists(String caseName)  {
+        try {
+            File casesInfo = new File(FilesPath.INDEXES_INFO);
+            ArrayList<String> casesInfoContent = Utilities.getFileContentInArrayList(casesInfo);
+
+            for (String path : casesInfoContent) {
+                Case aCase = Case.getCase(path);
+
+                if (aCase.getIndexName().equalsIgnoreCase(caseName)) {
+                    return true;
+                }
+            }
+        }
+        catch (IOException e) {}
+        catch (ClassNotFoundException e) { }
+
+        return false;
+    }
+    
     private void next() {
         currentIndex++;
         showPanel(cardsName[currentIndex], indexWizardPanel);
@@ -1151,36 +1265,21 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         finishButton.setEnabled(true);
     }
        
-    private void back() {
+    private void backFirst() {
         currentIndex--;
         showPanel(cardsName[currentIndex], indexWizardPanel);
         backButton.setEnabled(false);
         nextButton.setEnabled(true);
     }
     
-    private void backLast() {
+    private void back() {
         currentIndex--;
         showPanel(cardsName[currentIndex], indexWizardPanel);
         backButton.setEnabled(true);
         nextButton.setEnabled(true);
         finishButton.setEnabled(false);
     }
-        
-    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        switch (currentIndex) {
-            case 1:
-                back();
-                break;
-
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                backLast();
-                break;
-        }
-    }//GEN-LAST:event_backButtonActionPerformed
-
+    
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         index = null;
         dispose();
@@ -1210,7 +1309,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         // and go to each user folder in paritions.
         ArrayList<String> pstPaths = getOutlookPSTFiles();
 
-        if (pstPaths.size() == 0) {
+        if (pstPaths.isEmpty()) {
             showEmptyMessage("Not Found Any PST/OST Files");
             return;
         }
@@ -1383,7 +1482,6 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }//GEN-LAST:event_autoDetectMSNButtonActionPerformed
 
@@ -1402,67 +1500,22 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_autoDetectYahooButtonActionPerformed
 
-    private String getIndexName(String path) {
-        File file = new File(path);
-        String name = file.getName();
 
-        if (name.equalsIgnoreCase("CASES")) {
-            return null;
-        }
-
-        return name;
-    }
-
-    private boolean indexExsits(String user) throws IOException, ClassNotFoundException {
-        File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        ArrayList<String> indexesInfoContent = Utilities.getFileContentInArrayList(indexesInfo);
-
-        for (String path : indexesInfoContent) {
-            Case aIndex = Case.getCase(path);
-
-            if (aIndex.getIndexName().equalsIgnoreCase(user)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
-        // check info panel is not empty
-        String indexName = getIndexName(indexLocationTextField.getText().trim());
-
-        if (indexName == null) {
-            JOptionPane.showMessageDialog(CaseWizardDialog.this, "You must choose an index name",
-                    "Empty Index Name", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // check indexname, if there is a name like this show message and return
-        try {
-            if (indexExsits(indexName)) {
-                JOptionPane.showMessageDialog(CaseWizardDialog.this, "You must change index name",
-                        "Index name Exisited", JOptionPane.ERROR_MESSAGE);
-
-                return;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        String indexLocation = indexLocationTextField.getText().trim();
+       
+        /**
+         * Get Case Information 
+         */
+        String indexName = getCaseName(caseLocationTextField.getText().trim());
+        String indexLocation = caseLocationTextField.getText().trim();
         String investigator = investigatorTextField.getText().trim();
         String desc = descriptionTextArea.getText().trim();
 
-        if (investigator.isEmpty()) {
-            JOptionPane.showMessageDialog(CaseWizardDialog.this, "Investigator name is empty",
-                    "Please fill all required information", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // check document & extension panel
+        
+        /**
+         * Get Documents And its Extensions
+         */
         ArrayList<String> docs = new ArrayList<String>();
         int size = documentModel.size();
 
@@ -1473,21 +1526,26 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         ArrayList<String> ext = new ArrayList<String>();
         addExtension(ext);
 
-        if (size > 0 && ext.size() == 0) {
-            JOptionPane.showMessageDialog(CaseWizardDialog.this, "You must select extensions to index it",
-                    "please select some file extensions", JOptionPane.INFORMATION_MESSAGE);
-
-            return;
-        }
-
-        // check thrid panel (email panel)
+       
+        /**
+         * Check Outlook Data
+         * Outlook Extension , if Outlook Files is Selected
+         */
         ArrayList<String> pst = new ArrayList<String>();
 
         if (outlookCheckBox.isSelected()) {
             addToList(pstModel, pst);
         }
 
-        // check forth panel (browser panel)
+        if (outlookCheckBox.isSelected() && pstModel.size() > 0) {
+            ext.add("pst");
+            ext.add("ost");
+        }
+        
+        
+        /**
+         * Check Browsers Data and add to there List
+         */
         ArrayList<String> ie = new ArrayList<String>();
         ArrayList<String> ff = new ArrayList<String>();
 
@@ -1499,7 +1557,10 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             addToList(ffModel, ff);
         }
 
-        // check last panel (chat panel)
+        /**
+         * Check Chat Panel
+         * And Add Chat Data to There Related List
+         */
         ArrayList<String> msn = new ArrayList<String>();
         ArrayList<String> yahoo = new ArrayList<String>();
         ArrayList<String> skype = new ArrayList<String>();
@@ -1516,20 +1577,22 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             addToList(skypeModel, skype);
         }
 
-        if (indexName.contains("-")) {
-            JOptionPane.showMessageDialog(this, "index name should not contain illegal charater like(-)",
-                    "please correct index name", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        /**
+         * Check if There is no Any Options Selected in This Case
+         * And Show Error Message
+         */
 
         if (indexName.equals("") || indexLocation.equals("") || (docs.size() < 1 && ext.size() < 1
                 && pst.isEmpty() && ie.isEmpty() && ff.isEmpty() && msn.isEmpty() && yahoo.isEmpty()
                 && skype.isEmpty())) {
-            JOptionPane.showMessageDialog(CaseWizardDialog.this, "There are incomplete entries",
-                    "Please fill all required information", JOptionPane.ERROR_MESSAGE);
+            showErrorMessage("You're Not Select Any Option In This Case, DEM Cannot Create This Case Unitl Select Some Options", "Please Select At Least One Option!");
+                   
             return;
         }
 
+        /**
+         * Images Extension, if Cache Image Option is Selected
+         */
         boolean cacheImages = false, checkCompressed = false;
 
         if (imagesCheckBox.isSelected()) {
@@ -1543,13 +1606,10 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             ext.add("tiff");
         }
 
-        if (outlookCheckBox.isSelected() && pstModel.size() > 0) {
-            ext.add("pst");
-            ext.add("ost");
-        }
-
-        if (isFullVersion) {
-            //show smart card inserting/usage dialog
+        /**
+         * Check Smart Card License if its Full Version
+         */
+        if (isFullVersion) { //show smart card inserting/usage dialog
             SmartCardDialog scd = new SmartCardDialog(parent, true, false);
             scd.setVisible(true);
 
@@ -1558,7 +1618,10 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             }
         }
 
-        // time consumting statemnt
+        /**
+         * Run Thread Counter Now!
+         * And Create The Case
+         */
         InfiniteProgressPanel i = new InfiniteProgressPanel("Loading Now");
         this.setGlassPane(i);
         i.start();
@@ -1583,7 +1646,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             try {
                 ArrayList<Tuple<String, ArrayList<SkypeMessage>>> msgs = parser.parse();
 
-                if (msgs == null || msgs.size() == 0) {
+                if (msgs == null || msgs.isEmpty()) {
                     continue;
                 }
 
@@ -1594,11 +1657,10 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
             }
         }
 
-        if (skypeModel.size() == 0) {
+        if (skypeModel.isEmpty()) {
             showEmptyMessage("Not Found Any Skype Files");
         }
     }//GEN-LAST:event_autoDetectSkypeeButtonActionPerformed
@@ -2031,6 +2093,14 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(this, msg, "Object Not Found", JOptionPane.ERROR_MESSAGE);
     }
 
+    private void showErrorMessage(String msg, String title) {
+        JOptionPane.showMessageDialog(CaseWizardDialog.this, msg, title, JOptionPane.ERROR_MESSAGE);
+    }
+        
+    /*
+     * Case Name Checker
+     * Check the Validity of The Case That Created By The User
+     */
     private static class CaseNameChecker {
         private static boolean isInvalidText(String text) {
             for (String word : illegalCharacters) {
@@ -2077,26 +2147,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
         };
     }
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
 
-            public void run() {
-                CaseWizardDialog dialog = new CaseWizardDialog(new javax.swing.JFrame(), true, true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addFileButton;
     private javax.swing.JButton addFolderButton;
@@ -2111,6 +2162,8 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     private javax.swing.JButton browseButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JTextField caseLocationTextField;
+    private javax.swing.JTextField caseNameTextField;
     private javax.swing.JButton clearFFButton;
     private javax.swing.JButton clearIEButton;
     private javax.swing.JButton clearListButton;
@@ -2136,8 +2189,6 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     private javax.swing.JPanel indexFooterPanel;
     private javax.swing.JPanel indexHeaderPanel;
     private javax.swing.JPanel indexInfoPanel;
-    private javax.swing.JTextField indexLocationTextField;
-    private javax.swing.JTextField indexNameTextField;
     private javax.swing.JPanel indexWizardPanel;
     private javax.swing.JTextField investigatorTextField;
     private javax.swing.JLabel jLabel1;
