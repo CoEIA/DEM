@@ -16,6 +16,7 @@ import edu.coeia.utility.FilesPath ;
 import edu.coeia.utility.Utilities;
 import edu.coeia.index.IndexInformation;
 import edu.coeia.index.IndexOperation ;
+import edu.coeia.license.LicenseManager;
 
 /* import sun classes */
 import javax.swing.UIManager ;
@@ -33,9 +34,7 @@ import java.io.PrintWriter ;
 import java.io.FileNotFoundException ;
 
 import java.util.ArrayList ;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Calendar ;
+
 import java.util.List;
 
 import java.awt.Toolkit ;
@@ -45,7 +44,7 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-import java.util.prefs.Preferences;
+
 
 /**
  *
@@ -59,23 +58,58 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel";
     //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";
     
-    
     private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
     private List<String> listOfOpeningCase ;
-
-    // determine full version or beta version
-    // true  - full version should work using smart card licence
-    // false - beta version should be trial version for 15 days
     
-    private boolean isFullVersion = false;
-    private static final int TRIAL_LENGTH = 60; // days
+    /**
+     *  Select the License Model
+     *  Change This line when Produce Different Application with Different License Model
+     *  BETA_LICENSE will work 60 days
+     *  Full_LICENSE will require smart card filled with the number of case required
+     */
+    private static final LicenseManager licenseManager = LicenseManager.BETA_LICENSE; // select beta version
     
     /** Creates new form CaseManagerFrame */
     public CaseManagerFrame() {
-        initComponents();
-
-        this.listOfOpeningCase = new ArrayList<String>();
+        initComponents(); // put swing components
+        initJFrame();    // set size and location
+        checkBetaLicense(); // check for expiration if beta license
         
+        this.listOfOpeningCase = new ArrayList<String>();
+
+        try {
+            initApplication();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }        
+    }
+
+    /**
+     * Check the Time for BETA_LICENSE
+     * if expired then exit from the application and show user friendly message
+     */
+    private void checkBetaLicense() {
+        if ( ! licenseManager.isFullVersion() ) {
+            if ( licenseManager.isExpireNow() ) {
+                JOptionPane.showMessageDialog(this, "Your software has been expired!",
+                        "please purchase the full version...",
+                        JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            }
+        }
+    }
+    
+    /*
+     *  Screen Initializing
+     *  set JFrame look and feel, set JFrame location and set JFrame title
+     *  Save Application time when close JFrame (window close event)
+     */
+    private void initJFrame() {
+                
         /** set look and feel to windows look */
         try {
             changeLookAndFeel(lookAndFeelName);
@@ -98,37 +132,11 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         this.addWindowListener( new WindowAdapter() {
             @Override
             public void windowClosing (WindowEvent event){
-                saveUsage();
+                licenseManager.saveUsage();
             }
         });
-
-        try {
-            // if its beta version
-            if ( ! isFullVersion ) {
-                if ( isExpireNow() ) {
-                    JOptionPane.showMessageDialog(this, "Your software has been expired!",
-                            "please purchase the full version...",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    System.exit(0);
-                }
-            }
-
-            /** initApplication:
-             *  check Application folder
-             *  if not found: create new application folder
-             *  if found: open the indexes pointers
-             *  and fill the table with information
-            */
-            initApplication();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        catch (ClassNotFoundException e){
-            e.printStackTrace();
-        }        
     }
-
+    
     private void changeLookAndFeel ( String lookName ) throws Exception  {
         UIManager.setLookAndFeel(lookName);
         SwingUtilities.updateComponentTreeUI(this);
@@ -325,7 +333,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
     private void newCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCaseButtonActionPerformed
         try {
-            IndexWizard indexWizard = new IndexWizard(CaseManagerFrame.this,true, isFullVersion);
+            IndexWizard indexWizard = new IndexWizard(CaseManagerFrame.this,true, licenseManager.isFullVersion());
             indexWizard.setVisible(true);
             IndexInformation index = indexWizard.getIndex();
 
@@ -421,49 +429,18 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
     private void checkLicenseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkLicenseButtonActionPerformed
         // show smart card inserting/usage dialog
-        if ( isFullVersion ) {
+        if ( licenseManager.isFullVersion() ) {
             SmartCardDialog scd = new SmartCardDialog(this, true, true);
             scd.setVisible(true);
         }
         else {
-            Date currentDate = new Date();
-
-            Preferences root = Preferences.userRoot();
-            Preferences node = root.node("/com/coeia/dem");
-
-            String installTime = node.get("installTime",String.valueOf(currentDate.getTime()));
-            Date installDate = new Date(Long.valueOf(installTime));
-
-            Date expireDate = addDays(installDate, TRIAL_LENGTH);
-
-            int diff = subtractDays( expireDate, currentDate);
+            int diff = licenseManager.getRemainingDays();
             JOptionPane.showMessageDialog(this, "Remaining days: " + diff, "Trial Version",
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_checkLicenseButtonActionPerformed
 
-    // from: http://www.velocityreviews.com/forums/t139746-how-to-subtract-dates.html
-    private int subtractDays(Date date1, Date date2) {
-        GregorianCalendar gc1 = new GregorianCalendar();  gc1.setTime(date1);
-        GregorianCalendar gc2 = new GregorianCalendar();  gc2.setTime(date2);
 
-        int days1 = 0;
-        int days2 = 0;
-        int maxYear = Math.max(gc1.get(Calendar.YEAR), gc2.get(Calendar.YEAR));
-
-        GregorianCalendar gctmp = (GregorianCalendar) gc1.clone();
-        for (int f = gctmp.get(Calendar.YEAR);  f < maxYear;  f++)
-            {days1 += gctmp.getActualMaximum(Calendar.DAY_OF_YEAR);  gctmp.add(Calendar.YEAR, 1);}
-
-        gctmp = (GregorianCalendar) gc2.clone();
-        for (int f = gctmp.get(Calendar.YEAR);  f < maxYear;  f++)
-            {days2 += gctmp.getActualMaximum(Calendar.DAY_OF_YEAR);  gctmp.add(Calendar.YEAR, 1);}
-
-        days1 += gc1.get(Calendar.DAY_OF_YEAR) - 1;
-        days2 += gc2.get(Calendar.DAY_OF_YEAR) - 1;
-
-        return (days1 - days2);
-    }
     
     /**
      *
@@ -471,59 +448,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      *
     */
 
-    private boolean isExpireNow() {
-        boolean state = false;
-
-        Date currentDate = new Date();
-        
-        //Preferences node = Preferences.userNodeForPackage(this.getClass());
-        
-        Preferences root = Preferences.userRoot();
-        Preferences node = root.node("/com/coeia/dem");
-
-        String installTime = node.get("installTime",String.valueOf(currentDate.getTime()));
-        String lastUsage = node.get("LastUsage", String.valueOf(currentDate.getTime()));
-
-        Date installDate = new Date(Long.valueOf(installTime));
-        Date lastDate = new Date(Long.valueOf(lastUsage));
-
-        if ( lastDate.after(currentDate) ) {
-            state = true;
-        }
-        else if ( lastDate.before(currentDate) ) {
-            Date expireDate = addDays(installDate, TRIAL_LENGTH);
-
-            if ( expireDate.before(currentDate))
-                state = true;
-            else
-                state = false;
-        }
-        else {
-            node.put("installTime", String.valueOf(currentDate.getTime()));
-            node.put("LastUsage", String.valueOf(currentDate.getTime()));
-            state = false;
-        }
-
-        return state;
-    }
-
-    private void saveUsage () {
-        Date currentDate = new Date();
-
-        Preferences root = Preferences.userRoot();
-        Preferences node = root.node("/com/coeia/dem");
-        
-        node.put("LastUsage", String.valueOf(currentDate.getTime()));
-    }
-
-    private static Date addDays (Date date, int days) {
-        GregorianCalendar now = new GregorianCalendar();
-        now.setTime(date);
-        now.add(Calendar.DATE, days);
-
-        return (now.getTime());
-    }
-    
     private String getSelectedCase () {
         int row = recentCaseTable.getSelectedRow();
 
@@ -613,7 +537,13 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         writer.close();
     }
     
-    // create new application folder or open it
+    
+    /** initApplication:
+     *  check Application folder
+     *  if not found: create new application folder
+     *  if found: open the indexes pointers
+     *  and fill the table with information
+    */
     private void initApplication () throws IOException,ClassNotFoundException {
         File root = new File(FilesPath.APPLICATION_PATH);
         File cases = new File(FilesPath.CASES_PATH);

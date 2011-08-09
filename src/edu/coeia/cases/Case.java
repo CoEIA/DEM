@@ -8,6 +8,7 @@ package edu.coeia.cases;
  *
  * @author wajdyessam
  */
+
 public class Case {
     
 }
