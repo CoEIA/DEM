@@ -1,15 +1,5 @@
 package edu.coeia.gui;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * CaseManagerFrame.java
- *
- * Created on 16/07/2010, 01:09:17 م
- */
 
 /* import internal classes */
 import edu.coeia.utility.FilesPath ;
@@ -17,8 +7,11 @@ import edu.coeia.utility.Utilities;
 import edu.coeia.index.IndexInformation;
 import edu.coeia.index.IndexOperation ;
 import edu.coeia.license.LicenseManager;
+import edu.coeia.cases.CaseManager ;
 
 /* import sun classes */
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.UIManager ;
 import javax.swing.SwingUtilities ;
 import javax.swing.JTable ;
@@ -35,8 +28,6 @@ import java.io.FileNotFoundException ;
 
 import java.util.ArrayList ;
 
-import java.util.List;
-
 import java.awt.Toolkit ;
 import java.awt.Dimension ;
 import java.awt.event.WindowAdapter;
@@ -45,22 +36,14 @@ import java.awt.event.WindowEvent;
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 
-
-/**
- *
+/*
+ * CaseManagerFrame the main entry point to DEM
  * @author Wajdy Essam
- *
+ * Created on 16/07/2010, 01:09:17 م
  */
 
 public class CaseManagerFrame extends javax.swing.JFrame {
-
-    //private static final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
-    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel";
-    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";
-    
-    private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
-    private List<String> listOfOpeningCase ;
-    
+   
     /**
      *  Select the License Model
      *  Change This line when Produce Different Application with Different License Model
@@ -69,79 +52,23 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private static final LicenseManager licenseManager = LicenseManager.BETA_LICENSE; // select beta version
     
+    
+    /**
+     * Case Manager Object
+     * will create cases folder if no folder exists or some files in this folder are missing
+     * and handle the list of all opening case to prevent opening the same case more than one time
+     */
+    private static final CaseManager caseManager = CaseManager.Manager ;
+    
+    
     /** Creates new form CaseManagerFrame */
     public CaseManagerFrame() {
         initComponents(); // put swing components
-        initJFrame();    // set size and location
+        initJFrame();    // set size and location and title
         checkBetaLicense(); // check for expiration if beta license
-        
-        this.listOfOpeningCase = new ArrayList<String>();
-
-        try {
-            initApplication();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        catch (ClassNotFoundException e){
-            e.printStackTrace();
-        }        
+        readCases();     // read cases into table
     }
-
-    /**
-     * Check the Time for BETA_LICENSE
-     * if expired then exit from the application and show user friendly message
-     */
-    private void checkBetaLicense() {
-        if ( ! licenseManager.isFullVersion() ) {
-            if ( licenseManager.isExpireNow() ) {
-                JOptionPane.showMessageDialog(this, "Your software has been expired!",
-                        "please purchase the full version...",
-                        JOptionPane.INFORMATION_MESSAGE);
-                System.exit(0);
-            }
-        }
-    }
-    
-    /*
-     *  Screen Initializing
-     *  set JFrame look and feel, set JFrame location and set JFrame title
-     *  Save Application time when close JFrame (window close event)
-     */
-    private void initJFrame() {
-                
-        /** set look and feel to windows look */
-        try {
-            changeLookAndFeel(lookAndFeelName);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        /** set application in middle of screen **/
-        Toolkit kit = Toolkit.getDefaultToolkit() ;
-        Dimension screenSize = kit.getScreenSize() ;
-        int width = screenSize.width ;
-        int height = screenSize.height;
-
-        // set application title and default location when startup
-        this.setLocation( width / 4, height / 4);
-        this.setTitle("Digital Evidence Miner (Beta Version): Case Manager Window");
-
-        // add close event
-        this.addWindowListener( new WindowAdapter() {
-            @Override
-            public void windowClosing (WindowEvent event){
-                licenseManager.saveUsage();
-            }
-        });
-    }
-    
-    private void changeLookAndFeel ( String lookName ) throws Exception  {
-        UIManager.setLookAndFeel(lookName);
-        SwingUtilities.updateComponentTreeUI(this);
-    }
-
+   
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -327,7 +254,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE);
         }
         catch (ClassNotFoundException e){
-            e.printStackTrace();
         }
     }//GEN-LAST:event_loadCaseButtonActionPerformed
 
@@ -335,26 +261,16 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         try {
             IndexWizard indexWizard = new IndexWizard(CaseManagerFrame.this,true, licenseManager.isFullVersion());
             indexWizard.setVisible(true);
+            
             IndexInformation index = indexWizard.getIndex();
-
             if ( index == null) {
-//                JOptionPane.showMessageDialog(CaseManagerFrame.this, "Cannot Creating Index",
-//                        "Operation is not Completed",JOptionPane.ERROR_MESSAGE);
                 return ;
             }
-
-            // update indexes info file with new index
-            updateIndexesInfoFile(index);
-
-            // update recent table with this new information
-            updateRecentTable();
-
+            
+            updateIndexesInfoFile(index); // update indexes info file with new index
+            readCases(); // update recent table with this new information
         }
         catch (IOException e){
-            e.printStackTrace();
-        }
-        catch (ClassNotFoundException e){
-            e.printStackTrace();
         }
     }//GEN-LAST:event_newCaseButtonActionPerformed
 
@@ -368,9 +284,232 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         }
 
         String indexName = (String) recentCaseTable.getValueAt(row, 0);
+        removeCase(indexName);
+        
+        readCases(); // update view table
+        removeAllRows(caseInformationTable); // remove entrie in case information table
+    }//GEN-LAST:event_removeCaseButtonActionPerformed
+
+    private void recentCaseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recentCaseTableMouseClicked
+        if ( evt.getClickCount() == 2 ) { // double click
+            try {
+                showCaseInformation();
+                String caseName = getSelectedCase();
+                loadCase(caseName);
+            }
+            catch (IOException e){
+                JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            catch (ClassNotFoundException e){
+            }
+        }
+        else { // one click , then show information
+            showCaseInformation();
+        }
+    }//GEN-LAST:event_recentCaseTableMouseClicked
+
+    private void checkLicenseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkLicenseButtonActionPerformed
+        if ( licenseManager.isFullVersion() ) { // show smart card inserting/usage dialog
+            SmartCardDialog scd = new SmartCardDialog(this, true, true);
+            scd.setVisible(true);
+        }
+        else {
+            int diff = licenseManager.getRemainingDays();
+            JOptionPane.showMessageDialog(this, "Remaining days: " + diff, "Trial Version",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_checkLicenseButtonActionPerformed
+
+    
+    /**
+     * checkBetaLicense
+     * Check the Time for BETA_LICENSE
+     * if expired then exit from the application and show user friendly message
+     */
+    private void checkBetaLicense() {
+        if ( ! licenseManager.isFullVersion() && licenseManager.isExpireNow() ) {
+            JOptionPane.showMessageDialog(this, "Your software has been expired!","please purchase the full version...",JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
+    }
+    
+    /**
+     *  Screen Initializing
+     *  set JFrame look and feel, set JFrame location and set JFrame title
+     *  Save Application time when close JFrame (window close event)
+     */
+    private void initJFrame() {
+        try { 
+            changeLookAndFeel(lookAndFeelName);  // set look and feel to windows look 
+        }
+        catch (Exception e){
+        }
+
+        /** set application in middle of screen **/
+        Toolkit kit = Toolkit.getDefaultToolkit() ;
+        Dimension screenSize = kit.getScreenSize() ;
+        int width = screenSize.width ;
+        int height = screenSize.height;
+
+        // set application title and default location when startup
+        this.setLocation( width / 4, height / 4);
+        this.setTitle("Digital Evidence Miner (Beta Version): Case Manager Window");
+
+        // add close event
+        this.addWindowListener( new WindowAdapter() {
+            @Override
+            public void windowClosing (WindowEvent event){
+                licenseManager.saveUsage();
+            }
+        });
+    }
+    
+    /*
+     * Change the look and Feel
+     */
+    private void changeLookAndFeel ( String lookName ) throws Exception  {
+        UIManager.setLookAndFeel(lookName);
+        SwingUtilities.updateComponentTreeUI(this);
+    }
+
+    /*
+     * Read cases from files and update recent table
+     */
+    private void readCases() {
+        try {
+            updateRecentTable(); // read cases into case JTable 
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /*
+     * Update recent table by reading cases (reading from indexes_info file) info table
+     */
+    private void updateRecentTable () throws FileNotFoundException, IOException, ClassNotFoundException {
+        File indexesInfo = new File(FilesPath.INDEXES_INFO);
+        ArrayList<String> indexesInfoContent  = Utilities.getFileContentInArrayList(indexesInfo);
+
+        // clear value on table before adding new values
+        removeAllRows(recentCaseTable);
+
+        for(String path: indexesInfoContent) {
+            IndexInformation index = getIndexInformation(path);
+            addIndexInformationToTable(index);
+        }
+    }
+
+    /*
+     * get indexInformation from line of string
+     */
+    private IndexInformation getIndexInformation (String line) throws IOException,ClassNotFoundException {
+        String name = line.split("-")[0].trim();
+        String path = line.split("-")[1].trim();
+
+        IndexInformation index = IndexOperation.readIndex(new File(path + "\\" + name + ".DAT"));
+
+        return index ;
+    }
+    
+    /*
+     * Add index information to recent table (used when update recent)
+     */
+    private void addIndexInformationToTable (IndexInformation index) {
+        DefaultTableModel model = (DefaultTableModel) recentCaseTable.getModel();
+        model.addRow( new Object[] {index.getIndexName(), index.getInvestigatorName(), Utilities.formatDateTime(index.getCreateTime()), index.getDescription(),
+            index.getIndexStatus() });
+    }
+    
+    /*
+     * Show case information down in case manager
+     */
+    private void showCaseInformation () {
+        int row = recentCaseTable.getSelectedRow();
+
+        if ( row < 0 )
+            return ;
+
+        String indexName = (String) recentCaseTable.getValueAt(row, 0);
+
+        // clear value on table before adding new values
+        removeAllRows(caseInformationTable);
 
         try {
             IndexInformation index = getIndexInformationFromIndexName(indexName);
+            DefaultTableModel model = (DefaultTableModel) caseInformationTable.getModel();
+
+            model.addRow( new Object[] { "Index Name" , index.getIndexName() });
+            model.addRow( new Object[] { "Index Path" , index.getIndexLocation() });
+            model.addRow( new Object[] { "Created Date and Time" , Utilities.formatDateTime(index.getCreateTime()) } );
+            model.addRow( new Object[] { "Data Indexed Size" , Utilities.formatSize(Utilities.toKB(index.getDataIndexedSize())) + " KB"  });
+            model.addRow( new Object[] { "Extensions Allowed" , index.getExtensionAllowed() });
+
+            addListToRow(index.getDocumentInIndex(),"Case In Index",model);
+            addListToRow(index.getPstPath(),"Outlook Documents in Index", model);
+            addListToRow(index.getIePath(),"IE Paths in Index", model);
+            addListToRow(index.getFFPath(), "FF Paths in Index", model);
+            addListToRow(index.getMsnPath(),"MSN Paths in Index", model);
+            addListToRow(index.getYahooPath(),"Yahoo Paths in Index", model);
+            addListToRow(index.getSkypePath(), "Skype Paths in Index", model);
+
+            model.addRow( new Object[] { "Cache All Images" , index.getCacheImages() });
+        }
+        catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
+                JOptionPane.ERROR_MESSAGE);
+        }
+        catch (ClassNotFoundException e){
+        }
+    }
+        
+    // add value from list to case information table
+    private void addListToRow (ArrayList<String> data, String text, DefaultTableModel model) {
+        for (String s: data ) {
+            model.addRow( new Object[] { text , s });
+            text = "" ;
+        }
+    }
+    
+    private String getSelectedCase () {
+        int row = recentCaseTable.getSelectedRow();
+
+        if ( row < 0 ) {
+            JOptionPane.showMessageDialog(this, "please select the case you want to open",
+                    "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
+            return null ;
+        }
+
+        String indexName = (String) recentCaseTable.getValueAt(row, 0);
+        return indexName; 
+    }
+
+    private void loadCase (String caseName ) throws FileNotFoundException, IOException, ClassNotFoundException{
+        if ( caseName != null ) {
+            if ( !caseManager.isContain(caseName)) {
+                IndexInformation index = getIndexInformationFromIndexName(caseName);
+
+                caseManager.addCase(caseName);
+
+                OfflineMinningFrame mainFrame = new OfflineMinningFrame(index,false, index.getIndexName() + " Case",
+                        caseManager.getList());
+                mainFrame.setVisible(true);
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "This case is already opening",
+                        "Already Openining Case", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+    
+    private void removeCase (String caseName) {
+        try {
+            IndexInformation index = getIndexInformationFromIndexName(caseName);
             File file = new File( index.getIndexLocation() );
             
             if ( Utilities.removeDirectory(file) ) {
@@ -389,12 +528,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
                 // write new index information to file
                 Utilities.writeToFile(newIndexPtr, FilesPath.INDEXES_INFO);
-
-                // update view table
-                updateRecentTable();
-                
-                // remove entrie in case information table
-                removeAllRows(caseInformationTable);
             }
         }
         catch (IOException e) {
@@ -402,223 +535,20 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE);
         }
         catch (ClassNotFoundException e){
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_removeCaseButtonActionPerformed
-
-    private void recentCaseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recentCaseTableMouseClicked
-        
-        if ( evt.getClickCount() == 2 ) {
-            try {
-                showCaseInformation();
-                String caseName = getSelectedCase();
-                loadCase(caseName);
-            }
-            catch (IOException e){
-                JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
-                    JOptionPane.ERROR_MESSAGE);
-            }
-            catch (ClassNotFoundException e){
-                e.printStackTrace();
-            }
-        }
-        else {
-            showCaseInformation();
-        }
-    }//GEN-LAST:event_recentCaseTableMouseClicked
-
-    private void checkLicenseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkLicenseButtonActionPerformed
-        // show smart card inserting/usage dialog
-        if ( licenseManager.isFullVersion() ) {
-            SmartCardDialog scd = new SmartCardDialog(this, true, true);
-            scd.setVisible(true);
-        }
-        else {
-            int diff = licenseManager.getRemainingDays();
-            JOptionPane.showMessageDialog(this, "Remaining days: " + diff, "Trial Version",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_checkLicenseButtonActionPerformed
-
-
-    
-    /**
-     *
-     * private Functions
-     *
-    */
-
-    private String getSelectedCase () {
-        int row = recentCaseTable.getSelectedRow();
-
-        if ( row < 0 ) {
-            JOptionPane.showMessageDialog(this, "please select the case you want to open",
-                    "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
-            return null ;
-        }
-
-        String indexName = (String) recentCaseTable.getValueAt(row, 0);
-
-        return indexName; 
-    }
-
-    private void loadCase (String caseName ) throws FileNotFoundException, IOException, ClassNotFoundException{
-        if ( caseName != null ) {
-            if ( !this.listOfOpeningCase.contains(caseName)) {
-                IndexInformation index = getIndexInformationFromIndexName(caseName);
-
-                this.listOfOpeningCase.add(caseName);
-
-                OfflineMinningFrame mainFrame = new OfflineMinningFrame(index,false, index.getIndexName() + " Case",
-                        listOfOpeningCase);
-                mainFrame.setVisible(true);
-            }
-            else {
-                JOptionPane.showMessageDialog(this, "This case is already opening",
-                        "Already Openining Case", JOptionPane.INFORMATION_MESSAGE);
-            }
         }
     }
     
-    private void showCaseInformation () {
-        int row = recentCaseTable.getSelectedRow();
-
-        if ( row < 0 )
-            return ;
-
-        String indexName = (String) recentCaseTable.getValueAt(row, 0);
-
-        // clear value on table before adding new values
-        if ( caseInformationTable.getModel().getRowCount() > 0 )
-            removeAllRows(caseInformationTable);
-
-        try {
-            IndexInformation index = getIndexInformationFromIndexName(indexName);
-            DefaultTableModel model = (DefaultTableModel) caseInformationTable.getModel();
-
-            model.addRow( new Object[] { "Index Name" , index.getIndexName() });
-            model.addRow( new Object[] { "Index Path" , index.getIndexLocation() });
-            model.addRow( new Object[] { "Created Date and Time" , Utilities.formatDateTime(index.getCreateTime()) } );
-            model.addRow( new Object[] { "Data Indexed Size" , Utilities.formatSize(Utilities.toKB(index.getDataIndexedSize())) + " KB"  });
-            model.addRow( new Object[] { "Extensions Allowed" , index.getExtensionAllowed() });
-
-            addValues(index.getDocumentInIndex(),"Case In Index",model);
-            addValues(index.getPstPath(),"Outlook Documents in Index", model);
-            addValues(index.getIePath(),"IE Paths in Index", model);
-            addValues(index.getFFPath(), "FF Paths in Index", model);
-            addValues(index.getMsnPath(),"MSN Paths in Index", model);
-            addValues(index.getYahooPath(),"Yahoo Paths in Index", model);
-            addValues(index.getSkypePath(), "Skype Paths in Index", model);
-
-            model.addRow( new Object[] { "Cache All Images" , index.getCacheImages() });
-            //model.addRow( new Object[] { "Look Inside Compressed Files" , index.getCheckCompressed() });
-        }
-        catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
-                JOptionPane.ERROR_MESSAGE);
-        }
-        catch (ClassNotFoundException e){
-            e.printStackTrace();
-        }
-   }
-
-    // add value from arraylist to case information table
-    private void addValues (ArrayList<String> data, String text, DefaultTableModel model) {
-        for (String s: data ) {
-            model.addRow( new Object[] { text , s });
-            text = "" ;
-        }
-    }
-
     // add entry to indexes info file
     private void updateIndexesInfoFile (IndexInformation index) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(new File(FilesPath.INDEXES_INFO), true));
         writer.println(index.getIndexName() + " - " + index.getIndexLocation());
         writer.close();
     }
-    
-    
-    /** initApplication:
-     *  check Application folder
-     *  if not found: create new application folder
-     *  if found: open the indexes pointers
-     *  and fill the table with information
-    */
-    private void initApplication () throws IOException,ClassNotFoundException {
-        File root = new File(FilesPath.APPLICATION_PATH);
-        File cases = new File(FilesPath.CASES_PATH);
-        File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        File tmpFile = new File(FilesPath.TMP_PATH);
-        
-        if ( ! root.exists() ) {
-           createApplicationFolders(root, cases, indexesInfo, tmpFile);
-        }
-        else {
-            System.out.println("Open: " + FilesPath.INDEXES_INFO);
-            try {
-                updateRecentTable();
-            }
-            catch (IOException e) {
-                // if thers is error (like not found index.txt file) recreate all the files)
-                createApplicationFolders(root, cases, indexesInfo, tmpFile);
-            }
-        }
-    }
-
-    private void createApplicationFolders (File root, File cases, File indexesInfo, File tmpFile) throws IOException{
-        if  ( ! root.exists() )
-            root.mkdir();   // make offline folder in applicationData
-        
-         if  ( ! cases.exists() )
-             cases.mkdir();  // make offlinemining\cases
-
-         if  ( ! indexesInfo.exists() )
-             indexesInfo.createNewFile();  // make offlinemining\indexes.txt
-
-         if  ( ! tmpFile.exists() )
-             tmpFile.mkdir();
-
-        // craete tmp files
-        new File(FilesPath.HIS_TMP).createNewFile();
-        new File(FilesPath.PASS_TMP).createNewFile();
-        new File(FilesPath.CORRE_FILE).createNewFile();
-
-        System.out.println("Create new index information dir");
-    }
-
-    // update recent table by reading indexes info file
-    public void updateRecentTable () throws FileNotFoundException, IOException, ClassNotFoundException {
-        File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        ArrayList<String> indexesInfoContent  = Utilities.getFileContentInArrayList(indexesInfo);
-
-        // clear value on table before adding new values
-        if ( recentCaseTable.getModel().getRowCount() > 0 )
-            removeAllRows(recentCaseTable);
-
-        for(String path: indexesInfoContent) {
-            IndexInformation index = getIndexInformation(path);
-            addIndexInformationToTable(index);
-        }
-    }
-
-    // get indexInformation from line of string (was reading from indexes_info file)
-    private IndexInformation getIndexInformation (String line) throws IOException,ClassNotFoundException {
-        String name = line.split("-")[0].trim();
-        String path = line.split("-")[1].trim();
-
-        IndexInformation index = IndexOperation.readIndex(new File(path + "\\" + name + ".DAT"));
-
-        return index ;
-    }
-    
-    // add index information to recent table
-    private void addIndexInformationToTable (IndexInformation index) {
-        DefaultTableModel model = (DefaultTableModel) recentCaseTable.getModel();
-        model.addRow( new Object[] {index.getIndexName(), index.getInvestigatorName(), Utilities.formatDateTime(index.getCreateTime()), index.getDescription(),
-            index.getIndexStatus() });
-    }
 
     private void removeAllRows (JTable table) {
+        if ( table.getModel().getRowCount() <= 0 )
+            return; 
+        
         TableModel model = table.getModel();
         ( (DefaultTableModel) model ).getDataVector().removeAllElements();
         ( (DefaultTableModel) model ).fireTableDataChanged();
@@ -628,7 +558,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         sorter.setRowFilter(null);
     }
 
-    // get index path from index name
+    /*
+     * Get index path from index name 
+     * @return IndexInformation 
+     */
     private IndexInformation getIndexInformationFromIndexName (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
         ArrayList<String> indexesInfoContent  = Utilities.getFileContentInArrayList(indexesInfo);
@@ -655,6 +588,13 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             }
         });
     }
+    
+    
+    //private static final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
+    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel";
+    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";
+    
+    private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable caseInformationTable;
