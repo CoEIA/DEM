@@ -13,7 +13,7 @@ package edu.coeia.datamining;
 import edu.coeia.gui.InfiniteProgressPanel ;
 import edu.coeia.utility.Tuple ;
 import edu.coeia.utility.FilesPath ;
-import edu.coeia.index.IndexInformation ;
+import edu.coeia.cases.Case ;
 import edu.coeia.email.MessageHeader ;
 import edu.coeia.email.EmailReader;
 
@@ -37,12 +37,12 @@ public class ClusteringEmailThread extends SwingWorker<Integer,Void>{
     private String keyword ;
     private InfiniteProgressPanel panel ;
     private JTree emailClusterTree ;
-    private IndexInformation index ;
+    private Case index ;
     private PSTFile pstFile ;
     private String path ;
     
     public ClusteringEmailThread (String key, InfiniteProgressPanel i, JTree emailClusterTree,
-    IndexInformation index, PSTFile pstFile, String path) {
+    Case index, PSTFile pstFile, String path) {
         
         this.keyword = key ;
         this.panel = i ;

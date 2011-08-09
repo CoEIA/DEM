@@ -1,37 +1,24 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * IndexWizard.java
- *
- * Created on Jul 13, 2010, 2:00:51 PM
- */
 package edu.coeia.gui;
 
-/**
- *
- * @author wajdyessam
- */
 import chrriis.dj.nativeswing.swtimpl.components.JFileDialog;
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
+import edu.coeia.cases.Case;
 import edu.coeia.chat.MSNParser;
 import edu.coeia.chat.SkypeParser;
 import edu.coeia.chat.SkypeMessage;
-import edu.coeia.index.IndexInformation;
-import edu.coeia.index.IndexOperation;
 import edu.coeia.utility.FilesPath;
 import edu.coeia.utility.Tuple;
 import edu.coeia.utility.FilesFilter;
 import edu.coeia.utility.Utilities;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
+import javax.swing.DefaultListModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,42 +30,47 @@ import java.io.IOException;
 import java.awt.CardLayout;
 import java.awt.Frame;
 
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+/*
+ * IndexWizard.java
+ *
+ * @author wajdyessam
+ * 
+ * Created on Jul 13, 2010, 2:00:51 PM
+ * 
+ */
 
-public class IndexWizard extends javax.swing.JDialog {
+public class CaseWizardDialog extends javax.swing.JDialog {
 
     private DefaultListModel documentModel;
     private DefaultListModel msnModel, yahooModel, skypeModel;
     private DefaultListModel pstModel;
     private DefaultListModel ieModel, ffModel;
 
-    private IndexInformation index;
+    private Case index;
     private String PATH = FilesPath.CASES_PATH;
 
-    private String[] cardsName = {"indexInfoPanel", "indexFileSystemPanel", "indexEmailPanel",
-        "indexBroswerPanel", "indexChatPanel", "indexChatPanel2"};
-    private int currentIndex = 0;
-
-    private JFileChooser fileChooser;
-
-    private static final String[] illegalCharacters = {"<", ">", ":", "\"", "/", "\\", "|", "?", "*", "-"};
-    private static final String[] reservedNames = {
-        "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7",
-        "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
-    };
-    
     private Frame parent;
     private boolean isFullVersion;
 
+    private JFileChooser fileChooser;
+    
+    /*
+     * Wizard CardLayout - Panels Names
+     */
+    private String[] cardsName = {"indexInfoPanel", "indexFileSystemPanel", "indexEmailPanel",
+        "indexBroswerPanel", "indexChatPanel", "indexChatPanel2"};
+    private int currentIndex = 0;
+    
+
     /** Creates new form IndexWizard */
-    public IndexWizard(java.awt.Frame parent, boolean modal, boolean isFullVersion) {
+    public CaseWizardDialog(java.awt.Frame parent, boolean modal, boolean isFullVersion) {
         super(parent, modal);
         initComponents();
+        
         this.parent = parent;
         this.isFullVersion = isFullVersion;
 
-        // show first card & disable back button & finish button
+        // show first card indexInfoPanel and disable back button and finish button
         showPanel(cardsName[0], indexWizardPanel);
         backButton.setEnabled(false);
         finishButton.setEnabled(false);
@@ -106,7 +98,7 @@ public class IndexWizard extends javax.swing.JDialog {
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-        // initilizing index location for case
+        // initializing index location for case
         indexLocationTextField.setText(PATH);
 
         // add listener for index name text feild
@@ -1053,7 +1045,7 @@ public class IndexWizard extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1062,56 +1054,21 @@ public class IndexWizard extends javax.swing.JDialog {
 
     private void checkforIndexLocationName() {
         String text = indexNameTextField.getText().trim();
-        if (!isInvalidText(text)) {
+        
+        if (! CaseNameChecker.isInvalidText(text)) {
             indexLocationTextField.setText(PATH + "\\" + text);
         } else {
-            String word = removeInvalid(text);
+            String word = CaseNameChecker.removeInvalid(text);
             indexLocationTextField.setText(PATH + "\\" + word);
         }
-    }
-
-    private boolean isInvalidText(String text) {
-        for (String word : illegalCharacters) {
-            if (text.contains(word)) {
-                return true;
-            }
-        }
-
-        for (String word : reservedNames) {
-            if (text.equalsIgnoreCase(word)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private String removeInvalid(String text) {
-        for (String s : reservedNames) {
-            if (text.equalsIgnoreCase(s)) {
-                text = "";
-                return text;
-            }
-        }
-
-        StringBuilder result = new StringBuilder("");
-
-        for (int i = 0; i < text.length(); i++) {
-            String ch = text.charAt(i) + "";
-            if (!isInvalidText(ch)) {
-                result.append(ch);
-            }
-        }
-
-        return result.toString();
-    }
+    }    
 
     private void documentListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_documentListValueChanged
 }//GEN-LAST:event_documentListValueChanged
 
     private void addFolderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFolderButtonActionPerformed
         JDirectoryDialog directoryDialog = new JDirectoryDialog();
-        directoryDialog.show(IndexWizard.this);
+        directoryDialog.show(CaseWizardDialog.this);
         String path = directoryDialog.getSelectedDirectory();
         if (path != null) {
             addToList(path, documentModel, documentList);
@@ -1120,7 +1077,7 @@ public class IndexWizard extends javax.swing.JDialog {
 
     private void addFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFileButtonActionPerformed
         JFileDialog fileDialog = new JFileDialog();
-        fileDialog.show(IndexWizard.this);
+        fileDialog.show(CaseWizardDialog.this);
         String path = fileDialog.getParentDirectory();
 
         if (path != null) {
@@ -1150,7 +1107,7 @@ public class IndexWizard extends javax.swing.JDialog {
 
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
         JDirectoryDialog directoryDialog = new JDirectoryDialog();
-        directoryDialog.show(IndexWizard.this);
+        directoryDialog.show(CaseWizardDialog.this);
         String path = directoryDialog.getSelectedDirectory();
 
         if (path != null) {
@@ -1170,40 +1127,56 @@ public class IndexWizard extends javax.swing.JDialog {
             case 1:
             case 2:
             case 3:
-                currentIndex++;
-                showPanel(cardsName[currentIndex], indexWizardPanel);
-                backButton.setEnabled(true);
-                nextButton.setEnabled(true);
+                next();
                 break;
 
             case 4:
-                currentIndex++;
-                showPanel(cardsName[currentIndex], indexWizardPanel);
-                backButton.setEnabled(true);
-                nextButton.setEnabled(false);
-                finishButton.setEnabled(true);
+                nextLast();
                 break;
         }
     }//GEN-LAST:event_nextButtonActionPerformed
 
+    private void next() {
+        currentIndex++;
+        showPanel(cardsName[currentIndex], indexWizardPanel);
+        backButton.setEnabled(true);
+        nextButton.setEnabled(true);
+    }
+    
+    private void nextLast() {
+        currentIndex++;
+        showPanel(cardsName[currentIndex], indexWizardPanel);
+        backButton.setEnabled(true);
+        nextButton.setEnabled(false);
+        finishButton.setEnabled(true);
+    }
+       
+    private void back() {
+        currentIndex--;
+        showPanel(cardsName[currentIndex], indexWizardPanel);
+        backButton.setEnabled(false);
+        nextButton.setEnabled(true);
+    }
+    
+    private void backLast() {
+        currentIndex--;
+        showPanel(cardsName[currentIndex], indexWizardPanel);
+        backButton.setEnabled(true);
+        nextButton.setEnabled(true);
+        finishButton.setEnabled(false);
+    }
+        
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         switch (currentIndex) {
             case 1:
-                currentIndex--;
-                showPanel(cardsName[currentIndex], indexWizardPanel);
-                backButton.setEnabled(false);
-                nextButton.setEnabled(true);
+                back();
                 break;
 
             case 2:
             case 3:
             case 4:
             case 5:
-                currentIndex--;
-                showPanel(cardsName[currentIndex], indexWizardPanel);
-                backButton.setEnabled(true);
-                nextButton.setEnabled(true);
-                finishButton.setEnabled(false);
+                backLast();
                 break;
         }
     }//GEN-LAST:event_backButtonActionPerformed
@@ -1324,7 +1297,7 @@ public class IndexWizard extends javax.swing.JDialog {
     private void openDialog(FilesFilter filter, DefaultListModel model, JList list) {
         fileChooser.setFileFilter(filter);
 
-        int result = fileChooser.showOpenDialog(IndexWizard.this);
+        int result = fileChooser.showOpenDialog(CaseWizardDialog.this);
 
         if (result == JFileChooser.APPROVE_OPTION) {
             String path = fileChooser.getSelectedFile().getAbsolutePath();
@@ -1335,7 +1308,7 @@ public class IndexWizard extends javax.swing.JDialog {
     private void autoDetectIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectIEButtonActionPerformed
         ArrayList<String> iePaths = getUser();
 
-        if (iePaths.size() == 0) {
+        if (iePaths.isEmpty()) {
             showEmptyMessage("Not Found Any IE Files");
             return;
         }
@@ -1350,7 +1323,7 @@ public class IndexWizard extends javax.swing.JDialog {
     private void autoDetectFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectFFButtonActionPerformed
         ArrayList<String> ffPaths = getFireFoxFiles();
 
-        if (ffPaths.size() == 0) {
+        if (ffPaths.isEmpty()) {
             showEmptyMessage("Not Found Any FireFox Files");
             return;
         }
@@ -1367,7 +1340,7 @@ public class IndexWizard extends javax.swing.JDialog {
             if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
                 ArrayList<String> paths = getRegistryPath();
 
-                if (paths.size() == 0) {
+                if (paths.isEmpty()) {
                     showEmptyMessage("Not Found Any MSN Files");
                     return;
                 }
@@ -1417,7 +1390,7 @@ public class IndexWizard extends javax.swing.JDialog {
     private void autoDetectYahooButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectYahooButtonActionPerformed
         ArrayList<String> yahooPaths = getYahooFiles();
 
-        if (yahooPaths.size() == 0) {
+        if (yahooPaths.isEmpty()) {
             showEmptyMessage("Not Found Any Yahoo! Files");
             return;
         }
@@ -1440,20 +1413,12 @@ public class IndexWizard extends javax.swing.JDialog {
         return name;
     }
 
-    private IndexInformation getIndexInformation(String line) throws IOException, ClassNotFoundException {
-        String name = line.split("-")[0].trim();
-        String path = line.split("-")[1].trim();
-
-        IndexInformation aIndex = IndexOperation.readIndex(new File(path + "\\" + name + ".DAT"));
-        return aIndex;
-    }
-
     private boolean indexExsits(String user) throws IOException, ClassNotFoundException {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
         ArrayList<String> indexesInfoContent = Utilities.getFileContentInArrayList(indexesInfo);
 
         for (String path : indexesInfoContent) {
-            IndexInformation aIndex = getIndexInformation(path);
+            Case aIndex = Case.getCase(path);
 
             if (aIndex.getIndexName().equalsIgnoreCase(user)) {
                 return true;
@@ -1468,7 +1433,7 @@ public class IndexWizard extends javax.swing.JDialog {
         String indexName = getIndexName(indexLocationTextField.getText().trim());
 
         if (indexName == null) {
-            JOptionPane.showMessageDialog(IndexWizard.this, "You must choose an index name",
+            JOptionPane.showMessageDialog(CaseWizardDialog.this, "You must choose an index name",
                     "Empty Index Name", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -1476,7 +1441,7 @@ public class IndexWizard extends javax.swing.JDialog {
         // check indexname, if there is a name like this show message and return
         try {
             if (indexExsits(indexName)) {
-                JOptionPane.showMessageDialog(IndexWizard.this, "You must change index name",
+                JOptionPane.showMessageDialog(CaseWizardDialog.this, "You must change index name",
                         "Index name Exisited", JOptionPane.ERROR_MESSAGE);
 
                 return;
@@ -1492,7 +1457,7 @@ public class IndexWizard extends javax.swing.JDialog {
         String desc = descriptionTextArea.getText().trim();
 
         if (investigator.isEmpty()) {
-            JOptionPane.showMessageDialog(IndexWizard.this, "Investigator name is empty",
+            JOptionPane.showMessageDialog(CaseWizardDialog.this, "Investigator name is empty",
                     "Please fill all required information", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -1509,7 +1474,7 @@ public class IndexWizard extends javax.swing.JDialog {
         addExtension(ext);
 
         if (size > 0 && ext.size() == 0) {
-            JOptionPane.showMessageDialog(IndexWizard.this, "You must select extensions to index it",
+            JOptionPane.showMessageDialog(CaseWizardDialog.this, "You must select extensions to index it",
                     "please select some file extensions", JOptionPane.INFORMATION_MESSAGE);
 
             return;
@@ -1558,9 +1523,9 @@ public class IndexWizard extends javax.swing.JDialog {
         }
 
         if (indexName.equals("") || indexLocation.equals("") || (docs.size() < 1 && ext.size() < 1
-                && pst.size() == 0 && ie.size() == 0 && ff.size() == 0 && msn.size() == 0 && yahoo.size() == 0
-                && skype.size() == 0)) {
-            JOptionPane.showMessageDialog(IndexWizard.this, "There are incomplete entries",
+                && pst.isEmpty() && ie.isEmpty() && ff.isEmpty() && msn.isEmpty() && yahoo.isEmpty()
+                && skype.isEmpty())) {
+            JOptionPane.showMessageDialog(CaseWizardDialog.this, "There are incomplete entries",
                     "Please fill all required information", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -1655,7 +1620,7 @@ public class IndexWizard extends javax.swing.JDialog {
         selectAllCheckBoxes(false);
     }//GEN-LAST:event_manualRadioButtonActionPerformed
 
-    public void selectAllCheckBoxes(boolean state) {
+    private void selectAllCheckBoxes(boolean state) {
         htmlCheckBox.setSelected(state);
         docCheckBox.setSelected(state);
         pdfCheckBox.setSelected(state);
@@ -1664,13 +1629,13 @@ public class IndexWizard extends javax.swing.JDialog {
         xmlCheckBox.setSelected(state);
     }
 
-    public void addToList(DefaultListModel model, ArrayList<String> list) {
+    private void addToList(DefaultListModel model, ArrayList<String> list) {
         for (int i = 0; i < model.size(); i++) {
             list.add((String) model.getElementAt(i));
         }
     }
 
-    public void setPSTCheckBox(boolean enable) {
+    private void setPSTCheckBox(boolean enable) {
         pstList.setEnabled(enable);
         autoDetectPSTButton.setEnabled(enable);
         manulPSTButton.setEnabled(enable);
@@ -1678,35 +1643,35 @@ public class IndexWizard extends javax.swing.JDialog {
         clearPSTButton.setEnabled(enable);
     }
 
-    public void setMSNCheckBox(boolean enable) {
+    private void setMSNCheckBox(boolean enable) {
         msnList.setEnabled(enable);
         autoDetectMSNButton.setEnabled(enable);
         removeMSNButton.setEnabled(enable);
         clearMSNButton.setEnabled(enable);
     }
 
-    public void setYahooCheckBox(boolean enable) {
+    private void setYahooCheckBox(boolean enable) {
         yahooList.setEnabled(enable);
         autoDetectYahooButton.setEnabled(enable);
         removeYahooButton.setEnabled(enable);
         clearYahooButton.setEnabled(enable);
     }
 
-    public void setSkypeeCheckBox(boolean enable) {
+    private void setSkypeeCheckBox(boolean enable) {
         skypeeList.setEnabled(enable);
         autoDetectSkypeeButton.setEnabled(enable);
         removeSkypeeButton.setEnabled(enable);
         clearSkypeeButton.setEnabled(enable);
     }
 
-    public void setIECheckBox(boolean enable) {
+    private void setIECheckBox(boolean enable) {
         ieList.setEnabled(enable);
         autoDetectIEButton.setEnabled(enable);
         removeIEButton.setEnabled(enable);
         clearIEButton.setEnabled(enable);
     }
 
-    public void setFFCheckBox(boolean enable) {
+    private void setFFCheckBox(boolean enable) {
         ffList.setEnabled(enable);
         autoDetectFFButton.setEnabled(enable);
         removeFFButton.setEnabled(enable);
@@ -1714,12 +1679,12 @@ public class IndexWizard extends javax.swing.JDialog {
     }
 
     // show panel function
-    public void showPanel(String panelName, JPanel name) {
+    private void showPanel(String panelName, JPanel name) {
         CardLayout card = (CardLayout) name.getLayout();
         card.show(name, panelName);
     }
 
-    public void addExtension(ArrayList<String> eList) {
+    private void addExtension(ArrayList<String> eList) {
         if (htmlCheckBox.isSelected()) {
             eList.add("html");
             eList.add("htm");
@@ -1747,7 +1712,7 @@ public class IndexWizard extends javax.swing.JDialog {
         }
     }
 
-    public void addToList(String path, DefaultListModel model, JList list) {
+    private void addToList(String path, DefaultListModel model, JList list) {
         if ((path != null || !path.startsWith("null")) && !existsInList(path, model)) {
             model.addElement(path);
             list.setModel(model);
@@ -1758,18 +1723,18 @@ public class IndexWizard extends javax.swing.JDialog {
         return model.contains(path);
     }
 
-    public void removeFromList(String path, DefaultListModel model, JList list) {
+    private void removeFromList(String path, DefaultListModel model, JList list) {
         if (path != null) {
             model.removeElement(path);
             list.setModel(model);
         }
     }
 
-    public IndexInformation getIndex() {
+    public Case getIndex() {
         return index;
     }
 
-    public void setIndex(IndexInformation in) {
+    public void setIndex(Case in) {
         index = in;
     }
 
@@ -2066,6 +2031,53 @@ public class IndexWizard extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(this, msg, "Object Not Found", JOptionPane.ERROR_MESSAGE);
     }
 
+    private static class CaseNameChecker {
+        private static boolean isInvalidText(String text) {
+            for (String word : illegalCharacters) {
+                if (text.contains(word)) {
+                    return true;
+                }
+            }
+
+            for (String word : reservedNames) {
+                if (text.equalsIgnoreCase(word)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static String removeInvalid(String text) {
+            for (String s : reservedNames) {
+                if (text.equalsIgnoreCase(s)) {
+                    text = "";
+                    return text;
+                }
+            }
+
+            StringBuilder result = new StringBuilder("");
+
+            for (int i = 0; i < text.length(); i++) {
+                String ch = text.charAt(i) + "";
+                if (!isInvalidText(ch)) {
+                    result.append(ch);
+                }
+            }
+
+            return result.toString();
+        }
+        
+        /*
+         * Illegal case strings and characters
+         */
+        private static final String[] illegalCharacters = {"<", ">", ":", "\"", "/", "\\", "|", "?", "*", "-"};
+        private static final String[] reservedNames = {
+            "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7",
+            "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+        };
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -2073,7 +2085,7 @@ public class IndexWizard extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-                IndexWizard dialog = new IndexWizard(new javax.swing.JFrame(), true, true);
+                CaseWizardDialog dialog = new CaseWizardDialog(new javax.swing.JFrame(), true, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 
                     @Override

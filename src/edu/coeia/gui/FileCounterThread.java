@@ -22,8 +22,8 @@ import java.util.Date ;
 
 import edu.coeia.utility.Tuple ;
 import edu.coeia.utility.FilesCounter ;
-import edu.coeia.index.IndexInformation ;
-import edu.coeia.index.IndexOperation ;
+import edu.coeia.cases.Case ;
+import edu.coeia.cases.CaseOperation ;
 import javax.swing.JOptionPane;
 
 public class FileCounterThread extends SwingWorker<Tuple<Integer,Long>,Integer> {
@@ -34,14 +34,14 @@ public class FileCounterThread extends SwingWorker<Tuple<Integer,Long>,Integer> 
     private ArrayList<String> ext, pst, ie, ff, msn, yahoo, skype;
     private boolean cache, check;
     private String indexName, indexLocation, investigator, description;
-    private IndexWizard indexWizard;
-    private IndexInformation index ;
+    private CaseWizardDialog indexWizard;
+    private Case index ;
     private long indexSize ;
     
     public FileCounterThread ( ArrayList<String> path, InfiniteProgressPanel panel,
-            IndexWizard iw, String in, String il, String inv, String des,
+            CaseWizardDialog iw, String in, String il, String inv, String des,
             ArrayList<String> ext, ArrayList<String> pst, ArrayList<String> ie, ArrayList<String> ff,
-            ArrayList<String> msn, ArrayList<String> yahoo, boolean cache, boolean check , IndexInformation index,
+            ArrayList<String> msn, ArrayList<String> yahoo, boolean cache, boolean check , Case index,
             ArrayList<String> skype) {
         
         this.paths = path ;
@@ -113,13 +113,13 @@ public class FileCounterThread extends SwingWorker<Tuple<Integer,Long>,Integer> 
     }
 
     private void createIndex () throws IOException{
-        this.index = new IndexInformation(indexName, indexLocation, investigator, description,
+        this.index = new Case(indexName, indexLocation, investigator, description,
                 paths, ext, pst, ie, ff, msn, yahoo, skype, new Date(), indexSize,
                 indexedDataCountAndSize.getB(), indexedDataCountAndSize.getA(), cache, check, false,"","");
 
         indexWizard.setIndex(index);
 
         // make new index folders
-        IndexOperation.writeNewIndex(index);
+        CaseOperation.writeCase(index);
     }
 }

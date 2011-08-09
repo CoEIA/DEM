@@ -30,7 +30,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class IndexerReader {
+public class IndexHandler {
     private String indexDir ;
     private Directory dir ;
     private IndexReader indexReader ;
@@ -38,7 +38,7 @@ public class IndexerReader {
     private static Logger logger = Logger.getLogger("IndexerReader");
     private static FileHandler handler ;
 
-    public IndexerReader (String location) throws IOException{
+    public IndexHandler (String location) throws IOException{
         indexDir = location ;
         dir = FSDirectory.open(new File(indexDir));
         indexReader = IndexReader.open(dir);

@@ -24,7 +24,6 @@ public enum CaseManager {
                 createApplicationFolders();
             }
             catch(IOException e){
-                e.printStackTrace();
             }
         }
     }

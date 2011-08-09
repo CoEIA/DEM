@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.index;
+package edu.coeia.cases;
 
 /**
  *
@@ -20,22 +20,22 @@ import java.io.ObjectInputStream ;
 import java.io.ObjectOutputStream ;
 import java.io.IOException ;
 
-public class IndexOperation {
-    public static void writeIndex (IndexInformation index, File file) throws IOException {
+public class CaseOperation {
+    public static void writeCase (Case index, File file) throws IOException {
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
         out.writeObject(index);
         out.close();
     }
 
-    public static IndexInformation readIndex (File file) throws IOException,ClassNotFoundException {
+    public static Case readCase (File file) throws IOException,ClassNotFoundException {
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-        IndexInformation index = (IndexInformation) in.readObject();
+        Case index = (Case) in.readObject();
         in.close();
 
         return index; 
     }
 
-    public static void writeNewIndex (IndexInformation index) throws IOException {
+    public static void writeCase (Case index) throws IOException {
         // create index folder
         File dir = new File( index.getIndexLocation());
         dir.mkdir();
@@ -48,7 +48,7 @@ public class IndexOperation {
         String info = index.getIndexLocation() + "\\" + index.getIndexName() + ".DAT" ;
         File infoFile = new File(info);
         infoFile.createNewFile();
-        IndexOperation.writeIndex(index, infoFile);
+        CaseOperation.writeCase(index, infoFile);
 
         // create log file
         String log = index.getIndexLocation() + "\\" + index.getIndexName() + ".LOG" ;

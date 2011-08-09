@@ -4,8 +4,7 @@ package edu.coeia.gui;
 /* import internal classes */
 import edu.coeia.utility.FilesPath ;
 import edu.coeia.utility.Utilities;
-import edu.coeia.index.IndexInformation;
-import edu.coeia.index.IndexOperation ;
+import edu.coeia.cases.Case;
 import edu.coeia.license.LicenseManager;
 import edu.coeia.cases.CaseManager ;
 
@@ -259,10 +258,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
     private void newCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCaseButtonActionPerformed
         try {
-            IndexWizard indexWizard = new IndexWizard(CaseManagerFrame.this,true, licenseManager.isFullVersion());
+            CaseWizardDialog indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, licenseManager.isFullVersion());
             indexWizard.setVisible(true);
             
-            IndexInformation index = indexWizard.getIndex();
+            Case index = indexWizard.getIndex();
             if ( index == null) {
                 return ;
             }
@@ -400,27 +399,15 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         removeAllRows(recentCaseTable);
 
         for(String path: indexesInfoContent) {
-            IndexInformation index = getIndexInformation(path);
+            Case index = Case.getCase(path);
             addIndexInformationToTable(index);
         }
-    }
-
-    /*
-     * get indexInformation from line of string
-     */
-    private IndexInformation getIndexInformation (String line) throws IOException,ClassNotFoundException {
-        String name = line.split("-")[0].trim();
-        String path = line.split("-")[1].trim();
-
-        IndexInformation index = IndexOperation.readIndex(new File(path + "\\" + name + ".DAT"));
-
-        return index ;
     }
     
     /*
      * Add index information to recent table (used when update recent)
      */
-    private void addIndexInformationToTable (IndexInformation index) {
+    private void addIndexInformationToTable (Case index) {
         DefaultTableModel model = (DefaultTableModel) recentCaseTable.getModel();
         model.addRow( new Object[] {index.getIndexName(), index.getInvestigatorName(), Utilities.formatDateTime(index.getCreateTime()), index.getDescription(),
             index.getIndexStatus() });
@@ -441,7 +428,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         removeAllRows(caseInformationTable);
 
         try {
-            IndexInformation index = getIndexInformationFromIndexName(indexName);
+            Case index = getIndexInformationFromIndexName(indexName);
             DefaultTableModel model = (DefaultTableModel) caseInformationTable.getModel();
 
             model.addRow( new Object[] { "Index Name" , index.getIndexName() });
@@ -492,7 +479,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     private void loadCase (String caseName ) throws FileNotFoundException, IOException, ClassNotFoundException{
         if ( caseName != null ) {
             if ( !caseManager.isContain(caseName)) {
-                IndexInformation index = getIndexInformationFromIndexName(caseName);
+                Case index = getIndexInformationFromIndexName(caseName);
 
                 caseManager.addCase(caseName);
 
@@ -509,7 +496,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     
     private void removeCase (String caseName) {
         try {
-            IndexInformation index = getIndexInformationFromIndexName(caseName);
+            Case index = getIndexInformationFromIndexName(caseName);
             File file = new File( index.getIndexLocation() );
             
             if ( Utilities.removeDirectory(file) ) {
@@ -539,7 +526,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     }
     
     // add entry to indexes info file
-    private void updateIndexesInfoFile (IndexInformation index) throws IOException {
+    private void updateIndexesInfoFile (Case index) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(new File(FilesPath.INDEXES_INFO), true));
         writer.println(index.getIndexName() + " - " + index.getIndexLocation());
         writer.close();
@@ -562,12 +549,12 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      * Get index path from index name 
      * @return IndexInformation 
      */
-    private IndexInformation getIndexInformationFromIndexName (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
+    private Case getIndexInformationFromIndexName (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
         ArrayList<String> indexesInfoContent  = Utilities.getFileContentInArrayList(indexesInfo);
 
         for(String path: indexesInfoContent) {
-            IndexInformation index = getIndexInformation(path);
+            Case index = Case.getCase(path);
 
             if ( index.getIndexName().equals(indexName))
                 return index ;
@@ -592,9 +579,9 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     
     //private static final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
     //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel";
-    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";
+    private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";
     
-    private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
+    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable caseInformationTable;

@@ -20,7 +20,7 @@ import edu.coeia.utility.FilesPath ;
 import edu.coeia.utility.FilesFilter ;
 import edu.coeia.utility.Tuple ;
 import edu.coeia.utility.ImageLabel;
-import edu.coeia.index.IndexInformation;
+import edu.coeia.cases.Case;
 import edu.coeia.email.EmailReader;
 import edu.coeia.chat.MSNParser;
 import edu.coeia.chat.YahooMessage ;
@@ -152,7 +152,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
     private EmailTableModel emailTableModel;
     private DefaultMutableTreeNode top ;
     
-    private IndexInformation index ;
+    private Case index ;
     private PSTFile pstFile ;
     private JFrame mainFrame ;
 
@@ -174,7 +174,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
     private FileHandler handler ;
 
     /** Creates new form OfflineMinningFrame */
-    public OfflineMinningFrame(IndexInformation AIndex, boolean state, String title, List<String> list) {
+    public OfflineMinningFrame(Case AIndex, boolean state, String title, List<String> list) {
         initComponents();
 
         try {

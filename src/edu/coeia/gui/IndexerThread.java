@@ -13,7 +13,7 @@ package edu.coeia.gui;
 import edu.coeia.index.Indexer;
 import edu.coeia.utility.Utilities;
 import edu.coeia.gui.component.IndexGUIComponent ;
-import edu.coeia.index.IndexInformation;
+import edu.coeia.cases.Case;
 
 import javax.swing.SwingWorker ;
 import javax.swing.table.DefaultTableModel ;
@@ -25,7 +25,7 @@ import java.util.Date ;
 import java.util.List ;
 
 import com.pff.PSTException ;
-import edu.coeia.index.IndexOperation;
+import edu.coeia.cases.CaseOperation;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,7 +63,7 @@ public class IndexerThread extends SwingWorker<String,ProgressIndexData> {
     private int progressCount = 0, indexCount=0;
     private Indexer indexer ;
     private IndexGUIComponent indexGUI ;
-    private IndexInformation index ;
+    private Case index ;
     private int totalNumberOfFiles ;
     private int totalNumberOfError = 0;
     private boolean indexStatus = false;
@@ -71,7 +71,7 @@ public class IndexerThread extends SwingWorker<String,ProgressIndexData> {
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private FileHandler handler ;
 
-    public IndexerThread (File indexLocation, IndexGUIComponent indexGUI, IndexInformation index,
+    public IndexerThread (File indexLocation, IndexGUIComponent indexGUI, Case index,
             List<String> imagesPath) {
         this.indexGUI = indexGUI ;
         this.index = index ;
@@ -259,7 +259,7 @@ public class IndexerThread extends SwingWorker<String,ProgressIndexData> {
                 index.setIndexStatus(true);
                 index.setLastIndexDate(lastIndexDate);
                 index.setIndexingTime(indexingTime);
-                IndexOperation.writeNewIndex(index);
+                CaseOperation.writeCase(index);
                 //System.out.println("write status information after indexing");
             }
             closeIndex();
