@@ -4,6 +4,7 @@ import chrriis.dj.nativeswing.swtimpl.components.JFileDialog;
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseCreatorThread;
 import edu.coeia.chat.MSNParser;
 import edu.coeia.chat.SkypeParser;
 import edu.coeia.chat.SkypeMessage;
@@ -308,11 +309,6 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         jLabel6.setText("Document In Index:");
 
         documentList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        documentList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                documentListValueChanged(evt);
-            }
-        });
         jScrollPane2.setViewportView(documentList);
 
         selectAllDrivesButton.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -1063,9 +1059,6 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         }
     }    
 
-    private void documentListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_documentListValueChanged
-}//GEN-LAST:event_documentListValueChanged
-
     private void addFolderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFolderButtonActionPerformed
         JDirectoryDialog directoryDialog = new JDirectoryDialog();
         directoryDialog.show(CaseWizardDialog.this);
@@ -1619,14 +1612,15 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         }
 
         /**
-         * Run Thread Counter Now!
+         * Run Thread Case Creator Now!
          * And Create The Case
+         * We Make it Thread Because it enumerate the documents to get the size and count of files inside it
          */
         InfiniteProgressPanel i = new InfiniteProgressPanel("Loading Now");
         this.setGlassPane(i);
         i.start();
 
-        FileCounterThread myThread = new FileCounterThread(docs, i, this, indexName, indexLocation, investigator, desc, ext, pst, ie, ff,
+        CaseCreatorThread myThread = new CaseCreatorThread(docs, i, this, indexName, indexLocation, investigator, desc, ext, pst, ie, ff,
                 msn, yahoo, cacheImages, checkCompressed, index, skype);
         myThread.execute();
     }//GEN-LAST:event_finishButtonActionPerformed

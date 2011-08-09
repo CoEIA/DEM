@@ -371,9 +371,6 @@
                     </Property>
                     <Property name="selectionMode" type="int" value="0"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="documentListValueChanged"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>

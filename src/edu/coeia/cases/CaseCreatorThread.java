@@ -1,4 +1,4 @@
-package edu.coeia.gui;
+package edu.coeia.cases;
 
 /*
  * To change this template, choose Tools | Templates
@@ -24,9 +24,10 @@ import edu.coeia.utility.Tuple ;
 import edu.coeia.utility.FilesCounter ;
 import edu.coeia.cases.Case ;
 import edu.coeia.cases.CaseOperation ;
-import javax.swing.JOptionPane;
+import edu.coeia.gui.CaseWizardDialog;
+import edu.coeia.gui.InfiniteProgressPanel;
 
-public class FileCounterThread extends SwingWorker<Tuple<Integer,Long>,Integer> {
+public class CaseCreatorThread extends SwingWorker<Tuple<Integer,Long>,Integer> {
 
     private ArrayList<String> paths; 
     private InfiniteProgressPanel panel ;
@@ -38,7 +39,7 @@ public class FileCounterThread extends SwingWorker<Tuple<Integer,Long>,Integer> 
     private Case index ;
     private long indexSize ;
     
-    public FileCounterThread ( ArrayList<String> path, InfiniteProgressPanel panel,
+    public CaseCreatorThread ( ArrayList<String> path, InfiniteProgressPanel panel,
             CaseWizardDialog iw, String in, String il, String inv, String des,
             ArrayList<String> ext, ArrayList<String> pst, ArrayList<String> ie, ArrayList<String> ff,
             ArrayList<String> msn, ArrayList<String> yahoo, boolean cache, boolean check , Case index,
@@ -107,8 +108,6 @@ public class FileCounterThread extends SwingWorker<Tuple<Integer,Long>,Integer> 
             this.indexWizard.setVisible(false);
         }
         catch (IOException e) {
-            JOptionPane.showMessageDialog(indexWizard, "You must write your index name as windows naming convention rules" +
-                    " and without using - character" , "Index Naming Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
