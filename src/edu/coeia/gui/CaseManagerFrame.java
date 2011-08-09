@@ -399,7 +399,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         removeAllRows(recentCaseTable);
 
         for(String path: indexesInfoContent) {
-            Case index = Case.getCase(path);
+            Case index = CaseManager.getCase(path);
             addIndexInformationToTable(index);
         }
     }
@@ -554,7 +554,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         ArrayList<String> indexesInfoContent  = Utilities.getFileContentInArrayList(indexesInfo);
 
         for(String path: indexesInfoContent) {
-            Case index = Case.getCase(path);
+            Case index = CaseManager.getCase(path);
 
             if ( index.getIndexName().equals(indexName))
                 return index ;

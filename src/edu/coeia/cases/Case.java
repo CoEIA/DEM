@@ -149,12 +149,4 @@ public class Case implements Serializable {
         iePath.clear();
         ffPath.clear();
     }
-    
-    public static Case getCase(String line) throws IOException, ClassNotFoundException {
-        String name = line.split("-")[0].trim();
-        String path = line.split("-")[1].trim();
-
-        Case aIndex = CaseOperation.readCase(new File(path + "\\" + name + ".DAT"));
-        return aIndex;
-    }
 }

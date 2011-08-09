@@ -4,6 +4,7 @@ import chrriis.dj.nativeswing.swtimpl.components.JFileDialog;
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.cases.CaseCreatorThread;
 import edu.coeia.chat.MSNParser;
 import edu.coeia.chat.SkypeParser;
@@ -1230,7 +1231,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             ArrayList<String> casesInfoContent = Utilities.getFileContentInArrayList(casesInfo);
 
             for (String path : casesInfoContent) {
-                Case aCase = Case.getCase(path);
+                Case aCase = CaseManager.getCase(path);
 
                 if (aCase.getIndexName().equalsIgnoreCase(caseName)) {
                     return true;

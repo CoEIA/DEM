@@ -25,10 +25,12 @@ import java.util.Date ;
 import java.util.List ;
 
 import com.pff.PSTException ;
-import edu.coeia.cases.CaseOperation;
+
+import edu.coeia.cases.CaseManager;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
 import org.apache.tika.exception.TikaException;
 
@@ -259,7 +261,7 @@ public class IndexerThread extends SwingWorker<String,ProgressIndexData> {
                 index.setIndexStatus(true);
                 index.setLastIndexDate(lastIndexDate);
                 index.setIndexingTime(indexingTime);
-                CaseOperation.writeCase(index);
+                CaseManager.CaseOperation.writeCase(index);
                 //System.out.println("write status information after indexing");
             }
             closeIndex();

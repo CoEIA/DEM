@@ -2,8 +2,13 @@ package edu.coeia.cases;
 
 import edu.coeia.utility.FilesPath ;
 
-import java.io.IOException ;
 import java.io.File ;
+import java.io.FileInputStream ;
+import java.io.FileOutputStream ;
+import java.io.ObjectInputStream ;
+import java.io.ObjectOutputStream ;
+import java.io.IOException ;
+
 
 import java.util.List;
 import java.util.ArrayList ;
@@ -27,6 +32,55 @@ public enum CaseManager {
             }
         }
     }
+    
+    public static Case getCase(String line) throws IOException, ClassNotFoundException {
+        String name = line.split("-")[0].trim();
+        String path = line.split("-")[1].trim();
+
+        Case aIndex = CaseManager.CaseOperation.readCase(new File(path + "\\" + name + ".DAT"));
+        return aIndex;
+    }
+    
+    /*
+     * CaseOperation
+     * Read And Write Case to File
+     */
+    public static class CaseOperation {
+        public static void writeCase (Case index, File file) throws IOException {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+            out.writeObject(index);
+            out.close();
+        }
+
+        public static Case readCase (File file) throws IOException,ClassNotFoundException {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+            Case index = (Case) in.readObject();
+            in.close();
+
+            return index; 
+        }
+
+        public static void writeCase (Case index) throws IOException {
+            // create index folder
+            File dir = new File( index.getIndexLocation());
+            dir.mkdir();
+
+            // create THE_INDEX that hold index data used by lucene engine
+            File dir2 = new File( index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH );
+            dir2.mkdir();
+
+            // create index information file & write the index on it
+            String info = index.getIndexLocation() + "\\" + index.getIndexName() + ".DAT" ;
+            File infoFile = new File(info);
+            infoFile.createNewFile();
+            CaseOperation.writeCase(index, infoFile);
+
+            // create log file
+            String log = index.getIndexLocation() + "\\" + index.getIndexName() + ".LOG" ;
+            new File(log).createNewFile();
+        }
+    }
+    
     
     // TODO: remove this, it break encapsulation!!!
     public List<String> getList () {

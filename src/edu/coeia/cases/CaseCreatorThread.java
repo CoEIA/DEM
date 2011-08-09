@@ -22,8 +22,6 @@ import java.util.Date ;
 
 import edu.coeia.utility.Tuple ;
 import edu.coeia.utility.FilesCounter ;
-import edu.coeia.cases.Case ;
-import edu.coeia.cases.CaseOperation ;
 import edu.coeia.gui.CaseWizardDialog;
 import edu.coeia.gui.InfiniteProgressPanel;
 
@@ -119,6 +117,6 @@ public class CaseCreatorThread extends SwingWorker<Tuple<Integer,Long>,Integer> 
         indexWizard.setIndex(index);
 
         // make new index folders
-        CaseOperation.writeCase(index);
+        CaseManager.CaseOperation.writeCase(index);
     }
 }
