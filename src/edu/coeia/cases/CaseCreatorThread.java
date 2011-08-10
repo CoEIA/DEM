@@ -114,7 +114,7 @@ public class CaseCreatorThread extends SwingWorker<Tuple<Integer,Long>,Integer> 
                 paths, ext, pst, ie, ff, msn, yahoo, skype, new Date(), indexSize,
                 indexedDataCountAndSize.getB(), indexedDataCountAndSize.getA(), cache, check, false,"","");
 
-        indexWizard.setIndex(index);
+        indexWizard.setCurrentCase(index);
 
         // make new index folders
         CaseManager.CaseOperation.writeCase(index);

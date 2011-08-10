@@ -261,7 +261,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             CaseWizardDialog indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, licenseManager.isFullVersion());
             indexWizard.setVisible(true);
             
-            Case index = indexWizard.getIndex();
+            Case index = indexWizard.getCurrentCase();
             if ( index == null) {
                 return ;
             }

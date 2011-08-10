@@ -6,14 +6,23 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseManager;
 import edu.coeia.cases.CaseCreatorThread;
+
 import edu.coeia.chat.MSNParser;
 import edu.coeia.chat.SkypeParser;
 import edu.coeia.chat.SkypeMessage;
+
 import edu.coeia.utility.FilesPath;
 import edu.coeia.utility.Tuple;
 import edu.coeia.utility.FilesFilter;
 import edu.coeia.utility.Utilities;
 
+import edu.coeia.detector.OutlookDetector;
+import edu.coeia.detector.FirefoxDetector;
+import edu.coeia.detector.MSNDetector;
+import edu.coeia.detector.RegistryDetector;
+import edu.coeia.detector.UsersDetector;
+import edu.coeia.detector.YahooDetector ;
+        
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -22,6 +31,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import java.util.List ;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +58,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     private DefaultListModel pstModel;
     private DefaultListModel ieModel, ffModel;
 
-    private Case index;
+    private Case currentCase;
     private String PATH = FilesPath.CASES_PATH;
 
     private Frame parent;
@@ -89,12 +99,12 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         skypeModel = new DefaultListModel();
 
         // reset all checkBoxs
-        setPSTCheckBox(false);
-        setMSNCheckBox(false);
-        setYahooCheckBox(false);
-        setIECheckBox(false);
-        setFFCheckBox(false);
-        setSkypeeCheckBox(false);
+        setEmailComponents(false);
+        setMSNChatComponents(false);
+        setYahooChatComponents(false);
+        setIEComponents(false);
+        setFirefoxComponents(false);
+        setSkypeChatComponents(false);
 
         // configure filechooser
         fileChooser = new JFileChooser();
@@ -119,7 +129,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         });
 
         // disable all checkboxes selection by defautl
-        selectAllCheckBoxes(false);
+        setDocumentExtensionComponents(false);
     }
 
     /** This method is called from within the constructor to
@@ -1152,130 +1162,9 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                 break;
         }
     }//GEN-LAST:event_backButtonActionPerformed
-
-    /*
-     * Check The IndexPanelInfo Before Go to the Next Panel
-     * Check caseName if empty or is its existed
-     * @return true if the all information are correct
-     */
-    private boolean checkIndexInfoPanel() {
-        String caseName = getCaseName(caseLocationTextField.getText().trim());
-
-        if (caseName == null || caseName.isEmpty()) {
-            showErrorMessage("You must choose a Case Name","Empty Index Name");
-            return false;
-        }
-        
-        if (caseExists(caseName)) {
-            showErrorMessage("The Case Name is Already Taken, Choose Another Name","Case Name Exists");
-            return false;
-        }
-
-        if (caseName.contains("-")) { // doesn't needed now, case name checker will remove this character!
-            showErrorMessage("Case Name Should Not Contains Illegal Chatacters (-)", "Please Change Case Name And Remove Any Special Character");
-            return false;
-        }
-        
-        String investigator = investigatorTextField.getText().trim();
-        if (investigator.isEmpty()) {
-            showErrorMessage("Investigator name is empty","Please Write A Clear Investigator Name");
-            return false;
-        }
-        
-        return (true);
-    }
-    
-    
-    /**
-     * Check The indexFileSystemPanel Panel
-     * Check if there is Document and Extensions is empty
-     * And Check if there is Extensions selected and no Documents
-     */
-    public boolean checkIndexFileSystemPanel() {
-        int size = documentModel.size();
-
-        ArrayList<String> ext = new ArrayList<String>();
-        addExtension(ext);
-
-        if (size > 0 && ext.isEmpty() || ext.size() > 0 && size == 0) {
-            showErrorMessage("You Should Select Some Documents And Extension in This Case","Please Select Documents and Extensions Now");
-            return false;
-        }
-        
-        return true;
-    }
-    
-    
-    /**
-    /*
-     * Check if their is folder name in case location text field
-     */
-    private String getCaseName(String path) {
-        File file = new File(path);
-        String name = file.getName();
-
-        if (name.equalsIgnoreCase("CASES")) {
-            return null;
-        }
-
-        return name;
-    }
-
-    /*
-     * Check if Case Exists
-     * @return true if there is case with this name
-     */
-    private boolean caseExists(String caseName)  {
-        try {
-            File casesInfo = new File(FilesPath.INDEXES_INFO);
-            ArrayList<String> casesInfoContent = Utilities.getFileContentInArrayList(casesInfo);
-
-            for (String path : casesInfoContent) {
-                Case aCase = CaseManager.getCase(path);
-
-                if (aCase.getIndexName().equalsIgnoreCase(caseName)) {
-                    return true;
-                }
-            }
-        }
-        catch (IOException e) {}
-        catch (ClassNotFoundException e) { }
-
-        return false;
-    }
-    
-    private void next() {
-        currentIndex++;
-        showPanel(cardsName[currentIndex], indexWizardPanel);
-        backButton.setEnabled(true);
-        nextButton.setEnabled(true);
-    }
-    
-    private void nextLast() {
-        currentIndex++;
-        showPanel(cardsName[currentIndex], indexWizardPanel);
-        backButton.setEnabled(true);
-        nextButton.setEnabled(false);
-        finishButton.setEnabled(true);
-    }
-       
-    private void backFirst() {
-        currentIndex--;
-        showPanel(cardsName[currentIndex], indexWizardPanel);
-        backButton.setEnabled(false);
-        nextButton.setEnabled(true);
-    }
-    
-    private void back() {
-        currentIndex--;
-        showPanel(cardsName[currentIndex], indexWizardPanel);
-        backButton.setEnabled(true);
-        nextButton.setEnabled(true);
-        finishButton.setEnabled(false);
-    }
-    
+   
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        index = null;
+        currentCase = null;
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
@@ -1298,10 +1187,9 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_clearMSNButtonActionPerformed
 
     private void autoDetectPSTButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectPSTButtonActionPerformed
-        // enumerate all hardisk paritions
-        // and go to oulook folder in each paritions
-        // and go to each user folder in paritions.
-        ArrayList<String> pstPaths = getOutlookPSTFiles();
+
+        OutlookDetector detector = new OutlookDetector();
+        List<String> pstPaths = detector.getFiles();
 
         if (pstPaths.isEmpty()) {
             showEmptyMessage("Not Found Any PST/OST Files");
@@ -1309,7 +1197,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         }
 
         for (String file : pstPaths) {
-            if (!existsInList(file, pstModel)) {
+            if (!existsInModel(file, pstModel)) {
                 addToList(file, pstModel, pstList);
             }
         }
@@ -1326,33 +1214,33 @@ public class CaseWizardDialog extends javax.swing.JDialog {
 
     private void outlookCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outlookCheckBoxActionPerformed
         if (outlookCheckBox.isSelected()) {
-            setPSTCheckBox(true);
+            setEmailComponents(true);
         } else {
-            setPSTCheckBox(false);
+            setEmailComponents(false);
         }
     }//GEN-LAST:event_outlookCheckBoxActionPerformed
 
     private void yahooCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yahooCheckBoxActionPerformed
         if (yahooCheckBox.isSelected()) {
-            setYahooCheckBox(true);
+            setYahooChatComponents(true);
         } else {
-            setYahooCheckBox(false);
+            setYahooChatComponents(false);
         }
     }//GEN-LAST:event_yahooCheckBoxActionPerformed
 
     private void msnCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msnCheckBoxActionPerformed
         if (msnCheckBox.isSelected()) {
-            setMSNCheckBox(true);
+            setMSNChatComponents(true);
         } else {
-            setMSNCheckBox(false);
+            setMSNChatComponents(false);
         }
     }//GEN-LAST:event_msnCheckBoxActionPerformed
 
     private void ieCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ieCheckBoxActionPerformed
         if (ieCheckBox.isSelected()) {
-            setIECheckBox(true);
+            setIEComponents(true);
         } else {
-            setIECheckBox(false);
+            setIEComponents(false);
         }
     }//GEN-LAST:event_ieCheckBoxActionPerformed
 
@@ -1367,9 +1255,9 @@ public class CaseWizardDialog extends javax.swing.JDialog {
 
     private void ffCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ffCheckBoxActionPerformed
         if (ffCheckBox.isSelected()) {
-            setFFCheckBox(true);
+            setFirefoxComponents(true);
         } else {
-            setFFCheckBox(false);
+            setFirefoxComponents(false);
         }
     }//GEN-LAST:event_ffCheckBoxActionPerformed
 
@@ -1399,22 +1287,24 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     }
 
     private void autoDetectIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectIEButtonActionPerformed
-        ArrayList<String> iePaths = getUser();
-
+        UsersDetector detector = new UsersDetector();
+        List<String> iePaths = detector.getFiles();
+        
         if (iePaths.isEmpty()) {
             showEmptyMessage("Not Found Any IE Files");
             return;
         }
 
         for (String path : iePaths) {
-            if (!existsInList(path, ieModel)) {
+            if (!existsInModel(path, ieModel)) {
                 addToList(path, ieModel, ieList);
             }
         }
     }//GEN-LAST:event_autoDetectIEButtonActionPerformed
 
     private void autoDetectFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectFFButtonActionPerformed
-        ArrayList<String> ffPaths = getFireFoxFiles();
+        FirefoxDetector detector = new FirefoxDetector();
+        List<String> ffPaths = detector.getFiles();
 
         if (ffPaths.isEmpty()) {
             showEmptyMessage("Not Found Any FireFox Files");
@@ -1422,7 +1312,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         }
 
         for (String path : ffPaths) {
-            if (!existsInList(path, ffModel)) {
+            if (!existsInModel(path, ffModel)) {
                 addToList(path, ffModel, ffList);
             }
         }
@@ -1431,7 +1321,8 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     private void autoDetectMSNButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectMSNButtonActionPerformed
         try {
             if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
-                ArrayList<String> paths = getRegistryPath();
+                RegistryDetector detector = new RegistryDetector();
+                List<String> paths = detector.getFiles();
 
                 if (paths.isEmpty()) {
                     showEmptyMessage("Not Found Any MSN Files");
@@ -1446,13 +1337,14 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                     for (Map.Entry<String, String> map : mapOfPath.entrySet()) {
                         String path = map.getValue();
 
-                        if (!existsInList(path, msnModel)) {
+                        if (!existsInModel(path, msnModel)) {
                             addToList(path, msnModel, msnList);
                         }
                     }
                 }
             } else {
-                ArrayList<String> users = getUser();
+                UsersDetector detector = new UsersDetector();
+                List<String> users = detector.getFiles();
 
                 for (String path : users) {
                     String newPath = path + "\\Documents\\My Received Files\\";
@@ -1466,7 +1358,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                                 File f = new File(userFile.getAbsolutePath() + "\\" + "History");
 
                                 if (f.exists()) { // this contain char log file
-                                    if (!existsInList(f.getAbsolutePath(), msnModel)) {
+                                    if (!existsInModel(f.getAbsolutePath(), msnModel)) {
                                         addToList(f.getAbsolutePath(), msnModel, msnList);
                                     }
                                 }
@@ -1480,7 +1372,8 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_autoDetectMSNButtonActionPerformed
 
     private void autoDetectYahooButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectYahooButtonActionPerformed
-        ArrayList<String> yahooPaths = getYahooFiles();
+        YahooDetector detector = new YahooDetector();
+        List<String> yahooPaths = detector.getFiles();
 
         if (yahooPaths.isEmpty()) {
             showEmptyMessage("Not Found Any Yahoo! Files");
@@ -1488,7 +1381,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         }
 
         for (String path : yahooPaths) {
-            if (!existsInList(path, yahooModel)) {
+            if (!existsInModel(path, yahooModel)) {
                 addToList(path, yahooModel, yahooList);
             }
         }
@@ -1528,7 +1421,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         ArrayList<String> pst = new ArrayList<String>();
 
         if (outlookCheckBox.isSelected()) {
-            addToList(pstModel, pst);
+            AddFromModelToList(pstModel, pst);
         }
 
         if (outlookCheckBox.isSelected() && pstModel.size() > 0) {
@@ -1544,11 +1437,11 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         ArrayList<String> ff = new ArrayList<String>();
 
         if (ieCheckBox.isSelected()) {
-            addToList(ieModel, ie);
+            AddFromModelToList(ieModel, ie);
         }
 
         if (ffCheckBox.isSelected()) {
-            addToList(ffModel, ff);
+            AddFromModelToList(ffModel, ff);
         }
 
         /**
@@ -1560,15 +1453,15 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         ArrayList<String> skype = new ArrayList<String>();
 
         if (msnCheckBox.isSelected()) {
-            addToList(msnModel, msn);
+            AddFromModelToList(msnModel, msn);
         }
 
         if (yahooCheckBox.isSelected()) {
-            addToList(yahooModel, yahoo);
+            AddFromModelToList(yahooModel, yahoo);
         }
 
         if (skypeeCheckBox.isSelected()) {
-            addToList(skypeModel, skype);
+            AddFromModelToList(skypeModel, skype);
         }
 
         /**
@@ -1622,20 +1515,23 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         i.start();
 
         CaseCreatorThread myThread = new CaseCreatorThread(docs, i, this, indexName, indexLocation, investigator, desc, ext, pst, ie, ff,
-                msn, yahoo, cacheImages, checkCompressed, index, skype);
+                msn, yahoo, cacheImages, checkCompressed, currentCase, skype);
         myThread.execute();
     }//GEN-LAST:event_finishButtonActionPerformed
 
     private void skypeeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_skypeeCheckBoxActionPerformed
         if (skypeeCheckBox.isSelected()) {
-            setSkypeeCheckBox(true);
+            setSkypeChatComponents(true);
         } else {
-            setSkypeeCheckBox(false);
+            setSkypeChatComponents(false);
         }
     }//GEN-LAST:event_skypeeCheckBoxActionPerformed
 
     private void autoDetectSkypeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectSkypeeButtonActionPerformed
-        for (String path : getUser()) {
+        UsersDetector detector = new UsersDetector();
+        List<String> users = detector.getFiles();
+        
+        for (String path : users ) {
             SkypeParser parser = new SkypeParser(path);
 
             try {
@@ -1647,7 +1543,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
 
                 for (Tuple<String, ArrayList<SkypeMessage>> user : msgs) {
                     String p = parser.getPath() + "\\" + user.getA();
-                    if (!existsInList(p, skypeModel)) {
+                    if (!existsInModel(p, skypeModel)) {
                         addToList(p, skypeModel, skypeeList);
                     }
                 }
@@ -1670,14 +1566,140 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_clearSkypeeButtonActionPerformed
 
     private void allRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allRadioButtonActionPerformed
-        selectAllCheckBoxes(true);
+        setDocumentExtensionComponents(true);
     }//GEN-LAST:event_allRadioButtonActionPerformed
 
     private void manualRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualRadioButtonActionPerformed
-        selectAllCheckBoxes(false);
+        setDocumentExtensionComponents(false);
     }//GEN-LAST:event_manualRadioButtonActionPerformed
+    
+    /*
+     * Check The IndexPanelInfo Before Go to the Next Panel
+     * Check caseName if empty or is its existed
+     * @return true if the all information are correct
+     */
+    private boolean checkIndexInfoPanel() {
+        String caseName = getCaseName(caseLocationTextField.getText().trim());
 
-    private void selectAllCheckBoxes(boolean state) {
+        if (caseName == null || caseName.isEmpty()) {
+            showErrorMessage("You must choose a Case Name","Empty Index Name");
+            return false;
+        }
+        
+        if (CaseManager.caseExists(caseName)) {
+            showErrorMessage("The Case Name is Already Taken, Choose Another Name","Case Name Exists");
+            return false;
+        }
+
+        if (caseName.contains("-")) { // doesn't needed now, case name checker will remove this character!
+            showErrorMessage("Case Name Should Not Contains Illegal Chatacters (-)", "Please Change Case Name And Remove Any Special Character");
+            return false;
+        }
+        
+        String investigator = investigatorTextField.getText().trim();
+        if (investigator.isEmpty()) {
+            showErrorMessage("Investigator name is empty","Please Write A Clear Investigator Name");
+            return false;
+        }
+        
+        return (true);
+    }
+    
+    
+    /**
+     * Check The indexFileSystemPanel Panel
+     * Check if there is Document and Extensions is empty
+     * And Check if there is Extensions selected and no Documents
+     */
+    public boolean checkIndexFileSystemPanel() {
+        int size = documentModel.size();
+
+        ArrayList<String> ext = new ArrayList<String>();
+        addExtension(ext);
+
+        if (size > 0 && ext.isEmpty() || ext.size() > 0 && size == 0) {
+            showErrorMessage("You Should Select Some Documents And Extension in This Case","Please Select Documents and Extensions Now");
+            return false;
+        }
+        
+        return true;
+    }
+    
+    
+    /**
+    /*
+     * Check if their is folder name in case location text field
+     */
+    private String getCaseName(String path) {
+        File file = new File(path);
+        String name = file.getName();
+
+        if (name.equalsIgnoreCase("CASES")) {
+            return null;
+        }
+
+        return name;
+    }
+    
+    /**
+     * Move Current Panel in Card Layout to the Next Panel
+     */
+    private void next() {
+        currentIndex++;
+        showPanel(cardsName[currentIndex], indexWizardPanel);
+        backButton.setEnabled(true);
+        nextButton.setEnabled(true);
+    }
+    
+    /**
+     * Move this Panel to the Next Last Panel In the Card Layout
+     * Enable This Finish Button
+     */
+    private void nextLast() {
+        currentIndex++;
+        showPanel(cardsName[currentIndex], indexWizardPanel);
+        backButton.setEnabled(true);
+        nextButton.setEnabled(false);
+        finishButton.setEnabled(true);
+    }
+       
+    /**
+     * Return to Previous Panel in The Card Layout
+     */
+    private void backFirst() {
+        currentIndex--;
+        showPanel(cardsName[currentIndex], indexWizardPanel);
+        backButton.setEnabled(false);
+        nextButton.setEnabled(true);
+    }
+    
+    /**
+     * Return to The First Panel in the Card Layout
+     * Disable Finish Button
+     */
+    private void back() {
+        currentIndex--;
+        showPanel(cardsName[currentIndex], indexWizardPanel);
+        backButton.setEnabled(true);
+        nextButton.setEnabled(true);
+        finishButton.setEnabled(false);
+    }
+    
+    /**
+     * Show The Selected Panel in The CardLayout
+     * @param panelName
+     * @param name 
+     */
+    private void showPanel(String panelName, JPanel name) {
+        CardLayout card = (CardLayout) name.getLayout();
+        card.show(name, panelName);
+    }
+    
+    /**
+     * Set Documents Check Boxes to state
+     * @param state 
+     */
+    private void setDocumentExtensionComponents(boolean state) {
         htmlCheckBox.setSelected(state);
         docCheckBox.setSelected(state);
         pdfCheckBox.setSelected(state);
@@ -1686,13 +1708,11 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         xmlCheckBox.setSelected(state);
     }
 
-    private void addToList(DefaultListModel model, ArrayList<String> list) {
-        for (int i = 0; i < model.size(); i++) {
-            list.add((String) model.getElementAt(i));
-        }
-    }
-
-    private void setPSTCheckBox(boolean enable) {
+    /**
+     * Set Email Components to enable
+     * @param enable 
+     */
+    private void setEmailComponents(boolean enable) {
         pstList.setEnabled(enable);
         autoDetectPSTButton.setEnabled(enable);
         manulPSTButton.setEnabled(enable);
@@ -1700,46 +1720,63 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         clearPSTButton.setEnabled(enable);
     }
 
-    private void setMSNCheckBox(boolean enable) {
+    /**
+     * Set MSN Components to enable
+     * @param enable 
+     */
+    private void setMSNChatComponents(boolean enable) {
         msnList.setEnabled(enable);
         autoDetectMSNButton.setEnabled(enable);
         removeMSNButton.setEnabled(enable);
         clearMSNButton.setEnabled(enable);
     }
-
-    private void setYahooCheckBox(boolean enable) {
+    
+    /**
+     * Set Yahoo Components to enable
+     * @param enable 
+     */
+    private void setYahooChatComponents(boolean enable) {
         yahooList.setEnabled(enable);
         autoDetectYahooButton.setEnabled(enable);
         removeYahooButton.setEnabled(enable);
         clearYahooButton.setEnabled(enable);
     }
 
-    private void setSkypeeCheckBox(boolean enable) {
+    /**
+     * Set Skype Components to enable
+     * @param enable 
+     */    
+    private void setSkypeChatComponents(boolean enable) {
         skypeeList.setEnabled(enable);
         autoDetectSkypeeButton.setEnabled(enable);
         removeSkypeeButton.setEnabled(enable);
         clearSkypeeButton.setEnabled(enable);
     }
 
-    private void setIECheckBox(boolean enable) {
+    /**
+     * Set IE Components to enable
+     * @param enable 
+     */    
+    private void setIEComponents(boolean enable) {
         ieList.setEnabled(enable);
         autoDetectIEButton.setEnabled(enable);
         removeIEButton.setEnabled(enable);
         clearIEButton.setEnabled(enable);
     }
 
-    private void setFFCheckBox(boolean enable) {
+    /**
+     * Set FireFox Components to enable
+     * @param enable 
+     */    
+    private void setFirefoxComponents(boolean enable) {
         ffList.setEnabled(enable);
         autoDetectFFButton.setEnabled(enable);
         removeFFButton.setEnabled(enable);
         clearFFButton.setEnabled(enable);
     }
 
-    // show panel function
-    private void showPanel(String panelName, JPanel name) {
-        CardLayout card = (CardLayout) name.getLayout();
-        card.show(name, panelName);
-    }
+    
+
 
     private void addExtension(ArrayList<String> eList) {
         if (htmlCheckBox.isSelected()) {
@@ -1768,15 +1805,23 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             eList.add("rtf");
         }
     }
+    
+    // TODO: Genral List Model Methods, Move it to Utilties
 
+    private void AddFromModelToList(DefaultListModel model, ArrayList<String> list) {
+        for (int i = 0; i < model.size(); i++) {
+            list.add((String) model.getElementAt(i));
+        }
+    }
+        
     private void addToList(String path, DefaultListModel model, JList list) {
-        if ((path != null || !path.startsWith("null")) && !existsInList(path, model)) {
+        if ((path != null || !path.startsWith("null")) && !existsInModel(path, model)) {
             model.addElement(path);
             list.setModel(model);
         }
     }
 
-    private boolean existsInList(String path, DefaultListModel model) {
+    private boolean existsInModel(String path, DefaultListModel model) {
         return model.contains(path);
     }
 
@@ -1787,301 +1832,15 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         }
     }
 
-    public Case getIndex() {
-        return index;
+    
+    // TODO: check why there is acces/mutu ?
+    
+    public Case getCurrentCase() {
+        return currentCase;
     }
 
-    public void setIndex(Case in) {
-        index = in;
-    }
-
-    private ArrayList<String> getOutlookPSTFiles() {
-        ArrayList<String> pstPaths = new ArrayList<String>();
-        File[] roots = File.listRoots();
-
-        if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "Documents and Settings";
-                File osFile = new File(filePath);
-
-                if (osFile.exists()) {
-                    File[] files = osFile.listFiles();
-
-                    for (File userFile : files) {
-                        String outlookFolderPath = userFile.getAbsolutePath() + "\\Local Settings\\Application Data\\Microsoft\\Outlook";
-
-                        File outlookFolderFile = new File(outlookFolderPath);
-                        if (outlookFolderFile.exists()) {
-                            File[] outlookFiles = outlookFolderFile.listFiles();
-
-                            for (File outlookFile : outlookFiles) {
-                                String outlookFilePath = outlookFile.getAbsolutePath();
-                                if (outlookFile.isFile() && /*( outlookFilePath.endsWith("pst") ||*/ outlookFilePath.endsWith("ost")) {
-                                    if (!outlookFile.getName().contains("archive")) {
-                                        pstPaths.add(outlookFilePath);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } else { // C:\Users\xx\AppData\Local\Microsoft\Outlook\Outlook.pst \
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "Users";
-                File pstFile = new File(filePath);
-
-                if (pstFile.exists()) {
-                    File[] pstFiles = pstFile.listFiles();
-
-                    for (File userFile : pstFiles) {
-                        String pstFolderPath = userFile.getAbsolutePath() + "\\AppData\\Local\\Microsoft\\Outlook";
-
-                        File pstFolderFile = new File(pstFolderPath);
-                        if (pstFolderFile.exists()) {
-                            File[] outlookFiles = pstFolderFile.listFiles();
-
-                            for (File outlookFile : outlookFiles) {
-                                String outlookFilePath = outlookFile.getAbsolutePath();
-                                if (outlookFile.isFile() && /*( outlookFilePath.endsWith("pst") ||*/ outlookFilePath.endsWith("ost")) {
-                                    if (!outlookFile.getName().contains("archive")) {
-                                        pstPaths.add(outlookFilePath);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return pstPaths;
-    }
-
-    private ArrayList<String> getFireFoxFiles() {
-        ArrayList<String> ffPaths = new ArrayList<String>();
-        File[] roots = File.listRoots();
-
-        if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "Documents and Settings";
-                File osFile = new File(filePath);
-
-                if (osFile.exists()) {
-                    File[] files = osFile.listFiles();
-
-                    for (File userFile : files) {
-                        String outlookFolderPath = userFile.getAbsolutePath() + "\\Application Data\\Mozilla\\Firefox\\Profiles";
-
-                        File outlookFolderFile = new File(outlookFolderPath);
-                        if (outlookFolderFile.exists()) {
-                            File[] outlookFiles = outlookFolderFile.listFiles();
-
-                            for (File outlookFile : outlookFiles) {
-                                if (outlookFile.isDirectory()) {
-                                    String outlookFilePath = outlookFile.getAbsolutePath();
-                                    ffPaths.add(outlookFilePath);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } else { //C:\Users\Wajdy Essam\AppData\Roaming\Mozilla\Firefox\Profiles\9bh2w0j2.default
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "Users";
-                File osFile = new File(filePath);
-
-                if (osFile.exists()) {
-                    File[] files = osFile.listFiles();
-
-                    for (File userFile : files) {
-                        String ieFolderPath = userFile.getAbsolutePath() + "\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles";
-
-                        File ieFolderFile = new File(ieFolderPath);
-                        if (ieFolderFile.exists()) {
-                            File[] outlookFiles = ieFolderFile.listFiles();
-
-                            for (File outlookFile : outlookFiles) {
-                                if (outlookFile.isDirectory()) {
-                                    String outlookFilePath = outlookFile.getAbsolutePath();
-                                    ffPaths.add(outlookFilePath);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return ffPaths;
-    }
-
-    private ArrayList<String> getYahooFiles() {
-        ArrayList<String> yahooPaths = new ArrayList<String>();
-        File[] roots = File.listRoots();
-
-        if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "Program Files\\Yahoo!\\Messenger\\Profiles";
-                File yahooDir = new File(filePath);
-
-                if (yahooDir.exists()) {
-                    File[] yahooFiles = yahooDir.listFiles();
-
-                    for (File yahooFile : yahooFiles) {
-                        String yahooFilePatn = yahooFile.getAbsolutePath();
-                        yahooPaths.add(yahooFilePatn);
-                    }
-                }
-            }
-        } else { // C:\Users\<username>\AppData\Local\VirtualStore\Program Files\Yahoo!\Messenger\Profiles\<userid>\Archive\Messages\<buddyid>
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "Users";
-                File yahooDir = new File(filePath);
-
-                if (yahooDir.exists()) {
-                    File[] yahooFiles = yahooDir.listFiles();
-
-                    for (File yahooFile : yahooFiles) {
-                        String yahooFolderPath = yahooFile.getAbsolutePath() + "\\AppData\\Local\\VirtualStore\\Program Files\\Yahoo!\\Messenger\\Profiles";
-
-                        File yahooFolderFile = new File(yahooFolderPath);
-                        if (yahooFolderFile.exists()) {
-                            String ieFilePath = yahooFolderFile.getAbsolutePath();
-                            yahooPaths.add(ieFilePath);
-                        }
-                    }
-                }
-            }
-        }
-
-        return yahooPaths;
-    }
-
-    private ArrayList<String> getRegistryPath() {
-        ArrayList<String> msnPath = new ArrayList<String>();
-        File[] roots = File.listRoots();
-
-        if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "WINDOWS\\system32";
-                File osFile = new File(filePath);
-
-                if (osFile.exists()) {
-                    File[] files = osFile.listFiles();
-
-                    for (File userFile : files) {
-                        if (userFile.getName().equalsIgnoreCase("reg.exe")) {
-                            msnPath.add(userFile.getAbsolutePath());
-                        }
-                    }
-                }
-            }
-        } else {
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "WINDOWS\\system32";
-                File osFile = new File(filePath);
-
-                if (osFile.exists()) {
-                    File[] files = osFile.listFiles();
-
-                    for (File userFile : files) {
-                        if (userFile.getName().equalsIgnoreCase("reg.exe")) {
-                            msnPath.add(userFile.getAbsolutePath());
-                        }
-                    }
-                }
-            }
-        }
-
-        return msnPath;
-    }
-
-    private ArrayList<String> getUser() {
-        ArrayList<String> iePaths = new ArrayList<String>();
-        File[] roots = File.listRoots();
-
-        if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "Documents and Settings";
-                File osFile = new File(filePath);
-
-                if (osFile.exists()) {
-                    File[] files = osFile.listFiles();
-
-                    for (File userFile : files) {
-                        if (!userFile.isHidden() && userFile.canRead()) {
-                            iePaths.add(userFile.getAbsolutePath());
-                        }
-                    }
-                }
-            }
-        } else {
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "Users";
-                File osFile = new File(filePath);
-
-                if (osFile.exists()) {
-                    File[] files = osFile.listFiles();
-
-                    for (File userFile : files) {
-                        if (!userFile.isHidden() && userFile.canRead()) {
-                            iePaths.add(userFile.getAbsolutePath());
-                        }
-                    }
-                }
-            }
-        }
-
-        return iePaths;
-    }
-
-    private ArrayList<String> getIEHistoryFiles() {
-        ArrayList<String> iePaths = new ArrayList<String>();
-        File[] roots = File.listRoots();
-
-        if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "Documents and Settings";
-                File osFile = new File(filePath);
-
-                if (osFile.exists()) {
-                    File[] files = osFile.listFiles();
-
-                    for (File userFile : files) {
-                        String ieFolderPath = userFile.getAbsolutePath() + "\\Local Settings\\History";
-
-                        File ieFolderFile = new File(ieFolderPath);
-                        if (ieFolderFile.exists()) {
-                            String ieFilePath = ieFolderFile.getAbsolutePath();
-                            iePaths.add(ieFilePath);
-                        }
-                    }
-                }
-            }
-        } else { // C:\Users\Wajdy Essam\AppData\Local\Microsoft\Windows\History
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "Users";
-                File osFile = new File(filePath);
-
-                if (osFile.exists()) {
-                    File[] files = osFile.listFiles();
-
-                    for (File userFile : files) {
-                        String ieFolderPath = userFile.getAbsolutePath() + "\\AppData\\Local\\Microsoft\\Windows\\History";
-
-                        File ieFolderFile = new File(ieFolderPath);
-                        if (ieFolderFile.exists()) {
-                            String ieFilePath = ieFolderFile.getAbsolutePath();
-                            iePaths.add(ieFilePath);
-                        }
-                    }
-                }
-            }
-        }
-
-        return iePaths;
+    public void setCurrentCase(Case in) {
+        currentCase = in;
     }
 
     private void showEmptyMessage(String msg) {

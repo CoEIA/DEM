@@ -15,8 +15,6 @@ import java.util.ArrayList ;
 import java.util.Date ;
 
 import java.io.Serializable ;
-import java.io.IOException ;
-import java.io.File ;
 
 public class Case implements Serializable {
     private String indexName ;
@@ -138,15 +136,4 @@ public class Case implements Serializable {
 
     public String getLastIndexDate () { return this.lastIndexDate ; }
     public String getIndexingTime () { return this.indexingTime ;}
-
-    public void freeMemory () {
-        documentInIndex.clear();
-        extensionAllowed.clear();
-        pstPath.clear();
-        msnPath.clear();
-        yahooPath.clear();
-        skypePath.clear();
-        iePath.clear();
-        ffPath.clear();
-    }
 }

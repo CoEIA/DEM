@@ -302,7 +302,6 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
                         }
 
                     if ( index != null ) {
-                        index.freeMemory();
                         index = null ;
                     }
 

@@ -1,6 +1,7 @@
 package edu.coeia.cases;
 
 import edu.coeia.utility.FilesPath ;
+import edu.coeia.utility.Utilities ;
 
 import java.io.File ;
 import java.io.FileInputStream ;
@@ -39,6 +40,29 @@ public enum CaseManager {
 
         Case aIndex = CaseManager.CaseOperation.readCase(new File(path + "\\" + name + ".DAT"));
         return aIndex;
+    }
+    
+    /*
+     * Check if Case Exists
+     * @return true if there is case with this name
+     */
+    public static boolean caseExists(String caseName)  {
+        try {
+            File casesInfo = new File(FilesPath.INDEXES_INFO);
+            ArrayList<String> casesInfoContent = Utilities.getFileContentInArrayList(casesInfo);
+
+            for (String path : casesInfoContent) {
+                Case aCase = CaseManager.getCase(path);
+
+                if (aCase.getIndexName().equalsIgnoreCase(caseName)) {
+                    return true;
+                }
+            }
+        }
+        catch (IOException e) {}
+        catch (ClassNotFoundException e) { }
+
+        return false;
     }
     
     /*
