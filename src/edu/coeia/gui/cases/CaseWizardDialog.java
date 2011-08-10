@@ -1,4 +1,4 @@
-package edu.coeia.gui;
+package edu.coeia.gui.cases;
 
 import chrriis.dj.nativeswing.swtimpl.components.JFileDialog;
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
@@ -22,6 +22,8 @@ import edu.coeia.detector.RegistryDetector;
 import edu.coeia.detector.UsersDetector;
 import edu.coeia.detector.YahooDetector ;
         
+import edu.coeia.gui.component.InfiniteProgressPanel;
+import edu.coeia.gui.SmartCardDialog;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -1051,7 +1053,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 

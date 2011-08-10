@@ -1,7 +1,8 @@
-package edu.coeia.gui;
+package edu.coeia.gui.cases;
 
 
 /* import internal classes */
+import edu.coeia.gui.cases.CaseWizardDialog;
 import edu.coeia.utility.FilesPath ;
 import edu.coeia.utility.Utilities;
 import edu.coeia.cases.Case;
@@ -34,6 +35,8 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+import edu.coeia.gui.OfflineMinningFrame;
+import edu.coeia.gui.SmartCardDialog;
 
 /*
  * CaseManagerFrame the main entry point to DEM
@@ -191,10 +194,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         .addGroup(caseManagerButtonsPanelLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(caseManagerButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(newCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                .addComponent(checkLicenseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                .addComponent(removeCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                .addComponent(loadCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE))
+                .addComponent(newCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addComponent(checkLicenseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addComponent(removeCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addComponent(loadCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
             .addContainerGap())
     );
     caseManagerButtonsPanelLayout.setVerticalGroup(
@@ -212,7 +215,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     jToolBar1.setFloatable(false);
     jToolBar1.setRollover(true);
 
-    jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+    jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24));
     jLabel2.setForeground(new java.awt.Color(153, 153, 153));
     jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/caseManager.jpg"))); // NOI18N
     jToolBar1.add(jLabel2);
@@ -221,7 +224,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
         .addGroup(layout.createSequentialGroup()
             .addContainerGap()
             .addComponent(caseManagerDataPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

@@ -1,5 +1,5 @@
 
-package edu.coeia.gui;
+package edu.coeia.gui.chat;
 
 import edu.coeia.gui.component.GUIComponent ;
 

@@ -22,8 +22,8 @@ import java.util.Date ;
 
 import edu.coeia.utility.Tuple ;
 import edu.coeia.utility.FilesCounter ;
-import edu.coeia.gui.CaseWizardDialog;
-import edu.coeia.gui.InfiniteProgressPanel;
+import edu.coeia.gui.cases.CaseWizardDialog;
+import edu.coeia.gui.component.InfiniteProgressPanel;
 
 public class CaseCreatorThread extends SwingWorker<Tuple<Integer,Long>,Integer> {
 

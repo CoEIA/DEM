@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.gui;
+package edu.coeia.gui.chart;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;

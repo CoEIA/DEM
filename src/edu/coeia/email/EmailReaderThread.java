@@ -10,7 +10,7 @@ package edu.coeia.email;
  * @author wajdyessam
  */
 
-import edu.coeia.gui.InfiniteProgressPanel ;
+import edu.coeia.gui.component.InfiniteProgressPanel ;
 
 import javax.swing.SwingWorker ;
 

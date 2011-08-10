@@ -1,5 +1,5 @@
 
-package edu.coeia.gui;
+package edu.coeia.gui.filesystem;
 
 import edu.coeia.gui.component.GUIComponent ;
 
@@ -92,11 +92,12 @@ import java.net.URI ;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
+import edu.coeia.gui.component.InfiniteProgressPanel;
+import edu.coeia.gui.component.WrapLayout;
 import edu.coeia.gui.component.IndexGUIComponent;
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-
 
 import org.mcavallo.opencloud.Cloud ;
 import org.mcavallo.opencloud.Tag ;

@@ -4,7 +4,7 @@
  */
 
 
-package edu.coeia.gui;
+package edu.coeia.gui.internet;
 
 import edu.coeia.gui.component.GUIComponent ;
 
@@ -98,6 +98,7 @@ import java.net.URI ;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
+import edu.coeia.gui.email.CorrelationDialog;
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -272,7 +273,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jPanel21.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Summary Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         summaryTable.setAutoCreateRowSorter(true);
-        summaryTable.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        summaryTable.setFont(new java.awt.Font("Tahoma", 1, 11));
         summaryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
             },

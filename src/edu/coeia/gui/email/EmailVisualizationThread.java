@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.gui;
+package edu.coeia.gui.email;
 
 /**
  *
@@ -12,6 +12,8 @@ package edu.coeia.gui;
 
 import com.pff.PSTFile;
 import edu.coeia.email.EmailHandler;
+import edu.coeia.gui.component.InfiniteProgressPanel;
+import edu.coeia.gui.chart.LineChartPanel;
 import edu.coeia.utility.Message;
 import java.io.IOException;
 import java.text.ParseException;

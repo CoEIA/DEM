@@ -9,8 +9,9 @@
  * Created on May 25, 2010, 9:30:26 AM
  */
 
-package edu.coeia.gui;
+package edu.coeia.gui.email;
 
+import edu.coeia.gui.chart.BarChartPanel;
 import edu.coeia.correlation.XMLHandler;
 import edu.coeia.correlation.RadialGraphView ;
 import edu.coeia.utility.FilesPath ;

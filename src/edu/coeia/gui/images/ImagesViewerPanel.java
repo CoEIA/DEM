@@ -1,6 +1,6 @@
 
 
-package edu.coeia.gui;
+package edu.coeia.gui.images;
 
 
 import edu.coeia.cases.Case;

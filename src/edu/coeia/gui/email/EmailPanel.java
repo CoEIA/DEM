@@ -1,5 +1,5 @@
 
-package edu.coeia.gui;
+package edu.coeia.gui.email;
 
 import edu.coeia.gui.component.GUIComponent ;
 
@@ -109,6 +109,7 @@ import org.mcavallo.opencloud.Tag ;
 
 import com.toedter.calendar.JDateChooser;
 
+import edu.coeia.gui.component.InfiniteProgressPanel;
 import java.awt.event.InputEvent;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;

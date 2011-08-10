@@ -9,13 +9,14 @@
  * Created on Jul 4, 2010, 1:33:06 PM
  */
 
-package edu.coeia.gui;
+package edu.coeia.gui.email;
 
 /**
  *
  * @author wajdyessam
  */
 
+import edu.coeia.gui.email.EmailVisualizationThread;
 import java.awt.BorderLayout ;
 import java.awt.Toolkit ;
 
@@ -23,6 +24,7 @@ import edu.coeia.utility.Message ;
 
 import com.pff.PSTFile ;
 
+import edu.coeia.gui.component.InfiniteProgressPanel;
 import java.util.ArrayList ;
 import javax.swing.JPanel;
 
