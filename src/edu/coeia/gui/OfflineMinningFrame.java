@@ -13,30 +13,35 @@ package edu.coeia.gui;
 
 import edu.coeia.gui.component.GUIComponent ;
 import edu.coeia.gui.component.IndexGUIComponent;
+
 import edu.coeia.internet.IEHandler;
 import edu.coeia.internet.MozillaHandler;
+
 import edu.coeia.utility.Utilities;
 import edu.coeia.utility.FilesPath ;
 import edu.coeia.utility.FilesFilter ;
 import edu.coeia.utility.Tuple ;
 import edu.coeia.utility.ImageLabel;
+import edu.coeia.utility.MetaDataExtraction ;
+import edu.coeia.utility.FireFoxHTMLReportGenerator;
+import edu.coeia.utility.GPSData;
+import edu.coeia.utility.GeoTagging;
+
 import edu.coeia.cases.Case;
-import edu.coeia.email.EmailReader;
+
 import edu.coeia.chat.MSNParser;
 import edu.coeia.chat.YahooMessage ;
 import edu.coeia.chat.YahooMessageDecoder;
 import edu.coeia.chat.YahooMessageReader;
 import edu.coeia.chat.SkypeMessage;
 import edu.coeia.chat.SkypeParser;
+
 import edu.coeia.search.PSTSearcher;
 import edu.coeia.internet.InternetSummaryDate ;
 import edu.coeia.image.ImageViewer;
+
 import edu.coeia.email.EmailReaderThread;
 import edu.coeia.email.MessageHeader ;
-import edu.coeia.utility.MetaDataExtraction ;
-import edu.coeia.utility.FireFoxHTMLReportGenerator;
-import edu.coeia.utility.GPSData;
-import edu.coeia.utility.GeoTagging;
 
 import java.awt.CardLayout ;
 import java.awt.BorderLayout;
@@ -66,7 +71,6 @@ import javax.swing.RowFilter ;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter ;
 import javax.swing.table.TableModel ;
-import javax.swing.table.AbstractTableModel ;
 import javax.swing.tree.DefaultMutableTreeNode ;
 import javax.swing.tree.DefaultTreeModel ;
 import javax.swing.ListSelectionModel ;
@@ -6654,7 +6658,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
 
     private void disableNotIndexedComponent () {
         // close email if there is no pst file
-        if ( index.getPstPath().size() == 0 ) {
+        if ( index.getPstPath().isEmpty() ) {
             emailPanel.setEnabled(false);
             loadPstButton.setEnabled(false);
             //clusteringButton.setEnabled(false);
@@ -6672,7 +6676,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
         }
 
         // close web browers data
-        if ( index.getFFPath().size() == 0 ) {
+        if ( index.getFFPath().isEmpty() ) {
             mozillaPanel.setEnabled(false);
             ffComboBox.setEnabled(false);
             loadFFButton.setEnabled(false);
@@ -6693,7 +6697,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
             logginsTable.setEnabled(false);
         }
 
-        if ( index.getIePath().size() == 0 ) {
+        if ( index.getIePath().isEmpty() ) {
             IEPanel.setEnabled(false);
             ieComboBox.setEnabled(false);
             loadIEButton.setEnabled(false);
@@ -6711,14 +6715,14 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
             IELogginsTable.setEnabled(false);
         }
 
-        if ( index.getFFPath().size() == 0 && index.getIePath().size() == 0 ) {
+        if ( index.getFFPath().isEmpty() && index.getIePath().isEmpty() ) {
             summaryInternetPanel.setEnabled(false);
             summaryInternetButton.setEnabled(false);
             summaryTable.setEnabled(false);
         }
 
         // close chat panels
-        if (index.getMsnPath().size() == 0) {
+        if (index.getMsnPath().isEmpty()) {
             WindowsLivePanel.setEnabled(false);
             msnComboBox.setEnabled(false);
             msnChat.setEnabled(false);
@@ -6727,7 +6731,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
             loadMSNButton.setEnabled(false);
         }
 
-        if ( index.getYahooPath().size() == 0) {
+        if ( index.getYahooPath().isEmpty()) {
             yahooChatContentPanel.setEnabled(false);
             yahooChat.setEnabled(false);
             yahooChatTree.setEnabled(false);
@@ -6736,7 +6740,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
             loadYahooButton.setEnabled(false);
         }
 
-        if (index.getSkypePath().size() == 0 ) {
+        if (index.getSkypePath().isEmpty() ) {
             skypePanel.setEnabled(false);
             loadSkypeButton.setEnabled(false);
             skypeComboBox.setEnabled(false);
@@ -6751,7 +6755,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
             prePageButton.setEnabled(false);
         }
 
-        if ( index.getDocumentInIndex().size() == 0 ) {
+        if ( index.getDocumentInIndex().isEmpty() ) {
             startIndexButton.setEnabled(false);
             tagSelectButton.setEnabled(false);
             indexVisulizingButton.setEnabled(false);
@@ -7068,94 +7072,4 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox yahooComboBox;
     private javax.swing.JPanel yahooMessangerPanel;
     // End of variables declaration//GEN-END:variables
-}
-
-class EmailTableModel extends AbstractTableModel {
-    private ArrayList<MessageHeader> map = new ArrayList<MessageHeader>();
-    private PSTFile pstFile ;
-    private String path ;
-    
-    public EmailTableModel (PSTFile pst, String path) {
-        this.pstFile = pst ;
-        this.path = path ;
-    }
-    
-    String[] columnNames = {
-    	"Descriptor ID",
-    	"Subject",
-    	"From",
-    	"To",
-    	"Date",
-    	"Has Attachments"
-    };
-
-    String[][] rowData = {{"","","","",""}};
-    int rowCount = 0;
-
-    @Override
-    public String getColumnName(int col) {
-        return columnNames[col].toString();
-    }
-
-    public int getColumnCount() { return columnNames.length; }
-
-    public MessageHeader getMessageAtRow(int row) {
-        if ( map == null )
-            return null ;
-
-        return map.get(row);
-    }
-
-    public int getRowCount() {
-    	try {
-            return map.size();
-    	} catch (Exception err) {
-            return 0 ;
-    	}
-    }
-
-    public Object getValueAt(int row, int col) {
-    	try {
-            MessageHeader next = getMessageAtRow(row);
-            switch (col) {
-                case 0:
-                    return next.getID();
-                case 1:
-                    return next.getSubject();
-                case 2:
-                    return next.getFrom();
-                case 3:
-                    return next.getTo();
-                case 4:
-                    return next.getDate();
-                case 5:
-                    return (next.hasAttachment() ? "Yes" : "No");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-
-        return "";
-    }
-
-    @Override
-    public boolean isCellEditable(int row, int col) { return false; }
-
-    public void setFolder(String name) {
-        map = EmailReader.getInstance(pstFile, path,null);
-        map = filterMap(name);
-    	this.fireTableDataChanged();
-    }
-
-    private ArrayList<MessageHeader> filterMap (String name) {
-        ArrayList<MessageHeader> msgs = new ArrayList<MessageHeader>();
-        
-        for (MessageHeader m: map) {
-            if ( m.getLocation().equals(name))
-                msgs.add(m);
-        }
-
-        return msgs;
-    }
 }
