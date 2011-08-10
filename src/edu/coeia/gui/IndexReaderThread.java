@@ -11,7 +11,6 @@ package edu.coeia.gui;
  */
 
 import edu.coeia.utility.Utilities;
-import java.awt.BorderLayout;
 
 import org.apache.lucene.index.IndexReader ;
 import org.apache.lucene.store.Directory ;
@@ -31,7 +30,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.SwingWorker ;
-import javax.swing.JFrame ;
 import javax.swing.JPanel;
 
 public class IndexReaderThread extends SwingWorker<String, Integer> {
@@ -202,12 +200,14 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
 
         // render result
         if ( this.type == IndexItem.TAGS) {
-            this.frame.setTags(tags);
+            //TODO: set in panel 
+            //this.frame.setTags(tags);
         }
         else if ( this.type == IndexItem.EXT) {
             try {
                 JPanel chartPanel = PieChartPanel.getPieChartPanel(exts, "Extension Frequency for: " + indexName);
-                this.frame.setIndexVisualizationPanel(chartPanel);
+                //TODO:set in panel
+                //this.frame.setIndexVisualizationPanel(chartPanel);
             } catch (IOException ex) {
                 Logger.getLogger(IndexReaderThread.class.getName()).log(Level.SEVERE, null, ex);
             }
