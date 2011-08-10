@@ -30,7 +30,8 @@ public class CaseCreatorThread extends SwingWorker<Tuple<Integer,Long>,Integer> 
     private ArrayList<String> paths; 
     private InfiniteProgressPanel panel ;
     private Tuple<Integer,Long> indexedDataCountAndSize ;
-    private ArrayList<String> ext, pst, ie, ff, msn, yahoo, skype;
+    private ArrayList<String> pst, ie, ff, msn, yahoo, skype;
+    private List<String> ext ;
     private boolean cache, check;
     private String indexName, indexLocation, investigator, description;
     private CaseWizardDialog indexWizard;
@@ -39,7 +40,7 @@ public class CaseCreatorThread extends SwingWorker<Tuple<Integer,Long>,Integer> 
     
     public CaseCreatorThread ( ArrayList<String> path, InfiniteProgressPanel panel,
             CaseWizardDialog iw, String in, String il, String inv, String des,
-            ArrayList<String> ext, ArrayList<String> pst, ArrayList<String> ie, ArrayList<String> ff,
+            List<String> ext, ArrayList<String> pst, ArrayList<String> ie, ArrayList<String> ff,
             ArrayList<String> msn, ArrayList<String> yahoo, boolean cache, boolean check , Case index,
             ArrayList<String> skype) {
         

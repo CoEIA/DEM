@@ -10,7 +10,7 @@ package edu.coeia.utility;
  * @author wajdyessam
  */
 
-import java.util.ArrayList ;
+import java.util.List ;
 
 import java.io.File ;
 import java.io.FileFilter ;
@@ -18,9 +18,9 @@ import java.io.FileFilter ;
 public class FilesCounter implements FileFilter {
     private int numberOfFiles ;
     private long size ;
-    private ArrayList<String> ext ;
+    private List<String> ext ;
 
-    public FilesCounter (ArrayList<String> ext) {
+    public FilesCounter (List<String> ext) {
         this.ext = ext ;
     }
     

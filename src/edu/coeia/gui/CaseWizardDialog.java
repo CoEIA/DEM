@@ -18,7 +18,6 @@ import edu.coeia.utility.Utilities;
 
 import edu.coeia.detector.OutlookDetector;
 import edu.coeia.detector.FirefoxDetector;
-import edu.coeia.detector.MSNDetector;
 import edu.coeia.detector.RegistryDetector;
 import edu.coeia.detector.UsersDetector;
 import edu.coeia.detector.YahooDetector ;
@@ -1192,7 +1191,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         List<String> pstPaths = detector.getFiles();
 
         if (pstPaths.isEmpty()) {
-            showEmptyMessage("Not Found Any PST/OST Files");
+            showEmptyMessage("Cannot Found Any PST/OST Files");
             return;
         }
 
@@ -1291,7 +1290,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         List<String> iePaths = detector.getFiles();
         
         if (iePaths.isEmpty()) {
-            showEmptyMessage("Not Found Any IE Files");
+            showEmptyMessage("Cannot Found Any IE Files");
             return;
         }
 
@@ -1307,7 +1306,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         List<String> ffPaths = detector.getFiles();
 
         if (ffPaths.isEmpty()) {
-            showEmptyMessage("Not Found Any FireFox Files");
+            showEmptyMessage("Cannot Found Any FireFox Files");
             return;
         }
 
@@ -1325,7 +1324,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                 List<String> paths = detector.getFiles();
 
                 if (paths.isEmpty()) {
-                    showEmptyMessage("Not Found Any MSN Files");
+                    showEmptyMessage("Cannot Found Any MSN Files");
                     return;
                 }
 
@@ -1376,7 +1375,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         List<String> yahooPaths = detector.getFiles();
 
         if (yahooPaths.isEmpty()) {
-            showEmptyMessage("Not Found Any Yahoo! Files");
+            showEmptyMessage("Cannot Found Any Yahoo! Files");
             return;
         }
 
@@ -1410,10 +1409,8 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             docs.add((String) documentModel.getElementAt(i));
         }
 
-        ArrayList<String> ext = new ArrayList<String>();
-        addExtension(ext);
+        List<String> ext = checkSelectedExtension();
 
-       
         /**
          * Check Outlook Data
          * Outlook Extension , if Outlook Files is Selected
@@ -1614,8 +1611,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     public boolean checkIndexFileSystemPanel() {
         int size = documentModel.size();
 
-        ArrayList<String> ext = new ArrayList<String>();
-        addExtension(ext);
+        List<String> ext = checkSelectedExtension();
 
         if (size > 0 && ext.isEmpty() || ext.size() > 0 && size == 0) {
             showErrorMessage("You Should Select Some Documents And Extension in This Case","Please Select Documents and Extensions Now");
@@ -1625,9 +1621,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         return true;
     }
     
-    
     /**
-    /*
      * Check if their is folder name in case location text field
      */
     private String getCaseName(String path) {
@@ -1775,10 +1769,13 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         clearFFButton.setEnabled(enable);
     }
 
-    
-
-
-    private void addExtension(ArrayList<String> eList) {
+    /**
+     * Check if the Check boxes in Document Panel is Selected and add the related extension for this item
+     * @return List contain selected extensions
+     */
+    private List<String> checkSelectedExtension() {
+        List<String> eList = new ArrayList<String>();
+        
         if (htmlCheckBox.isSelected()) {
             eList.add("html");
             eList.add("htm");
@@ -1804,9 +1801,11 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         if (rtfCheckBox.isSelected()) {
             eList.add("rtf");
         }
+        
+        return (eList);
     }
     
-    // TODO: Genral List Model Methods, Move it to Utilties
+    // TODO: General List Model Methods, Move it to Utilties
 
     private void AddFromModelToList(DefaultListModel model, ArrayList<String> list) {
         for (int i = 0; i < model.size(); i++) {
@@ -1832,6 +1831,14 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         }
     }
 
+    private void showEmptyMessage(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Object Not Found", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void showErrorMessage(String msg, String title) {
+        JOptionPane.showMessageDialog(CaseWizardDialog.this, msg, title, JOptionPane.ERROR_MESSAGE);
+    }
+    
     
     // TODO: check why there is acces/mutu ?
     
@@ -1841,14 +1848,6 @@ public class CaseWizardDialog extends javax.swing.JDialog {
 
     public void setCurrentCase(Case in) {
         currentCase = in;
-    }
-
-    private void showEmptyMessage(String msg) {
-        JOptionPane.showMessageDialog(this, msg, "Object Not Found", JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void showErrorMessage(String msg, String title) {
-        JOptionPane.showMessageDialog(CaseWizardDialog.this, msg, title, JOptionPane.ERROR_MESSAGE);
     }
         
     /*

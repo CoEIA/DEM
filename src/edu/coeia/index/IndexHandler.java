@@ -53,27 +53,6 @@ public class IndexHandler {
         }
     }
     
-//    // get terms and frequncy for all terms in docuemnts
-//    public HashMap<String,Integer> getAllTermFreqFromBody ()  throws IOException {
-//        HashMap<String,Integer> map = new HashMap<String,Integer>();
-//        TermEnum te = indexReader.terms(new Term("body","") );
-//
-//        while ( te.next() ) {
-//            Term currentTerm = te.term();
-//
-//            if ( ! currentTerm.field().equals("body"))
-//                continue ;
-//
-//            String termText = currentTerm.text();
-//            int frequency   = indexReader.docFreq(currentTerm);
-//
-//            map.put(termText,frequency);
-//        }
-//
-//        te.close();
-//        return map ;
-//    }
-
     public List<String> getImagesPath () throws IOException {
         List<String> aList = new ArrayList<String>();
 
@@ -91,36 +70,6 @@ public class IndexHandler {
         te.close();
         return (aList);
     }
-
-//    public HashMap<String,Double> getExtensionFreq () {
-//        HashMap<String,Double> map = new HashMap<String,Double>();
-//        System.out.println("Number of Doc: " + indexReader.numDocs());
-//        logger.log(Level.INFO, "Number of Docs: " + indexReader.numDocs());
-//
-//        try {
-//            for (int i=0 ; i<indexReader.numDocs(); i++) {
-//                Document doc = indexReader.document(i);
-//                String file = doc.get("filename");
-//
-//                if ( file == null )
-//                    continue ;
-//
-//                String ext = Utilities.getExtension(file).toLowerCase();
-//
-//                if ( map.get(ext) == null ){
-//                    map.put(ext, 1.0);
-//                }
-//                else
-//                    map.put(ext, map.get(ext) + 1);
-//            }
-//        }
-//        catch (IOException e){
-//            logger.log(Level.SEVERE, "Uncaught exception", e);
-//        }
-//
-//        logger.log(Level.INFO, "Map size: " + map.size());
-//        return map ;
-//    }
 
     public void close () throws IOException {
         indexReader.close();

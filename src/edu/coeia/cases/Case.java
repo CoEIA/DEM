@@ -11,6 +11,7 @@ package edu.coeia.cases;
  *
  */
 
+import java.util.List ;
 import java.util.ArrayList ;
 import java.util.Date ;
 
@@ -23,7 +24,7 @@ public class Case implements Serializable {
     private String description ;
     
     private ArrayList<String> documentInIndex ;
-    private ArrayList<String> extensionAllowed ;
+    private List<String> extensionAllowed ;
 
     private ArrayList<String> pstPath ;
     private ArrayList<String> msnPath,yahooPath,skypePath;
@@ -44,7 +45,7 @@ public class Case implements Serializable {
     private Case () { }
 
     public Case (String indexName, String indexLocation, String investigatorName, String description,
-            ArrayList<String> docInIndex, ArrayList<String> ext, ArrayList<String> pstPath,
+            ArrayList<String> docInIndex, List<String> ext, ArrayList<String> pstPath,
             ArrayList<String> iePath, ArrayList<String> ffPath, ArrayList<String> msnPath, ArrayList<String> yahooPath,
             ArrayList<String> skypePath, Date ct, long iz , long diz, int dic ,
             boolean cacheImages, boolean checkCompressed, boolean indexStatus, String lastIndexDate, String indexingTime
@@ -115,7 +116,7 @@ public class Case implements Serializable {
     public boolean getIndexStatus () { return this.indexStatus ;}
     
     public ArrayList<String> getDocumentInIndex() { return this.documentInIndex ;}
-    public ArrayList<String> getExtensionAllowed () { return this.extensionAllowed ;}
+    public List<String> getExtensionAllowed () { return this.extensionAllowed ;}
 
     public ArrayList<String> getPstPath() { return this.pstPath ; }
 

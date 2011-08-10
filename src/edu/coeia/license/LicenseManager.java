@@ -10,8 +10,9 @@ import java.util.Calendar ;
 
 import java.util.prefs.Preferences;
 
+
 /**
- *
+ * Singleton Class For License Management
  * @author wajdyessam
  */
 

@@ -8,8 +8,11 @@ import java.util.List ;
 
 /**
  *
+ * To Detect Some Files/Folders on The Current File System
+ * 
  * @author wajdyessam
  * @version 10/8/2011
+ * 
  */
 
 public interface AutoDetection {

@@ -10,7 +10,6 @@ package edu.coeia.chat;
  * @author wajdyessam
  */
 
-import edu.coeia.internet.IEHandler;
 import edu.coeia.utility.Utilities;
 
 import java.io.IOException ;

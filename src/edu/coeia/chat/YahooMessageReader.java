@@ -10,9 +10,6 @@ package edu.coeia.chat;
  * @author wajdyessam
  */
 
-
-import edu.coeia.utility.FilesPath;
-
 import java.io.File ;
 import java.io.FileInputStream ;
 import java.io.DataInputStream ;
