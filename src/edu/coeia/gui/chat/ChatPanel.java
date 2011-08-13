@@ -1,23 +1,12 @@
 
 package edu.coeia.gui.chat;
 
-import edu.coeia.gui.utilties.GUIComponent ;
-
-
-import edu.coeia.internet.IEHandler;
-import edu.coeia.internet.MozillaHandler;
-
+import edu.coeia.cases.Case;
+import edu.coeia.gui.utilties.GuiUtil;
 import edu.coeia.utility.Utilities;
 import edu.coeia.utility.FilesPath ;
 import edu.coeia.utility.FilesFilter ;
 import edu.coeia.utility.Tuple ;
-
-import edu.coeia.utility.MetaDataExtraction ;
-import edu.coeia.utility.FireFoxHTMLReportGenerator;
-
-
-import edu.coeia.cases.Case;
-
 import edu.coeia.chat.MSNParser;
 import edu.coeia.chat.YahooMessage ;
 import edu.coeia.chat.YahooMessageDecoder;
@@ -25,76 +14,27 @@ import edu.coeia.chat.YahooMessageReader;
 import edu.coeia.chat.SkypeMessage;
 import edu.coeia.chat.SkypeParser;
 
-import edu.coeia.search.PSTSearcher;
-import edu.coeia.internet.InternetSummaryDate ;
-
-
-import edu.coeia.email.EmailReaderThread;
-import edu.coeia.email.MessageHeader ;
-
-import java.awt.CardLayout ;
 import java.awt.BorderLayout;
-
-import java.awt.Toolkit ;
-
-import java.awt.Desktop ;
 import java.awt.event.InputEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-import javax.swing.JButton;
-import javax.swing.JPopupMenu;
-import javax.swing.border.TitledBorder;
 import javax.swing.JFileChooser ;
-import javax.swing.JTextField ;
-import javax.swing.JComboBox ;
-import javax.swing.JOptionPane ;
-import javax.swing.JTable ;
-import javax.swing.RowFilter ;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter ;
-import javax.swing.table.TableModel ;
 import javax.swing.tree.DefaultMutableTreeNode ;
 import javax.swing.tree.DefaultTreeModel ;
-import javax.swing.ListSelectionModel ;
-import javax.swing.event.ListSelectionListener ;
-import javax.swing.event.ListSelectionEvent ;
-import javax.swing.event.TreeSelectionListener ;
-import javax.swing.event.TreeSelectionEvent ;
-import javax.swing.JPanel ;
-import javax.swing.JFrame ;
-import javax.swing.event.DocumentEvent ;
-import javax.swing.event.DocumentListener ;
-import javax.swing.JLabel;
-
 
 import java.io.File ;
-import java.io.FileNotFoundException ;
 import java.io.IOException ;
 import java.io.FilenameFilter ;
 
-import java.util.List; 
 import java.util.ArrayList ;
 import java.util.HashMap ;
-import java.util.Vector ;
 import java.util.Iterator ;
 import java.util.Map ;
 import java.util.Set ;
-import java.util.Date ;
-import java.util.regex.PatternSyntaxException;
-
-import java.sql.SQLException ;
-
-import java.net.URISyntaxException ;
-import java.net.URI ;
-
-import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
-
 import java.util.logging.Logger;
 import java.util.logging.Level;
+
+import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
 /*
  * ChatPanel.java
@@ -581,14 +521,14 @@ private void loadYahooButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
 private void skypeTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_skypeTableMousePressed
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( skypeTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_skypeTableMousePressed
 
 private void skypeTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_skypeTableMouseReleased
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( skypeTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_skypeTableMouseReleased
 
@@ -754,34 +694,6 @@ private void loadSkypeButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
             }
         }
     }
-    
-    private void showPopup (java.awt.event.MouseEvent event) {
-        final JTable table = (JTable) event.getSource();
-        JPopupMenu popup = new JPopupMenu();
-        JButton btn = new JButton("Export to CSV File");
-        
-        btn.addActionListener( new java.awt.event.ActionListener() {
-            public void actionPerformed (java.awt.event.ActionEvent event) {
-                try {
-                    FilesFilter ffFilter = new FilesFilter("Comma Seperated Value","CSV");
-                    fileChooser.setFileFilter(ffFilter);
-
-                    int result = fileChooser.showSaveDialog(null);
-
-                    if ( result == JFileChooser.APPROVE_OPTION) {
-                        String name = fileChooser.getSelectedFile().getAbsolutePath();
-                        Utilities.exportJTable(table,name);
-                    }
-                }
-                catch (Exception e){
-                }
-            }
-        });
-
-        popup.add(btn);
-        table.setComponentPopupMenu(popup);
-    }
-
 
     private void disableNotIndexedComponent () {
         // close chat panels

@@ -6,102 +6,46 @@
 
 package edu.coeia.gui.internet;
 
-import edu.coeia.gui.utilties.GUIComponent ;
 
-
+import edu.coeia.cases.Case;
+import edu.coeia.gui.utilties.GuiUtil;
 import edu.coeia.internet.IEHandler;
 import edu.coeia.internet.MozillaHandler;
-
 import edu.coeia.utility.Utilities;
 import edu.coeia.utility.FilesPath ;
 import edu.coeia.utility.FilesFilter ;
-import edu.coeia.utility.Tuple ;
-
-import edu.coeia.utility.MetaDataExtraction ;
 import edu.coeia.utility.FireFoxHTMLReportGenerator;
-
-
-import edu.coeia.cases.Case;
-
-import edu.coeia.chat.MSNParser;
-import edu.coeia.chat.YahooMessage ;
-import edu.coeia.chat.YahooMessageDecoder;
-import edu.coeia.chat.YahooMessageReader;
-import edu.coeia.chat.SkypeMessage;
-import edu.coeia.chat.SkypeParser;
-
-import edu.coeia.search.PSTSearcher;
+import edu.coeia.gui.email.CorrelationDialog;
 import edu.coeia.internet.InternetSummaryDate ;
 
-
-import edu.coeia.email.EmailReaderThread;
-import edu.coeia.email.MessageHeader ;
-
-import java.awt.CardLayout ;
-import java.awt.BorderLayout;
-
-import java.awt.Toolkit ;
-
 import java.awt.Desktop ;
+import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
-import javax.swing.border.TitledBorder;
 import javax.swing.JFileChooser ;
 import javax.swing.JTextField ;
 import javax.swing.JComboBox ;
 import javax.swing.JOptionPane ;
 import javax.swing.JTable ;
-import javax.swing.RowFilter ;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter ;
-import javax.swing.table.TableModel ;
-import javax.swing.tree.DefaultMutableTreeNode ;
-import javax.swing.tree.DefaultTreeModel ;
 import javax.swing.ListSelectionModel ;
-import javax.swing.event.ListSelectionListener ;
-import javax.swing.event.ListSelectionEvent ;
-import javax.swing.event.TreeSelectionListener ;
-import javax.swing.event.TreeSelectionEvent ;
-import javax.swing.JPanel ;
 import javax.swing.JFrame ;
 import javax.swing.event.DocumentEvent ;
 import javax.swing.event.DocumentListener ;
-import javax.swing.JLabel;
-
 
 import java.io.File ;
-import java.io.FileNotFoundException ;
 import java.io.IOException ;
-import java.io.FilenameFilter ;
 
-import java.util.List; 
 import java.util.ArrayList ;
 import java.util.HashMap ;
-import java.util.Vector ;
-import java.util.Iterator ;
-import java.util.Map ;
-import java.util.Set ;
 import java.util.Date ;
-import java.util.regex.PatternSyntaxException;
-
-import java.sql.SQLException ;
-
-import java.net.URISyntaxException ;
-import java.net.URI ;
-
-import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
-
-import edu.coeia.gui.email.CorrelationDialog;
-import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+
+import java.sql.SQLException ;
+import java.net.URISyntaxException ;
 
 /*
  * InternetSurfingPanel.java
@@ -1313,7 +1257,7 @@ private void summaryInternetButtonActionPerformed(java.awt.event.ActionEvent evt
         String resultString = "" ;
 
         ArrayList<String> ffPath = index.getFFPath();
-        if ( ffPath.size() == 0 )
+        if ( ffPath.isEmpty() )
             resultString += "FireFox is not Selected when create case\n" ;
 
         for (String path: ffPath) {
@@ -1326,7 +1270,7 @@ private void summaryInternetButtonActionPerformed(java.awt.event.ActionEvent evt
         }
 
         ArrayList<String> iePath = index.getIePath();
-        if ( iePath.size() == 0 )
+        if ( iePath.isEmpty() )
             resultString += "IE is not Selected when create case" ;
         
         for (String path: iePath ) {
@@ -1339,7 +1283,7 @@ private void summaryInternetButtonActionPerformed(java.awt.event.ActionEvent evt
             }
         }
 
-        if ( result.size() == 0 ) {
+        if ( result.isEmpty() ) {
             JOptionPane.showMessageDialog(this,resultString,"Their is no data to display",
                     JOptionPane.ERROR_MESSAGE);
             return ;
@@ -1370,7 +1314,7 @@ private void summaryTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIR
 }//GEN-LAST:event_summaryTableMouseReleased
 
 private void ffSummaryButttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ffSummaryButttonActionPerformed
-        showPanel("ffSummaryCard",mozillaResultPanel);
+        GuiUtil.showPanel("ffSummaryCard",mozillaResultPanel);
 
         // reset mozilla text field
         resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
@@ -1413,7 +1357,7 @@ private void ffSummaryButttonActionPerformed(java.awt.event.ActionEvent evt) {//
 }//GEN-LAST:event_ffSummaryButttonActionPerformed
 
 private void webHistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_webHistoryButtonActionPerformed
-        showPanel("webHistoryCard",mozillaResultPanel);
+        GuiUtil.showPanel("webHistoryCard",mozillaResultPanel);
 
         // reset mozilla text field
         resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
@@ -1447,7 +1391,7 @@ private void webHistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//
 }//GEN-LAST:event_webHistoryButtonActionPerformed
 
 private void bookmarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookmarButtonActionPerformed
-        showPanel("bookmarkCard",mozillaResultPanel);
+        GuiUtil.showPanel("bookmarkCard",mozillaResultPanel);
 
         // reset mozilla text field
         resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
@@ -1484,7 +1428,7 @@ private void bookmarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_bookmarButtonActionPerformed
 
 private void cookiesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cookiesButtonActionPerformed
-       showPanel("cookiesCard",mozillaResultPanel);
+       GuiUtil.showPanel("cookiesCard",mozillaResultPanel);
 
        // reset mozilla text field
         resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
@@ -1520,7 +1464,7 @@ private void cookiesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_cookiesButtonActionPerformed
 
 private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadButtonActionPerformed
-       showPanel("downloadCard",mozillaResultPanel);
+       GuiUtil.showPanel("downloadCard",mozillaResultPanel);
 
         // reset mozilla text field
         resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
@@ -1558,7 +1502,7 @@ private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
 }//GEN-LAST:event_downloadButtonActionPerformed
 
 private void logginsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logginsButtonActionPerformed
-       showPanel("logginsCard",mozillaResultPanel);
+       GuiUtil.showPanel("logginsCard",mozillaResultPanel);
 
        // reset mozilla text field
         resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
@@ -1799,7 +1743,7 @@ private void loadFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 }//GEN-LAST:event_loadFFButtonActionPerformed
 
 private void webHistoryButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_webHistoryButton1ActionPerformed
-       showPanel("IEWebHisrotyCard", IEResultPanel);
+       GuiUtil.showPanel("IEWebHisrotyCard", IEResultPanel);
 
         // reset IE text field
         resetInternetSurfing(IESearchField,IEFilterComboBox);
@@ -1834,7 +1778,7 @@ private void webHistoryButton1ActionPerformed(java.awt.event.ActionEvent evt) {/
 }//GEN-LAST:event_webHistoryButton1ActionPerformed
 
 private void bookmarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookmarButton1ActionPerformed
-       showPanel("IEBookmarkCard", IEResultPanel);
+       GuiUtil.showPanel("IEBookmarkCard", IEResultPanel);
 
         // reset IE text field
         resetInternetSurfing(IESearchField,IEFilterComboBox);
@@ -1865,7 +1809,7 @@ private void bookmarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
 }//GEN-LAST:event_bookmarButton1ActionPerformed
 
 private void cookiesButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cookiesButton1ActionPerformed
-        showPanel("IECookiesCard", IEResultPanel);
+        GuiUtil.showPanel("IECookiesCard", IEResultPanel);
 
         // reset IE text field
         resetInternetSurfing(IESearchField,IEFilterComboBox);
@@ -1896,7 +1840,7 @@ private void cookiesButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
 }//GEN-LAST:event_cookiesButton1ActionPerformed
 
 private void cacheButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cacheButtonActionPerformed
-        showPanel("IECacheCard", IEResultPanel);
+        GuiUtil.showPanel("IECacheCard", IEResultPanel);
 
         // reset IE text field
         resetInternetSurfing(IESearchField,IEFilterComboBox);
@@ -1927,7 +1871,7 @@ private void cacheButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 }//GEN-LAST:event_cacheButtonActionPerformed
 
 private void logginsButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logginsButton1ActionPerformed
-        showPanel("IELogginsCard", IEResultPanel);
+        GuiUtil.showPanel("IELogginsCard", IEResultPanel);
         
         // reset IE text field
         resetInternetSurfing(IESearchField,IEFilterComboBox);
@@ -2371,7 +2315,7 @@ private void loadIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
     public void filterSummaryTable () {
         String text = summaryTextField.getText().trim();
-        filterTable(summaryTable, text);
+        GuiUtil.filterTable(summaryTable, text);
     }
     
     private class MozillaInputListener implements DocumentListener {
@@ -2384,11 +2328,11 @@ private void loadIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         String text = mozillaSearchField.getText().trim();
 
         // search in all tables for mozilla text search and filetr result
-        filterTable(webHistoryTable, text);
-        filterTable(bookmarkTable, text);
-        filterTable(cookiesTable, text);
-        filterTable(downloadTable,text) ;
-        filterTable(logginsTable,text);
+        GuiUtil.filterTable(webHistoryTable, text);
+        GuiUtil.filterTable(bookmarkTable, text);
+        GuiUtil.filterTable(cookiesTable, text);
+        GuiUtil.filterTable(downloadTable,text) ;
+        GuiUtil.filterTable(logginsTable,text);
     }
 
     private class IEInputListener implements DocumentListener {
@@ -2401,42 +2345,18 @@ private void loadIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         String text = IESearchField.getText().trim();
 
         // search in all tables for mozilla text search and filetr result
-        filterTable(IEWebHistoryTable, text);
-        filterTable(IEBookmarkTable, text);
-        filterTable(IECookiesTable, text);
-        filterTable(IECacheTable,text) ;
-        filterTable(IELogginsTable,text);
-    }
-    
-    // filer table, ignore case (case insensitive)
-    private void filterTable (JTable table, String text) {
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-        table.setRowSorter(sorter);
-
-        if ( text.equalsIgnoreCase(" ") ) {
-            sorter.setRowFilter(null);
-        }
-        else {
-            try {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-            }
-            catch (PatternSyntaxException e){
-                
-            }
-        }
+        GuiUtil.filterTable(IEWebHistoryTable, text);
+        GuiUtil.filterTable(IEBookmarkTable, text);
+        GuiUtil.filterTable(IECookiesTable, text);
+        GuiUtil.filterTable(IECacheTable,text) ;
+        GuiUtil.filterTable(IELogginsTable,text);
     }
     
     private void resetInternetSurfing (JTextField f, JComboBox box){
         f.setText("");
         box.setSelectedIndex(0);
     }
-        
-    // show panel function
-    public void showPanel (String panelName, JPanel name) {
-        CardLayout card = (CardLayout) name.getLayout();
-        card.show(name, panelName);
-    }
-    
+
     private void showPopupWithLunch (java.awt.event.MouseEvent event) {
         final JTable table = (JTable) event.getSource();
         JPopupMenu popup = new JPopupMenu();
