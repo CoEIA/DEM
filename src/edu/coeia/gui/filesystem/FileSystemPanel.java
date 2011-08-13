@@ -39,6 +39,8 @@ import java.util.logging.Level;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
+import java.util.ArrayList;
+import javax.swing.JFrame;
 import org.mcavallo.opencloud.Cloud ;
 import org.mcavallo.opencloud.Tag ;
 
@@ -62,12 +64,16 @@ public class FileSystemPanel extends javax.swing.JPanel {
     private IndexerThread indexerThread ;
     private boolean startIndexButtonFlag = true ;
     
+    private JFrame parentFrame ;
+    
     /** Creates new form FileSystemPanel */
-    public FileSystemPanel(Case aIndex) {
+    public FileSystemPanel(Case aIndex, JFrame parentFrame) {
         initComponents();
                 
         this.index = aIndex;
-     
+        this.parentFrame = parentFrame;
+        this.imagesPath = new ArrayList<String>();
+        
         // add file browser
         fileBrowser.setBarsVisible(false);
         fileBrowser.setStatusBarVisible(false);
@@ -263,7 +269,7 @@ public class FileSystemPanel extends javax.swing.JPanel {
         jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel23.setText("Current File:");
 
-        currentFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
+        currentFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         currentFileLbl.setForeground(new java.awt.Color(0, 0, 255));
         currentFileLbl.setText(" ");
 
@@ -1194,19 +1200,14 @@ private void tagSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
             tagsPanel.repaint();
             tagsPanel.validate();
 
-//            IndexerReader ir  = new IndexerReader(index.getIndexLocation() + "\\" +  FilesPath.INDEX_PATH);
-//            HashMap<String,Integer> tagsMap = ir.getAllTermFreqFromBody();
-//            ir.close();
-//            setTags(tagsMap);
-
             InfiniteProgressPanel i = new InfiniteProgressPanel("Loading Index Tags Clouds...");
-            //this.setGlassPane(i);
+            parentFrame.setGlassPane(i);
             i.start();
 
             String indexPath = index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH;
             String indexName = index.getIndexName() ;
 
-            IndexReaderThread thread = new IndexReaderThread(i, indexPath, indexName, IndexReaderThread.IndexItem.TAGS, null);
+            IndexReaderThread thread = new IndexReaderThread(i, indexPath, indexName, IndexReaderThread.IndexItem.TAGS, this);
             thread.execute();
 
             tagsPanel.repaint();
@@ -1255,10 +1256,10 @@ private void indexVisulizingButtonActionPerformed(java.awt.event.ActionEvent evt
             String indexName = index.getIndexName() ;
             
             InfiniteProgressPanel i = new InfiniteProgressPanel("Loading Index Extensions ...");
-            //this.setGlassPane(i);
+            parentFrame.setGlassPane(i);
             i.start();
 
-            IndexReaderThread thread = new IndexReaderThread(i, indexPath, indexName, IndexReaderThread.IndexItem.EXT, null);
+            IndexReaderThread thread = new IndexReaderThread(i, indexPath, indexName, IndexReaderThread.IndexItem.EXT, this);
             thread.execute();
 
             indexVisualizingPiePanel.repaint();
@@ -1355,7 +1356,6 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
        catch (Exception e ){
        }
 }//GEN-LAST:event_clusterTypeTreeValueChanged
-
     
     private void showInformation (String filePath) throws Exception {
         File tmp = new File(filePath);

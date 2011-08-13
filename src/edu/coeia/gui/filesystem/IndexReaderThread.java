@@ -39,7 +39,7 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
     public enum IndexItem { TAGS, EXT, IMAGES};
 
     InfiniteProgressPanel panel ;
-    OfflineMinningFrame frame;
+    FileSystemPanel fileSystemPanel;
     
     boolean status;
     IndexItem type;
@@ -55,11 +55,11 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
     private static Logger logger = Logger.getLogger("IndexReaderThread");
     private static FileHandler handler ;
 
-    public IndexReaderThread (InfiniteProgressPanel i, String location, String name, IndexItem type, OfflineMinningFrame frame) throws IOException {
+    public IndexReaderThread (InfiniteProgressPanel i, String location, String name, IndexItem type, FileSystemPanel frame) throws IOException {
         this.panel = i;
         this.status = true;
         this.type = type;
-        this.frame = frame;
+        this.fileSystemPanel = frame;
         
         indexDir = location ;
         indexName = name;
@@ -204,13 +204,13 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
         // render result
         if ( this.type == IndexItem.TAGS) {
             //TODO: set in panel 
-            //this.frame.setTags(tags);
+            this.fileSystemPanel.setTags(tags);
         }
         else if ( this.type == IndexItem.EXT) {
             try {
                 JPanel chartPanel = PieChartPanel.getPieChartPanel(exts, "Extension Frequency for: " + indexName);
                 //TODO:set in panel
-                //this.frame.setIndexVisualizationPanel(chartPanel);
+                this.fileSystemPanel.setIndexVisualizationPanel(chartPanel);
             } catch (IOException ex) {
                 Logger.getLogger(IndexReaderThread.class.getName()).log(Level.SEVERE, null, ex);
             }

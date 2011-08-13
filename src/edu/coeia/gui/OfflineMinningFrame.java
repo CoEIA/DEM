@@ -109,8 +109,8 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
         });
 
         // add gui panels
-        FileSystemPanel fileSystemPanel = new FileSystemPanel(this.index);
-        EmailPanel emailPanel = new EmailPanel(this.index);
+        FileSystemPanel fileSystemPanel = new FileSystemPanel(this.index, this);
+        EmailPanel emailPanel = new EmailPanel(this.index, this);
         InternetSurfingPanel internetPanel = new InternetSurfingPanel(this.index);
         ChatPanel chatPanel = new ChatPanel(this.index);
         ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.index);

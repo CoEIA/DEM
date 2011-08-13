@@ -139,11 +139,14 @@ public class EmailPanel extends javax.swing.JPanel {
     
     private JFileChooser fileChooser ;
     
+    private JFrame parentFrame ;
+    
     /** Creates new form EmailPanel */
-    public EmailPanel(Case aIndex) {
+    public EmailPanel(Case aIndex, JFrame parentFrame) {
         initComponents();
         
         this.index = aIndex;
+        this.parentFrame = parentFrame;
         
         // configure file chooser to select files (txt)
         fileChooser = new JFileChooser();
