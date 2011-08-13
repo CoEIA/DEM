@@ -10,7 +10,7 @@ package edu.coeia.gui.filesystem;
  * @author wajdyessam
  */
 
-import edu.coeia.gui.component.InfiniteProgressPanel;
+import edu.coeia.gui.utilties.InfiniteProgressPanel;
 import edu.coeia.gui.OfflineMinningFrame;
 import edu.coeia.gui.chart.PieChartPanel;
 import edu.coeia.utility.Utilities;

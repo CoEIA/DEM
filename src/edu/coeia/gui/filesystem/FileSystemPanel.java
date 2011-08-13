@@ -1,7 +1,7 @@
 
 package edu.coeia.gui.filesystem;
 
-import edu.coeia.gui.component.GUIComponent ;
+import edu.coeia.gui.utilties.GUIComponent ;
 
 import edu.coeia.internet.IEHandler;
 import edu.coeia.internet.MozillaHandler;
@@ -92,9 +92,9 @@ import java.net.URI ;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
-import edu.coeia.gui.component.InfiniteProgressPanel;
-import edu.coeia.gui.component.WrapLayout;
-import edu.coeia.gui.component.IndexGUIComponent;
+import edu.coeia.gui.utilties.InfiniteProgressPanel;
+import edu.coeia.gui.utilties.WrapLayout;
+import edu.coeia.gui.utilties.IndexGUIComponent;
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -115,6 +115,7 @@ public class FileSystemPanel extends javax.swing.JPanel {
 
     private JWebBrowser fileBrowser = new JWebBrowser();
     private Logger logger = Logger.getLogger(this.getClass().getName());
+    
     private Case index;
     private List<String> imagesPath ;
     private JFileChooser fileChooser ;
@@ -123,9 +124,11 @@ public class FileSystemPanel extends javax.swing.JPanel {
     private boolean startIndexButtonFlag = true ;
     
     /** Creates new form FileSystemPanel */
-    public FileSystemPanel() {
+    public FileSystemPanel(Case aIndex) {
         initComponents();
                 
+        this.index = aIndex;
+        
         // configure file chooser to select files (txt)
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -149,7 +152,11 @@ public class FileSystemPanel extends javax.swing.JPanel {
         if ( index.getIndexStatus() ) {
             indexDateLbl.setText(index.getLastIndexDate());
             timeLbl.setText(index.getIndexingTime());
-        }        
+        }    
+        
+        Utilities.setTableAlignmentValue(cloudsTable, 1);
+        Utilities.packColumns(searchTable, 0);
+        disableNotIndexedComponent();
     }
 
     /** This method is called from within the constructor to
@@ -1652,6 +1659,18 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
         table.setComponentPopupMenu(popup);
     }
 
+    private void disableNotIndexedComponent () {
+        if ( index.getDocumentInIndex().isEmpty() ) {
+            startIndexButton.setEnabled(false);
+            tagSelectButton.setEnabled(false);
+            indexVisulizingButton.setEnabled(false);
+            startSearchingButton.setEnabled(false);
+            clearFieldsButton.setEnabled(false);
+            keywordsListButton.setEnabled(false);
+            cloudsTable.setEnabled(false);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FileMetaDataPanel;
     private javax.swing.JPanel IndexFileSystemPanel;

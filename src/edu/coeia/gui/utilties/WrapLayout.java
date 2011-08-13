@@ -1,4 +1,4 @@
-package edu.coeia.gui.component;
+package edu.coeia.gui.utilties;
 
 /*
  * To change this template, choose Tools | Templates

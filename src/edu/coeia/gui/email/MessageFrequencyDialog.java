@@ -24,7 +24,7 @@ import edu.coeia.utility.Message ;
 
 import com.pff.PSTFile ;
 
-import edu.coeia.gui.component.InfiniteProgressPanel;
+import edu.coeia.gui.utilties.InfiniteProgressPanel;
 import java.util.ArrayList ;
 import javax.swing.JPanel;
 

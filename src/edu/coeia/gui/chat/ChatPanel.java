@@ -1,7 +1,7 @@
 
 package edu.coeia.gui.chat;
 
-import edu.coeia.gui.component.GUIComponent ;
+import edu.coeia.gui.utilties.GUIComponent ;
 
 
 import edu.coeia.internet.IEHandler;
@@ -124,8 +124,10 @@ public class ChatPanel extends javax.swing.JPanel {
     private JFileChooser fileChooser ;
     
     /** Creates new form ChatPanel */
-    public ChatPanel() {
+    public ChatPanel(Case aIndex) {
         initComponents();
+        
+        this.index = aIndex;
         
         // configure file chooser to select files (txt)
         fileChooser = new JFileChooser();
@@ -151,6 +153,8 @@ public class ChatPanel extends javax.swing.JPanel {
         msnChat.setBarsVisible(false);
         msnChat.setStatusBarVisible(false);
         msnChatContentPanel.add(msnChat, BorderLayout.CENTER);        
+        
+        disableNotIndexedComponent();
     }
 
     /** This method is called from within the constructor to
@@ -779,6 +783,36 @@ private void loadSkypeButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
     }
 
 
+    private void disableNotIndexedComponent () {
+        // close chat panels
+        if (index.getMsnPath().isEmpty()) {
+            WindowsLivePanel.setEnabled(false);
+            msnComboBox.setEnabled(false);
+            msnChat.setEnabled(false);
+            msnChatContentPanel.setEnabled(false);
+            msnChatTree.setEnabled(false);
+            loadMSNButton.setEnabled(false);
+        }
+
+        if ( index.getYahooPath().isEmpty()) {
+            yahooChatContentPanel.setEnabled(false);
+            yahooChat.setEnabled(false);
+            yahooChatTree.setEnabled(false);
+            yahooComboBox.setEnabled(false);
+            yahooMessangerPanel.setEnabled(false);
+            loadYahooButton.setEnabled(false);
+        }
+
+        if (index.getSkypePath().isEmpty() ) {
+            skypePanel.setEnabled(false);
+            loadSkypeButton.setEnabled(false);
+            skypeComboBox.setEnabled(false);
+            skypeChatTree.setEnabled(false);
+            skypeChatContentPanel.setEnabled(false);
+            skypeTable.setEnabled(false);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel WindowsLivePanel;
     private javax.swing.JTabbedPane chatPanelTappedPane;

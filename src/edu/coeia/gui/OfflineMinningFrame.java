@@ -1,20 +1,21 @@
 
 package edu.coeia.gui;
 
-import edu.coeia.utility.Utilities;
-import edu.coeia.utility.FilesFilter ;
-
 import edu.coeia.cases.Case;
+import edu.coeia.utility.Utilities;
+import edu.coeia.gui.utilties.GuiUtil ;
+import edu.coeia.gui.chat.ChatPanel;
+import edu.coeia.gui.email.EmailPanel;
+import edu.coeia.gui.filesystem.FileSystemPanel;
+import edu.coeia.gui.images.ImagesViewerPanel;
+import edu.coeia.gui.internet.InternetSurfingPanel;
 
-import java.awt.CardLayout ;
 import java.awt.Toolkit ;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JFileChooser ;
-import javax.swing.JOptionPane ;
-import javax.swing.JPanel ;
 import javax.swing.JFrame ;
+import javax.swing.JOptionPane;
 
 import java.io.IOException ;
 
@@ -34,10 +35,7 @@ import java.util.logging.Logger;
  * 
  */
 
-
 public class OfflineMinningFrame extends javax.swing.JFrame {
-    private JFileChooser fileChooser ;
-    
     private JFrame mainFrame ;
     private Case index ;
     
@@ -48,11 +46,18 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
     private FileHandler handler ;
-
-    /** Creates new form OfflineMinningFrame */
-    public OfflineMinningFrame(Case AIndex, boolean state, String title, List<String> list) {
+    
+    /** Creates new form OfflineMinningFrame 
+     * 
+     * @param AIndex case opened in CaseManager
+     * @param list a list of all openings case
+     */
+    public OfflineMinningFrame(Case AIndex, List<String> list) {
         initComponents();
 
+        /**
+         * Set Application Logging (Console and File)
+         */
         try {
             handler = new FileHandler("GUI.log");
             logger.addHandler(handler);
@@ -60,22 +65,25 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
         }
         catch (Exception e ) { logger.log(Level.SEVERE, "Uncaught exception", e);}
         
+        /*
+         * set frame resizable and set frame title
+         */
         Toolkit kit = Toolkit.getDefaultToolkit();
-        this.setIconImage(kit.getImage(this.getClass().getResource("resources/dem-icon.png")));
-
-
         this.applicationTitle = "File System Search Window";
-        this.listOfOpeningCase = list;
-        
-        // set frame resizable and set frame title
+        this.setIconImage(kit.getImage(this.getClass().getResource("resources/dem-icon.png")));
         this.setTitle(APPLICATION_NAME + applicationTitle);
         this.setResizable(true);
-
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
+        /*
+         * initializing class
+         */
         this.index = AIndex ;
+        this.listOfOpeningCase = list;
         
-        // add close event
+        /**
+         * Remove Case Name From the list when Frame Closed
+         */
         this.addWindowListener( new WindowAdapter() {
             @Override
             public void windowClosed (WindowEvent event){
@@ -101,34 +109,19 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
                 }
             }
         });
+
+        // add gui panels
+        FileSystemPanel fileSystemPanel = new FileSystemPanel(this.index);
+        EmailPanel emailPanel = new EmailPanel(this.index);
+        InternetSurfingPanel internetPanel = new InternetSurfingPanel(this.index);
+        ChatPanel chatPanel = new ChatPanel(this.index);
+        ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.index);
         
-        // configure file chooser to select files (txt)
-        fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new FilesFilter("Text Files (*.txt)", "txt"));
-        
-        // add document listsner for searching fields
-
-//
-//        // center integer values in tables
-//        Utilities.setTableAlignmentValue(cloudsTable, 1);
-//        Utilities.setTableAlignmentValue(inboxTable, 2);
-//        Utilities.setTableAlignmentValue(sentItemTable, 2);
-//        Utilities.setTableAlignmentValue(espTable, 1);
-//        Utilities.setTableAlignmentValue(locationTable, 1);
-//        Utilities.setTableAlignmentValue(summaryTable, 1);
-//        
-//
-//        // craete image path list
-//        imagesPath = new ArrayList<String>();
-//
-//        // wide the data in search table
-//        Utilities.packColumns(searchTable, 0);
-//
-//        // diseable every component that will not indexing
-//        disableNotIndexedComponent();
-
-
+        this.CardPanel.add(fileSystemPanel, "fileSystemCard");
+        this.CardPanel.add(emailPanel, "emailCard");
+        this.CardPanel.add(internetPanel, "internetSurfingCard");
+        this.CardPanel.add(chatPanel, "chatCard");
+        this.CardPanel.add(imgPanel, "imagesViewerCard");
     }
     
     /** This method is called from within the constructor to
@@ -354,175 +347,29 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     private void fileSystemToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemToggleButtonActionPerformed
-        showPanel("fileSystemCard",CardPanel);
+        GuiUtil.showPanel("fileSystemCard",CardPanel);
         this.setTitle(APPLICATION_NAME + "File System Search Window");
     }//GEN-LAST:event_fileSystemToggleButtonActionPerformed
 
     private void emailToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailToggleButtonActionPerformed
-       showPanel("emailCard",CardPanel);
+       GuiUtil.showPanel("emailCard",CardPanel);
        this.setTitle(APPLICATION_NAME + "Email Search Window");
     }//GEN-LAST:event_emailToggleButtonActionPerformed
 
     private void internetSurfingToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_internetSurfingToggleButtonActionPerformed
-       showPanel("internetSurfingCard",CardPanel);
+       GuiUtil.showPanel("internetSurfingCard",CardPanel);
        this.setTitle(APPLICATION_NAME + "Internet Surfing Search Window");
     }//GEN-LAST:event_internetSurfingToggleButtonActionPerformed
 
     private void chatToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatToggleButtonActionPerformed
-        showPanel("chatCard",CardPanel);
+        GuiUtil.showPanel("chatCard",CardPanel);
         this.setTitle(APPLICATION_NAME + "Instance Chat Search Window");
     }//GEN-LAST:event_chatToggleButtonActionPerformed
 
     private void imageViewerToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageViewerToggleButtonActionPerformed
-         showPanel("imagesViewerCard", CardPanel);
+         GuiUtil.showPanel("imagesViewerCard", CardPanel);
          this.setTitle(APPLICATION_NAME + "Image Viewer Window");
     }//GEN-LAST:event_imageViewerToggleButtonActionPerformed
-
-//    private void showPopup (java.awt.event.MouseEvent event) {
-//        final JTable table = (JTable) event.getSource();
-//        JPopupMenu popup = new JPopupMenu();
-//        JButton btn = new JButton("Export to CSV File");
-//        
-//        btn.addActionListener( new java.awt.event.ActionListener() {
-//            public void actionPerformed (java.awt.event.ActionEvent event) {
-//                try {
-//                    FilesFilter ffFilter = new FilesFilter("Comma Seperated Value","CSV");
-//                    fileChooser.setFileFilter(ffFilter);
-//
-//                    int result = fileChooser.showSaveDialog(OfflineMinningFrame.this);
-//
-//                    if ( result == JFileChooser.APPROVE_OPTION) {
-//                        String name = fileChooser.getSelectedFile().getAbsolutePath();
-//                        Utilities.exportJTable(table,name);
-//                    }
-//                }
-//                catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//
-//        popup.add(btn);
-//        table.setComponentPopupMenu(popup);
-//    }
-
-    // show panel function
-    public void showPanel (String panelName, JPanel name) {
-        CardLayout card = (CardLayout) name.getLayout();
-        card.show(name, panelName);
-    }
-
-
-
-//    private void disableNotIndexedComponent () {
-//        // close email if there is no pst file
-//        if ( index.getPstPath().isEmpty() ) {
-//            emailPanel.setEnabled(false);
-//            loadPstButton.setEnabled(false);
-//            //clusteringButton.setEnabled(false);
-//            emailSearchButton.setEnabled(false);
-//            outlookComboBox.setEnabled(false);
-//            emailSearchButton.setEnabled(false);
-//            emailVisualizationButton.setEnabled(false);
-//            inboxTable.setEnabled(false);
-//            sentItemTable.setEnabled(false);
-//            espTable.setEnabled(false);
-//            locationTable.setEnabled(false);
-//            correlationComboBox.setEnabled(false);
-//            fromDatePanel.getComponent(0).setEnabled(false);
-//            toDatePanel.getComponent(0).setEnabled(false);
-//        }
-//
-//        // close web browers data
-//        if ( index.getFFPath().isEmpty() ) {
-//            mozillaPanel.setEnabled(false);
-//            ffComboBox.setEnabled(false);
-//            loadFFButton.setEnabled(false);
-//            mozillaSearchField.setEnabled(false);
-//            mozillaFilterComboBox.setEnabled(false);
-//            webHistoryButton.setEnabled(false);
-//            bookmarButton.setEnabled(false);
-//            cookiesButton.setEnabled(false);
-//            downloadButton.setEnabled(false);
-//            logginsButton.setEnabled(false);
-//            webHistoryTable.setEnabled(false);
-//            ffSummaryButtton.setEnabled(false);
-//            ffViewHTMLReportButton.setEnabled(false);
-//            ffVisualizingVisitedHostButton.setEnabled(false);
-//            bookmarkTable.setEnabled(false);
-//            cookiesTable.setEnabled(false);
-//            downloadTable.setEnabled(false);
-//            logginsTable.setEnabled(false);
-//        }
-//
-//        if ( index.getIePath().isEmpty() ) {
-//            IEPanel.setEnabled(false);
-//            ieComboBox.setEnabled(false);
-//            loadIEButton.setEnabled(false);
-//            IESearchField.setEnabled(false);
-//            IEFilterComboBox.setEnabled(false);
-//            webHistoryButton1.setEnabled(false);
-//            bookmarButton1.setEnabled(false);
-//            cookiesButton1.setEnabled(false);
-//            cacheButton.setEnabled(false);
-//            logginsButton1.setEnabled(false);
-//            IEWebHistoryTable.setEnabled(false);
-//            IEBookmarkTable.setEnabled(false);
-//            IECookiesTable.setEnabled(false);
-//            IECacheTable.setEnabled(false);
-//            IELogginsTable.setEnabled(false);
-//        }
-//
-//        if ( index.getFFPath().isEmpty() && index.getIePath().isEmpty() ) {
-//            summaryInternetPanel.setEnabled(false);
-//            summaryInternetButton.setEnabled(false);
-//            summaryTable.setEnabled(false);
-//        }
-//
-//        // close chat panels
-//        if (index.getMsnPath().isEmpty()) {
-//            WindowsLivePanel.setEnabled(false);
-//            msnComboBox.setEnabled(false);
-//            msnChat.setEnabled(false);
-//            msnChatContentPanel.setEnabled(false);
-//            msnChatTree.setEnabled(false);
-//            loadMSNButton.setEnabled(false);
-//        }
-//
-//        if ( index.getYahooPath().isEmpty()) {
-//            yahooChatContentPanel.setEnabled(false);
-//            yahooChat.setEnabled(false);
-//            yahooChatTree.setEnabled(false);
-//            yahooComboBox.setEnabled(false);
-//            yahooMessangerPanel.setEnabled(false);
-//            loadYahooButton.setEnabled(false);
-//        }
-//
-//        if (index.getSkypePath().isEmpty() ) {
-//            skypePanel.setEnabled(false);
-//            loadSkypeButton.setEnabled(false);
-//            skypeComboBox.setEnabled(false);
-//            skypeChatTree.setEnabled(false);
-//            skypeChatContentPanel.setEnabled(false);
-//            skypeTable.setEnabled(false);
-//        }
-//
-//        if (index.getCacheImages() == false ) {
-//            showImagesButton.setEnabled(false);
-//            nextPageButton.setEnabled(false);
-//            prePageButton.setEnabled(false);
-//        }
-//
-//        if ( index.getDocumentInIndex().isEmpty() ) {
-//            startIndexButton.setEnabled(false);
-//            tagSelectButton.setEnabled(false);
-//            indexVisulizingButton.setEnabled(false);
-//            startSearchingButton.setEnabled(false);
-//            clearFieldsButton.setEnabled(false);
-//            keywordsListButton.setEnabled(false);
-//            cloudsTable.setEnabled(false);
-//        }
-//    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CardPanel;

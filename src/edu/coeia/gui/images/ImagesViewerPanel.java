@@ -59,8 +59,10 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     
     /** Creates new form ImagesViewerPanel */
-    public ImagesViewerPanel() {
+    public ImagesViewerPanel(Case aIndex) {
         initComponents();
+        this.index = aIndex;
+        disableNotIndexedComponent();
     }
 
     /** This method is called from within the constructor to
@@ -479,6 +481,14 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         }
 }//GEN-LAST:event_prePageButtonActionPerformed
 
+    private void disableNotIndexedComponent () {
+        if (index.getCacheImages() == false ) {
+            showImagesButton.setEnabled(false);
+            nextPageButton.setEnabled(false);
+            prePageButton.setEnabled(false);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ImageControlPanel;
     private javax.swing.JPanel ImageDisplayPanel;

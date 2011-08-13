@@ -12,7 +12,7 @@ package edu.coeia.gui.filesystem;
 
 import edu.coeia.index.Indexer;
 import edu.coeia.utility.Utilities;
-import edu.coeia.gui.component.IndexGUIComponent ;
+import edu.coeia.gui.utilties.IndexGUIComponent ;
 import edu.coeia.cases.Case;
 
 import javax.swing.SwingWorker ;

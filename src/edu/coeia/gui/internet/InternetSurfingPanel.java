@@ -6,7 +6,7 @@
 
 package edu.coeia.gui.internet;
 
-import edu.coeia.gui.component.GUIComponent ;
+import edu.coeia.gui.utilties.GUIComponent ;
 
 
 import edu.coeia.internet.IEHandler;
@@ -121,9 +121,10 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     private JFrame mainFrame ;        
     
     /** Creates new form InternetSurfingPanel */
-    public InternetSurfingPanel() {
+    public InternetSurfingPanel(Case aIndex) {
         initComponents();
         
+        this.index = aIndex;
         // configure file chooser to select files (txt)
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -138,7 +139,11 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
             ffComboBox.addItem(ffPath);
 
         for (String iePath: index.getIePath())
-            ieComboBox.addItem(iePath);        
+            ieComboBox.addItem(iePath);      
+        
+        disableNotIndexedComponent();
+                
+        Utilities.setTableAlignmentValue(summaryTable, 1);
     }
 
     /** This method is called from within the constructor to
@@ -172,19 +177,19 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         mozillaResultPanel = new javax.swing.JPanel();
         webHistoryPanel = new javax.swing.JPanel();
         webHistoryScrollPane = new javax.swing.JScrollPane();
-        webHistoryTable = new edu.coeia.gui.component.TableWithToolTip();
+        webHistoryTable = new edu.coeia.gui.utilties.TableWithToolTip();
         bookmarkHistory = new javax.swing.JPanel();
         bookmarkScrollPane = new javax.swing.JScrollPane();
-        bookmarkTable = new edu.coeia.gui.component.TableWithToolTip();
+        bookmarkTable = new edu.coeia.gui.utilties.TableWithToolTip();
         cookiesPanel = new javax.swing.JPanel();
         cookiesScrollPane = new javax.swing.JScrollPane();
-        cookiesTable = new edu.coeia.gui.component.TableWithToolTip();
+        cookiesTable = new edu.coeia.gui.utilties.TableWithToolTip();
         downloadPanel = new javax.swing.JPanel();
         downloadScrollPane = new javax.swing.JScrollPane();
-        downloadTable = new edu.coeia.gui.component.TableWithToolTip();
+        downloadTable = new edu.coeia.gui.utilties.TableWithToolTip();
         logginsPanel = new javax.swing.JPanel();
         logginsScrollPane = new javax.swing.JScrollPane();
-        logginsTable = new edu.coeia.gui.component.TableWithToolTip();
+        logginsTable = new edu.coeia.gui.utilties.TableWithToolTip();
         ffSummaryPanel = new javax.swing.JPanel();
         ffSummaryDataPanel = new javax.swing.JPanel();
         ffSumarryTappnedPane = new javax.swing.JTabbedPane();
@@ -225,19 +230,19 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         IEResultPanel = new javax.swing.JPanel();
         IEWebHistoryPanel = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        IEWebHistoryTable = new edu.coeia.gui.component.TableWithToolTip();
+        IEWebHistoryTable = new edu.coeia.gui.utilties.TableWithToolTip();
         IEBookmarkPanel = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        IEBookmarkTable = new edu.coeia.gui.component.TableWithToolTip();
+        IEBookmarkTable = new edu.coeia.gui.utilties.TableWithToolTip();
         IECookiesPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        IECookiesTable = new edu.coeia.gui.component.TableWithToolTip();
+        IECookiesTable = new edu.coeia.gui.utilties.TableWithToolTip();
         IECachePanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        IECacheTable = new edu.coeia.gui.component.TableWithToolTip();
+        IECacheTable = new edu.coeia.gui.utilties.TableWithToolTip();
         IELogginsPanel = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        IELogginsTable = new edu.coeia.gui.component.TableWithToolTip();
+        IELogginsTable = new edu.coeia.gui.utilties.TableWithToolTip();
         jPanel13 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         ieComboBox = new javax.swing.JComboBox();
@@ -2516,6 +2521,54 @@ private void loadIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         table.setComponentPopupMenu(popup);
     }
 
+    private void disableNotIndexedComponent () {
+        // close web browers data
+        if ( index.getFFPath().isEmpty() ) {
+            mozillaPanel.setEnabled(false);
+            ffComboBox.setEnabled(false);
+            loadFFButton.setEnabled(false);
+            mozillaSearchField.setEnabled(false);
+            mozillaFilterComboBox.setEnabled(false);
+            webHistoryButton.setEnabled(false);
+            bookmarButton.setEnabled(false);
+            cookiesButton.setEnabled(false);
+            downloadButton.setEnabled(false);
+            logginsButton.setEnabled(false);
+            webHistoryTable.setEnabled(false);
+            ffSummaryButtton.setEnabled(false);
+            ffViewHTMLReportButton.setEnabled(false);
+            ffVisualizingVisitedHostButton.setEnabled(false);
+            bookmarkTable.setEnabled(false);
+            cookiesTable.setEnabled(false);
+            downloadTable.setEnabled(false);
+            logginsTable.setEnabled(false);
+        }
+
+        if ( index.getIePath().isEmpty() ) {
+            IEPanel.setEnabled(false);
+            ieComboBox.setEnabled(false);
+            loadIEButton.setEnabled(false);
+            IESearchField.setEnabled(false);
+            IEFilterComboBox.setEnabled(false);
+            webHistoryButton1.setEnabled(false);
+            bookmarButton1.setEnabled(false);
+            cookiesButton1.setEnabled(false);
+            cacheButton.setEnabled(false);
+            logginsButton1.setEnabled(false);
+            IEWebHistoryTable.setEnabled(false);
+            IEBookmarkTable.setEnabled(false);
+            IECookiesTable.setEnabled(false);
+            IECacheTable.setEnabled(false);
+            IELogginsTable.setEnabled(false);
+        }
+
+        if ( index.getFFPath().isEmpty() && index.getIePath().isEmpty() ) {
+            summaryInternetPanel.setEnabled(false);
+            summaryInternetButton.setEnabled(false);
+            summaryTable.setEnabled(false);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel IEBookmarkPanel;
     private javax.swing.JTable IEBookmarkTable;

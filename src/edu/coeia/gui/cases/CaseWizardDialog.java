@@ -22,7 +22,7 @@ import edu.coeia.detector.RegistryDetector;
 import edu.coeia.detector.UsersDetector;
 import edu.coeia.detector.YahooDetector ;
         
-import edu.coeia.gui.component.InfiniteProgressPanel;
+import edu.coeia.gui.utilties.InfiniteProgressPanel;
 import edu.coeia.gui.SmartCardDialog;
 import javax.swing.JPanel;
 import javax.swing.JList;

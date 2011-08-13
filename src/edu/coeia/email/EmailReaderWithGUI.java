@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException ;
 import java.util.Collections;
 
-import edu.coeia.gui.component.InfiniteProgressPanel ;
+import edu.coeia.gui.utilties.InfiniteProgressPanel ;
 
 public class EmailReaderWithGUI {
 

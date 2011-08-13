@@ -12,7 +12,7 @@ package edu.coeia.gui.email;
 
 import com.pff.PSTFile;
 import edu.coeia.email.EmailHandler;
-import edu.coeia.gui.component.InfiniteProgressPanel;
+import edu.coeia.gui.utilties.InfiniteProgressPanel;
 import edu.coeia.gui.chart.LineChartPanel;
 import edu.coeia.utility.Message;
 import java.io.IOException;

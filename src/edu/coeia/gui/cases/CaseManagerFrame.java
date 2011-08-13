@@ -486,8 +486,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
                 caseManager.addCase(caseName);
 
-                OfflineMinningFrame mainFrame = new OfflineMinningFrame(index,false, index.getIndexName() + " Case",
-                        caseManager.getList());
+                OfflineMinningFrame mainFrame = new OfflineMinningFrame(index, caseManager.getList());
                 mainFrame.setVisible(true);
             }
             else {

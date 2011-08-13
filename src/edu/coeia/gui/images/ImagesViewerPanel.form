@@ -16,12 +16,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="738" max="32767" attributes="0"/>
+          <EmptySpace min="0" pref="1216" max="32767" attributes="0"/>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="ImageDisplayPanel" alignment="0" pref="718" max="32767" attributes="0"/>
+                      <Component id="ImageDisplayPanel" alignment="0" pref="1196" max="32767" attributes="0"/>
                       <Component id="ImageControlPanel" alignment="0" max="32767" attributes="0"/>
                       <Component id="ImageStatusPanel" alignment="0" max="32767" attributes="0"/>
                   </Group>
@@ -168,7 +168,7 @@
                           <Component id="geoTagLbl" max="32767" attributes="3"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="18" max="32767" attributes="0"/>
+                  <EmptySpace pref="496" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

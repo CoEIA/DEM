@@ -12,7 +12,7 @@ package edu.coeia.gui.filesystem;
 
 import edu.coeia.search.Searcher ;
 import edu.coeia.utility.Utilities;
-import edu.coeia.gui.component.GUIComponent;
+import edu.coeia.gui.utilties.GUIComponent;
 import edu.coeia.utility.Tuple;
 
 import javax.swing.SwingWorker ;

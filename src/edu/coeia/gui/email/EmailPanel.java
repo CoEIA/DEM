@@ -1,7 +1,7 @@
 
 package edu.coeia.gui.email;
 
-import edu.coeia.gui.component.GUIComponent ;
+import edu.coeia.gui.utilties.GUIComponent ;
 
 
 import edu.coeia.internet.IEHandler;
@@ -109,7 +109,7 @@ import org.mcavallo.opencloud.Tag ;
 
 import com.toedter.calendar.JDateChooser;
 
-import edu.coeia.gui.component.InfiniteProgressPanel;
+import edu.coeia.gui.utilties.InfiniteProgressPanel;
 import java.awt.event.InputEvent;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -140,8 +140,10 @@ public class EmailPanel extends javax.swing.JPanel {
     private JFileChooser fileChooser ;
     
     /** Creates new form EmailPanel */
-    public EmailPanel() {
+    public EmailPanel(Case aIndex) {
         initComponents();
+        
+        this.index = aIndex;
         
         // configure file chooser to select files (txt)
         fileChooser = new JFileChooser();
@@ -161,7 +163,14 @@ public class EmailPanel extends javax.swing.JPanel {
         
         // set outlook data to outlook combobox
         for (String pstPath: index.getPstPath())
-            outlookComboBox.addItem( pstPath );        
+            outlookComboBox.addItem( pstPath );      
+        
+        disableNotIndexedComponent();
+        Utilities.setTableAlignmentValue(inboxTable, 2);
+        Utilities.setTableAlignmentValue(sentItemTable, 2);
+        Utilities.setTableAlignmentValue(espTable, 1);
+        Utilities.setTableAlignmentValue(locationTable, 1);
+
     }
 
     /** This method is called from within the constructor to
@@ -1180,6 +1189,26 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
         popup.add(btn);
         table.setComponentPopupMenu(popup);
     }    
+    
+    private void disableNotIndexedComponent () {
+        // close email if there is no pst file
+        if ( index.getPstPath().isEmpty() ) {
+           // emailPanel.setEnabled(false);
+            loadPstButton.setEnabled(false);
+            //clusteringButton.setEnabled(false);
+            emailSearchButton.setEnabled(false);
+            outlookComboBox.setEnabled(false);
+            emailSearchButton.setEnabled(false);
+            emailVisualizationButton.setEnabled(false);
+            inboxTable.setEnabled(false);
+            sentItemTable.setEnabled(false);
+            espTable.setEnabled(false);
+            locationTable.setEnabled(false);
+            correlationComboBox.setEnabled(false);
+            fromDatePanel.getComponent(0).setEnabled(false);
+            toDatePanel.getComponent(0).setEnabled(false);
+        }
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel HTMLRenderPanel;
