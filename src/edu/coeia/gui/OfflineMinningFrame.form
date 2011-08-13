@@ -2,8 +2,6 @@
 
 <Form version="1.6" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="indexGroupButton">
-    </Component>
     <Component class="javax.swing.ButtonGroup" name="headerGroupButton">
     </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">

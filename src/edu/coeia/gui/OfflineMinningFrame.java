@@ -131,7 +131,6 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        indexGroupButton = new javax.swing.ButtonGroup();
         headerGroupButton = new javax.swing.ButtonGroup();
         jToolBar1 = new javax.swing.JToolBar();
         fileSystemToggleButton = new javax.swing.JToggleButton();
@@ -159,7 +158,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
 
         headerGroupButton.add(fileSystemToggleButton);
-        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         fileSystemToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/search.png"))); // NOI18N
         fileSystemToggleButton.setText("File System Search");
         fileSystemToggleButton.setFocusable(false);
@@ -381,7 +380,6 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup headerGroupButton;
     private javax.swing.JMenuItem helpMenuItem;
     private javax.swing.JToggleButton imageViewerToggleButton;
-    private javax.swing.ButtonGroup indexGroupButton;
     private javax.swing.JToggleButton internetSurfingToggleButton;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;

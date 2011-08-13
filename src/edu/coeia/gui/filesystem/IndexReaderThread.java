@@ -11,7 +11,6 @@ package edu.coeia.gui.filesystem;
  */
 
 import edu.coeia.gui.utilties.InfiniteProgressPanel;
-import edu.coeia.gui.OfflineMinningFrame;
 import edu.coeia.gui.chart.PieChartPanel;
 import edu.coeia.utility.Utilities;
 

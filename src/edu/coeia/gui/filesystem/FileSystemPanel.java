@@ -109,6 +109,7 @@ public class FileSystemPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        indexGroupButton = new javax.swing.ButtonGroup();
         fileSystemTappedPane = new javax.swing.JTabbedPane();
         IndexFileSystemPanel = new javax.swing.JPanel();
         indexFileSystemButtonsPanel = new javax.swing.JPanel();
@@ -210,7 +211,8 @@ public class FileSystemPanel extends javax.swing.JPanel {
         jToolBar4.setFloatable(false);
         jToolBar4.setRollover(true);
 
-        indexFilesToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        indexGroupButton.add(indexFilesToggleButton);
+        indexFilesToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         indexFilesToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/help_index.png"))); // NOI18N
         indexFilesToggleButton.setText("Index File System");
         indexFilesToggleButton.setFocusable(false);
@@ -223,7 +225,8 @@ public class FileSystemPanel extends javax.swing.JPanel {
         });
         jToolBar4.add(indexFilesToggleButton);
 
-        textCloudsToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        indexGroupButton.add(textCloudsToggleButton);
+        textCloudsToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         textCloudsToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/old-edit-find.png"))); // NOI18N
         textCloudsToggleButton.setText("Index Tags Cloud");
         textCloudsToggleButton.setFocusable(false);
@@ -236,7 +239,8 @@ public class FileSystemPanel extends javax.swing.JPanel {
         });
         jToolBar4.add(textCloudsToggleButton);
 
-        indexVisualizationToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        indexGroupButton.add(indexVisualizationToggleButton);
+        indexVisualizationToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         indexVisualizationToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/pie_chart.png"))); // NOI18N
         indexVisualizationToggleButton.setText("Index Visualization");
         indexVisualizationToggleButton.setFocusable(false);
@@ -269,7 +273,7 @@ public class FileSystemPanel extends javax.swing.JPanel {
         jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel23.setText("Current File:");
 
-        currentFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        currentFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         currentFileLbl.setForeground(new java.awt.Color(0, 0, 255));
         currentFileLbl.setText(" ");
 
@@ -1572,6 +1576,7 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
     private javax.swing.JLabel indexDirLbl2;
     private javax.swing.JPanel indexFileSystemButtonsPanel;
     private javax.swing.JToggleButton indexFilesToggleButton;
+    private javax.swing.ButtonGroup indexGroupButton;
     private javax.swing.JPanel indexPanel;
     private javax.swing.JTable indexTable;
     private javax.swing.JToggleButton indexVisualizationToggleButton;

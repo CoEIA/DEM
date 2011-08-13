@@ -4,8 +4,6 @@
  */
 package edu.coeia.gui.utilties;
 
-
-
 import edu.coeia.utility.Utilities;
 import edu.coeia.utility.FilesFilter ;
 
@@ -33,7 +31,7 @@ public class GuiUtil {
         CardLayout card = (CardLayout) name.getLayout();
         card.show(name, panelName);
     }
-        
+    
     // filer table, ignore case (case insensitive)
     public static void filterTable (JTable table, String text) {
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());

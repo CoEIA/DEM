@@ -17,16 +17,16 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="internetSurfingTappedPane" min="-2" pref="649" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="internetSurfingTappedPane" pref="822" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="internetSurfingTappedPane" min="-2" pref="567" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="internetSurfingTappedPane" pref="617" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -64,8 +64,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel18" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel21" min="-2" pref="432" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jPanel21" pref="479" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -86,7 +86,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="78" max="32767" attributes="0"/>
+                          <EmptySpace pref="251" max="32767" attributes="0"/>
                           <Component id="summaryInternetButton" min="-2" pref="196" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="334" max="-2" attributes="0"/>
                       </Group>
@@ -135,11 +135,11 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jScrollPane11" alignment="0" pref="588" max="32767" attributes="0"/>
+                              <Component id="jScrollPane11" alignment="0" pref="761" max="32767" attributes="0"/>
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jLabel30" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="summaryTextField" pref="512" max="32767" attributes="0"/>
+                                  <Component id="summaryTextField" pref="685" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -149,8 +149,8 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jScrollPane11" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="156" max="-2" attributes="0"/>
+                          <Component id="jScrollPane11" min="-2" pref="441" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel30" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="summaryTextField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -225,7 +225,7 @@
                               <Component id="mozillaButtonsPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="mozillaResultPanel" alignment="0" pref="545" max="32767" attributes="1"/>
+                                  <Component id="mozillaResultPanel" alignment="0" pref="633" max="32767" attributes="1"/>
                                   <Component id="mozillaSearchPanel" alignment="0" max="32767" attributes="1"/>
                               </Group>
                           </Group>
@@ -245,7 +245,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="mozillaSearchPanel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="mozillaResultPanel" pref="347" max="32767" attributes="0"/>
+                              <Component id="mozillaResultPanel" pref="397" max="32767" attributes="0"/>
                           </Group>
                           <Component id="mozillaButtonsPanel" alignment="1" max="32767" attributes="0"/>
                       </Group>
@@ -277,7 +277,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jToolBar2" alignment="0" pref="415" max="32767" attributes="0"/>
+                      <Component id="jToolBar2" alignment="0" pref="465" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -393,7 +393,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="webHistoryScrollPane" pref="509" max="32767" attributes="0"/>
+                              <Component id="webHistoryScrollPane" pref="597" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -401,7 +401,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="webHistoryScrollPane" pref="306" max="32767" attributes="0"/>
+                              <Component id="webHistoryScrollPane" pref="356" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -451,7 +451,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="bookmarkScrollPane" pref="509" max="32767" attributes="0"/>
+                              <Component id="bookmarkScrollPane" pref="597" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -459,7 +459,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="bookmarkScrollPane" pref="306" max="32767" attributes="0"/>
+                              <Component id="bookmarkScrollPane" pref="356" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -509,7 +509,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cookiesScrollPane" pref="509" max="32767" attributes="0"/>
+                              <Component id="cookiesScrollPane" pref="597" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -517,7 +517,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="cookiesScrollPane" pref="306" max="32767" attributes="0"/>
+                              <Component id="cookiesScrollPane" pref="356" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -567,7 +567,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="downloadScrollPane" pref="509" max="32767" attributes="0"/>
+                              <Component id="downloadScrollPane" pref="597" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -575,7 +575,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="downloadScrollPane" pref="306" max="32767" attributes="0"/>
+                              <Component id="downloadScrollPane" pref="356" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -628,7 +628,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="logginsScrollPane" pref="509" max="32767" attributes="0"/>
+                              <Component id="logginsScrollPane" pref="597" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -636,7 +636,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="logginsScrollPane" pref="306" max="32767" attributes="0"/>
+                              <Component id="logginsScrollPane" pref="356" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -708,12 +708,12 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="ffSumarryTappnedPane" alignment="0" pref="525" max="32767" attributes="0"/>
+                              <Component id="ffSumarryTappnedPane" alignment="0" pref="613" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="ffSumarryTappnedPane" alignment="0" pref="246" max="32767" attributes="0"/>
+                              <Component id="ffSumarryTappnedPane" alignment="0" pref="296" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
@@ -734,12 +734,12 @@
                               <Layout>
                                 <DimensionLayout dim="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane24" alignment="0" pref="520" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane24" alignment="0" pref="608" max="32767" attributes="0"/>
                                   </Group>
                                 </DimensionLayout>
                                 <DimensionLayout dim="1">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane24" alignment="0" pref="218" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane24" alignment="0" pref="268" max="32767" attributes="0"/>
                                   </Group>
                                 </DimensionLayout>
                               </Layout>
@@ -774,12 +774,12 @@
                               <Layout>
                                 <DimensionLayout dim="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane25" alignment="0" pref="520" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane25" alignment="0" pref="608" max="32767" attributes="0"/>
                                   </Group>
                                 </DimensionLayout>
                                 <DimensionLayout dim="1">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane25" alignment="0" pref="218" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane25" alignment="0" pref="268" max="32767" attributes="0"/>
                                   </Group>
                                 </DimensionLayout>
                               </Layout>
@@ -814,12 +814,12 @@
                               <Layout>
                                 <DimensionLayout dim="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane26" alignment="0" pref="520" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane26" alignment="0" pref="608" max="32767" attributes="0"/>
                                   </Group>
                                 </DimensionLayout>
                                 <DimensionLayout dim="1">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jScrollPane26" alignment="0" pref="218" max="32767" attributes="0"/>
+                                      <Component id="jScrollPane26" alignment="0" pref="268" max="32767" attributes="0"/>
                                   </Group>
                                 </DimensionLayout>
                               </Layout>
@@ -861,7 +861,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
                                   <Component id="ffViewHTMLReportButton" min="-2" pref="147" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="94" max="32767" attributes="0"/>
                                   <Component id="ffVisualizingVisitedHostButton" min="-2" pref="142" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
                               </Group>
@@ -925,8 +925,8 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="mozillaFilterComboBox" alignment="0" pref="431" max="32767" attributes="0"/>
-                              <Component id="mozillaSearchField" alignment="0" pref="431" max="32767" attributes="0"/>
+                              <Component id="mozillaFilterComboBox" alignment="0" pref="519" max="32767" attributes="0"/>
+                              <Component id="mozillaSearchField" alignment="0" pref="519" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -993,7 +993,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="ffComboBox" pref="338" max="32767" attributes="0"/>
+                          <Component id="ffComboBox" pref="426" max="32767" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="loadFFButton" min="-2" pref="127" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1056,37 +1056,39 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="IEButtonsPanel" min="-2" pref="155" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="IEResultPanel" alignment="0" pref="686" max="32767" attributes="0"/>
-                                  <Component id="IESearchPanel" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="IEResultPanel" min="0" pref="0" max="32767" attributes="2"/>
+                                  <Component id="IESearchPanel" alignment="0" max="32767" attributes="2"/>
                               </Group>
+                              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jPanel13" alignment="1" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="0" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Component id="jPanel13" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="IESearchPanel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="IEResultPanel" pref="347" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <Component id="IEResultPanel" max="32767" attributes="0"/>
+                              <EmptySpace min="24" pref="24" max="24" attributes="0"/>
                           </Group>
                           <Component id="IEButtonsPanel" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1117,7 +1119,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jToolBar3" pref="393" max="32767" attributes="0"/>
+                          <Component id="jToolBar3" pref="443" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1217,8 +1219,8 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="IEFilterComboBox" alignment="0" pref="572" max="32767" attributes="0"/>
-                              <Component id="IESearchField" alignment="0" pref="572" max="32767" attributes="0"/>
+                              <Component id="IEFilterComboBox" alignment="0" pref="509" max="32767" attributes="0"/>
+                              <Component id="IESearchField" alignment="0" pref="509" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -1294,14 +1296,14 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane5" pref="650" max="32767" attributes="0"/>
+                              <Component id="jScrollPane5" pref="587" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane5" alignment="0" pref="317" max="32767" attributes="0"/>
+                          <Component id="jScrollPane5" alignment="0" pref="343" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -1352,7 +1354,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane6" pref="650" max="32767" attributes="0"/>
+                              <Component id="jScrollPane6" pref="587" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1360,7 +1362,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jScrollPane6" pref="306" max="32767" attributes="0"/>
+                              <Component id="jScrollPane6" pref="332" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1413,7 +1415,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane4" pref="650" max="32767" attributes="0"/>
+                              <Component id="jScrollPane4" pref="587" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1421,7 +1423,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jScrollPane4" pref="306" max="32767" attributes="0"/>
+                              <Component id="jScrollPane4" pref="332" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1477,7 +1479,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane3" pref="650" max="32767" attributes="0"/>
+                              <Component id="jScrollPane3" pref="587" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1485,7 +1487,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jScrollPane3" pref="306" max="32767" attributes="0"/>
+                              <Component id="jScrollPane3" pref="332" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1541,7 +1543,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane7" pref="650" max="32767" attributes="0"/>
+                              <Component id="jScrollPane7" pref="587" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1549,7 +1551,7 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jScrollPane7" pref="306" max="32767" attributes="0"/>
+                              <Component id="jScrollPane7" pref="332" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -1598,13 +1600,13 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="ieComboBox" min="-2" pref="534" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="loadIEButton" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                          <Component id="ieComboBox" pref="502" max="32767" attributes="0"/>
+                          <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                          <Component id="loadIEButton" min="-2" pref="99" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>

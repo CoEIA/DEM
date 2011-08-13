@@ -1,60 +1,23 @@
 
 package edu.coeia.gui.email;
 
-import edu.coeia.gui.utilties.GUIComponent ;
 import edu.coeia.gui.utilties.GuiUtil;
-
-import edu.coeia.internet.IEHandler;
-import edu.coeia.internet.MozillaHandler;
-
 import edu.coeia.utility.Utilities;
 import edu.coeia.utility.FilesPath ;
 import edu.coeia.utility.FilesFilter ;
-import edu.coeia.utility.Tuple ;
-
-import edu.coeia.utility.MetaDataExtraction ;
-import edu.coeia.utility.FireFoxHTMLReportGenerator;
-
-
 import edu.coeia.cases.Case;
-
-import edu.coeia.chat.MSNParser;
-import edu.coeia.chat.YahooMessage ;
-import edu.coeia.chat.YahooMessageDecoder;
-import edu.coeia.chat.YahooMessageReader;
-import edu.coeia.chat.SkypeMessage;
-import edu.coeia.chat.SkypeParser;
-
 import edu.coeia.search.PSTSearcher;
-import edu.coeia.internet.InternetSummaryDate ;
-
-
 import edu.coeia.email.EmailReaderThread;
 import edu.coeia.email.MessageHeader ;
+import edu.coeia.gui.utilties.InfiniteProgressPanel;
 
-import java.awt.CardLayout ;
 import java.awt.BorderLayout;
+import java.awt.event.InputEvent;
 
-import java.awt.Toolkit ;
-
-import java.awt.Desktop ;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JButton;
-import javax.swing.JPopupMenu;
-import javax.swing.border.TitledBorder;
 import javax.swing.JFileChooser ;
-import javax.swing.JTextField ;
-import javax.swing.JComboBox ;
 import javax.swing.JOptionPane ;
 import javax.swing.JTable ;
 import javax.swing.RowFilter ;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter ;
 import javax.swing.table.TableModel ;
 import javax.swing.tree.DefaultMutableTreeNode ;
@@ -64,32 +27,20 @@ import javax.swing.event.ListSelectionListener ;
 import javax.swing.event.ListSelectionEvent ;
 import javax.swing.event.TreeSelectionListener ;
 import javax.swing.event.TreeSelectionEvent ;
-import javax.swing.JPanel ;
 import javax.swing.JFrame ;
 import javax.swing.event.DocumentEvent ;
 import javax.swing.event.DocumentListener ;
-import javax.swing.JLabel;
-
 
 import java.io.File ;
 import java.io.FileNotFoundException ;
 import java.io.IOException ;
-import java.io.FilenameFilter ;
 
-import java.util.List; 
 import java.util.ArrayList ;
-import java.util.HashMap ;
-import java.util.Vector ;
 import java.util.Iterator ;
-import java.util.Map ;
-import java.util.Set ;
 import java.util.Date ;
-import java.util.regex.PatternSyntaxException;
-
-import java.sql.SQLException ;
-
-import java.net.URISyntaxException ;
-import java.net.URI ;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.pff.PSTFile ;
 import com.pff.PSTFolder ;
@@ -103,20 +54,8 @@ import com.pff.PSTException;
 import com.pff.PSTObject ;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
-
-import org.mcavallo.opencloud.Cloud ;
-import org.mcavallo.opencloud.Tag ;
-
 import com.toedter.calendar.JDateChooser;
-
-import edu.coeia.gui.utilties.InfiniteProgressPanel;
-import java.awt.event.InputEvent;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.apache.lucene.document.Document;
-
 
 /*
  * EmailPanel.java
@@ -809,7 +748,7 @@ private void loadPstButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
             // time consuming statemnt
             InfiniteProgressPanel i = new InfiniteProgressPanel("Loading MailBox");
-            //this.setGlassPane(i);
+            parentFrame.setGlassPane(i);
             i.start();
 
             logger.log(Level.INFO, "Starting EmailReaderThread Now!");
@@ -1024,7 +963,7 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
     
     private void showVisualization (String from, String to, PSTFile pst, String path, String title, String folderName,EmailVisualizationThread.FolderType type) {
         InfiniteProgressPanel i = new InfiniteProgressPanel(title);
-        //this.setGlassPane(i);
+        parentFrame.setGlassPane(i);
         i.start();
 
         EmailVisualizationThread thread = new EmailVisualizationThread(null, i, folderName , pst, path, from, to, type);
@@ -1033,7 +972,7 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
     
     public void filterEmailSearch () {
         String text = emailSearchTextField.getText().trim();
-        filterTable(emailTable, text);
+        GuiUtil.filterTable(emailTable, text);
     }
      
     private class EmailSearchInputListener implements DocumentListener {
@@ -1139,24 +1078,6 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
         // Pack the all columns of the table
         int margin = 1;
         Utilities.packColumns(emailTable, margin);
-    }
-    
-    // filer table, ignore case (case insensitive)
-    private void filterTable (JTable table, String text) {
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-        table.setRowSorter(sorter);
-
-        if ( text.equalsIgnoreCase(" ") ) {
-            sorter.setRowFilter(null);
-        }
-        else {
-            try {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-            }
-            catch (PatternSyntaxException e){
-                
-            }
-        }
     }
     
     private void disableNotIndexedComponent () {
