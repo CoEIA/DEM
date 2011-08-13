@@ -25,7 +25,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /*
  * OfflineMinningFrame.java
  *
@@ -36,7 +35,6 @@ import java.util.logging.Logger;
  */
 
 public class OfflineMinningFrame extends javax.swing.JFrame {
-    private JFrame mainFrame ;
     private Case index ;
     
     private final String APPLICATION_NAME = "Digital Evidence Miner (Beta Version): ";
@@ -319,7 +317,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
         try {
             ArrayList<String> data = Utilities.readProgramOutputStream("systeminfo.exe");
 
-            WindowsInfoDialog wid = new WindowsInfoDialog(mainFrame, true, data);
+            WindowsInfoDialog wid = new WindowsInfoDialog(OfflineMinningFrame.this, true, data);
             wid.setVisible(true);
         }
         catch (IOException e) {
@@ -328,7 +326,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_windowsMenuItemActionPerformed
 
     private void recentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recentMenuItemActionPerformed
-        RecentDialog rd = new RecentDialog(mainFrame, true);
+        RecentDialog rd = new RecentDialog(OfflineMinningFrame.this, true);
         rd.setVisible(true);
     }//GEN-LAST:event_recentMenuItemActionPerformed
     

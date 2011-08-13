@@ -1,103 +1,43 @@
 
 package edu.coeia.gui.filesystem;
 
-import edu.coeia.gui.utilties.GUIComponent ;
-
-import edu.coeia.internet.IEHandler;
-import edu.coeia.internet.MozillaHandler;
-
-import edu.coeia.utility.Utilities;
-import edu.coeia.utility.FilesPath ;
-import edu.coeia.utility.FilesFilter ;
-import edu.coeia.utility.Tuple ;
-
-import edu.coeia.utility.MetaDataExtraction ;
-import edu.coeia.utility.FireFoxHTMLReportGenerator;
-
-
 import edu.coeia.cases.Case;
-
-import edu.coeia.chat.MSNParser;
-import edu.coeia.chat.YahooMessage ;
-import edu.coeia.chat.YahooMessageDecoder;
-import edu.coeia.chat.YahooMessageReader;
-import edu.coeia.chat.SkypeMessage;
-import edu.coeia.chat.SkypeParser;
-
-import edu.coeia.search.PSTSearcher;
-import edu.coeia.internet.InternetSummaryDate ;
-
-
-import edu.coeia.email.EmailReaderThread;
-import edu.coeia.email.MessageHeader ;
-
-import java.awt.CardLayout ;
-import java.awt.BorderLayout;
-
-import java.awt.Toolkit ;
-
-import java.awt.Desktop ;
-import java.awt.event.InputEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JButton;
-import javax.swing.JPopupMenu;
-import javax.swing.border.TitledBorder;
-import javax.swing.JFileChooser ;
-import javax.swing.JTextField ;
-import javax.swing.JComboBox ;
-import javax.swing.JOptionPane ;
-import javax.swing.JTable ;
-import javax.swing.RowFilter ;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter ;
-import javax.swing.table.TableModel ;
-import javax.swing.tree.DefaultMutableTreeNode ;
-import javax.swing.tree.DefaultTreeModel ;
-import javax.swing.ListSelectionModel ;
-import javax.swing.event.ListSelectionListener ;
-import javax.swing.event.ListSelectionEvent ;
-import javax.swing.event.TreeSelectionListener ;
-import javax.swing.event.TreeSelectionEvent ;
-import javax.swing.JPanel ;
-import javax.swing.JFrame ;
-import javax.swing.event.DocumentEvent ;
-import javax.swing.event.DocumentListener ;
-import javax.swing.JLabel;
-
-
-import java.io.File ;
-import java.io.FileNotFoundException ;
-import java.io.IOException ;
-import java.io.FilenameFilter ;
-
-import java.util.List; 
-import java.util.ArrayList ;
-import java.util.HashMap ;
-import java.util.Vector ;
-import java.util.Iterator ;
-import java.util.Map ;
-import java.util.Set ;
-import java.util.Date ;
-import java.util.regex.PatternSyntaxException;
-
-import java.sql.SQLException ;
-
-import java.net.URISyntaxException ;
-import java.net.URI ;
-
-import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
 import edu.coeia.gui.utilties.InfiniteProgressPanel;
 import edu.coeia.gui.utilties.WrapLayout;
 import edu.coeia.gui.utilties.IndexGUIComponent;
-import java.awt.event.ActionEvent;
+import edu.coeia.gui.utilties.GuiUtil;
+import edu.coeia.gui.utilties.GUIComponent ;
+
+import edu.coeia.utility.Utilities;
+import edu.coeia.utility.FilesPath ;
+import edu.coeia.utility.MetaDataExtraction ;
+
+import java.awt.BorderLayout;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JOptionPane ;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode ;
+import javax.swing.JPanel ;
+import javax.swing.event.DocumentEvent ;
+import javax.swing.event.DocumentListener ;
+import javax.swing.JLabel;
+
+import java.io.File ;
+import java.io.IOException ;
+
+import java.util.List; 
+import java.util.HashMap ;
+import java.util.Iterator ;
+import java.util.Map ;
+import java.util.Set ;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+
+import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
 import org.mcavallo.opencloud.Cloud ;
 import org.mcavallo.opencloud.Tag ;
@@ -114,11 +54,10 @@ import org.mcavallo.opencloud.Tag ;
 public class FileSystemPanel extends javax.swing.JPanel {
 
     private JWebBrowser fileBrowser = new JWebBrowser();
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
     
     private Case index;
     private List<String> imagesPath ;
-    private JFileChooser fileChooser ;
     
     private IndexerThread indexerThread ;
     private boolean startIndexButtonFlag = true ;
@@ -128,12 +67,7 @@ public class FileSystemPanel extends javax.swing.JPanel {
         initComponents();
                 
         this.index = aIndex;
-        
-        // configure file chooser to select files (txt)
-        fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new FilesFilter("Text Files (*.txt)", "txt"));
-        
+     
         // add file browser
         fileBrowser.setBarsVisible(false);
         fileBrowser.setStatusBarVisible(false);
@@ -156,6 +90,7 @@ public class FileSystemPanel extends javax.swing.JPanel {
         
         Utilities.setTableAlignmentValue(cloudsTable, 1);
         Utilities.packColumns(searchTable, 0);
+        
         disableNotIndexedComponent();
     }
 
@@ -1209,15 +1144,15 @@ public class FileSystemPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void indexFilesToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_indexFilesToggleButtonActionPerformed
-        showPanel("indexCard", indexCardsPanel);
+        GuiUtil.showPanel("indexCard", indexCardsPanel);
 }//GEN-LAST:event_indexFilesToggleButtonActionPerformed
 
 private void textCloudsToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCloudsToggleButtonActionPerformed
-        showPanel("textCloudsCard", indexCardsPanel);
+        GuiUtil.showPanel("textCloudsCard", indexCardsPanel);
 }//GEN-LAST:event_textCloudsToggleButtonActionPerformed
 
 private void indexVisualizationToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_indexVisualizationToggleButtonActionPerformed
-        showPanel("indexVisualizingCard", indexCardsPanel);
+        GuiUtil.showPanel("indexVisualizingCard", indexCardsPanel);
 }//GEN-LAST:event_indexVisualizationToggleButtonActionPerformed
 
 private void startIndexButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startIndexButtonActionPerformed
@@ -1295,14 +1230,14 @@ private void tagsExcludeTextFieldActionPerformed(java.awt.event.ActionEvent evt)
 private void cloudsTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cloudsTableMousePressed
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( cloudsTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_cloudsTableMousePressed
 
 private void cloudsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cloudsTableMouseReleased
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( cloudsTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_cloudsTableMouseReleased
 
@@ -1344,7 +1279,7 @@ private void keywordsListButtonActionPerformed(java.awt.event.ActionEvent evt) {
         if ( query == null || query.isEmpty() )
             return ;
 
-        if ( ext == null || ext.size() == 0)
+        if ( ext == null || ext.isEmpty())
             return ;
 
         queryTextField.setText(query);
@@ -1363,7 +1298,7 @@ private void searchTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
         // set summary panel
         try {
             if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
                 return ;
             }
 
@@ -1381,14 +1316,14 @@ private void searchTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
 private void searchTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMousePressed
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( searchTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_searchTableMousePressed
 
 private void searchTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMouseReleased
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( searchTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_searchTableMouseReleased
 
@@ -1421,24 +1356,6 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
        }
 }//GEN-LAST:event_clusterTypeTreeValueChanged
 
-
-    // filer table, ignore case (case insensitive)
-    private void filterTable (JTable table, String text) {
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-        table.setRowSorter(sorter);
-
-        if ( text.equalsIgnoreCase(" ") ) {
-            sorter.setRowFilter(null);
-        }
-        else {
-            try {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-            }
-            catch (PatternSyntaxException e){
-                
-            }
-        }
-    }
     
     private void showInformation (String filePath) throws Exception {
         File tmp = new File(filePath);
@@ -1569,7 +1486,7 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
         }
     }
 
-        private void startSearching (List<String> supportedExtension) {
+    private void startSearching (List<String> supportedExtension) {
         removeSearchField(false,false);
 
         if ( index.getIndexStatus() == false ) {
@@ -1615,48 +1532,13 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
     
     public void filterCloudTable () {
         String text = cloudsFilterTextField.getText().trim();
-        filterTable(cloudsTable, text);
+        GuiUtil.filterTable(cloudsTable, text);
     }
-    
-   
     
     private class CloudsInputListener implements DocumentListener {
         public void changedUpdate(DocumentEvent e){filterCloudTable();}
         public void removeUpdate (DocumentEvent e){filterCloudTable();}
         public void insertUpdate (DocumentEvent e){filterCloudTable();}
-    }
-
-    // show panel function
-    public void showPanel (String panelName, JPanel name) {
-        CardLayout card = (CardLayout) name.getLayout();
-        card.show(name, panelName);
-    }
-
-    private void showPopup (java.awt.event.MouseEvent event) {
-        final JTable table = (JTable) event.getSource();
-        JPopupMenu popup = new JPopupMenu();
-        JButton btn = new JButton("Export to CSV File");
-        
-        btn.addActionListener( new java.awt.event.ActionListener() {
-            public void actionPerformed (java.awt.event.ActionEvent event) {
-                try {
-                    FilesFilter ffFilter = new FilesFilter("Comma Seperated Value","CSV");
-                    fileChooser.setFileFilter(ffFilter);
-
-                    int result = fileChooser.showSaveDialog(null);
-
-                    if ( result == JFileChooser.APPROVE_OPTION) {
-                        String name = fileChooser.getSelectedFile().getAbsolutePath();
-                        Utilities.exportJTable(table,name);
-                    }
-                }
-                catch (Exception e){
-                }
-            }
-        });
-
-        popup.add(btn);
-        table.setComponentPopupMenu(popup);
     }
 
     private void disableNotIndexedComponent () {

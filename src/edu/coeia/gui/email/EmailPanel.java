@@ -2,7 +2,7 @@
 package edu.coeia.gui.email;
 
 import edu.coeia.gui.utilties.GUIComponent ;
-
+import edu.coeia.gui.utilties.GuiUtil;
 
 import edu.coeia.internet.IEHandler;
 import edu.coeia.internet.MozillaHandler;
@@ -829,17 +829,17 @@ private void loadPstButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
 private void correlationComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_correlationComboBoxActionPerformed
         if ( correlationComboBox.getSelectedIndex() == 0 )
-            showPanel("inboxCard", correlationResultPanel);
+            GuiUtil.showPanel("inboxCard", correlationResultPanel);
         else if ( correlationComboBox.getSelectedIndex() == 1 )
-            showPanel("sentItemCard",correlationResultPanel);
+            GuiUtil.showPanel("sentItemCard",correlationResultPanel);
         else if ( correlationComboBox.getSelectedIndex() == 2 )
-            showPanel("espCard",correlationResultPanel);
+            GuiUtil.showPanel("espCard",correlationResultPanel);
         else if ( correlationComboBox.getSelectedIndex() == 3)
-            showPanel("relationCard", correlationResultPanel);
+            GuiUtil.showPanel("relationCard", correlationResultPanel);
         else if ( correlationComboBox.getSelectedIndex() == 4 )
-            showPanel("locationCard", correlationResultPanel);
+            GuiUtil.showPanel("locationCard", correlationResultPanel);
         else if ( correlationComboBox.getSelectedIndex() == 5)
-            showPanel("messageFrequencyCard", correlationResultPanel);
+            GuiUtil.showPanel("messageFrequencyCard", correlationResultPanel);
 }//GEN-LAST:event_correlationComboBoxActionPerformed
 
 private void emailVisualizationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailVisualizationButtonActionPerformed
@@ -895,56 +895,56 @@ private void emailVisualizationButtonActionPerformed(java.awt.event.ActionEvent 
 private void inboxTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inboxTableMousePressed
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( inboxTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_inboxTableMousePressed
 
 private void inboxTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inboxTableMouseReleased
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( inboxTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_inboxTableMouseReleased
 
 private void sentItemTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sentItemTableMousePressed
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( sentItemTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_sentItemTableMousePressed
 
 private void sentItemTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sentItemTableMouseReleased
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( sentItemTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_sentItemTableMouseReleased
 
 private void espTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_espTableMousePressed
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( espTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_espTableMousePressed
 
 private void espTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_espTableMouseReleased
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( espTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_espTableMouseReleased
 
 private void locationTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_locationTableMousePressed
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( locationTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_locationTableMousePressed
 
 private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_locationTableMouseReleased
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( locationTable.isEnabled() )
-                showPopup(evt);
+                GuiUtil.showPopup(evt);
         }
 }//GEN-LAST:event_locationTableMouseReleased
 
@@ -1125,7 +1125,6 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
                 top.add(node);
             }
         } catch (Exception err) {
-            err.printStackTrace();
             System.exit(1);
 	}
     }
@@ -1156,39 +1155,6 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
             }
         }
     }
-    
-    // show panel function
-    public void showPanel (String panelName, JPanel name) {
-        CardLayout card = (CardLayout) name.getLayout();
-        card.show(name, panelName);
-    }
-    
-    private void showPopup (java.awt.event.MouseEvent event) {
-        final JTable table = (JTable) event.getSource();
-        JPopupMenu popup = new JPopupMenu();
-        JButton btn = new JButton("Export to CSV File");
-        
-        btn.addActionListener( new java.awt.event.ActionListener() {
-            public void actionPerformed (java.awt.event.ActionEvent event) {
-                try {
-                    FilesFilter ffFilter = new FilesFilter("Comma Seperated Value","CSV");
-                    fileChooser.setFileFilter(ffFilter);
-
-                    int result = fileChooser.showSaveDialog(null);
-
-                    if ( result == JFileChooser.APPROVE_OPTION) {
-                        String name = fileChooser.getSelectedFile().getAbsolutePath();
-                        Utilities.exportJTable(table,name);
-                    }
-                }
-                catch (Exception e){
-                }
-            }
-        });
-
-        popup.add(btn);
-        table.setComponentPopupMenu(popup);
-    }    
     
     private void disableNotIndexedComponent () {
         // close email if there is no pst file
