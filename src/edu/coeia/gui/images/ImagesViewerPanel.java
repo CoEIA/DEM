@@ -58,6 +58,10 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
     
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     
+    private static final int IMAGE_WIDTH = 120;
+    private static final int IMAGE_HEIGHT = 120;
+    private static final int NUMBER_OF_IMAGES_IN_PANEL = 9;
+    
     /** Creates new form ImagesViewerPanel */
     public ImagesViewerPanel(Case aIndex) {
         initComponents();
@@ -90,11 +94,11 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
         geoTagLbl = new javax.swing.JLabel();
 
         ImageDisplayPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Images Found", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-        ImageDisplayPanel.setLayout(new java.awt.GridLayout(4, 4));
+        ImageDisplayPanel.setLayout(new java.awt.GridLayout(3, 3));
 
         ImageControlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Images Viewer", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        showImagesButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        showImagesButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         showImagesButton.setText("Show Images");
         showImagesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,7 +190,7 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
                         .addComponent(jLabel38)
                         .addGap(18, 18, 18)
                         .addComponent(geoTagLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(496, Short.MAX_VALUE))
         );
         ImageStatusPanelLayout.setVerticalGroup(
             ImageStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,12 +214,12 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 786, Short.MAX_VALUE)
+            .addGap(0, 1216, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(ImageDisplayPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 766, Short.MAX_VALUE)
+                        .addComponent(ImageDisplayPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1196, Short.MAX_VALUE)
                         .addComponent(ImageStatusPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(ImageControlPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addContainerGap()))
@@ -244,7 +248,7 @@ private void showImagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//
             }
 
             imageIndex = 0;
-            totalImagePage = getNumberOfImages() / 16 ;
+            totalImagePage = getNumberOfImages() / NUMBER_OF_IMAGES_IN_PANEL ;
             currentImagePage = 0 ;
             
             showImages();
@@ -263,7 +267,7 @@ private void nextPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
             }
 
             if (  imageIndex != ImageViewer.getInstance(index).size() ) {
-                imageIndex += 16;
+                imageIndex += NUMBER_OF_IMAGES_IN_PANEL;
             }
 
             if (currentImagePage < totalImagePage ) {
@@ -286,7 +290,7 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             }
 
             if ( imageIndex != 0 ) {
-                imageIndex -= 16 ;
+                imageIndex -= NUMBER_OF_IMAGES_IN_PANEL ;
             }
 
             if ( currentImagePage > 0 )
@@ -303,12 +307,12 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         ImageDisplayPanel.removeAll();
         checkImageViewerButtons();
         
-        for(int i=imageIndex; i<imageIndex + (4*4) ; i++ ) {
+        for(int i=imageIndex; i<imageIndex + (NUMBER_OF_IMAGES_IN_PANEL) ; i++ ) {
             try {
                 String name = ImageViewer.getInstance(index).get(i);
                 File imageFile = new File(name);
                 BufferedImage myPicture = ImageIO.read(imageFile);
-                BufferedImage newPictue = createResizedCopy(myPicture,30,30,false);
+                BufferedImage newPictue = createResizedCopy(myPicture,IMAGE_WIDTH,IMAGE_HEIGHT,false);
 
                 ImageLabel picLabel = new ImageLabel( name, new ImageIcon( newPictue ));
                 picLabel.addMouseListener( new MouseAdapter() {
@@ -336,6 +340,34 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
         ImageDisplayPanel.repaint();
         ImageDisplayPanel.revalidate();
+    }
+
+    private BufferedImage createResizedCopy(Image originalImage, int scaledWidth, int scaledHeight, boolean preserveAlpha) {
+        int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
+        BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
+        Graphics2D g = scaledBI.createGraphics();
+        if (preserveAlpha) {
+            g.setComposite(AlphaComposite.Src);
+        }
+        g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null);
+        g.dispose();
+
+        return scaledBI;
+    }
+    
+    private int getNumberOfImages () {
+        int count = 0 ;
+        
+        try {
+            count = ImageViewer.getInstance(index).size();
+        }
+        catch (Exception e) {
+            logger.log(Level.SEVERE, "Uncaught exception", e);
+        }
+
+        return count;
+        
+        //return 1050;
     }
 
     private void showPopupOpen (MouseEvent event) {
@@ -418,7 +450,6 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         Runtime rt = Runtime.getRuntime();
         rt.exec("explorer /select," + path);
     }
-
         
     private void setImageInformation (String path) {
         File file = new File(path);
@@ -434,38 +465,8 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
                 geoTagLbl.setText("No");
         }
         catch (Exception e) {logger.log(Level.SEVERE, "Uncaught exception", e);}
-        
-    }
-
-    private BufferedImage createResizedCopy(Image originalImage, int scaledWidth, int scaledHeight, boolean preserveAlpha) {
-        int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
-        BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
-        Graphics2D g = scaledBI.createGraphics();
-        if (preserveAlpha) {
-                g.setComposite(AlphaComposite.Src);
-        }
-        g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null);
-        g.dispose();
-
-        return scaledBI;
-    }
+    }    
     
-    private int getNumberOfImages () {
-        int count = 0 ;
-        
-        try {
-            for(int i=imageIndex;  ; i++ ) {
-                ImageViewer.getInstance(index).get(i);
-                count++;
-            }
-        }
-        catch (Exception e) {
-            logger.log(Level.SEVERE, "Uncaught exception", e);
-        }
-
-        return count ;
-    }
-
     private void checkImageViewerButtons () {
         if ( currentImagePage == 0 ) {
             nextPageButton.setEnabled(true);

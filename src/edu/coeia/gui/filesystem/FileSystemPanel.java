@@ -25,6 +25,7 @@ import javax.swing.JPanel ;
 import javax.swing.event.DocumentEvent ;
 import javax.swing.event.DocumentListener ;
 import javax.swing.JLabel;
+import javax.swing.JFrame;
 
 import java.io.File ;
 import java.io.IOException ;
@@ -36,11 +37,10 @@ import java.util.Map ;
 import java.util.Set ;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.ArrayList;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
-import java.util.ArrayList;
-import javax.swing.JFrame;
 import org.mcavallo.opencloud.Cloud ;
 import org.mcavallo.opencloud.Tag ;
 

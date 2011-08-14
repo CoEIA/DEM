@@ -16,12 +16,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="786" max="32767" attributes="0"/>
+          <EmptySpace min="0" pref="1216" max="32767" attributes="0"/>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="ImageDisplayPanel" alignment="0" pref="766" max="32767" attributes="0"/>
+                      <Component id="ImageDisplayPanel" alignment="0" pref="1196" max="32767" attributes="0"/>
                       <Component id="ImageStatusPanel" alignment="0" max="32767" attributes="0"/>
                       <Component id="ImageControlPanel" alignment="0" max="32767" attributes="0"/>
                   </Group>
@@ -60,8 +60,8 @@
       </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-        <Property name="columns" type="int" value="4"/>
-        <Property name="rows" type="int" value="4"/>
+        <Property name="columns" type="int" value="3"/>
+        <Property name="rows" type="int" value="3"/>
       </Layout>
     </Container>
     <Container class="javax.swing.JPanel" name="ImageControlPanel">
@@ -168,7 +168,7 @@
                           <Component id="geoTagLbl" max="32767" attributes="3"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="66" max="32767" attributes="0"/>
+                  <EmptySpace pref="496" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

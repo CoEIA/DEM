@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.index;
+package edu.coeia.image;
 
 /**
  *
@@ -26,7 +26,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class IndexHandler {
+public class ImageReader {
     private String indexDir ;
     private Directory dir ;
     private IndexReader indexReader ;
@@ -34,7 +34,7 @@ public class IndexHandler {
     private static Logger logger = Logger.getLogger("IndexerReader");
     private static FileHandler handler ;
 
-    public IndexHandler (String location) throws IOException{
+    public ImageReader (String location) throws IOException{
         indexDir = location ;
         dir = FSDirectory.open(new File(indexDir));
         indexReader = IndexReader.open(dir);

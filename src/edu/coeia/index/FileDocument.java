@@ -64,5 +64,5 @@ public class FileDocument {
     }
 
     // prevent make object from this class
-    private FileDocument () { }
+    private FileDocument () { throw new AssertionError(); }
 }

@@ -10,7 +10,6 @@ package edu.coeia.image;
  * @author wajdyessam
  */
 
-import edu.coeia.index.IndexHandler ;
 import edu.coeia.cases.Case ;
 import edu.coeia.utility.FilesPath ;
 
@@ -23,7 +22,7 @@ public class ImageViewer {
 
     public static List<String> getInstance(Case index) throws IOException {
         if ( imagesPath == null ) {
-            IndexHandler ir = new IndexHandler(index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+            ImageReader ir = new ImageReader(index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
             imagesPath = ir.getImagesPath();
             ir.close();
         }

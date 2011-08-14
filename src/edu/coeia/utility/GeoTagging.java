@@ -38,15 +38,24 @@ public class GeoTagging {
         return data;
     }
 
-    public static boolean hasGoeTag (String fileName) throws Exception  {
-        Metadata metadata = new ExifReader(new File(fileName)).extract();
-        Directory gpsDir = metadata.getDirectory(GpsDirectory.class);
-        GpsDescriptor gps = new GpsDescriptor(gpsDir);
-        if (  gpsDir.getString(GpsDirectory.TAG_GPS_VERSION_ID) == null ||
-          gpsDir.getString(GpsDirectory.TAG_GPS_LONGITUDE)  == null ||
-          gpsDir.getString(GpsDirectory.TAG_GPS_LATITUDE)   == null )
-            return false ;
+    public static boolean hasGoeTag (String fileName)  {
+        boolean result = false;
+        try {
+            Metadata metadata = new ExifReader(new File(fileName)).extract();
+            Directory gpsDir = metadata.getDirectory(GpsDirectory.class);
+            GpsDescriptor gps = new GpsDescriptor(gpsDir);
+            
+            if (  gpsDir.getString(GpsDirectory.TAG_GPS_VERSION_ID) == null ||
+              gpsDir.getString(GpsDirectory.TAG_GPS_LONGITUDE)  == null ||
+              gpsDir.getString(GpsDirectory.TAG_GPS_LATITUDE)   == null )
+                return false ;
+            
+            result = true;
+        }
+        catch (Exception e) {
+            result = false;
+        }
 
-        return true;
+        return result;
     }
 }
