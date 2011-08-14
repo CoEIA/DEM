@@ -11,7 +11,7 @@ package edu.coeia.image;
  */
 
 import edu.coeia.cases.Case ;
-import edu.coeia.utility.FilesPath ;
+import edu.coeia.main.util.FilesPath ;
 
 import java.util.List ;
 

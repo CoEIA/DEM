@@ -10,7 +10,7 @@ package edu.coeia.email.search;
  * @author wajdyessam
  */
 
-import edu.coeia.utility.FilesPath ;
+import edu.coeia.main.util.FilesPath ;
 
 import java.io.File ;
 

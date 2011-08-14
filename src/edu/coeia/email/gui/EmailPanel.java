@@ -2,15 +2,15 @@
 package edu.coeia.email.gui;
 
 import edu.coeia.email.gui.EmailVisualizationThread;
-import edu.coeia.main.utilties.GuiUtil;
-import edu.coeia.utility.Utilities;
-import edu.coeia.utility.FilesPath ;
-import edu.coeia.utility.FilesFilter ;
+import edu.coeia.main.gui.util.GuiUtil;
+import edu.coeia.main.util.Utilities;
+import edu.coeia.main.util.FilesPath ;
+import edu.coeia.internet.util.FilesFilter ;
 import edu.coeia.cases.Case;
 import edu.coeia.email.search.PSTSearcher;
 import edu.coeia.email.EmailReaderThread;
 import edu.coeia.email.MessageHeader ;
-import edu.coeia.main.utilties.InfiniteProgressPanel;
+import edu.coeia.main.gui.util.InfiniteProgressPanel;
 
 import java.awt.BorderLayout;
 import java.awt.event.InputEvent;

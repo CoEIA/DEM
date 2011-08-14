@@ -11,9 +11,9 @@ package edu.coeia.filesystem;
  */
 
 import edu.coeia.filesystem.search.Searcher ;
-import edu.coeia.utility.Utilities;
-import edu.coeia.main.utilties.GUIComponent;
-import edu.coeia.utility.Tuple;
+import edu.coeia.main.util.Utilities;
+import edu.coeia.main.gui.util.GUIComponent;
+import edu.coeia.main.util.Tuple;
 
 import javax.swing.SwingWorker ;
 import javax.swing.table.DefaultTableModel ;
@@ -27,7 +27,7 @@ import java.util.Date ;
 import java.util.ArrayList ;
 import java.util.List ;
 
-import edu.coeia.datamining.ClusteringData ;
+import edu.coeia.filesystem.clustering.ClusteringData ;
 
 class ProgressSearchData {
     private String path;

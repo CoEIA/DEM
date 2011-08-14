@@ -11,7 +11,7 @@ package edu.coeia.filesystem.search;
  *
  */
 
-import edu.coeia.utility.FilesPath ;
+import edu.coeia.main.util.FilesPath ;
 
 import java.io.File ;
 

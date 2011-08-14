@@ -13,7 +13,7 @@ package edu.coeia.email.gui;
 import edu.coeia.email.correlation.CorrelationDialog;
 import com.pff.PSTFile;
 import edu.coeia.email.EmailHandler;
-import edu.coeia.main.utilties.InfiniteProgressPanel;
+import edu.coeia.main.gui.util.InfiniteProgressPanel;
 import edu.coeia.main.chart.LineChartPanel;
 import edu.coeia.email.util.Message;
 import java.io.IOException;

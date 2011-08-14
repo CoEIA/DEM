@@ -13,8 +13,8 @@ package edu.coeia.filesystem.index;
 
 import com.pff.PSTFile;
 
-import edu.coeia.utility.Utilities;
-import edu.coeia.parse.PSTParser ;
+import edu.coeia.main.util.Utilities;
+import edu.coeia.filesystem.parse.PSTParser ;
 
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -23,7 +23,7 @@ import org.apache.lucene.store.FSDirectory ;
 import org.apache.lucene.util.Version ;
 
 import com.pff.PSTException ;
-import edu.coeia.utility.FilesPath;
+import edu.coeia.main.util.FilesPath;
 
 import java.io.FileNotFoundException ;
 import java.io.File;

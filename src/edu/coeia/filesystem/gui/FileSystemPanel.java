@@ -3,15 +3,15 @@ package edu.coeia.filesystem.gui;
 
 import edu.coeia.cases.Case;
 
-import edu.coeia.main.utilties.InfiniteProgressPanel;
-import edu.coeia.main.utilties.WrapLayout;
-import edu.coeia.main.utilties.IndexGUIComponent;
-import edu.coeia.main.utilties.GuiUtil;
-import edu.coeia.main.utilties.GUIComponent ;
+import edu.coeia.main.gui.util.InfiniteProgressPanel;
+import edu.coeia.main.gui.util.WrapLayout;
+import edu.coeia.main.gui.util.IndexGUIComponent;
+import edu.coeia.main.gui.util.GuiUtil;
+import edu.coeia.main.gui.util.GUIComponent ;
 
-import edu.coeia.utility.Utilities;
-import edu.coeia.utility.FilesPath ;
-import edu.coeia.utility.MetaDataExtraction ;
+import edu.coeia.main.util.Utilities;
+import edu.coeia.main.util.FilesPath ;
+import edu.coeia.filesystem.util.MetaDataExtraction ;
 
 import java.awt.BorderLayout;
 import java.awt.event.InputEvent;

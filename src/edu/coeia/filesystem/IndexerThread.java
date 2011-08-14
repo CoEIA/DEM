@@ -11,8 +11,8 @@ package edu.coeia.filesystem;
  */
 
 import edu.coeia.filesystem.index.Indexer;
-import edu.coeia.utility.Utilities;
-import edu.coeia.main.utilties.IndexGUIComponent ;
+import edu.coeia.main.util.Utilities;
+import edu.coeia.main.gui.util.IndexGUIComponent ;
 import edu.coeia.cases.Case;
 
 import javax.swing.SwingWorker ;

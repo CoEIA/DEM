@@ -14,7 +14,7 @@ package edu.coeia.email.correlation;
 import edu.coeia.main.chart.BarChartPanel;
 import edu.coeia.email.correlation.XMLHandler;
 import edu.coeia.email.correlation.RadialGraphView ;
-import edu.coeia.utility.FilesPath ;
+import edu.coeia.main.util.FilesPath ;
 
 import java.awt.BorderLayout;
 

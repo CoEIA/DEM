@@ -425,7 +425,7 @@
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="webHistoryTableMouseReleased"/>
                           </Events>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.utilties.TableWithToolTip()"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.gui.util.TableWithToolTip()"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -483,7 +483,7 @@
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bookmarkTableMouseReleased"/>
                           </Events>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.utilties.TableWithToolTip()"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.gui.util.TableWithToolTip()"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -541,7 +541,7 @@
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cookiesTableMouseReleased"/>
                           </Events>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.utilties.TableWithToolTip()"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.gui.util.TableWithToolTip()"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -602,7 +602,7 @@
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="downloadTableMouseReleased"/>
                           </Events>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.utilties.TableWithToolTip()"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.gui.util.TableWithToolTip()"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -663,7 +663,7 @@
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="logginsTableMouseReleased"/>
                           </Events>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.utilties.TableWithToolTip()"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.gui.util.TableWithToolTip()"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -1328,7 +1328,7 @@
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="IEWebHistoryTableMouseReleased"/>
                           </Events>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.utilties.TableWithToolTip()"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.gui.util.TableWithToolTip()"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -1389,7 +1389,7 @@
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="IEBookmarkTableMouseReleased"/>
                           </Events>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.utilties.TableWithToolTip()"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.gui.util.TableWithToolTip()"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -1453,7 +1453,7 @@
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="IECookiesTableMouseReleased"/>
                           </Events>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.utilties.TableWithToolTip()"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.gui.util.TableWithToolTip()"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -1517,7 +1517,7 @@
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="IECacheTableMouseReleased"/>
                           </Events>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.utilties.TableWithToolTip()"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.gui.util.TableWithToolTip()"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -1578,7 +1578,7 @@
                             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="IELogginsTableMouseReleased"/>
                           </Events>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.utilties.TableWithToolTip()"/>
+                            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new edu.coeia.main.gui.util.TableWithToolTip()"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>

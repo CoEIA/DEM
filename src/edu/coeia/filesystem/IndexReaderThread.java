@@ -11,9 +11,9 @@ package edu.coeia.filesystem;
  */
 
 import edu.coeia.filesystem.gui.FileSystemPanel;
-import edu.coeia.main.utilties.InfiniteProgressPanel;
+import edu.coeia.main.gui.util.InfiniteProgressPanel;
 import edu.coeia.main.chart.PieChartPanel;
-import edu.coeia.utility.Utilities;
+import edu.coeia.main.util.Utilities;
 
 import org.apache.lucene.index.IndexReader ;
 import org.apache.lucene.store.Directory ;

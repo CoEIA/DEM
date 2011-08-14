@@ -11,10 +11,10 @@ import edu.coeia.chat.MSNParser;
 import edu.coeia.chat.SkypeParser;
 import edu.coeia.chat.SkypeMessage;
 
-import edu.coeia.utility.FilesPath;
-import edu.coeia.utility.Tuple;
-import edu.coeia.utility.FilesFilter;
-import edu.coeia.utility.Utilities;
+import edu.coeia.main.util.FilesPath;
+import edu.coeia.main.util.Tuple;
+import edu.coeia.internet.util.FilesFilter;
+import edu.coeia.main.util.Utilities;
 
 import edu.coeia.cases.detector.OutlookDetector;
 import edu.coeia.cases.detector.FirefoxDetector;
@@ -22,7 +22,7 @@ import edu.coeia.cases.detector.RegistryDetector;
 import edu.coeia.cases.detector.UsersDetector;
 import edu.coeia.cases.detector.YahooDetector ;
         
-import edu.coeia.main.utilties.InfiniteProgressPanel;
+import edu.coeia.main.gui.util.InfiniteProgressPanel;
 import edu.coeia.main.SmartCardDialog;
 import javax.swing.JPanel;
 import javax.swing.JList;

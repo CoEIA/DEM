@@ -17,7 +17,7 @@ package edu.coeia.main;
  *
  */
 
-import edu.coeia.utility.Utilities ;
+import edu.coeia.main.util.Utilities ;
 
 import javax.swing.table.DefaultTableModel;
 

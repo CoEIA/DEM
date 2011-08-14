@@ -2,11 +2,11 @@
 package edu.coeia.chat.gui;
 
 import edu.coeia.cases.Case;
-import edu.coeia.main.utilties.GuiUtil;
-import edu.coeia.utility.Utilities;
-import edu.coeia.utility.FilesPath ;
-import edu.coeia.utility.FilesFilter ;
-import edu.coeia.utility.Tuple ;
+import edu.coeia.main.gui.util.GuiUtil;
+import edu.coeia.main.util.Utilities;
+import edu.coeia.main.util.FilesPath ;
+import edu.coeia.internet.util.FilesFilter ;
+import edu.coeia.main.util.Tuple ;
 import edu.coeia.chat.MSNParser;
 import edu.coeia.chat.YahooMessage ;
 import edu.coeia.chat.YahooMessageDecoder;

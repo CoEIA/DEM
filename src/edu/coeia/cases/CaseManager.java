@@ -1,7 +1,7 @@
 package edu.coeia.cases;
 
-import edu.coeia.utility.FilesPath ;
-import edu.coeia.utility.Utilities ;
+import edu.coeia.main.util.FilesPath ;
+import edu.coeia.main.util.Utilities ;
 
 import java.io.File ;
 import java.io.FileInputStream ;

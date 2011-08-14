@@ -20,7 +20,7 @@ import com.pff.PSTException;
 
 import java.io.IOException ;
 
-import edu.coeia.main.utilties.InfiniteProgressPanel ;
+import edu.coeia.main.gui.util.InfiniteProgressPanel ;
 
 import java.util.Date;
 import java.util.logging.FileHandler;

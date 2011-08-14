@@ -2,8 +2,8 @@
 package edu.coeia.main;
 
 import edu.coeia.cases.Case;
-import edu.coeia.utility.Utilities;
-import edu.coeia.main.utilties.GuiUtil ;
+import edu.coeia.main.util.Utilities;
+import edu.coeia.main.gui.util.GuiUtil ;
 import edu.coeia.chat.gui.ChatPanel;
 import edu.coeia.email.gui.EmailPanel;
 import edu.coeia.filesystem.gui.FileSystemPanel;

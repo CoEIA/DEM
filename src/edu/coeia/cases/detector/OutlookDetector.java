@@ -4,7 +4,7 @@
  */
 package edu.coeia.cases.detector;
 
-import edu.coeia.utility.FilesPath;
+import edu.coeia.main.util.FilesPath;
 
 import java.util.List;
 import java.util.ArrayList ;

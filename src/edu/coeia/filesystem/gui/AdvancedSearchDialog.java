@@ -11,8 +11,8 @@
 
 package edu.coeia.filesystem.gui;
 
-import edu.coeia.utility.Utilities ;
-import edu.coeia.utility.FilesFilter;
+import edu.coeia.main.util.Utilities ;
+import edu.coeia.internet.util.FilesFilter;
 
 import javax.swing.event.DocumentEvent ;
 import javax.swing.event.DocumentListener ;

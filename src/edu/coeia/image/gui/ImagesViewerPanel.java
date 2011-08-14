@@ -6,10 +6,10 @@ package edu.coeia.image.gui;
 import edu.coeia.cases.Case;
 import edu.coeia.image.ImageViewer;
 
-import edu.coeia.utility.GPSData;
-import edu.coeia.utility.Utilities;
-import edu.coeia.utility.GeoTagging;
-import edu.coeia.utility.ImageLabel;
+import edu.coeia.image.util.GPSData;
+import edu.coeia.main.util.Utilities;
+import edu.coeia.image.util.GeoTagging;
+import edu.coeia.main.gui.util.ImageLabel;
 
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;

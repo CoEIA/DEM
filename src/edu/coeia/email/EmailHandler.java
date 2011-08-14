@@ -11,9 +11,9 @@ package edu.coeia.email;
  *
  */
 
-import edu.coeia.utility.Utilities;
-import edu.coeia.utility.IP2Country;
-import edu.coeia.utility.Tuple;
+import edu.coeia.main.util.Utilities;
+import edu.coeia.email.util.IP2Country;
+import edu.coeia.main.util.Tuple;
 import edu.coeia.email.util.Message ;
 
 import java.util.ArrayList ;

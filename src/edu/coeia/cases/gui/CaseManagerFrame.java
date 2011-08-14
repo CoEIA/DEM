@@ -3,8 +3,8 @@ package edu.coeia.cases.gui;
 
 /* import internal classes */
 import edu.coeia.cases.gui.CaseWizardDialog;
-import edu.coeia.utility.FilesPath ;
-import edu.coeia.utility.Utilities;
+import edu.coeia.main.util.FilesPath ;
+import edu.coeia.main.util.Utilities;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.licence.LicenseManager;
 import edu.coeia.cases.CaseManager ;
