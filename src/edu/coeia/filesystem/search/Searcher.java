@@ -32,7 +32,7 @@ import org.apache.lucene.document.Document ;
 import org.apache.lucene.util.Version ;
 import org.apache.lucene.queryParser.QueryParser ;
 
-public class Searcher {
+class Searcher {
 
     protected Directory fsDir ;
     protected IndexReader indexReader ;

@@ -1,4 +1,4 @@
-package edu.coeia.cases.gui;
+package edu.coeia.cases;
 
 import chrriis.dj.nativeswing.swtimpl.components.JFileDialog;
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;

@@ -3,14 +3,13 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.filesystem;
+package edu.coeia.filesystem.search;
 
 /**
  *
  * @author wajdyessam
  */
 
-import edu.coeia.filesystem.search.Searcher ;
 import edu.coeia.main.util.Utilities;
 import edu.coeia.main.gui.util.GUIComponent;
 import edu.coeia.main.util.Tuple;
@@ -45,7 +44,7 @@ class ProgressSearchData {
     public int getNumberOfPatterns () { return numberOfPatterns ; }
 }
 
-public class SearcherThread extends SwingWorker<String,ProgressSearchData> {
+class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     private long time ;
     private File indexLocation  ;
     private String queryString ;

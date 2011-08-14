@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.filesystem;
+package edu.coeia.filesystem.index;
 
 /**
  *
@@ -59,7 +59,7 @@ class ProgressIndexData {
     public String getSizeMsg()      { return sizeMsg; }
 }
 
-public class IndexerThread extends SwingWorker<String,ProgressIndexData> {
+class IndexerThread extends SwingWorker<String,ProgressIndexData> {
 
     private long time = 0 ;
     private int progressCount = 0, indexCount=0;

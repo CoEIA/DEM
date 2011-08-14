@@ -9,7 +9,7 @@
  * Created on Jan 2, 2011, 8:07:20 AM
  */
 
-package edu.coeia.filesystem.gui;
+package edu.coeia.filesystem.search;
 
 import edu.coeia.main.util.Utilities ;
 import edu.coeia.internet.util.FilesFilter;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * @author wajdyessam
  */
 
-public class AdvancedSearchDialog extends javax.swing.JDialog {
+class AdvancedSearchDialog extends javax.swing.JDialog {
 
     private JFileChooser fileChooser ;
 

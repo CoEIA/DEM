@@ -35,7 +35,7 @@ import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.tika.Tika ;
 import org.apache.tika.exception.TikaException;
 
-public class Indexer {
+class Indexer {
 
     private IndexWriter writer ;
     private List<String> imagesPath ;

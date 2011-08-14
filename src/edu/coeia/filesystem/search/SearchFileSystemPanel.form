@@ -16,7 +16,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="1211" max="32767" attributes="0"/>
+          <EmptySpace min="0" pref="823" max="32767" attributes="0"/>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
@@ -41,7 +41,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="410" max="32767" attributes="0"/>
+          <EmptySpace min="0" pref="477" max="32767" attributes="0"/>
           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
@@ -83,8 +83,8 @@
                   <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="startSearchingButton" alignment="0" pref="535" max="32767" attributes="2"/>
-                      <Component id="queryTextField" alignment="0" pref="535" max="32767" attributes="2"/>
+                      <Component id="startSearchingButton" alignment="0" pref="147" max="32767" attributes="2"/>
+                      <Component id="queryTextField" alignment="0" pref="147" max="32767" attributes="2"/>
                   </Group>
                   <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -191,7 +191,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <Component id="jTabbedPane4" pref="131" max="32767" attributes="0"/>
+                  <Component id="jTabbedPane4" pref="198" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="searchProgressBard" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -222,7 +222,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane2" alignment="0" pref="103" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" alignment="0" pref="170" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -269,7 +269,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane12" alignment="0" pref="103" max="32767" attributes="0"/>
+                      <Component id="jScrollPane12" alignment="0" pref="170" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -312,7 +312,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane27" alignment="0" pref="103" max="32767" attributes="0"/>
+                      <Component id="jScrollPane27" alignment="0" pref="170" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -375,7 +375,7 @@
                       <Component id="userQueryLbl" alignment="0" max="32767" attributes="1"/>
                       <Component id="searchTime" alignment="0" pref="159" max="32767" attributes="1"/>
                   </Group>
-                  <EmptySpace pref="398" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -611,12 +611,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jTabbedPane2" alignment="0" pref="860" max="32767" attributes="0"/>
+              <Component id="jTabbedPane2" alignment="0" pref="472" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jTabbedPane2" alignment="1" pref="141" max="32767" attributes="0"/>
+              <Component id="jTabbedPane2" alignment="1" pref="208" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -648,12 +648,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane28" alignment="0" pref="855" max="32767" attributes="0"/>
+                      <Component id="jScrollPane28" alignment="0" pref="467" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane28" alignment="0" pref="113" max="32767" attributes="0"/>
+                      <Component id="jScrollPane28" alignment="0" pref="180" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>

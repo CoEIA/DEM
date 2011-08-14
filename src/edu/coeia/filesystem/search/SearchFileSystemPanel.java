@@ -8,13 +8,13 @@
  *
  * Created on Aug 14, 2011, 1:54:37 PM
  */
-package edu.coeia.filesystem.gui;
+package edu.coeia.filesystem.search;
 
 import edu.coeia.cases.Case;
 
 import edu.coeia.main.gui.util.GuiUtil;
 import edu.coeia.main.gui.util.GUIComponent ;
-import edu.coeia.filesystem.SearcherThread;
+import edu.coeia.filesystem.search.SearcherThread;
 import edu.coeia.main.util.Utilities;
 import edu.coeia.main.util.FilesPath ;
 import edu.coeia.filesystem.util.MetaDataExtraction ;
@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
+import org.apache.tika.Tika;
 
 /**
  *
@@ -153,8 +154,8 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
                 .addComponent(jLabel8)
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(startSearchingButton, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
-                    .addComponent(queryTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
+                    .addComponent(startSearchingButton, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                    .addComponent(queryTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(clearFieldsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,7 +215,7 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
         );
 
         jTabbedPane4.addTab("Search Result", jPanel22);
@@ -235,7 +236,7 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
         );
         jPanel24Layout.setVerticalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
         );
 
         jTabbedPane4.addTab("Path Clustering", jPanel24);
@@ -256,7 +257,7 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
         );
         jPanel29Layout.setVerticalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+            .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
         );
 
         jTabbedPane4.addTab("Type Clustering", jPanel29);
@@ -271,7 +272,7 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(searchProgressBard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -327,7 +328,7 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(userQueryLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(searchTime, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
-                .addContainerGap(398, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -423,11 +424,11 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
         FileMetaDataPanel.setLayout(FileMetaDataPanelLayout);
         FileMetaDataPanelLayout.setHorizontalGroup(
             FileMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 855, Short.MAX_VALUE)
+            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
         );
         FileMetaDataPanelLayout.setVerticalGroup(
             FileMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("File MetaData", FileMetaDataPanel);
@@ -436,18 +437,18 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 860, Short.MAX_VALUE)
+            .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+            .addComponent(jTabbedPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1211, Short.MAX_VALUE)
+            .addGap(0, 823, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -465,7 +466,7 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
+            .addGap(0, 477, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -572,30 +573,34 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
 }//GEN-LAST:event_clusterTypeTreeValueChanged
 
     private void showInformation (String filePath) throws Exception {
-        File tmp = new File(filePath);
+        File fileName = new File(filePath);
         String keyword = queryTextField.getText().trim();
-
-        searchFileNameLbl.setText(tmp.getName());
-        searchFileExtensionLbl.setText(Utilities.getExtension(tmp));
-        searchFileSizeLbl.setText(tmp.length() + "");
+        String extension = Utilities.getExtension(fileName);
+        
+        searchFileNameLbl.setText(fileName.getName());
+        searchFileExtensionLbl.setText(extension);
+        searchFileSizeLbl.setText(fileName.length() + "");
 
         // set summary panel and file rendered panel depen on file
-        if (Utilities.getExtension(tmp).equalsIgnoreCase("txt")) {
-            String content = Utilities.getFileContent(tmp) ;
+        if (extension.equalsIgnoreCase("txt")) {
+            String content = Utilities.getFileContent(fileName) ;
             String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
             String rep = content.replace(keyword, highlither);
             fileBrowser.setHTMLContent(rep);
         }
-        else if ( Utilities.getExtension(tmp).equalsIgnoreCase("pdf") ) {
+        else if ( extension.equalsIgnoreCase("pdf") ) {
             fileBrowser.navigate(filePath + "#search= " + keyword + "");
         }
-        else if ( Utilities.getExtension(tmp).equalsIgnoreCase("html") ||
-                  Utilities.getExtension(tmp).equalsIgnoreCase("htm") ||
-                  Utilities.getExtension(tmp).equalsIgnoreCase("mht") ) {
+        else if ( extension.equalsIgnoreCase("html") ||
+                  extension.equalsIgnoreCase("htm") ||
+                  extension.equalsIgnoreCase("mht") ) {
             fileBrowser.navigate(filePath);
         }
-        else {
-            fileBrowser.navigate(filePath);
+        else if ( extension.equalsIgnoreCase("doc")) {
+            String content = parseDoc(fileName);
+            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+            String rep = content.replace(keyword, highlither);
+            fileBrowser.setHTMLContent(rep);
         }
 
         // show matadata information for file
@@ -603,6 +608,20 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
         metaDataTextArea.setText(metaData);
 
         fileRenderPanel.validate();
+    }
+    
+    private String parseDoc(final File filePath) {
+        Tika tika = new Tika();
+        String bodyText = "" ;
+        
+        try {
+            bodyText = tika.parseToString(filePath);
+        }
+        catch (Exception e ){
+            
+        }
+        
+        return (bodyText);
     }
     
     private void startSearching (List<String> supportedExtension) {
@@ -660,6 +679,7 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
     public void setSearchKeyword (String text) {
         queryTextField.setText(text);
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FileMetaDataPanel;
     private javax.swing.JButton clearFieldsButton;

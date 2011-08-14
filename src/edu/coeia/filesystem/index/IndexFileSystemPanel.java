@@ -8,15 +8,16 @@
  *
  * Created on Aug 14, 2011, 1:52:14 PM
  */
-package edu.coeia.filesystem.gui;
+package edu.coeia.filesystem.index;
 
 import edu.coeia.cases.Case;
+import edu.coeia.filesystem.gui.FileSystemPanel;
 import edu.coeia.main.gui.util.InfiniteProgressPanel;
 import edu.coeia.main.gui.util.WrapLayout;
 import edu.coeia.main.gui.util.IndexGUIComponent;
 import edu.coeia.main.gui.util.GuiUtil;
-import edu.coeia.filesystem.IndexReaderThread;
-import edu.coeia.filesystem.IndexerThread;
+import edu.coeia.filesystem.index.IndexReaderThread;
+import edu.coeia.filesystem.index.IndexerThread;
 import edu.coeia.main.util.Utilities;
 import edu.coeia.main.util.FilesPath ;
 
@@ -161,7 +162,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         jToolBar4.setRollover(true);
 
         indexGroupButton.add(indexFilesToggleButton);
-        indexFilesToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        indexFilesToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         indexFilesToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/help_index.png"))); // NOI18N
         indexFilesToggleButton.setText("Index File System");
         indexFilesToggleButton.setFocusable(false);
@@ -175,7 +176,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         jToolBar4.add(indexFilesToggleButton);
 
         indexGroupButton.add(textCloudsToggleButton);
-        textCloudsToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        textCloudsToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         textCloudsToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/old-edit-find.png"))); // NOI18N
         textCloudsToggleButton.setText("Index Tags Cloud");
         textCloudsToggleButton.setFocusable(false);
@@ -189,7 +190,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         jToolBar4.add(textCloudsToggleButton);
 
         indexGroupButton.add(indexVisualizationToggleButton);
-        indexVisualizationToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        indexVisualizationToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         indexVisualizationToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/pie_chart.png"))); // NOI18N
         indexVisualizationToggleButton.setText("Index Visualization");
         indexVisualizationToggleButton.setFocusable(false);
@@ -206,7 +207,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         indexFileSystemButtonsPanel.setLayout(indexFileSystemButtonsPanelLayout);
         indexFileSystemButtonsPanelLayout.setHorizontalGroup(
             indexFileSystemButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar4, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+            .addComponent(jToolBar4, javax.swing.GroupLayout.PREFERRED_SIZE, 137, Short.MAX_VALUE)
         );
         indexFileSystemButtonsPanelLayout.setVerticalGroup(
             indexFileSystemButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,7 +347,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         startIndexButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/database.png"))); // NOI18N
         startIndexButton.setText("Start Indexing");
         startIndexButton.addActionListener(new java.awt.event.ActionListener() {
@@ -932,8 +933,6 @@ private void indexVisulizingButtonActionPerformed(java.awt.event.ActionEvent evt
         }
     }
 
-
-    
     public void filterCloudTable () {
         String text = cloudsFilterTextField.getText().trim();
         GuiUtil.filterTable(cloudsTable, text);

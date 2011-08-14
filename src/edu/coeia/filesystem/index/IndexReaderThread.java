@@ -3,14 +3,13 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.filesystem;
+package edu.coeia.filesystem.index;
 
 /**
  *
  * @author wajdyessam
  */
 
-import edu.coeia.filesystem.gui.IndexFileSystemPanel;
 import edu.coeia.main.gui.util.InfiniteProgressPanel;
 import edu.coeia.main.chart.PieChartPanel;
 import edu.coeia.main.util.Utilities;
@@ -35,7 +34,7 @@ import java.util.logging.Logger;
 import javax.swing.SwingWorker ;
 import javax.swing.JPanel;
 
-public class IndexReaderThread extends SwingWorker<String, Integer> {
+class IndexReaderThread extends SwingWorker<String, Integer> {
     public enum IndexItem { TAGS, EXT, IMAGES};
 
     InfiniteProgressPanel panel ;
