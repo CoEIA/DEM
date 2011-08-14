@@ -10,7 +10,7 @@ package edu.coeia.filesystem;
  * @author wajdyessam
  */
 
-import edu.coeia.filesystem.gui.FileSystemPanel;
+import edu.coeia.filesystem.gui.IndexFileSystemPanel;
 import edu.coeia.main.gui.util.InfiniteProgressPanel;
 import edu.coeia.main.chart.PieChartPanel;
 import edu.coeia.main.util.Utilities;
@@ -39,7 +39,7 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
     public enum IndexItem { TAGS, EXT, IMAGES};
 
     InfiniteProgressPanel panel ;
-    FileSystemPanel fileSystemPanel;
+    IndexFileSystemPanel fileSystemPanel;
     
     boolean status;
     IndexItem type;
@@ -55,7 +55,7 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
     private static Logger logger = Logger.getLogger("IndexReaderThread");
     private static FileHandler handler ;
 
-    public IndexReaderThread (InfiniteProgressPanel i, String location, String name, IndexItem type, FileSystemPanel frame) throws IOException {
+    public IndexReaderThread (InfiniteProgressPanel i, String location, String name, IndexItem type, IndexFileSystemPanel frame) throws IOException {
         this.panel = i;
         this.status = true;
         this.type = type;
