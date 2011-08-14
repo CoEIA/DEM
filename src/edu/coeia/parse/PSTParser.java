@@ -12,7 +12,7 @@ package edu.coeia.parse;
 
 import edu.coeia.email.EmailReader;
 import edu.coeia.email.MessageHeader ;
-import edu.coeia.index.FileDocument;
+import edu.coeia.filesystem.index.FileDocument;
 
 import java.util.ArrayList ;
 

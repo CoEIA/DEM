@@ -10,7 +10,7 @@ package edu.coeia.datamining;
  * @author wajdyessam
  */
 
-import edu.coeia.gui.utilties.InfiniteProgressPanel ;
+import edu.coeia.main.utilties.InfiniteProgressPanel ;
 import edu.coeia.utility.Tuple ;
 import edu.coeia.utility.FilesPath ;
 import edu.coeia.cases.Case ;

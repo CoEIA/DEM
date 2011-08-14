@@ -10,6 +10,7 @@ package edu.coeia.utility;
  * @author wajdyessam
  */
 
+import edu.coeia.email.util.Message;
 import java.io.File ;
 import java.io.FileNotFoundException ;
 import java.io.PrintWriter;
@@ -325,32 +326,6 @@ public class Utilities {
 	c.setTime(d);
 	return df.format( c.getTime() );
     }
-
-//    public static Tuple<Integer,Long> getDirectoriesCountAndSize (List<String> docs) {
-//        Tuple<Integer,Long> countSize  = new Tuple<Integer,Long>();
-//        int count = 0 ;
-//        long sum = 0l ;
-//
-//        for (String name: docs){
-//            File file = new File(name);
-//
-//            if ( ! file.isFile() ) {
-//                FilesCounter counter = new FilesCounter();
-//                file.listFiles(counter);
-//                count += counter.getNumberOfFiles();
-//                sum += counter.getSize();
-//            }
-//            else {
-//                count++;
-//                sum += file.length();
-//            }
-//        }
-//
-//        countSize.setA(count);
-//        countSize.setB(sum);
-//
-//        return countSize ;
-//    }
     
     public static String getFileContent (File file) throws FileNotFoundException {
         Scanner input = new Scanner(file);
