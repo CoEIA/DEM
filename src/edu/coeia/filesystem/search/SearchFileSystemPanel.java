@@ -14,7 +14,6 @@ import edu.coeia.cases.Case;
 
 import edu.coeia.main.gui.util.GuiUtil;
 import edu.coeia.main.gui.util.GUIComponent ;
-import edu.coeia.filesystem.search.SearcherThread;
 import edu.coeia.main.util.Utilities;
 import edu.coeia.main.util.FilesPath ;
 import edu.coeia.filesystem.util.MetaDataExtraction ;
@@ -642,7 +641,6 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
         }
 
         Utilities.packColumns(searchTable, 2);
-
         searchProgressBard.setIndeterminate(true);
 
         GUIComponent searchGUI = new GUIComponent(searchProgressBard,searchTable,searchingDateLbl,indexDirLbl2,
