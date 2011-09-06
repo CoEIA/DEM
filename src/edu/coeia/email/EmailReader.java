@@ -23,7 +23,6 @@ import java.io.IOException ;
 import edu.coeia.main.gui.util.InfiniteProgressPanel ;
 
 import java.util.Date;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,8 +35,7 @@ public class EmailReader {
     private static InfiniteProgressPanel panel ;
     private static int counter = 0 ;
 
-    private static Logger logger = Logger.getLogger("EmailReader");
-    private static FileHandler handler ;
+    private static final Logger logger = Logger.getLogger(EmailReader.class.getName());
     private static boolean status = false;
     
     public static ArrayList<MessageHeader> getInstance(PSTFile pst, String p, InfiniteProgressPanel pnl) {    
@@ -48,14 +46,7 @@ public class EmailReader {
             panel = pnl ;
             counter = 0;
             
-            try {
-                handler = new FileHandler("EmailReader.log");
-                logger.addHandler(handler);
-            } catch (IOException ex) {
-                logger.log(Level.SEVERE, "Uncaught exception", ex);
-            } catch (SecurityException ex) {
-                logger.log(Level.SEVERE, "Uncaught exception", ex);
-            }
+            logger.info("EmailReader Constructor");
 
             caching();
         }

@@ -23,7 +23,6 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.SwingWorker ;
 
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -48,8 +47,7 @@ public class EmailVisualizationThread extends SwingWorker<String, ProgressEmailV
     HashMap<String, Integer> data;
     ArrayList<Message> inboxDate, outboxDate, persons;
     
-    private static Logger logger = Logger.getLogger("EmailVisualizationThread");
-    private static FileHandler handler ;
+    private static final Logger logger = Logger.getLogger(EmailVisualizationThread.class.getName());
 
     public EmailVisualizationThread (JFrame frame, InfiniteProgressPanel i, String folderName, PSTFile testPST,  String path,
             String from, String to, FolderType type) {
@@ -62,15 +60,8 @@ public class EmailVisualizationThread extends SwingWorker<String, ProgressEmailV
         this.from = from;
         this.to = to;
         this.type = type;
-
-        try {
-            handler = new FileHandler("EmailVisualizationThread.log");
-            logger.addHandler(handler);
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Uncaught exception", ex);
-        } catch (SecurityException ex) {
-            logger.log(Level.SEVERE, "Uncaught exception", ex);
-        }
+        
+        logger.info("EmailVisualizationThread Constructor");
     }
 
     public EmailVisualizationThread (MessageFrequencyDialog frame, InfiniteProgressPanel i, String folderName, PSTFile testPST,  String path,
@@ -87,14 +78,7 @@ public class EmailVisualizationThread extends SwingWorker<String, ProgressEmailV
         this.fromUser = fromUser;
         this.toUser = toUser;
         
-        try {
-            handler = new FileHandler("EmailVisualizationThread.log");
-            logger.addHandler(handler);
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Uncaught exception", ex);
-        } catch (SecurityException ex) {
-            logger.log(Level.SEVERE, "Uncaught exception", ex);
-        }
+        logger.info("EmailVisualizationThread Constructor");
     }
 
     public String doInBackground () {

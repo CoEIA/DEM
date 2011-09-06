@@ -22,8 +22,6 @@ import java.io.File ;
 
 import java.util.List ;
 import java.util.ArrayList ;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ImageReader {
@@ -31,22 +29,14 @@ public class ImageReader {
     private Directory dir ;
     private IndexReader indexReader ;
 
-    private static Logger logger = Logger.getLogger("IndexerReader");
-    private static FileHandler handler ;
+    private static final Logger logger = Logger.getLogger(ImageReader.class.getName());
 
     public ImageReader (String location) throws IOException{
         indexDir = location ;
         dir = FSDirectory.open(new File(indexDir));
         indexReader = IndexReader.open(dir);
-
-        try {
-            handler = new FileHandler("IndexerReader.log");
-            logger.addHandler(handler);
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Uncaught exception", ex);
-        } catch (SecurityException ex) {
-            logger.log(Level.SEVERE, "Uncaught exception", ex);
-        }
+        
+        logger.info("ImageReader Constructor");
     }
     
     public List<String> getImagesPath () throws IOException {

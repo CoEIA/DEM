@@ -1,6 +1,8 @@
 package edu.coeia.cases.gui;
 
 
+
+
 /* import internal classes */
 import edu.coeia.cases.CaseWizardDialog;
 import edu.coeia.main.util.FilesPath ;
@@ -35,6 +37,9 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseWizardDialog;
 import edu.coeia.main.OfflineMinningFrame;
 import edu.coeia.main.SmartCardDialog;
 
@@ -96,7 +101,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Digital Evidence Miner: Case Manager");
-        setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/edu/coeia/gui/resources/dem-icon.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/edu/coeia/main/resources/dem-icon.png")));
         setResizable(false);
 
         caseManagerDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Recent Cases Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -146,13 +151,13 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         .addGroup(caseManagerDataPanelLayout.createSequentialGroup()
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
     );
 
     caseManagerButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Case Operations", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-    newCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-    newCaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/1295181153_manilla-folder-new.png"))); // NOI18N
+    newCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+    newCaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1295181153_manilla-folder-new.png"))); // NOI18N
     newCaseButton.setText("New Case");
     newCaseButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,8 +165,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         }
     });
 
-    loadCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-    loadCaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/open_case.png"))); // NOI18N
+    loadCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+    loadCaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/open_case.png"))); // NOI18N
     loadCaseButton.setText("Load & Open Case");
     loadCaseButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,8 +174,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         }
     });
 
-    removeCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-    removeCaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/remove_case.png"))); // NOI18N
+    removeCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+    removeCaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/remove_case.png"))); // NOI18N
     removeCaseButton.setText("Remove Case");
     removeCaseButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,8 +183,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         }
     });
 
-    checkLicenseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-    checkLicenseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/1295179145_User Card.png"))); // NOI18N
+    checkLicenseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+    checkLicenseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1295179145_User Card.png"))); // NOI18N
     checkLicenseButton.setText("Check License");
     checkLicenseButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,9 +200,9 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             .addContainerGap()
             .addGroup(caseManagerButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(newCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addComponent(loadCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                 .addComponent(checkLicenseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                .addComponent(removeCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                .addComponent(loadCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
+                .addComponent(removeCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
             .addContainerGap())
     );
     caseManagerButtonsPanelLayout.setVerticalGroup(
@@ -206,18 +211,19 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             .addComponent(newCaseButton)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(loadCaseButton)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+            .addGap(18, 18, 18)
             .addComponent(removeCaseButton)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(checkLicenseButton))
+            .addComponent(checkLicenseButton)
+            .addContainerGap(13, Short.MAX_VALUE))
     );
 
     jToolBar1.setFloatable(false);
     jToolBar1.setRollover(true);
 
-    jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24));
+    jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
     jLabel2.setForeground(new java.awt.Color(153, 153, 153));
-    jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/caseManager.jpg"))); // NOI18N
+    jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/caseManager.jpg"))); // NOI18N
     jToolBar1.add(jLabel2);
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -238,9 +244,9 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(caseManagerDataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(caseManagerButtonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addContainerGap())
+                .addComponent(caseManagerButtonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(caseManagerDataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     pack();

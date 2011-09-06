@@ -27,7 +27,6 @@ import java.io.File ;
 import java.util.HashMap ;
 import java.util.List ;
 import java.util.ArrayList ;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,8 +50,7 @@ class IndexReaderThread extends SwingWorker<String, Integer> {
     HashMap<String, Double> exts;
     List<String> images;
 
-    private static Logger logger = Logger.getLogger("IndexReaderThread");
-    private static FileHandler handler ;
+    private static final Logger logger = Logger.getLogger(IndexReaderThread.class.getName());
 
     public IndexReaderThread (InfiniteProgressPanel i, String location, String name, IndexItem type, IndexFileSystemPanel frame) throws IOException {
         this.panel = i;
@@ -64,15 +62,8 @@ class IndexReaderThread extends SwingWorker<String, Integer> {
         indexName = name;
         dir = FSDirectory.open(new File(indexDir));
         indexReader = IndexReader.open(dir);
-
-        try {
-            handler = new FileHandler("IndexReaderThread.log");
-            logger.addHandler(handler);
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Uncaught exception", ex);
-        } catch (SecurityException ex) {
-            logger.log(Level.SEVERE, "Uncaught exception", ex);
-        }
+        
+        logger.info("IndexReaderThread Constructor");
     }
 
     public String doInBackground () {

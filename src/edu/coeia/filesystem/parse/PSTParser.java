@@ -26,26 +26,16 @@ import org.apache.lucene.document.Document;
 import java.io.FileNotFoundException ;
 import java.io.IOException ;
 
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.lucene.index.IndexWriter;
 
 public class PSTParser {
     private PSTFile pstFile ;
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-    private FileHandler handler ;
+    private static final Logger logger = Logger.getLogger(PSTParser.class.getName());
 
     public PSTParser () {
-        try {
-            handler = new FileHandler("emailparsing.log");
-            logger.addHandler(handler);
-            logger.log(Level.INFO, "this is first line in indexing");
-        } catch (IOException ex) {
-           logger.log(Level.SEVERE, "Uncaught exception", ex);
-        }
-
-        logger.log(Level.INFO, "Start Email Parsing");
+        logger.info("PSTParser Constructor");
     }
 
 //    public ArrayList<Document> parseDocument (PSTFile pstFile , String path)  throws

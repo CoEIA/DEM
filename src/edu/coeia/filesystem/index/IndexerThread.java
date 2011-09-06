@@ -70,8 +70,7 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
     private int totalNumberOfError = 0;
     private boolean indexStatus = false;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-    private FileHandler handler ;
+    private static final Logger logger = Logger.getLogger(IndexerThread.class.getName());
 
     public IndexerThread (File indexLocation, IndexGUIComponent indexGUI, Case index,
             List<String> imagesPath) {
@@ -80,8 +79,6 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
         this.totalNumberOfFiles = index.getDataIndexedCount();
        
         try {
-            handler = new FileHandler("indexing.log");
-            logger.addHandler(handler);
             indexer = new Indexer(indexLocation, imagesPath , true);
             logger.log(Level.INFO, "this is first line in indexing");
         } catch (IOException ex) {

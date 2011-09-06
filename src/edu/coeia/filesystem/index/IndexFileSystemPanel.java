@@ -16,8 +16,6 @@ import edu.coeia.main.gui.util.InfiniteProgressPanel;
 import edu.coeia.main.gui.util.WrapLayout;
 import edu.coeia.main.gui.util.IndexGUIComponent;
 import edu.coeia.main.gui.util.GuiUtil;
-import edu.coeia.filesystem.index.IndexReaderThread;
-import edu.coeia.filesystem.index.IndexerThread;
 import edu.coeia.main.util.Utilities;
 import edu.coeia.main.util.FilesPath ;
 
@@ -63,7 +61,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
     private JFrame parentFrame ;
     private FileSystemPanel parentPanel ;
     
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private final static Logger logger = Logger.getLogger(IndexFileSystemPanel.class.getName());
     
     /** Creates new form IndexPanel */
     public IndexFileSystemPanel(Case aIndex, JFrame aParentFrame, FileSystemPanel aParentPanel) {

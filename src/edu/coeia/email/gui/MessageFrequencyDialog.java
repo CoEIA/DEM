@@ -16,7 +16,6 @@ package edu.coeia.email.gui;
  * @author wajdyessam
  */
 
-import edu.coeia.email.gui.EmailVisualizationThread;
 import java.awt.BorderLayout ;
 import java.awt.Toolkit ;
 

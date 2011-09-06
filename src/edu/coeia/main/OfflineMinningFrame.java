@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.ArrayList ;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 /*
@@ -35,30 +36,32 @@ import java.util.logging.Logger;
  */
 
 public class OfflineMinningFrame extends javax.swing.JFrame {
-    private Case index ;
+    private Case caseObj ;
     
     private final String APPLICATION_NAME = "Digital Evidence Miner (Beta Version): ";
     private String applicationTitle;
    
     private List<String> listOfOpeningCase ;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-    private FileHandler handler ;
+    private static final Logger logger = Logger.getLogger(OfflineMinningFrame.class.getName());
+    private FileHandler fileHandler ;
     
     /** Creates new form OfflineMinningFrame 
      * 
-     * @param AIndex case opened in CaseManager
+     * @param aCase case opened in CaseManager
      * @param list a list of all openings case
      */
-    public OfflineMinningFrame(Case AIndex, List<String> list) {
+    public OfflineMinningFrame(Case aCase, List<String> list) {
         initComponents();
 
         /**
          * Set Application Logging (Console and File)
          */
         try {
-            handler = new FileHandler("GUI.log");
-            logger.addHandler(handler);
+            //LogManager.getLogManager().reset();
+            
+            fileHandler = new FileHandler("GUI.log");
+            logger.addHandler(fileHandler);
             logger.log(Level.INFO, "DEM Main Frame");
         }
         catch (Exception e ) { logger.log(Level.SEVERE, "Uncaught exception", e);}
@@ -76,7 +79,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
         /*
          * initializing class
          */
-        this.index = AIndex ;
+        this.caseObj = aCase ;
         this.listOfOpeningCase = list;
         
         /**
@@ -95,8 +98,8 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
 
             public void doChecking () {
                 try {
-                    if ( index != null ) {
-                        String caseName = index.getIndexName() ;
+                    if ( caseObj != null ) {
+                        String caseName = caseObj.getIndexName() ;
 
                         if ( !caseName.isEmpty() )
                             listOfOpeningCase.remove(caseName);
@@ -109,11 +112,11 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
         });
 
         // add gui panels
-        FileSystemPanel fileSystemPanel = new FileSystemPanel(this.index, this);
-        EmailPanel emailPanel = new EmailPanel(this.index, this);
-        InternetSurfingPanel internetPanel = new InternetSurfingPanel(this.index);
-        ChatPanel chatPanel = new ChatPanel(this.index);
-        ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.index);
+        FileSystemPanel fileSystemPanel = new FileSystemPanel(this.caseObj, this);
+        EmailPanel emailPanel = new EmailPanel(this.caseObj, this);
+        InternetSurfingPanel internetPanel = new InternetSurfingPanel(this.caseObj);
+        ChatPanel chatPanel = new ChatPanel(this.caseObj);
+        ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.caseObj);
         
         this.CardPanel.add(fileSystemPanel, "fileSystemCard");
         this.CardPanel.add(emailPanel, "emailCard");

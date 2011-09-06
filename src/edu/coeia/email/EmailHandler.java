@@ -21,7 +21,6 @@ import java.util.HashMap ;
 import java.util.regex.Pattern ;
 import java.util.regex.Matcher ;
 import java.util.Date ;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,21 +40,13 @@ public class EmailHandler {
     private PSTFile pstFile ;
     private String path ;
 
-    private static Logger logger = Logger.getLogger("EmailHandler");
-    private static FileHandler handler ;
+    private final static Logger logger = Logger.getLogger(EmailHandler.class.getName());
 
     public EmailHandler (PSTFile pst, String path) {
         pstFile = pst ;
         this.path = path ;
-
-        try {
-            handler = new FileHandler("EmailHandler.log");
-            logger.addHandler(handler);
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Uncaught exception", ex);
-        } catch (SecurityException ex) {
-            logger.log(Level.SEVERE, "Uncaught exception", ex);
-        }
+        
+        logger.info("EmailHandler Constructor");
     }
 
     public ArrayList<Message> getInboxMessagesDate (String fromDate , String toDate) throws ParseException {
