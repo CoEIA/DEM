@@ -40,7 +40,7 @@ public class EmailHandler {
     private PSTFile pstFile ;
     private String path ;
 
-    private final static Logger logger = Logger.getLogger(EmailHandler.class.getName());
+    private final static Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
 
     public EmailHandler (PSTFile pst, String path) {
         pstFile = pst ;

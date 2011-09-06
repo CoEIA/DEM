@@ -70,7 +70,7 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
     private int totalNumberOfError = 0;
     private boolean indexStatus = false;
 
-    private static final Logger logger = Logger.getLogger(IndexerThread.class.getName());
+    private static final Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
 
     public IndexerThread (File indexLocation, IndexGUIComponent indexGUI, Case index,
             List<String> imagesPath) {

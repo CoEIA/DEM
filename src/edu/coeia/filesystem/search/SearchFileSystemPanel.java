@@ -45,7 +45,7 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
     
     private Case index;
     private JFrame parentFrame ;
-    private final static Logger logger = Logger.getLogger(SearchFileSystemPanel.class.getName());
+    private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
     
     /** Creates new form SearchFileSystemPanel */
     public SearchFileSystemPanel(Case aIndex, JFrame aParentFrame) {

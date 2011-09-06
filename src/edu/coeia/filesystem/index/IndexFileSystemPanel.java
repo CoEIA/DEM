@@ -61,7 +61,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
     private JFrame parentFrame ;
     private FileSystemPanel parentPanel ;
     
-    private final static Logger logger = Logger.getLogger(IndexFileSystemPanel.class.getName());
+    private final static Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
     
     /** Creates new form IndexPanel */
     public IndexFileSystemPanel(Case aIndex, JFrame aParentFrame, FileSystemPanel aParentPanel) {

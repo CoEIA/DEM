@@ -59,7 +59,7 @@ public class ChatPanel extends javax.swing.JPanel {
     // skype Chat
     private DefaultMutableTreeNode rootSkypeNode ;
     
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
     private Case index;
     private JFileChooser fileChooser ;
     

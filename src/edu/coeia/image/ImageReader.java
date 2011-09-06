@@ -29,7 +29,7 @@ public class ImageReader {
     private Directory dir ;
     private IndexReader indexReader ;
 
-    private static final Logger logger = Logger.getLogger(ImageReader.class.getName());
+    private static final Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
 
     public ImageReader (String location) throws IOException{
         indexDir = location ;

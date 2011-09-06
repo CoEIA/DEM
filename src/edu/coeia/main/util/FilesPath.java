@@ -14,6 +14,9 @@ import java.io.File ;
 
 public class FilesPath {
     
+    // logging general namespace
+    public final static String LOG_NAMESPACE = "DEM_NAMESPACE";
+    
     // get current user name
     private final static String USER_NAME = System.getProperty("user.name");
 
@@ -28,6 +31,9 @@ public class FilesPath {
 
     // the path for tmp files used in project
     public final static String TMP_PATH = APPLICATION_PATH + "\\" + "TMP" ;
+    
+    // log path
+    public final static String APPLICATION_LOG_PATH = APPLICATION_PATH + "\\" + "LOG";
     
     // INDEXES_INFO contain name and path of all creating indexs
     public static final String INDEXES_INFO = APPLICATION_PATH + "\\INDEXES.txt" ;

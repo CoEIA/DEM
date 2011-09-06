@@ -69,7 +69,7 @@ import org.apache.lucene.document.Document;
 
 public class EmailPanel extends javax.swing.JPanel {
 
-    private static final Logger logger = Logger.getLogger(EmailPanel.class.getName());
+    private static final Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
     private Case index;
     private PSTFile pstFile ;
      

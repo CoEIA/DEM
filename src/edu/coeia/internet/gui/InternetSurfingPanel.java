@@ -58,7 +58,7 @@ import java.net.URISyntaxException ;
 
 public class InternetSurfingPanel extends javax.swing.JPanel {
 
-    private final static Logger logger = Logger.getLogger(InternetSurfingPanel.class.getName());
+    private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
     private Case index;
     
     private JFileChooser fileChooser ;

@@ -319,6 +319,14 @@ public class Utilities {
 	c.setTime(d);
 	return df.format( c.getTime() );
     }
+    
+    public static String formatDateForLogFileName(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        return dateFormat.format(calendar.getTime());
+    }
 
     public static String formatDateTime (Date d) {
         DateFormat df = new SimpleDateFormat("hh:mm:ss - dd/MM/yyyy");

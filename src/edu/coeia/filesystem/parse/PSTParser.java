@@ -21,6 +21,7 @@ import com.pff.PSTMessage;
 import com.pff.PSTException ;
 import com.pff.PSTObject;
 
+import edu.coeia.main.util.FilesPath;
 import org.apache.lucene.document.Document;
 
 import java.io.FileNotFoundException ;
@@ -32,7 +33,7 @@ import org.apache.lucene.index.IndexWriter;
 
 public class PSTParser {
     private PSTFile pstFile ;
-    private static final Logger logger = Logger.getLogger(PSTParser.class.getName());
+    private static final Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
 
     public PSTParser () {
         logger.info("PSTParser Constructor");

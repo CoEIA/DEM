@@ -50,7 +50,7 @@ class IndexReaderThread extends SwingWorker<String, Integer> {
     HashMap<String, Double> exts;
     List<String> images;
 
-    private static final Logger logger = Logger.getLogger(IndexReaderThread.class.getName());
+    private static final Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
 
     public IndexReaderThread (InfiniteProgressPanel i, String location, String name, IndexItem type, IndexFileSystemPanel frame) throws IOException {
         this.panel = i;

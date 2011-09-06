@@ -4,16 +4,11 @@ package edu.coeia.cases.gui;
 
 
 /* import internal classes */
-import edu.coeia.cases.CaseWizardDialog;
 import edu.coeia.main.util.FilesPath ;
 import edu.coeia.main.util.Utilities;
-import edu.coeia.cases.Case;
 import edu.coeia.cases.licence.LicenseManager;
-import edu.coeia.cases.CaseManager ;
 
 /* import sun classes */
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.UIManager ;
 import javax.swing.SwingUtilities ;
 import javax.swing.JTable ;
@@ -29,6 +24,12 @@ import java.io.PrintWriter ;
 import java.io.FileNotFoundException ;
 
 import java.util.ArrayList ;
+import java.util.Date;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import java.awt.Toolkit ;
 import java.awt.Dimension ;
@@ -42,6 +43,8 @@ import edu.coeia.cases.CaseManager;
 import edu.coeia.cases.CaseWizardDialog;
 import edu.coeia.main.OfflineMinningFrame;
 import edu.coeia.main.SmartCardDialog;
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
 
 /*
  * CaseManagerFrame the main entry point to DEM
@@ -59,7 +62,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private static final LicenseManager licenseManager = LicenseManager.BETA_LICENSE; // select beta version
     
-    
     /**
      * Case Manager Object
      * will create cases folder if no folder exists or some files in this folder are missing
@@ -67,11 +69,16 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private static final CaseManager caseManager = CaseManager.Manager ;
     
+    /**
+     * Logger Object
+     */
+    private static final Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
     
     /** Creates new form CaseManagerFrame */
     public CaseManagerFrame() {
         initComponents(); // put swing components
         initJFrame();    // set size and location and title
+        logging();      // write log
         checkBetaLicense(); // check for expiration if beta license
         readCases();     // read cases into table
     }
@@ -254,6 +261,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
     private void loadCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadCaseButtonActionPerformed
         try {
+            logger.info("Load Case Entring");
             String indexName = getSelectedCase();
             loadCase(indexName);
         }
@@ -267,14 +275,17 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
     private void newCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCaseButtonActionPerformed
         try {
+            logger.info("Create New Case Entring");
             CaseWizardDialog indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, licenseManager.isFullVersion());
             indexWizard.setVisible(true);
             
             Case index = indexWizard.getCurrentCase();
             if ( index == null) {
+                logger.info("Create New Case Cancled");
                 return ;
             }
             
+            logger.info("Create New Case Don Successfully");
             updateIndexesInfoFile(index); // update indexes info file with new index
             readCases(); // update recent table with this new information
         }
@@ -290,9 +301,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
             return ;
         }
-
+        
         String indexName = (String) recentCaseTable.getValueAt(row, 0);
         removeCase(indexName);
+        logger.info("Remove Case : " + indexName);
         
         readCases(); // update view table
         removeAllRows(caseInformationTable); // remove entrie in case information table
@@ -329,6 +341,50 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_checkLicenseButtonActionPerformed
 
+    /**
+     * logging
+     * open new log or write to existed one
+     * Set Application Logging (Console and File)
+     */
+    private void logging() {
+        try {
+            class CustomeFormatter extends Formatter{
+                 @Override
+                 public String format(LogRecord record){
+                     StringBuilder row = new StringBuilder();
+                     String level = record.getLevel().getName();
+                     String className = record.getSourceClassName();
+                     String methodName = record.getSourceMethodName();
+                     String message = record.getMessage();
+                     String time = Utilities.formatDateTime(new Date(record.getMillis()));
+                     
+                     row.append("[");
+                     row.append(level);
+                     row.append("] ");
+                     row.append(className).append(".").append(methodName);
+                     row.append(" ").append(time).append(" Message (").append(message).append(" )\n");
+                     
+                     return row.toString();
+                 }
+            }
+            
+            LogManager.getLogManager().reset();
+            
+            ConsoleHandler consoleHandler = new ConsoleHandler();    
+            
+            String fileName = FilesPath.APPLICATION_LOG_PATH + "\\" + String.format("DEM_%s.log", Utilities.formatDateForLogFileName(new Date()));
+            FileHandler fileHandler = new FileHandler(fileName, true);
+            
+            consoleHandler.setFormatter(new CustomeFormatter());
+            fileHandler.setFormatter(new CustomeFormatter());
+            
+            logger.addHandler(fileHandler);
+            logger.addHandler(consoleHandler);
+            
+            logger.log(Level.INFO, "DEM Main Frame");
+        }
+        catch (Exception e ) {}
+    }
     
     /**
      * checkBetaLicense

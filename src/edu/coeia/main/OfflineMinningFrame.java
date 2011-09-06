@@ -21,9 +21,7 @@ import java.io.IOException ;
 
 import java.util.List; 
 import java.util.ArrayList ;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 /*
@@ -43,8 +41,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
    
     private List<String> listOfOpeningCase ;
 
-    private static final Logger logger = Logger.getLogger(OfflineMinningFrame.class.getName());
-    private FileHandler fileHandler ;
+    private static final Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
     
     /** Creates new form OfflineMinningFrame 
      * 
@@ -53,18 +50,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
      */
     public OfflineMinningFrame(Case aCase, List<String> list) {
         initComponents();
-
-        /**
-         * Set Application Logging (Console and File)
-         */
-        try {
-            //LogManager.getLogManager().reset();
-            
-            fileHandler = new FileHandler("GUI.log");
-            logger.addHandler(fileHandler);
-            logger.log(Level.INFO, "DEM Main Frame");
-        }
-        catch (Exception e ) { logger.log(Level.SEVERE, "Uncaught exception", e);}
+        logger.info("OfflineMining Frame Constructor, Open Case: " + aCase.getIndexName());
         
         /*
          * set frame resizable and set frame title

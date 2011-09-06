@@ -56,7 +56,7 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
     private int imageIndex  = 0;
     private int totalImagePage, currentImagePage ;
     
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private final static Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
     
     private static final int IMAGE_WIDTH = 120;
     private static final int IMAGE_HEIGHT = 120;
