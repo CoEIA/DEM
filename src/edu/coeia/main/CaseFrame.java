@@ -33,7 +33,7 @@ import java.util.logging.Logger;
  * 
  */
 
-public class OfflineMinningFrame extends javax.swing.JFrame {
+public class CaseFrame extends javax.swing.JFrame {
     private Case caseObj ;
     
     private final String APPLICATION_NAME = "Digital Evidence Miner (Beta Version): ";
@@ -48,7 +48,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
      * @param aCase case opened in CaseManager
      * @param list a list of all openings case
      */
-    public OfflineMinningFrame(Case aCase, List<String> list) {
+    public CaseFrame(Case aCase, List<String> list) {
         initComponents();
         logger.info("OfflineMining Frame Constructor, Open Case: " + aCase.getIndexName());
         
@@ -304,7 +304,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
         try {
             ArrayList<String> data = Utilities.readProgramOutputStream("systeminfo.exe");
 
-            WindowsInfoDialog wid = new WindowsInfoDialog(OfflineMinningFrame.this, true, data);
+            WindowsInfoDialog wid = new WindowsInfoDialog(CaseFrame.this, true, data);
             wid.setVisible(true);
         }
         catch (IOException e) {
@@ -313,7 +313,7 @@ public class OfflineMinningFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_windowsMenuItemActionPerformed
 
     private void recentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recentMenuItemActionPerformed
-        RecentDialog rd = new RecentDialog(OfflineMinningFrame.this, true);
+        RecentDialog rd = new RecentDialog(CaseFrame.this, true);
         rd.setVisible(true);
     }//GEN-LAST:event_recentMenuItemActionPerformed
     

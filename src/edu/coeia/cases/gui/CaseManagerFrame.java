@@ -41,7 +41,7 @@ import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseManager;
 import edu.coeia.cases.CaseWizardDialog;
-import edu.coeia.main.OfflineMinningFrame;
+import edu.coeia.main.CaseFrame;
 import edu.coeia.main.SmartCardDialog;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
@@ -548,7 +548,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
                 caseManager.addCase(caseName);
 
-                OfflineMinningFrame mainFrame = new OfflineMinningFrame(index, caseManager.getList());
+                CaseFrame mainFrame = new CaseFrame(index, caseManager.getList());
                 mainFrame.setVisible(true);
             }
             else {
