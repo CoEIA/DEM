@@ -10,11 +10,11 @@ import edu.coeia.filesystem.gui.FileSystemPanel;
 import edu.coeia.image.gui.ImagesViewerPanel;
 import edu.coeia.internet.gui.InternetSurfingPanel;
 
+import edu.coeia.main.util.FilesPath;
 import java.awt.Toolkit ;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JFrame ;
 import javax.swing.JOptionPane;
 
 import java.io.IOException ;
@@ -135,6 +135,8 @@ public class CaseFrame extends javax.swing.JFrame {
         toolsMenu = new javax.swing.JMenu();
         windowsMenuItem = new javax.swing.JMenuItem();
         recentMenuItem = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        viewLogMenuItem = new javax.swing.JMenuItem();
         aboutMenu = new javax.swing.JMenu();
         helpMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
@@ -254,6 +256,15 @@ public class CaseFrame extends javax.swing.JFrame {
             }
         });
         toolsMenu.add(recentMenuItem);
+        toolsMenu.add(jSeparator2);
+
+        viewLogMenuItem.setText("View Logs");
+        viewLogMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewLogMenuItemActionPerformed(evt);
+            }
+        });
+        toolsMenu.add(viewLogMenuItem);
 
         jMenuBar1.add(toolsMenu);
 
@@ -341,6 +352,15 @@ public class CaseFrame extends javax.swing.JFrame {
          GuiUtil.showPanel("imagesViewerCard", CardPanel);
          this.setTitle(APPLICATION_NAME + "Image Viewer Window");
     }//GEN-LAST:event_imageViewerToggleButtonActionPerformed
+
+    private void viewLogMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewLogMenuItemActionPerformed
+        try {
+            Utilities.selectObjectInExplorer(FilesPath.APPLICATION_LOG_PATH);
+        }
+        catch(Exception e) {
+            logger.log(Level.SEVERE, "Exception When Opening Folder", e);
+        }
+    }//GEN-LAST:event_viewLogMenuItemActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CardPanel;
@@ -357,9 +377,11 @@ public class CaseFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton internetSurfingToggleButton;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem recentMenuItem;
     private javax.swing.JMenu toolsMenu;
+    private javax.swing.JMenuItem viewLogMenuItem;
     private javax.swing.JMenuItem windowsMenuItem;
     // End of variables declaration//GEN-END:variables
 }

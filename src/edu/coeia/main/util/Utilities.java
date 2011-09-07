@@ -53,6 +53,11 @@ import java.text.DecimalFormat;
 
 public class Utilities {
 
+    public static void selectObjectInExplorer (String path) throws Exception{
+        Runtime rt = Runtime.getRuntime();
+        rt.exec("explorer /select," + path);
+    }
+        
     public static boolean isALocalDirve (String path) {
         boolean result = false;
 

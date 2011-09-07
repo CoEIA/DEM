@@ -344,7 +344,7 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         selectBtn.addActionListener( new java.awt.event.ActionListener() {
             public void actionPerformed (java.awt.event.ActionEvent event) {
                 try {
-                    selectImage(lbl.getPath());
+                    Utilities.selectObjectInExplorer(lbl.getPath());
                 }
                 catch (Exception e){
                 }
@@ -409,11 +409,6 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
 
         lbl.setComponentPopupMenu(popup);
-    }
-        
-    private static void selectImage (String path) throws Exception{
-        Runtime rt = Runtime.getRuntime();
-        rt.exec("explorer /select," + path);
     }
         
     private void setImageInformation (String path) {
