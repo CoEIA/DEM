@@ -128,11 +128,13 @@ public class EmailPanel extends javax.swing.JPanel {
         emailTabbedPane = new javax.swing.JTabbedPane();
         outlookPanel = new javax.swing.JPanel();
         messagePanel = new javax.swing.JPanel();
+        messageSearchPanel = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        emailSearchButton = new javax.swing.JButton();
+        emailSearchTextField = new javax.swing.JTextField();
+        messageTablePanel = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         emailTable = new javax.swing.JTable();
-        jLabel19 = new javax.swing.JLabel();
-        emailSearchTextField = new javax.swing.JTextField();
-        emailSearchButton = new javax.swing.JButton();
         renderPanel = new javax.swing.JPanel();
         jTabbedPane3 = new javax.swing.JTabbedPane();
         HTMLRenderPanel = new javax.swing.JPanel();
@@ -142,11 +144,11 @@ public class EmailPanel extends javax.swing.JPanel {
         messageHeaderPanel = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         headerEditorPane = new javax.swing.JEditorPane();
-        jPanel3 = new javax.swing.JPanel();
+        loadPstPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         outlookComboBox = new javax.swing.JComboBox();
         loadPstButton = new javax.swing.JButton();
-        jPanel25 = new javax.swing.JPanel();
+        mailBoxTreePanel = new javax.swing.JPanel();
         clusteringTabbedPane = new javax.swing.JTabbedPane();
         jPanel26 = new javax.swing.JPanel();
         treeScrollPane = new javax.swing.JScrollPane();
@@ -166,14 +168,18 @@ public class EmailPanel extends javax.swing.JPanel {
             }
         };
         outlookCorrelationsPanel = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
+        selectPstFactorPanel = new javax.swing.JPanel();
+        selectPanel = new javax.swing.JPanel();
+        dateSelectionPanel = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
+        fromDatePanel = new javax.swing.JPanel();
+        toDatePanel = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        factorSelectionPanel = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         correlationComboBox = new javax.swing.JComboBox();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
+        visualizationButtonPanel = new javax.swing.JPanel();
         emailVisualizationButton = new javax.swing.JButton();
-        toDatePanel = new javax.swing.JPanel();
-        fromDatePanel = new javax.swing.JPanel();
         correlationResultPanel = new javax.swing.JPanel();
         inboxPanel = new javax.swing.JPanel();
         jScrollPane13 = new javax.swing.JScrollPane();
@@ -189,51 +195,58 @@ public class EmailPanel extends javax.swing.JPanel {
         locationTable = new javax.swing.JTable();
         messageFrequencyPanel = new javax.swing.JPanel();
 
+        setLayout(new java.awt.BorderLayout());
+
+        outlookPanel.setLayout(new java.awt.BorderLayout());
+
         messagePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        messagePanel.setLayout(new java.awt.BorderLayout());
 
-        emailTable.setAutoCreateRowSorter(true);
-        emailTable.setFillsViewportHeight(true);
-        jScrollPane9.setViewportView(emailTable);
+        messageSearchPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(0, 70, 213));
         jLabel19.setText("Search String:");
+        messageSearchPanel.add(jLabel19, java.awt.BorderLayout.WEST);
 
-        emailSearchTextField.setText(" ");
-
-        emailSearchButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        emailSearchButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         emailSearchButton.setText("Search in Content");
         emailSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailSearchButtonActionPerformed(evt);
             }
         });
+        messageSearchPanel.add(emailSearchButton, java.awt.BorderLayout.EAST);
 
-        javax.swing.GroupLayout messagePanelLayout = new javax.swing.GroupLayout(messagePanel);
-        messagePanel.setLayout(messagePanelLayout);
-        messagePanelLayout.setHorizontalGroup(
-            messagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(messagePanelLayout.createSequentialGroup()
-                .addComponent(jLabel19)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(emailSearchTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(emailSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+        emailSearchTextField.setText(" ");
+        messageSearchPanel.add(emailSearchTextField, java.awt.BorderLayout.CENTER);
+
+        messagePanel.add(messageSearchPanel, java.awt.BorderLayout.SOUTH);
+
+        emailTable.setAutoCreateRowSorter(true);
+        emailTable.setFillsViewportHeight(true);
+        jScrollPane9.setViewportView(emailTable);
+
+        javax.swing.GroupLayout messageTablePanelLayout = new javax.swing.GroupLayout(messageTablePanel);
+        messageTablePanel.setLayout(messageTablePanelLayout);
+        messageTablePanelLayout.setHorizontalGroup(
+            messageTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(messageTablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        messagePanelLayout.setVerticalGroup(
-            messagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(messagePanelLayout.createSequentialGroup()
-                .addGroup(messagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(messagePanelLayout.createSequentialGroup()
-                        .addGap(252, 252, 252)
-                        .addGroup(messagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel19)
-                            .addComponent(emailSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(emailSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        messageTablePanelLayout.setVerticalGroup(
+            messageTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(messageTablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                .addContainerGap())
         );
+
+        messagePanel.add(messageTablePanel, java.awt.BorderLayout.CENTER);
+
+        outlookPanel.add(messagePanel, java.awt.BorderLayout.CENTER);
 
         renderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -248,14 +261,14 @@ public class EmailPanel extends javax.swing.JPanel {
             TXTRenderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TXTRenderPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
+                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
                 .addContainerGap())
         );
         TXTRenderPanelLayout.setVerticalGroup(
             TXTRenderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TXTRenderPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -269,14 +282,14 @@ public class EmailPanel extends javax.swing.JPanel {
             messageHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(messageHeaderPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
                 .addContainerGap())
         );
         messageHeaderPanelLayout.setVerticalGroup(
             messageHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(messageHeaderPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -286,18 +299,25 @@ public class EmailPanel extends javax.swing.JPanel {
         renderPanel.setLayout(renderPanelLayout);
         renderPanelLayout.setHorizontalGroup(
             renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, renderPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE))
         );
         renderPanelLayout.setVerticalGroup(
             renderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+            .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        outlookPanel.add(renderPanel, java.awt.BorderLayout.SOUTH);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        loadPstPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        loadPstPanel.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 70, 213));
         jLabel1.setText("Select Outlook File From Index:");
+        loadPstPanel.add(jLabel1, java.awt.BorderLayout.WEST);
+        loadPstPanel.add(outlookComboBox, java.awt.BorderLayout.CENTER);
 
         loadPstButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         loadPstButton.setText("Load Outlook File");
@@ -306,29 +326,9 @@ public class EmailPanel extends javax.swing.JPanel {
                 loadPstButtonActionPerformed(evt);
             }
         });
+        loadPstPanel.add(loadPstButton, java.awt.BorderLayout.EAST);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(outlookComboBox, 0, 285, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(loadPstButton, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(outlookComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loadPstButton)))
-        );
+        outlookPanel.add(loadPstPanel, java.awt.BorderLayout.NORTH);
 
         folderTree.setModel(null);
         folderTree.setShowsRootHandles(true);
@@ -342,56 +342,79 @@ public class EmailPanel extends javax.swing.JPanel {
         );
         jPanel26Layout.setVerticalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(treeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+            .addComponent(treeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
         );
 
         clusteringTabbedPane.addTab("Mail Box", jPanel26);
 
-        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
-        jPanel25.setLayout(jPanel25Layout);
-        jPanel25Layout.setHorizontalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(clusteringTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+        javax.swing.GroupLayout mailBoxTreePanelLayout = new javax.swing.GroupLayout(mailBoxTreePanel);
+        mailBoxTreePanel.setLayout(mailBoxTreePanelLayout);
+        mailBoxTreePanelLayout.setHorizontalGroup(
+            mailBoxTreePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mailBoxTreePanelLayout.createSequentialGroup()
+                .addComponent(clusteringTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel25Layout.setVerticalGroup(
-            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(clusteringTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+        mailBoxTreePanelLayout.setVerticalGroup(
+            mailBoxTreePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mailBoxTreePanelLayout.createSequentialGroup()
+                .addComponent(clusteringTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        javax.swing.GroupLayout outlookPanelLayout = new javax.swing.GroupLayout(outlookPanel);
-        outlookPanel.setLayout(outlookPanelLayout);
-        outlookPanelLayout.setHorizontalGroup(
-            outlookPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, outlookPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(outlookPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(renderPanel, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, outlookPanelLayout.createSequentialGroup()
-                        .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(messagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        outlookPanelLayout.setVerticalGroup(
-            outlookPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(outlookPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(outlookPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(messagePanel, 0, 161, Short.MAX_VALUE)
-                    .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(renderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        outlookPanel.add(mailBoxTreePanel, java.awt.BorderLayout.WEST);
 
         emailTabbedPane.addTab("Microsoft Outlook Viewing", outlookPanel);
 
-        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Select Information Need", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        outlookCorrelationsPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11));
+        selectPstFactorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Select Information Need", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        selectPstFactorPanel.setLayout(new java.awt.BorderLayout());
+
+        selectPanel.setLayout(new java.awt.BorderLayout());
+
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel21.setForeground(new java.awt.Color(0, 70, 213));
+        jLabel21.setText("From Date:");
+
+        fromDatePanel.setLayout(new java.awt.BorderLayout());
+
+        toDatePanel.setLayout(new java.awt.BorderLayout());
+
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel22.setForeground(new java.awt.Color(0, 70, 213));
+        jLabel22.setText("To Date:");
+
+        javax.swing.GroupLayout dateSelectionPanelLayout = new javax.swing.GroupLayout(dateSelectionPanel);
+        dateSelectionPanel.setLayout(dateSelectionPanelLayout);
+        dateSelectionPanelLayout.setHorizontalGroup(
+            dateSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dateSelectionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fromDatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(toDatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(276, 276, 276))
+        );
+        dateSelectionPanelLayout.setVerticalGroup(
+            dateSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dateSelectionPanelLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(dateSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(fromDatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(toDatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        selectPanel.add(dateSelectionPanel, java.awt.BorderLayout.SOUTH);
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(0, 70, 213));
         jLabel20.setText("Statistics For:");
 
@@ -402,15 +425,32 @@ public class EmailPanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel21.setForeground(new java.awt.Color(0, 70, 213));
-        jLabel21.setText("From Date:");
+        javax.swing.GroupLayout factorSelectionPanelLayout = new javax.swing.GroupLayout(factorSelectionPanel);
+        factorSelectionPanel.setLayout(factorSelectionPanelLayout);
+        factorSelectionPanelLayout.setHorizontalGroup(
+            factorSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(factorSelectionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel20)
+                .addGap(18, 18, 18)
+                .addComponent(correlationComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(336, Short.MAX_VALUE))
+        );
+        factorSelectionPanelLayout.setVerticalGroup(
+            factorSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(factorSelectionPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(factorSelectionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel20)
+                    .addComponent(correlationComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
-        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel22.setForeground(new java.awt.Color(0, 70, 213));
-        jLabel22.setText("To Date:");
+        selectPanel.add(factorSelectionPanel, java.awt.BorderLayout.NORTH);
 
-        emailVisualizationButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        selectPstFactorPanel.add(selectPanel, java.awt.BorderLayout.NORTH);
+
+        emailVisualizationButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         emailVisualizationButton.setText(" Visualization of the Result");
         emailVisualizationButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -418,52 +458,26 @@ public class EmailPanel extends javax.swing.JPanel {
             }
         });
 
-        toDatePanel.setLayout(new java.awt.BorderLayout());
-
-        fromDatePanel.setLayout(new java.awt.BorderLayout());
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel20)
-                        .addGap(18, 18, 18)
-                        .addComponent(correlationComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fromDatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(10, 10, 10)
-                        .addComponent(toDatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(306, 306, 306)
-                        .addComponent(emailVisualizationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
+        javax.swing.GroupLayout visualizationButtonPanelLayout = new javax.swing.GroupLayout(visualizationButtonPanel);
+        visualizationButtonPanel.setLayout(visualizationButtonPanelLayout);
+        visualizationButtonPanelLayout.setHorizontalGroup(
+            visualizationButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(visualizationButtonPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel22)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(toDatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel20)
-                                .addComponent(correlationComboBox)
-                                .addComponent(jLabel21))
-                            .addComponent(fromDatePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(22, 22, 22)
+                .addComponent(emailVisualizationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(449, Short.MAX_VALUE))
+        );
+        visualizationButtonPanelLayout.setVerticalGroup(
+            visualizationButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, visualizationButtonPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(emailVisualizationButton)
                 .addContainerGap())
         );
+
+        selectPstFactorPanel.add(visualizationButtonPanel, java.awt.BorderLayout.SOUTH);
+
+        outlookCorrelationsPanel.add(selectPstFactorPanel, java.awt.BorderLayout.NORTH);
 
         correlationResultPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Statistics Result", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         correlationResultPanel.setLayout(new java.awt.CardLayout());
@@ -506,11 +520,11 @@ public class EmailPanel extends javax.swing.JPanel {
         inboxPanel.setLayout(inboxPanelLayout);
         inboxPanelLayout.setHorizontalGroup(
             inboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+            .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
         );
         inboxPanelLayout.setVerticalGroup(
             inboxPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+            .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
         );
 
         correlationResultPanel.add(inboxPanel, "inboxCard");
@@ -552,11 +566,11 @@ public class EmailPanel extends javax.swing.JPanel {
         sentItemPanel.setLayout(sentItemPanelLayout);
         sentItemPanelLayout.setHorizontalGroup(
             sentItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+            .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
         );
         sentItemPanelLayout.setVerticalGroup(
             sentItemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+            .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
         );
 
         correlationResultPanel.add(sentItemPanel, "sentItemCard");
@@ -596,11 +610,11 @@ public class EmailPanel extends javax.swing.JPanel {
         espPanel.setLayout(espPanelLayout);
         espPanelLayout.setHorizontalGroup(
             espPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+            .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
         );
         espPanelLayout.setVerticalGroup(
             espPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+            .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
         );
 
         correlationResultPanel.add(espPanel, "espCard");
@@ -640,11 +654,11 @@ public class EmailPanel extends javax.swing.JPanel {
         locationPanel.setLayout(locationPanelLayout);
         locationPanelLayout.setHorizontalGroup(
             locationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane16, javax.swing.GroupLayout.DEFAULT_SIZE, 701, Short.MAX_VALUE)
+            .addComponent(jScrollPane16, javax.swing.GroupLayout.DEFAULT_SIZE, 648, Short.MAX_VALUE)
         );
         locationPanelLayout.setVerticalGroup(
             locationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane16, javax.swing.GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+            .addComponent(jScrollPane16, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
         );
 
         correlationResultPanel.add(locationPanel, "locationCard");
@@ -653,58 +667,20 @@ public class EmailPanel extends javax.swing.JPanel {
         messageFrequencyPanel.setLayout(messageFrequencyPanelLayout);
         messageFrequencyPanelLayout.setHorizontalGroup(
             messageFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 701, Short.MAX_VALUE)
+            .addGap(0, 648, Short.MAX_VALUE)
         );
         messageFrequencyPanelLayout.setVerticalGroup(
             messageFrequencyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 329, Short.MAX_VALUE)
+            .addGap(0, 240, Short.MAX_VALUE)
         );
 
         correlationResultPanel.add(messageFrequencyPanel, "messageFrequencyCard");
 
-        javax.swing.GroupLayout outlookCorrelationsPanelLayout = new javax.swing.GroupLayout(outlookCorrelationsPanel);
-        outlookCorrelationsPanel.setLayout(outlookCorrelationsPanelLayout);
-        outlookCorrelationsPanelLayout.setHorizontalGroup(
-            outlookCorrelationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, outlookCorrelationsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(outlookCorrelationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(correlationResultPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        outlookCorrelationsPanelLayout.setVerticalGroup(
-            outlookCorrelationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(outlookCorrelationsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(correlationResultPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        outlookCorrelationsPanel.add(correlationResultPanel, java.awt.BorderLayout.CENTER);
 
         emailTabbedPane.addTab("Microsoft Outlook Statistics", outlookCorrelationsPanel);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 762, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(emailTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
-                    .addContainerGap()))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 559, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(emailTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
-                    .addContainerGap()))
-        );
+        add(emailTabbedPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 private void emailSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailSearchButtonActionPerformed
@@ -1107,6 +1083,7 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
     private javax.swing.JTabbedPane clusteringTabbedPane;
     private javax.swing.JComboBox correlationComboBox;
     private javax.swing.JPanel correlationResultPanel;
+    private javax.swing.JPanel dateSelectionPanel;
     private javax.swing.JButton emailSearchButton;
     private javax.swing.JTextField emailSearchTextField;
     private javax.swing.JTabbedPane emailTabbedPane;
@@ -1114,6 +1091,7 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
     private javax.swing.JButton emailVisualizationButton;
     private javax.swing.JPanel espPanel;
     private javax.swing.JTable espTable;
+    private javax.swing.JPanel factorSelectionPanel;
     private javax.swing.JTree folderTree;
     private javax.swing.JPanel fromDatePanel;
     private javax.swing.JEditorPane headerEditorPane;
@@ -1124,10 +1102,7 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
     private javax.swing.JScrollPane jScrollPane15;
@@ -1137,19 +1112,26 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JButton loadPstButton;
+    private javax.swing.JPanel loadPstPanel;
     private javax.swing.JPanel locationPanel;
     private javax.swing.JTable locationTable;
+    private javax.swing.JPanel mailBoxTreePanel;
     private javax.swing.JPanel messageFrequencyPanel;
     private javax.swing.JPanel messageHeaderPanel;
     private javax.swing.JPanel messagePanel;
+    private javax.swing.JPanel messageSearchPanel;
+    private javax.swing.JPanel messageTablePanel;
     private javax.swing.JComboBox outlookComboBox;
     private javax.swing.JPanel outlookCorrelationsPanel;
     private javax.swing.JPanel outlookPanel;
     private javax.swing.JPanel renderPanel;
+    private javax.swing.JPanel selectPanel;
+    private javax.swing.JPanel selectPstFactorPanel;
     private javax.swing.JPanel sentItemPanel;
     private javax.swing.JTable sentItemTable;
     private javax.swing.JEditorPane textEditorPane;
     private javax.swing.JPanel toDatePanel;
     private javax.swing.JScrollPane treeScrollPane;
+    private javax.swing.JPanel visualizationButtonPanel;
     // End of variables declaration//GEN-END:variables
 }

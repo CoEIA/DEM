@@ -124,18 +124,23 @@ public class ChatPanel extends javax.swing.JPanel {
         yahooComboBox = new javax.swing.JComboBox();
         loadYahooButton = new javax.swing.JButton();
         skypePanel = new javax.swing.JPanel();
+        jScrollPane23 = new javax.swing.JScrollPane();
+        skypeChatTree = new javax.swing.JTree();
         skypeChatContentPanel = new javax.swing.JPanel();
         jScrollPane18 = new javax.swing.JScrollPane();
         skypeTable = new javax.swing.JTable();
-        jScrollPane23 = new javax.swing.JScrollPane();
-        skypeChatTree = new javax.swing.JTree();
         jPanel20 = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
         skypeComboBox = new javax.swing.JComboBox();
         loadSkypeButton = new javax.swing.JButton();
 
+        setLayout(new java.awt.BorderLayout());
+
+        WindowsLivePanel.setLayout(new java.awt.BorderLayout());
+
         msnChatContentPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         msnChatContentPanel.setLayout(new java.awt.BorderLayout());
+        WindowsLivePanel.add(msnChatContentPanel, java.awt.BorderLayout.CENTER);
 
         msnChatTree.setModel(null);
         msnChatTree.setShowsRootHandles(true);
@@ -146,11 +151,17 @@ public class ChatPanel extends javax.swing.JPanel {
         });
         jScrollPane20.setViewportView(msnChatTree);
 
-        jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        WindowsLivePanel.add(jScrollPane20, java.awt.BorderLayout.WEST);
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel14.setLayout(new java.awt.BorderLayout());
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 70, 213));
         jLabel7.setText("Select Window Live File From Index:");
+        jPanel14.add(jLabel7, java.awt.BorderLayout.WEST);
+
+        jPanel14.add(msnComboBox, java.awt.BorderLayout.CENTER);
 
         loadMSNButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         loadMSNButton.setText("Load Conversations");
@@ -159,57 +170,13 @@ public class ChatPanel extends javax.swing.JPanel {
                 loadMSNButtonActionPerformed(evt);
             }
         });
+        jPanel14.add(loadMSNButton, java.awt.BorderLayout.EAST);
 
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(msnComboBox, 0, 0, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(loadMSNButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(msnComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loadMSNButton))
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout WindowsLivePanelLayout = new javax.swing.GroupLayout(WindowsLivePanel);
-        WindowsLivePanel.setLayout(WindowsLivePanelLayout);
-        WindowsLivePanelLayout.setHorizontalGroup(
-            WindowsLivePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WindowsLivePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(WindowsLivePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WindowsLivePanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(msnChatContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE))
-                    .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        WindowsLivePanelLayout.setVerticalGroup(
-            WindowsLivePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, WindowsLivePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(WindowsLivePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane20, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
-                    .addComponent(msnChatContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        WindowsLivePanel.add(jPanel14, java.awt.BorderLayout.NORTH);
 
         chatPanelTappedPane.addTab("Windows Live Messanger", WindowsLivePanel);
+
+        yahooMessangerPanel.setLayout(new java.awt.BorderLayout());
 
         yahooChatTree.setModel(null);
         yahooChatTree.setShowsRootHandles(true);
@@ -220,14 +187,21 @@ public class ChatPanel extends javax.swing.JPanel {
         });
         jScrollPane21.setViewportView(yahooChatTree);
 
+        yahooMessangerPanel.add(jScrollPane21, java.awt.BorderLayout.WEST);
+
         yahooChatContentPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         yahooChatContentPanel.setLayout(new java.awt.BorderLayout());
+        yahooMessangerPanel.add(yahooChatContentPanel, java.awt.BorderLayout.CENTER);
 
         jPanel17.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel17.setLayout(new java.awt.BorderLayout());
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 70, 213));
         jLabel9.setText("Select Yahoo File From Index:");
+        jPanel17.add(jLabel9, java.awt.BorderLayout.WEST);
+
+        jPanel17.add(yahooComboBox, java.awt.BorderLayout.CENTER);
 
         loadYahooButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         loadYahooButton.setText("Load Conversations");
@@ -236,62 +210,28 @@ public class ChatPanel extends javax.swing.JPanel {
                 loadYahooButtonActionPerformed(evt);
             }
         });
+        jPanel17.add(loadYahooButton, java.awt.BorderLayout.EAST);
 
-        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
-        jPanel17.setLayout(jPanel17Layout);
-        jPanel17Layout.setHorizontalGroup(
-            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel17Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel9)
-                .addGap(18, 18, 18)
-                .addComponent(yahooComboBox, 0, 234, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(loadYahooButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel17Layout.setVerticalGroup(
-            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel17Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(yahooComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loadYahooButton))
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout yahooMessangerPanelLayout = new javax.swing.GroupLayout(yahooMessangerPanel);
-        yahooMessangerPanel.setLayout(yahooMessangerPanelLayout);
-        yahooMessangerPanelLayout.setHorizontalGroup(
-            yahooMessangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(yahooMessangerPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(yahooMessangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(yahooMessangerPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane21, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(yahooChatContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        yahooMessangerPanelLayout.setVerticalGroup(
-            yahooMessangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, yahooMessangerPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(yahooMessangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(yahooChatContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-                    .addComponent(jScrollPane21, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        yahooMessangerPanel.add(jPanel17, java.awt.BorderLayout.NORTH);
 
         chatPanelTappedPane.addTab("Yahoo Messanger", yahooMessangerPanel);
 
+        skypePanel.setLayout(new java.awt.BorderLayout());
+
+        skypeChatTree.setModel(null);
+        skypeChatTree.setShowsRootHandles(true);
+        skypeChatTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                skypeChatTreeValueChanged(evt);
+            }
+        });
+        jScrollPane23.setViewportView(skypeChatTree);
+
+        skypePanel.add(jScrollPane23, java.awt.BorderLayout.WEST);
+
         skypeChatContentPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        skypeTable.setFont(new java.awt.Font("Tahoma", 1, 11));
+        skypeTable.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         skypeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
             },
@@ -310,35 +250,27 @@ public class ChatPanel extends javax.swing.JPanel {
         });
         jScrollPane18.setViewportView(skypeTable);
 
-        skypeChatTree.setModel(null);
-        skypeChatTree.setShowsRootHandles(true);
-        skypeChatTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-                skypeChatTreeValueChanged(evt);
-            }
-        });
-        jScrollPane23.setViewportView(skypeChatTree);
-
         javax.swing.GroupLayout skypeChatContentPanelLayout = new javax.swing.GroupLayout(skypeChatContentPanel);
         skypeChatContentPanel.setLayout(skypeChatContentPanelLayout);
         skypeChatContentPanelLayout.setHorizontalGroup(
             skypeChatContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(skypeChatContentPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane23, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE))
+            .addComponent(jScrollPane18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
         );
         skypeChatContentPanelLayout.setVerticalGroup(
             skypeChatContentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
-            .addComponent(jScrollPane23, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+            .addComponent(jScrollPane18, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
         );
 
-        jPanel20.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        skypePanel.add(skypeChatContentPanel, java.awt.BorderLayout.CENTER);
 
-        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jPanel20.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        jPanel20.setLayout(new java.awt.BorderLayout());
+
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(0, 70, 213));
         jLabel28.setText("Select Skypee File From Index:");
+        jPanel20.add(jLabel28, java.awt.BorderLayout.WEST);
+        jPanel20.add(skypeComboBox, java.awt.BorderLayout.CENTER);
 
         loadSkypeButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         loadSkypeButton.setText("Load Conversations");
@@ -347,63 +279,13 @@ public class ChatPanel extends javax.swing.JPanel {
                 loadSkypeButtonActionPerformed(evt);
             }
         });
+        jPanel20.add(loadSkypeButton, java.awt.BorderLayout.EAST);
 
-        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
-        jPanel20.setLayout(jPanel20Layout);
-        jPanel20Layout.setHorizontalGroup(
-            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel20Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel28)
-                .addGap(18, 18, 18)
-                .addComponent(skypeComboBox, 0, 244, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(loadSkypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel20Layout.setVerticalGroup(
-            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel20Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel28)
-                    .addComponent(skypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loadSkypeButton))
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout skypePanelLayout = new javax.swing.GroupLayout(skypePanel);
-        skypePanel.setLayout(skypePanelLayout);
-        skypePanelLayout.setHorizontalGroup(
-            skypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(skypePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(skypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(skypeChatContentPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        skypePanelLayout.setVerticalGroup(
-            skypePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(skypePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(skypeChatContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        skypePanel.add(jPanel20, java.awt.BorderLayout.NORTH);
 
         chatPanelTappedPane.addTab("Skype Messanger", skypePanel);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(chatPanelTappedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(chatPanelTappedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
-        );
+        add(chatPanelTappedPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 private void msnChatTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_msnChatTreeValueChanged

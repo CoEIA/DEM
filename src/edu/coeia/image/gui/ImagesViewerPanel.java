@@ -81,8 +81,9 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
         ImageDisplayPanel = new javax.swing.JPanel();
         ImageControlPanel = new javax.swing.JPanel();
         showImagesButton = new javax.swing.JButton();
-        nextPageButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         prePageButton = new javax.swing.JButton();
+        nextPageButton = new javax.swing.JButton();
         ImageStatusPanel = new javax.swing.JPanel();
         jLabel32 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
@@ -93,26 +94,25 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
         jLabel38 = new javax.swing.JLabel();
         geoTagLbl = new javax.swing.JLabel();
 
+        setLayout(new java.awt.BorderLayout());
+
         ImageDisplayPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Images Found", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        ImageDisplayPanel.setMinimumSize(new java.awt.Dimension(0, 0));
+        ImageDisplayPanel.setPreferredSize(new java.awt.Dimension(0, 0));
         ImageDisplayPanel.setLayout(new java.awt.GridLayout(3, 3));
+        add(ImageDisplayPanel, java.awt.BorderLayout.CENTER);
 
         ImageControlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Images Viewer", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        ImageControlPanel.setLayout(new java.awt.BorderLayout());
 
-        showImagesButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        showImagesButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         showImagesButton.setText("Show Images");
         showImagesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showImagesButtonActionPerformed(evt);
             }
         });
-
-        nextPageButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        nextPageButton.setText("Next Page");
-        nextPageButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nextPageButtonActionPerformed(evt);
-            }
-        });
+        ImageControlPanel.add(showImagesButton, java.awt.BorderLayout.WEST);
 
         prePageButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         prePageButton.setText("Previous Page");
@@ -121,29 +121,20 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
                 prePageButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(prePageButton);
 
-        javax.swing.GroupLayout ImageControlPanelLayout = new javax.swing.GroupLayout(ImageControlPanel);
-        ImageControlPanel.setLayout(ImageControlPanelLayout);
-        ImageControlPanelLayout.setHorizontalGroup(
-            ImageControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ImageControlPanelLayout.createSequentialGroup()
-                .addGap(589, 589, 589)
-                .addComponent(showImagesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
-                .addComponent(nextPageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(prePageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        ImageControlPanelLayout.setVerticalGroup(
-            ImageControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ImageControlPanelLayout.createSequentialGroup()
-                .addGroup(ImageControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(prePageButton, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(nextPageButton, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(showImagesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        nextPageButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        nextPageButton.setText("Next Page");
+        nextPageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextPageButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(nextPageButton);
+
+        ImageControlPanel.add(jPanel1, java.awt.BorderLayout.EAST);
+
+        add(ImageControlPanel, java.awt.BorderLayout.PAGE_START);
 
         ImageStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Image Information"));
 
@@ -190,7 +181,7 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
                         .addComponent(jLabel38)
                         .addGap(18, 18, 18)
                         .addComponent(geoTagLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(496, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         ImageStatusPanelLayout.setVerticalGroup(
             ImageStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,33 +201,7 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
                     .addComponent(imageDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1216, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(ImageDisplayPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1196, Short.MAX_VALUE)
-                        .addComponent(ImageStatusPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ImageControlPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addContainerGap()))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 367, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(ImageControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(ImageDisplayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(ImageStatusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
-        );
+        add(ImageStatusPanel, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
 private void showImagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showImagesButtonActionPerformed
@@ -502,6 +467,7 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel38;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JButton nextPageButton;
     private javax.swing.JButton prePageButton;
     private javax.swing.JButton showImagesButton;

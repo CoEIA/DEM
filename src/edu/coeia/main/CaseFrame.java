@@ -60,7 +60,7 @@ public class CaseFrame extends javax.swing.JFrame {
         this.setIconImage(kit.getImage(this.getClass().getResource("resources/dem-icon.png")));
         this.setTitle(APPLICATION_NAME + applicationTitle);
         this.setResizable(true);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         /*
          * initializing class
@@ -216,7 +216,11 @@ public class CaseFrame extends javax.swing.JFrame {
         });
         jToolBar1.add(imageViewerToggleButton);
 
+        getContentPane().add(jToolBar1, java.awt.BorderLayout.NORTH);
+
+        CardPanel.setPreferredSize(new java.awt.Dimension(600, 400));
         CardPanel.setLayout(new java.awt.CardLayout());
+        getContentPane().add(CardPanel, java.awt.BorderLayout.CENTER);
 
         fileMenu.setText("File");
         fileMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -275,25 +279,6 @@ public class CaseFrame extends javax.swing.JFrame {
         jMenuBar1.add(aboutMenu);
 
         setJMenuBar(jMenuBar1);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(CardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 722, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                .addContainerGap())
-        );
 
         getAccessibleContext().setAccessibleName("DEM");
 

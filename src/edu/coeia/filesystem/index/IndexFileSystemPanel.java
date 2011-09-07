@@ -102,35 +102,39 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
 
         indexGroupButton = new javax.swing.ButtonGroup();
         indexFileSystemButtonsPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jToolBar4 = new javax.swing.JToolBar(javax.swing.JToolBar.VERTICAL);
         indexFilesToggleButton = new javax.swing.JToggleButton();
         textCloudsToggleButton = new javax.swing.JToggleButton();
         indexVisualizationToggleButton = new javax.swing.JToggleButton();
         indexCardsPanel = new javax.swing.JPanel();
         indexPanel = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        progressBar = new javax.swing.JProgressBar();
+        progressStatusPanel = new javax.swing.JPanel();
+        progresLabelPanel = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         currentFileLbl = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        sizeOfFileLbl = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
         numberOfFilesLbl = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        numberOfErrorFilesLbl = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        sizeOfFileLbl = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         fileExtensionLbl = new javax.swing.JLabel();
-        numberOfErrorFilesLbl = new javax.swing.JLabel();
-        jLabel41 = new javax.swing.JLabel();
         bigSizeMsgLbl = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
+        indexControlPanel = new javax.swing.JPanel();
+        startIndexButton = new javax.swing.JButton();
+        stopIndexingButton = new javax.swing.JButton();
+        progressPanel = new javax.swing.JPanel();
+        progressBar = new javax.swing.JProgressBar();
+        loggingPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         indexTable = new javax.swing.JTable();
-        startIndexButton = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
+        indexHistoryPanel = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         timeLbl = new javax.swing.JLabel();
         indexDateLbl = new javax.swing.JLabel();
-        stopIndexingButton = new javax.swing.JButton();
         textCloudsPanel = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         tagSelectButton = new javax.swing.JButton();
@@ -150,17 +154,21 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         jLabel33 = new javax.swing.JLabel();
         cloudsFilterTextField = new javax.swing.JTextField();
         indexVisualizingPanel = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
+        indexVisualizationButtonPanel = new javax.swing.JPanel();
         indexVisulizingButton = new javax.swing.JButton();
         indexVisualizingPiePanel = new javax.swing.JPanel();
 
+        setLayout(new java.awt.BorderLayout());
+
         indexFileSystemButtonsPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        indexFileSystemButtonsPanel.setPreferredSize(new java.awt.Dimension(150, 408));
 
         jToolBar4.setFloatable(false);
+        jToolBar4.setOrientation(javax.swing.JToolBar.VERTICAL);
         jToolBar4.setRollover(true);
 
         indexGroupButton.add(indexFilesToggleButton);
-        indexFilesToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        indexFilesToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         indexFilesToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/help_index.png"))); // NOI18N
         indexFilesToggleButton.setText("Index File System");
         indexFilesToggleButton.setFocusable(false);
@@ -201,123 +209,195 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         });
         jToolBar4.add(indexVisualizationToggleButton);
 
+        jScrollPane2.setViewportView(jToolBar4);
+
         javax.swing.GroupLayout indexFileSystemButtonsPanelLayout = new javax.swing.GroupLayout(indexFileSystemButtonsPanel);
         indexFileSystemButtonsPanel.setLayout(indexFileSystemButtonsPanelLayout);
         indexFileSystemButtonsPanelLayout.setHorizontalGroup(
             indexFileSystemButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar4, javax.swing.GroupLayout.PREFERRED_SIZE, 137, Short.MAX_VALUE)
+            .addGroup(indexFileSystemButtonsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         indexFileSystemButtonsPanelLayout.setVerticalGroup(
             indexFileSystemButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar4, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+            .addGroup(indexFileSystemButtonsPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                .addContainerGap())
         );
+
+        add(indexFileSystemButtonsPanel, java.awt.BorderLayout.WEST);
 
         indexCardsPanel.setLayout(new java.awt.CardLayout());
 
         indexPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        indexPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index File System", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        progressStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index File System", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        progressStatusPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel23.setText("Current File:");
 
-        currentFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
+        currentFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         currentFileLbl.setForeground(new java.awt.Color(0, 0, 255));
         currentFileLbl.setText(" ");
 
-        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel25.setText("File Size:");
-
-        sizeOfFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
-        sizeOfFileLbl.setForeground(new java.awt.Color(0, 0, 255));
-        sizeOfFileLbl.setText(" ");
-
-        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel27.setText("Number of Files in Index:");
-
-        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
+        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         numberOfFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
         numberOfFilesLbl.setText(" ");
 
-        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel24.setText("File Extension:");
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel27.setText("Number of Files in Index:");
 
-        fileExtensionLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
-        fileExtensionLbl.setForeground(new java.awt.Color(0, 0, 255));
-        fileExtensionLbl.setText(" ");
-
-        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
+        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         numberOfErrorFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
         numberOfErrorFilesLbl.setText(" ");
 
-        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel25.setText("File Size:");
+
+        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel41.setText("Number of Files Cannot Indexed:");
 
-        bigSizeMsgLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
+        sizeOfFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        sizeOfFileLbl.setForeground(new java.awt.Color(0, 0, 255));
+        sizeOfFileLbl.setText(" ");
+
+        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel24.setText("File Extension:");
+
+        fileExtensionLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        fileExtensionLbl.setForeground(new java.awt.Color(0, 0, 255));
+        fileExtensionLbl.setText(" ");
+
+        bigSizeMsgLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         bigSizeMsgLbl.setForeground(new java.awt.Color(255, 0, 0));
         bigSizeMsgLbl.setText(" ");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout progresLabelPanelLayout = new javax.swing.GroupLayout(progresLabelPanel);
+        progresLabelPanel.setLayout(progresLabelPanelLayout);
+        progresLabelPanelLayout.setHorizontalGroup(
+            progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(progresLabelPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bigSizeMsgLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 978, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(jLabel27)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(numberOfFilesLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addGap(66, 66, 66)
-                                        .addComponent(sizeOfFileLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(83, 83, 83)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
+                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel23))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(currentFileLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
+                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(bigSizeMsgLbl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, progresLabelPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel27)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(fileExtensionLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
-                                    .addComponent(numberOfErrorFilesLbl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(currentFileLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 890, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 968, Short.MAX_VALUE))
-                        .addContainerGap())))
+                                .addComponent(numberOfFilesLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, progresLabelPanelLayout.createSequentialGroup()
+                                .addGap(66, 66, 66)
+                                .addComponent(sizeOfFileLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel41))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(numberOfErrorFilesLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fileExtensionLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        progresLabelPanelLayout.setVerticalGroup(
+            progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(progresLabelPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
                     .addComponent(currentFileLbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
                     .addComponent(sizeOfFileLbl)
                     .addComponent(fileExtensionLbl)
                     .addComponent(jLabel24))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
                     .addComponent(numberOfFilesLbl)
                     .addComponent(jLabel41)
                     .addComponent(numberOfErrorFilesLbl))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bigSizeMsgLbl)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "logging", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        progressStatusPanel.add(progresLabelPanel, java.awt.BorderLayout.NORTH);
+
+        startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        startIndexButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/database.png"))); // NOI18N
+        startIndexButton.setText("Start Indexing");
+        startIndexButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startIndexButtonActionPerformed(evt);
+            }
+        });
+
+        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        stopIndexingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/cancel.png"))); // NOI18N
+        stopIndexingButton.setText("Stop Indexing");
+        stopIndexingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopIndexingButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout indexControlPanelLayout = new javax.swing.GroupLayout(indexControlPanel);
+        indexControlPanel.setLayout(indexControlPanelLayout);
+        indexControlPanelLayout.setHorizontalGroup(
+            indexControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(indexControlPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(startIndexButton, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(stopIndexingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        indexControlPanelLayout.setVerticalGroup(
+            indexControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(indexControlPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(indexControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(startIndexButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stopIndexingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        progressStatusPanel.add(indexControlPanel, java.awt.BorderLayout.SOUTH);
+
+        javax.swing.GroupLayout progressPanelLayout = new javax.swing.GroupLayout(progressPanel);
+        progressPanel.setLayout(progressPanelLayout);
+        progressPanelLayout.setHorizontalGroup(
+            progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(progressPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        progressPanelLayout.setVerticalGroup(
+            progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(progressPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        progressStatusPanel.add(progressPanel, java.awt.BorderLayout.CENTER);
+
+        indexPanel.add(progressStatusPanel, java.awt.BorderLayout.NORTH);
+
+        loggingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "logging", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         indexTable.setAutoCreateRowSorter(true);
         indexTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -329,67 +409,60 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(indexTable);
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+        javax.swing.GroupLayout loggingPanelLayout = new javax.swing.GroupLayout(loggingPanel);
+        loggingPanel.setLayout(loggingPanelLayout);
+        loggingPanelLayout.setHorizontalGroup(
+            loggingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loggingPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 978, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+        loggingPanelLayout.setVerticalGroup(
+            loggingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loggingPanelLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        startIndexButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/database.png"))); // NOI18N
-        startIndexButton.setText("Start Indexing");
-        startIndexButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startIndexButtonActionPerformed(evt);
-            }
-        });
+        indexPanel.add(loggingPanel, java.awt.BorderLayout.CENTER);
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Indexing History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        indexHistoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Indexing History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel4.setText("Last Indexing Date:");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setText("Indexing Finishing Time:");
 
-        timeLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
+        timeLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         timeLbl.setForeground(new java.awt.Color(0, 0, 255));
         timeLbl.setText(" ");
 
-        indexDateLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
+        indexDateLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         indexDateLbl.setForeground(new java.awt.Color(0, 0, 255));
         indexDateLbl.setText(" ");
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout indexHistoryPanelLayout = new javax.swing.GroupLayout(indexHistoryPanel);
+        indexHistoryPanel.setLayout(indexHistoryPanelLayout);
+        indexHistoryPanelLayout.setHorizontalGroup(
+            indexHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(indexHistoryPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(indexDateLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                .addGap(87, 87, 87)
+                .addComponent(indexDateLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(timeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(424, 424, 424))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        indexHistoryPanelLayout.setVerticalGroup(
+            indexHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(indexHistoryPanelLayout.createSequentialGroup()
+                .addGroup(indexHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(indexHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4)
                         .addComponent(indexDateLbl))
                     .addComponent(timeLbl)
@@ -397,56 +470,16 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        stopIndexingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/cancel.png"))); // NOI18N
-        stopIndexingButton.setText("Stop Indexing");
-        stopIndexingButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stopIndexingButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout indexPanelLayout = new javax.swing.GroupLayout(indexPanel);
-        indexPanel.setLayout(indexPanelLayout);
-        indexPanelLayout.setHorizontalGroup(
-            indexPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(indexPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(indexPanelLayout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
-            .addGroup(indexPanelLayout.createSequentialGroup()
-                .addGap(214, 214, 214)
-                .addComponent(startIndexButton, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(stopIndexingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(294, Short.MAX_VALUE))
-        );
-        indexPanelLayout.setVerticalGroup(
-            indexPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexPanelLayout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(indexPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(startIndexButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(stopIndexingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        indexPanel.add(indexHistoryPanel, java.awt.BorderLayout.SOUTH);
 
         indexCardsPanel.add(indexPanel, "indexCard");
 
         textCloudsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        textCloudsPanel.setLayout(new java.awt.BorderLayout());
 
         jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Tags Cloud", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        tagSelectButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        tagSelectButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         tagSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/textCloud.png"))); // NOI18N
         tagSelectButton.setText("Generate Text Clouds");
         tagSelectButton.addActionListener(new java.awt.event.ActionListener() {
@@ -460,7 +493,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
 
         tagsNumberTextField.setText(" 200");
 
-        jLabel36.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel36.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel36.setText("Exclude Tags Less Than:");
 
         tagsExcludeTextField.setText("1");
@@ -485,15 +518,15 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
                     .addComponent(jLabel2)
                     .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addComponent(tagsNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(72, 72, 72)
-                        .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tagsExcludeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(tagsDisplayComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, 652, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tagsNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel36)
+                        .addGap(18, 18, 18)
+                        .addComponent(tagsExcludeTextField))
+                    .addComponent(tagsDisplayComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(57, 57, 57)
                 .addComponent(tagSelectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -505,15 +538,17 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel2)
                             .addComponent(tagsNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tagsExcludeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel36))
+                            .addComponent(jLabel36)
+                            .addComponent(tagsExcludeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel37)
                             .addComponent(tagsDisplayComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(tagSelectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        textCloudsPanel.add(jPanel15, java.awt.BorderLayout.NORTH);
 
         tagsPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -581,18 +616,18 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 979, Short.MAX_VALUE)
+                    .addComponent(jScrollPane22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addComponent(jLabel33)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cloudsFilterTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 903, Short.MAX_VALUE)))
+                        .addComponent(cloudsFilterTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
@@ -606,41 +641,27 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout textCloudsPanelLayout = new javax.swing.GroupLayout(textCloudsPanel);
-        textCloudsPanel.setLayout(textCloudsPanelLayout);
-        textCloudsPanelLayout.setHorizontalGroup(
-            textCloudsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, textCloudsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(textCloudsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        textCloudsPanelLayout.setVerticalGroup(
-            textCloudsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, textCloudsPanelLayout.createSequentialGroup()
-                .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        textCloudsPanel.add(jPanel16, java.awt.BorderLayout.CENTER);
 
         indexCardsPanel.add(textCloudsPanel, "textCloudsCard");
 
         indexVisualizingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        indexVisualizingPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Visualization", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        indexVisualizationButtonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Visualization", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        indexVisulizingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        indexVisulizingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         indexVisulizingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/chart_pie.png"))); // NOI18N
         indexVisulizingButton.setText("Index Visualization");
         indexVisulizingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -649,69 +670,31 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(246, 246, 246)
+        javax.swing.GroupLayout indexVisualizationButtonPanelLayout = new javax.swing.GroupLayout(indexVisualizationButtonPanel);
+        indexVisualizationButtonPanel.setLayout(indexVisualizationButtonPanelLayout);
+        indexVisualizationButtonPanelLayout.setHorizontalGroup(
+            indexVisualizationButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(indexVisualizationButtonPanelLayout.createSequentialGroup()
+                .addGap(232, 232, 232)
                 .addComponent(indexVisulizingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(556, Short.MAX_VALUE))
+                .addContainerGap(233, Short.MAX_VALUE))
         );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        indexVisualizationButtonPanelLayout.setVerticalGroup(
+            indexVisualizationButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(indexVisualizationButtonPanelLayout.createSequentialGroup()
                 .addComponent(indexVisulizingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        indexVisualizingPanel.add(indexVisualizationButtonPanel, java.awt.BorderLayout.NORTH);
+
         indexVisualizingPiePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Visualizing File Extension in Index", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         indexVisualizingPiePanel.setLayout(new java.awt.BorderLayout());
-
-        javax.swing.GroupLayout indexVisualizingPanelLayout = new javax.swing.GroupLayout(indexVisualizingPanel);
-        indexVisualizingPanel.setLayout(indexVisualizingPanelLayout);
-        indexVisualizingPanelLayout.setHorizontalGroup(
-            indexVisualizingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexVisualizingPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(indexVisualizingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(indexVisualizingPiePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1014, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        indexVisualizingPanelLayout.setVerticalGroup(
-            indexVisualizingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexVisualizingPanelLayout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(indexVisualizingPiePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
-        );
+        indexVisualizingPanel.add(indexVisualizingPiePanel, java.awt.BorderLayout.CENTER);
 
         indexCardsPanel.add(indexVisualizingPanel, "indexVisualizingCard");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1211, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(indexFileSystemButtonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(indexCardsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1040, Short.MAX_VALUE)
-                    .addContainerGap()))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(indexCardsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                        .addComponent(indexFileSystemButtonsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addContainerGap()))
-        );
+        add(indexCardsPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 private void indexFilesToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_indexFilesToggleButtonActionPerformed
@@ -958,12 +941,15 @@ private void indexVisulizingButtonActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JLabel currentFileLbl;
     private javax.swing.JLabel fileExtensionLbl;
     private javax.swing.JPanel indexCardsPanel;
+    private javax.swing.JPanel indexControlPanel;
     private javax.swing.JLabel indexDateLbl;
     private javax.swing.JPanel indexFileSystemButtonsPanel;
     private javax.swing.JToggleButton indexFilesToggleButton;
     private javax.swing.ButtonGroup indexGroupButton;
+    private javax.swing.JPanel indexHistoryPanel;
     private javax.swing.JPanel indexPanel;
     private javax.swing.JTable indexTable;
+    private javax.swing.JPanel indexVisualizationButtonPanel;
     private javax.swing.JToggleButton indexVisualizationToggleButton;
     private javax.swing.JPanel indexVisualizingPanel;
     private javax.swing.JPanel indexVisualizingPiePanel;
@@ -982,18 +968,19 @@ private void indexVisulizingButtonActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel19;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane22;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToolBar jToolBar4;
+    private javax.swing.JPanel loggingPanel;
     private javax.swing.JLabel numberOfErrorFilesLbl;
     private javax.swing.JLabel numberOfFilesLbl;
+    private javax.swing.JPanel progresLabelPanel;
     private javax.swing.JProgressBar progressBar;
+    private javax.swing.JPanel progressPanel;
+    private javax.swing.JPanel progressStatusPanel;
     private javax.swing.JLabel sizeOfFileLbl;
     private javax.swing.JButton startIndexButton;
     private javax.swing.JButton stopIndexingButton;
