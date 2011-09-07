@@ -61,6 +61,7 @@ public class CaseFrame extends javax.swing.JFrame {
         this.setTitle(APPLICATION_NAME + applicationTitle);
         this.setResizable(true);
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setSize(850, 650);
         
         /*
          * initializing class
