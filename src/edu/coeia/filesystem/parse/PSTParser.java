@@ -24,7 +24,6 @@ import com.pff.PSTObject;
 import edu.coeia.main.util.FilesPath;
 import org.apache.lucene.document.Document;
 
-import java.io.FileNotFoundException ;
 import java.io.IOException ;
 
 import java.util.logging.Level;
@@ -38,39 +37,12 @@ public class PSTParser {
     public PSTParser () {
         logger.info("PSTParser Constructor");
     }
-
-//    public ArrayList<Document> parseDocument (PSTFile pstFile , String path)  throws
-//    FileNotFoundException, PSTException, IOException{
-//        ArrayList<Document> docs = new ArrayList<Document>();
-//        this.pstFile = pstFile ;
-//
-//        ArrayList<MessageHeader> messageHeaderLists = EmailReader.getInstance(pstFile,path,null);
-//        int row = messageHeaderLists.size();
-//        logger.log(Level.INFO, "message header size: " + row);
-//
-//        System.out.println("before writing message header");
-//        for (int i=0 ; i<row ; i++ ) {
-//            MessageHeader m = messageHeaderLists.get(i);
-//            PSTMessage mapValue = getMessage(m.getID());
-//            String content = mapValue.getBodyHTML();
-//
-//            System.out.println("mHeader: " + m.getSubject() + " inside: " + m.getLocation() + " id: " + i);
-//
-//            if ( ! content.isEmpty() ) {
-//                Document doc = FileDocument.documentMessage(m, mapValue, content);
-//                docs.add(doc);
-//            }
-//        }
-//        System.out.println("after writing message header");
-//
-//
-//        return (docs);
-//    }
-
-    public boolean parseIndexDocument (PSTFile pstFile , String path, IndexWriter writer)  throws
-    FileNotFoundException, PSTException, IOException {
+    
+    public boolean parseIndexDocument (PSTFile pstFile , String path, IndexWriter writer) {
         this.pstFile = pstFile ;
 
+        logger.info("Parse PST File: " + path);
+        
         ArrayList<MessageHeader> messageHeaderLists = EmailReader.getInstance(pstFile,path,null);
         if ( messageHeaderLists == null ) {
             logger.log(Level.INFO, "Message header list is null");
@@ -78,18 +50,26 @@ public class PSTParser {
         }
 
         int row = messageHeaderLists.size();
-        logger.log(Level.INFO, "message header size: " + row);
+        logger.log(Level.INFO, "Number of Messages in PST: " + row);
 
         for (int i=0 ; i<row ; i++ ) {
-            MessageHeader m = messageHeaderLists.get(i);
-            PSTMessage mapValue = getMessage(m.getID());
-            String content = mapValue.getBodyHTML();
+            try {
+                MessageHeader m = messageHeaderLists.get(i);
+                PSTMessage mapValue = getMessage(m.getID());
+                String content = mapValue.getBodyHTML();
 
-            Document doc = FileDocument.documentMessage(m, mapValue, content);
-            writer.addDocument(doc);
+                Document doc = FileDocument.documentMessage(m, mapValue, content);
+                writer.addDocument(doc);
+            }
+            catch(PSTException e){
+                logger.log(Level.SEVERE, "Uncaught exception", e);
+            }
+            catch(IOException e) {
+                logger.log(Level.SEVERE, "Uncaught exception", e);
+            }
         }
 
-        logger.log(Level.INFO, "Finish parseIndex" + row);
+        logger.info("End of Parse PST File: " + path);
         return true;
     }
 

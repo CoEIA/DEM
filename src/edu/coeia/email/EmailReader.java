@@ -67,12 +67,10 @@ public class EmailReader {
             logger.log(Level.INFO, "Finisch Caching Email");
         }
         catch (PSTException e) {
-            e.printStackTrace();
             logger.log(Level.SEVERE, "Uncaught exception", e);
             status = false;
         }
         catch (IOException ex){
-            ex.printStackTrace();
             logger.log(Level.SEVERE, "Uncaught exception", ex);
             status = false;
         }
@@ -100,48 +98,53 @@ public class EmailReader {
             statusTmp = true;
         }
         catch (PSTException e) {
-            e.printStackTrace();
             logger.log(Level.SEVERE, "Uncaught exception", e);
         }
         catch (IOException ex){
-            ex.printStackTrace();
             logger.log(Level.SEVERE, "Uncaught exception", ex);
         }
 
         return (statusTmp);
     }
 
-    private static ArrayList<MessageHeader> getFolderContent (PSTFolder folder) throws IOException, PSTException{
+    private static ArrayList<MessageHeader> getFolderContent (PSTFolder folder){
         ArrayList<MessageHeader> headers = new ArrayList<MessageHeader>();
 
         String name =  folder.getDisplayName() ;
 
-        if ( folder.getContentCount() > 0) {
-            for (int i=0 ; i<folder.getEmailCount() ; i++) {
-                folder.moveChildCursorTo(i);
+        try {
+            if ( folder.getContentCount() > 0) {
+                try {
+                    for (int i=0 ; i<folder.getEmailCount() ; i++) {
+                        folder.moveChildCursorTo(i);
 
-                PSTMessage msg = (PSTMessage) folder.getNextChild();
+                        PSTMessage msg = (PSTMessage) folder.getNextChild();
 
-                Date submitTime = msg.getClientSubmitTime();
-                String time = "";
+                        Date submitTime = msg.getClientSubmitTime();
+                        String time = "";
 
-                if ( submitTime != null )
-                    time = submitTime.toString();
-                
-                //System.out.println("sender: " + msg.getSenderName() + " sender: " + msg.getSentRepresentingName());
-                //System.out.println("receiver: " + msg.getReceivedByName() + " rec: " + msg.getReceivedByAddress() + " rec: " + msg.displayTo());
-             
-                MessageHeader mh = new MessageHeader(msg.getDescriptorNode().descriptorIdentifier, msg.getSubject(), 
-                        msg.getSentRepresentingName(),  msg.displayTo(), time, msg.hasAttachments());
-                
-                mh.setLocation(name);
-                headers.add(mh);
+                        if ( submitTime != null )
+                            time = submitTime.toString();
 
-                if ( panel != null ) {
-                    counter++;
-                    panel.setText("Load Message: " + counter);
+                        MessageHeader mh = new MessageHeader(msg.getDescriptorNode().descriptorIdentifier, msg.getSubject(), 
+                                msg.getSentRepresentingName(),  msg.displayTo(), time, msg.hasAttachments());
+
+                        mh.setLocation(name);
+                        headers.add(mh);
+
+                        if ( panel != null ) {
+                            counter++;
+                            panel.setText("Load Message: " + counter);
+                        }
+                    }
+                }
+                catch(PSTException e) {
+                    logger.log(Level.SEVERE, "Uncaught exception", e);
                 }
             }
+        }
+        catch (IOException e) {
+            logger.log(Level.SEVERE, "Uncaught exception", e);
         }
 
         return headers;

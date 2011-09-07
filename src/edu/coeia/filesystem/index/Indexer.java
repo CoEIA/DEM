@@ -17,7 +17,6 @@ import edu.coeia.main.util.Utilities;
 import edu.coeia.filesystem.parse.PSTParser ;
 
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.store.FSDirectory ;
 import org.apache.lucene.util.Version ;
