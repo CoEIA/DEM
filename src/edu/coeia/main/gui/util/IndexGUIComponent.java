@@ -16,7 +16,7 @@ import javax.swing.* ;
 public class IndexGUIComponent {
 
     public IndexGUIComponent (JProgressBar pb, JTable tbl , JLabel date , JLabel time,
-        JLabel currentFile, JLabel sizeOfFile, JLabel numberOfFile, JLabel fileExt, JLabel errorLbl , JLabel msgLbl, JButton btn, JButton sBtn ) {
+        JLabel currentFile, JLabel sizeOfFile, JLabel numberOfFile, JLabel fileExt, JLabel errorLbl , JLabel msgLbl, JButton btn, JButton sBtn) {
 
         progressBar = pb ;
         table = tbl ;

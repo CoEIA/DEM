@@ -31,8 +31,8 @@ public class Case implements Serializable {
     private ArrayList<String> iePath, ffPath ;
     
     private Date createTime ;
-    private long indexSize, dataIndexedSize ;
-    private int dataIndexedCount ;
+    private long caseSize;
+    //private int dataIndexedCount, dataIndexedSize ;
 
     private boolean cacheImages ;
     private boolean checkCompressed ;
@@ -47,7 +47,7 @@ public class Case implements Serializable {
     public Case (String indexName, String indexLocation, String investigatorName, String description,
             ArrayList<String> docInIndex, List<String> ext, ArrayList<String> pstPath,
             ArrayList<String> iePath, ArrayList<String> ffPath, ArrayList<String> msnPath, ArrayList<String> yahooPath,
-            ArrayList<String> skypePath, Date ct, long iz , long diz, int dic ,
+            ArrayList<String> skypePath, Date ct, long dic ,
             boolean cacheImages, boolean checkCompressed, boolean indexStatus, String lastIndexDate, String indexingTime
             ) {
             
@@ -70,9 +70,9 @@ public class Case implements Serializable {
         this.skypePath = skypePath;
         
         this.createTime = ct ;
-        this.indexSize = iz ;
-        this.dataIndexedSize = diz ;
-        this.dataIndexedCount = dic ;
+        this.caseSize = dic ;
+        //this.dataIndexedSize = diz ;
+        //this.dataIndexedCount = dic ;
 
         this.cacheImages = cacheImages ;
         this.checkCompressed = checkCompressed ;
@@ -99,10 +99,10 @@ public class Case implements Serializable {
     public void setYahooPath (ArrayList<String> yahoo) { this.yahooPath = yahoo ; }
     public void setSkypePath (ArrayList<String> skype) { this.skypePath= skype ; }
 
-    public void setCreateTime (Date d) { this.createTime = d ; }
-    public void setIndexSize (long size) { this.indexSize = size; }
-    public void setDataIndexedSize (long size) { this.dataIndexedSize = size; }
-    public void setDataIndexedCount (int count) { this.dataIndexedCount = count ; }
+//    public void setCreateTime (Date d) { this.createTime = d ; }
+//    public void setCaseSize (long size) { this.caseSize = size; }
+//    public void setDataIndexedSize (long size) { this.dataIndexedSize = size; }
+//    public void setDataIndexedCount (int count) { this.dataIndexedCount = count ; }
 
     public void setCacheImages (boolean value) { this.cacheImages = value ; }
     public void setCheckCompressed (boolean value) { this.checkCompressed = value ; }
@@ -128,9 +128,9 @@ public class Case implements Serializable {
     public ArrayList<String> getSkypePath () { return this.skypePath ; }
     
     public Date getCreateTime () { return this.createTime ;}
-    public long getIndexSize () { return this.indexSize ; }
-    public long getDataIndexedSize() { return this.dataIndexedSize ;}
-    public int getDataIndexedCount () { return this.dataIndexedCount ;}
+    public long getCaseSize () { return this.caseSize ; }
+    //public long getDataIndexedSize() { return this.dataIndexedSize ;}
+    //public int getDataIndexedCount () { return this.dataIndexedCount ;}
 
     public boolean getCacheImages () { return this.cacheImages ; }
     public boolean getCheckCompressed () { return this.checkCompressed ; }

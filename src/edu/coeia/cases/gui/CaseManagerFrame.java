@@ -499,7 +499,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             model.addRow( new Object[] { "Index Name" , index.getIndexName() });
             model.addRow( new Object[] { "Index Path" , index.getIndexLocation() });
             model.addRow( new Object[] { "Created Date and Time" , Utilities.formatDateTime(index.getCreateTime()) } );
-            model.addRow( new Object[] { "Data Indexed Size" , Utilities.formatSize(Utilities.toKB(index.getDataIndexedSize())) + " KB"  });
+            //model.addRow( new Object[] { "Data Indexed Size" , Utilities.formatSize(Utilities.toKB(index.getDataIndexedSize())) + " KB"  });
             model.addRow( new Object[] { "Extensions Allowed" , index.getExtensionAllowed() });
 
             addListToRow(index.getDocumentInIndex(),"Case In Index",model);

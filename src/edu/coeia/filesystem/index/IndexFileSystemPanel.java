@@ -127,6 +127,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         stopIndexingButton = new javax.swing.JButton();
         progressPanel = new javax.swing.JPanel();
         progressBar = new javax.swing.JProgressBar();
+        InfinatePanel = new javax.swing.JPanel();
         loggingPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         indexTable = new javax.swing.JTable();
@@ -168,7 +169,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         jToolBar4.setRollover(true);
 
         indexGroupButton.add(indexFilesToggleButton);
-        indexFilesToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        indexFilesToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         indexFilesToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/help_index.png"))); // NOI18N
         indexFilesToggleButton.setText("Index File System");
         indexFilesToggleButton.setFocusable(false);
@@ -218,12 +219,12 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
             .addGroup(indexFileSystemButtonsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         indexFileSystemButtonsPanelLayout.setVerticalGroup(
             indexFileSystemButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(indexFileSystemButtonsPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -237,10 +238,10 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         progressStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index File System", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         progressStatusPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel23.setText("Current File:");
 
-        currentFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        currentFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         currentFileLbl.setForeground(new java.awt.Color(0, 0, 255));
         currentFileLbl.setText(" ");
 
@@ -248,27 +249,27 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         numberOfFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
         numberOfFilesLbl.setText(" ");
 
-        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel27.setText("Number of Files in Index:");
 
-        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         numberOfErrorFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
         numberOfErrorFilesLbl.setText(" ");
 
-        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel25.setText("File Size:");
 
-        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel41.setText("Number of Files Cannot Indexed:");
 
-        sizeOfFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        sizeOfFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         sizeOfFileLbl.setForeground(new java.awt.Color(0, 0, 255));
         sizeOfFileLbl.setText(" ");
 
-        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel24.setText("File Extension:");
 
-        fileExtensionLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        fileExtensionLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         fileExtensionLbl.setForeground(new java.awt.Color(0, 0, 255));
         fileExtensionLbl.setText(" ");
 
@@ -335,7 +336,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
 
         progressStatusPanel.add(progresLabelPanel, java.awt.BorderLayout.NORTH);
 
-        startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         startIndexButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/database.png"))); // NOI18N
         startIndexButton.setText("Start Indexing");
         startIndexButton.addActionListener(new java.awt.event.ActionListener() {
@@ -344,7 +345,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
             }
         });
 
-        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         stopIndexingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/cancel.png"))); // NOI18N
         stopIndexingButton.setText("Stop Indexing");
         stopIndexingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -376,19 +377,28 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
 
         progressStatusPanel.add(indexControlPanel, java.awt.BorderLayout.SOUTH);
 
+        InfinatePanel.setLayout(new java.awt.BorderLayout());
+
         javax.swing.GroupLayout progressPanelLayout = new javax.swing.GroupLayout(progressPanel);
         progressPanel.setLayout(progressPanelLayout);
         progressPanelLayout.setHorizontalGroup(
             progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(progressPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, progressPanelLayout.createSequentialGroup()
+                        .addComponent(InfinatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(107, 107, 107))
+                    .addGroup(progressPanelLayout.createSequentialGroup()
+                        .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         progressPanelLayout.setVerticalGroup(
             progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(progressPanelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(InfinatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -415,13 +425,13 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
             loggingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loggingPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
                 .addContainerGap())
         );
         loggingPanelLayout.setVerticalGroup(
             loggingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loggingPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -432,14 +442,14 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel4.setText("Last Indexing Date:");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel5.setText("Indexing Finishing Time:");
 
-        timeLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        timeLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         timeLbl.setForeground(new java.awt.Color(0, 0, 255));
         timeLbl.setText(" ");
 
-        indexDateLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        indexDateLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         indexDateLbl.setForeground(new java.awt.Color(0, 0, 255));
         indexDateLbl.setText(" ");
 
@@ -456,7 +466,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(timeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         indexHistoryPanelLayout.setVerticalGroup(
             indexHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -479,7 +489,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
 
         jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Tags Cloud", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        tagSelectButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        tagSelectButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         tagSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/textCloud.png"))); // NOI18N
         tagSelectButton.setText("Generate Text Clouds");
         tagSelectButton.addActionListener(new java.awt.event.ActionListener() {
@@ -493,7 +503,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
 
         tagsNumberTextField.setText(" 200");
 
-        jLabel36.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel36.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel36.setText("Exclude Tags Less Than:");
 
         tagsExcludeTextField.setText("1");
@@ -616,18 +626,18 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
+                    .addComponent(jScrollPane22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addComponent(jLabel33)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cloudsFilterTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)))
+                        .addComponent(cloudsFilterTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
@@ -642,13 +652,13 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 666, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -661,7 +671,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
 
         indexVisualizationButtonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Visualization", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        indexVisulizingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        indexVisulizingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         indexVisulizingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/chart_pie.png"))); // NOI18N
         indexVisulizingButton.setText("Index Visualization");
         indexVisulizingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -677,7 +687,7 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
             .addGroup(indexVisualizationButtonPanelLayout.createSequentialGroup()
                 .addGap(232, 232, 232)
                 .addComponent(indexVisulizingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(233, Short.MAX_VALUE))
+                .addContainerGap(232, Short.MAX_VALUE))
         );
         indexVisualizationButtonPanelLayout.setVerticalGroup(
             indexVisualizationButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -935,6 +945,7 @@ private void indexVisulizingButtonActionPerformed(java.awt.event.ActionEvent evt
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel InfinatePanel;
     private javax.swing.JLabel bigSizeMsgLbl;
     private javax.swing.JTextField cloudsFilterTextField;
     private javax.swing.JTable cloudsTable;

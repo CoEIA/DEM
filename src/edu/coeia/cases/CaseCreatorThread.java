@@ -21,27 +21,33 @@ import java.util.List ;
 import java.util.Date ;
 
 import edu.coeia.main.util.Tuple ;
-import edu.coeia.cases.util.FilesCounter ;
 import edu.coeia.main.gui.util.InfiniteProgressPanel;
+import edu.coeia.main.util.FilesPath;
+
+import org.apache.log4j.Logger;
 
 class CaseCreatorThread extends SwingWorker<Tuple<Integer,Long>,Integer> {
 
     private ArrayList<String> paths; 
     private InfiniteProgressPanel panel ;
-    private Tuple<Integer,Long> indexedDataCountAndSize ;
+    //private Tuple<Integer,Long> indexedDataCountAndSize ;
     private ArrayList<String> pst, ie, ff, msn, yahoo, skype;
     private List<String> ext ;
     private boolean cache, check;
-    private String indexName, indexLocation, investigator, description;
-    private CaseWizardDialog indexWizard;
-    private Case index ;
-    private long indexSize ;
+    private String caseName, caseLocation, investigator, description;
+    private CaseWizardDialog caseWizardDlg;
+    private Case caseObj ;
+    private long caseSize ;
+    
+    private static final Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
     
     public CaseCreatorThread ( ArrayList<String> path, InfiniteProgressPanel panel,
             CaseWizardDialog iw, String in, String il, String inv, String des,
             List<String> ext, ArrayList<String> pst, ArrayList<String> ie, ArrayList<String> ff,
             ArrayList<String> msn, ArrayList<String> yahoo, boolean cache, boolean check , Case index,
             ArrayList<String> skype) {
+        
+        logger.info("CaseCreaterThread Constructor");
         
         this.paths = path ;
         this.panel = panel ;
@@ -53,70 +59,73 @@ class CaseCreatorThread extends SwingWorker<Tuple<Integer,Long>,Integer> {
         this.yahoo = yahoo ;
         this.cache = cache;
         this.check = check;
-        this.indexName = in ;
-        this.indexLocation = il ;
+        this.caseName = in ;
+        this.caseLocation = il ;
         this.investigator = inv ;
         this.description = des;
-        this.indexWizard = iw ;
-        this.index = index ;
+        this.caseWizardDlg = iw ;
+        this.caseObj = index ;
         this.skype = skype ;
-        this.indexSize = new File(indexLocation).length();
+        this.caseSize = new File(caseLocation).length();
     }
 
+    @Override
     public Tuple<Integer,Long> doInBackground() {
-        indexedDataCountAndSize = getDirectoriesCountAndSize(paths);
-        return indexedDataCountAndSize ;
+        //indexedDataCountAndSize = getDirectoriesCountAndSize(paths);
+        //return indexedDataCountAndSize ;
+        return null;
     }
 
-    public Tuple<Integer,Long> getSizeAndCount () {
-        return indexedDataCountAndSize ;
-    }
+//    public Tuple<Integer,Long> getSizeAndCount () {
+//        return indexedDataCountAndSize ;
+//    }
 
-    public Tuple<Integer,Long> getDirectoriesCountAndSize (List<String> docs) {
-        Tuple<Integer,Long> countSize  = new Tuple<Integer,Long>();
-        int count = 0 ;
-        long sum = 0l ;
-
-        for (String name: docs){
-            File file = new File(name);
-
-            if ( ! file.isFile() ) {
-                FilesCounter counter = new FilesCounter(ext);
-                file.listFiles(counter);
-                count += counter.getNumberOfFiles();
-                sum += counter.getSize();
-            }
-            else {
-                count++;
-                sum += file.length();
-            }
-        }
-
-        countSize.setA(count);
-        countSize.setB(sum);
-
-        return countSize ;
-    }
+//    public Tuple<Integer,Long> getDirectoriesCountAndSize (List<String> docs) {
+//        Tuple<Integer,Long> countSize  = new Tuple<Integer,Long>();
+//        int count = 0 ;
+//        long sum = 0l ;
+//
+//        for (String name: docs){
+//            File file = new File(name);
+//
+//            if ( ! file.isFile() ) {
+//                FilesCounter counter = new FilesCounter(ext);
+//                file.listFiles(counter);
+//                count += counter.getNumberOfFiles();
+//                sum += counter.getSize();
+//            }
+//            else if ( Utilities.isExtentionAllowed(ext, Utilities.getExtension(file)) ){
+//                count++;
+//                logger.info("Compute: " + file.getAbsolutePath());
+//                sum += file.length();
+//            }
+//        }
+//
+//        countSize.setA(count);
+//        countSize.setB(sum);
+//
+//        return countSize ;
+//    }
     
     @Override
     public void done() {
         try {
             panel.stop();
             createIndex();
-            this.indexWizard.setVisible(false);
+            this.caseWizardDlg.setVisible(false);
         }
         catch (IOException e) {
         }
     }
 
     private void createIndex () throws IOException{
-        this.index = new Case(indexName, indexLocation, investigator, description,
-                paths, ext, pst, ie, ff, msn, yahoo, skype, new Date(), indexSize,
-                indexedDataCountAndSize.getB(), indexedDataCountAndSize.getA(), cache, check, false,"","");
+        this.caseObj = new Case(caseName, caseLocation, investigator, description,
+                paths, ext, pst, ie, ff, msn, yahoo, skype, new Date(), caseSize,
+                cache, check, false,"","");
 
-        indexWizard.setCurrentCase(index);
+        caseWizardDlg.setCurrentCase(caseObj);
 
         // make new index folders
-        CaseManager.CaseOperation.writeCase(index);
+        CaseManager.CaseOperation.writeCase(caseObj);
     }
 }

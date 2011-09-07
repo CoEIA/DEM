@@ -66,7 +66,7 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
     private Indexer indexer ;
     private IndexGUIComponent indexGUI ;
     private Case index ;
-    private int totalNumberOfFiles ;
+    //private int totalNumberOfFiles ;
     private int totalNumberOfError = 0;
     private boolean indexStatus = false;
 
@@ -76,7 +76,7 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
             List<String> imagesPath) {
         this.indexGUI = indexGUI ;
         this.index = index ;
-        this.totalNumberOfFiles = index.getDataIndexedCount();
+        //this.totalNumberOfFiles = index.getDataIndexedCount();
        
         try {
             indexer = new Indexer(indexLocation, imagesPath , true);
@@ -85,9 +85,11 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
            logger.log(Level.SEVERE, "Uncaught exception", ex);
         }
 
-        this.indexGUI.progressBar.setStringPainted(true);
-        this.indexGUI.progressBar.setMaximum(index.getDataIndexedCount() + index.getPstPath().size());
+        //this.indexGUI.progressBar.setStringPainted(true);
+        //this.indexGUI.progressBar.setMaximum(100 + index.getPstPath().size());
         this.indexGUI.numberOfErrorFilesLbl.setText("0");
+        this.indexGUI.progressBar.setIndeterminate(true);
+
     }
     
     public String doInBackground() {
@@ -200,7 +202,7 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
                 indexGUI.currentFileLbl.setText(pd.getPath());
                 //indexGUI.sizeOfFileLbl.setText(new File(pd.getPath()).length() + " Bytes");
                 indexGUI.sizeOfFileLbl.setText(getSize(pd.getPath()));
-                indexGUI.numberOfFileLbl.setText("(" + pd.getIndexCount() + "/" + totalNumberOfFiles + ")");
+                indexGUI.numberOfFileLbl.setText("(" + pd.getIndexCount()  + ")");
                 indexGUI.fileExtensionLbl.setText(Utilities.getExtension(pd.getPath()));
                 indexGUI.bigSizeMsgLbl.setText(pd.getSizeMsg());
                 
@@ -241,8 +243,10 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
     public void done() {
         logger.log(Level.INFO, "Done Indexing Process");
         
-        indexGUI.progressBar.setValue(indexGUI.progressBar.getMaximum());
-        indexGUI.progressBar.setStringPainted(false);
+        //indexGUI.progressBar.setValue(indexGUI.progressBar.getMaximum());
+        //indexGUI.progressBar.setStringPainted(false);
+        this.indexGUI.progressBar.setIndeterminate(false);
+        
         String indexingTime = "" + Utilities.getTimeFromMilliseconds(time) ;
         String lastIndexDate = Utilities.formatDateTime(new Date()) ;
 
