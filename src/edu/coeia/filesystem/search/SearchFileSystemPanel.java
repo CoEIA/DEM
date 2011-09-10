@@ -485,31 +485,45 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void keywordsListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keywordsListButtonActionPerformed
-        AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true, index.getExtensionAllowed());
-        asd.setVisible(true);
-
-        String query = asd.getQuery() ;
-        List<String> ext = asd.getSupportedExtensions() ;
-
-        if ( query == null || query.isEmpty() )
-            return ;
-
-        if ( ext == null || ext.isEmpty())
-            return ;
-
-        queryTextField.setText(query);
-        startSearching(ext);
+    showAdvancedSearch();
 }//GEN-LAST:event_keywordsListButtonActionPerformed
 
 private void startSearchingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSearchingButtonActionPerformed
-        startSearching(index.getExtensionAllowed());
+    startSearching(index.getExtensionAllowed());
 }//GEN-LAST:event_startSearchingButtonActionPerformed
 
 private void clearFieldsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFieldsButtonActionPerformed
-        removeSearchField(true,false);
+    removeSearchField(true,false);
 }//GEN-LAST:event_clearFieldsButtonActionPerformed
 
 private void searchTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMouseClicked
+    resultTableClicked(evt);
+}//GEN-LAST:event_searchTableMouseClicked
+
+private void searchTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMousePressed
+    tableMouseEvent(evt);
+}//GEN-LAST:event_searchTableMousePressed
+
+private void searchTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMouseReleased
+    tableMouseEvent(evt);
+}//GEN-LAST:event_searchTableMouseReleased
+
+private void clusterPathTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_clusterPathTreeValueChanged
+    clusterPathTreeAction();
+}//GEN-LAST:event_clusterPathTreeValueChanged
+
+private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_clusterTypeTreeValueChanged
+    clusterTypeTreeAction();
+}//GEN-LAST:event_clusterTypeTreeValueChanged
+
+    private void tableMouseEvent(java.awt.event.MouseEvent evt) {
+        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
+            if ( searchTable.isEnabled() )
+                GuiUtil.showPopup(evt);
+        }
+    }
+    
+    private void resultTableClicked(java.awt.event.MouseEvent evt) {
         // set summary panel
         try {
             if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
@@ -526,23 +540,26 @@ private void searchTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST
         catch (Exception e ){
             logger.log(Level.SEVERE, "Uncaught exception", e);
         }
-}//GEN-LAST:event_searchTableMouseClicked
+    }
+    
+    private void showAdvancedSearch() {
+        AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true, index.getExtensionAllowed());
+        asd.setVisible(true);
 
-private void searchTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMousePressed
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( searchTable.isEnabled() )
-                GuiUtil.showPopup(evt);
-        }
-}//GEN-LAST:event_searchTableMousePressed
+        String query = asd.getQuery() ;
+        List<String> ext = asd.getSupportedExtensions() ;
 
-private void searchTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMouseReleased
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( searchTable.isEnabled() )
-                GuiUtil.showPopup(evt);
-        }
-}//GEN-LAST:event_searchTableMouseReleased
+        if ( query == null || query.isEmpty() )
+            return ;
 
-private void clusterPathTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_clusterPathTreeValueChanged
+        if ( ext == null || ext.isEmpty())
+            return ;
+
+        queryTextField.setText(query);
+        startSearching(ext);
+    }
+    
+    private void clusterPathTreeAction() {
         try {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterPathTree.getLastSelectedPathComponent();
             if ( node == null || node.isRoot() || ! node.isLeaf()) {
@@ -555,9 +572,9 @@ private void clusterPathTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
        catch (Exception e ){
            logger.log(Level.SEVERE, "Uncaught exception", e);
        }
-}//GEN-LAST:event_clusterPathTreeValueChanged
-
-private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_clusterTypeTreeValueChanged
+    }
+    
+    private void clusterTypeTreeAction() {
         try {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterTypeTree.getLastSelectedPathComponent();
             if ( node == null || node.isRoot() || ! node.isLeaf()) {
@@ -569,8 +586,8 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
        }
        catch (Exception e ){
        }
-}//GEN-LAST:event_clusterTypeTreeValueChanged
-
+    }
+    
     private void showInformation (String filePath) throws Exception {
         File fileName = new File(filePath);
         String keyword = queryTextField.getText().trim();

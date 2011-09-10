@@ -106,7 +106,7 @@ public class CaseFrame extends javax.swing.JFrame {
         InternetSurfingPanel internetPanel = new InternetSurfingPanel(this.caseObj);
         ChatPanel chatPanel = new ChatPanel(this.caseObj);
         ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.caseObj);
-        SearchPanel searchPanel = new SearchPanel();
+        SearchPanel searchPanel = new SearchPanel(this.caseObj);
         
         this.CardPanel.add(fileSystemPanel, "fileSystemCard");
         this.CardPanel.add(emailPanel, "emailCard");

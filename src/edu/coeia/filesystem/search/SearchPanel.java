@@ -10,15 +10,56 @@
  */
 package edu.coeia.filesystem.search;
 
+import edu.coeia.cases.Case;
+
+import edu.coeia.main.gui.util.GuiUtil;
+import edu.coeia.main.gui.util.GUIComponent ;
+import edu.coeia.main.util.Utilities;
+import edu.coeia.main.util.FilesPath ;
+import edu.coeia.filesystem.util.MetaDataExtraction ;
+
+import java.awt.BorderLayout;
+import java.awt.event.InputEvent;
+
+import javax.swing.JOptionPane ;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode ;
+import javax.swing.JFrame;
+
+import java.io.File ;
+
+import java.util.List; 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
+import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
+import org.apache.tika.Tika;
+
+
 /**
  *
  * @author wajdyessam
  */
 public class SearchPanel extends javax.swing.JPanel {
 
+    private JWebBrowser fileBrowser = new JWebBrowser();
+    
+    private Case index;
+    private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
+    
     /** Creates new form SearchPanel */
-    public SearchPanel() {
+    public SearchPanel(Case aIndex) {
         initComponents();
+        
+        this.index = aIndex;
+        
+        // add file browser
+        fileBrowser.setBarsVisible(false);
+        fileBrowser.setStatusBarVisible(false);
+        //fileRenderPanel.add(fileBrowser, BorderLayout.CENTER);  
+        
+        Utilities.packColumns(searchTable, 0);
+        disableNotIndexedComponent();
     }
 
     /** This method is called from within the constructor to
@@ -30,17 +71,434 @@ public class SearchPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        headerPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        queryTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        startSearchingButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jTabbedPane4 = new javax.swing.JTabbedPane();
+        jPanel22 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        searchTable = new javax.swing.JTable();
+        jPanel24 = new javax.swing.JPanel();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        clusterPathTree = new javax.swing.JTree();
+        jPanel29 = new javax.swing.JPanel();
+        jScrollPane27 = new javax.swing.JScrollPane();
+        clusterTypeTree = new javax.swing.JTree();
+        searchProgressBard = new javax.swing.JProgressBar();
+
+        headerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Search Options"));
+
+        jLabel1.setText("Query: ");
+
+        queryTextField.setText(" ");
+
+        jLabel2.setForeground(new java.awt.Color(0, 51, 255));
+        jLabel2.setText("Advanced Search");
+
+        startSearchingButton.setText("Search");
+        startSearchingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startSearchingButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel3.setText("Clear");
+
+        javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
+        headerPanel.setLayout(headerPanelLayout);
+        headerPanelLayout.setHorizontalGroup(
+            headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(headerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(headerPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(queryTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)))
+                .addGap(10, 10, 10)
+                .addComponent(startSearchingButton)
+                .addContainerGap())
+        );
+        headerPanelLayout.setVerticalGroup(
+            headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(headerPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(queryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(startSearchingButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)))
+        );
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Result View"));
+
+        searchTable.setAutoCreateRowSorter(true);
+        searchTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "File Path"
+            }
+        ));
+        searchTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        searchTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchTableMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                searchTableMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                searchTableMouseReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(searchTable);
+
+        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
+        jPanel22.setLayout(jPanel22Layout);
+        jPanel22Layout.setHorizontalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 697, Short.MAX_VALUE)
+        );
+        jPanel22Layout.setVerticalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+        );
+
+        jTabbedPane4.addTab("Search Result", jPanel22);
+
+        clusterPathTree.setModel(null);
+        clusterPathTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                clusterPathTreeValueChanged(evt);
+            }
+        });
+        jScrollPane12.setViewportView(clusterPathTree);
+
+        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
+        jPanel24.setLayout(jPanel24Layout);
+        jPanel24Layout.setHorizontalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 697, Short.MAX_VALUE)
+        );
+        jPanel24Layout.setVerticalGroup(
+            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+        );
+
+        jTabbedPane4.addTab("Path Clustering", jPanel24);
+
+        clusterTypeTree.setModel(null);
+        clusterTypeTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                clusterTypeTreeValueChanged(evt);
+            }
+        });
+        jScrollPane27.setViewportView(clusterTypeTree);
+
+        javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
+        jPanel29.setLayout(jPanel29Layout);
+        jPanel29Layout.setHorizontalGroup(
+            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 697, Short.MAX_VALUE)
+        );
+        jPanel29Layout.setVerticalGroup(
+            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+        );
+
+        jTabbedPane4.addTab("Type Clustering", jPanel29);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 702, Short.MAX_VALUE)
+            .addComponent(searchProgressBard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
+            .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 517, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(jTabbedPane4)
+                .addGap(18, 18, 18)
+                .addComponent(searchProgressBard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(headerPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void startSearchingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSearchingButtonActionPerformed
+    }//GEN-LAST:event_startSearchingButtonActionPerformed
+
+    private void searchTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMouseClicked
+
+        resultTableClicked(evt);     }//GEN-LAST:event_searchTableMouseClicked
+
+    private void searchTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMousePressed
+
+        tableMouseEvent(evt);     }//GEN-LAST:event_searchTableMousePressed
+
+    private void searchTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMouseReleased
+
+        tableMouseEvent(evt);     }//GEN-LAST:event_searchTableMouseReleased
+
+    private void clusterPathTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_clusterPathTreeValueChanged
+
+        clusterPathTreeAction();     }//GEN-LAST:event_clusterPathTreeValueChanged
+
+    private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_clusterTypeTreeValueChanged
+
+        clusterTypeTreeAction();     }//GEN-LAST:event_clusterTypeTreeValueChanged
+
+    
+    
+    private void tableMouseEvent(java.awt.event.MouseEvent evt) {
+        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
+            if ( searchTable.isEnabled() )
+                GuiUtil.showPopup(evt);
+        }
+    }
+    
+    private void resultTableClicked(java.awt.event.MouseEvent evt) {
+        // set summary panel
+        try {
+            if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
+                GuiUtil.showPopup(evt);
+                return ;
+            }
+
+            // other click event
+            int row = searchTable.getSelectedRow();
+            String filePath = (String) searchTable.getValueAt(row, 0);
+
+            //showInformation(filePath);
+        }
+        catch (Exception e ){
+            logger.log(Level.SEVERE, "Uncaught exception", e);
+        }
+    }
+    
+    private void showAdvancedSearch() {
+        AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true, index.getExtensionAllowed());
+        asd.setVisible(true);
+
+        String query = asd.getQuery() ;
+        List<String> ext = asd.getSupportedExtensions() ;
+
+        if ( query == null || query.isEmpty() )
+            return ;
+
+        if ( ext == null || ext.isEmpty())
+            return ;
+
+        queryTextField.setText(query);
+        startSearching(ext);
+    }
+    
+    private void clusterPathTreeAction() {
+        try {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterPathTree.getLastSelectedPathComponent();
+            if ( node == null || node.isRoot() || ! node.isLeaf()) {
+                return ;
+            }
+            
+            String filePath= node.getUserObject().toString();
+            //showInformation(filePath);
+       }
+       catch (Exception e ){
+           logger.log(Level.SEVERE, "Uncaught exception", e);
+       }
+    }
+    
+    private void clusterTypeTreeAction() {
+        try {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterTypeTree.getLastSelectedPathComponent();
+            if ( node == null || node.isRoot() || ! node.isLeaf()) {
+                return ;
+            }
+
+            String filePath= node.getUserObject().toString();
+            //showInformation(filePath);
+       }
+       catch (Exception e ){
+       }
+    }
+    
+//    private void showInformation (String filePath) throws Exception {
+//        File fileName = new File(filePath);
+//        String keyword = queryTextField.getText().trim();
+//        String extension = Utilities.getExtension(fileName);
+//        
+//        searchFileNameLbl.setText(fileName.getName());
+//        searchFileExtensionLbl.setText(extension);
+//        searchFileSizeLbl.setText(fileName.length() + "");
+//
+//        // set summary panel and file rendered panel depen on file
+//        if (extension.equalsIgnoreCase("txt")) {
+//            String content = Utilities.getFileContent(fileName) ;
+//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+//            String rep = content.replace(keyword, highlither);
+//            fileBrowser.setHTMLContent(rep);
+//        }
+//        else if ( extension.equalsIgnoreCase("pdf") ) {
+//            //fileBrowser.navigate(filePath + "#search= " + keyword + "");
+//            String content = parseFile(fileName);
+//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+//            String rep = content.replace(keyword, highlither);
+//            fileBrowser.setHTMLContent(rep);
+//        }
+//        else if ( extension.equalsIgnoreCase("html") ||
+//                  extension.equalsIgnoreCase("htm") ||
+//                  extension.equalsIgnoreCase("mht") ) {
+//            //fileBrowser.navigate(filePath);
+//            String content = parseFile(fileName);
+//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+//            String rep = content.replace(keyword, highlither);
+//            fileBrowser.setHTMLContent(rep);
+//        }
+//        else if ( extension.equalsIgnoreCase("doc")) {
+//            String content = parseFile(fileName);
+//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+//            String rep = content.replace(keyword, highlither);
+//            fileBrowser.setHTMLContent(rep);
+//        }
+//
+//        // show matadata information for file
+//        String metaData = MetaDataExtraction.getMetaData(filePath);
+//        metaDataTextArea.setText(metaData);
+//
+//        fileRenderPanel.validate();
+//    }
+    
+    private String parseFile(final File filePath) {
+        Tika tika = new Tika();
+        String bodyText = "" ;
+        
+        try {
+            bodyText = tika.parseToString(filePath);
+        }
+        catch (Exception e ){
+            
+        }
+        
+        return (bodyText);
+    }
+    
+    private void startSearching (List<String> supportedExtension) {
+        removeSearchField(false,false);
+
+        if ( index.getIndexStatus() == false ) {
+            JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
+                    "Case is not indexed",JOptionPane.ERROR_MESSAGE );
+            return ;
+        }
+
+        File indexLocation = new File (index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+        String queryString = queryTextField.getText().trim();
+
+        if ( queryString.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "please fill the query string and choose an index location");
+            return  ;
+        }
+
+        Utilities.packColumns(searchTable, 2);
+        searchProgressBard.setIndeterminate(true);
+
+        GUIComponent searchGUI = new GUIComponent(searchProgressBard,searchTable,searchingDateLbl,indexDirLbl2,
+            userQueryLbl,searchTime, supportedExtension , clusterPathTree,clusterTypeTree);
+
+         SearcherThread sThread = new SearcherThread(indexLocation,queryString,searchGUI);
+         sThread.execute();
+    }
+
+    private void removeSearchField (boolean all, boolean restCheckBox) {
+        searchProgressBard.setIndeterminate(false); 
+
+        ( (DefaultTableModel) searchTable.getModel() ).getDataVector().removeAllElements();
+        ( (DefaultTableModel) searchTable.getModel() ).fireTableDataChanged();
+        
+        fileBrowser.setHTMLContent("");
+
+        if ( all ) {
+            queryTextField.setText("");
+        }
+
+        if ( restCheckBox ) {
+        }
+    }
+    
+    private void disableNotIndexedComponent () {
+        if ( index.getDocumentInIndex().isEmpty() ) {
+            startSearchingButton.setEnabled(false);
+            //clearFieldsButton.setEnabled(false);
+            //keywordsListButton.setEnabled(false);
+        }
+    }
+    
+    public void setSearchKeyword (String text) {
+        queryTextField.setText(text);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTree clusterPathTree;
+    private javax.swing.JTree clusterTypeTree;
+    private javax.swing.JPanel headerPanel;
+    private javax.swing.JLabel indexDirLbl2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel29;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane27;
+    private javax.swing.JTabbedPane jTabbedPane4;
+    private javax.swing.JTextField queryTextField;
+    private javax.swing.JProgressBar searchProgressBard;
+    private javax.swing.JTable searchTable;
+    private javax.swing.JLabel searchTime;
+    private javax.swing.JLabel searchingDateLbl;
+    private javax.swing.JButton startSearchingButton;
+    private javax.swing.JLabel userQueryLbl;
     // End of variables declaration//GEN-END:variables
 }
