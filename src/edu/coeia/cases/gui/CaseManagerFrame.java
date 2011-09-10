@@ -1,12 +1,14 @@
 package edu.coeia.cases.gui;
 
-
-
-
 /* import internal classes */
 import edu.coeia.main.util.FilesPath ;
 import edu.coeia.main.util.Utilities;
 import edu.coeia.cases.licence.LicenseManager;
+import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseWizardDialog;
+import edu.coeia.main.CaseFrame;
+import edu.coeia.main.SmartCardDialog;
 
 /* import sun classes */
 import javax.swing.UIManager ;
@@ -30,6 +32,8 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
 
 import java.awt.Toolkit ;
 import java.awt.Dimension ;
@@ -38,13 +42,6 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
-import edu.coeia.cases.CaseWizardDialog;
-import edu.coeia.main.CaseFrame;
-import edu.coeia.main.SmartCardDialog;
-import java.util.logging.Formatter;
-import java.util.logging.LogRecord;
 
 /*
  * CaseManagerFrame the main entry point to DEM
