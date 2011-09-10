@@ -588,15 +588,23 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
             fileBrowser.setHTMLContent(rep);
         }
         else if ( extension.equalsIgnoreCase("pdf") ) {
-            fileBrowser.navigate(filePath + "#search= " + keyword + "");
+            //fileBrowser.navigate(filePath + "#search= " + keyword + "");
+            String content = parseFile(fileName);
+            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+            String rep = content.replace(keyword, highlither);
+            fileBrowser.setHTMLContent(rep);
         }
         else if ( extension.equalsIgnoreCase("html") ||
                   extension.equalsIgnoreCase("htm") ||
                   extension.equalsIgnoreCase("mht") ) {
-            fileBrowser.navigate(filePath);
+            //fileBrowser.navigate(filePath);
+            String content = parseFile(fileName);
+            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+            String rep = content.replace(keyword, highlither);
+            fileBrowser.setHTMLContent(rep);
         }
         else if ( extension.equalsIgnoreCase("doc")) {
-            String content = parseDoc(fileName);
+            String content = parseFile(fileName);
             String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
             String rep = content.replace(keyword, highlither);
             fileBrowser.setHTMLContent(rep);
@@ -609,7 +617,7 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
         fileRenderPanel.validate();
     }
     
-    private String parseDoc(final File filePath) {
+    private String parseFile(final File filePath) {
         Tika tika = new Tika();
         String bodyText = "" ;
         
