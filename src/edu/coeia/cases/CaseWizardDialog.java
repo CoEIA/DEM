@@ -5,7 +5,6 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseManager;
-import edu.coeia.cases.CaseCreatorThread;
 
 import edu.coeia.chat.MSNParser;
 import edu.coeia.chat.SkypeParser;
@@ -21,9 +20,8 @@ import edu.coeia.cases.detector.FirefoxDetector;
 import edu.coeia.cases.detector.RegistryDetector;
 import edu.coeia.cases.detector.UsersDetector;
 import edu.coeia.cases.detector.YahooDetector ;
-        
-import edu.coeia.main.gui.util.InfiniteProgressPanel;
 import edu.coeia.main.SmartCardDialog;
+
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -42,6 +40,7 @@ import java.io.IOException;
 
 import java.awt.CardLayout;
 import java.awt.Frame;
+import java.util.Date;
 
 /*
  * IndexWizard.java
@@ -67,6 +66,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
 
     private JFileChooser fileChooser;
     
+    boolean indexTheCase = false;   // index the case after create it
     /*
      * Wizard CardLayout - Panels Names
      */
@@ -1503,21 +1503,45 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                 return;
             }
         }
-
-        /**
-         * Run Thread Case Creator Now!
-         * And Create The Case
-         * We Make it Thread Because it enumerate the documents to get the size and count of files inside it
-         */
-        InfiniteProgressPanel i = new InfiniteProgressPanel("Loading Now");
-        this.setGlassPane(i);
-        i.start();
-
-        CaseCreatorThread myThread = new CaseCreatorThread(docs, i, this, indexName, indexLocation, investigator, desc, ext, pst, ie, ff,
-                msn, yahoo, cacheImages, checkCompressed, currentCase, skype);
-        myThread.execute();
+        
+        // ask for creating case and indexing it automaticlly
+        int respone = JOptionPane.showConfirmDialog(parent, "Do you want to start Indexing after create the case?"
+                , "Quick Case Indexing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        
+        if ( respone == JOptionPane.YES_OPTION ) {
+            indexTheCase = true;
+        }
+        
+        Case newCase = new Case(indexName, indexLocation, investigator, desc, docs, ext, pst, ie, ff, msn, yahoo, skype,
+                new Date(), new File(indexLocation).length(), cacheImages, checkCompressed, false, "", "");
+            
+        boolean caseStatus = createCase(newCase);
+            
+        if ( ! caseStatus ) {
+            showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
+        }
+        
+        setVisible(false);
     }//GEN-LAST:event_finishButtonActionPerformed
 
+    public boolean checkDirectIndex() {
+        return indexTheCase;
+    }
+    
+    private boolean createCase (Case aCase) {
+        try {
+            setCurrentCase(aCase);
+            CaseManager.CaseOperation.writeCase(aCase);
+            
+            return true;
+        }
+        catch (Exception e){
+            
+        }
+        
+        return false;
+    }
+        
     private void skypeeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_skypeeCheckBoxActionPerformed
         if (skypeeCheckBox.isSelected()) {
             setSkypeChatComponents(true);

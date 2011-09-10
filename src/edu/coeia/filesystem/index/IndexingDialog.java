@@ -33,11 +33,14 @@ public class IndexingDialog extends javax.swing.JDialog {
     private boolean startIndexButtonFlag = true ;
     
     private Case caseObj;
+    private boolean startIndexNow ;
     
     /** Creates new form IndexingDialog */
-    public IndexingDialog(java.awt.Frame parent, boolean modal, Case aCase) {
+    public IndexingDialog(java.awt.Frame parent, boolean modal, Case aCase, boolean startIndexNow) {
         super(parent, modal);
         initComponents();
+        
+        this.startIndexNow = startIndexNow ;
         
         // set start and end button
         startIndexButton.setEnabled(startIndexButtonFlag);
@@ -50,11 +53,7 @@ public class IndexingDialog extends javax.swing.JDialog {
         if ( caseObj.getIndexStatus() ) {
             indexDateLbl.setText(caseObj.getLastIndexDate());
             timeLbl.setText(caseObj.getIndexingTime());
-        }  
-        
-//        if ( caseObj.getDocumentInIndex().isEmpty() ) {
-//            startIndexButton.setEnabled(false);
-//        }
+        }
         
         // close thread if the thread running and user close the window
         this.addWindowListener( new WindowAdapter() {
@@ -63,6 +62,10 @@ public class IndexingDialog extends javax.swing.JDialog {
                 stopIndex();
             }
         });
+        
+        if (this.startIndexNow) {
+            startIndex();
+        }
     }
 
     /** This method is called from within the constructor to

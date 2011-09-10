@@ -263,7 +263,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         try {
             logger.info("Load Case Entring");
             String indexName = getSelectedCase();
-            loadCase(indexName);
+            loadCase(indexName, false);
         }
         catch (IOException e) {
             JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
@@ -288,6 +288,15 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             logger.info("Create New Case Don Successfully");
             updateIndexesInfoFile(index); // update indexes info file with new index
             readCases(); // update recent table with this new information
+            
+            if ( indexWizard.checkDirectIndex()) {
+                try {
+                    loadCase(index.getIndexName(), true);
+                }
+                catch(Exception e){
+                    logger.severe("Cannot Index the case directly after create it");
+                }
+            }
         }
         catch (IOException e){
         }
@@ -315,7 +324,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             try {
                 showCaseInformation();
                 String caseName = getSelectedCase();
-                loadCase(caseName);
+                loadCase(caseName, false);
             }
             catch (IOException e){
                 JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
@@ -541,7 +550,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         return indexName; 
     }
 
-    private void loadCase (String caseName ) throws FileNotFoundException, IOException, ClassNotFoundException{
+    private void loadCase (String caseName, boolean startIndex) throws FileNotFoundException, IOException, ClassNotFoundException{
         if ( caseName != null ) {
             if ( !caseManager.isContain(caseName)) {
                 Case index = getIndexInformationFromIndexName(caseName);
@@ -551,6 +560,12 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 CaseFrame mainFrame = new CaseFrame(index, caseManager.getList());
                 mainFrame.setLocationRelativeTo(this);
                 mainFrame.setVisible(true);
+                
+                if ( !index.getIndexStatus() ) {
+                    logger.info("show direct indexing panel");
+                    mainFrame.showIndexDialog(startIndex);
+                    
+                }
             }
             else {
                 JOptionPane.showMessageDialog(this, "This case is already opening",

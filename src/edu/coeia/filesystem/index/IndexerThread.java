@@ -273,7 +273,10 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
 
         if ( ! indexStatus )
             JOptionPane.showMessageDialog(this.parentDialog, "Indexing Process Stopped","Indexing Process Is Not Completed",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE);
+        else 
+            JOptionPane.showMessageDialog(this.parentDialog, "Indexing Process Completed Successfully","Indexing Process Is Completed",
+                JOptionPane.INFORMATION_MESSAGE);
 
         clearFields();
         

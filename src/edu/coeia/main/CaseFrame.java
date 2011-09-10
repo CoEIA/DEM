@@ -112,8 +112,8 @@ public class CaseFrame extends javax.swing.JFrame {
         this.CardPanel.add(chatPanel, "chatCard");
         this.CardPanel.add(imgPanel, "imagesViewerCard");
         
-        if ( !caseObj.getIndexStatus() )
-            showIndexDialog();
+//        if ( !caseObj.getIndexStatus() )
+//            showIndexDialog();
     }
     
     /** This method is called from within the constructor to
@@ -390,11 +390,11 @@ public class CaseFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void caseIndexingMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caseIndexingMenuItemActionPerformed
-        showIndexDialog();
+        showIndexDialog(false);
     }//GEN-LAST:event_caseIndexingMenuItemActionPerformed
     
-    private void showIndexDialog() {
-        IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj);
+    public void showIndexDialog(boolean startIndex) {
+        IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj, startIndex);
         indexPanel.setLocationRelativeTo(this);
         indexPanel.setVisible(true);
     }
