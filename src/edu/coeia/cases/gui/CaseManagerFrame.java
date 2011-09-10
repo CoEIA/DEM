@@ -549,6 +549,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 caseManager.addCase(caseName);
 
                 CaseFrame mainFrame = new CaseFrame(index, caseManager.getList());
+                mainFrame.setLocationRelativeTo(this);
                 mainFrame.setVisible(true);
             }
             else {

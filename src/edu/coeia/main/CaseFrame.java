@@ -7,6 +7,7 @@ import edu.coeia.main.gui.util.GuiUtil ;
 import edu.coeia.chat.gui.ChatPanel;
 import edu.coeia.email.gui.EmailPanel;
 import edu.coeia.filesystem.gui.FileSystemPanel;
+import edu.coeia.filesystem.index.IndexingDialog;
 import edu.coeia.image.gui.ImagesViewerPanel;
 import edu.coeia.internet.gui.InternetSurfingPanel;
 
@@ -110,6 +111,9 @@ public class CaseFrame extends javax.swing.JFrame {
         this.CardPanel.add(internetPanel, "internetSurfingCard");
         this.CardPanel.add(chatPanel, "chatCard");
         this.CardPanel.add(imgPanel, "imagesViewerCard");
+        
+        if ( !caseObj.getIndexStatus() )
+            showIndexDialog();
     }
     
     /** This method is called from within the constructor to
@@ -132,6 +136,8 @@ public class CaseFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        caseIndexingMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         windowsMenuItem = new javax.swing.JMenuItem();
         recentMenuItem = new javax.swing.JMenuItem();
@@ -238,8 +244,26 @@ public class CaseFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(fileMenu);
 
+        jMenu1.setText("Options");
+        jMenu1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
+
+        caseIndexingMenuItem.setText("Case Indexing");
+        caseIndexingMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                caseIndexingMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(caseIndexingMenuItem);
+
+        jMenuBar1.add(jMenu1);
+
         toolsMenu.setText("Tools");
-        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         windowsMenuItem.setText("Windows Information");
         windowsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -361,11 +385,25 @@ public class CaseFrame extends javax.swing.JFrame {
             logger.log(Level.SEVERE, "Exception When Opening Folder", e);
         }
     }//GEN-LAST:event_viewLogMenuItemActionPerformed
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void caseIndexingMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caseIndexingMenuItemActionPerformed
+        showIndexDialog();
+    }//GEN-LAST:event_caseIndexingMenuItemActionPerformed
+    
+    private void showIndexDialog() {
+        IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj);
+        indexPanel.setLocationRelativeTo(this);
+        indexPanel.setVisible(true);
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CardPanel;
     private javax.swing.JMenu aboutMenu;
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JMenuItem caseIndexingMenuItem;
     private javax.swing.JToggleButton chatToggleButton;
     private javax.swing.JToggleButton emailToggleButton;
     private javax.swing.JMenuItem exitMenuItem;
@@ -375,6 +413,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem helpMenuItem;
     private javax.swing.JToggleButton imageViewerToggleButton;
     private javax.swing.JToggleButton internetSurfingToggleButton;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;

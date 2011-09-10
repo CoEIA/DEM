@@ -10,7 +10,6 @@ package edu.coeia.filesystem.index;
  * @author wajdyessam
  */
 
-import edu.coeia.filesystem.index.Indexer;
 import edu.coeia.main.util.Utilities;
 import edu.coeia.main.gui.util.IndexGUIComponent ;
 import edu.coeia.cases.Case;
@@ -27,7 +26,6 @@ import java.util.List ;
 import com.pff.PSTException ;
 
 import edu.coeia.cases.CaseManager;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -69,15 +67,18 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
     //private int totalNumberOfFiles ;
     private int totalNumberOfError = 0;
     private boolean indexStatus = false;
-
+    
+    private IndexingDialog parentDialog ;
+    
     private static final Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
 
     public IndexerThread (File indexLocation, IndexGUIComponent indexGUI, Case index,
-            List<String> imagesPath) {
+            List<String> imagesPath, IndexingDialog parentDialog) {
+        
         this.indexGUI = indexGUI ;
         this.index = index ;
-        //this.totalNumberOfFiles = index.getDataIndexedCount();
-       
+        this.parentDialog = parentDialog;
+     
         try {
             indexer = new Indexer(indexLocation, imagesPath , true);
             logger.log(Level.INFO, "this is first line in indexing");
@@ -89,7 +90,6 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
         //this.indexGUI.progressBar.setMaximum(100 + index.getPstPath().size());
         this.indexGUI.numberOfErrorFilesLbl.setText("0");
         this.indexGUI.progressBar.setIndeterminate(true);
-
     }
     
     public String doInBackground() {
@@ -242,9 +242,7 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
     @Override
     public void done() {
         logger.log(Level.INFO, "Done Indexing Process");
-        
-        //indexGUI.progressBar.setValue(indexGUI.progressBar.getMaximum());
-        //indexGUI.progressBar.setStringPainted(false);
+
         this.indexGUI.progressBar.setIndeterminate(false);
         
         String indexingTime = "" + Utilities.getTimeFromMilliseconds(time) ;
@@ -271,15 +269,15 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
             logger.log(Level.SEVERE, "Uncaught exception", e);
         }
 
-        // show message box after finish the indexing process
-        if ( indexStatus )
-            JOptionPane.showMessageDialog(null, "Indexing Process Finished","Indexing Process Finished",
-                    JOptionPane.INFORMATION_MESSAGE);
-        else
-            JOptionPane.showMessageDialog(null, "Indexing Process Stopped","There is an Error In Indexing Process",
+        // show message box after finish the indexing process if there is problem
+
+        if ( ! indexStatus )
+            JOptionPane.showMessageDialog(this.parentDialog, "Indexing Process Stopped","Indexing Process Is Not Completed",
                     JOptionPane.INFORMATION_MESSAGE);
 
         clearFields();
+        
+        this.parentDialog.closeDialog();
     }
 
     public void clearFields() {
