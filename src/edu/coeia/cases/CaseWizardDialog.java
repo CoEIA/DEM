@@ -1388,8 +1388,6 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_autoDetectYahooButtonActionPerformed
 
-
-
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
        
         /**

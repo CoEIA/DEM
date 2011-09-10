@@ -8,6 +8,7 @@ import edu.coeia.chat.gui.ChatPanel;
 import edu.coeia.email.gui.EmailPanel;
 import edu.coeia.filesystem.gui.FileSystemPanel;
 import edu.coeia.filesystem.index.IndexingDialog;
+import edu.coeia.filesystem.search.SearchPanel;
 import edu.coeia.image.gui.ImagesViewerPanel;
 import edu.coeia.internet.gui.InternetSurfingPanel;
 
@@ -105,12 +106,14 @@ public class CaseFrame extends javax.swing.JFrame {
         InternetSurfingPanel internetPanel = new InternetSurfingPanel(this.caseObj);
         ChatPanel chatPanel = new ChatPanel(this.caseObj);
         ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.caseObj);
+        SearchPanel searchPanel = new SearchPanel();
         
         this.CardPanel.add(fileSystemPanel, "fileSystemCard");
         this.CardPanel.add(emailPanel, "emailCard");
         this.CardPanel.add(internetPanel, "internetSurfingCard");
         this.CardPanel.add(chatPanel, "chatCard");
         this.CardPanel.add(imgPanel, "imagesViewerCard");
+        this.CardPanel.add(searchPanel, "searchCard");
         
 //        if ( !caseObj.getIndexStatus() )
 //            showIndexDialog();
@@ -127,6 +130,7 @@ public class CaseFrame extends javax.swing.JFrame {
 
         headerGroupButton = new javax.swing.ButtonGroup();
         jToolBar1 = new javax.swing.JToolBar();
+        searchToggleButton = new javax.swing.JToggleButton();
         fileSystemToggleButton = new javax.swing.JToggleButton();
         emailToggleButton = new javax.swing.JToggleButton();
         internetSurfingToggleButton = new javax.swing.JToggleButton();
@@ -155,8 +159,22 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
+        headerGroupButton.add(searchToggleButton);
+        searchToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        searchToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/search.png"))); // NOI18N
+        searchToggleButton.setText("Search");
+        searchToggleButton.setFocusable(false);
+        searchToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        searchToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        searchToggleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchToggleButtonActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(searchToggleButton);
+
         headerGroupButton.add(fileSystemToggleButton);
-        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         fileSystemToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/search.png"))); // NOI18N
         fileSystemToggleButton.setText("File System Search");
         fileSystemToggleButton.setFocusable(false);
@@ -245,7 +263,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jMenuBar1.add(fileMenu);
 
         jMenu1.setText("Options");
-        jMenu1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jMenu1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jMenu1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu1ActionPerformed(evt);
@@ -263,7 +281,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         toolsMenu.setText("Tools");
-        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
 
         windowsMenuItem.setText("Windows Information");
         windowsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -392,6 +410,11 @@ public class CaseFrame extends javax.swing.JFrame {
     private void caseIndexingMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caseIndexingMenuItemActionPerformed
         showIndexDialog(false);
     }//GEN-LAST:event_caseIndexingMenuItemActionPerformed
+
+    private void searchToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchToggleButtonActionPerformed
+       GuiUtil.showPanel("searchCard",CardPanel);
+       this.setTitle(APPLICATION_NAME + "Search Window");
+    }//GEN-LAST:event_searchToggleButtonActionPerformed
     
     public void showIndexDialog(boolean startIndex) {
         IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj, startIndex);
@@ -419,6 +442,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem recentMenuItem;
+    private javax.swing.JToggleButton searchToggleButton;
     private javax.swing.JMenu toolsMenu;
     private javax.swing.JMenuItem viewLogMenuItem;
     private javax.swing.JMenuItem windowsMenuItem;
