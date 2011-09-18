@@ -52,35 +52,35 @@ final class MSNChatIndexer extends Indexer{
     @Override
     public boolean doIndexing() {
         
-        try {
-           List<MSNChatSession> sessions = MSNMessageReader.getAllMSNChatSession(this.getFile().getAbsolutePath());
-
-            for(MSNChatSession session: sessions) {
-                for(MSNConversation conversation: session.conversations) {
-                    for(MSNMessage msg: conversation.messages) {
-                        
-                        Document doc = getDocument(msg,  session.userName, session.otherName , conversation.path); // add parentid and parent metadata here
-                        
-                        //int objectId = id;
-
-                        if (doc != null) {
-                            //this.getLuceneIndex().getWriter().addDocument(doc);    // index file
-                            //this.id++;                       // increase the id counter if file indexed successfully
-
-                        } else {
-                            System.out.println("Fail Parsing: " + this.getFile().getAbsolutePath());
-                            return false;
-                        }
-            
-                    }
-                }
-            }
-        
-            return true;
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+//        try {
+//           List<MSNChatSession> sessions = MSNMessageReader.getAllMSNChatSession(this.getFile().getAbsolutePath());
+//
+//            for(MSNChatSession session: sessions) {
+//                for(MSNConversation conversation: session.conversations) {
+//                    for(MSNMessage msg: conversation.messages) {
+//                        
+//                        Document doc = getDocument(msg,  session.userName, session.otherName , conversation.path); // add parentid and parent metadata here
+//                        
+//                        //int objectId = id;
+//
+//                        if (doc != null) {
+//                            //this.getLuceneIndex().getWriter().addDocument(doc);    // index file
+//                            //this.id++;                       // increase the id counter if file indexed successfully
+//
+//                        } else {
+//                            System.out.println("Fail Parsing: " + this.getFile().getAbsolutePath());
+//                            return false;
+//                        }
+//            
+//                    }
+//                }
+//            }
+//        
+//            return true;
+//        }
+//        catch(Exception e){
+//            e.printStackTrace();
+//        }
 
         return false;
     }

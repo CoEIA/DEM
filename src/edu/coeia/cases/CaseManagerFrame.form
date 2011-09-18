@@ -128,23 +128,14 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="newCaseButton" alignment="1" pref="165" max="32767" attributes="0"/>
-                              <Component id="loadCaseButton" alignment="1" max="32767" attributes="0"/>
-                              <Component id="removeCaseButton" alignment="1" pref="165" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="checkLicenseButton" alignment="0" pref="165" max="32767" attributes="0"/>
-                              <Component id="exportCaseButton" alignment="0" pref="165" max="32767" attributes="0"/>
-                              <Component id="importCaseButton" alignment="1" pref="165" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="newCaseButton" alignment="1" pref="165" max="32767" attributes="0"/>
+                      <Component id="loadCaseButton" alignment="1" max="32767" attributes="0"/>
+                      <Component id="removeCaseButton" alignment="1" pref="165" max="32767" attributes="0"/>
+                      <Component id="checkLicenseButton" alignment="0" pref="165" max="32767" attributes="0"/>
+                      <Component id="exportCaseButton" alignment="0" pref="165" max="32767" attributes="0"/>
+                      <Component id="importCaseButton" alignment="1" pref="165" max="32767" attributes="0"/>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

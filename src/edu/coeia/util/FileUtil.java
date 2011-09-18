@@ -224,6 +224,7 @@ public class FileUtil {
         while ( input.hasNext() )
             content.append( input.nextLine() );
 
+        input.close();
         return content.toString();
     }
 
@@ -233,6 +234,7 @@ public class FileUtil {
         while ( input.hasNext() )
             content.append(input.nextLine()).append( " ");
 
+        input.close();
         return content.toString();
     }
 
@@ -244,6 +246,7 @@ public class FileUtil {
             aList.add(input.nextLine());
         }
 
+        input.close();
         return (aList);
     }    
     

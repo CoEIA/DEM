@@ -432,21 +432,55 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         });
         downloadScrollPane.setViewportView(downloadTable);
 
-        javax.swing.GroupLayout downloadPanelLayout = new javax.swing.GroupLayout(downloadPanel);
-        downloadPanel.setLayout(downloadPanelLayout);
-        downloadPanelLayout.setHorizontalGroup(
-            downloadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(downloadPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(downloadScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        downloadPanelLayout.setVerticalGroup(
-            downloadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(downloadPanelLayout.createSequentialGroup()
-                .addComponent(downloadScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+    webHistoryButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
+    webHistoryButton1.setText("Web History");
+    webHistoryButton1.setEnabled(false);
+    webHistoryButton1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            webHistoryButton1ActionPerformed(evt);
+        }
+    });
+    jToolBar3.add(webHistoryButton1);
+
+    bookmarButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/bookmarks.png"))); // NOI18N
+    bookmarButton1.setText("Bookmark");
+    bookmarButton1.setEnabled(false);
+    bookmarButton1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            bookmarButton1ActionPerformed(evt);
+        }
+    });
+    jToolBar3.add(bookmarButton1);
+
+    cookiesButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/autostart.png"))); // NOI18N
+    cookiesButton1.setText("Cookies");
+    cookiesButton1.setEnabled(false);
+    cookiesButton1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            cookiesButton1ActionPerformed(evt);
+        }
+    });
+    jToolBar3.add(cookiesButton1);
+
+    cacheButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/download.png"))); // NOI18N
+    cacheButton.setText("Cache");
+    cacheButton.setEnabled(false);
+    cacheButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            cacheButtonActionPerformed(evt);
+        }
+    });
+    jToolBar3.add(cacheButton);
+
+    logginsButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/lists.png"))); // NOI18N
+    logginsButton1.setText("Loggins");
+    logginsButton1.setEnabled(false);
+    logginsButton1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            logginsButton1ActionPerformed(evt);
+        }
+    });
+    jToolBar3.add(logginsButton1);
 
         mozillaResultPanel.add(downloadPanel, "downloadCard");
 

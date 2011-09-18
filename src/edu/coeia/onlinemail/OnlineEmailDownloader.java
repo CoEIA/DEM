@@ -1,5 +1,6 @@
 package edu.coeia.onlinemail;
 
+import com.sun.mail.pop3.POP3Folder;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
 import java.awt.event.WindowAdapter;
@@ -137,6 +138,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
     protected Void doInBackground() throws Exception, MessagingException, IOException, SQLException {
 
         int count = 0;
+        String UID = "";
         if (isCancelled()) {
             emailFinished = false;
             return null;
@@ -201,6 +203,17 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         return null;
                     }
                     try {
+                        
+                        // if pop3
+                        if (folder instanceof com.sun.mail.pop3.POP3Folder) {
+                            com.sun.mail.pop3.POP3Folder pf =
+                                    (com.sun.mail.pop3.POP3Folder) folder;
+                            UID = (pf.getUID(message));
+                        } else {
+                            UID = String.valueOf(((UIDFolder) folder).getUID(message));
+
+                        }
+                       
                         // message id
                         int messageId = messages.length - count++;
                         // sent and receive date

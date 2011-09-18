@@ -159,6 +159,13 @@ enum CaseManager {
             String log = caseObject.getCaseLocation() + "\\" + caseObject.getCaseName() + ".LOG" ;
             new File(log).createNewFile();
             
+            // create case configuration file and write path mapping on it
+            CasePathHandler handler = CasePathHandler.newInstance(caseObject.getCaseLocation());
+            for(String path: caseObject.getEvidenceSourceLocation()) {
+                handler.add(new File(path));
+            }
+            handler.saveConfiguration();
+            
             // create tmp files for archives extractions
             File tmpFile = new File(caseObject.getCaseLocation() + "\\" + FilesPath.CASE_TMP);
             tmpFile.mkdir();

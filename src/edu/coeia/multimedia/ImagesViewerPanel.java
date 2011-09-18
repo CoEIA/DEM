@@ -238,7 +238,7 @@ private void nextPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
             
             showImages();
         }
-        catch (IOException e){
+        catch (Exception e){
             logger.log(Level.SEVERE, "Uncaught exception", e);
         }
 }//GEN-LAST:event_nextPageButtonActionPerformed
@@ -293,7 +293,7 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
                 });
                 ImageDisplayPanel.add(picLabel);
             }
-            catch (IndexOutOfBoundsException e) {logger.log(Level.SEVERE, "Uncaught exception", e); }
+            catch (Exception e) {logger.log(Level.SEVERE, "Uncaught exception", e); }
         }
 
         // change border title name

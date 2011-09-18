@@ -3,6 +3,7 @@ package edu.coeia.cases;
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
 import edu.coeia.cases.EmailConfiguration.SOURCE;
+import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.GUIFileFilter;
@@ -843,7 +844,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         if (result == JFileChooser.APPROVE_OPTION) {
             String path = fileChooser.getSelectedFile().getAbsolutePath();
-            addToList(path, model, list);
+            JListUtil.addToList(path, model, list);
         }
     }
 
@@ -968,7 +969,7 @@ private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 // TODO add your handling code here:
     
     String Path = (String)sourcesJList.getSelectedValue();
-    removeFromList(Path, sourcesListModel, sourcesJList);
+    JListUtil.removeFromList(Path, sourcesListModel, sourcesJList);
     
 }//GEN-LAST:event_removeButtonActionPerformed
 
@@ -986,7 +987,7 @@ private void addDriverButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
     if (path == null) {
         return;
     }
-    addToList(path, sourcesListModel, sourcesJList);
+    JListUtil.addToList(path, sourcesListModel, sourcesJList);
     //CaseSources = path;
 }//GEN-LAST:event_addDriverButtonActionPerformed
 
@@ -1089,7 +1090,7 @@ private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.Actio
 
     private boolean checkWizardSecondPanel() {
      
-       AddFromModelToList(sourcesListModel, CaseSources);
+       JListUtil.AddFromModelToList(sourcesListModel, CaseSources);
         if (CaseSources.isEmpty()) {
             showErrorMessage("You must choose a Case Source", "Empty Source");
             return false;
@@ -1166,31 +1167,6 @@ private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.Actio
     private void showPanel(String panelName, JPanel name) {
         CardLayout card = (CardLayout) name.getLayout();
         card.show(name, panelName);
-    }
-
-    // TODO: General List Model Methods, Move it to Utilties
-    private void AddFromModelToList(DefaultListModel model, ArrayList<String> list) {
-        for (int i = 0; i < model.size(); i++) {
-            list.add((String) model.getElementAt(i));
-        }
-    }
-
-    private void addToList(String path, DefaultListModel model, JList list) {
-        if ((path != null || !path.startsWith("null")) && !existsInModel(path, model)) {
-            model.addElement(path);
-            list.setModel(model);
-        }
-    }
-
-    private boolean existsInModel(String path, DefaultListModel model) {
-        return model.contains(path);
-    }
-
-    private void removeFromList(String path, DefaultListModel model, JList list) {
-        if (path != null) {
-            model.removeElement(path);
-            list.setModel(model);
-        }
     }
 
     private void showEmptyMessage(String msg) {
