@@ -153,8 +153,6 @@ public class OnlineEmailDBHandler {
     private void makeDBStructure() throws SQLException {
         Statement statement_ = connection.createStatement();
 
-
-
         String emailTables =
                 "CREATE TABLE emails ("
                 + "USERNAME VARCHAR(500),"

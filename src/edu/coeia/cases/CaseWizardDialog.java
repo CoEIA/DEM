@@ -902,19 +902,19 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
     public void downloadEmail(Case currentCase, EmailConfiguration config) throws Exception {
 
         EmailDownloaderDialog dialogue = new EmailDownloaderDialog(_parent, true, currentCase);
-        dialogue.downloader = new OnlineEmailDownloader(dialogue,
+        dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue,
                 currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
                 currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
         // if hotmail
         if (config.getSource() == SOURCE.HOTMAIL || config.getSource() == SOURCE.Yahoo) {
-            if (dialogue.downloader.ConnectPop3(config.getUserName(), config.getPassword())) {
-                dialogue.downloader.execute();
+            if (dialogue.m_ObjDownloader.ConnectPop3(config.getUserName(), config.getPassword())) {
+                dialogue.m_ObjDownloader.execute();
                 dialogue.setVisible(true);
             }
         }
         if (config.getSource() == SOURCE.GMAIL) {
-            if (dialogue.downloader.ConnectIMAP(config.getUserName(), config.getPassword())) {
-                dialogue.downloader.execute();
+            if (dialogue.m_ObjDownloader.ConnectIMAP(config.getUserName(), config.getPassword())) {
+                dialogue.m_ObjDownloader.execute();
                 dialogue.setVisible(true);
             }
 
