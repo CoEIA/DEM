@@ -3,9 +3,6 @@ package edu.coeia.cases;
 import chrriis.dj.nativeswing.swtimpl.components.JFileDialog;
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
-import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
-
 import edu.coeia.chat.MSNParser;
 import edu.coeia.chat.SkypeParser;
 import edu.coeia.chat.SkypeMessage;

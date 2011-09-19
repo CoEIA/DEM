@@ -81,31 +81,31 @@ public class Case implements Serializable {
         this.indexingTime = indexingTime ;
     }
     
-    public void setIndexName (String indexName) { this.indexName = indexName ; }
-    public void setIndexLocation (String indexLocation) { this.indexLocation = indexLocation ; }
-    public void setInvestigatorName (String name) { this.investigatorName = name; }
-    public void setDescription(String desc) { this.description = desc; }
+//    public void setIndexName (String indexName) { this.indexName = indexName ; }
+//    public void setIndexLocation (String indexLocation) { this.indexLocation = indexLocation ; }
+//    public void setInvestigatorName (String name) { this.investigatorName = name; }
+//    public void setDescription(String desc) { this.description = desc; }
     public void setIndexStatus (boolean status) { this.indexStatus = status ; }
     
-    public void setDocumentInIndex (ArrayList<String> doc) { this.documentInIndex = doc ; }
-    public void setExtensionAllowed (ArrayList<String> ext) { this.extensionAllowed = ext ; }
-
-    public void setPstPath (ArrayList<String> pst) { this.pstPath = pst ; }
-
-    public void setIePath (ArrayList<String> ie) { this.iePath = ie; }
-    public void setFFPath (ArrayList<String> ff) { this.ffPath = ff ;}
-    
-    public void setMsnPath (ArrayList<String> msn) { this.msnPath = msn ; }
-    public void setYahooPath (ArrayList<String> yahoo) { this.yahooPath = yahoo ; }
-    public void setSkypePath (ArrayList<String> skype) { this.skypePath= skype ; }
+//    public void setDocumentInIndex (ArrayList<String> doc) { this.documentInIndex = doc ; }
+//    public void setExtensionAllowed (ArrayList<String> ext) { this.extensionAllowed = ext ; }
+//
+//    public void setPstPath (ArrayList<String> pst) { this.pstPath = pst ; }
+//
+//    public void setIePath (ArrayList<String> ie) { this.iePath = ie; }
+//    public void setFFPath (ArrayList<String> ff) { this.ffPath = ff ;}
+//    
+//    public void setMsnPath (ArrayList<String> msn) { this.msnPath = msn ; }
+//    public void setYahooPath (ArrayList<String> yahoo) { this.yahooPath = yahoo ; }
+//    public void setSkypePath (ArrayList<String> skype) { this.skypePath= skype ; }
 
 //    public void setCreateTime (Date d) { this.createTime = d ; }
 //    public void setCaseSize (long size) { this.caseSize = size; }
 //    public void setDataIndexedSize (long size) { this.dataIndexedSize = size; }
 //    public void setDataIndexedCount (int count) { this.dataIndexedCount = count ; }
 
-    public void setCacheImages (boolean value) { this.cacheImages = value ; }
-    public void setCheckCompressed (boolean value) { this.checkCompressed = value ; }
+//    public void setCacheImages (boolean value) { this.cacheImages = value ; }
+//    public void setCheckCompressed (boolean value) { this.checkCompressed = value ; }
     public void setLastIndexDate (String value) { this.lastIndexDate = value ; }
     public void setIndexingTime (String value) { this.indexingTime = value ; }
     
