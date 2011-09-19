@@ -34,6 +34,8 @@ import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.tika.Tika ;
 import org.apache.tika.exception.TikaException;
 
+// to be changed
+
 class Indexer {
 
     private IndexWriter writer ;
