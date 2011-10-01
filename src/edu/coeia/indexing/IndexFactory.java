@@ -16,7 +16,7 @@ public class IndexFactory {
     public IndexFactory(IndexWriter writer, boolean isSupportImageCaching) {
     }
     
-    public Index getIndex (File file) {
+    public Index getIndex (File file) { // pass file, writer, isCaching to index object
         return null;
     }
 }
