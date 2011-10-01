@@ -4,11 +4,13 @@
  */
 package edu.coeia.indexing;
 
+import org.apache.lucene.index.IndexWriter;
+
 /**
  * Abstract Class for defining Index object
  * @author wajdyessam
  */
 
-public class Index {
-    
+public abstract class Index {
+    public abstract boolean doIndexing (IndexWriter writer);
 }
