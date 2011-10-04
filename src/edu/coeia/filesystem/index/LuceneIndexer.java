@@ -22,6 +22,8 @@ import org.apache.lucene.store.FSDirectory ;
 import org.apache.lucene.util.Version ;
 
 import com.pff.PSTException ;
+import edu.coeia.indexing.Indexer;
+import edu.coeia.indexing.IndexerFactory;
 import edu.coeia.main.util.FilesPath;
 
 import java.io.FileNotFoundException ;
@@ -36,18 +38,18 @@ import org.apache.tika.exception.TikaException;
 
 // to be changed
 
-class Indexer {
+class LuceneIndexer {
 
     private IndexWriter writer ;
     private List<String> imagesPath ;
     
     // last parameter will create new index folder
-    public Indexer (File indexDir, List<String> exts ) throws IOException {
+    public LuceneIndexer (File indexDir, List<String> exts ) throws IOException {
        this(indexDir,exts,true);
     }
 
     // add index to exists index folder if boolean value is false
-    public Indexer (File indexDir, List<String> imagesPath,  boolean newIndex) throws IOException {
+    public LuceneIndexer (File indexDir, List<String> imagesPath,  boolean newIndex) throws IOException {
         if ( !indexDir.exists() ) {
             throw new IOException("not found indexing folder");
         }
@@ -75,26 +77,46 @@ class Indexer {
 	writer.close();
     }
 
-    public boolean indexFile (File f) throws IOException, FileNotFoundException, PSTException,
-    TikaException {
-        String ext = Utilities.getExtension(f).toLowerCase();
+//    public boolean indexFile (File f) throws IOException, FileNotFoundException, PSTException,
+//    TikaException {
+//        String ext = Utilities.getExtension(f).toLowerCase();
+//        
+//        if ( ext.equalsIgnoreCase("pst") || ext.equalsIgnoreCase("ost"))
+//            return parsePST(f.getAbsolutePath());
+//        
+//        else {
+//            Document doc = parseFile(f);
+//
+//            if ( doc != null) {
+//                writer.addDocument(doc);    // index file
+//            }
+//            else {
+//                System.out.println("Fail Parsing: " + f.getAbsolutePath());
+//                return false;
+//            }
+//        }
+//        
+//        return true ;
+//    }
+    
+    public boolean indexFile(File file)  
+            throws IOException, FileNotFoundException, PSTException, TikaException{
+   
+        return indexContent(file);
+    }
+    
+    public boolean indexContent(File file) 
+            throws IOException, FileNotFoundException, PSTException, TikaException {
         
-        if ( ext.equalsIgnoreCase("pst") || ext.equalsIgnoreCase("ost"))
-            return parsePST(f.getAbsolutePath());
-        
-        else {
-            Document doc = parseFile(f);
-
-            if ( doc != null) {
-                writer.addDocument(doc);    // index file
-            }
-            else {
-                System.out.println("Fail Parsing: " + f.getAbsolutePath());
-                return false;
-            }
+        try {
+            Indexer indexType = IndexerFactory.getIndexer(file, true);
+            return indexType.doIndexing(writer);
+        }
+        catch(UnsupportedOperationException e){
+            System.out.println(e.getMessage());
         }
         
-        return true ;
+        return false;
     }
 
     // 0 = TXT , 1 = RTF , 2 = HTML , 3=HTM , 4 = MHT , 5 = DOC , 6 = PDF , 7 = XML

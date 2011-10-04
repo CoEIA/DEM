@@ -4,14 +4,21 @@
  */
 package edu.coeia.indexing;
 
-import org.apache.lucene.index.IndexWriter;
-
 /**
  *
  * @author wajdyessam
  */
-public class DocumentIndex extends Index{
 
+import java.io.File ;
+
+import org.apache.lucene.index.IndexWriter ;
+
+public class ArchiveIndexer extends Indexer {
+    
+    public ArchiveIndexer(File file, String mimeType, boolean imageCaching) {
+        super(file,mimeType, imageCaching);
+    }
+        
     @Override
     public boolean doIndexing(IndexWriter writer) {
         return false;

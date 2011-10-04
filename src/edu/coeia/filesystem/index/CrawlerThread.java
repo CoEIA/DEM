@@ -57,11 +57,11 @@ class ProgressIndexData {
     public String getSizeMsg()      { return sizeMsg; }
 }
 
-class IndexerThread extends SwingWorker<String,ProgressIndexData> {
+class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
 
     private long time = 0 ;
     private int progressCount = 0, indexCount=0;
-    private Indexer indexer ;
+    private LuceneIndexer indexer ;
     private IndexGUIComponent indexGUI ;
     private Case index ;
     //private int totalNumberOfFiles ;
@@ -72,7 +72,7 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
     
     private static final Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
 
-    public IndexerThread (File indexLocation, IndexGUIComponent indexGUI, Case index,
+    public CrawlerThread (File indexLocation, IndexGUIComponent indexGUI, Case index,
             List<String> imagesPath, IndexingDialog parentDialog) {
         
         this.indexGUI = indexGUI ;
@@ -80,7 +80,7 @@ class IndexerThread extends SwingWorker<String,ProgressIndexData> {
         this.parentDialog = parentDialog;
      
         try {
-            indexer = new Indexer(indexLocation, imagesPath , true);
+            indexer = new LuceneIndexer(indexLocation, imagesPath , true);
             logger.log(Level.INFO, "this is first line in indexing");
         } catch (IOException ex) {
            logger.log(Level.SEVERE, "Uncaught exception", ex);

@@ -29,7 +29,7 @@ public class IndexingDialog extends javax.swing.JDialog {
 
     private List<String> imagesPath ;
 
-    private IndexerThread indexerThread ;
+    private CrawlerThread indexerThread ;
     private boolean startIndexButtonFlag = true ;
     
     private Case caseObj;
@@ -403,7 +403,7 @@ public class IndexingDialog extends javax.swing.JDialog {
             ,timeLbl,currentFileLbl, sizeOfFileLbl, numberOfFilesLbl, fileExtensionLbl, numberOfErrorFilesLbl,bigSizeMsgLbl, startIndexButton,
             stopIndexingButton);
 
-        indexerThread = new IndexerThread(indexLocation,indexGUI,caseObj,imagesPath, this);
+        indexerThread = new CrawlerThread(indexLocation,indexGUI,caseObj,imagesPath, this);
         indexerThread.execute();
     }
     

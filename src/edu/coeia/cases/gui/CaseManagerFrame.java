@@ -654,10 +654,9 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     }
     
     
-    //private static final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
+    private static final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
     //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel";
-    private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";
-    
+    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";
     //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
