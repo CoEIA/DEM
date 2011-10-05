@@ -1,7 +1,6 @@
 
 package edu.coeia.filesystem.gui;
 
-import edu.coeia.filesystem.index.IndexFileSystemPanel;
 import edu.coeia.filesystem.search.SearchFileSystemPanel;
 import edu.coeia.cases.Case;
 import javax.swing.JFrame;

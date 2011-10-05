@@ -18,31 +18,16 @@ package edu.coeia.filesystem.gui;
 import edu.coeia.cases.Case;
 import edu.coeia.filesystem.index.IndexReaderThread ;
 import edu.coeia.main.gui.util.InfiniteProgressPanel;
-import edu.coeia.main.gui.util.WrapLayout;
-import edu.coeia.main.gui.util.GuiUtil;
-import edu.coeia.main.util.Utilities;
 import edu.coeia.main.util.FilesPath;
 
 import java.awt.BorderLayout;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JPanel;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.JLabel;
 import javax.swing.JFrame;
 
 import java.io.IOException;
 
-import java.util.List;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 

@@ -23,14 +23,12 @@ import edu.coeia.main.gui.util.GuiUtil;
 import edu.coeia.main.util.Utilities;
 import edu.coeia.main.util.FilesPath;
 
-import java.awt.BorderLayout;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.JLabel;
