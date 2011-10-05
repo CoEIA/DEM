@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.extractor;
+package edu.coeia.indexing;
 
 /**
  *
@@ -11,7 +11,7 @@ package edu.coeia.extractor;
 
 import java.io.File ;
 
-public class PDFImageExtractor implements ImageExtractor {
+public class DocxImageExtractor implements ImageExtractor{
     @Override
     public void extractImages(File file, String distenationFolder) {
         

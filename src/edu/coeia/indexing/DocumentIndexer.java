@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -21,6 +22,8 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.tika.Tika;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
+import org.apache.tika.mime.MediaType;
+import org.apache.tika.mime.MediaTypeRegistry;
 import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
@@ -31,10 +34,11 @@ import org.xml.sax.ContentHandler;
  *
  * @author wajdyessam
  */
+
 public class DocumentIndexer extends Indexer {
 
-    public DocumentIndexer(File file, String mimeType, boolean imageCaching) {
-        super(file, mimeType, imageCaching);
+    public DocumentIndexer(File file, String mimeType, boolean imageCaching, ImageExtractor imageExtractor) {
+        super(file, mimeType, imageCaching, imageExtractor);
     }
 
     @Override
@@ -56,6 +60,11 @@ public class DocumentIndexer extends Indexer {
                 return false;
             }
 
+            // cache images
+            if ( imageCache ) {
+                imageExtractor.extractImages(file, "C:\\IMGS");
+            }
+            
             return true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -71,7 +80,7 @@ public class DocumentIndexer extends Indexer {
 
         return false;
     }
-
+        
     protected Document getDocument(File f) throws Exception {
 
         Metadata metadata = new Metadata();

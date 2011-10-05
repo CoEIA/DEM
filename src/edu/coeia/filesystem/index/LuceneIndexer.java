@@ -100,7 +100,7 @@ class LuceneIndexer {
 //    }
     
     public boolean indexFile(File file)  
-            throws IOException, FileNotFoundException, PSTException, TikaException{
+            throws IOException, FileNotFoundException, PSTException, TikaException {
    
         return indexContent(file);
     }

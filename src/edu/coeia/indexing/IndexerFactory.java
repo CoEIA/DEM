@@ -23,20 +23,25 @@ public class IndexerFactory {
         Tika tika = new Tika();
         
         String mime = tika.detect(file);
-        if ( mime.equalsIgnoreCase("application/msword") ||
-             mime.equalsIgnoreCase("text/plain") ||
+        if ( mime.equalsIgnoreCase("application/msword") )
+             return new DocumentIndexer(file, mime, supportCaching, new DocImageExtractor());
+        
+        if ( mime.equalsIgnoreCase("text/plain") ||
              mime.equalsIgnoreCase("application/xml") ||
              mime.equalsIgnoreCase("application/xhtml+xml") ||
-             mime.equalsIgnoreCase("text/html") ||
-             mime.equalsIgnoreCase("application/pdf") )
-            return new DocumentIndexer(file, mime, supportCaching);
+             mime.equalsIgnoreCase("text/html") )
+            return new DocumentIndexer(file, mime, supportCaching, new NoneImageExtractor());
         
-        else if ( mime.equalsIgnoreCase("application/zip") ||
+             
+        if ( mime.equalsIgnoreCase("application/pdf") )
+            return new DocumentIndexer(file, mime, supportCaching, new PDFImageExtractor());
+        
+         if ( mime.equalsIgnoreCase("application/zip") ||
                   mime.equalsIgnoreCase("application/x-rar-compressed"))
-            return new ArchiveIndexer(file, mime, supportCaching);
+            return new ArchiveIndexer(file, mime, supportCaching, new NoneImageExtractor());
         
         else if (mime.startsWith("image/"))
-            return new ImageIndexer(file, mime, supportCaching);
+            return new ImageIndexer(file, mime, supportCaching, new NoneImageExtractor());
         
         
         throw new UnsupportedOperationException("This file have no handler to handle it");

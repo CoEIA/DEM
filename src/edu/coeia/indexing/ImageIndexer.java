@@ -20,8 +20,8 @@ import edu.coeia.filesystem.index.FileDocument ;
 
 public class ImageIndexer extends Indexer{
     
-    public ImageIndexer(File file, String mimeType, boolean imageCaching) {
-        super(file,mimeType, imageCaching);
+    public ImageIndexer(File file, String mimeType, boolean imageCaching, ImageExtractor imageExtractor) {
+        super(file,mimeType, imageCaching, imageExtractor);
     }
         
     @Override

@@ -15,8 +15,8 @@ import org.apache.lucene.index.IndexWriter ;
 
 public class ArchiveIndexer extends Indexer {
     
-    public ArchiveIndexer(File file, String mimeType, boolean imageCaching) {
-        super(file,mimeType, imageCaching);
+    public ArchiveIndexer(File file, String mimeType, boolean imageCaching, ImageExtractor imageExtractor) {
+        super(file,mimeType, imageCaching, imageExtractor);
     }
         
     @Override
