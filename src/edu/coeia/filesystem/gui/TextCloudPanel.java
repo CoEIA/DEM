@@ -4,14 +4,19 @@
  */
 
 /*
- * IndexPanel.java
+ * TextCloudPanel.java
  *
- * Created on Aug 14, 2011, 1:52:14 PM
+ * Created on Oct 5, 2011, 11:22:23 AM
  */
-package edu.coeia.filesystem.index;
+package edu.coeia.filesystem.gui;
+
+/**
+ *
+ * @author wajdyessam
+ */
 
 import edu.coeia.cases.Case;
-import edu.coeia.filesystem.gui.FileSystemPanel;
+import edu.coeia.filesystem.index.IndexReaderThread ;
 import edu.coeia.main.gui.util.InfiniteProgressPanel;
 import edu.coeia.main.gui.util.WrapLayout;
 import edu.coeia.main.gui.util.GuiUtil;
@@ -44,21 +49,17 @@ import java.util.logging.Level;
 import org.mcavallo.opencloud.Cloud;
 import org.mcavallo.opencloud.Tag;
 
-/**
- *
- * @author wajdyessam
- */
-public class IndexFileSystemPanel extends javax.swing.JPanel {
+public class TextCloudPanel extends javax.swing.JPanel {
 
     private Case caseObj;
     private JFrame parentFrame;
     private FileSystemPanel parentPanel;
     private final static Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
-
-    /** Creates new form IndexPanel */
-    public IndexFileSystemPanel(Case aIndex, JFrame aParentFrame, FileSystemPanel aParentPanel) {
+    
+    /** Creates new form TextCloudPanel */
+    public TextCloudPanel(Case aIndex, JFrame aParentFrame, FileSystemPanel aParentPanel) {
         initComponents();
-
+        
         this.caseObj = aIndex;
         this.parentFrame = aParentFrame;
         this.parentPanel = aParentPanel;
@@ -67,9 +68,9 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         //add a native web browser
         tagsPanel.setLayout(new WrapLayout());
 
-        
+        cloudsFilterTextField.getDocument().addDocumentListener(new CloudsInputListener());
 
-        //disableNotIndexedComponent();
+        disableNotIndexedComponent();
     }
 
     /** This method is called from within the constructor to
@@ -81,13 +82,6 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        indexGroupButton = new javax.swing.ButtonGroup();
-        indexFileSystemButtonsPanel = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jToolBar4 = new javax.swing.JToolBar(javax.swing.JToolBar.VERTICAL);
-        textCloudsToggleButton = new javax.swing.JToggleButton();
-        indexVisualizationToggleButton = new javax.swing.JToggleButton();
-        indexCardsPanel = new javax.swing.JPanel();
         textCloudsPanel = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         tagSelectButton = new javax.swing.JButton();
@@ -106,69 +100,6 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
         cloudsTable = new javax.swing.JTable();
         jLabel33 = new javax.swing.JLabel();
         cloudsFilterTextField = new javax.swing.JTextField();
-        indexVisualizingPanel = new javax.swing.JPanel();
-        indexVisualizationButtonPanel = new javax.swing.JPanel();
-        indexVisulizingButton = new javax.swing.JButton();
-        indexVisualizingPiePanel = new javax.swing.JPanel();
-
-        setLayout(new java.awt.BorderLayout());
-
-        indexFileSystemButtonsPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        indexFileSystemButtonsPanel.setPreferredSize(new java.awt.Dimension(150, 408));
-
-        jToolBar4.setFloatable(false);
-        jToolBar4.setOrientation(javax.swing.JToolBar.VERTICAL);
-        jToolBar4.setRollover(true);
-
-        indexGroupButton.add(textCloudsToggleButton);
-        textCloudsToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        textCloudsToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/old-edit-find.png"))); // NOI18N
-        textCloudsToggleButton.setText("Index Tags Cloud");
-        textCloudsToggleButton.setFocusable(false);
-        textCloudsToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        textCloudsToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        textCloudsToggleButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textCloudsToggleButtonActionPerformed(evt);
-            }
-        });
-        jToolBar4.add(textCloudsToggleButton);
-
-        indexGroupButton.add(indexVisualizationToggleButton);
-        indexVisualizationToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        indexVisualizationToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/pie_chart.png"))); // NOI18N
-        indexVisualizationToggleButton.setText("Index Visualization");
-        indexVisualizationToggleButton.setFocusable(false);
-        indexVisualizationToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        indexVisualizationToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        indexVisualizationToggleButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                indexVisualizationToggleButtonActionPerformed(evt);
-            }
-        });
-        jToolBar4.add(indexVisualizationToggleButton);
-
-        jScrollPane2.setViewportView(jToolBar4);
-
-        javax.swing.GroupLayout indexFileSystemButtonsPanelLayout = new javax.swing.GroupLayout(indexFileSystemButtonsPanel);
-        indexFileSystemButtonsPanel.setLayout(indexFileSystemButtonsPanelLayout);
-        indexFileSystemButtonsPanelLayout.setHorizontalGroup(
-            indexFileSystemButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexFileSystemButtonsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(11, Short.MAX_VALUE))
-        );
-        indexFileSystemButtonsPanelLayout.setVerticalGroup(
-            indexFileSystemButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexFileSystemButtonsPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        add(indexFileSystemButtonsPanel, java.awt.BorderLayout.WEST);
-
-        indexCardsPanel.setLayout(new java.awt.CardLayout());
 
         textCloudsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         textCloudsPanel.setLayout(new java.awt.BorderLayout());
@@ -350,88 +281,47 @@ public class IndexFileSystemPanel extends javax.swing.JPanel {
 
         textCloudsPanel.add(jPanel16, java.awt.BorderLayout.CENTER);
 
-        indexCardsPanel.add(textCloudsPanel, "textCloudsCard");
-
-        indexVisualizingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        indexVisualizingPanel.setLayout(new java.awt.BorderLayout());
-
-        indexVisualizationButtonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Visualization", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-        indexVisulizingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        indexVisulizingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/chart_pie.png"))); // NOI18N
-        indexVisulizingButton.setText("Index Visualization");
-        indexVisulizingButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                indexVisulizingButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout indexVisualizationButtonPanelLayout = new javax.swing.GroupLayout(indexVisualizationButtonPanel);
-        indexVisualizationButtonPanel.setLayout(indexVisualizationButtonPanelLayout);
-        indexVisualizationButtonPanelLayout.setHorizontalGroup(
-            indexVisualizationButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexVisualizationButtonPanelLayout.createSequentialGroup()
-                .addGap(232, 232, 232)
-                .addComponent(indexVisulizingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(232, Short.MAX_VALUE))
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 692, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(textCloudsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
-        indexVisualizationButtonPanelLayout.setVerticalGroup(
-            indexVisualizationButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexVisualizationButtonPanelLayout.createSequentialGroup()
-                .addComponent(indexVisulizingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 405, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(textCloudsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
-
-        indexVisualizingPanel.add(indexVisualizationButtonPanel, java.awt.BorderLayout.NORTH);
-
-        indexVisualizingPiePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Visualizing File Extension in Index", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-        indexVisualizingPiePanel.setLayout(new java.awt.BorderLayout());
-        indexVisualizingPanel.add(indexVisualizingPiePanel, java.awt.BorderLayout.CENTER);
-
-        indexCardsPanel.add(indexVisualizingPanel, "indexVisualizingCard");
-
-        add(indexCardsPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-private void textCloudsToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCloudsToggleButtonActionPerformed
-    GuiUtil.showPanel("textCloudsCard", indexCardsPanel);
-}//GEN-LAST:event_textCloudsToggleButtonActionPerformed
-
-private void indexVisualizationToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_indexVisualizationToggleButtonActionPerformed
-    GuiUtil.showPanel("indexVisualizingCard", indexCardsPanel);
-}//GEN-LAST:event_indexVisualizationToggleButtonActionPerformed
-
-private void tagsExcludeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagsExcludeTextFieldActionPerformed
-    // TODO add your handling code here:
-}//GEN-LAST:event_tagsExcludeTextFieldActionPerformed
-
-private void indexVisulizingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_indexVisulizingButtonActionPerformed
-    //generateVisualization();
-}//GEN-LAST:event_indexVisulizingButtonActionPerformed
-
     private void tagSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagSelectButtonActionPerformed
-        //generateTextCloud();
-    }//GEN-LAST:event_tagSelectButtonActionPerformed
 
-    private void cloudsTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cloudsTableMousePressed
-        showPopUp(evt);
-    }//GEN-LAST:event_cloudsTableMousePressed
+        generateTextCloud();     }//GEN-LAST:event_tagSelectButtonActionPerformed
+
+    private void tagsExcludeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagsExcludeTextFieldActionPerformed
+
+        // TODO add your handling code here:}//GEN-LAST:event_tagsExcludeTextFieldActionPerformed
+    }
+    
+        private void cloudsTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cloudsTableMousePressed
+
+        showPopUp(evt);     }//GEN-LAST:event_cloudsTableMousePressed
 
     private void cloudsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cloudsTableMouseReleased
-        showPopUp(evt);
-    }//GEN-LAST:event_cloudsTableMouseReleased
 
+        showPopUp(evt);     }//GEN-LAST:event_cloudsTableMouseReleased
 
-
-//private void indexVisualizationToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                               
-//    GuiUtil.showPanel("indexVisualizingCard", indexCardsPanel);
-//}                                                              
-//                          
-//
-//private void indexVisulizingButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                      
-//    generateVisualization();
-//}   
-
+    
+    
     private void showPopUp(java.awt.event.MouseEvent evt) {
         if ((evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0) {
             if (cloudsTable.isEnabled()) {
@@ -439,23 +329,164 @@ private void indexVisulizingButtonActionPerformed(java.awt.event.ActionEvent evt
             }
         }
     }
+        
+    private void generateTextCloud() {
+        try {
+            if (caseObj.getIndexStatus() == false) {
+                JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
+                        "Case is not indexed", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // remove data
+            Utilities.removeAllRows(cloudsTable);
+            tagsPanel.removeAll();
+
+            tagsPanel.repaint();
+            tagsPanel.validate();
+
+            InfiniteProgressPanel i = new InfiniteProgressPanel("Loading Index Tags Clouds...");
+            parentFrame.setGlassPane(i);
+            i.start();
+
+            String indexPath = caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH;
+            String indexName = caseObj.getIndexName();
+
+            IndexReaderThread thread = new IndexReaderThread(i, indexPath, indexName, IndexReaderThread.IndexItem.TAGS, this);
+            thread.execute();
+
+            tagsPanel.repaint();
+            tagsPanel.validate();
+        } catch (NumberFormatException n) {
+            JOptionPane.showMessageDialog(this, "number is not correct",
+                    "integer number is no correct", JOptionPane.ERROR_MESSAGE);
+            logger.log(Level.SEVERE, "Uncaught exception", n);
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.log(Level.SEVERE, "Uncaught exception", e);
+        }
+    }
     
+    public void setTags(HashMap<String, Integer> tagsMap) {
+        int excludeNumber = Integer.parseInt(tagsExcludeTextField.getText().trim());
+        int tagsNumber = Integer.parseInt(tagsNumberTextField.getText().trim());
 
+        if (excludeNumber < 0) {
+            logger.log(Level.INFO, "exlude number less than zero");
+            JOptionPane.showMessageDialog(this, "number is not correct", "please enter valid integer", JOptionPane.ERROR_MESSAGE);
+
+            return;
+        }
+
+        if (tagsNumber < 0) {
+            logger.log(Level.INFO, "tags number less than zero");
+            JOptionPane.showMessageDialog(this, "number is not correct", "please enter valid integer", JOptionPane.ERROR_MESSAGE);
+
+            return;
+        }
+
+        if (tagsNumber > tagsMap.size()) {
+            JOptionPane.showMessageDialog(this, "number is greater than words in index",
+                    "Too Much Input", JOptionPane.ERROR_MESSAGE);
+            tagsNumberTextField.setText((tagsMap.size() / 3) + "");
+            return;
+        }
+
+        // create cloud
+        Cloud cloud = new Cloud();
+        cloud.setMaxWeight(50.0);
+        cloud.setThreshold(excludeNumber); //show just tags with this number
+        cloud.setMaxTagsToDisplay(tagsNumber);
+
+        Set set = tagsMap.entrySet();
+        Iterator itr = set.iterator();
+        while (itr.hasNext()) {
+            Map.Entry me = (Map.Entry) itr.next();
+
+            String text = (String) me.getKey();
+            int value = (Integer) me.getValue();
+
+            ((DefaultTableModel) cloudsTable.getModel()).addRow(new Object[]{text, value});
+
+            Tag tag = new Tag(text, value);
+            tag.setLink("Term: " + text + " Frequnecy: " + value);
+            tag.setScore(value);
+
+            cloud.addTag(tag);
+        }
+
+        List<Tag> tags = null;
+
+        if (tagsDisplayComboBox.getSelectedIndex() == 0) {
+            tags = cloud.tags(new Tag.NameComparatorAsc());
+        } else if (tagsDisplayComboBox.getSelectedIndex() == 1) {
+            tags = cloud.tags(new Tag.NameComparatorDesc());
+        } else if (tagsDisplayComboBox.getSelectedIndex() == 2) {
+            tags = cloud.tags(new Tag.ScoreComparatorAsc());
+        } else if (tagsDisplayComboBox.getSelectedIndex() == 3) {
+            tags = cloud.tags(new Tag.ScoreComparatorDesc());
+        }
+
+        for (Tag tag : tags) {
+            JLabel lbl = new JLabel(tag.getName());
+            lbl.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, tag.getWeightInt()));
+            lbl.addMouseListener(new MouseAdapter() {
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    JLabel m = (JLabel) e.getSource();
+                    doSearch(m.getText());
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    JLabel m = (JLabel) e.getSource();
+                    doSearch(m.getText());
+                }
+
+                public void doSearch(String text) {
+                    parentPanel.showSearchWithKeyword(text);
+                }
+            });
+
+            lbl.setToolTipText(tag.getName() + " repeated: " + tag.getScoreInt());
+            lbl.setForeground(java.awt.Color.BLUE.darker());
+            lbl.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            tagsPanel.add(lbl);
+            lbl = null;
+        }
+    }
+
+    public void filterCloudTable() {
+        String text = cloudsFilterTextField.getText().trim();
+        GuiUtil.filterTable(cloudsTable, text);
+    }
+
+    private class CloudsInputListener implements DocumentListener {
+
+        public void changedUpdate(DocumentEvent e) {
+            filterCloudTable();
+        }
+
+        public void removeUpdate(DocumentEvent e) {
+            filterCloudTable();
+        }
+
+        public void insertUpdate(DocumentEvent e) {
+            filterCloudTable();
+        }
+    }
     
-
-
-
+    private void disableNotIndexedComponent() {
+        if (caseObj.getDocumentInIndex().isEmpty()) {
+            tagSelectButton.setEnabled(false);
+            cloudsTable.setEnabled(false);
+        }
+    }
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cloudsFilterTextField;
     private javax.swing.JTable cloudsTable;
-    private javax.swing.JPanel indexCardsPanel;
-    private javax.swing.JPanel indexFileSystemButtonsPanel;
-    private javax.swing.ButtonGroup indexGroupButton;
-    private javax.swing.JPanel indexVisualizationButtonPanel;
-    private javax.swing.JToggleButton indexVisualizationToggleButton;
-    private javax.swing.JPanel indexVisualizingPanel;
-    private javax.swing.JPanel indexVisualizingPiePanel;
-    private javax.swing.JButton indexVisulizingButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel36;
@@ -464,16 +495,13 @@ private void indexVisulizingButtonActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane22;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JToolBar jToolBar4;
     private javax.swing.JButton tagSelectButton;
     private javax.swing.JComboBox tagsDisplayComboBox;
     private javax.swing.JTextField tagsExcludeTextField;
     private javax.swing.JTextField tagsNumberTextField;
     private javax.swing.JPanel tagsPanel;
     private javax.swing.JPanel textCloudsPanel;
-    private javax.swing.JToggleButton textCloudsToggleButton;
     // End of variables declaration//GEN-END:variables
 }

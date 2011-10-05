@@ -21,11 +21,21 @@ public class FileSystemPanel extends javax.swing.JPanel {
     public FileSystemPanel(Case aIndex, JFrame parentFrame) {
         initComponents();
 
-        IndexFileSystemPanel indexPanel = new IndexFileSystemPanel(aIndex, parentFrame, this);
         SearchFileSystemPanel searchPanel = new SearchFileSystemPanel(aIndex, parentFrame);
+        FileBrowsingPanel fileBrowsingPanel = new FileBrowsingPanel();
+        TextCloudPanel textCloudPanel = new TextCloudPanel(aIndex, parentFrame, this);
+        VisualizationPanel visualizationPanel = new VisualizationPanel(aIndex, parentFrame, this);
+        FileSignaturePanel fileSignaturePanel = new FileSignaturePanel();
+        HashAnalysisPanel hashAnalysisPanel = new HashAnalysisPanel();
+        ApplicationHistoryPanel applicationHistoryPanel = new ApplicationHistoryPanel();
         
-        this.fileSystemTappedPane.add("Indexing", indexPanel);
         this.fileSystemTappedPane.add("Searching", searchPanel);
+        this.fileSystemTappedPane.add("Browse", fileBrowsingPanel);
+        this.fileSystemTappedPane.add("Text Cloud", textCloudPanel);
+        this.fileSystemTappedPane.add("Visualization", visualizationPanel);
+        this.fileSystemTappedPane.add("File Signature", fileSignaturePanel);
+        this.fileSystemTappedPane.add("Hash Analysis", hashAnalysisPanel);
+        this.fileSystemTappedPane.add("Application History", applicationHistoryPanel);
     }
 
     public void showSearchWithKeyword (String text) {

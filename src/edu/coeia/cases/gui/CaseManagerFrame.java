@@ -93,8 +93,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         recentCaseTable = new javax.swing.JTable() { public boolean isCellEditable(int rowIndex, int vColIndex) { return false; } }
         ;
-        jScrollPane2 = new javax.swing.JScrollPane();
-        caseInformationTable = new javax.swing.JTable(){ public boolean isCellEditable(int rowIndex, int vColIndex) { return false; } };
         caseManagerButtonsPanel = new javax.swing.JPanel();
         newCaseButton = new javax.swing.JButton();
         loadCaseButton = new javax.swing.JButton();
@@ -130,39 +128,26 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     });
     jScrollPane1.setViewportView(recentCaseTable);
 
-    caseInformationTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
-            "Property" , "Value"
-        }
-    ));
-    jScrollPane2.setViewportView(caseInformationTable);
-
     javax.swing.GroupLayout caseManagerDataPanelLayout = new javax.swing.GroupLayout(caseManagerDataPanel);
     caseManagerDataPanel.setLayout(caseManagerDataPanelLayout);
     caseManagerDataPanelLayout.setHorizontalGroup(
         caseManagerDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caseManagerDataPanelLayout.createSequentialGroup()
+        .addGroup(caseManagerDataPanelLayout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(caseManagerDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
             .addContainerGap())
     );
     caseManagerDataPanelLayout.setVerticalGroup(
         caseManagerDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(caseManagerDataPanelLayout.createSequentialGroup()
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+            .addContainerGap())
     );
 
     caseManagerButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Case Operations", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
     newCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-    newCaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1295181153_manilla-folder-new.png"))); // NOI18N
-    newCaseButton.setText("New Case");
+    newCaseButton.setText("Create New Case");
     newCaseButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             newCaseButtonActionPerformed(evt);
@@ -170,8 +155,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     });
 
     loadCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-    loadCaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/open_case.png"))); // NOI18N
-    loadCaseButton.setText("Load & Open Case");
+    loadCaseButton.setText("Activiate Selected Case");
     loadCaseButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             loadCaseButtonActionPerformed(evt);
@@ -179,8 +163,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     });
 
     removeCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-    removeCaseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/remove_case.png"))); // NOI18N
-    removeCaseButton.setText("Remove Case");
+    removeCaseButton.setText("Remove Selected Case");
     removeCaseButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             removeCaseButtonActionPerformed(evt);
@@ -188,7 +171,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     });
 
     checkLicenseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-    checkLicenseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1295179145_User Card.png"))); // NOI18N
     checkLicenseButton.setText("Check License");
     checkLicenseButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,23 +185,23 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         .addGroup(caseManagerButtonsPanelLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(caseManagerButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(newCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                .addComponent(loadCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                .addComponent(checkLicenseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                .addComponent(removeCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE))
+                .addComponent(checkLicenseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                .addComponent(newCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                .addComponent(loadCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(removeCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
             .addContainerGap())
     );
     caseManagerButtonsPanelLayout.setVerticalGroup(
         caseManagerButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(caseManagerButtonsPanelLayout.createSequentialGroup()
             .addComponent(newCaseButton)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(loadCaseButton)
-            .addGap(18, 18, 18)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(removeCaseButton)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(checkLicenseButton)
-            .addContainerGap(13, Short.MAX_VALUE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     jToolBar1.setFloatable(false);
@@ -234,23 +216,23 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
         .addGroup(layout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(caseManagerDataPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addComponent(caseManagerButtonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(caseManagerButtonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
+            .addComponent(caseManagerDataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addContainerGap())
+        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(layout.createSequentialGroup()
             .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(caseManagerButtonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(caseManagerDataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(18, 18, 18)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(caseManagerDataPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(caseManagerButtonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap())
     );
 
     pack();
@@ -313,13 +295,13 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         logger.info("Remove Case : " + indexName);
         
         readCases(); // update view table
-        removeAllRows(caseInformationTable); // remove entrie in case information table
+        //removeAllRows(caseInformationTable); // remove entrie in case information table
     }//GEN-LAST:event_removeCaseButtonActionPerformed
 
     private void recentCaseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recentCaseTableMouseClicked
         if ( evt.getClickCount() == 2 ) { // double click
             try {
-                showCaseInformation();
+                //showCaseInformation();
                 String caseName = getSelectedCase();
                 loadCase(caseName, false);
             }
@@ -331,7 +313,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             }
         }
         else { // one click , then show information
-            showCaseInformation();
+            //showCaseInformation();
         }
     }//GEN-LAST:event_recentCaseTableMouseClicked
 
@@ -424,7 +406,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
         // set application title and default location when startup
         this.setLocation( width / 4, height / 4);
-        this.setTitle("Digital Evidence Miner (Beta Version): Case Manager Window");
+        this.setTitle("Digital Evidence Miner: Case Manager Window");
 
         // add close event
         this.addWindowListener( new WindowAdapter() {
@@ -487,52 +469,52 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     /*
      * Show case information down in case manager
      */
-    private void showCaseInformation () {
-        int row = recentCaseTable.getSelectedRow();
-
-        if ( row < 0 )
-            return ;
-
-        String indexName = (String) recentCaseTable.getValueAt(row, 0);
-
-        // clear value on table before adding new values
-        removeAllRows(caseInformationTable);
-
-        try {
-            Case index = getIndexInformationFromIndexName(indexName);
-            DefaultTableModel model = (DefaultTableModel) caseInformationTable.getModel();
-
-            model.addRow( new Object[] { "Index Name" , index.getIndexName() });
-            model.addRow( new Object[] { "Index Path" , index.getIndexLocation() });
-            model.addRow( new Object[] { "Created Date and Time" , Utilities.formatDateTime(index.getCreateTime()) } );
-            //model.addRow( new Object[] { "Data Indexed Size" , Utilities.formatSize(Utilities.toKB(index.getDataIndexedSize())) + " KB"  });
-            model.addRow( new Object[] { "Extensions Allowed" , index.getExtensionAllowed() });
-
-            addListToRow(index.getDocumentInIndex(),"Case In Index",model);
-            addListToRow(index.getPstPath(),"Outlook Documents in Index", model);
-            addListToRow(index.getIePath(),"IE Paths in Index", model);
-            addListToRow(index.getFFPath(), "FF Paths in Index", model);
-            addListToRow(index.getMsnPath(),"MSN Paths in Index", model);
-            addListToRow(index.getYahooPath(),"Yahoo Paths in Index", model);
-            addListToRow(index.getSkypePath(), "Skype Paths in Index", model);
-
-            model.addRow( new Object[] { "Cache All Images" , index.getCacheImages() });
-        }
-        catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
-                JOptionPane.ERROR_MESSAGE);
-        }
-        catch (ClassNotFoundException e){
-        }
-    }
+//    private void showCaseInformation () {
+//        int row = recentCaseTable.getSelectedRow();
+//
+//        if ( row < 0 )
+//            return ;
+//
+//        String indexName = (String) recentCaseTable.getValueAt(row, 0);
+//
+//        // clear value on table before adding new values
+//        //removeAllRows(caseInformationTable);
+//
+//        try {
+//            Case index = getIndexInformationFromIndexName(indexName);
+//            DefaultTableModel model = (DefaultTableModel) caseInformationTable.getModel();
+//
+//            model.addRow( new Object[] { "Index Name" , index.getIndexName() });
+//            model.addRow( new Object[] { "Index Path" , index.getIndexLocation() });
+//            model.addRow( new Object[] { "Created Date and Time" , Utilities.formatDateTime(index.getCreateTime()) } );
+//            //model.addRow( new Object[] { "Data Indexed Size" , Utilities.formatSize(Utilities.toKB(index.getDataIndexedSize())) + " KB"  });
+//            model.addRow( new Object[] { "Extensions Allowed" , index.getExtensionAllowed() });
+//
+//            addListToRow(index.getDocumentInIndex(),"Case In Index",model);
+//            addListToRow(index.getPstPath(),"Outlook Documents in Index", model);
+//            addListToRow(index.getIePath(),"IE Paths in Index", model);
+//            addListToRow(index.getFFPath(), "FF Paths in Index", model);
+//            addListToRow(index.getMsnPath(),"MSN Paths in Index", model);
+//            addListToRow(index.getYahooPath(),"Yahoo Paths in Index", model);
+//            addListToRow(index.getSkypePath(), "Skype Paths in Index", model);
+//
+//            model.addRow( new Object[] { "Cache All Images" , index.getCacheImages() });
+//        }
+//        catch (IOException e) {
+//            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
+//                JOptionPane.ERROR_MESSAGE);
+//        }
+//        catch (ClassNotFoundException e){
+//        }
+//    }
         
-    // add value from list to case information table
-    private void addListToRow (ArrayList<String> data, String text, DefaultTableModel model) {
-        for (String s: data ) {
-            model.addRow( new Object[] { text , s });
-            text = "" ;
-        }
-    }
+//    // add value from list to case information table
+//    private void addListToRow (ArrayList<String> data, String text, DefaultTableModel model) {
+//        for (String s: data ) {
+//            model.addRow( new Object[] { text , s });
+//            text = "" ;
+//        }
+//    }
     
     private String getSelectedCase () {
         int row = recentCaseTable.getSelectedRow();
@@ -660,13 +642,11 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable caseInformationTable;
     private javax.swing.JPanel caseManagerButtonsPanel;
     private javax.swing.JPanel caseManagerDataPanel;
     private javax.swing.JButton checkLicenseButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton loadCaseButton;
     private javax.swing.JButton newCaseButton;

@@ -10,6 +10,8 @@ package edu.coeia.filesystem.index;
  * @author wajdyessam
  */
 
+import edu.coeia.filesystem.gui.TextCloudPanel;
+import edu.coeia.filesystem.gui.VisualizationPanel;
 import edu.coeia.main.gui.util.InfiniteProgressPanel;
 import edu.coeia.main.chart.PieChartPanel;
 import edu.coeia.main.util.Utilities;
@@ -33,11 +35,11 @@ import java.util.logging.Logger;
 import javax.swing.SwingWorker ;
 import javax.swing.JPanel;
 
-class IndexReaderThread extends SwingWorker<String, Integer> {
-    public enum IndexItem { TAGS, EXT, IMAGES};
+public class IndexReaderThread extends SwingWorker<String, Integer> {
+    public enum IndexItem { TAGS, VISUALIZATION, IMAGES};
 
     InfiniteProgressPanel panel ;
-    IndexFileSystemPanel fileSystemPanel;
+    JPanel resultPanel;
     
     boolean status;
     IndexItem type;
@@ -52,11 +54,11 @@ class IndexReaderThread extends SwingWorker<String, Integer> {
 
     private static final Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
 
-    public IndexReaderThread (InfiniteProgressPanel i, String location, String name, IndexItem type, IndexFileSystemPanel frame) throws IOException {
+    public IndexReaderThread (InfiniteProgressPanel i, String location, String name, IndexItem type, JPanel frame) throws IOException {
         this.panel = i;
         this.status = true;
         this.type = type;
-        this.fileSystemPanel = frame;
+        this.resultPanel = frame;
         
         indexDir = location ;
         indexName = name;
@@ -76,7 +78,7 @@ class IndexReaderThread extends SwingWorker<String, Integer> {
                 }
                 break;
 
-            case EXT:
+            case VISUALIZATION:
                 exts = getExtensionFreq();
                 break;
 
@@ -194,13 +196,13 @@ class IndexReaderThread extends SwingWorker<String, Integer> {
         // render result
         if ( this.type == IndexItem.TAGS) {
             //TODO: set in panel 
-            this.fileSystemPanel.setTags(tags);
+            ( (TextCloudPanel) this.resultPanel).setTags(tags);
         }
-        else if ( this.type == IndexItem.EXT) {
+        else if ( this.type == IndexItem.VISUALIZATION) {
             try {
                 JPanel chartPanel = PieChartPanel.getPieChartPanel(exts, "Extension Frequency for: " + indexName);
                 //TODO:set in panel
-                this.fileSystemPanel.setIndexVisualizationPanel(chartPanel);
+                ( (VisualizationPanel) this.resultPanel).setIndexVisualizationPanel(chartPanel);
             } catch (IOException ex) {
                 Logger.getLogger(IndexReaderThread.class.getName()).log(Level.SEVERE, null, ex);
             }
