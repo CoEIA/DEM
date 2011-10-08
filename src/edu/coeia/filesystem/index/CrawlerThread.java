@@ -139,7 +139,7 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
             // if file size more than 3 MB then show size message to indicate that indexing will take some time
             String msg = size > 3145728 ? "This file will take some minutes to index, please wait..." : " " ;
 
-            if ( Utilities.isExtentionAllowed(caseObject.getExtensionAllowed(), Utilities.getExtension(dir))) {
+            //if ( Utilities.isExtentionAllowed(caseObject.getExtensionAllowed(), Utilities.getExtension(dir))) {
                 publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), "" , 1 , msg));
                 logger.log(Level.INFO, "Index File: " + dir.getAbsolutePath() + " , size: " + getSize(dir.getAbsolutePath()));
                 try {
@@ -169,10 +169,10 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
                 }
                 
                 ++progressCount ;
-            }
-            else {
-                //System.out.println( dir.getName() +  " is not allowed");
-            }
+            //}
+            //else {
+            //    //System.out.println( dir.getName() +  " is not allowed");
+            //}
         }
     }
 

@@ -21,9 +21,7 @@ public class IndexerFactory {
             Tika tika = new Tika();
 
             String mime = tika.detect(file);
-            System.out.println("mime: " + mime);
             
-            // application/rtf RFT
             
             if ( mime.equalsIgnoreCase("application/msword") ||
                  mime.equalsIgnoreCase("application/vnd.ms-excel.sheet.binary.macroenabled.12") ||
@@ -37,7 +35,8 @@ public class IndexerFactory {
                  mime.equalsIgnoreCase("application/vnd.ms-word.document.macroenabled.12") ||
                  mime.equalsIgnoreCase("application/vnd.ms-excel") ||
                  mime.equalsIgnoreCase("application/vnd.ms-powerpoint") ||
-                 mime.equalsIgnoreCase("application/vnd.visio") ||                      
+                 mime.equalsIgnoreCase("application/vnd.visio") || 
+                 mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.wordprocessingml.document") || 
                  mime.equals("application/rtf") )
                 
                  return new DocumentIndexer(file, mime, supportCaching, location, new OfficeImageExtractor());
@@ -58,6 +57,8 @@ public class IndexerFactory {
 
             else if (mime.startsWith("image/"))
                 return new ImageIndexer(file, mime, supportCaching, location, new ExternalImageExtractor());
+             
+             System.out.println("mime: " + mime);
         }
         catch(IOException e){
             e.printStackTrace();
@@ -73,10 +74,18 @@ public class IndexerFactory {
 //        Indexer indexObject = IndexerFactory.getIndexer(file, true);
 //        System.out.println("end");
         
-        String path = "C:\\DEM_CASE\\1.doc"; 
-        
-        Tika tika = new Tika();
-        String mime = tika.detect(new File(path));
-        System.out.println("mime: " + mime);
+
+        int[] data = { 100, 200, 300, 400 };
+
+        java.nio.ByteBuffer byteBuffer = java.nio.ByteBuffer.allocate(data.length * 4);        
+        java.nio.IntBuffer intBuffer = byteBuffer.asIntBuffer();
+        intBuffer.put(data);
+
+        byte[] array = byteBuffer.array();
+
+        for (int i=0; i < array.length; i++)
+        {
+            System.out.println(i + ": " + array[i]);
+        }
     }
 }

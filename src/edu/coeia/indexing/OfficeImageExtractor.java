@@ -16,8 +16,5 @@ public class OfficeImageExtractor implements ImageExtractor{
     public void extractImages(File file, String distenationFolder) {
         TikaImageExtractor extractor = TikaImageExtractor.getExtractor(file.getAbsolutePath(), distenationFolder);
         TikaImageExtractor.EmbeddedObjectHandler handler = extractor.extract();
-        
-        System.out.println("Object   Size: " + handler.filenames.size());
-        System.out.println("Metadata size: " + handler.mediaTypes.size());
     }
 }

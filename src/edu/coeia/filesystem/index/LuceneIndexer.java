@@ -11,13 +11,7 @@ package edu.coeia.filesystem.index;
  *
  */
 
-import com.pff.PSTFile;
-
-import edu.coeia.main.util.Utilities;
-import edu.coeia.filesystem.parse.PSTParser ;
-
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.store.FSDirectory ;
 import org.apache.lucene.util.Version ;
 
@@ -34,7 +28,6 @@ import java.io.IOException;
 import java.util.List ;
 import org.apache.lucene.analysis.StopAnalyzer;
 
-import org.apache.tika.Tika ;
 import org.apache.tika.exception.TikaException;
 
 // to be changed

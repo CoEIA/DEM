@@ -34,7 +34,6 @@ public class ExternalImageExtractor implements ImageExtractor{
         try {
             String filePath = destination + "\\" + filename;
             File file = new File(filePath);
-            System.out.println("saved images into: " + file.getAbsolutePath());
 
             OutputStream outputStream = new FileOutputStream(file);
 

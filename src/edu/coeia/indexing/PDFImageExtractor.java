@@ -14,6 +14,7 @@ import java.io.File ;
 public class PDFImageExtractor implements ImageExtractor {
     @Override
     public void extractImages(File file, String distenationFolder) {
-        System.out.println("PDF Image Extractor");
+        TikaImageExtractor extractor = TikaImageExtractor.getExtractor(file.getAbsolutePath(), distenationFolder);
+        TikaImageExtractor.EmbeddedObjectHandler handler = extractor.extract();
     }
 }

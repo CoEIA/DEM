@@ -37,7 +37,6 @@ public class TikaImageExtractor {
 
     public EmbeddedObjectHandler extract () {
         EmbeddedObjectHandler handler = new EmbeddedObjectHandler(destination);
-        System.out.println("extract from: " + filename);
         
         try {
             ContainerExtractor extractor = new ParserContainerExtractor();
@@ -57,7 +56,7 @@ public class TikaImageExtractor {
     
     private EmbeddedObjectHandler process(String filename, ContainerExtractor extractor, boolean recurse) throws Exception {
         TikaInputStream stream = getTikaInputStream(filename);
-        System.out.println("is supported: " + extractor.isSupported(stream));
+        //System.out.println("is supported: " + extractor.isSupported(stream));
         
         try {
             // Process it
@@ -97,7 +96,7 @@ public class TikaImageExtractor {
             filenames.add(filename);
             mediaTypes.add(mediaType);
 
-            System.out.println("handle file: " + filename);
+            //System.out.println("handle file: " + filename);
             handleImage(stream, filename, mediaType.toString());
         }
         
@@ -124,7 +123,7 @@ public class TikaImageExtractor {
             try {
                 String filePath = this.destination + "\\" + filename;
                 File file = new File(filePath);
-                System.out.println("saved into: " + file.getAbsolutePath());
+                //System.out.println("saved into: " + file.getAbsolutePath());
                 
                 OutputStream outputStream = new FileOutputStream(file);
 
