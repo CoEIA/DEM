@@ -32,6 +32,9 @@ public class FilesPath {
     // the path for tmp files used in project
     public final static String TMP_PATH = APPLICATION_PATH + "\\" + "TMP" ;
     
+    // path for storing case images
+    public final static String IMAGES_PATH = "IMAGES" ;
+    
     // log path
     public final static String APPLICATION_LOG_PATH = APPLICATION_PATH + "\\" + "LOG";
     

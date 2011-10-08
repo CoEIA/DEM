@@ -6,6 +6,7 @@ package edu.coeia.indexing;
 
 import edu.coeia.filesystem.index.FileDocument;
 
+import edu.coeia.main.util.FilesPath;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,8 +38,8 @@ import org.xml.sax.ContentHandler;
 
 public class DocumentIndexer extends Indexer {
 
-    public DocumentIndexer(File file, String mimeType, boolean imageCaching, ImageExtractor imageExtractor) {
-        super(file, mimeType, imageCaching, imageExtractor);
+    public DocumentIndexer(File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor) {
+        super(file, mimeType, imageCaching, location, imageExtractor);
     }
 
     @Override
@@ -59,10 +60,10 @@ public class DocumentIndexer extends Indexer {
                 System.out.println("Fail Parsing: " + file.getAbsolutePath());
                 return false;
             }
-
+                    
             // cache images
             if ( imageCache ) {
-                imageExtractor.extractImages(file, "C:\\IMGS");
+                imageExtractor.extractImages(file, this.location);
             }
             
             return true;

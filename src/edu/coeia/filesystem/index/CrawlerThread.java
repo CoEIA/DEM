@@ -63,7 +63,7 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
     private int progressCount = 0, indexCount=0;
     private LuceneIndexer indexer ;
     private IndexGUIComponent indexGUI ;
-    private Case index ;
+    private Case caseObject ;
     //private int totalNumberOfFiles ;
     private int totalNumberOfError = 0;
     private boolean indexStatus = false;
@@ -76,11 +76,11 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
             List<String> imagesPath, IndexingDialog parentDialog) {
         
         this.indexGUI = indexGUI ;
-        this.index = index ;
+        this.caseObject = index ;
         this.parentDialog = parentDialog;
      
         try {
-            indexer = new LuceneIndexer(indexLocation, imagesPath , true);
+            indexer = new LuceneIndexer(indexLocation, imagesPath , true, this.caseObject);
             logger.log(Level.INFO, "this is first line in indexing");
         } catch (IOException ex) {
            logger.log(Level.SEVERE, "Uncaught exception", ex);
@@ -97,7 +97,7 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
          
         // index selected files
         logger.log(Level.INFO, "Start Index Files");
-        for ( String dirName : index.getDocumentInIndex() ) {
+        for ( String dirName : caseObject.getDocumentInIndex() ) {
             File file = new File(dirName);
             System.out.println("File: " + file.getAbsolutePath());
             boolean ignoreEmail = true;
@@ -107,7 +107,7 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
         logger.log(Level.INFO, "Start Index Email if contain");
         
         // index outlooks pst files
-        for (String path: index.getPstPath() ) {
+        for (String path: caseObject.getPstPath() ) {
             logger.log(Level.INFO, "Index Mail: " + path);
             File file = new File(path);
             boolean ignoreEmail = false;
@@ -139,7 +139,7 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
             // if file size more than 3 MB then show size message to indicate that indexing will take some time
             String msg = size > 3145728 ? "This file will take some minutes to index, please wait..." : " " ;
 
-            if ( Utilities.isExtentionAllowed(index.getExtensionAllowed(), Utilities.getExtension(dir))) {
+            if ( Utilities.isExtentionAllowed(caseObject.getExtensionAllowed(), Utilities.getExtension(dir))) {
                 publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), "" , 1 , msg));
                 logger.log(Level.INFO, "Index File: " + dir.getAbsolutePath() + " , size: " + getSize(dir.getAbsolutePath()));
                 try {
@@ -257,10 +257,10 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
         // save log files
         try {
             if ( indexStatus ) {
-                index.setIndexStatus(true);
-                index.setLastIndexDate(lastIndexDate);
-                index.setIndexingTime(indexingTime);
-                CaseManager.CaseOperation.writeCase(index);
+                caseObject.setIndexStatus(true);
+                caseObject.setLastIndexDate(lastIndexDate);
+                caseObject.setIndexingTime(indexingTime);
+                CaseManager.CaseOperation.writeCase(caseObject);
                 //System.out.println("write status information after indexing");
             }
             closeIndex();

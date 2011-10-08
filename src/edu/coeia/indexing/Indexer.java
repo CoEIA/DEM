@@ -4,6 +4,8 @@
  */
 package edu.coeia.indexing;
 
+import edu.coeia.main.util.FilesPath;
+
 import org.apache.lucene.index.IndexWriter;
 import java.io.File ;
 
@@ -14,11 +16,12 @@ import java.io.File ;
 
 public abstract class Indexer {
     
-    public Indexer(File file, String mimeType, boolean imageCaching, ImageExtractor imageExtractor) {
+    public Indexer(File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor) {
         this.file = file ;
         this.mimeType = mimeType; 
         this.imageCache = imageCaching;
         this.imageExtractor = imageExtractor;
+        this.location = location + "\\" + FilesPath.IMAGES_PATH;
     }
     
     public abstract boolean doIndexing (IndexWriter writer);
@@ -26,6 +29,7 @@ public abstract class Indexer {
     protected File file ;
     protected String mimeType ;
     protected boolean imageCache ;
+    protected String location ;
     
     protected ImageExtractor imageExtractor;
 }

@@ -20,8 +20,8 @@ import edu.coeia.filesystem.index.FileDocument ;
 
 public class ImageIndexer extends Indexer{
     
-    public ImageIndexer(File file, String mimeType, boolean imageCaching, ImageExtractor imageExtractor) {
-        super(file,mimeType, imageCaching, imageExtractor);
+    public ImageIndexer(File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor) {
+        super(file,mimeType, imageCaching, location, imageExtractor);
     }
         
     @Override
@@ -37,6 +37,11 @@ public class ImageIndexer extends Indexer{
             else {
                 System.out.println("Fail Parsing: " + file.getAbsolutePath());
                 return false;
+            }
+            
+            // cache images
+            if ( imageCache ) {
+                imageExtractor.extractImages(file, this.location);
             }
             
             return true;

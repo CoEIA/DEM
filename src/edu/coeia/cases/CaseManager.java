@@ -93,6 +93,10 @@ public enum CaseManager {
             File dir2 = new File( index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH );
             dir2.mkdir();
 
+            // create IMAGES that hold case images
+            File imgDir = new File( index.getIndexLocation() + "\\" + FilesPath.IMAGES_PATH);
+            imgDir.mkdir();
+            
             // create index information file & write the index on it
             String info = index.getIndexLocation() + "\\" + index.getIndexName() + ".DAT" ;
             File infoFile = new File(info);

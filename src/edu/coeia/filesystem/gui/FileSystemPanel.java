@@ -38,8 +38,8 @@ public class FileSystemPanel extends javax.swing.JPanel {
     }
 
     public void showSearchWithKeyword (String text) {
-        fileSystemTappedPane.setSelectedIndex(1);
-        ((SearchFileSystemPanel)fileSystemTappedPane.getComponentAt(1)).setSearchKeyword(text);
+        fileSystemTappedPane.setSelectedIndex(0);
+        ((SearchFileSystemPanel)fileSystemTappedPane.getComponentAt(0)).setSearchKeyword(text);
     }
     
     /** This method is called from within the constructor to
