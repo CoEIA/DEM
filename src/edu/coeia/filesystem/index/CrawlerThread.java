@@ -61,7 +61,7 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
 
     private long time = 0 ;
     private int progressCount = 0, indexCount=0;
-    private LuceneIndexer indexer ;
+    private LuceneIndexer luceneIndexer ;
     private IndexGUIComponent indexGUI ;
     private Case caseObject ;
     //private int totalNumberOfFiles ;
@@ -80,7 +80,7 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
         this.parentDialog = parentDialog;
      
         try {
-            indexer = new LuceneIndexer(indexLocation, imagesPath , true, this.caseObject);
+            luceneIndexer = new LuceneIndexer(indexLocation, imagesPath , true, this.caseObject);
             logger.log(Level.INFO, "this is first line in indexing");
         } catch (IOException ex) {
            logger.log(Level.SEVERE, "Uncaught exception", ex);
@@ -147,7 +147,7 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
                         indexCount++;
                     }
                     else {
-                        boolean status = indexer.indexFile(dir);
+                        boolean status = luceneIndexer.indexFile(dir);
 
                         if ( ! status )
                             publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), "Cannot Index This File", 0 , msg));
@@ -293,6 +293,6 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
     }
     
     public void closeIndex () throws IOException {
-        indexer.closeIndex();
+        luceneIndexer.closeIndex();
     }
 }

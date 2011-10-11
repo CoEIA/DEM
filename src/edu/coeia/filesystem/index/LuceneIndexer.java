@@ -98,12 +98,6 @@ class LuceneIndexer {
     public boolean indexFile(File file)  
             throws IOException, FileNotFoundException, PSTException, TikaException {
    
-        return indexContent(file);
-    }
-    
-    private boolean indexContent(File file) 
-            throws IOException, FileNotFoundException, PSTException, TikaException {
-        
         try {
             Indexer indexType = IndexerFactory.getIndexer(file, true, this.caseObject.getIndexLocation());
             return indexType.doIndexing(writer);

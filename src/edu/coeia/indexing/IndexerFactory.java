@@ -22,7 +22,6 @@ public class IndexerFactory {
 
             String mime = tika.detect(file);
             
-            
             if ( mime.equalsIgnoreCase("application/msword") ||
                  mime.equalsIgnoreCase("application/vnd.ms-excel.sheet.binary.macroenabled.12") ||
                  mime.equalsIgnoreCase("application/x-mspublisher") ||
@@ -37,6 +36,7 @@ public class IndexerFactory {
                  mime.equalsIgnoreCase("application/vnd.ms-powerpoint") ||
                  mime.equalsIgnoreCase("application/vnd.visio") || 
                  mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.wordprocessingml.document") || 
+                 mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.presentation") ||
                  mime.equals("application/rtf") )
                 
                  return new DocumentIndexer(file, mime, supportCaching, location, new OfficeImageExtractor());
@@ -52,8 +52,8 @@ public class IndexerFactory {
                 return new DocumentIndexer(file, mime, supportCaching, location, new PDFImageExtractor());
 
              if ( mime.equalsIgnoreCase("application/zip") ||
-                      mime.equalsIgnoreCase("application/x-rar-compressed"))
-                return new ArchiveIndexer(file, mime, supportCaching, location, new NoneImageExtractor());
+                  mime.equalsIgnoreCase("application/x-rar-compressed"))
+                return new ArchiveIndexer(file, mime, supportCaching, location, new OfficeImageExtractor());
 
             else if (mime.startsWith("image/"))
                 return new ImageIndexer(file, mime, supportCaching, location, new ExternalImageExtractor());

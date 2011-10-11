@@ -14,7 +14,9 @@ import java.io.File ;
 public class OfficeImageExtractor implements ImageExtractor{
     @Override
     public void extractImages(File file, String distenationFolder) {
-        TikaImageExtractor extractor = TikaImageExtractor.getExtractor(file.getAbsolutePath(), distenationFolder);
-        TikaImageExtractor.EmbeddedObjectHandler handler = extractor.extract();
+        TikaObjectExtractor extractor = TikaObjectExtractor.getExtractor(file.getAbsolutePath(), distenationFolder,
+                TikaObjectExtractor.OBJECT_TYPE.CONTAINER);
+        
+        TikaObjectExtractor.EmbeddedObjectHandler handler = extractor.extract();
     }
 }
