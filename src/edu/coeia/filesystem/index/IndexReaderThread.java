@@ -12,6 +12,7 @@ package edu.coeia.filesystem.index;
 
 import edu.coeia.filesystem.gui.TextCloudPanel;
 import edu.coeia.filesystem.gui.VisualizationPanel;
+import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.gui.util.InfiniteProgressPanel;
 import edu.coeia.main.chart.PieChartPanel;
 import edu.coeia.main.util.Utilities;
@@ -97,12 +98,12 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
     // get terms and frequncy for all terms in docuemnts
     public HashMap<String,Integer> getAllTermFreqFromBody ()  throws IOException {
         HashMap<String,Integer> map = new HashMap<String,Integer>();
-        TermEnum te = indexReader.terms(new Term("body","") );
+        TermEnum te = indexReader.terms(new Term(IndexingConstant.FILE_CONTENT,"") );
 
         while ( te.next() ) {
             Term currentTerm = te.term();
 
-            if ( ! currentTerm.field().equals("body"))
+            if ( ! currentTerm.field().equals(IndexingConstant.FILE_CONTENT))
                 continue ;
 
             String termText = currentTerm.text();
@@ -120,11 +121,11 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
     public List<String> getImagesPath () throws IOException {
         List<String> aList = new ArrayList<String>();
 
-        TermEnum te = indexReader.terms(new Term("mime","") );
+        TermEnum te = indexReader.terms(new Term(IndexingConstant.FILE_MIME,"") );
         while ( te.next() ) {
             Term currentTerm = te.term();
 
-            if ( ! currentTerm.field().equals("mime"))
+            if ( ! currentTerm.field().equals(IndexingConstant.FILE_MIME))
                 continue ;
 
             String termText = currentTerm.text();
@@ -144,7 +145,7 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
         try {
             for (int i=0 ; i<indexReader.numDocs(); i++) {
                 Document doc = indexReader.document(i);
-                String file = doc.get("filename");
+                String file = doc.get(IndexingConstant.FILE_NAME);
 
                 if ( file == null )
                     continue ;

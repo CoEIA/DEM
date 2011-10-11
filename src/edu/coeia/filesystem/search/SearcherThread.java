@@ -13,6 +13,7 @@ package edu.coeia.filesystem.search;
 import edu.coeia.main.util.Utilities;
 import edu.coeia.main.gui.util.GUIComponent;
 import edu.coeia.main.util.Tuple;
+import edu.coeia.indexing.IndexingConstant ;
 
 import javax.swing.SwingWorker ;
 import javax.swing.table.DefaultTableModel ;
@@ -120,7 +121,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         try {
             // show clustering in cluster tree
             ArrayList<Tuple<String, ArrayList<String>>> result = ClusteringData.clustetringData(
-                    indexLocation, queryString, "filename", "body");        
+                    indexLocation, queryString, IndexingConstant.FILE_NAME, IndexingConstant.FILE_CONTENT);        
             buildTree("Result OF Clustering Path", result, searchGUI.clusterTree);
 
             // show clustering in type cluster tree

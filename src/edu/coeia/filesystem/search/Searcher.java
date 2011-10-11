@@ -11,6 +11,7 @@ package edu.coeia.filesystem.search;
  *
  */
 
+import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.util.FilesPath ;
 
 import java.io.File ;
@@ -52,7 +53,7 @@ class Searcher {
         // using stop analyzer in search
         Analyzer analyzer = new StopAnalyzer(Version.LUCENE_20,  new File(FilesPath.STOP_WORD_FILE));
 
-        QueryParser parser = new QueryParser(Version.LUCENE_20, "body", analyzer);
+        QueryParser parser = new QueryParser(Version.LUCENE_20, IndexingConstant.FILE_CONTENT, analyzer);
         Query query = parser.parse(queryString) ;
         
 	//Query query = QueryParser.parse(queryString,"body", new StandardAnalyzer());
@@ -75,7 +76,7 @@ class Searcher {
         ScoreDoc[] hits = results.scoreDocs;
         int id = hits[index].doc;
         Document doc = searcher.doc(id);
-        return doc.get("filename") ;
+        return doc.get(IndexingConstant.FILE_NAME) ;
     }
 
     public Document getDocHits (int index) throws Exception {

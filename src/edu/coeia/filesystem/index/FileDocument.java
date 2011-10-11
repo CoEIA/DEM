@@ -20,6 +20,7 @@ import org.apache.lucene.document.Field ;
 import org.apache.lucene.document.DateTools ;
 
 import com.pff.PSTMessage;
+import edu.coeia.indexing.IndexingConstant;
 
 public class FileDocument {
     
@@ -27,11 +28,11 @@ public class FileDocument {
     public static Document documentFile (File file, String text) throws FileNotFoundException{
         Document document = new Document();
 
-        document.add(new Field("filename", file.getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        document.add(new Field("filetitle", file.getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
-        document.add(new Field("Modified", DateTools.timeToString(file.lastModified(), DateTools.Resolution.MINUTE),
+        document.add(new Field(IndexingConstant.FILE_NAME, file.getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        document.add(new Field(IndexingConstant.FILE_TITLE, file.getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
+        document.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(file.lastModified(), DateTools.Resolution.MINUTE),
                 Field.Store.YES, Field.Index.NOT_ANALYZED));
-        document.add(new Field("body", text, Field.Store.NO, Field.Index.ANALYZED));
+        document.add(new Field(IndexingConstant.FILE_CONTENT, text, Field.Store.NO, Field.Index.ANALYZED));
 
         return (document);
     }
@@ -40,7 +41,7 @@ public class FileDocument {
     public static Document documentImage (File file) {
         Document document = new Document();
 
-        document.add(new Field("mime", file.getAbsolutePath(), Field.Store.YES, Field.Index.NOT_ANALYZED) );
+        document.add(new Field(IndexingConstant.FILE_MIME, file.getAbsolutePath(), Field.Store.YES, Field.Index.NOT_ANALYZED) );
 
         return (document);
     }

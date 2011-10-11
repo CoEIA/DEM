@@ -66,26 +66,4 @@ public class IndexerFactory {
         
         throw new UnsupportedOperationException("This file have no handler to handle it");
     }
-    
-    // main method for testing
-    public static void main(String[] args) throws Exception{
-        
-//        File file = new File("C:\\DEM_CASE\\1.doc");
-//        Indexer indexObject = IndexerFactory.getIndexer(file, true);
-//        System.out.println("end");
-        
-
-        int[] data = { 100, 200, 300, 400 };
-
-        java.nio.ByteBuffer byteBuffer = java.nio.ByteBuffer.allocate(data.length * 4);        
-        java.nio.IntBuffer intBuffer = byteBuffer.asIntBuffer();
-        intBuffer.put(data);
-
-        byte[] array = byteBuffer.array();
-
-        for (int i=0; i < array.length; i++)
-        {
-            System.out.println(i + ": " + array[i]);
-        }
-    }
 }
