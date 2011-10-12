@@ -24,8 +24,8 @@ import org.apache.tika.metadata.Metadata;
 
 public class DocumentIndexer extends Indexer {
 
-    public DocumentIndexer(File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor) {
-        super(file, mimeType, imageCaching, location, imageExtractor);
+    public DocumentIndexer(File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
+        super(file, mimeType, imageCaching, caseLocation, imageExtractor);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class DocumentIndexer extends Indexer {
                     
             // cache images
             if ( imageCache ) {
-                imageExtractor.extractImages(file, this.location);
+                imageExtractor.extractImages(file, this.imagesLocation);
             }
             
             return true;

@@ -41,7 +41,7 @@ public class ImageIndexer extends Indexer{
             
             // cache images
             if ( imageCache ) {
-                imageExtractor.extractImages(file, this.location);
+                imageExtractor.extractImages(file, this.imagesLocation);
             }
             
             return true;

@@ -16,7 +16,7 @@ import org.apache.tika.Tika;
 
 public class IndexerFactory {
     
-    public static Indexer getIndexer (File file, boolean supportCaching, String location){
+    public static Indexer getIndexer (File file, boolean supportCaching, String caseLocation){
         try {
             Tika tika = new Tika();
 
@@ -39,24 +39,24 @@ public class IndexerFactory {
                  mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.presentation") ||
                  mime.equals("application/rtf") )
                 
-                 return new DocumentIndexer(file, mime, supportCaching, location, new OfficeImageExtractor());
+                 return new DocumentIndexer(file, mime, supportCaching, caseLocation, new OfficeImageExtractor());
 
             if ( mime.equalsIgnoreCase("text/plain") ||
                  mime.equalsIgnoreCase("application/xml") ||
                  mime.equalsIgnoreCase("application/xhtml+xml") ||
                  mime.equalsIgnoreCase("text/html") )
-                return new DocumentIndexer(file, mime, supportCaching, location, new NoneImageExtractor());
+                return new DocumentIndexer(file, mime, supportCaching, caseLocation, new NoneImageExtractor());
 
 
             if ( mime.equalsIgnoreCase("application/pdf") )
-                return new DocumentIndexer(file, mime, supportCaching, location, new PDFImageExtractor());
+                return new DocumentIndexer(file, mime, supportCaching, caseLocation, new PDFImageExtractor());
 
              if ( mime.equalsIgnoreCase("application/zip") ||
                   mime.equalsIgnoreCase("application/x-rar-compressed"))
-                return new ArchiveIndexer(file, mime, supportCaching, location, new OfficeImageExtractor());
+                return new ArchiveIndexer(file, mime, supportCaching, caseLocation, new OfficeImageExtractor());
 
             else if (mime.startsWith("image/"))
-                return new ImageIndexer(file, mime, supportCaching, location, new ExternalImageExtractor());
+                return new ImageIndexer(file, mime, supportCaching, caseLocation, new ExternalImageExtractor());
              
              System.out.println("mime: " + mime);
         }

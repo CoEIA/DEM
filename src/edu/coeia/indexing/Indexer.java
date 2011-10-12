@@ -16,12 +16,22 @@ import java.io.File ;
 
 public abstract class Indexer {
     
-    public Indexer(File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor) {
+    public Indexer(File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
         this.file = file ;
         this.mimeType = mimeType; 
         this.imageCache = imageCaching;
         this.imageExtractor = imageExtractor;
-        this.location = location + "\\" + FilesPath.IMAGES_PATH;
+        this.imagesLocation = caseLocation + "\\" + FilesPath.IMAGES_PATH;
+        this.tmpLocation = FilesPath.TMP_PATH;
+        this.caseLocation = caseLocation;
+        
+        createTmpImageFolder(); // used when indexer called by archiveIndexer
+    }
+    
+    private void createTmpImageFolder() {
+        File tmpImageFile = new File(this.imagesLocation);
+        if ( ! tmpImageFile.exists() )
+            tmpImageFile.mkdir();
     }
     
     public abstract boolean doIndexing (IndexWriter writer);
@@ -29,7 +39,9 @@ public abstract class Indexer {
     protected File file ;
     protected String mimeType ;
     protected boolean imageCache ;
-    protected String location ;
+    protected String imagesLocation ;
+    protected String tmpLocation ;
+    protected String caseLocation;
     
     protected ImageExtractor imageExtractor;
 }
