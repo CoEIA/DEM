@@ -16,7 +16,7 @@ import java.io.File ;
 
 public class CaseBaseSource {
     
-    protected void fillDocuments() {
+    protected void fillZipArchive() {
         zips = new ArrayList<String>();
         zips.add(SOURCE_PATH + "data.zip");
         zips.add(SOURCE_PATH + "data2.zip");
@@ -24,7 +24,7 @@ public class CaseBaseSource {
         zips.add(SOURCE_PATH + "pass.zip");
     }
     
-   protected void initTikaExtractorTest() {
+   protected void initForTikaExtractorTest() {
        files.add(new File(SOURCE_PATH + "PlainText.txt"));
        files.add(new File(SOURCE_PATH + "test.docx"));
        files.add(new File(SOURCE_PATH + "RTF.rtf"));

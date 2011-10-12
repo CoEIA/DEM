@@ -17,7 +17,7 @@ public class ArchiveExtractingTest extends CaseBaseSource{
     
     @Before
     public void init() {
-        fillDocuments();
+        fillZipArchive();
     }
     
     @Test

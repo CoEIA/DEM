@@ -61,6 +61,6 @@ public class TikaExtractorTest extends CaseBaseSource{
    
    @Before
    public void init() {
-       initTikaExtractorTest();
+       initForTikaExtractorTest();
    }
 }
