@@ -10,17 +10,13 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import java.io.File ;
-
 import java.util.Map ;
-import java.util.List ;
-import java.util.ArrayList; 
 
 /**
  *
  * @author wajdyessam
  */
-public class TikaExtractorTest {
+public class TikaExtractorTest extends CaseBaseSource{
     
    @Test
    public void extractTextFileContent() {
@@ -65,17 +61,6 @@ public class TikaExtractorTest {
    
    @Before
    public void init() {
-       files.add(new File(SOURCE_PATH + "PlainText.txt"));
-       files.add(new File(SOURCE_PATH + "test.docx"));
-       files.add(new File(SOURCE_PATH + "RTF.rtf"));
-       files.add(new File(SOURCE_PATH + "aa.pdf"));
-       
-       mimeType = "text/plain";
+       initTikaExtractorTest();
    }
-   
-   private static final String SOURCE_PATH = "C:\\data\\" ;
-   
-   private List<File> files = new ArrayList<File>();
-   private String mimeType; 
-   
 }

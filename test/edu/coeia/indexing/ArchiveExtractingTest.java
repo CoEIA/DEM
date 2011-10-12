@@ -11,13 +11,9 @@ package edu.coeia.indexing;
 
 import org.junit.Test ;
 import org.junit.Before; 
-
 import static org.junit.Assert.* ;
 
-import java.util.List ;
-import java.util.ArrayList; 
-
-public class ArchiveExtractingTest {
+public class ArchiveExtractingTest extends CaseBaseSource{
     
     @Before
     public void init() {
@@ -57,17 +53,4 @@ public class ArchiveExtractingTest {
        
        assertNull(handler);
    }
-        
-    private void fillDocuments() {
-        zips = new ArrayList<String>();
-        zips.add(SOURCE_PATH + "data.zip");
-        zips.add(SOURCE_PATH + "data2.zip");
-        zips.add(SOURCE_PATH + "data3.zip");
-        zips.add(SOURCE_PATH + "pass.zip");
-    }
-    
-    private List<String> zips ;
-    
-    private static final String SOURCE_PATH = "C:\\data\\";
-    private static final String OUTPUT_PATH = "C:\\out";
 }
