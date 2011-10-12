@@ -9,13 +9,8 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
-import com.pff.PSTException;
 import java.io.File ;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import org.apache.lucene.index.IndexWriter ;
-import org.apache.tika.exception.TikaException;
 
 public class ArchiveIndexer extends Indexer {
     

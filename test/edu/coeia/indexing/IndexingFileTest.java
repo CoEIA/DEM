@@ -4,9 +4,14 @@
  */
 package edu.coeia.indexing;
 
+import edu.coeia.cases.Case;
+
 import org.junit.Before; 
+import org.junit.Ignore ;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import java.io.File ;
 
 /**
  *
@@ -14,8 +19,88 @@ import static org.junit.Assert.*;
  */
 
 public class IndexingFileTest extends CaseBaseSource{
+    
+    @Before
+    public void init() {
+        initForIndexFactoryTest();
+    }
+    
     @Test
-    public void test() {
-        
+    public void indexZipFileTest() {
+        try {  
+            Case fackCaseObject = new Case(null, fakeCasePath, null, null, null, null,
+                    null, null, null, null, null, null, null, 0, true,
+                    true, true, null, null);
+            
+            LuceneIndexer luceneIndexer = LuceneIndexer.getInstance(fackCaseObject, true);
+            
+            File file = new File(zipFiles.get(0));
+            
+            boolean state = LuceneIndexer.indexFile(file);
+            luceneIndexer.closeIndex();
+            
+            assertEquals(state, true);
+        }
+        catch(Exception e) { e.printStackTrace(); }
+    }
+    
+    @Test
+    public void indexTxtFileTest() {
+        try {
+            Case fackCaseObject = new Case(null, fakeCasePath, null, null, null, null,
+                    null, null, null, null, null, null, null, 0, true,
+                    true, true, null, null);
+            
+            LuceneIndexer luceneIndexer = LuceneIndexer.getInstance(fackCaseObject, true);
+            
+            File file = new File(textFiles.get(0));
+            
+            boolean state = LuceneIndexer.indexFile(file);
+            luceneIndexer.closeIndex();
+            
+            assertEquals(state, true);
+            assertEquals(1, luceneIndexer.getIndexNumber());
+        }
+        catch(Exception e) { e.printStackTrace(); }
+    }
+    
+    @Test
+    public void indexDOCXFileTest() {
+        try {
+            Case fackCaseObject = new Case(null, fakeCasePath, null, null, null, null,
+                    null, null, null, null, null, null, null, 0, true,
+                    true, true, null, null);
+            
+            LuceneIndexer luceneIndexer = LuceneIndexer.getInstance(fackCaseObject, true);
+            
+            File file = new File(docFiles.get(1));
+            
+            boolean state = LuceneIndexer.indexFile(file);
+            luceneIndexer.closeIndex();
+            
+            assertEquals(state, true);
+            assertEquals(67, luceneIndexer.getIndexNumber());
+        }
+        catch(Exception e) { e.printStackTrace(); }
+    }
+    
+    @Test
+    public void indexDOCFileTest1() {
+        try {
+            Case fackCaseObject = new Case(null, fakeCasePath, null, null, null, null,
+                    null, null, null, null, null, null, null, 0, true,
+                    true, true, null, null);
+            
+            LuceneIndexer luceneIndexer = LuceneIndexer.getInstance(fackCaseObject, true);
+            
+            File file = new File(docFiles.get(0));
+            
+            boolean state = LuceneIndexer.indexFile(file);
+            luceneIndexer.closeIndex();
+            
+            assertEquals(state, true);
+            assertEquals(3, luceneIndexer.getIndexNumber());
+        }
+        catch(Exception e) { e.printStackTrace(); }
     }
 }

@@ -66,7 +66,7 @@ public class DocumentIndexer extends Indexer {
                     
             // cache images with id as parent id
             if ( imageCache ) {
-                imageExtractor.extractImages(this.writer, file, this.imagesLocation, objectId);
+                imageExtractor.extractImages(this, file, objectId);
             }
             
             return true;

@@ -10,16 +10,26 @@ package edu.coeia.indexing;
  */
 
 import java.io.File ;
-import org.apache.lucene.index.IndexWriter ;
 
 public class PDFImageExtractor implements ImageExtractor {
     
     @Override
-    public void extractImages(IndexWriter writer, File file, String distenationFolder, int parentId) {
+    public void extractImages(Indexer indexer, File file,int parentId) {
         
-        TikaObjectExtractor extractor = TikaObjectExtractor.getExtractor(file.getAbsolutePath(), distenationFolder,  
-                 TikaObjectExtractor.OBJECT_TYPE.CONTAINER);
+        // extracting images
+        TikaObjectExtractor extractor = TikaObjectExtractor.getExtractor(file.getAbsolutePath(), indexer.tmpLocation,  
+             TikaObjectExtractor.OBJECT_TYPE.CONTAINER);
         
         TikaObjectExtractor.EmbeddedObjectHandler handler = extractor.extract();
+        
+        // index the images using ImageIndexer
+        for(TikaObjectExtractor.ObjectLocation location: handler.getLocations()) {
+            try {
+                LuceneIndexer.indexFile(new File(location.newFilePath), parentId);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

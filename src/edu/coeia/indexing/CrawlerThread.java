@@ -81,7 +81,8 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
         this.parentDialog = parentDialog;
      
         try {
-            luceneIndexer = new LuceneIndexer(indexLocation, imagesPath , true, this.caseObject);
+            luceneIndexer = LuceneIndexer.getInstance(this.caseObject, true);
+            
             logger.log(Level.INFO, "this is first line in indexing");
         } catch (IOException ex) {
            logger.log(Level.SEVERE, "Uncaught exception", ex);

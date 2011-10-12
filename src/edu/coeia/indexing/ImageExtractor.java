@@ -11,8 +11,7 @@ package edu.coeia.indexing;
  */
 
 import java.io.File ;
-import org.apache.lucene.index.IndexWriter ;
 
 public interface ImageExtractor {
-    public void extractImages (IndexWriter writer, File file, String distenationFolder, int parentId);
+    public void extractImages (Indexer indexer, File file,int parentId);
 }

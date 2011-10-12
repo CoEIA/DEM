@@ -33,22 +33,30 @@ import org.apache.tika.exception.TikaException;
 public class LuceneIndexer {
 
     private static IndexWriter writer ;
-    private List<String> imagesPath ;
     private static Case caseObject; 
     
+    /*
+     * Static Factory Method 
+     * Create New Instance of Lucene Indexer
+     */
+    public static LuceneIndexer getInstance(Case aCase, boolean createIndex) throws IOException{ 
+        return new LuceneIndexer(aCase, createIndex);
+    }
+    
     // last parameter will create new index folder
-    public LuceneIndexer (File indexDir, List<String> exts, Case caseObj) throws IOException {
-       this(indexDir,exts,true, caseObj);
+    private LuceneIndexer (Case aCase) throws IOException {
+       this(aCase, true);
     }
 
     // add index to exists index folder if boolean value is false
-    public LuceneIndexer (File indexDir, List<String> imagesPath,  boolean newIndex, Case caseObject) throws IOException {
+    private LuceneIndexer (Case aCase, boolean newIndex) throws IOException {
+        File indexDir = new File(aCase.getIndexLocation());
+        
         if ( !indexDir.exists() ) {
             throw new IOException("not found indexing folder");
         }
 
-        this.imagesPath = imagesPath ;
-	this.caseObject = caseObject; 
+	caseObject = aCase; 
         
         // using standard analyzer
         //writer = new IndexWriter(FSDirectory.open(indexDir), new StandardAnalyzer(Version.LUCENE_20), true, IndexWriter.MaxFieldLength.LIMITED);
@@ -70,50 +78,18 @@ public class LuceneIndexer {
         writer.optimize();
 	writer.close();
     }
-
-//    public boolean indexFile (File f) throws IOException, FileNotFoundException, PSTException,
-//    TikaException {
-//        String ext = Utilities.getExtension(f).toLowerCase();
-//        
-//        if ( ext.equalsIgnoreCase("pst") || ext.equalsIgnoreCase("ost"))
-//            return parsePST(f.getAbsolutePath());
-//        
-//        else {
-//            Document doc = parseFile(f);
-//
-//            if ( doc != null) {
-//                writer.addDocument(doc);    // index file
-//            }
-//            else {
-//                System.out.println("Fail Parsing: " + f.getAbsolutePath());
-//                return false;
-//            }
-//        }
-//        
-//        return true ;
-//    }
     
     public static boolean indexFile(File file)  
             throws IOException, FileNotFoundException, PSTException, TikaException {
-   
-        try {
-            Indexer indexType = IndexerFactory.getIndexer(writer, file, true,
-                    caseObject.getIndexLocation());
-            
-            return indexType.doIndexing();
-        }
-        catch(UnsupportedOperationException e){
-            System.out.println(e.getMessage());
-        }
-        
-        return false;
+        return indexFile(file, 0);
     }
     
     public static boolean indexFile(File file, int parentId)  
             throws IOException, FileNotFoundException, PSTException, TikaException {
    
         try {
-            Indexer indexType = IndexerFactory.getIndexer(writer, file, true,
+            
+            Indexer indexType = IndexerFactory.getIndexer(writer, file, caseObject.getCheckCompressed(),
                     caseObject.getIndexLocation(), parentId);
             
             return indexType.doIndexing();
@@ -172,5 +148,27 @@ public class LuceneIndexer {
 //        PSTParser parser = new PSTParser();
 //        return parser.parseIndexDocument(new PSTFile(path), path, writer);
 //    }
-
+    
+//    public boolean indexFile (File f) throws IOException, FileNotFoundException, PSTException,
+//    TikaException {
+//        String ext = Utilities.getExtension(f).toLowerCase();
+//        
+//        if ( ext.equalsIgnoreCase("pst") || ext.equalsIgnoreCase("ost"))
+//            return parsePST(f.getAbsolutePath());
+//        
+//        else {
+//            Document doc = parseFile(f);
+//
+//            if ( doc != null) {
+//                writer.addDocument(doc);    // index file
+//            }
+//            else {
+//                System.out.println("Fail Parsing: " + f.getAbsolutePath());
+//                return false;
+//            }
+//        }
+//        
+//        return true ;
+//    }
+    
 }

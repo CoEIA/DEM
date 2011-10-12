@@ -85,6 +85,8 @@ public class CaseBaseSource {
         textFiles.add(SOURCE_PATH + "unicodeTxt.txt");
         textFiles.add(SOURCE_PATH + "PlainText.txt");
         textFiles.add(SOURCE_PATH + "New Text Document.txt");
+        
+        rtfs.add(SOURCE_PATH + "RTF.rtf");
     }
     
     protected List<String> rarFiles;
@@ -99,8 +101,11 @@ public class CaseBaseSource {
     protected List<String> containersList ;
     protected List<File> files = new ArrayList<File>();
     protected List<String> zips ;
+    protected List<String> rtfs = new ArrayList<String>();
     
     protected String mimeType; 
+    
+    protected String fakeCasePath = "C:\\fakecase" ;
 
     protected static final String OUTPUT_PATH = "C:\\out";
     protected static final String SOURCE_PATH = "C:\\data\\" ;

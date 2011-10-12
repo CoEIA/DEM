@@ -10,17 +10,15 @@ package edu.coeia.indexing;
  */
 
 import java.io.File ;
-import org.apache.lucene.index.IndexWriter ;
 
 public class OfficeImageExtractor implements ImageExtractor{
+    
     @Override
-    public void extractImages(IndexWriter writer, File file, String distenationFolder, int parentId) {
-        // extract images in tmp location
-        String tmpLocation = "C:\\out" ;
-        
+    public void extractImages(Indexer indexer, File file,int parentId) {
+
         // extracting images
-        TikaObjectExtractor extractor = TikaObjectExtractor.getExtractor(file.getAbsolutePath(), tmpLocation,
-                TikaObjectExtractor.OBJECT_TYPE.CONTAINER);
+        TikaObjectExtractor extractor = TikaObjectExtractor.getExtractor(file.getAbsolutePath(), indexer.tmpLocation,
+            TikaObjectExtractor.OBJECT_TYPE.CONTAINER);
         
         TikaObjectExtractor.EmbeddedObjectHandler handler = extractor.extract();
         

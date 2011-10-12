@@ -58,7 +58,7 @@ public class ImageIndexer extends Indexer{
             
             // cache images i.e move the image to images location , id will ignored 
             if ( imageCache ) {
-                imageExtractor.extractImages(this.writer, file, this.imagesLocation, objectId);
+                imageExtractor.extractImages(this, file, objectId);
             }
             
             return true;
