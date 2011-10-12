@@ -14,9 +14,11 @@ import java.io.IOException;
 
 import org.apache.tika.Tika;
 
+import org.apache.lucene.index.IndexWriter;
+
 public class IndexerFactory {
     
-    public static Indexer getIndexer (File file, boolean supportCaching, String caseLocation){
+    public static Indexer getIndexer (IndexWriter writer, File file, boolean supportCaching, String caseLocation, int parentId) {
         try {
             Tika tika = new Tika();
 
@@ -39,24 +41,24 @@ public class IndexerFactory {
                  mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.presentation") ||
                  mime.equals("application/rtf") )
                 
-                 return new DocumentIndexer(file, mime, supportCaching, caseLocation, new OfficeImageExtractor());
+                 return new DocumentIndexer(writer, file, mime, supportCaching, caseLocation, new OfficeImageExtractor(), parentId);
 
             if ( mime.equalsIgnoreCase("text/plain") ||
                  mime.equalsIgnoreCase("application/xml") ||
                  mime.equalsIgnoreCase("application/xhtml+xml") ||
                  mime.equalsIgnoreCase("text/html") )
-                return new DocumentIndexer(file, mime, supportCaching, caseLocation, new NoneImageExtractor());
+                return new DocumentIndexer(writer, file, mime, supportCaching, caseLocation, new NoneImageExtractor(), parentId);
 
 
             if ( mime.equalsIgnoreCase("application/pdf") )
-                return new DocumentIndexer(file, mime, supportCaching, caseLocation, new PDFImageExtractor());
+                return new DocumentIndexer(writer, file, mime, supportCaching, caseLocation, new PDFImageExtractor(), parentId);
 
              if ( mime.equalsIgnoreCase("application/zip") ||
                   mime.equalsIgnoreCase("application/x-rar-compressed"))
-                return new ArchiveIndexer(file, mime, supportCaching, caseLocation, new OfficeImageExtractor());
+                return new ArchiveIndexer(writer, file, mime, supportCaching, caseLocation, new OfficeImageExtractor(), parentId);
 
             else if (mime.startsWith("image/"))
-                return new ImageIndexer(file, mime, supportCaching, caseLocation, new ExternalImageExtractor());
+                return new ImageIndexer(writer, file, mime, supportCaching, caseLocation, new ExternalImageExtractor(), parentId);
              
              System.out.println("mime: " + mime);
         }
@@ -65,5 +67,9 @@ public class IndexerFactory {
         }        
         
         throw new UnsupportedOperationException("This file have no handler to handle it");
+    }
+    
+    public static Indexer getIndexer (IndexWriter writer, File file, boolean supportCaching, String caseLocation){
+        return getIndexer(writer, file, supportCaching, caseLocation, 0);
     }
 }

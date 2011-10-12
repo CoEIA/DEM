@@ -35,6 +35,9 @@ public class FilesPath {
     // path for storing case images
     public final static String IMAGES_PATH = "IMAGES" ;
     
+    // path for storing case tmp folder
+    public final static String CASE_TMP = "TMP" ;
+    
     // log path
     public final static String APPLICATION_LOG_PATH = APPLICATION_PATH + "\\" + "LOG";
     

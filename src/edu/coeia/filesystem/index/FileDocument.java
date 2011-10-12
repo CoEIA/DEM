@@ -24,27 +24,27 @@ import edu.coeia.indexing.IndexingConstant;
 
 public class FileDocument {
     
-    // provide lucene document for File formats (PDF, XML, ... etc)
-    public static Document documentFile (File file, String text) throws FileNotFoundException{
-        Document document = new Document();
+//    // provide lucene document for File formats (PDF, XML, ... etc)
+//    public static Document documentFile (File file, String text) throws FileNotFoundException{
+//        Document document = new Document();
+//
+//        document.add(new Field(IndexingConstant.FILE_NAME, file.getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+//        document.add(new Field(IndexingConstant.FILE_TITLE, file.getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
+//        document.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(file.lastModified(), DateTools.Resolution.MINUTE),
+//                Field.Store.YES, Field.Index.NOT_ANALYZED));
+//        document.add(new Field(IndexingConstant.FILE_CONTENT, text, Field.Store.NO, Field.Index.ANALYZED));
+//
+//        return (document);
+//    }
 
-        document.add(new Field(IndexingConstant.FILE_NAME, file.getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        document.add(new Field(IndexingConstant.FILE_TITLE, file.getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
-        document.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(file.lastModified(), DateTools.Resolution.MINUTE),
-                Field.Store.YES, Field.Index.NOT_ANALYZED));
-        document.add(new Field(IndexingConstant.FILE_CONTENT, text, Field.Store.NO, Field.Index.ANALYZED));
-
-        return (document);
-    }
-
-    // provide lucene document for images format (JPEG, PNG.. etc)
-    public static Document documentImage (File file) {
-        Document document = new Document();
-
-        document.add(new Field(IndexingConstant.FILE_MIME, file.getAbsolutePath(), Field.Store.YES, Field.Index.NOT_ANALYZED) );
-
-        return (document);
-    }
+//    // provide lucene document for images format (JPEG, PNG.. etc)
+//    public static Document documentImage (File file) {
+//        Document document = new Document();
+//
+//        document.add(new Field(IndexingConstant.FILE_MIME, file.getAbsolutePath(), Field.Store.YES, Field.Index.NOT_ANALYZED) );
+//
+//        return (document);
+//    }
 
     // provide lucene document for PST message (.pst file)
     public static Document documentMessage (MessageHeader messageHeader, PSTMessage pstMessage, String content) {

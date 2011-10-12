@@ -10,6 +10,7 @@
  */
 package edu.coeia.filesystem.index;
 
+import edu.coeia.indexing.CrawlerThread;
 import edu.coeia.main.util.FilesPath;
 import edu.coeia.main.util.Utilities;
 import edu.coeia.cases.Case;

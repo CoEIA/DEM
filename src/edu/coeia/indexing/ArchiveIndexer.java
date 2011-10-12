@@ -19,25 +19,34 @@ import org.apache.tika.exception.TikaException;
 
 public class ArchiveIndexer extends Indexer {
     
-    public ArchiveIndexer(File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
-        super(file,mimeType, imageCaching, caseLocation, imageExtractor);
+    private int parentId ;
+    
+    public ArchiveIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor,
+            int parentId) {
+        
+        super(writer, file,mimeType, imageCaching, caseLocation, imageExtractor);
+        this.parentId = parentId ;
+    }
+      
+    public ArchiveIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
+        this(writer, file,mimeType, imageCaching, caseLocation, imageExtractor, 0);
     }
         
     @Override
-    public boolean doIndexing(IndexWriter writer) {
-        // create temporary folder
-        String folderName = this.tmpLocation + "\\" + "TMP_" + this.file.getName();
-        File folder = new File(folderName);
-        folder.mkdir();
+    public boolean doIndexing() {
+
+        String folderName = this.tmpLocation;
         
         // extract all the archive content in temp folder
-        TikaObjectExtractor.EmbeddedObjectHandler handler = TikaObjectExtractor.getExtractor(this.file.getAbsolutePath(), folderName, TikaObjectExtractor.OBJECT_TYPE.ARCHIVE).extract();
+        TikaObjectExtractor.EmbeddedObjectHandler handler = TikaObjectExtractor.getExtractor(
+                this.file.getAbsolutePath(), folderName,
+                TikaObjectExtractor.OBJECT_TYPE.ARCHIVE).extract();
         
         if ( handler != null ) {
             for(TikaObjectExtractor.ObjectLocation location: handler.getLocations()) {
                 System.out.println("object: " + location.oldFilePath + " , " + location.newFilePath);
                 try {
-                    indexFile(new File(location.newFilePath) , writer, folderName);
+                    LuceneIndexer.indexFile(new File(location.newFilePath), parentId);
                 }
                 catch(Exception e) {
                     e.printStackTrace();
@@ -45,25 +54,6 @@ public class ArchiveIndexer extends Indexer {
             }
         }
         
-        // try indexing the content
-        // remove the folder
-        
-        
-        return false;
+        return true;
     }
-    
-    public boolean indexFile(File file, IndexWriter writer, String location)  
-            throws IOException, FileNotFoundException, PSTException, TikaException {
-   
-        try {
-            Indexer indexType = IndexerFactory.getIndexer(file, this.imageCache, location);
-            return indexType.doIndexing(writer);
-        }
-        catch(UnsupportedOperationException e){
-            System.out.println(e.getMessage());
-        }
-        
-        return false;
-    }
-    
 }

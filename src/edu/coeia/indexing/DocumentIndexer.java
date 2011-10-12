@@ -24,30 +24,49 @@ import org.apache.tika.metadata.Metadata;
 
 public class DocumentIndexer extends Indexer {
 
-    public DocumentIndexer(File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
-        super(file, mimeType, imageCaching, caseLocation, imageExtractor);
+    private int parentId ;
+    
+    /*
+     * Index File Object without Parent
+     */
+    public DocumentIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
+        this(writer, file, mimeType, imageCaching, caseLocation, imageExtractor, 0);
     }
 
+    /*
+     * index file object with parentid
+     */
+    public DocumentIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor,
+            int parentId) {
+        
+        super(writer, file, mimeType, imageCaching, caseLocation, imageExtractor);
+        this.parentId = parentId;
+    }
+    
     @Override
-    public boolean doIndexing(IndexWriter writer) {
+    public boolean doIndexing() {
 
         try {
-           TikaExtractor extractor = TikaExtractor.getExtractor(this.file, this.mimeType);
+            TikaExtractor extractor = TikaExtractor.getExtractor(this.file, this.mimeType);
             
             String bodyText = extractor.getContent();
             Map<String, String> metadata = extractor.getMetadata();
             
-            Document doc = getDocument(bodyText, metadata);
+            Document doc = getDocument(bodyText, metadata); // add parentid and parent metadata here
+            int objectId = id;
+            
             if (doc != null) {
-                writer.addDocument(doc);    // index file
+                this.writer.addDocument(doc);    // index file
+                this.id++;                       // increase the id counter if file indexed successfully
+                
             } else {
                 System.out.println("Fail Parsing: " + file.getAbsolutePath());
                 return false;
             }
                     
-            // cache images
+            // cache images with id as parent id
             if ( imageCache ) {
-                imageExtractor.extractImages(file, this.imagesLocation);
+                imageExtractor.extractImages(this.writer, file, this.imagesLocation, objectId);
             }
             
             return true;
@@ -67,14 +86,17 @@ public class DocumentIndexer extends Indexer {
         doc.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(file.lastModified(), DateTools.Resolution.MINUTE),Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_CONTENT, content, Field.Store.YES, Field.Index.ANALYZED));
         
+        doc.add(new Field(IndexingConstant.FILE_ID, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.FILE_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        
         for(Map.Entry<String, String> entry: metadata.entrySet()) {
             String name =  entry.getKey();
             String value = entry.getValue();
             
             if (indexedMetadataFields.contains(name))
-                doc.add(new Field(name, value,Field.Store.NO, Field.Index.ANALYZED));
+                doc.add(new Field(name, value,Field.Store.YES, Field.Index.NOT_ANALYZED));
             else 
-                doc.add(new Field(name, value, Field.Store.YES, Field.Index.NO)); 
+                doc.add(new Field(name, value, Field.Store.YES, Field.Index.NOT_ANALYZED)); 
         }
         
         return doc;

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.filesystem.index;
+package edu.coeia.indexing;
 
 /**
  *
@@ -26,6 +26,7 @@ import java.util.List ;
 import com.pff.PSTException ;
 
 import edu.coeia.cases.CaseManager;
+import edu.coeia.filesystem.index.IndexingDialog;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,7 +58,7 @@ class ProgressIndexData {
     public String getSizeMsg()      { return sizeMsg; }
 }
 
-class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
+public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
 
     private long time = 0 ;
     private int progressCount = 0, indexCount=0;
@@ -147,7 +148,7 @@ class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
                         indexCount++;
                     }
                     else {
-                        boolean status = luceneIndexer.indexFile(dir);
+                        boolean status = LuceneIndexer.indexFile(dir);
 
                         if ( ! status )
                             publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), "Cannot Index This File", 0 , msg));

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.filesystem.index;
+package edu.coeia.indexing;
 
 /**
  *
@@ -17,8 +17,6 @@ import org.apache.lucene.util.Version ;
 
 import com.pff.PSTException ;
 import edu.coeia.cases.Case;
-import edu.coeia.indexing.Indexer;
-import edu.coeia.indexing.IndexerFactory;
 import edu.coeia.main.util.FilesPath;
 
 import java.io.FileNotFoundException ;
@@ -32,11 +30,11 @@ import org.apache.tika.exception.TikaException;
 
 // to be changed
 
-class LuceneIndexer {
+public class LuceneIndexer {
 
-    private IndexWriter writer ;
+    private static IndexWriter writer ;
     private List<String> imagesPath ;
-    private Case caseObject; 
+    private static Case caseObject; 
     
     // last parameter will create new index folder
     public LuceneIndexer (File indexDir, List<String> exts, Case caseObj) throws IOException {
@@ -95,12 +93,30 @@ class LuceneIndexer {
 //        return true ;
 //    }
     
-    public boolean indexFile(File file)  
+    public static boolean indexFile(File file)  
             throws IOException, FileNotFoundException, PSTException, TikaException {
    
         try {
-            Indexer indexType = IndexerFactory.getIndexer(file, true, this.caseObject.getIndexLocation());
-            return indexType.doIndexing(writer);
+            Indexer indexType = IndexerFactory.getIndexer(writer, file, true,
+                    caseObject.getIndexLocation());
+            
+            return indexType.doIndexing();
+        }
+        catch(UnsupportedOperationException e){
+            System.out.println(e.getMessage());
+        }
+        
+        return false;
+    }
+    
+    public static boolean indexFile(File file, int parentId)  
+            throws IOException, FileNotFoundException, PSTException, TikaException {
+   
+        try {
+            Indexer indexType = IndexerFactory.getIndexer(writer, file, true,
+                    caseObject.getIndexLocation(), parentId);
+            
+            return indexType.doIndexing();
         }
         catch(UnsupportedOperationException e){
             System.out.println(e.getMessage());

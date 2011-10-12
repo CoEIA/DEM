@@ -19,10 +19,12 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.lucene.index.IndexWriter ;
+
 public class ExternalImageExtractor implements ImageExtractor{
     
     @Override
-    public void extractImages(File file, String distenationFolder) {
+    public void extractImages(IndexWriter writer, File file, String distenationFolder, int parentId) {
         try {
             extractEmbbeddedImage(new FileInputStream(file), file.getName(), distenationFolder);
         } catch (FileNotFoundException ex) {

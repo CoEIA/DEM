@@ -10,10 +10,11 @@ package edu.coeia.indexing;
  */
 
 import java.io.File ;
+import org.apache.lucene.index.IndexWriter ;
 
 public class NoneImageExtractor implements ImageExtractor{
     @Override
-    public void extractImages(File file, String distenationFolder) {
+    public void extractImages(IndexWriter writer, File file, String distenationFolder, int parentId) {
         //System.out.println("None Image Extractor");
     }
 }
