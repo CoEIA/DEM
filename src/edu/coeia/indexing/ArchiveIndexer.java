@@ -34,9 +34,6 @@ public class ArchiveIndexer extends Indexer {
         
     @Override
     public boolean doIndexing() {
-
-        System.out.println("file: " + this.file.getName() + " id : " + this.id + " parent: " + this.parentId);
-        
         String folderName = this.tmpLocation;
         
         // extract all the archive content in temp folder

@@ -15,19 +15,33 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/*
+ * Noninstantiable utility class
+ */
 public class FileUtil {
     
+    /*
+     * Suppress default constructor for noninstantiability
+     */
     private FileUtil() {
         throw new AssertionError();
     }
     
     /*
-     * Save Object
-     * @param stream contain input data
-     * @param filename contain the name of the file and extension
-     * @parem destination contain the full path of the file
+     * Save the bytes in the stream to the specified location with the file name
+     * 
+     * This method will save the stream content to some location in hardisk
+     * 
+     * @param stream the InputStream that hold the bytes; must be not null
+     * @param filename the file name of the saved file
+     * @param destination the location of the file to be saved
+     * @throws NullPointerException if the stream, filename and destination contain null data
      */
     public static void saveObject(InputStream stream, String filename, String destination) {
+        
+        if ( stream == null || filename == null || destination == null )
+            throw new NullPointerException();
+        
         try {
             String filePath = destination + "\\" + filename;
             File file = new File(filePath);

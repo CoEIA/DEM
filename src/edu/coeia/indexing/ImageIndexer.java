@@ -42,9 +42,7 @@ public class ImageIndexer extends Indexer{
     @Override
     public boolean doIndexing() {
         
-        try{
-            System.out.println("file: " + this.file.getName() + " id : " + this.id + " parent: " + this.parentId);
-            
+        try{            
             TikaExtractor extractor = TikaExtractor.getExtractor(this.file, this.mimeType);
             Map<String, String> metadata = extractor.getMetadata();
             

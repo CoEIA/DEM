@@ -58,8 +58,6 @@ public class DocumentIndexer extends Indexer {
     public boolean doIndexing() {
 
         try {
-            System.out.println("file: " + this.file.getName() + " id : " + this.id + " parent: " + this.parentId);
-            
             TikaExtractor extractor = TikaExtractor.getExtractor(this.file, this.mimeType);
             
             String bodyText = extractor.getContent();
