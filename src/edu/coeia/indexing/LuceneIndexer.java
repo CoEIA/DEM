@@ -27,8 +27,6 @@ import org.apache.lucene.analysis.StopAnalyzer;
 
 import org.apache.tika.exception.TikaException;
 
-// to be changed
-
 public class LuceneIndexer {
 
     private static IndexWriter writer ;
@@ -56,10 +54,7 @@ public class LuceneIndexer {
         }
 
 	caseObject = aCase; 
-        
-        // using standard analyzer
-        //writer = new IndexWriter(FSDirectory.open(indexDir), new StandardAnalyzer(Version.LUCENE_20), true, IndexWriter.MaxFieldLength.LIMITED);
-        
+      
         // using stop analyzer
         writer = new IndexWriter(FSDirectory.open(indexDir), new StopAnalyzer(Version.LUCENE_20, new File(FilesPath.STOP_WORD_FILE)),
                 true, IndexWriter.MaxFieldLength.UNLIMITED);
@@ -99,75 +94,4 @@ public class LuceneIndexer {
         
         return false;
     }
-    
-//
-//    // 0 = TXT , 1 = RTF , 2 = HTML , 3=HTM , 4 = MHT , 5 = DOC , 6 = PDF , 7 = XML
-//    private Document parseFile (File f) throws IOException, PSTException, FileNotFoundException,
-//    TikaException {
-//        Document doc = null ;
-//            
-////            FileInputStream file = new FileInputStream(f);
-////            if ( ext.equalsIgnoreCase("txt") )
-////                doc =  new edu.coeia.parse.TXTParser(f.getAbsolutePath()).parseDocument(file);
-////            else if ( ext.equalsIgnoreCase("rtf"))
-////                doc =  new edu.coeia.parse.RTFParser(f.getAbsolutePath()).parseDocument(file);
-////            else if ( ext.equalsIgnoreCase("html"))
-////                doc =  new edu.coeia.parse.HTMLParser(f.getAbsolutePath()).parseDocument(file);
-////            else if ( ext.equalsIgnoreCase("htm"))
-////                doc =  new edu.coeia.parse.HTMLParser(f.getAbsolutePath()).parseDocument(file);
-////            else if ( ext.equalsIgnoreCase("mht"))
-////                doc =  new edu.coeia.parse.HTMLParser(f.getAbsolutePath()).parseDocument(file);
-////            else if ( ext.equalsIgnoreCase("doc"))
-////                doc =  new edu.coeia.parse.DOCParser(f.getAbsolutePath()).parseDocument(file);
-////            else if ( ext.equalsIgnoreCase("pdf"))
-////                 doc =  new edu.coeia.parse.PDFDocParser(f.getAbsolutePath()).parseDocument(file);
-////            else if ( ext.equalsIgnoreCase("xml"))
-////                doc =  new edu.coeia.parse.XMLParser(f.getAbsolutePath()).parseDocument(file);
-//            
-//        doc = new Document();
-//        Tika tika = new Tika();
-//        String mime = tika.detect(f);
-//
-//        if ( mime.startsWith("image")) {
-//            imagesPath.add(f.getAbsolutePath());
-//            //doc.add(Field.Keyword("mime", f.getAbsolutePath()));
-//            doc = FileDocument.documentImage(f);
-//        }
-//        else {
-//            String bodyText = tika.parseToString(f);
-//            //doc.add(Field.UnStored("body", bodyText) );
-//            //doc.add(Field.Keyword("filename", f.getAbsolutePath() ) );
-//            doc = FileDocument.documentFile(f, bodyText);
-//        }
-//        
-//        return (doc);
-//    }
-//
-//    private boolean parsePST (String path) throws FileNotFoundException, PSTException, IOException{
-//        PSTParser parser = new PSTParser();
-//        return parser.parseIndexDocument(new PSTFile(path), path, writer);
-//    }
-    
-//    public boolean indexFile (File f) throws IOException, FileNotFoundException, PSTException,
-//    TikaException {
-//        String ext = Utilities.getExtension(f).toLowerCase();
-//        
-//        if ( ext.equalsIgnoreCase("pst") || ext.equalsIgnoreCase("ost"))
-//            return parsePST(f.getAbsolutePath());
-//        
-//        else {
-//            Document doc = parseFile(f);
-//
-//            if ( doc != null) {
-//                writer.addDocument(doc);    // index file
-//            }
-//            else {
-//                System.out.println("Fail Parsing: " + f.getAbsolutePath());
-//                return false;
-//            }
-//        }
-//        
-//        return true ;
-//    }
-    
 }
