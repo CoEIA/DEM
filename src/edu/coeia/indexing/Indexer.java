@@ -8,6 +8,10 @@ import edu.coeia.main.util.FilesPath;
 
 import org.apache.lucene.index.IndexWriter;
 
+import org.apache.tika.metadata.Metadata;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.io.File ;
 
 /**
@@ -53,4 +57,14 @@ public abstract class Indexer {
     protected ImageExtractor imageExtractor;
     
     protected IndexWriter writer;
+    
+    protected static final Set<String> indexedMetadataFields = new HashSet<String>();
+    static {
+        indexedMetadataFields.add(Metadata.TITLE);
+        indexedMetadataFields.add(Metadata.AUTHOR);
+        indexedMetadataFields.add(Metadata.COMMENTS);
+        indexedMetadataFields.add(Metadata.KEYWORDS);
+        indexedMetadataFields.add(Metadata.DESCRIPTION);
+        indexedMetadataFields.add(Metadata.SUBJECT);
+    }
 }

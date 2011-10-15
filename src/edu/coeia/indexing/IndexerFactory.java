@@ -19,10 +19,12 @@ import org.apache.lucene.index.IndexWriter;
 public class IndexerFactory {
     
     public static Indexer getIndexer (IndexWriter writer, File file, boolean supportCaching, String caseLocation, int parentId) {
+        String mime = null;
+        
         try {
             Tika tika = new Tika();
 
-            String mime = tika.detect(file);
+            mime = tika.detect(file);
             
             if ( mime.equalsIgnoreCase("application/msword") ||
                  mime.equalsIgnoreCase("application/vnd.ms-excel.sheet.binary.macroenabled.12") ||
@@ -58,15 +60,17 @@ public class IndexerFactory {
                 return ArchiveIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new OfficeImageExtractor(), parentId);
 
             else if (mime.startsWith("image/"))
-                return ImageIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new ExternalImageExtractor(), parentId);
+                return DocumentIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new ExternalImageExtractor(), parentId);
              
-             System.out.println("mime: " + mime);
+             //System.out.println("mime: " + mime);
         }
         catch(IOException e){
             e.printStackTrace();
         }        
         
-        throw new UnsupportedOperationException("This file have no handler to handle it");
+        // Unkown file Format
+        return DocumentIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new NoneImageExtractor(), parentId);
+        //throw new UnsupportedOperationException("This file have no handler to handle it");
     }
     
     public static Indexer getIndexer (IndexWriter writer, File file, boolean supportCaching, String caseLocation){

@@ -9,9 +9,19 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+/*
+ * Lucene Constants 
+ * using as field in any indexed document
+ * work for: SIMPLE FILE, CONTAINER FILE, ARCHIVE FILE, IMAGE FILE, UNKNOWN FILE
+ */
 public class IndexingConstant {
-    // our constant used in lucene index, 
-    // work for: SIMPLE FILE, CONTAINER FILE, ARCHIVE FILE, IMAGE FILE, UNKNOWN FILE
+  
+    /*
+     * Non-instabiable class
+     */
+    private IndexingConstant() {
+        throw new AssertionError();
+    }
     
     public static final String FILE_NAME = "file_name" ;
     public static final String FILE_TITLE = "file_title" ;

@@ -4,18 +4,15 @@
  */
 package edu.coeia.indexing;
 
+import edu.coeia.main.util.Utilities;
 import java.io.File;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
-
-import org.apache.tika.metadata.Metadata;
 
 /**
  *
@@ -96,6 +93,7 @@ public class DocumentIndexer extends Indexer {
         doc.add(new Field(IndexingConstant.FILE_TITLE, file.getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(file.lastModified(), DateTools.Resolution.MINUTE),Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_CONTENT, content, Field.Store.YES, Field.Index.ANALYZED));
+        doc.add(new Field(IndexingConstant.FILE_MIME, Utilities.getExtension(this.file), Field.Store.YES, Field.Index.NOT_ANALYZED) );
         
         doc.add(new Field(IndexingConstant.FILE_ID, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -111,15 +109,5 @@ public class DocumentIndexer extends Indexer {
         }
         
         return doc;
-    }
-    
-    private static final Set<String> indexedMetadataFields = new HashSet<String>();
-    static {
-        indexedMetadataFields.add(Metadata.TITLE);
-        indexedMetadataFields.add(Metadata.AUTHOR);
-        indexedMetadataFields.add(Metadata.COMMENTS);
-        indexedMetadataFields.add(Metadata.KEYWORDS);
-        indexedMetadataFields.add(Metadata.DESCRIPTION);
-        indexedMetadataFields.add(Metadata.SUBJECT);
     }
 }

@@ -13,14 +13,13 @@ import java.io.File ;
 import java.io.FileNotFoundException ;
 import java.io.IOException;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
+
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.index.IndexWriter ;
 import org.apache.lucene.document.Document ;
 import org.apache.lucene.document.Field ;
-import org.apache.tika.metadata.Metadata;
+
 
 public class ImageIndexer extends Indexer{
     
@@ -82,7 +81,7 @@ public class ImageIndexer extends Indexer{
     private Document getDocument(File file, Map<String, String> metadata) {
         Document doc = new Document();
         
-        doc.add(new Field(IndexingConstant.FILE_MIME, file.getAbsolutePath(), Field.Store.YES, Field.Index.NOT_ANALYZED) );
+        
         
         doc.add(new Field(IndexingConstant.FILE_NAME, file.getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_TITLE, file.getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -103,15 +102,4 @@ public class ImageIndexer extends Indexer{
         
         return doc;
     }
-    
-    private static final Set<String> indexedMetadataFields = new HashSet<String>();
-    static {
-        indexedMetadataFields.add(Metadata.TITLE);
-        indexedMetadataFields.add(Metadata.AUTHOR);
-        indexedMetadataFields.add(Metadata.COMMENTS);
-        indexedMetadataFields.add(Metadata.KEYWORDS);
-        indexedMetadataFields.add(Metadata.DESCRIPTION);
-        indexedMetadataFields.add(Metadata.SUBJECT);
-    }
-    
 }
