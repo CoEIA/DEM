@@ -26,11 +26,15 @@ public class ImageIndexer extends Indexer{
     
     private int parentId ;
     
-    public ImageIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor) {
-        this(writer, file,mimeType, imageCaching, location, imageExtractor, 0);
+    public static ImageIndexer newInstance(IndexWriter writer, File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor) {
+        return new ImageIndexer(writer, file,mimeType, imageCaching, location, imageExtractor, 0);
     }
         
-    public ImageIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor, int parentId) {
+    public static ImageIndexer newInstance(IndexWriter writer, File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor, int parentId) {
+        return new ImageIndexer(writer, file,mimeType, imageCaching, location, imageExtractor, parentId);
+    }
+    
+    private ImageIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor, int parentId) {
         super(writer, file,mimeType, imageCaching, location, imageExtractor);
         this.parentId = parentId ;
     }
@@ -39,6 +43,8 @@ public class ImageIndexer extends Indexer{
     public boolean doIndexing() {
         
         try{
+            System.out.println("file: " + this.file.getName() + " id : " + this.id + " parent: " + this.parentId);
+            
             TikaExtractor extractor = TikaExtractor.getExtractor(this.file, this.mimeType);
             Map<String, String> metadata = extractor.getMetadata();
             

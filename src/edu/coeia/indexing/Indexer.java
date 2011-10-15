@@ -27,13 +27,17 @@ public abstract class Indexer {
         this.caseLocation = caseLocation;
         this.writer = writer ;
         
-        createTmpImageFolder(); // used when indexer called by archiveIndexer
+        createCaseDataFolders(); // used when indexer called by archiveIndexer
     }
     
-    private void createTmpImageFolder() {
+    private void createCaseDataFolders() {
         File tmpImageFile = new File(this.imagesLocation);
         if ( ! tmpImageFile.exists() )
             tmpImageFile.mkdir();
+        
+        File tmpFile = new File(this.tmpLocation);
+        if ( !tmpFile.exists() )
+            tmpFile.mkdir();
     }
     
     public abstract boolean doIndexing();

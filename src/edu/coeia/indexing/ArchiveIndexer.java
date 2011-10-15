@@ -16,20 +16,27 @@ public class ArchiveIndexer extends Indexer {
     
     private int parentId ;
     
-    public ArchiveIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor,
+    public static ArchiveIndexer newInstance (IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor,
             int parentId) {
+        return new ArchiveIndexer(writer, file, mimeType, imageCaching, caseLocation, imageExtractor, parentId);
+    }
         
+    public static ArchiveIndexer newInstance (IndexWriter writer, File file, String mimeType, 
+            boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
+        return new ArchiveIndexer(writer, file, mimeType, imageCaching, caseLocation, imageExtractor, 0);
+    }
+        
+    private ArchiveIndexer(IndexWriter writer, File file, String mimeType, 
+            boolean imageCaching, String caseLocation, ImageExtractor imageExtractor,int parentId) {
         super(writer, file,mimeType, imageCaching, caseLocation, imageExtractor);
         this.parentId = parentId ;
-    }
-      
-    public ArchiveIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
-        this(writer, file,mimeType, imageCaching, caseLocation, imageExtractor, 0);
     }
         
     @Override
     public boolean doIndexing() {
 
+        System.out.println("file: " + this.file.getName() + " id : " + this.id + " parent: " + this.parentId);
+        
         String folderName = this.tmpLocation;
         
         // extract all the archive content in temp folder

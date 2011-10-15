@@ -23,7 +23,6 @@ import java.io.FileNotFoundException ;
 import java.io.File;
 import java.io.IOException;
 
-import java.util.List ;
 import org.apache.lucene.analysis.StopAnalyzer;
 
 import org.apache.tika.exception.TikaException;
@@ -50,7 +49,7 @@ public class LuceneIndexer {
 
     // add index to exists index folder if boolean value is false
     private LuceneIndexer (Case aCase, boolean newIndex) throws IOException {
-        File indexDir = new File(aCase.getIndexLocation());
+        File indexDir = new File(aCase.getIndexLocation() + "\\" +  FilesPath.INDEX_PATH);
         
         if ( !indexDir.exists() ) {
             throw new IOException("not found indexing folder");
@@ -89,7 +88,7 @@ public class LuceneIndexer {
    
         try {
             
-            Indexer indexType = IndexerFactory.getIndexer(writer, file, caseObject.getCheckCompressed(),
+            Indexer indexType = IndexerFactory.getIndexer(writer, file, caseObject.getCacheImages(),
                     caseObject.getIndexLocation(), parentId);
             
             return indexType.doIndexing();

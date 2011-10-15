@@ -41,24 +41,24 @@ public class IndexerFactory {
                  mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.presentation") ||
                  mime.equals("application/rtf") )
                 
-                 return new DocumentIndexer(writer, file, mime, supportCaching, caseLocation, new OfficeImageExtractor(), parentId);
+                 return DocumentIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new OfficeImageExtractor(), parentId);
 
             if ( mime.equalsIgnoreCase("text/plain") ||
                  mime.equalsIgnoreCase("application/xml") ||
                  mime.equalsIgnoreCase("application/xhtml+xml") ||
                  mime.equalsIgnoreCase("text/html") )
-                return new DocumentIndexer(writer, file, mime, supportCaching, caseLocation, new NoneImageExtractor(), parentId);
+                return DocumentIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new NoneImageExtractor(), parentId);
 
 
             if ( mime.equalsIgnoreCase("application/pdf") )
-                return new DocumentIndexer(writer, file, mime, supportCaching, caseLocation, new PDFImageExtractor(), parentId);
+                return DocumentIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new PDFImageExtractor(), parentId);
 
              if ( mime.equalsIgnoreCase("application/zip") ||
                   mime.equalsIgnoreCase("application/x-rar-compressed"))
-                return new ArchiveIndexer(writer, file, mime, supportCaching, caseLocation, new OfficeImageExtractor(), parentId);
+                return ArchiveIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new OfficeImageExtractor(), parentId);
 
             else if (mime.startsWith("image/"))
-                return new ImageIndexer(writer, file, mime, supportCaching, caseLocation, new ExternalImageExtractor(), parentId);
+                return ImageIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new ExternalImageExtractor(), parentId);
              
              System.out.println("mime: " + mime);
         }

@@ -152,9 +152,9 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
 
                 String ext = Utilities.getExtension(file);
 
-                if ( ext == null )
+                if ( ext == null || ext.length() > 6) // no more extension than 5 character!
                     continue;
-
+                
                 ext = ext.toLowerCase();
                 
                 if ( map.get(ext) == null ){

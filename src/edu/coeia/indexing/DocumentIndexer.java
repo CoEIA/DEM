@@ -27,16 +27,27 @@ public class DocumentIndexer extends Indexer {
     private int parentId ;
     
     /*
-     * Index File Object without Parent
+     * static factory method to get an instance of DocumentIndexer
      */
-    public DocumentIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
-        this(writer, file, mimeType, imageCaching, caseLocation, imageExtractor, 0);
+    public static DocumentIndexer newInstance(IndexWriter writer, File file, String mimeType, 
+            boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
+            
+        return new DocumentIndexer(writer, file, mimeType, imageCaching, caseLocation, imageExtractor, 0);
     }
-
+    
+    /*
+     * static factory method to get an instance of DocumentIndexer
+     */
+    public static DocumentIndexer newInstance(IndexWriter writer, File file, String mimeType, 
+            boolean imageCaching, String caseLocation, ImageExtractor imageExtractor, int parentId) {
+            
+        return new DocumentIndexer(writer, file, mimeType, imageCaching, caseLocation, imageExtractor, parentId);
+    }
+    
     /*
      * index file object with parentid
      */
-    public DocumentIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor,
+    private DocumentIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor,
             int parentId) {
         
         super(writer, file, mimeType, imageCaching, caseLocation, imageExtractor);
@@ -47,6 +58,8 @@ public class DocumentIndexer extends Indexer {
     public boolean doIndexing() {
 
         try {
+            System.out.println("file: " + this.file.getName() + " id : " + this.id + " parent: " + this.parentId);
+            
             TikaExtractor extractor = TikaExtractor.getExtractor(this.file, this.mimeType);
             
             String bodyText = extractor.getContent();
