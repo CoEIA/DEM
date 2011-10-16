@@ -4,7 +4,7 @@
  */
 package edu.coeia.indexing;
 
-import edu.coeia.main.util.FilesPath;
+import edu.coeia.util.FilesPath;
 
 import org.apache.lucene.index.IndexWriter;
 

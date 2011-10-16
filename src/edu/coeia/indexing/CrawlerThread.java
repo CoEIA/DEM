@@ -10,8 +10,8 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
-import edu.coeia.main.util.Utilities;
-import edu.coeia.main.gui.util.IndexGUIComponent ;
+import edu.coeia.util.Utilities;
+import edu.coeia.gutil.IndexGUIComponent ;
 import edu.coeia.cases.Case;
 
 import javax.swing.SwingWorker ;
@@ -26,7 +26,6 @@ import java.util.List ;
 import com.pff.PSTException ;
 
 import edu.coeia.cases.CaseManager;
-import edu.coeia.filesystem.index.IndexingDialog;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,7 +70,7 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
     
     private IndexingDialog parentDialog ;
     
-    private static final Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
+    private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
 
     public CrawlerThread (File indexLocation, IndexGUIComponent indexGUI, Case index,
             List<String> imagesPath, IndexingDialog parentDialog) {

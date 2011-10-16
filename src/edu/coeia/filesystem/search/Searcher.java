@@ -12,7 +12,7 @@ package edu.coeia.filesystem.search;
  */
 
 import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.main.util.FilesPath ;
+import edu.coeia.util.FilesPath ;
 
 import java.io.File ;
 

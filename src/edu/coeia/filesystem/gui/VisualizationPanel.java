@@ -16,9 +16,9 @@ package edu.coeia.filesystem.gui;
  */
 
 import edu.coeia.cases.Case;
-import edu.coeia.filesystem.index.IndexReaderThread ;
-import edu.coeia.main.gui.util.InfiniteProgressPanel;
-import edu.coeia.main.util.FilesPath;
+import edu.coeia.indexing.IndexReaderThread ;
+import edu.coeia.gutil.InfiniteProgressPanel;
+import edu.coeia.util.FilesPath;
 
 import java.awt.BorderLayout;
 
@@ -36,7 +36,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
     private Case caseObj;
     private JFrame parentFrame;
     private FileSystemPanel parentPanel;
-    private final static Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
+    private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
     /** Creates new form VisualizationPanel */
     public VisualizationPanel(Case aIndex, JFrame aParentFrame, FileSystemPanel aParentPanel) {

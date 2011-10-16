@@ -20,7 +20,7 @@ import com.pff.PSTException;
 
 import java.io.IOException ;
 
-import edu.coeia.main.gui.util.InfiniteProgressPanel ;
+import edu.coeia.gutil.InfiniteProgressPanel ;
 
 import java.util.Date;
 import java.util.logging.Level;
@@ -35,7 +35,7 @@ public class EmailReader {
     private static InfiniteProgressPanel panel ;
     private static int counter = 0 ;
 
-    private static final Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
+    private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     private static boolean status = false;
     
     public static ArrayList<MessageHeader> getInstance(PSTFile pst, String p, InfiniteProgressPanel pnl) {    

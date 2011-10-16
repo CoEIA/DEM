@@ -5,8 +5,8 @@
 
 package edu.coeia.chat;
 
-import edu.coeia.main.util.FilesPath;
-import edu.coeia.main.util.Tuple ;
+import edu.coeia.util.FilesPath;
+import edu.coeia.util.Tuple ;
 
 import java.io.File;
 

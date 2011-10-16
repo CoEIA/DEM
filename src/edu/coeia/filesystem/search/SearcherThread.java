@@ -10,9 +10,9 @@ package edu.coeia.filesystem.search;
  * @author wajdyessam
  */
 
-import edu.coeia.main.util.Utilities;
-import edu.coeia.main.gui.util.GUIComponent;
-import edu.coeia.main.util.Tuple;
+import edu.coeia.util.Utilities;
+import edu.coeia.gutil.GUIComponent;
+import edu.coeia.util.Tuple;
 import edu.coeia.indexing.IndexingConstant ;
 
 import javax.swing.SwingWorker ;

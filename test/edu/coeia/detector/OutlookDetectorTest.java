@@ -4,7 +4,6 @@
  */
 package edu.coeia.detector;
 
-import edu.coeia.cases.detector.OutlookDetector;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

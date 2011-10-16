@@ -11,10 +11,8 @@ package edu.coeia.email;
  *
  */
 
-import edu.coeia.main.util.Utilities;
-import edu.coeia.email.util.IP2Country;
-import edu.coeia.main.util.Tuple;
-import edu.coeia.email.util.Message ;
+import edu.coeia.util.Utilities;
+import edu.coeia.util.Tuple;
 
 import java.util.ArrayList ;
 import java.util.HashMap ;
@@ -40,7 +38,7 @@ public class EmailHandler {
     private PSTFile pstFile ;
     private String path ;
 
-    private final static Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
+    private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
 
     public EmailHandler (PSTFile pst, String path) {
         pstFile = pst ;

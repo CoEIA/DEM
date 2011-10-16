@@ -12,9 +12,9 @@ package edu.coeia.filesystem.clustering;
 
 import edu.coeia.filesystem.clustering.ClusterNode;
 import edu.coeia.filesystem.clustering.ClusteringData;
-import edu.coeia.main.gui.util.InfiniteProgressPanel ;
-import edu.coeia.main.util.Tuple ;
-import edu.coeia.main.util.FilesPath ;
+import edu.coeia.gutil.InfiniteProgressPanel ;
+import edu.coeia.util.Tuple ;
+import edu.coeia.util.FilesPath ;
 import edu.coeia.cases.Case ;
 import edu.coeia.email.MessageHeader ;
 import edu.coeia.email.EmailReader;

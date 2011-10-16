@@ -4,7 +4,6 @@
  */
 package edu.coeia.util;
 
-import edu.coeia.main.util.Utilities;
 
 import java.io.ByteArrayInputStream;
 import org.junit.Test;

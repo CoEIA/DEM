@@ -4,7 +4,7 @@
  */
 package edu.coeia.indexing;
 
-import edu.coeia.main.util.Utilities;
+import edu.coeia.util.Utilities;
 import java.io.File;
 
 import java.util.Map;

@@ -12,11 +12,11 @@ package edu.coeia.filesystem.search;
 
 import edu.coeia.cases.Case;
 
-import edu.coeia.main.gui.util.GuiUtil;
-import edu.coeia.main.gui.util.GUIComponent ;
-import edu.coeia.main.util.Utilities;
-import edu.coeia.main.util.FilesPath ;
-import edu.coeia.filesystem.util.MetaDataExtraction ;
+import edu.coeia.gutil.GuiUtil;
+import edu.coeia.gutil.GUIComponent ;
+import edu.coeia.util.Utilities;
+import edu.coeia.util.FilesPath ;
+import edu.coeia.util.MetaDataExtraction ;
 
 import java.awt.BorderLayout;
 import java.awt.event.InputEvent;

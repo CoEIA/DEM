@@ -13,7 +13,7 @@ package edu.coeia.chat;
 
 import java.util.Date ;
 
-public class YahooMessage {
+class YahooMessage {
 
     public static enum MESSAGE_PATH {
         SOURCE_TO_DEST, DEST_TO_SOURCE

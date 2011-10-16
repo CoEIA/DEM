@@ -7,16 +7,16 @@ import edu.coeia.chat.MSNParser;
 import edu.coeia.chat.SkypeParser;
 import edu.coeia.chat.SkypeMessage;
 
-import edu.coeia.main.util.FilesPath;
-import edu.coeia.main.util.Tuple;
-import edu.coeia.internet.util.FilesFilter;
-import edu.coeia.main.util.Utilities;
+import edu.coeia.util.FilesPath;
+import edu.coeia.util.Tuple;
+import edu.coeia.internet.FilesFilter;
+import edu.coeia.util.Utilities;
 
-import edu.coeia.cases.detector.OutlookDetector;
-import edu.coeia.cases.detector.FirefoxDetector;
-import edu.coeia.cases.detector.RegistryDetector;
-import edu.coeia.cases.detector.UsersDetector;
-import edu.coeia.cases.detector.YahooDetector ;
+import edu.coeia.detector.OutlookDetector;
+import edu.coeia.detector.FirefoxDetector;
+import edu.coeia.detector.RegistryDetector;
+import edu.coeia.detector.UsersDetector;
+import edu.coeia.detector.YahooDetector ;
 import edu.coeia.main.SmartCardDialog;
 
 import javax.swing.JPanel;

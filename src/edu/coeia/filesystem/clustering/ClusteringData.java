@@ -10,7 +10,7 @@ package edu.coeia.filesystem.clustering;
  * @author wajdyessam
  */
 
-import edu.coeia.main.util.Tuple;
+import edu.coeia.util.Tuple;
 
 import java.io.File;
 import java.io.IOException;

@@ -11,8 +11,8 @@
 
 package edu.coeia.main;
 
-import edu.coeia.main.util.FilesPath ;
-import edu.coeia.main.util.Utilities;
+import edu.coeia.util.FilesPath ;
+import edu.coeia.util.Utilities;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;

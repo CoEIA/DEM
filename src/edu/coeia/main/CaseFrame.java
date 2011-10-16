@@ -2,19 +2,19 @@
 package edu.coeia.main;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.gui.CaseManagerPanel;
-import edu.coeia.cases.gui.ReportPanel;
-import edu.coeia.main.util.Utilities;
-import edu.coeia.main.gui.util.GuiUtil ;
-import edu.coeia.chat.gui.ChatPanel;
-import edu.coeia.email.gui.EmailPanel;
+import edu.coeia.cases.CaseManagerPanel;
+import edu.coeia.cases.ReportPanel;
+import edu.coeia.util.Utilities;
+import edu.coeia.gutil.GuiUtil ;
+import edu.coeia.chat.ChatPanel;
+import edu.coeia.email.EmailPanel;
 import edu.coeia.filesystem.gui.FileSystemPanel;
-import edu.coeia.filesystem.index.IndexingDialog;
+import edu.coeia.indexing.IndexingDialog;
 import edu.coeia.filesystem.search.SearchPanel;
-import edu.coeia.image.gui.ImagesViewerPanel;
-import edu.coeia.internet.gui.InternetSurfingPanel;
+import edu.coeia.image.ImagesViewerPanel;
+import edu.coeia.internet.InternetSurfingPanel;
 
-import edu.coeia.main.util.FilesPath;
+import edu.coeia.util.FilesPath;
 import java.awt.Toolkit ;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -45,7 +45,7 @@ public class CaseFrame extends javax.swing.JFrame {
    
     private List<String> listOfOpeningCase ;
 
-    private static final Logger logger = Logger.getLogger(edu.coeia.main.util.FilesPath.LOG_NAMESPACE);
+    private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
     /** Creates new form OfflineMinningFrame 
      * 

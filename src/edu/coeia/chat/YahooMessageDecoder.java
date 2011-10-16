@@ -10,7 +10,7 @@ package edu.coeia.chat;
  * @author wajdyessam
  */
 
-public class YahooMessageDecoder {
+class YahooMessageDecoder {
     public static byte[] decode (byte[] cipher, String key) {
         byte[] plain = new byte[cipher.length];
 

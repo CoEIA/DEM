@@ -12,7 +12,7 @@ package edu.coeia.filesystem.parse;
 
 import edu.coeia.email.EmailReader;
 import edu.coeia.email.MessageHeader ;
-import edu.coeia.filesystem.index.FileDocument;
+import edu.coeia.indexing.FileDocument;
 
 import java.util.ArrayList ;
 
@@ -21,7 +21,7 @@ import com.pff.PSTMessage;
 import com.pff.PSTException ;
 import com.pff.PSTObject;
 
-import edu.coeia.main.util.FilesPath;
+import edu.coeia.util.FilesPath;
 import org.apache.lucene.document.Document;
 
 import java.io.IOException ;

@@ -20,7 +20,7 @@ import java.util.Date ;
 import java.util.ArrayList ;
 import java.util.HashMap ;
 
-public class YahooMessageReader {
+class YahooMessageReader {
 
     private static HashMap<String, HashMap<String, ArrayList<ArrayList<YahooMessage>>>> map ;
     private static String path ;
