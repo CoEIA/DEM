@@ -4,20 +4,20 @@
  */
 
 /*
- * HashAnalysisPanel.java
+ * FileSignaturePanel.java
  *
- * Created on Oct 5, 2011, 11:22:57 AM
+ * Created on Oct 5, 2011, 11:22:44 AM
  */
-package edu.coeia.filesystem.gui;
+package edu.coeia.main;
 
 /**
  *
  * @author wajdyessam
  */
-public class HashAnalysisPanel extends javax.swing.JPanel {
+public class FileSignaturePanel extends javax.swing.JPanel {
 
-    /** Creates new form HashAnalysisPanel */
-    public HashAnalysisPanel() {
+    /** Creates new form FileSignaturePanel */
+    public FileSignaturePanel() {
         initComponents();
     }
 

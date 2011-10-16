@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.filesystem.search;
+package edu.coeia.searching;
 
 /**
  *
@@ -27,7 +27,7 @@ import java.util.Date ;
 import java.util.ArrayList ;
 import java.util.List ;
 
-import edu.coeia.filesystem.clustering.ClusteringData ;
+import edu.coeia.clustering.ClusteringData ;
 
 class ProgressSearchData {
     private String path;

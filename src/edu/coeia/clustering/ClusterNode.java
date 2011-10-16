@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.filesystem.clustering;
+package edu.coeia.clustering;
 
 import com.pff.PSTMessage;
 

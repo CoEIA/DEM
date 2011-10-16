@@ -8,9 +8,8 @@ import edu.coeia.util.Utilities;
 import edu.coeia.gutil.GuiUtil ;
 import edu.coeia.chat.ChatPanel;
 import edu.coeia.email.EmailPanel;
-import edu.coeia.filesystem.gui.FileSystemPanel;
 import edu.coeia.indexing.IndexingDialog;
-import edu.coeia.filesystem.search.SearchPanel;
+import edu.coeia.searching.SearchPanel;
 import edu.coeia.image.ImagesViewerPanel;
 import edu.coeia.internet.InternetSurfingPanel;
 

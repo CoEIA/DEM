@@ -1,7 +1,7 @@
 
-package edu.coeia.filesystem.gui;
+package edu.coeia.main;
 
-import edu.coeia.filesystem.search.SearchFileSystemPanel;
+import edu.coeia.searching.SearchFileSystemPanel;
 import edu.coeia.cases.Case;
 import javax.swing.JFrame;
 

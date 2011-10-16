@@ -4,20 +4,20 @@
  */
 
 /*
- * ApplicationHistoryPanel.java
+ * FileBrowsingPanel.java
  *
- * Created on Oct 5, 2011, 11:23:06 AM
+ * Created on Oct 5, 2011, 11:22:12 AM
  */
-package edu.coeia.filesystem.gui;
+package edu.coeia.main;
 
 /**
  *
  * @author wajdyessam
  */
-public class ApplicationHistoryPanel extends javax.swing.JPanel {
+public class FileBrowsingPanel extends javax.swing.JPanel {
 
-    /** Creates new form ApplicationHistoryPanel */
-    public ApplicationHistoryPanel() {
+    /** Creates new form FileBrowsingPanel */
+    public FileBrowsingPanel() {
         initComponents();
     }
 

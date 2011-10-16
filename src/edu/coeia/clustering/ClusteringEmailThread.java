@@ -3,15 +3,15 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.filesystem.clustering;
+package edu.coeia.clustering;
 
 /**
  *
  * @author wajdyessam
  */
 
-import edu.coeia.filesystem.clustering.ClusterNode;
-import edu.coeia.filesystem.clustering.ClusteringData;
+import edu.coeia.clustering.ClusterNode;
+import edu.coeia.clustering.ClusteringData;
 import edu.coeia.gutil.InfiniteProgressPanel ;
 import edu.coeia.util.Tuple ;
 import edu.coeia.util.FilesPath ;

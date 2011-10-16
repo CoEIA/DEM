@@ -10,8 +10,8 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
-import edu.coeia.filesystem.gui.TextCloudPanel;
-import edu.coeia.filesystem.gui.VisualizationPanel;
+import edu.coeia.main.TextCloudPanel;
+import edu.coeia.main.VisualizationPanel;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.main.PieChartPanel;

@@ -8,7 +8,7 @@
  *
  * Created on Sep 10, 2011, 11:33:38 AM
  */
-package edu.coeia.filesystem.search;
+package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
 

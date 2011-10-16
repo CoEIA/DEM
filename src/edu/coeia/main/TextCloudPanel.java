@@ -8,7 +8,7 @@
  *
  * Created on Oct 5, 2011, 11:22:23 AM
  */
-package edu.coeia.filesystem.gui;
+package edu.coeia.main;
 
 /**
  *
@@ -104,7 +104,7 @@ public class TextCloudPanel extends javax.swing.JPanel {
 
         jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Tags Cloud", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        tagSelectButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        tagSelectButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         tagSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/textCloud.png"))); // NOI18N
         tagSelectButton.setText("Generate Text Clouds");
         tagSelectButton.addActionListener(new java.awt.event.ActionListener() {

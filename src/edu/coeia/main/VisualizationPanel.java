@@ -8,7 +8,7 @@
  *
  * Created on Oct 5, 2011, 11:22:33 AM
  */
-package edu.coeia.filesystem.gui;
+package edu.coeia.main;
 
 /**
  *

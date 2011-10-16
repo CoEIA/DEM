@@ -9,7 +9,7 @@
  * Created on Jan 2, 2011, 8:07:20 AM
  */
 
-package edu.coeia.filesystem.search;
+package edu.coeia.searching;
 
 import edu.coeia.util.Utilities ;
 import edu.coeia.internet.FilesFilter;
