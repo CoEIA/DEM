@@ -9,6 +9,7 @@ import java.util.List ;
 /**
  *
  * To Detect Some Files/Folders on The Current File System
+ * and detect files relative to path
  * 
  * @author wajdyessam
  * @version 10/8/2011
@@ -16,5 +17,6 @@ import java.util.List ;
  */
 
 public interface AutoDetection {
-    public List<String> getFiles();
+    public List<String> getFilesInCurrentSystem();
+    public List<String> getFilesInPath(String path);
 }

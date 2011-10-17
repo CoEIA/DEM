@@ -94,4 +94,12 @@ public class LuceneIndexer {
         
         return false;
     }
+    
+    public static boolean indexYahooDir(File path) {
+
+        YahooChatIndexer indexer = YahooChatIndexer.newInstance(writer, path, "", false, 
+                caseObject.getIndexLocation(), new NoneImageExtractor());
+        
+        return indexer.doIndexing();
+    }
 }

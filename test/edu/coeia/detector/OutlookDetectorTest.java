@@ -24,7 +24,7 @@ public class OutlookDetectorTest {
     
     @Test
     public void getNumberOfOutlookFiles() {
-        List<String> files = detector.getFiles();
+        List<String> files = detector.getFilesInCurrentSystem();
         assertEquals(files.size(), 3);
     }
 }

@@ -19,8 +19,15 @@ import java.io.File ;
 public class YahooDetector implements AutoDetection{
     
     @Override
-    public List<String> getFiles() {
-        ArrayList<String> yahooPaths = new ArrayList<String>();
+    public List<String> getFilesInPath (String path) {
+        List<String> resultPath = new ArrayList<String>();
+        
+        return resultPath;
+    }
+    
+    @Override
+    public List<String> getFilesInCurrentSystem() {
+        List<String> yahooPaths = new ArrayList<String>();
         File[] roots = File.listRoots();
 
         if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {

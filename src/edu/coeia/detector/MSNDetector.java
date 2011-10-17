@@ -5,6 +5,7 @@
 package edu.coeia.detector;
 
 import java.util.List;
+import java.util.ArrayList ;
 
 /**
  *
@@ -14,7 +15,14 @@ import java.util.List;
 public class MSNDetector implements AutoDetection {
     
     @Override
-    public List<String> getFiles() {
+    public List<String> getFilesInPath (String path) {
+        List<String> resultPath = new ArrayList<String>();
+        
+        return resultPath;
+    }
+    
+    @Override
+    public List<String> getFilesInCurrentSystem() {
         return null;
     }
     

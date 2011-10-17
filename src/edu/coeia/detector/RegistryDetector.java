@@ -18,7 +18,14 @@ import java.io.File ;
 public class RegistryDetector implements AutoDetection {
     
     @Override
-    public List<String> getFiles() {
+    public List<String> getFilesInPath (String path) {
+        List<String> resultPath = new ArrayList<String>();
+        
+        return resultPath;
+    }
+    
+    @Override
+    public List<String> getFilesInCurrentSystem() {
         ArrayList<String> msnPath = new ArrayList<String>();
         File[] roots = File.listRoots();
 

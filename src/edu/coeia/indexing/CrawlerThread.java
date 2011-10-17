@@ -133,6 +133,28 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
                     dirTraversal(files[i], ignoreEmail);
                 }
             }
+            
+            /**
+             * is end with Program Files\Yahoo!\Messenger\Profiles
+             */
+            if ( isValidYahooPath(dir.getAbsolutePath()) ) {
+                System.out.println("found yahoo at: " + dir.getAbsolutePath());
+                LuceneIndexer.indexYahooDir(dir);
+            }
+            
+            /**
+             * is ending userXX\My Documents\My Received Files
+             */
+            if (isValidMSNPath(dir.getAbsolutePath())) {
+                System.out.println("found msn at: " + dir.getAbsolutePath());
+            }
+            
+            /**
+             * is path ending with Application Data\Skype
+             */
+            if ( isValidSkypePath(dir.getAbsolutePath())) {
+                System.out.println("found skype at: " + dir.getAbsolutePath());
+            }
         }
         else {
             long size = dir.length();
@@ -177,6 +199,42 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
         }
     }
 
+    /**
+     * Test if the path is valid Yahoo path
+     * @param path to chat profile
+     * @return true if path is correct and false if not
+     */
+    public static boolean isValidYahooPath(String path) {
+        if ( path.endsWith("Program Files\\Yahoo!\\Messenger\\Profiles") )
+            return true;
+        
+        return false;
+    }
+    
+    /**
+     * Test if the path is valid MSN path
+     * @param path to chat profile
+     * @return true if path is correct and false if not
+     */
+    public static boolean isValidMSNPath(String path) {
+        if ( path.endsWith("My Documents\\My Received Files") )
+            return true;
+        
+        return false;
+    }
+    
+    /**
+     * Test if the path is valid SKYPE path
+     * @param path to chat profile
+     * @return true if path is correct and false if not
+     */
+    public static boolean isValidSkypePath(String path) {
+        if ( path.endsWith("Application Data\\Skype") )
+            return true;
+        
+        return false;
+    }
+    
     private boolean isEmailFile (String path) {
         if ( path.endsWith("ost") || path.endsWith("OST") ||
                 path.endsWith("pst") || path.endsWith("PST"))

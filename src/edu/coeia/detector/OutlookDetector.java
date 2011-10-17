@@ -18,9 +18,15 @@ import java.io.File ;
 
 public class OutlookDetector implements AutoDetection {
     
+    @Override
+    public List<String> getFilesInPath (String path) {
+        List<String> resultPath = new ArrayList<String>();
+        
+        return resultPath;
+    }    
     
     @Override
-    public List<String> getFiles() {
+    public List<String> getFilesInCurrentSystem() {
         List<String> pstPaths = new ArrayList<String>();
         
         File[] roots = File.listRoots();

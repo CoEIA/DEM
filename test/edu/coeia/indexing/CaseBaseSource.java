@@ -16,6 +16,16 @@ import java.io.File ;
 
 public class CaseBaseSource {
     
+    /*
+     * make sure to create this path in your system if you want to run this example
+     * data contain evidence source
+     * out contain output of indexing process
+     */
+    protected String fakeCasePath = "C:\\fakecase" ;
+
+    protected static final String OUTPUT_PATH = "C:\\out";
+    protected static final String SOURCE_PATH = "C:\\data\\" ;
+    
     protected void fillZipArchive() {
         zips = new ArrayList<String>();
         zips.add(SOURCE_PATH + "data.zip");
@@ -104,9 +114,4 @@ public class CaseBaseSource {
     protected List<String> rtfs = new ArrayList<String>();
     
     protected String mimeType; 
-    
-    protected String fakeCasePath = "C:\\fakecase" ;
-
-    protected static final String OUTPUT_PATH = "C:\\out";
-    protected static final String SOURCE_PATH = "C:\\data\\" ;
 }

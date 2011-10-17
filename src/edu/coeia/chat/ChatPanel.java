@@ -7,12 +7,6 @@ import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.internet.FilesFilter ;
 import edu.coeia.util.Tuple ;
-import edu.coeia.chat.MSNParser;
-import edu.coeia.chat.YahooMessage ;
-import edu.coeia.chat.YahooMessageDecoder;
-import edu.coeia.chat.YahooMessageReader;
-import edu.coeia.chat.SkypeMessage;
-import edu.coeia.chat.SkypeParser;
 
 import java.awt.BorderLayout;
 import java.awt.event.InputEvent;
@@ -26,6 +20,7 @@ import java.io.File ;
 import java.io.IOException ;
 import java.io.FilenameFilter ;
 
+import java.util.List; 
 import java.util.ArrayList ;
 import java.util.HashMap ;
 import java.util.Iterator ;
@@ -35,6 +30,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
+import java.util.Collections;
 
 /*
  * ChatPanel.java
@@ -348,14 +344,14 @@ private void yahooChatTreeValueChanged(javax.swing.event.TreeSelectionEvent evt)
         
         try {
             String path = (String) yahooComboBox.getSelectedItem() ;
-            ArrayList<ArrayList<YahooMessage>> msgs  = YahooMessageReader.getInstance(path).get(parent).get(current) ;
+            List<List<YahooMessage>> msgs  = null; //YahooMessageReader.getInstance(path).get(parent).get(current) ;
             if ( msgs == null ) {
                 return ;
             }
 
             StringBuilder text = new StringBuilder("");
             
-            for (ArrayList<YahooMessage> aList: msgs) {
+            for (List<YahooMessage> aList: msgs) {
                 for (YahooMessage msg: aList) {
                     if ( msg.getMessagePath() == YahooMessage.MESSAGE_PATH.SOURCE_TO_DEST ) {
                         text.append(msg.getProfileName() + " at (" );
@@ -561,15 +557,15 @@ private void loadSkypeButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
     
     public void fillYahooTree (String path) throws IOException {
         rootYahooNode = new DefaultMutableTreeNode("Yahoo! Chat");
-        HashMap<String, HashMap<String, ArrayList<ArrayList<YahooMessage>>>> map = YahooMessageReader.getInstance(path);
+        Map<String, Map<String, List<List<YahooMessage>>>> map = Collections.emptyMap(); //YahooMessageReader.getInstance(path);
 
-        for (Map.Entry<String,HashMap<String,ArrayList<ArrayList<YahooMessage>>>> mapEntry: map.entrySet() ) {
+        for (Map.Entry<String,Map<String,List<List<YahooMessage>>>> mapEntry: map.entrySet() ) {
             String currentUserName = mapEntry.getKey();
             DefaultMutableTreeNode nameNode = new DefaultMutableTreeNode(currentUserName);
             rootYahooNode.add(nameNode);
 
 
-            for(Map.Entry<String,ArrayList<ArrayList<YahooMessage>>> subMapEntry: mapEntry.getValue().entrySet()) {
+            for(Map.Entry<String,List<List<YahooMessage>>> subMapEntry: mapEntry.getValue().entrySet()) {
                 String otherUserName = subMapEntry.getKey();
                 DefaultMutableTreeNode subNodeName = new DefaultMutableTreeNode(otherUserName);
                 nameNode.add(subNodeName);

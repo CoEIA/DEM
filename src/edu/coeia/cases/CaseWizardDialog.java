@@ -1187,7 +1187,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     private void autoDetectPSTButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectPSTButtonActionPerformed
 
         OutlookDetector detector = new OutlookDetector();
-        List<String> pstPaths = detector.getFiles();
+        List<String> pstPaths = detector.getFilesInCurrentSystem();
 
         if (pstPaths.isEmpty()) {
             showEmptyMessage("Cannot Found Any PST/OST Files");
@@ -1286,7 +1286,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
 
     private void autoDetectIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectIEButtonActionPerformed
         UsersDetector detector = new UsersDetector();
-        List<String> iePaths = detector.getFiles();
+        List<String> iePaths = detector.getFilesInCurrentSystem();
         
         if (iePaths.isEmpty()) {
             showEmptyMessage("Cannot Found Any IE Files");
@@ -1302,7 +1302,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
 
     private void autoDetectFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectFFButtonActionPerformed
         FirefoxDetector detector = new FirefoxDetector();
-        List<String> ffPaths = detector.getFiles();
+        List<String> ffPaths = detector.getFilesInCurrentSystem();
 
         if (ffPaths.isEmpty()) {
             showEmptyMessage("Cannot Found Any FireFox Files");
@@ -1320,7 +1320,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         try {
             if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
                 RegistryDetector detector = new RegistryDetector();
-                List<String> paths = detector.getFiles();
+                List<String> paths = detector.getFilesInCurrentSystem();
 
                 if (paths.isEmpty()) {
                     showEmptyMessage("Cannot Found Any MSN Files");
@@ -1342,7 +1342,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                 }
             } else {
                 UsersDetector detector = new UsersDetector();
-                List<String> users = detector.getFiles();
+                List<String> users = detector.getFilesInCurrentSystem();
 
                 for (String path : users) {
                     String newPath = path + "\\Documents\\My Received Files\\";
@@ -1371,7 +1371,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
 
     private void autoDetectYahooButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectYahooButtonActionPerformed
         YahooDetector detector = new YahooDetector();
-        List<String> yahooPaths = detector.getFiles();
+        List<String> yahooPaths = detector.getFilesInCurrentSystem();
 
         if (yahooPaths.isEmpty()) {
             showEmptyMessage("Cannot Found Any Yahoo! Files");
@@ -1547,7 +1547,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
 
     private void autoDetectSkypeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectSkypeeButtonActionPerformed
         UsersDetector detector = new UsersDetector();
-        List<String> users = detector.getFiles();
+        List<String> users = detector.getFilesInCurrentSystem();
         
         for (String path : users ) {
             SkypeParser parser = new SkypeParser(path);

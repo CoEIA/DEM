@@ -18,29 +18,78 @@ import java.io.EOFException ;
 
 import java.util.Date ;
 import java.util.ArrayList ;
+import java.util.Collections;
 import java.util.HashMap ;
+import java.util.List;
+import java.util.Map ;
 
-class YahooMessageReader {
+public final class YahooMessageReader {
 
-    private static HashMap<String, HashMap<String, ArrayList<ArrayList<YahooMessage>>>> map ;
-    private static String path ;
-
-    public static HashMap<String, HashMap<String, ArrayList<ArrayList<YahooMessage>>>> getInstance (String p)
-    throws IOException {
-        if ( map == null || ! path.equals(p)  ) {
-            map = new HashMap<String, HashMap<String, ArrayList<ArrayList<YahooMessage>>>>();
-            path = p ;
-            readAllYahooMessages(path);
+    /**
+     * List of all YahooChatSession founded will be stored here
+     */
+    private static List<YahooChatSession> sessions;
+    
+    /*
+     * Yahoo Chat Sessions
+     * contain list of all conversation between 2 user
+     */
+    public static class YahooChatSession {
+        public String userName ;
+        public String otherName ;
+        
+        public List<YahooConversation> conversations = new ArrayList<YahooConversation>();
+    }
+    
+    /*
+     * YahooConversation - list of all yahoo message between 2 accounts
+     * any conversation between 2 account will be consists of multi YahooMessage
+     * each YahooMessage represent one record in the chat (from, to , time, txt)
+     */
+    public static class YahooConversation {
+        public String path ;
+        public List<YahooMessage> messages = new ArrayList<YahooMessage>();
+    }
+    
+    /*
+     * Gel all chat Session in yahoo folder
+     *
+     * @param path the path to some folder that may contain yahoo chat
+     * @throws NullPointerException when path is null 
+     * @return List of YahooChatSession contain all chat sessions in path
+     */
+    public static List<YahooChatSession> getAllYahooChatSession(String path) {
+        if ( ! isValidYahooPath(path) )
+            return Collections.emptyList();
+        
+        sessions = new ArrayList<YahooChatSession>();
+        
+        try {
+            File dir = new File(path);
+            traverseDir(dir);
+        }
+        catch(IOException e) {
+            
         }
         
-        return map ;
+        return sessions;
     }
-
-    private static void readAllYahooMessages (String p) throws IOException {
-        File dir = new File(p);
-        traverseDir(dir);
+        
+    /**
+     * Test if the path is valid Yahoo path
+     * @param path to chat profile
+     * @return true if path is correct and false if not
+     */
+    public static boolean isValidYahooPath(String path) {
+        if ( path.contains("Program Files\\Yahoo!\\Messenger\\Profiles") )
+            return true;
+        
+        return false;
     }
-
+    
+    /*
+     * Recursive Method to traverse Dir to extract yahoo chat message
+     */
     private static void traverseDir (File dir) throws IOException {
         if ( dir.isDirectory() ) {
             File[] files = dir.listFiles();
@@ -49,57 +98,40 @@ class YahooMessageReader {
                 traverseDir( file );
         }
         else {
-            cacheYahooMessage(dir);
+             extractYahooMessage(dir);
         }
     }
 
-    private static void cacheYahooMessage( File path) throws IOException {
+    /*
+     * extract all yahoo messages in .DAT file
+     */
+    private static void extractYahooMessage (File path) throws IOException {
         String currentUserName = path.getParentFile().getParentFile().getParentFile().getParentFile().getName() ;
         String otherUserName   = path.getParentFile().getName();
-        ArrayList<YahooMessage> msg = getYahooMessages(path.getAbsolutePath(), currentUserName, otherUserName);
-
-        // update user profile
-        if ( map.get(currentUserName) == null ) {
-            ArrayList<ArrayList<YahooMessage>> msgs = new ArrayList<ArrayList<YahooMessage>>();
-            msgs.add(msg);
-
-            HashMap<String,ArrayList<ArrayList<YahooMessage> > > aMap = new
-                HashMap<String,ArrayList<ArrayList<YahooMessage>>>() ;
-
-            aMap.put(otherUserName, msgs);
-            map.put(currentUserName, aMap);
-        }
-        else { // add new user profile
-
-            // update other user chating list
-            if (map.get(currentUserName).get(otherUserName) == null ) {
-                ArrayList<ArrayList<YahooMessage>> msgs = new ArrayList<ArrayList<YahooMessage>>();
-                msgs.add(msg);
-
-                HashMap<String,ArrayList<ArrayList<YahooMessage>>> aMap = new
-                    HashMap<String,ArrayList<ArrayList<YahooMessage>>>() ;
-
-                aMap.put(otherUserName, msgs);
-                map.put(currentUserName,aMap);
-            }
-            else { // add new user chatting list
-                ArrayList<ArrayList<YahooMessage>> msgs = new ArrayList<ArrayList<YahooMessage>>();
-                msgs.add(msg);
-
-                HashMap<String,ArrayList<ArrayList<YahooMessage>>> aMap = new
-                    HashMap<String,ArrayList<ArrayList<YahooMessage>>>() ;
-
-                aMap.put(otherUserName, msgs);
-                map.put(currentUserName,aMap);
-            }
-        }
+        YahooConversation msg = getYahooMessages(path.getAbsolutePath(), currentUserName, otherUserName);
+        
+        YahooChatSession chat = new YahooChatSession();
+        chat.conversations.add(msg);
+        chat.userName = currentUserName;
+        chat.otherName = otherUserName;
+        
+        sessions.add(chat);
     }
 
-    private static ArrayList<YahooMessage> getYahooMessages (String path, String profileName,
+    /*
+     * Get all yahoo chat messages between profileName user and otherName user
+     * 
+     * @param path is the path to yahoo chat file .DAT file
+     * @param profileName is the folder name for current account
+     * @param otherName is subfolder of profileName that contain chat between current and other
+     * @return List of YahooMesssage that contain yahoo messages
+     * @throws IOException if the path/.DAT file is not found
+     */
+     private static YahooConversation getYahooMessages (String path, String profileName,
         String otherName ) throws IOException {
 
         DataInputStream input = new DataInputStream(new FileInputStream(new File(path)) );
-        ArrayList<YahooMessage> msgs = new ArrayList<YahooMessage>();
+        List<YahooMessage> msgs = new ArrayList<YahooMessage>();
 
         try {
             while ( true ) {
@@ -134,11 +166,11 @@ class YahooMessageReader {
             input.close();
         }
 
-        return msgs;
-    }
-    
-    public static short twoBytesToChart(byte b1, byte b2) {
-          return (short) ((b1 << 8) | (b2 & 0xFF));
+        YahooConversation con = new YahooConversation();
+        con.messages.addAll(msgs);
+        con.path = path;
+        
+        return con;
     }
 
     // from http://www.devx.com/tips/Tip/34353
@@ -146,10 +178,4 @@ class YahooMessageReader {
     private static int convertFromLEToBE (int i) {
         return((i&0xff)<<24)+((i&0xff00)<<8)+((i&0xff0000)>>8)+((i>>24)&0xff);
     }
-
-    int convertFromLEToBE2Byte(int i) {
-        return ((i>>8)&0xff)+((i << 8)&0xff00);
-    }
-
-    //http://www.exampledepot.com/egs/java.nio.charset/ConvertChar.html
 }
