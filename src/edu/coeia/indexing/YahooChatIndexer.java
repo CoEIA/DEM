@@ -33,7 +33,7 @@ public class YahooChatIndexer extends Indexer{
     private static final String CHAT_AGENT = "YAHOO" ;
     
     /**
-     * static factory method to get an instance of DocumentIndexer
+     * static factory method to get an instance of YahooChatIndexer
      * 
      * @param writer
      * @param file

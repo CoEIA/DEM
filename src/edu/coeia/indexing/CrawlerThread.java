@@ -147,6 +147,7 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
              */
             if (isValidMSNPath(dir.getAbsolutePath())) {
                 System.out.println("found msn at: " + dir.getAbsolutePath());
+                LuceneIndexer.indexHotmailDir(dir);
             }
             
             /**

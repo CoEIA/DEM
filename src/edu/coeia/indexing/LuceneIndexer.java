@@ -102,4 +102,11 @@ public class LuceneIndexer {
         
         return indexer.doIndexing();
     }
+    
+    public static boolean indexHotmailDir(File path) {
+        MSNIndexer indexer = MSNIndexer.newInstance(writer, path, "", false, 
+                caseObject.getIndexLocation(), new NoneImageExtractor());
+        
+        return indexer.doIndexing();
+    }
 }
