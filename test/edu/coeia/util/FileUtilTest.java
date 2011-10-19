@@ -42,4 +42,18 @@ public class FileUtilTest {
             
         }
     }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void saveStreamEmptyPathTest() {
+        
+        InputStream stream = new ByteArrayInputStream(new byte[] {123, 43, 53, 34} );
+        FileUtil.saveObject(stream, "", "C:\\");
+        
+        try {
+            assertEquals(123, Utilities.getFileContent(new File("C:\\test.txt")).charAt(0));
+        }
+        catch(Exception e) {
+            
+        }
+    }
 }
