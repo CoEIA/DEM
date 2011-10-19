@@ -31,6 +31,29 @@ public class FileUtil {
         throw new AssertionError();
     }
     
+
+    /**
+     * create new folder if folderPath is not exists
+     * @param folderPath 
+     */
+    public static void createFolder(String folderPath) {
+        folderPath = checkNull("filepath can't be null ", folderPath);
+        folderPath = checkNotEmptyString("file path must be not empty", folderPath);
+        
+        createFolder(new File(folderPath));
+    }
+    
+    /**
+     * create new folder if folder is not exists
+     * @param folder is path to folder
+     */
+    public static void createFolder(File folder) {
+        folder = checkNull("folder must be not null", folder);
+        
+        if ( ! folder.exists())
+            folder.mkdir();
+    }
+    
     /*
      * Save the bytes in the stream to the specified location with the file name
      * 

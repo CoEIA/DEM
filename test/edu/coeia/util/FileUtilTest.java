@@ -56,4 +56,24 @@ public class FileUtilTest {
             
         }
     }
+    
+    @Test
+    public void createFolderTest () {
+        FileUtil.createFolder("C:\\MyFile");
+        assertEquals(true, new File("C:\\MyFile").exists());
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void createEmptyFolderStringTest() {
+        FileUtil.createFolder("");
+        assertEquals(true, new File("C:\\XX").exists());
+    }
+    
+    @Test(expected=NullPointerException.class)
+    public void crateNullFolderFileTest() {
+        File file = null;
+        FileUtil.createFolder(file);
+        assertEquals(true, new File("C:\\XX").exists());
+    }
+    
 }

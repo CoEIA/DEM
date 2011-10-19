@@ -4,7 +4,6 @@
  */
 package edu.coeia.util;
 
-
 /**
  * Utility class for common argument validations
  * 
@@ -20,7 +19,6 @@ public final class PreconditionsChecker {
         // prevent even from reflection code
         throw new AssertionError();
     }
-    
     
     /**
      * if object is null then throws NullPointerException
