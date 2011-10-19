@@ -1,6 +1,5 @@
 package edu.coeia.onlinemail;
 
-
 import edu.coeia.util.FileUtil;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -53,40 +52,39 @@ public class OnlineEmailReader {
      * @param password the password of the account
      * @return EmailReader object that contain all the messages in list
      */
-    public static OnlineEmailReader newInstance(final String userName, final String password,String attachmentsPath, String dbPath) throws SQLException {
+    public static OnlineEmailReader newInstance(final String userName, final String password, String attachmentsPath, String dbPath) throws SQLException {
         if (userName == null || password == null || userName.isEmpty() || password.isEmpty()) {
             throw new IllegalArgumentException("Not Valid Credential");
         }
 
-        return new OnlineEmailReader(userName, password,attachmentsPath,dbPath);
+        return new OnlineEmailReader(userName, password, attachmentsPath, dbPath);
     }
 
     /**
      * private constructor to build EmailReader
      */
-    private OnlineEmailReader(final String userName, final String password,String attachmentsPath, String dbPath) throws SQLException {
+    private OnlineEmailReader(final String userName, final String password, String attachmentsPath, String dbPath) throws SQLException {
         this.userName = userName;
         this.password = password;
         this.attachmentsPath = attachmentsPath;
-        
+
+        FileUtil.createFolder(attachmentsPath);
+
         boolean create = OnlineEmailDBHandler.isDBExists(dbPath);
-           
-            if ( create)
-                System.out.println("Open Exisiting DB");
-            else
-                System.out.println("Create new DB");
-        try {
-            db = new OnlineEmailDBHandler(!create,dbPath);
-        } catch (ClassNotFoundException ex) {
-        
-        } catch (InstantiationException ex) {
-          
-        } catch (SQLException ex) {
-        
-        } catch (IllegalAccessException ex) {
-          
+
+        if (create) {
+            System.out.println("Open Exisiting DB");
+        } else {
+            System.out.println("Create new DB");
         }
-        
+        try {
+            db = new OnlineEmailDBHandler(!create, dbPath);
+        } catch (ClassNotFoundException ex) {
+        } catch (InstantiationException ex) {
+        } catch (SQLException ex) {
+        } catch (IllegalAccessException ex) {
+        }
+
     }
 
     /**
@@ -142,7 +140,7 @@ public class OnlineEmailReader {
 
     }
 
-    public  void ListAllFolders() throws MessagingException {
+    public void ListAllFolders() throws MessagingException {
         folder = store.getDefaultFolder().list("*");
         for (Folder fd : folder) {
             if ((fd.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
@@ -152,8 +150,7 @@ public class OnlineEmailReader {
         }
     }
 
-  
-     public static List<OnlineEmailMessage> getAllMessages() throws SQLException {
+    public static List<OnlineEmailMessage> getAllMessages() throws SQLException {
 
         String select = "SELECT * FROM emails ";
         Statement statement = OnlineEmailDBHandler.connection.createStatement();
@@ -162,21 +159,21 @@ public class OnlineEmailReader {
         OnlineEmailMessage message = null;
 
         while (resultSet.next()) {
-	
+
             String paths = resultSet.getString("PATH");
-            String [] arrPaths = paths.split(",");
+            String[] arrPaths = paths.split(",");
             List<String> listPaths = Arrays.asList(arrPaths);
-            
+
             String bcc = resultSet.getString("BCC");
-            String [] bccArray = bcc.split(",");
+            String[] bccArray = bcc.split(",");
             List<String> bccList = Arrays.asList(bccArray);
-            
+
             String cc = resultSet.getString("CC");
-            String [] ccArray = bcc.split(",");
+            String[] ccArray = bcc.split(",");
             List<String> ccList = Arrays.asList(ccArray);
-            
-            message = new OnlineEmailMessage(resultSet.getInt("EMAILID"), resultSet.getString("FROM_ADDRESS"), bccList,ccList,resultSet.getString("SUBJECT"),
-                    resultSet.getString("BODY_MESSAGE"),resultSet.getString("SENT_DATE"), resultSet.getString("CREATED_DATE"),listPaths);
+
+            message = new OnlineEmailMessage(resultSet.getInt("EMAILID"), resultSet.getString("FROM_ADDRESS"), bccList, ccList, resultSet.getString("SUBJECT"),
+                    resultSet.getString("BODY_MESSAGE"), resultSet.getString("SENT_DATE"), resultSet.getString("CREATED_DATE"), listPaths);
 
             mEmails.add(message);
             //System.out.println(resultSet.getString(4));
@@ -199,13 +196,13 @@ public class OnlineEmailReader {
 
                 System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
                 folder.open(Folder.READ_WRITE);
-               
+
             }
-       
+
             Message[] messages = folder.getMessages();
 
             for (Message message : messages) {
-                
+
                 // Get cc
                 List<String> cclist = getAddress(message, Message.RecipientType.BCC);
                 String ccBuilder = getFormattedString(cclist);
@@ -213,14 +210,14 @@ public class OnlineEmailReader {
                 // Get Bcc
                 List<String> bcclist = getAddress(message, Message.RecipientType.CC);
                 String bccBuilder = getFormattedString(bcclist);
-                
+
                 int messageId = messages.length - count++;
                 String from = getFromAddress(message.getFrom()[0].toString());
                 String subject = message.getSubject();
                 String body = getMessageContent(message);
                 Date sentDate = message.getSentDate();
                 Date receiveDate = message.getReceivedDate();
-                
+
                 System.out.println("SentDate : " + sentDate);
                 System.out.println("ReceiveDate : " + receiveDate);
                 System.out.println("------------From------\n" + from);
@@ -236,39 +233,43 @@ public class OnlineEmailReader {
                 }
                 System.out.println("------------Subject------\n" + subject);
                 System.out.println("------------Body------\n" + body);
-        
+
                 // Save Attachment
                 List<String> Paths = getAttachments(message);
                 String pathBuilder = getFormattedString(Paths);
-              
+
                 // Save Message in DB 
-                db.inserteEmail(messageId,from,subject,body,sentDate.toString(),receiveDate.toString(),ccBuilder,bccBuilder ,pathBuilder.toString());
- 
+                db.inserteEmail(messageId, from, subject, body, sentDate.toString(), receiveDate.toString(), ccBuilder, bccBuilder, pathBuilder.toString());
+
             }
         }
     }
 
-       String getFormattedString (List<String> list) {
-        
+    String getFormattedString(List<String> list) {
         StringBuilder result = new StringBuilder();
-                
-        for (int i =0; i<list.size(); i++)
-        {
-            result.append(list.get(i));
+        if (list != null) {
 
-            if(i<list.size()-1)
-            {
-            result.append(',');
-            }            
-        }        
-        
+
+            for (int i = 0; i < list.size(); i++) {
+                result.append(list.get(i));
+
+                if (i < list.size() - 1) {
+                    result.append(',');
+                }
+            }
+        } else {
+
+            return "";
+
+        }
+
+
         return result.toString();
     }
-    
-    
-    private List<String> getAddress(Message message, Message.RecipientType type) 
+
+    private List<String> getAddress(Message message, Message.RecipientType type)
             throws MessagingException {
-        
+
         List<String> addressList = new ArrayList<String>();
         Address[] recipients = message.getRecipients(type);
 
@@ -280,18 +281,18 @@ public class OnlineEmailReader {
 
         return addressList;
     }
-    
-      private List<String> getAttachments(Message temp) throws IOException, MessagingException {
+
+    private List<String> getAttachments(Message temp) throws IOException, MessagingException {
 
         attachments = new ArrayList<String>();
-        
+
         Object objRef = temp.getContent();
         if (!(objRef instanceof Multipart)) {
-             return Collections.emptyList();
-            }
+            return Collections.emptyList();
+        }
 
         Multipart multipart = (Multipart) temp.getContent();
-        System.out.println("Number of Attachments: "+ multipart.getCount());
+        System.out.println("Number of Attachments: " + multipart.getCount());
 
         for (int i = 0; i < multipart.getCount(); i++) {
             BodyPart bodyPart = multipart.getBodyPart(i);
@@ -302,17 +303,18 @@ public class OnlineEmailReader {
             String decoded = MimeUtility.decodeText(bodyPart.getFileName());
 
             String filename = Normalizer.normalize(decoded, Normalizer.Form.NFC);
-       
+
+            System.out.println("file name" + filename);
             FileUtil.saveObject(bodyPart.getInputStream(), filename, attachmentsPath);
 
-            
+
             attachments.add(filename);
-         
+
         }
-        
+
         return attachments;
     }
-	
+
     private String getFromAddress(String fromAdd) {
         Pattern p = Pattern.compile("[A-Z0-9\\._%\\+\\-]+@[A-Z0-9\\.\\-]+\\.[A-Z]{2,4}", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(fromAdd);
@@ -336,14 +338,12 @@ public class OnlineEmailReader {
 //
 //                messageContent.append(part.getContent().toString());
 
-            
-        
+
+
 
             return " ";
 
-        } 
-        else
-        {
+        } else {
             return content.toString();
         }
     }
@@ -356,6 +356,5 @@ public class OnlineEmailReader {
     private List<String> attachments;
     private String attachmentsPath;
     private String dbPath;
-    
-    private OnlineEmailDBHandler db; 
+    private OnlineEmailDBHandler db;
 }

@@ -12,6 +12,7 @@
     import javax.mail.NoSuchProviderException;
     import org.junit.Test ;
     import org.junit.Before; 
+import org.junit.Ignore;
     import static org.junit.Assert.* ;
     /**
     *
@@ -20,6 +21,7 @@
     public class OnlineEmailReaderTest {
 
      @Test
+     @Ignore
     public void getFormattedStringTest () throws SQLException  {
      OnlineEmailReader reader = OnlineEmailReader.newInstance("xgameprogrammer@gmail.com", "windows98","C:\\Attachments","C:\\SECURE_DB");
 
@@ -30,6 +32,7 @@
     }
 
     @Test
+    @Ignore
     public void getFormattedStringTest1 () throws SQLException  {
      OnlineEmailReader reader = OnlineEmailReader.newInstance("xgameprogrammer@gmail.com", "windows98","C:\\Attachments","C:\\SECURE_DB");
      List<String> list = new ArrayList<String>();
@@ -37,6 +40,7 @@
 
     }
     @Test
+    @Ignore
     public void getFormattedStringTest3 () throws SQLException  {
     OnlineEmailReader reader = OnlineEmailReader.newInstance("xgameprogrammer@gmail.com", "windows98","C:\\Attachments","C:\\SECURE_DB");
   

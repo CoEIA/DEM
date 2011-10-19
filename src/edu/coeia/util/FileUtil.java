@@ -65,8 +65,7 @@ public class FileUtil {
      * @throws NullPointerException if the stream, filename and destination contain null data
      */
     public static void saveObject(InputStream stream, String filename, String destination) {
-        stream = checkNull("Stream can't be null", stream);
-        filename = checkNull("filename can't be null", filename);
+          filename = checkNull("filename can't be null", filename);
         destination = checkNull("destination string can't be null", destination);
         
         filename = checkNotEmptyString("filename must have value", filename);

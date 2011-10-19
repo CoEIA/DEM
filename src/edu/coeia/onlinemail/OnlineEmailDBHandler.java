@@ -29,9 +29,11 @@ public class  OnlineEmailDBHandler {
         
         this.DB_URL = Path;
         
-        if (  nDB )
+        if (  nDB ){
+            DB_NAME +=DB_URL;
             DB_NAME += ";create=true" ;
-
+           
+        }
         connectDB();
 
         if (  nDB )
@@ -110,7 +112,7 @@ public class  OnlineEmailDBHandler {
     }
  
     private static  String DB_URL    ;
-    private String       DB_NAME    = "jdbc:derby:" + DB_URL ;
+    private String       DB_NAME    = "jdbc:derby:" ;
     private final String DB_DRIVER  = "org.apache.derby.jdbc.EmbeddedDriver" ;
     private final String DB_USER    = "" ;
     private final String DB_PASS    = "" ;
