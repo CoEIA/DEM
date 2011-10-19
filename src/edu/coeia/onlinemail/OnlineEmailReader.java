@@ -1,14 +1,9 @@
 package edu.coeia.onlinemail;
 
 import edu.coeia.util.FileUtil;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import static edu.coeia.util.PreconditionsChecker.* ;
+
 import java.io.IOException;
-import java.io.InputStream;
-
-
 
 import java.sql.SQLException;
 import java.sql.ResultSet;
@@ -44,7 +39,7 @@ import javax.mail.internet.MimeUtility;
  * @auther Wajdy Essam
  * @version 1.0 18-7-2011
  */
-public class OnlineEmailReader {
+public final class OnlineEmailReader {
 
     /**
      * static factory that read all message from user account and store it in list
@@ -52,10 +47,20 @@ public class OnlineEmailReader {
      * @param password the password of the account
      * @return EmailReader object that contain all the messages in list
      */
-    public static OnlineEmailReader newInstance(final String userName, final String password, String attachmentsPath, String dbPath) throws SQLException {
-        if (userName == null || password == null || userName.isEmpty() || password.isEmpty()) {
-            throw new IllegalArgumentException("Not Valid Credential");
-        }
+    public static OnlineEmailReader newInstance(final String userName, final String password,
+            String attachmentsPath, String dbPath) throws SQLException {
+
+        // check null values
+        checkNull("username must be not null", userName);
+        checkNull("password must be not null", password);
+        checkNull("attachmentsPath must be not null", attachmentsPath);
+        checkNull("dbPath must be not null", dbPath);
+        
+        // check empty string
+        checkNotEmptyString("username must be not empty string", userName);
+        checkNotEmptyString("password must be not empty string", password);
+        checkNotEmptyString("attachmentsPath must be not empty string", attachmentsPath);
+        checkNotEmptyString("dbPath must be not empty string", dbPath);
 
         return new OnlineEmailReader(userName, password, attachmentsPath, dbPath);
     }
@@ -77,8 +82,11 @@ public class OnlineEmailReader {
         } else {
             System.out.println("Create new DB");
         }
+        
+        
         try {
             db = new OnlineEmailDBHandler(!create, dbPath);
+            
         } catch (ClassNotFoundException ex) {
         } catch (InstantiationException ex) {
         } catch (SQLException ex) {
@@ -96,7 +104,7 @@ public class OnlineEmailReader {
         return new EmailIterator(this);
     }
 
-    public class EmailIterator {
+    private class EmailIterator {
 
         public EmailIterator(OnlineEmailReader reader) {
             this.reader = reader;
@@ -128,7 +136,6 @@ public class OnlineEmailReader {
     }
 
     public void Connect() throws NoSuchProviderException, MessagingException {
-
         Properties props = System.getProperties();
         props.setProperty("mail.store.protocol", "imaps");
         props.setProperty("mail.imaps.partialfetch", "false");
@@ -136,22 +143,18 @@ public class OnlineEmailReader {
         Session session = Session.getDefaultInstance(props, null);
         store = session.getStore("imaps");
         store.connect(PROTOCOL, userName, password);
-
-
     }
 
-    public void ListAllFolders() throws MessagingException {
+    private void ListAllFolders() throws MessagingException {
         folder = store.getDefaultFolder().list("*");
         for (Folder fd : folder) {
             if ((fd.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
                 System.out.println(fd.getFullName() + ": " + fd.getMessageCount());
             }
-
         }
     }
 
     public static List<OnlineEmailMessage> getAllMessages() throws SQLException {
-
         String select = "SELECT * FROM emails ";
         Statement statement = OnlineEmailDBHandler.connection.createStatement();
         ResultSet resultSet = statement.executeQuery(select);
@@ -172,11 +175,10 @@ public class OnlineEmailReader {
             String[] ccArray = bcc.split(",");
             List<String> ccList = Arrays.asList(ccArray);
 
-            message = new OnlineEmailMessage(resultSet.getInt("EMAILID"), resultSet.getString("FROM_ADDRESS"), bccList, ccList, resultSet.getString("SUBJECT"),
+            message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"), resultSet.getString("FROM_ADDRESS"), bccList, ccList, resultSet.getString("SUBJECT"),
                     resultSet.getString("BODY_MESSAGE"), resultSet.getString("SENT_DATE"), resultSet.getString("CREATED_DATE"), listPaths);
 
             mEmails.add(message);
-            //System.out.println(resultSet.getString(4));
         }
         resultSet.close();
         statement.close();
@@ -347,6 +349,8 @@ public class OnlineEmailReader {
             return content.toString();
         }
     }
+    
+    
     private final String userName;
     private final String password;
     private static final String PROTOCOL = "imap.gmail.com";
