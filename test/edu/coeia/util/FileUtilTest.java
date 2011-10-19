@@ -42,4 +42,38 @@ public class FileUtilTest {
             
         }
     }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void saveStreamEmptyPathTest() {
+        
+        InputStream stream = new ByteArrayInputStream(new byte[] {123, 43, 53, 34} );
+        FileUtil.saveObject(stream, "", "C:\\");
+        
+        try {
+            assertEquals(123, Utilities.getFileContent(new File("C:\\test.txt")).charAt(0));
+        }
+        catch(Exception e) {
+            
+        }
+    }
+    
+    @Test
+    public void createFolderTest () {
+        FileUtil.createFolder("C:\\MyFile");
+        assertEquals(true, new File("C:\\MyFile").exists());
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void createEmptyFolderStringTest() {
+        FileUtil.createFolder("");
+        assertEquals(true, new File("C:\\XX").exists());
+    }
+    
+    @Test(expected=NullPointerException.class)
+    public void crateNullFolderFileTest() {
+        File file = null;
+        FileUtil.createFolder(file);
+        assertEquals(true, new File("C:\\XX").exists());
+    }
+    
 }

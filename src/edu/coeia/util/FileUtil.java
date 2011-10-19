@@ -15,6 +15,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import static edu.coeia.util.PreconditionsChecker.checkNull; 
+import static edu.coeia.util.PreconditionsChecker.checkNotEmptyString;
+
+
 /*
  * Noninstantiable utility class
  */
@@ -25,6 +29,29 @@ public class FileUtil {
      */
     private FileUtil() {
         throw new AssertionError();
+    }
+    
+
+    /**
+     * create new folder if folderPath is not exists
+     * @param folderPath 
+     */
+    public static void createFolder(String folderPath) {
+        folderPath = checkNull("filepath can't be null ", folderPath);
+        folderPath = checkNotEmptyString("file path must be not empty", folderPath);
+        
+        createFolder(new File(folderPath));
+    }
+    
+    /**
+     * create new folder if folder is not exists
+     * @param folder is path to folder
+     */
+    public static void createFolder(File folder) {
+        folder = checkNull("folder must be not null", folder);
+        
+        if ( ! folder.exists())
+            folder.mkdir();
     }
     
     /*
@@ -38,9 +65,12 @@ public class FileUtil {
      * @throws NullPointerException if the stream, filename and destination contain null data
      */
     public static void saveObject(InputStream stream, String filename, String destination) {
+        stream = checkNull("Stream can't be null", stream);
+        filename = checkNull("filename can't be null", filename);
+        destination = checkNull("destination string can't be null", destination);
         
-        if ( stream == null || filename == null || destination == null )
-            throw new NullPointerException();
+        filename = checkNotEmptyString("filename must have value", filename);
+        destination = checkNotEmptyString("destination must have a value", destination);
         
         try {
             String filePath = destination + "\\" + filename;
