@@ -18,7 +18,6 @@ import java.io.OutputStream;
 import static edu.coeia.util.PreconditionsChecker.checkNull; 
 import static edu.coeia.util.PreconditionsChecker.checkNotEmptyString;
 
-
 /*
  * Noninstantiable utility class
  */
@@ -30,7 +29,6 @@ public class FileUtil {
     private FileUtil() {
         throw new AssertionError();
     }
-    
 
     /**
      * create new folder if folderPath is not exists
