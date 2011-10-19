@@ -88,9 +88,9 @@ public class  OnlineEmailDBHandler {
                                 "BODY_MESSAGE VARCHAR(32000)," +
                                 "CREATED_DATE VARCHAR(100),"+
                                 "SENT_DATE VARCHAR(100)," +
-                		"CC VARCHAR(1000)," +
-                		"BCC VARCHAR(1000)," +
-                                "PATH VARCHAR(2000)" +
+                		"CC VARCHAR(5000)," +
+                		"BCC VARCHAR(5000)," +
+                                "PATH VARCHAR(5000)" +
                               ")" ;
         
      

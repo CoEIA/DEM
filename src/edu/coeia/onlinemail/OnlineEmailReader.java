@@ -169,7 +169,7 @@ public class OnlineEmailReader {
             List<String> bccList = Arrays.asList(bccArray);
 
             String cc = resultSet.getString("CC");
-            String[] ccArray = bcc.split(",");
+            String[] ccArray = cc.split(",");
             List<String> ccList = Arrays.asList(ccArray);
 
             message = new OnlineEmailMessage(resultSet.getInt("EMAILID"), resultSet.getString("FROM_ADDRESS"), bccList, ccList, resultSet.getString("SUBJECT"),
