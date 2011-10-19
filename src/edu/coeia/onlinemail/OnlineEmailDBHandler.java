@@ -23,9 +23,9 @@ final class OnlineEmailDBHandler {
         databasePath = checkNull("database path must be not null", databasePath);
         
         DB_URL = databasePath;
-
+        DB_NAME += DB_URL;
         if (nDB) {
-            DB_NAME += DB_URL;
+           
             DB_NAME += ";create=true";
         }
 

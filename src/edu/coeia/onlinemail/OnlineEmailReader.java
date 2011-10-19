@@ -5,6 +5,7 @@ import static edu.coeia.util.PreconditionsChecker.* ;
 
 import java.io.IOException;
 
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -146,7 +147,7 @@ public final class OnlineEmailReader {
     }
 
     private void ListAllFolders() throws MessagingException {
-        folder = store.getDefaultFolder().list("*");
+       Folder[] folder = store.getDefaultFolder().list("*");
         for (Folder fd : folder) {
             if ((fd.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
                 System.out.println(fd.getFullName() + ": " + fd.getMessageCount());
@@ -200,11 +201,17 @@ public final class OnlineEmailReader {
                 folder.open(Folder.READ_WRITE);
 
             }
-
+            else if ( javax.mail.Folder.HOLDS_FOLDERS !=0)
+            {
+                
+                continue;
+            }
+                
             Message[] messages = folder.getMessages();
 
             for (Message message : messages) {
 
+          
                 // Get cc
                 List<String> cclist = getAddress(message, Message.RecipientType.BCC);
                 String ccBuilder = getFormattedString(cclist);
@@ -305,7 +312,11 @@ public final class OnlineEmailReader {
             String decoded = MimeUtility.decodeText(bodyPart.getFileName());
 
             String filename = Normalizer.normalize(decoded, Normalizer.Form.NFC);
-
+            InputStream is = bodyPart.getInputStream();
+            
+            if (is == null)
+                continue;
+            
             System.out.println("file name" + filename);
             FileUtil.saveObject(bodyPart.getInputStream(), filename, attachmentsPath);
 
@@ -330,24 +341,27 @@ public final class OnlineEmailReader {
 
     private String getMessageContent(Message message) throws IOException, MessagingException {
         Object content = message.getContent();
-
-        if (content instanceof Multipart) {
-//            StringBuilder messageContent = new StringBuilder();
-//            Multipart multipart = (Multipart) content;
-//
-//            for (int i = 0; i < multipart.getCount(); i++) {
-//                Part part = (Part) multipart.getBodyPart(i);
-//
-//                messageContent.append(part.getContent().toString());
-
-
-
-
-            return " ";
-
-        } else {
+         StringBuilder messageContent = new StringBuilder();
+        if (content instanceof String) 
+        {
             return content.toString();
         }
+        else if (content instanceof Multipart)
+        {
+          
+            Multipart multipart = (Multipart) content;
+
+            for (int i = 0; i < multipart.getCount(); i++) {
+                Part part = (Part) multipart.getBodyPart(i);
+
+             messageContent.append(part.getContent().toString());
+
+            return "";
+ 
+        
+          }
+        }
+    return messageContent.toString();
     }
     
     
@@ -355,7 +369,6 @@ public final class OnlineEmailReader {
     private final String password;
     private static final String PROTOCOL = "imap.gmail.com";
     private Store store;
-    private Folder[] folder;
     private List<OnlineEmailMessage> messageList = new ArrayList<OnlineEmailMessage>();
     private List<String> attachments;
     private String attachmentsPath;
