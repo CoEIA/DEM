@@ -104,7 +104,7 @@ public final class OnlineEmailReader {
         return new EmailIterator(this);
     }
 
-    private class EmailIterator {
+    class EmailIterator {
 
         public EmailIterator(OnlineEmailReader reader) {
             this.reader = reader;
@@ -158,7 +158,9 @@ public final class OnlineEmailReader {
         String select = "SELECT * FROM emails ";
         Statement statement = OnlineEmailDBHandler.connection.createStatement();
         ResultSet resultSet = statement.executeQuery(select);
+        
         List<OnlineEmailMessage> mEmails = new ArrayList<OnlineEmailMessage>();
+        
         OnlineEmailMessage message = null;
 
         while (resultSet.next()) {
@@ -180,11 +182,11 @@ public final class OnlineEmailReader {
 
             mEmails.add(message);
         }
+        
         resultSet.close();
         statement.close();
 
         return mEmails;
-
     }
 
     public void readMessages() throws NoSuchProviderException, MessagingException, IOException, SQLException {
