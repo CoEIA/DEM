@@ -89,12 +89,12 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         for (int i=0 ; i<count ; i++) {
             String file = searcher.getHits(i);
             
-            if ( Utilities.isExtentionAllowed(extensionsAllowed, Utilities.getExtension(file))) {
+            //if ( Utilities.isExtentionAllowed(extensionsAllowed, Utilities.getExtension(file))) {
                 publish(new ProgressSearchData(i, file , Utilities.getExtension(file), 0));
 
                 if ( file != null )
                     filePath.add(file);
-            }
+            //}
         }
     }
     

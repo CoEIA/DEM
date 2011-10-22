@@ -122,6 +122,8 @@ public class CaseFrame extends javax.swing.JFrame {
         this.CardPanel.add(caseManagerPanel, "caseManagerCard");
         this.CardPanel.add(reportPanel, "reportCard");
         
+        searchToggleButtonActionPerformed(null);
+        
 //        if ( !caseObj.getIndexStatus() )
 //            showIndexDialog();
     }
