@@ -177,7 +177,7 @@ public final class OnlineEmailReader {
             List<String> ccList = Arrays.asList(ccArray);
 
             message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"), resultSet.getString("FROM_ADDRESS"), bccList, ccList, resultSet.getString("SUBJECT"),
-                    resultSet.getString("BODY_MESSAGE"), resultSet.getString("SENT_DATE"), resultSet.getString("CREATED_DATE"), listPaths);
+                    resultSet.getString("BODY_MESSAGE"), resultSet.getString("SENT_DATE"), resultSet.getString("CREATED_DATE"), listPaths,resultSet.getString("Folder_Name"));
 
             mEmails.add(message);
         }
@@ -248,7 +248,7 @@ public final class OnlineEmailReader {
                 String pathBuilder = getFormattedString(Paths);
 
                 // Save Message in DB 
-                db.inserteEmail(messageId, from, subject, body, sentDate.toString(), receiveDate.toString(), ccBuilder, bccBuilder, pathBuilder.toString());
+                db.inserteEmail(messageId, from, subject, body, sentDate.toString(), receiveDate.toString(), ccBuilder, bccBuilder, pathBuilder.toString(),folder.getFullName());
 
             }
         }

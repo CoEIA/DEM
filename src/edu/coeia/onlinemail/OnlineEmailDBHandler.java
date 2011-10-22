@@ -36,11 +36,11 @@ final class OnlineEmailDBHandler {
         }
     }
 
-    public void inserteEmail(int id, String From, String Subject, String Body,
-            String Created_Date, String Sent_Date, String CC, String BCC, String Path)
+    public void inserteEmail(int id,String From, String Subject, String Body,
+            String Created_Date, String Sent_Date, String CC, String BCC, String Path, String FolderName)
             throws SQLException {
 
-        String s = "insert into emails values(?,?,?,?,?,?,?,?,?)";
+        String s = "insert into emails values(?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement psInsert = connection.prepareStatement(s);
         psInsert.setInt(1, id);
         psInsert.setString(2, From);
@@ -51,6 +51,7 @@ final class OnlineEmailDBHandler {
         psInsert.setString(7, CC);
         psInsert.setString(8, BCC);
         psInsert.setString(9, Path);
+        psInsert.setString(10, FolderName);
 
         psInsert.executeUpdate();
         psInsert.close();
@@ -82,7 +83,8 @@ final class OnlineEmailDBHandler {
                 + "SENT_DATE VARCHAR(100),"
                 + "CC VARCHAR(5000),"
                 + "BCC VARCHAR(5000),"
-                + "PATH VARCHAR(5000)"
+                + "PATH VARCHAR(5000),"
+                + "FOLDER_NAME VARCHAR(400)"
                 + ")";
 
 
