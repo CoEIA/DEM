@@ -50,7 +50,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     private File indexLocation  ;
     private String queryString ;
     private GUIComponent searchGUI ;
-    private Searcher searcher ;
+    private LuceneSearcher searcher ;
     private int count = 0 ;
     private List<String> extensionsAllowed, filePath;
     
@@ -67,7 +67,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         try {
             long start = new Date().getTime();
             
-            searcher = new Searcher(indexLocation);
+            searcher = new LuceneSearcher(indexLocation);
             count = searcher.search(queryString);
 
             fillTable();
