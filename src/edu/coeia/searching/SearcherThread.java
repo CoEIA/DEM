@@ -101,7 +101,15 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     @Override
     protected void process(java.util.List<ProgressSearchData> chunks) {
         for (ProgressSearchData pd : chunks) {
-            ((DefaultTableModel)searchGUI.table.getModel()).addRow(new Object[] { pd.getPath() });
+            File file = new File(pd.getPath());
+            
+            String filename = file.getName();
+            int size = (int) file.length();
+            Date date = new Date(file.lastModified());
+            
+            ((DefaultTableModel)searchGUI.table.getModel()).addRow(new Object[] {
+                0, filename, file.getAbsolutePath(), Utilities.formatDateTime(date), size, 0
+            });
         }
 
        int index = chunks.size()-1 ;

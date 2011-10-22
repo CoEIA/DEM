@@ -123,7 +123,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         jCheckBox1.setText("File System:");
         jCheckBox1.setEnabled(false);
 
-        jCheckBox2.setSelected(true);
         jCheckBox2.setText("Metadata");
         jCheckBox2.setEnabled(false);
 
@@ -313,20 +312,20 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         searchTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "File Name", "File Path", "Last Modification", "File Size", "File Tag"
+                "ID", "File Name", "File Path", "Last Modification", "File Size", "File Tag"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -563,7 +562,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
             // other click event
             int row = searchTable.getSelectedRow();
-            String filePath = (String) searchTable.getValueAt(row, 0);
+            String filePath = (String) searchTable.getValueAt(row, 2);
 
             showInformation(filePath);
         }
@@ -620,6 +619,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     
     private void showInformation (String filePath) throws Exception {
         File fileName = new File(filePath);
+        
         String keyword = queryTextField.getText().trim();
         String extension = Utilities.getExtension(fileName);
         
@@ -628,39 +628,44 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 //        searchFileSizeLbl.setText(fileName.length() + "");
 
         // set summary panel and file rendered panel depen on file
-        if (extension.equalsIgnoreCase("txt")) {
-            String content = Utilities.getFileContent(fileName) ;
-            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-            String rep = content.replace(keyword, highlither);
-            fileBrowser.setHTMLContent(rep);
-        }
-        else if ( extension.equalsIgnoreCase("pdf") ) {
-            //fileBrowser.navigate(filePath + "#search= " + keyword + "");
-            String content = parseFile(fileName);
-            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-            String rep = content.replace(keyword, highlither);
-            fileBrowser.setHTMLContent(rep);
-        }
-        else if ( extension.equalsIgnoreCase("html") ||
-                  extension.equalsIgnoreCase("htm") ||
-                  extension.equalsIgnoreCase("mht") ) {
-            //fileBrowser.navigate(filePath);
-            String content = parseFile(fileName);
-            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-            String rep = content.replace(keyword, highlither);
-            fileBrowser.setHTMLContent(rep);
-        }
-        else if ( extension.equalsIgnoreCase("doc")) {
-            String content = parseFile(fileName);
-            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-            String rep = content.replace(keyword, highlither);
-            fileBrowser.setHTMLContent(rep);
-        }
+//        if (extension.equalsIgnoreCase("txt")) {
+//            String content = Utilities.getFileContent(fileName) ;
+//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+//            String rep = content.replace(keyword, highlither);
+//            fileBrowser.setHTMLContent(rep);
+//        }
+//        else if ( extension.equalsIgnoreCase("pdf") ) {
+//            //fileBrowser.navigate(filePath + "#search= " + keyword + "");
+//            String content = parseFile(fileName);
+//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+//            String rep = content.replace(keyword, highlither);
+//            fileBrowser.setHTMLContent(rep);
+//        }
+//        else if ( extension.equalsIgnoreCase("html") ||
+//                  extension.equalsIgnoreCase("htm") ||
+//                  extension.equalsIgnoreCase("mht") ) {
+//            //fileBrowser.navigate(filePath);
+//            String content = parseFile(fileName);
+//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+//            String rep = content.replace(keyword, highlither);
+//            fileBrowser.setHTMLContent(rep);
+//        }
+//        else if ( extension.equalsIgnoreCase("doc")) {
+//            String content = parseFile(fileName);
+//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+//            String rep = content.replace(keyword, highlither);
+//            fileBrowser.setHTMLContent(rep);
+//        }
 
+        String content = parseFile(fileName);
+        String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+        String rep = content.replace(keyword, highlither);
+        fileBrowser.setHTMLContent(rep);
+            
         // show matadata information for file
         String metaData = MetaDataExtraction.getMetaData(filePath);
         metaDataTextArea.setText(metaData);
-
+        
         fileRenderPanel.validate();
     }
     
