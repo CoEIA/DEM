@@ -59,7 +59,7 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
         fileBrowser.setStatusBarVisible(false);
         fileRenderPanel.add(fileBrowser, BorderLayout.CENTER);  
         
-        Utilities.packColumns(searchTable, 0);
+        //Utilities.packColumns(searchTable, 0);
         disableNotIndexedComponent();
     }
 
@@ -192,7 +192,6 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
                 "File Path"
             }
         ));
-        searchTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         searchTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 searchTableMouseClicked(evt);
@@ -210,11 +209,11 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
         jPanel22.setLayout(jPanel22Layout);
         jPanel22Layout.setHorizontalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
         );
 
         jTabbedPane4.addTab("Search Result", jPanel22);
@@ -231,11 +230,11 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
         jPanel24.setLayout(jPanel24Layout);
         jPanel24Layout.setHorizontalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
         );
         jPanel24Layout.setVerticalGroup(
             jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
         );
 
         jTabbedPane4.addTab("Path Clustering", jPanel24);
@@ -252,11 +251,11 @@ public class SearchFileSystemPanel extends javax.swing.JPanel {
         jPanel29.setLayout(jPanel29Layout);
         jPanel29Layout.setHorizontalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
         );
         jPanel29Layout.setVerticalGroup(
             jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+            .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
         );
 
         jTabbedPane4.addTab("Type Clustering", jPanel29);
@@ -665,7 +664,7 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
             return  ;
         }
 
-        Utilities.packColumns(searchTable, 2);
+        //Utilities.packColumns(searchTable, 2);
         searchProgressBard.setIndeterminate(true);
 
         GUIComponent searchGUI = new GUIComponent(searchProgressBard,searchTable,searchingDateLbl,indexDirLbl2,
