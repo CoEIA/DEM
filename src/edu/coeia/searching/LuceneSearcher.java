@@ -33,14 +33,14 @@ import org.apache.lucene.document.Document ;
 import org.apache.lucene.util.Version ;
 import org.apache.lucene.queryParser.QueryParser ;
 
-class Searcher {
+class LuceneSearcher {
 
     protected Directory fsDir ;
     protected IndexReader indexReader ;
     protected IndexSearcher searcher ;
     protected TopDocs results ;
     
-    public Searcher (File indexDir ) throws Exception {
+    public LuceneSearcher (File indexDir ) throws Exception {
         fsDir = FSDirectory.open(indexDir);
         indexReader = IndexReader.open(fsDir, true);
         searcher = new IndexSearcher(indexReader);

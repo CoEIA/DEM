@@ -200,8 +200,8 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
 
         jPanel18.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Summary Browsing  History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        summaryInternetButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        summaryInternetButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/history.png"))); // NOI18N
+        summaryInternetButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        summaryInternetButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/history.png"))); // NOI18N
         summaryInternetButton.setText(" History Summary");
         summaryInternetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,7 +316,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     jToolBar2.setOrientation(javax.swing.JToolBar.VERTICAL);
     jToolBar2.setRollover(true);
 
-    ffSummaryButtton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/view_text.png"))); // NOI18N
+    ffSummaryButtton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/view_text.png"))); // NOI18N
     ffSummaryButtton.setText("Summary");
     ffSummaryButtton.setPreferredSize(new java.awt.Dimension(55, 55));
     ffSummaryButtton.addActionListener(new java.awt.event.ActionListener() {
@@ -327,7 +327,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     jToolBar2.add(ffSummaryButtton);
     jToolBar2.add(jSeparator2);
 
-    webHistoryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/web.png"))); // NOI18N
+    webHistoryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
     webHistoryButton.setText("Web History");
     webHistoryButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -336,7 +336,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     });
     jToolBar2.add(webHistoryButton);
 
-    bookmarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/bookmarks.png"))); // NOI18N
+    bookmarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/bookmarks.png"))); // NOI18N
     bookmarButton.setText("Bookmark");
     bookmarButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -345,7 +345,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     });
     jToolBar2.add(bookmarButton);
 
-    cookiesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/autostart.png"))); // NOI18N
+    cookiesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/autostart.png"))); // NOI18N
     cookiesButton.setText("Cookies");
     cookiesButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -354,7 +354,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     });
     jToolBar2.add(cookiesButton);
 
-    downloadButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/download.png"))); // NOI18N
+    downloadButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/download.png"))); // NOI18N
     downloadButton.setText("Download");
     downloadButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -363,7 +363,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     });
     jToolBar2.add(downloadButton);
 
-    logginsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/lists.png"))); // NOI18N
+    logginsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/lists.png"))); // NOI18N
     logginsButton.setText("Loggins");
     logginsButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -823,7 +823,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     jToolBar3.setOrientation(javax.swing.JToolBar.VERTICAL);
     jToolBar3.setRollover(true);
 
-    webHistoryButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/web.png"))); // NOI18N
+    webHistoryButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
     webHistoryButton1.setText("Web History");
     webHistoryButton1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -832,7 +832,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     });
     jToolBar3.add(webHistoryButton1);
 
-    bookmarButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/bookmarks.png"))); // NOI18N
+    bookmarButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/bookmarks.png"))); // NOI18N
     bookmarButton1.setText("Bookmark");
     bookmarButton1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -841,7 +841,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     });
     jToolBar3.add(bookmarButton1);
 
-    cookiesButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/autostart.png"))); // NOI18N
+    cookiesButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/autostart.png"))); // NOI18N
     cookiesButton1.setText("Cookies");
     cookiesButton1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -850,7 +850,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     });
     jToolBar3.add(cookiesButton1);
 
-    cacheButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/download.png"))); // NOI18N
+    cacheButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/download.png"))); // NOI18N
     cacheButton.setText("Cache");
     cacheButton.setEnabled(false);
     cacheButton.addActionListener(new java.awt.event.ActionListener() {
@@ -860,7 +860,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     });
     jToolBar3.add(cacheButton);
 
-    logginsButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/lists.png"))); // NOI18N
+    logginsButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/lists.png"))); // NOI18N
     logginsButton1.setText("Loggins");
     logginsButton1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {

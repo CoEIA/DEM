@@ -53,7 +53,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jSeparator1" pref="1" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="indexFooterPanel" min="-2" pref="63" max="-2" attributes="0"/>
+              <Component id="indexFooterPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -1261,7 +1261,7 @@
               <Font name="Tahoma" size="11" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/edu/coeia/gui/resources/finish.png"/>
+              <Image iconType="3" name="/edu/coeia/main/resources/finish.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Finish"/>
           </Properties>
@@ -1275,7 +1275,7 @@
               <Font name="Tahoma" size="11" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/edu/coeia/gui/resources/back.png"/>
+              <Image iconType="3" name="/edu/coeia/main/resources/back.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Back"/>
           </Properties>
@@ -1289,7 +1289,7 @@
               <Font name="Tahoma" size="11" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/edu/coeia/gui/resources/next.png"/>
+              <Image iconType="3" name="/edu/coeia/main/resources/next.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Next"/>
           </Properties>
@@ -1303,7 +1303,7 @@
               <Font name="Tahoma" size="11" style="1"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/edu/coeia/gui/resources/cancel.png"/>
+              <Image iconType="3" name="/edu/coeia/main/resources/cancel.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Cancel"/>
           </Properties>
@@ -1348,7 +1348,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/edu/coeia/gui/resources/2 copy.jpg"/>
+              <Image iconType="3" name="/edu/coeia/main/resources/2 copy.jpg"/>
             </Property>
             <Property name="text" type="java.lang.String" value=" "/>
           </Properties>

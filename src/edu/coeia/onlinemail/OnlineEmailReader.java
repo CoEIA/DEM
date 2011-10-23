@@ -105,7 +105,7 @@ public final class OnlineEmailReader {
         return new EmailIterator(this);
     }
 
-    private class EmailIterator {
+    class EmailIterator {
 
         public EmailIterator(OnlineEmailReader reader) {
             this.reader = reader;
@@ -155,7 +155,7 @@ public final class OnlineEmailReader {
         }
     }
 
-   
+
     public void readMessages() throws NoSuchProviderException, MessagingException, IOException, SQLException {
 
         int count = 0;

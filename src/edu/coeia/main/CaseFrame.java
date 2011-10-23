@@ -13,6 +13,7 @@ import edu.coeia.searching.SearchPanel;
 import edu.coeia.image.ImagesViewerPanel;
 import edu.coeia.internet.InternetSurfingPanel;
 
+import edu.coeia.searching.CaseSearchPanel;
 import edu.coeia.util.FilesPath;
 import java.awt.Toolkit ;
 import java.awt.event.WindowAdapter;
@@ -107,7 +108,8 @@ public class CaseFrame extends javax.swing.JFrame {
         InternetSurfingPanel internetPanel = new InternetSurfingPanel(this.caseObj);
         ChatPanel chatPanel = new ChatPanel(this.caseObj);
         ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.caseObj);
-        SearchPanel searchPanel = new SearchPanel(this.caseObj);
+        //SearchPanel searchPanel = new SearchPanel(this.caseObj);
+        CaseSearchPanel searchPanel = new CaseSearchPanel(this.caseObj, this);
         CaseManagerPanel caseManagerPanel = new CaseManagerPanel();
         ReportPanel reportPanel = new ReportPanel();
         
@@ -119,6 +121,8 @@ public class CaseFrame extends javax.swing.JFrame {
         this.CardPanel.add(searchPanel, "searchCard");
         this.CardPanel.add(caseManagerPanel, "caseManagerCard");
         this.CardPanel.add(reportPanel, "reportCard");
+        
+        searchToggleButtonActionPerformed(null);
         
 //        if ( !caseObj.getIndexStatus() )
 //            showIndexDialog();

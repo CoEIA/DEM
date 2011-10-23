@@ -93,7 +93,7 @@
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/edu/coeia/gui/resources/chart_pie.png"/>
+                  <Image iconType="3" name="/edu/coeia/main/resources/chart_pie.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Index Visualization"/>
               </Properties>

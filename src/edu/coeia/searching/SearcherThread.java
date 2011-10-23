@@ -50,7 +50,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     private File indexLocation  ;
     private String queryString ;
     private GUIComponent searchGUI ;
-    private Searcher searcher ;
+    private LuceneSearcher searcher ;
     private int count = 0 ;
     private List<String> extensionsAllowed, filePath;
     
@@ -67,7 +67,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         try {
             long start = new Date().getTime();
             
-            searcher = new Searcher(indexLocation);
+            searcher = new LuceneSearcher(indexLocation);
             count = searcher.search(queryString);
 
             fillTable();
@@ -89,19 +89,27 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         for (int i=0 ; i<count ; i++) {
             String file = searcher.getHits(i);
             
-            if ( Utilities.isExtentionAllowed(extensionsAllowed, Utilities.getExtension(file))) {
+            //if ( Utilities.isExtentionAllowed(extensionsAllowed, Utilities.getExtension(file))) {
                 publish(new ProgressSearchData(i, file , Utilities.getExtension(file), 0));
 
                 if ( file != null )
                     filePath.add(file);
-            }
+            //}
         }
     }
     
     @Override
     protected void process(java.util.List<ProgressSearchData> chunks) {
         for (ProgressSearchData pd : chunks) {
-            ((DefaultTableModel)searchGUI.table.getModel()).addRow(new Object[] { pd.getPath() });
+            File file = new File(pd.getPath());
+            
+            String filename = file.getName();
+            int size = (int) file.length();
+            Date date = new Date(file.lastModified());
+            
+            ((DefaultTableModel)searchGUI.table.getModel()).addRow(new Object[] {
+                0, filename, file.getAbsolutePath(), Utilities.formatDateTime(date), size, 0
+            });
         }
 
        int index = chunks.size()-1 ;
@@ -112,10 +120,10 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     @Override
     public void done() {
         searchGUI.progressBar.setIndeterminate(false);
-        searchGUI.timeLbl.setText("" + Utilities.getTimeFromMilliseconds(time));
-        searchGUI.dateLbl.setText(Utilities.formatDateTime(new Date()));
-        searchGUI.indexLocationLbl.setText(indexLocation.getAbsoluteFile().getName());
-        searchGUI.dataIndexedLocation.setText(queryString);
+        //searchGUI.timeLbl.setText("" + Utilities.getTimeFromMilliseconds(time));
+        //searchGUI.dateLbl.setText(Utilities.formatDateTime(new Date()));
+        //searchGUI.indexLocationLbl.setText(indexLocation.getAbsoluteFile().getName());
+        //searchGUI.dataIndexedLocation.setText(queryString);
 
 
         try {

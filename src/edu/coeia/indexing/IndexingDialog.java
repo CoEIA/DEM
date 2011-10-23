@@ -214,8 +214,8 @@ public class IndexingDialog extends javax.swing.JDialog {
 
         progressStatusPanel.add(progresLabelPanel, java.awt.BorderLayout.NORTH);
 
-        startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        startIndexButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/database.png"))); // NOI18N
+        startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        startIndexButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/database.png"))); // NOI18N
         startIndexButton.setText("Start Indexing");
         startIndexButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,8 +223,8 @@ public class IndexingDialog extends javax.swing.JDialog {
             }
         });
 
-        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        stopIndexingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/cancel.png"))); // NOI18N
+        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        stopIndexingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         stopIndexingButton.setText("Stop Indexing");
         stopIndexingButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

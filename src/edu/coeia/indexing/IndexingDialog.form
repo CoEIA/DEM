@@ -303,7 +303,7 @@
                       <Font name="Tahoma" size="11" style="1"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/edu/coeia/gui/resources/database.png"/>
+                      <Image iconType="3" name="/edu/coeia/main/resources/database.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Start Indexing"/>
                   </Properties>
@@ -317,7 +317,7 @@
                       <Font name="Tahoma" size="11" style="1"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/edu/coeia/gui/resources/cancel.png"/>
+                      <Image iconType="3" name="/edu/coeia/main/resources/cancel.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Stop Indexing"/>
                   </Properties>
