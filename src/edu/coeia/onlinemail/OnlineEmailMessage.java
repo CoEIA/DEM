@@ -25,9 +25,9 @@ public final class OnlineEmailMessage {
      */
     public static OnlineEmailMessage newInstance(int id, String from, 
             List<String> bcc, List<String> cc, String subject, String body,
-            String sent, String receive, List<String> path) {
+            String sent, String receive, List<String> path,String FolderName) {
 
-        return new OnlineEmailMessage(id, from, bcc, cc, subject, body, sent, receive, path);
+        return new OnlineEmailMessage(id, from, bcc, cc, subject, body, sent, receive, path,FolderName);
     }
 
     /**
@@ -35,7 +35,7 @@ public final class OnlineEmailMessage {
      */
     private OnlineEmailMessage(int id, String from, 
             List<String> bcc, List<String> cc,
-            String subject, String body, String sent, String receive, List<String> path) {
+            String subject, String body, String sent, String receive, List<String> path,String FolderName) {
         
         this.id = id;
         this.from = from;
@@ -46,6 +46,7 @@ public final class OnlineEmailMessage {
         this.sentDate = sent;
         this.receiveDate = receive;
         this.attachments = path;
+        this.FolderName  = FolderName;
     }
 
     /**
@@ -82,6 +83,9 @@ public final class OnlineEmailMessage {
     public String getReceiveDate() {
         return this.receiveDate;
     }
+    public String getFolderName(){
+        return this.FolderName;
+    }
 
     public List<String> getCC() {
         return Collections.unmodifiableList(this.cc);
@@ -102,5 +106,5 @@ public final class OnlineEmailMessage {
     private final List<String> cc;
     private final List<String> bcc;
     private final List<String> attachments;
-    private final String sentDate, receiveDate;
+    private final String sentDate, receiveDate,FolderName;
 }

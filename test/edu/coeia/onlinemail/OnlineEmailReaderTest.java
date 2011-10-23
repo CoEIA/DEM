@@ -21,7 +21,7 @@ import org.junit.Ignore;
     public class OnlineEmailReaderTest {
 
      @Test
-     @Ignore
+     
     public void getFormattedStringTest () throws SQLException  {
      OnlineEmailReader reader = OnlineEmailReader.newInstance("xgameprogrammer@gmail.com", "windows98","C:\\Attachments","C:\\SECURE_DB");
 

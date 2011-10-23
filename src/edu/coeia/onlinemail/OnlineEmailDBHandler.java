@@ -1,5 +1,9 @@
 package edu.coeia.onlinemail;
 
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.util.List;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.DriverManager;
@@ -15,7 +19,7 @@ import static edu.coeia.util.PreconditionsChecker.* ;
  * @version 1.0
  */
 
-final class OnlineEmailDBHandler {
+public class OnlineEmailDBHandler {
 
     public OnlineEmailDBHandler(boolean nDB, String databasePath)
             throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
@@ -23,9 +27,9 @@ final class OnlineEmailDBHandler {
         databasePath = checkNull("database path must be not null", databasePath);
         
         DB_URL = databasePath;
-
+        DB_NAME += DB_URL;
         if (nDB) {
-            DB_NAME += DB_URL;
+           
             DB_NAME += ";create=true";
         }
 
@@ -36,11 +40,46 @@ final class OnlineEmailDBHandler {
         }
     }
 
-    public void inserteEmail(int id, String From, String Subject, String Body,
-            String Created_Date, String Sent_Date, String CC, String BCC, String Path)
-            throws SQLException {
+     public  List<OnlineEmailMessage> getAllMessages() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+     
+        
+        String select = "SELECT * FROM emails ";
+        Statement statement = getConnection().createStatement();
+        ResultSet resultSet = statement.executeQuery(select);
+        List<OnlineEmailMessage> mEmails = new ArrayList<OnlineEmailMessage>();
+        OnlineEmailMessage message = null;
 
-        String s = "insert into emails values(?,?,?,?,?,?,?,?,?)";
+        while (resultSet.next()) {
+
+            String paths = resultSet.getString("PATH");
+            String[] arrPaths = paths.split(",");
+            List<String> listPaths = Arrays.asList(arrPaths);
+
+            String bcc = resultSet.getString("BCC");
+            String[] bccArray = bcc.split(",");
+            List<String> bccList = Arrays.asList(bccArray);
+
+            String cc = resultSet.getString("CC");
+            String[] ccArray = cc.split(",");
+            List<String> ccList = Arrays.asList(ccArray);
+
+            message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"), resultSet.getString("FROM_ADDRESS"), bccList, ccList, resultSet.getString("SUBJECT"),
+                    resultSet.getString("BODY_MESSAGE"), resultSet.getString("SENT_DATE"), resultSet.getString("CREATED_DATE"), listPaths,resultSet.getString("Folder_Name"));
+
+            mEmails.add(message);
+        }
+        resultSet.close();
+        statement.close();
+
+        return mEmails;
+
+    }
+
+    public void inserteEmail(int id,String From, String Subject, String Body,
+            String Created_Date, String Sent_Date, String CC, String BCC, String Path, String FolderName)
+            throws SQLException {
+        
+        String s = "insert into emails values(?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement psInsert = connection.prepareStatement(s);
         psInsert.setInt(1, id);
         psInsert.setString(2, From);
@@ -51,6 +90,7 @@ final class OnlineEmailDBHandler {
         psInsert.setString(7, CC);
         psInsert.setString(8, BCC);
         psInsert.setString(9, Path);
+        psInsert.setString(10, FolderName);
 
         psInsert.executeUpdate();
         psInsert.close();
@@ -61,7 +101,7 @@ final class OnlineEmailDBHandler {
         DriverManager.getConnection("jdbc:derby:;shutdown=true");
     }
 
-    private void connectDB() throws ClassNotFoundException, InstantiationException,
+    public  void connectDB() throws ClassNotFoundException, InstantiationException,
             SQLException, IllegalAccessException {
         Class.forName(DB_DRIVER).newInstance();
         connection = DriverManager.getConnection(DB_NAME, DB_USER, DB_PASS);
@@ -69,6 +109,9 @@ final class OnlineEmailDBHandler {
 
     private void makeDBStructure() throws SQLException {
         Statement statement_ = connection.createStatement();
+
+      
+
         String emailTables =
                 "CREATE TABLE emails ("
                 + "EMAILID DECIMAL(20) NOT NULL, "
@@ -77,10 +120,12 @@ final class OnlineEmailDBHandler {
                 + "BODY_MESSAGE VARCHAR(32000),"
                 + "CREATED_DATE VARCHAR(100),"
                 + "SENT_DATE VARCHAR(100),"
-                + "CC VARCHAR(1000),"
-                + "BCC VARCHAR(1000),"
-                + "PATH VARCHAR(2000)"
+                + "CC VARCHAR(5000),"
+                + "BCC VARCHAR(5000),"
+                + "PATH VARCHAR(5000),"
+                + "FOLDER_NAME VARCHAR(400)"
                 + ")";
+
 
         statement_.execute(emailTables);
         statement_.close();
@@ -98,10 +143,16 @@ final class OnlineEmailDBHandler {
 
         return isDB;
     }
+    
+    public Connection getConnection()
+    {
+        
+        return connection;
+    }
     private static String DB_URL;
-    private String DB_NAME = "jdbc:derby:";
-    private final String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
-    private final String DB_USER = "";
-    private final String DB_PASS = "";
-    public static Connection connection;
+    private static String DB_NAME = "jdbc:derby:";
+    private static String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
+    private static String DB_USER = "";
+    private static String DB_PASS = "";
+    private  Connection connection;
 }

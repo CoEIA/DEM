@@ -5,6 +5,7 @@ import static edu.coeia.util.PreconditionsChecker.* ;
 
 import java.io.IOException;
 
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -146,7 +147,7 @@ public final class OnlineEmailReader {
     }
 
     private void ListAllFolders() throws MessagingException {
-        folder = store.getDefaultFolder().list("*");
+       Folder[] folder = store.getDefaultFolder().list("*");
         for (Folder fd : folder) {
             if ((fd.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
                 System.out.println(fd.getFullName() + ": " + fd.getMessageCount());
@@ -154,40 +155,6 @@ public final class OnlineEmailReader {
         }
     }
 
-    public static List<OnlineEmailMessage> getAllMessages() throws SQLException {
-        String select = "SELECT * FROM emails ";
-        Statement statement = OnlineEmailDBHandler.connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(select);
-        
-        List<OnlineEmailMessage> mEmails = new ArrayList<OnlineEmailMessage>();
-        
-        OnlineEmailMessage message = null;
-
-        while (resultSet.next()) {
-
-            String paths = resultSet.getString("PATH");
-            String[] arrPaths = paths.split(",");
-            List<String> listPaths = Arrays.asList(arrPaths);
-
-            String bcc = resultSet.getString("BCC");
-            String[] bccArray = bcc.split(",");
-            List<String> bccList = Arrays.asList(bccArray);
-
-            String cc = resultSet.getString("CC");
-            String[] ccArray = bcc.split(",");
-            List<String> ccList = Arrays.asList(ccArray);
-
-            message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"), resultSet.getString("FROM_ADDRESS"), bccList, ccList, resultSet.getString("SUBJECT"),
-                    resultSet.getString("BODY_MESSAGE"), resultSet.getString("SENT_DATE"), resultSet.getString("CREATED_DATE"), listPaths);
-
-            mEmails.add(message);
-        }
-        
-        resultSet.close();
-        statement.close();
-
-        return mEmails;
-    }
 
     public void readMessages() throws NoSuchProviderException, MessagingException, IOException, SQLException {
 
@@ -202,11 +169,17 @@ public final class OnlineEmailReader {
                 folder.open(Folder.READ_WRITE);
 
             }
-
+            else if ( javax.mail.Folder.HOLDS_FOLDERS !=0)
+            {
+                
+                continue;
+            }
+                
             Message[] messages = folder.getMessages();
 
             for (Message message : messages) {
 
+          
                 // Get cc
                 List<String> cclist = getAddress(message, Message.RecipientType.BCC);
                 String ccBuilder = getFormattedString(cclist);
@@ -243,7 +216,7 @@ public final class OnlineEmailReader {
                 String pathBuilder = getFormattedString(Paths);
 
                 // Save Message in DB 
-                db.inserteEmail(messageId, from, subject, body, sentDate.toString(), receiveDate.toString(), ccBuilder, bccBuilder, pathBuilder.toString());
+                db.inserteEmail(messageId, from, subject, body, sentDate.toString(), receiveDate.toString(), ccBuilder, bccBuilder, pathBuilder.toString(),folder.getFullName());
 
             }
         }
@@ -307,7 +280,11 @@ public final class OnlineEmailReader {
             String decoded = MimeUtility.decodeText(bodyPart.getFileName());
 
             String filename = Normalizer.normalize(decoded, Normalizer.Form.NFC);
-
+            InputStream is = bodyPart.getInputStream();
+            
+            if (is == null)
+                continue;
+            
             System.out.println("file name" + filename);
             FileUtil.saveObject(bodyPart.getInputStream(), filename, attachmentsPath);
 
@@ -332,24 +309,27 @@ public final class OnlineEmailReader {
 
     private String getMessageContent(Message message) throws IOException, MessagingException {
         Object content = message.getContent();
-
-        if (content instanceof Multipart) {
-//            StringBuilder messageContent = new StringBuilder();
-//            Multipart multipart = (Multipart) content;
-//
-//            for (int i = 0; i < multipart.getCount(); i++) {
-//                Part part = (Part) multipart.getBodyPart(i);
-//
-//                messageContent.append(part.getContent().toString());
-
-
-
-
-            return " ";
-
-        } else {
+         StringBuilder messageContent = new StringBuilder();
+        if (content instanceof String) 
+        {
             return content.toString();
         }
+        else if (content instanceof Multipart)
+        {
+          
+            Multipart multipart = (Multipart) content;
+
+            for (int i = 0; i < multipart.getCount(); i++) {
+                Part part = (Part) multipart.getBodyPart(i);
+
+             messageContent.append(part.getContent().toString());
+
+            return "";
+ 
+        
+          }
+        }
+    return messageContent.toString();
     }
     
     
@@ -357,10 +337,9 @@ public final class OnlineEmailReader {
     private final String password;
     private static final String PROTOCOL = "imap.gmail.com";
     private Store store;
-    private Folder[] folder;
     private List<OnlineEmailMessage> messageList = new ArrayList<OnlineEmailMessage>();
     private List<String> attachments;
     private String attachmentsPath;
-    private String dbPath;
+    private static String dbPath;
     private OnlineEmailDBHandler db;
 }

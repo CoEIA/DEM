@@ -51,4 +51,17 @@ public class IndexingConstant {
     /**
      * constants for email
      */
+    
+    public static final String OnlineEmail_FolderName = "folder_name";
+    public static final String OnlineEmail_From = "from";
+    public static final String OnlineEmail_To = "to";
+    public static final String OnlineEmail_Subject = "subject";
+    public static final String OnlineEmail_Body = "body";
+    public static final String OnlineEmail_CC  = "cc";
+    public static final String OnlineEmail_BCC = "bcc";
+    public static final String OnlineEmail_ReceivedDate = "received_date";
+    public static final String OnlineEmail_SentDate = "sent_date";
+    public static final String OnlineEmail_AttachmentsPath = "attachments_path";
+    public static final String OnlineEmail_Id = "message_id";
+    
 }

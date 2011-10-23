@@ -30,7 +30,7 @@ import org.apache.tika.exception.TikaException;
 public class LuceneIndexer {
 
     private static IndexWriter writer ;
-    private static Case caseObject; 
+    public static Case caseObject; 
     
     /*
      * Static Factory Method 
