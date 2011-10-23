@@ -50,7 +50,8 @@ public class EmailIndexerTest {
                 Version.LUCENE_21),
                 true,
                 IndexWriter.MaxFieldLength.UNLIMITED);
-        EmailIndexer ei = new EmailIndexer(writer_, new File("C:\\Secure_DB"), null, true, null, null);
+      
+            EmailIndexer ei = new EmailIndexer(writer_, new File("C:\\Secure_DB"), null, true, null, null);
         
         ei.doIndexing();
        
