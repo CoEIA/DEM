@@ -3,10 +3,6 @@ package edu.coeia.cases;
 /* import internal classes */
 import edu.coeia.util.FilesPath ;
 import edu.coeia.util.Utilities;
-import edu.coeia.cases.LicenseManager;
-import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
-import edu.coeia.cases.CaseWizardDialog;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.main.SmartCardDialog;
 
@@ -206,7 +202,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     jToolBar1.setFloatable(false);
     jToolBar1.setRollover(true);
 
-    jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+    jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24));
     jLabel2.setForeground(new java.awt.Color(153, 153, 153));
     jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/caseManager.jpg"))); // NOI18N
     jToolBar1.add(jLabel2);
