@@ -935,8 +935,8 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         indexFooterPanel.setMaximumSize(new java.awt.Dimension(608, 63));
         indexFooterPanel.setPreferredSize(new java.awt.Dimension(608, 63));
 
-        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        finishButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/finish.png"))); // NOI18N
+        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        finishButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/finish.png"))); // NOI18N
         finishButton.setText("Finish");
         finishButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -944,8 +944,8 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             }
         });
 
-        backButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/back.png"))); // NOI18N
+        backButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/back.png"))); // NOI18N
         backButton.setText("Back");
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -953,8 +953,8 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             }
         });
 
-        nextButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/next.png"))); // NOI18N
+        nextButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/next.png"))); // NOI18N
         nextButton.setText("Next");
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -962,8 +962,8 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             }
         });
 
-        cancelButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/cancel.png"))); // NOI18N
+        cancelButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1008,9 +1008,9 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         indexHeaderPanel.setMaximumSize(new java.awt.Dimension(628, 76));
         indexHeaderPanel.setPreferredSize(new java.awt.Dimension(628, 76));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24));
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/2 copy.jpg"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/2 copy.jpg"))); // NOI18N
         jLabel5.setText(" ");
 
         javax.swing.GroupLayout indexHeaderPanelLayout = new javax.swing.GroupLayout(indexHeaderPanel);
@@ -1050,7 +1050,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 

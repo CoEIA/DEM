@@ -68,8 +68,8 @@ public class VisualizationPanel extends javax.swing.JPanel {
 
         indexVisualizationButtonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Visualization", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        indexVisulizingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        indexVisulizingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/gui/resources/chart_pie.png"))); // NOI18N
+        indexVisulizingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        indexVisulizingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/chart_pie.png"))); // NOI18N
         indexVisulizingButton.setText("Index Visualization");
         indexVisulizingButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

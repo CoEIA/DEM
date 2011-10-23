@@ -103,7 +103,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Digital Evidence Miner: Case Manager");
-        setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/edu/coeia/main/resources/dem-icon.png")));
         setResizable(false);
 
         caseManagerDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Recent Cases Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -207,7 +206,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     jToolBar1.setFloatable(false);
     jToolBar1.setRollover(true);
 
-    jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24));
+    jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
     jLabel2.setForeground(new java.awt.Color(153, 153, 153));
     jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/caseManager.jpg"))); // NOI18N
     jToolBar1.add(jLabel2);
