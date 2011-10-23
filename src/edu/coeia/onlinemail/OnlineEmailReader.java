@@ -155,39 +155,7 @@ public final class OnlineEmailReader {
         }
     }
 
-    public static List<OnlineEmailMessage> getAllMessages() throws SQLException {
-        String select = "SELECT * FROM emails ";
-        Statement statement = OnlineEmailDBHandler.connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(select);
-        List<OnlineEmailMessage> mEmails = new ArrayList<OnlineEmailMessage>();
-        OnlineEmailMessage message = null;
-
-        while (resultSet.next()) {
-
-            String paths = resultSet.getString("PATH");
-            String[] arrPaths = paths.split(",");
-            List<String> listPaths = Arrays.asList(arrPaths);
-
-            String bcc = resultSet.getString("BCC");
-            String[] bccArray = bcc.split(",");
-            List<String> bccList = Arrays.asList(bccArray);
-
-            String cc = resultSet.getString("CC");
-            String[] ccArray = cc.split(",");
-            List<String> ccList = Arrays.asList(ccArray);
-
-            message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"), resultSet.getString("FROM_ADDRESS"), bccList, ccList, resultSet.getString("SUBJECT"),
-                    resultSet.getString("BODY_MESSAGE"), resultSet.getString("SENT_DATE"), resultSet.getString("CREATED_DATE"), listPaths,resultSet.getString("Folder_Name"));
-
-            mEmails.add(message);
-        }
-        resultSet.close();
-        statement.close();
-
-        return mEmails;
-
-    }
-
+   
     public void readMessages() throws NoSuchProviderException, MessagingException, IOException, SQLException {
 
         int count = 0;
@@ -372,6 +340,6 @@ public final class OnlineEmailReader {
     private List<OnlineEmailMessage> messageList = new ArrayList<OnlineEmailMessage>();
     private List<String> attachments;
     private String attachmentsPath;
-    private String dbPath;
+    private static String dbPath;
     private OnlineEmailDBHandler db;
 }

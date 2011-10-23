@@ -83,6 +83,9 @@ public final class OnlineEmailMessage {
     public String getReceiveDate() {
         return this.receiveDate;
     }
+    public String getFolderName(){
+        return this.FolderName;
+    }
 
     public List<String> getCC() {
         return Collections.unmodifiableList(this.cc);

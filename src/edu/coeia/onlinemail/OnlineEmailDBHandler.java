@@ -1,5 +1,9 @@
 package edu.coeia.onlinemail;
 
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.util.List;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.DriverManager;
@@ -15,7 +19,7 @@ import static edu.coeia.util.PreconditionsChecker.* ;
  * @version 1.0
  */
 
-final class OnlineEmailDBHandler {
+public class OnlineEmailDBHandler {
 
     public OnlineEmailDBHandler(boolean nDB, String databasePath)
             throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
@@ -36,10 +40,45 @@ final class OnlineEmailDBHandler {
         }
     }
 
+     public  List<OnlineEmailMessage> getAllMessages() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+     
+        
+        String select = "SELECT * FROM emails ";
+        Statement statement = getConnection().createStatement();
+        ResultSet resultSet = statement.executeQuery(select);
+        List<OnlineEmailMessage> mEmails = new ArrayList<OnlineEmailMessage>();
+        OnlineEmailMessage message = null;
+
+        while (resultSet.next()) {
+
+            String paths = resultSet.getString("PATH");
+            String[] arrPaths = paths.split(",");
+            List<String> listPaths = Arrays.asList(arrPaths);
+
+            String bcc = resultSet.getString("BCC");
+            String[] bccArray = bcc.split(",");
+            List<String> bccList = Arrays.asList(bccArray);
+
+            String cc = resultSet.getString("CC");
+            String[] ccArray = cc.split(",");
+            List<String> ccList = Arrays.asList(ccArray);
+
+            message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"), resultSet.getString("FROM_ADDRESS"), bccList, ccList, resultSet.getString("SUBJECT"),
+                    resultSet.getString("BODY_MESSAGE"), resultSet.getString("SENT_DATE"), resultSet.getString("CREATED_DATE"), listPaths,resultSet.getString("Folder_Name"));
+
+            mEmails.add(message);
+        }
+        resultSet.close();
+        statement.close();
+
+        return mEmails;
+
+    }
+
     public void inserteEmail(int id,String From, String Subject, String Body,
             String Created_Date, String Sent_Date, String CC, String BCC, String Path, String FolderName)
             throws SQLException {
-
+        
         String s = "insert into emails values(?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement psInsert = connection.prepareStatement(s);
         psInsert.setInt(1, id);
@@ -62,7 +101,7 @@ final class OnlineEmailDBHandler {
         DriverManager.getConnection("jdbc:derby:;shutdown=true");
     }
 
-    private void connectDB() throws ClassNotFoundException, InstantiationException,
+    public  void connectDB() throws ClassNotFoundException, InstantiationException,
             SQLException, IllegalAccessException {
         Class.forName(DB_DRIVER).newInstance();
         connection = DriverManager.getConnection(DB_NAME, DB_USER, DB_PASS);
@@ -104,10 +143,16 @@ final class OnlineEmailDBHandler {
 
         return isDB;
     }
+    
+    public Connection getConnection()
+    {
+        
+        return connection;
+    }
     private static String DB_URL;
-    private String DB_NAME = "jdbc:derby:";
-    private final String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
-    private final String DB_USER = "";
-    private final String DB_PASS = "";
-    public static Connection connection;
+    private static String DB_NAME = "jdbc:derby:";
+    private static String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
+    private static String DB_USER = "";
+    private static String DB_PASS = "";
+    private  Connection connection;
 }
