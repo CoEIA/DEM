@@ -28,21 +28,24 @@ import java.util.ArrayList ;
 import java.util.List ;
 
 import edu.coeia.clustering.ClusteringData ;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Fieldable;
 
 class ProgressSearchData {
     private String path;
     private int count ;
     private int numberOfPatterns ;
+    private Document document ;
     
-    public ProgressSearchData (int c, String p, String type, int numberOfPatterns) {
+    public ProgressSearchData (int c, Document doc) {
         count = c ;
-        path = p ;
-        this.numberOfPatterns = numberOfPatterns ;
+        this.document = doc;
     }
 
     public String getPath ()    { return path   ; }
     public int getCount ()      { return count  ; }
     public int getNumberOfPatterns () { return numberOfPatterns ; }
+    public Document getDocument () { return this.document ; }
 }
 
 class SearcherThread extends SwingWorker<String,ProgressSearchData> {
@@ -87,13 +90,13 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
 
     private void fillTable () throws Exception {
         for (int i=0 ; i<count ; i++) {
-            String file = searcher.getHits(i);
+            Document document = searcher.getDocHits(i);
             
             //if ( Utilities.isExtentionAllowed(extensionsAllowed, Utilities.getExtension(file))) {
-                publish(new ProgressSearchData(i, file , Utilities.getExtension(file), 0));
+                publish(new ProgressSearchData(i, document));
 
-                if ( file != null )
-                    filePath.add(file);
+//                if ( document != null )
+//                    filePath.add(file);
             //}
         }
     }
@@ -101,14 +104,20 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     @Override
     protected void process(java.util.List<ProgressSearchData> chunks) {
         for (ProgressSearchData pd : chunks) {
-            File file = new File(pd.getPath());
             
-            String filename = file.getName();
+            String fileId = pd.getDocument().get(IndexingConstant.FILE_ID);
+            String fileDate = pd.getDocument().get(IndexingConstant.FILE_DATE);
+            String fileTitle = pd.getDocument().get(IndexingConstant.FILE_TITLE);
+            String fileName = pd.getDocument().get(IndexingConstant.FILE_NAME);
+            
+            File file = new File(fileName);
+            //String filename = file.getName();
             int size = (int) file.length();
+            
             Date date = new Date(file.lastModified());
             
             ((DefaultTableModel)searchGUI.table.getModel()).addRow(new Object[] {
-                0, filename, file.getAbsolutePath(), Utilities.formatDateTime(date), size, 0
+                fileId, fileName, fileTitle, Utilities.formatDateTime(date), size, 0
             });
         }
 

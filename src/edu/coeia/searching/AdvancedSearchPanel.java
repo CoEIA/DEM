@@ -34,6 +34,9 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
+import edu.coeia.indexing.IndexingConstant;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Fieldable;
 import org.apache.tika.Tika;
 
 /**
@@ -44,7 +47,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
     private JWebBrowser fileBrowser = new JWebBrowser();
     
-    private Case index;
+    private Case caseObj;
     private JFrame parentFrame ;
     private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
     
@@ -52,7 +55,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     public AdvancedSearchPanel(Case aIndex, JFrame aParentFrame) {
         initComponents();
         
-        this.index = aIndex;
+        this.caseObj = aIndex;
         this.parentFrame = aParentFrame;
         
         // add file browser
@@ -423,6 +426,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         jTabbedPane2.addTab("Text Content", fileRenderPanel);
 
         metaDataTextArea.setColumns(20);
+        metaDataTextArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         metaDataTextArea.setRows(5);
         jScrollPane28.setViewportView(metaDataTextArea);
 
@@ -522,7 +526,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_clusterTypeTreeValueChanged
 
     private void startSearchingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSearchingButtonActionPerformed
-        startSearching(index.getExtensionAllowed());
+        startSearching(caseObj.getExtensionAllowed());
     }//GEN-LAST:event_startSearchingButtonActionPerformed
 
     private void clearLabelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearLabelButtonMouseClicked
@@ -562,9 +566,9 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
             // other click event
             int row = searchTable.getSelectedRow();
-            String filePath = (String) searchTable.getValueAt(row, 2);
+            String fileId = String.valueOf(searchTable.getValueAt(row, 0));
 
-            showInformation(filePath);
+            showInformationByID(fileId);
         }
         catch (Exception e ){
             logger.log(Level.SEVERE, "Uncaught exception", e);
@@ -572,7 +576,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }
     
     private void showAdvancedSearch() {
-        AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true, index.getExtensionAllowed());
+        AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true, caseObj.getExtensionAllowed());
         asd.setVisible(true);
 
         String query = asd.getQuery() ;
@@ -615,6 +619,41 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
        }
        catch (Exception e ){
        }
+    }
+    
+    private void showInformationByID (String fileId) {
+        System.out.println("fileId: " + fileId);
+        
+        try {
+            File indexPath = new File(caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+            LuceneSearcher searcher = new LuceneSearcher(indexPath);
+            Document document = searcher.searchById(fileId);
+            
+            String content = document.get(IndexingConstant.FILE_CONTENT);
+            
+            List<Fieldable> fields = document.getFields();
+            StringBuilder metadataBuilder = new StringBuilder();
+            
+            for (Fieldable field: fields) {
+                if ( ! field.name().startsWith("file_")) // files in IndexingConstant start with prefix file_
+                    metadataBuilder.append(field.name()).append(" : " ).append(field.stringValue()).append("\n");
+            }
+            
+            String metadata = metadataBuilder.toString();
+            String keyword = queryTextField.getText().trim().toLowerCase();
+            
+            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+            String rep = content.replace(keyword, highlither);
+            fileBrowser.setHTMLContent(rep);
+
+            // show matadata information for file
+            metaDataTextArea.setText(metadata);
+
+            fileRenderPanel.validate();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
     
     private void showInformation (String filePath) throws Exception {
@@ -686,13 +725,13 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private void startSearching (List<String> supportedExtension) {
         removeSearchField(false,false);
 
-        if ( index.getIndexStatus() == false ) {
+        if ( caseObj.getIndexStatus() == false ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
             return ;
         }
 
-        File indexLocation = new File (index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+        File indexLocation = new File (caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
         String queryString = queryTextField.getText().trim();
 
         if ( queryString.isEmpty() ) {
@@ -727,7 +766,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }
     
     private void disableNotIndexedComponent () {
-        if ( index.getDocumentInIndex().isEmpty() ) {
+        if ( caseObj.getDocumentInIndex().isEmpty() ) {
             startSearchingButton.setEnabled(false);
 //            clearFieldsButton.setEnabled(false);
 //            keywordsListButton.setEnabled(false);

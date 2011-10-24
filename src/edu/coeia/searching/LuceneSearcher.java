@@ -33,6 +33,9 @@ import org.apache.lucene.document.Document ;
 import org.apache.lucene.util.Version ;
 import org.apache.lucene.queryParser.QueryParser ;
 
+import org.apache.lucene.index.Term ;
+import org.apache.lucene.search.TermQuery;
+
 class LuceneSearcher {
 
     protected Directory fsDir ;
@@ -70,6 +73,14 @@ class LuceneSearcher {
 //            Document doc = searcher.doc(hit.doc);
 //            System.out.println("PATH: " + doc.get("path"));
 //        }
+    }
+    
+    public Document searchById (String fileId) throws Exception{
+        Term term = new Term(IndexingConstant.FILE_ID, fileId);
+        Query query = new TermQuery(term);
+        results = searcher.search(query, 10);
+        
+        return getDocHits(0);
     }
 
     public String getHits (int index) throws Exception  {
