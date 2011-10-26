@@ -15,9 +15,6 @@ import java.io.File ;
 import java.io.FileNotFoundException ;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.BufferedReader ;
-import java.io.InputStreamReader ;
-import java.io.IOException ;
 
 import javax.swing.JLabel;
 import javax.swing.JViewport ;
@@ -70,20 +67,6 @@ public class Utilities {
         return (result);
     }
 
-   // Execute program and read the output stream
-    public static ArrayList<String> readProgramOutputStream (String path) throws IOException {
-	Process process = Runtime.getRuntime().exec(path);
-	BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()) );
-
-	String line = null ;
-	ArrayList<String> result = new ArrayList<String>();
-	while ( (line = input.readLine() ) != null ) {
-            result.add( line );
-	}
-
-	input.close();
-	return ( result );
-    }
 
     public static String filterLine (String line) {
         StringBuilder result = new StringBuilder() ;

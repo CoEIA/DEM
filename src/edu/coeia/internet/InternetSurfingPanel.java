@@ -9,12 +9,10 @@ package edu.coeia.internet;
 
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.GuiUtil;
-import edu.coeia.internet.IEHandler;
-import edu.coeia.internet.MozillaHandler;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.email.CorrelationDialog;
-import edu.coeia.internet.InternetSummaryDate ;
+import edu.coeia.util.FileUtil;
 
 import java.awt.Desktop ;
 import java.awt.event.ActionEvent;
@@ -36,6 +34,7 @@ import javax.swing.event.DocumentListener ;
 import java.io.File ;
 import java.io.IOException ;
 
+import java.util.List;
 import java.util.ArrayList ;
 import java.util.HashMap ;
 import java.util.Date ;
@@ -43,6 +42,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 import java.sql.SQLException ;
+
 import java.net.URISyntaxException ;
 
 /*
@@ -2124,7 +2124,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
     }
 
     public void fillIECacheTable (String path) throws IOException {
-        ArrayList<String> rows = Utilities.readProgramOutputStream(path);
+        List<String> rows = FileUtil.readProgramOutputStream(path);
 
          // remove old data
         if ( IECacheTable.getModel().getRowCount() > 0 )
@@ -2142,7 +2142,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
     }
 
     public void fillIECookiesTable (String path) throws IOException {
-        ArrayList<String> rows = Utilities.readProgramOutputStream(path);
+        List<String> rows = FileUtil.readProgramOutputStream(path);
 
         for (int i=0 ; i<rows.size() ; i++) {
             if ( rows.get(i).isEmpty() || rows.get(i).length() <= 1 )

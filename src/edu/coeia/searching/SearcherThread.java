@@ -11,25 +11,16 @@ package edu.coeia.searching;
  */
 
 import edu.coeia.util.Utilities;
-import edu.coeia.gutil.GUIComponent;
-import edu.coeia.util.Tuple;
 import edu.coeia.indexing.IndexingConstant ;
 
 import javax.swing.SwingWorker ;
 import javax.swing.table.DefaultTableModel ;
-import javax.swing.tree.DefaultMutableTreeNode ;
-import javax.swing.tree.DefaultTreeModel ;
-import javax.swing.JTree;
 
 import java.io.File ;
 
 import java.util.Date ;
-import java.util.ArrayList ;
-import java.util.List ;
 
-import edu.coeia.clustering.ClusteringData ;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Fieldable;
 
 class ProgressSearchData {
     private String path;

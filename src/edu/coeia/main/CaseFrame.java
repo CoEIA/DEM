@@ -11,9 +11,10 @@ import edu.coeia.email.EmailPanel;
 import edu.coeia.indexing.IndexingDialog;
 import edu.coeia.image.ImagesViewerPanel;
 import edu.coeia.internet.InternetSurfingPanel;
-
 import edu.coeia.searching.CaseSearchPanel;
+import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
+
 import java.awt.Toolkit ;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -23,7 +24,6 @@ import javax.swing.JOptionPane;
 import java.io.IOException ;
 
 import java.util.List; 
-import java.util.ArrayList ;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -384,7 +384,7 @@ public class CaseFrame extends javax.swing.JFrame {
 
     private void windowsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_windowsMenuItemActionPerformed
         try {
-            ArrayList<String> data = Utilities.readProgramOutputStream("systeminfo.exe");
+            List<String> data = FileUtil.readProgramOutputStream("systeminfo.exe");
 
             WindowsInfoDialog wid = new WindowsInfoDialog(CaseFrame.this, true, data);
             wid.setVisible(true);

@@ -21,14 +21,14 @@ import edu.coeia.util.Utilities ;
 
 import javax.swing.table.DefaultTableModel;
 
-import java.util.ArrayList ;
+import java.util.List ;
 
 public class WindowsInfoDialog extends javax.swing.JDialog {
 
-    private ArrayList<String> data ;
+    private List<String> data ;
 
     /** Creates new form WindowsInfoDialog */
-    public WindowsInfoDialog(java.awt.Frame parent, boolean modal, ArrayList<String> data) {
+    public WindowsInfoDialog(java.awt.Frame parent, boolean modal, List<String> data) {
         super(parent, modal);
         initComponents();
 

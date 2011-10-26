@@ -53,7 +53,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jSeparator1" pref="1" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="indexFooterPanel" min="-2" max="-2" attributes="0"/>
+              <Component id="indexFooterPanel" min="-2" pref="63" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>

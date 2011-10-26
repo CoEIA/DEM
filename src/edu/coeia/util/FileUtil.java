@@ -9,14 +9,19 @@ package edu.coeia.util;
  * @author wajdyessam
  */
 
+import static edu.coeia.util.PreconditionsChecker.checkNull; 
+import static edu.coeia.util.PreconditionsChecker.checkNotEmptyString;
+
 import java.io.File ;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.BufferedReader ;
+import java.io.InputStreamReader ;
 
-import static edu.coeia.util.PreconditionsChecker.checkNull; 
-import static edu.coeia.util.PreconditionsChecker.checkNotEmptyString;
+import java.util.List ;
+import java.util.ArrayList; 
 
 /*
  * Noninstantiable utility class
@@ -63,7 +68,7 @@ public class FileUtil {
      * @throws NullPointerException if the stream, filename and destination contain null data
      */
     public static void saveObject(InputStream stream, String filename, String destination) {
-          filename = checkNull("filename can't be null", filename);
+        filename = checkNull("filename can't be null", filename);
         destination = checkNull("destination string can't be null", destination);
         
         filename = checkNotEmptyString("filename must have value", filename);
@@ -87,5 +92,29 @@ public class FileUtil {
         }
         catch (IOException e) {
         }
+    }
+    
+    /**
+     * execute command line utility and read the output stream from it
+     * @param path is the path for command line utility
+     * @return the result of output stream as list of string
+     * @throws IOException if the utility is not found
+     * @throws NullPointerException if the path contain null data or empty string
+     */
+    public static List<String> readProgramOutputStream (String path) throws IOException {
+        path = checkNull("path can't be null", path);
+        path = checkNotEmptyString("path must have a value", path);
+        
+	Process process = Runtime.getRuntime().exec(path);
+	BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()) );
+
+	String line = null ;
+	List<String> result = new ArrayList<String>();
+	while ( (line = input.readLine() ) != null ) {
+            result.add( line );
+	}
+
+	input.close();
+	return ( result );
     }
 }

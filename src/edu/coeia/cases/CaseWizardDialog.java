@@ -1331,7 +1331,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
                     MSNParser msnParser = new MSNParser(regPath);
                     msnParser.parse();
 
-                    HashMap<String, String> mapOfPath = msnParser.getAllUserLoggingPath();
+                    Map<String, String> mapOfPath = msnParser.getAllUserLoggingPath();
                     for (Map.Entry<String, String> map : mapOfPath.entrySet()) {
                         String path = map.getValue();
 

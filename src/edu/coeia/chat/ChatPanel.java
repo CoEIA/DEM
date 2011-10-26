@@ -484,8 +484,8 @@ private void loadSkypeButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
             msnParser = new MSNParser(path);
             msnParser.parse();
 
-            HashMap<String,String> map = msnParser.getAllUserLoggingPath();
-            ArrayList<String> list = msnParser.getAllUserLoggingToMsn();
+            Map<String,String> map = msnParser.getAllUserLoggingPath();
+            List<String> list = msnParser.getAllUserLoggingToMsn();
 
             DefaultMutableTreeNode historyNode = new DefaultMutableTreeNode("Users Have Histories");
             DefaultMutableTreeNode normalNode  = new DefaultMutableTreeNode("Users Without Histories");

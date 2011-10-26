@@ -9,9 +9,6 @@ package edu.coeia.email;
  * @author wajdyessam
  */
 
-import edu.coeia.email.EmailReader;
-import edu.coeia.email.MessageHeader ;
-
 import com.pff.PSTFile ;
 
 import javax.swing.table.AbstractTableModel ;
