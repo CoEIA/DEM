@@ -9,7 +9,6 @@ import edu.coeia.gutil.GuiUtil ;
 import edu.coeia.chat.ChatPanel;
 import edu.coeia.email.EmailPanel;
 import edu.coeia.indexing.IndexingDialog;
-import edu.coeia.searching.SearchPanel;
 import edu.coeia.image.ImagesViewerPanel;
 import edu.coeia.internet.InternetSurfingPanel;
 
@@ -108,7 +107,6 @@ public class CaseFrame extends javax.swing.JFrame {
         InternetSurfingPanel internetPanel = new InternetSurfingPanel(this.caseObj);
         ChatPanel chatPanel = new ChatPanel(this.caseObj);
         ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.caseObj);
-        //SearchPanel searchPanel = new SearchPanel(this.caseObj);
         CaseSearchPanel searchPanel = new CaseSearchPanel(this.caseObj, this);
         CaseManagerPanel caseManagerPanel = new CaseManagerPanel();
         ReportPanel reportPanel = new ReportPanel();

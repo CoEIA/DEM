@@ -14,7 +14,6 @@ package edu.coeia.searching;
 import edu.coeia.cases.Case;
 
 import edu.coeia.gutil.GuiUtil;
-import edu.coeia.gutil.GUIComponent ;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.util.MetaDataExtraction ;
@@ -106,12 +105,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         jPanel22 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         searchTable = new javax.swing.JTable();
-        jPanel24 = new javax.swing.JPanel();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        clusterPathTree = new javax.swing.JTree();
-        jPanel29 = new javax.swing.JPanel();
-        jScrollPane27 = new javax.swing.JScrollPane();
-        clusterTypeTree = new javax.swing.JTree();
         viewPanel = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         fileRenderPanel = new javax.swing.JPanel();
@@ -374,48 +367,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         jTabbedPane4.addTab("Search Result", jPanel22);
 
-        clusterPathTree.setModel(null);
-        clusterPathTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-                clusterPathTreeValueChanged(evt);
-            }
-        });
-        jScrollPane12.setViewportView(clusterPathTree);
-
-        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
-        jPanel24.setLayout(jPanel24Layout);
-        jPanel24Layout.setHorizontalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
-        );
-        jPanel24Layout.setVerticalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-        );
-
-        jTabbedPane4.addTab("Path Clustering", jPanel24);
-
-        clusterTypeTree.setModel(null);
-        clusterTypeTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-                clusterTypeTreeValueChanged(evt);
-            }
-        });
-        jScrollPane27.setViewportView(clusterTypeTree);
-
-        javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
-        jPanel29.setLayout(jPanel29Layout);
-        jPanel29Layout.setHorizontalGroup(
-            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
-        );
-        jPanel29Layout.setVerticalGroup(
-            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-        );
-
-        jTabbedPane4.addTab("Type Clustering", jPanel29);
-
         javax.swing.GroupLayout resultPanelLayout = new javax.swing.GroupLayout(resultPanel);
         resultPanel.setLayout(resultPanelLayout);
         resultPanelLayout.setHorizontalGroup(
@@ -529,14 +480,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         add(CenterPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void clusterPathTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_clusterPathTreeValueChanged
-        clusterPathTreeAction();
-    }//GEN-LAST:event_clusterPathTreeValueChanged
-
-    private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_clusterTypeTreeValueChanged
-        clusterPathTreeAction();
-    }//GEN-LAST:event_clusterTypeTreeValueChanged
-
     private void startSearchingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSearchingButtonActionPerformed
         startSearching();
     }//GEN-LAST:event_startSearchingButtonActionPerformed
@@ -631,34 +574,34 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         startSearching();
     }
     
-    private void clusterPathTreeAction() {
-        try {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterPathTree.getLastSelectedPathComponent();
-            if ( node == null || node.isRoot() || ! node.isLeaf()) {
-                return ;
-            }
-            
-            String filePath= node.getUserObject().toString();
-            showInformation(filePath);
-       }
-       catch (Exception e ){
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-    }
-    
-    private void clusterTypeTreeAction() {
-        try {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterTypeTree.getLastSelectedPathComponent();
-            if ( node == null || node.isRoot() || ! node.isLeaf()) {
-                return ;
-            }
-
-            String filePath= node.getUserObject().toString();
-            showInformation(filePath);
-       }
-       catch (Exception e ){
-       }
-    }
+//    private void clusterPathTreeAction() {
+//        try {
+//            DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterPathTree.getLastSelectedPathComponent();
+//            if ( node == null || node.isRoot() || ! node.isLeaf()) {
+//                return ;
+//            }
+//            
+//            String filePath= node.getUserObject().toString();
+//            showInformation(filePath);
+//       }
+//       catch (Exception e ){
+//           logger.log(Level.SEVERE, "Uncaught exception", e);
+//       }
+//    }
+//    
+//    private void clusterTypeTreeAction() {
+//        try {
+//            DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterTypeTree.getLastSelectedPathComponent();
+//            if ( node == null || node.isRoot() || ! node.isLeaf()) {
+//                return ;
+//            }
+//
+//            String filePath= node.getUserObject().toString();
+//            showInformation(filePath);
+//       }
+//       catch (Exception e ){
+//       }
+//    }
     
     private void showInformationByID (String fileId) {
         System.out.println("fileId: " + fileId);
@@ -695,57 +638,23 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         }
     }
     
-    private void showInformation (String filePath) throws Exception {
-        File fileName = new File(filePath);
-        
-        String keyword = queryTextField.getText().trim();
-        String extension = Utilities.getExtension(fileName);
-        
-//        searchFileNameLbl.setText(fileName.getName());
-//        searchFileExtensionLbl.setText(extension);
-//        searchFileSizeLbl.setText(fileName.length() + "");
-
-        // set summary panel and file rendered panel depen on file
-//        if (extension.equalsIgnoreCase("txt")) {
-//            String content = Utilities.getFileContent(fileName) ;
-//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-//            String rep = content.replace(keyword, highlither);
-//            fileBrowser.setHTMLContent(rep);
-//        }
-//        else if ( extension.equalsIgnoreCase("pdf") ) {
-//            //fileBrowser.navigate(filePath + "#search= " + keyword + "");
-//            String content = parseFile(fileName);
-//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-//            String rep = content.replace(keyword, highlither);
-//            fileBrowser.setHTMLContent(rep);
-//        }
-//        else if ( extension.equalsIgnoreCase("html") ||
-//                  extension.equalsIgnoreCase("htm") ||
-//                  extension.equalsIgnoreCase("mht") ) {
-//            //fileBrowser.navigate(filePath);
-//            String content = parseFile(fileName);
-//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-//            String rep = content.replace(keyword, highlither);
-//            fileBrowser.setHTMLContent(rep);
-//        }
-//        else if ( extension.equalsIgnoreCase("doc")) {
-//            String content = parseFile(fileName);
-//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-//            String rep = content.replace(keyword, highlither);
-//            fileBrowser.setHTMLContent(rep);
-//        }
-
-        String content = parseFile(fileName);
-        String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-        String rep = content.replace(keyword, highlither);
-        fileBrowser.setHTMLContent(rep);
-            
-        // show matadata information for file
-        String metaData = MetaDataExtraction.getMetaData(filePath);
-        metaDataTextArea.setText(metaData);
-        
-        fileRenderPanel.validate();
-    }
+//    private void showInformation (String filePath) throws Exception {
+//        File fileName = new File(filePath);
+//        
+//        String keyword = queryTextField.getText().trim();
+//        String extension = Utilities.getExtension(fileName);
+//        
+//        String content = parseFile(fileName);
+//        String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+//        String rep = content.replace(keyword, highlither);
+//        fileBrowser.setHTMLContent(rep);
+//            
+//        // show matadata information for file
+//        String metaData = MetaDataExtraction.getMetaData(filePath);
+//        metaDataTextArea.setText(metaData);
+//        
+//        fileRenderPanel.validate();
+//    }
     
     private String parseFile(final File filePath) {
         Tika tika = new Tika();
@@ -823,8 +732,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     JProgressBar getSearchProgressBar () { return this.searchProgressBard ; }
     JTable getSearchTable() { return this.searchTable ; }
     List<String> getSupportedExtension () { return new ArrayList<String>(); }
-    JTree getClusterPathTree() { return this.clusterPathTree ;}
-    JTree getClusterTypeTree() { return this.clusterTypeTree ;}
     
     private void removeSearchField (boolean all, boolean restCheckBox) {
         searchProgressBard.setIndeterminate(false); 
@@ -863,8 +770,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private javax.swing.JCheckBox chatCheckBox;
     private javax.swing.JCheckBox chatContentCheckBox;
     private javax.swing.JLabel clearLabelButton;
-    private javax.swing.JTree clusterPathTree;
-    private javax.swing.JTree clusterTypeTree;
     private javax.swing.JPanel documentView;
     private javax.swing.JCheckBox emailCheckBox;
     private javax.swing.JCheckBox emailContentCheckBox;
@@ -878,11 +783,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel29;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane27;
     private javax.swing.JScrollPane jScrollPane28;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane4;
