@@ -67,8 +67,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     /*
      * Wizard CardLayout - Panels Names
      */
-    private String[] cardsName = {"indexInfoPanel", "indexFileSystemPanel", "indexEmailPanel",
-        "indexBroswerPanel", "indexChatPanel", "indexChatPanel2"};
+    private String[] cardsName = {"indexInfoPanel","CaseWizardA1","CaseWizardA2","CaseWizardA3"};
     private int currentIndex = 0;
     
 
@@ -89,45 +88,9 @@ public class CaseWizardDialog extends javax.swing.JDialog {
 
         // creating model for all lists
         documentModel = new DefaultListModel();
-        pstModel = new DefaultListModel();
-        msnModel = new DefaultListModel();
-        yahooModel = new DefaultListModel();
-        ieModel = new DefaultListModel();
-        ffModel = new DefaultListModel();
-        skypeModel = new DefaultListModel();
+    
 
-        // reset all checkBoxs
-        setEmailComponents(false);
-        setMSNChatComponents(false);
-        setYahooChatComponents(false);
-        setIEComponents(false);
-        setFirefoxComponents(false);
-        setSkypeChatComponents(false);
-
-        // configure filechooser
-        fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-
-        // initializing index location for case
-        caseLocationTextField.setText(PATH);
-
-        // add listener for index name text feild
-        caseNameTextField.getDocument().addDocumentListener(new DocumentListener() {
-
-            public void insertUpdate(DocumentEvent e) {
-                checkforCaseLocationPath();
-            }
-
-            public void removeUpdate(DocumentEvent e) {
-                checkforCaseLocationPath();
-            }
-
-            public void changedUpdate(DocumentEvent e) {
-            }
-        });
-
-        // disable all checkboxes selection by defautl
-        setDocumentExtensionComponents(false);
+       
     }
 
     /** This method is called from within the constructor to
@@ -152,67 +115,41 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         descriptionTextArea = new javax.swing.JTextArea();
-        indexFileSystemPanel = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        documentList = new javax.swing.JList();
-        selectAllDrivesButton = new javax.swing.JButton();
-        addFolderButton = new javax.swing.JButton();
-        addFileButton = new javax.swing.JButton();
-        removeButton = new javax.swing.JButton();
-        clearListButton = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        htmlCheckBox = new javax.swing.JCheckBox();
-        rtfCheckBox = new javax.swing.JCheckBox();
-        docCheckBox = new javax.swing.JCheckBox();
-        pdfCheckBox = new javax.swing.JCheckBox();
-        xmlCheckBox = new javax.swing.JCheckBox();
-        txtCheckBox = new javax.swing.JCheckBox();
-        imagesCheckBox = new javax.swing.JCheckBox();
-        jLabel8 = new javax.swing.JLabel();
-        allRadioButton = new javax.swing.JRadioButton();
-        manualRadioButton = new javax.swing.JRadioButton();
-        indexEmailPanel = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        pstList = new javax.swing.JList();
-        autoDetectPSTButton = new javax.swing.JButton();
-        manulPSTButton = new javax.swing.JButton();
-        removePSTButton = new javax.swing.JButton();
-        clearPSTButton = new javax.swing.JButton();
-        outlookCheckBox = new javax.swing.JCheckBox();
-        indexBroswerPanel = new javax.swing.JPanel();
-        ieCheckBox = new javax.swing.JCheckBox();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        ieList = new javax.swing.JList();
-        autoDetectIEButton = new javax.swing.JButton();
-        removeIEButton = new javax.swing.JButton();
-        clearIEButton = new javax.swing.JButton();
-        ffCheckBox = new javax.swing.JCheckBox();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        ffList = new javax.swing.JList();
-        autoDetectFFButton = new javax.swing.JButton();
-        removeFFButton = new javax.swing.JButton();
-        clearFFButton = new javax.swing.JButton();
-        indexChatPanel = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        msnList = new javax.swing.JList();
-        autoDetectMSNButton = new javax.swing.JButton();
-        removeMSNButton = new javax.swing.JButton();
-        clearMSNButton = new javax.swing.JButton();
-        msnCheckBox = new javax.swing.JCheckBox();
-        yahooCheckBox = new javax.swing.JCheckBox();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        yahooList = new javax.swing.JList();
-        autoDetectYahooButton = new javax.swing.JButton();
-        removeYahooButton = new javax.swing.JButton();
-        clearYahooButton = new javax.swing.JButton();
-        indexChatPanel2 = new javax.swing.JPanel();
-        skypeeCheckBox = new javax.swing.JCheckBox();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        skypeeList = new javax.swing.JList();
-        autoDetectSkypeeButton = new javax.swing.JButton();
-        removeSkypeeButton = new javax.swing.JButton();
-        clearSkypeeButton = new javax.swing.JButton();
+        CaseWizardA1 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jRadioButton4 = new javax.swing.JRadioButton();
+        jRadioButton5 = new javax.swing.JRadioButton();
+        jLabel13 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        CaseWizardA2 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jRadioButton6 = new javax.swing.JRadioButton();
+        jRadioButton7 = new javax.swing.JRadioButton();
+        jLabel16 = new javax.swing.JLabel();
+        jRadioButton8 = new javax.swing.JRadioButton();
+        jRadioButton9 = new javax.swing.JRadioButton();
+        jLabel17 = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
+        jCheckBox3 = new javax.swing.JCheckBox();
+        CaseWizardA3 = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jCheckBox4 = new javax.swing.JCheckBox();
+        jCheckBox5 = new javax.swing.JCheckBox();
+        jCheckBox6 = new javax.swing.JCheckBox();
+        jCheckBox7 = new javax.swing.JCheckBox();
+        jRadioButton10 = new javax.swing.JRadioButton();
+        jRadioButton11 = new javax.swing.JRadioButton();
         indexFooterPanel = new javax.swing.JPanel();
         finishButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
@@ -260,7 +197,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         jLabel4.setText("Description:");
 
         descriptionTextArea.setColumns(20);
-        descriptionTextArea.setFont(new java.awt.Font("Courier New", 1, 18));
+        descriptionTextArea.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
         descriptionTextArea.setRows(5);
         jScrollPane1.setViewportView(descriptionTextArea);
 
@@ -310,632 +247,262 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         );
 
         indexWizardPanel.add(indexInfoPanel, "indexInfoPanel");
+        indexInfoPanel.getAccessibleContext().setAccessibleName("");
 
-        indexFileSystemPanel.setMaximumSize(new java.awt.Dimension(608, 361));
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel9.setText("1) What type of evidence (Data Source) you want to add:");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel6.setForeground(new java.awt.Color(51, 51, 255));
-        jLabel6.setText("Document In Index:");
+        jRadioButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jRadioButton1.setText("Local Drive");
 
-        documentList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane2.setViewportView(documentList);
+        jRadioButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jRadioButton2.setText("Local Folder");
 
-        selectAllDrivesButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        selectAllDrivesButton.setText(" All Local Drives");
-        selectAllDrivesButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectAllDrivesButtonActionPerformed(evt);
-            }
-        });
+        jRadioButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jRadioButton3.setText("Encase Image");
 
-        addFolderButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        addFolderButton.setText("Add Folder");
-        addFolderButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addFolderButtonActionPerformed(evt);
-            }
-        });
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel10.setText("2) Would you like to import online e-mail accounts:");
 
-        addFileButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        addFileButton.setText("Add File");
-        addFileButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addFileButtonActionPerformed(evt);
-            }
-        });
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel11.setText("Username");
 
-        removeButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        removeButton.setText("Remove");
-        removeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeButtonActionPerformed(evt);
-            }
-        });
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel12.setText("Password");
 
-        clearListButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        clearListButton.setText("Clear List");
-        clearListButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearListButtonActionPerformed(evt);
-            }
-        });
+        jRadioButton4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jRadioButton4.setText("Gmail");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel7.setForeground(new java.awt.Color(51, 51, 255));
-        jLabel7.setText("Extension Allowed:");
+        jRadioButton5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jRadioButton5.setText("Hotmail");
 
-        htmlCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        htmlCheckBox.setText("Web Pagses (HTML/HTM)");
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel13.setText("Provider");
 
-        rtfCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        rtfCheckBox.setText("Plain Document (RTF)");
-
-        docCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        docCheckBox.setText("Word Documents (DOC)");
-
-        pdfCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        pdfCheckBox.setText("PDF Documents");
-
-        xmlCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        xmlCheckBox.setText("XML Documents");
-
-        txtCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        txtCheckBox.setText("Text Files (TXT)");
-
-        imagesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        imagesCheckBox.setText("Cache All Images Format");
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel8.setForeground(new java.awt.Color(51, 51, 255));
-        jLabel8.setText("Advanced Options");
-
-        buttonGroup1.add(allRadioButton);
-        allRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        allRadioButton.setText("Select All Supported Extensions");
-        allRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                allRadioButtonActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(manualRadioButton);
-        manualRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        manualRadioButton.setSelected(true);
-        manualRadioButton.setText("Manual Select Extensions");
-        manualRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                manualRadioButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout indexFileSystemPanelLayout = new javax.swing.GroupLayout(indexFileSystemPanel);
-        indexFileSystemPanel.setLayout(indexFileSystemPanelLayout);
-        indexFileSystemPanelLayout.setHorizontalGroup(
-            indexFileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexFileSystemPanelLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jLabel6)
-                .addGap(433, 433, 433))
-            .addGroup(indexFileSystemPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout CaseWizardA1Layout = new javax.swing.GroupLayout(CaseWizardA1);
+        CaseWizardA1.setLayout(CaseWizardA1Layout);
+        CaseWizardA1Layout.setHorizontalGroup(
+            CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CaseWizardA1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addGroup(CaseWizardA1Layout.createSequentialGroup()
+                        .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton2)
+                            .addComponent(jRadioButton1)
+                            .addComponent(jRadioButton3)
+                            .addGroup(CaseWizardA1Layout.createSequentialGroup()
+                                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel12))
+                                .addGap(39, 39, 39)
+                                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                                    .addComponent(jRadioButton4)
+                                    .addComponent(jTextField2)))
+                            .addComponent(jLabel10))
+                        .addGap(61, 61, 61)
+                        .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jRadioButton5)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                            .addComponent(jTextField3))))
+                .addContainerGap(170, Short.MAX_VALUE))
+        );
+        CaseWizardA1Layout.setVerticalGroup(
+            CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CaseWizardA1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(indexFileSystemPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(indexFileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(imagesCheckBox)
-                    .addComponent(jLabel8))
-                .addContainerGap(534, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, indexFileSystemPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(selectAllDrivesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addFolderButton, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(addFileButton, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(removeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(clearListButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(indexFileSystemPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(indexFileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(htmlCheckBox)
-                    .addComponent(rtfCheckBox))
+                .addComponent(jLabel9)
+                .addGap(28, 28, 28)
+                .addComponent(jRadioButton1)
                 .addGap(18, 18, 18)
-                .addGroup(indexFileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(docCheckBox)
-                    .addComponent(txtCheckBox))
+                .addComponent(jRadioButton2)
+                .addGap(18, 18, 18)
+                .addComponent(jRadioButton3)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel10)
                 .addGap(30, 30, 30)
-                .addGroup(indexFileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(xmlCheckBox)
-                    .addComponent(pdfCheckBox))
-                .addContainerGap(210, Short.MAX_VALUE))
-            .addGroup(indexFileSystemPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(indexFileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(manualRadioButton)
-                    .addComponent(jLabel7))
+                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton4)
+                    .addComponent(jLabel13)
+                    .addComponent(jRadioButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36))
+        );
+
+        indexWizardPanel.add(CaseWizardA1, "CaseWizardA1");
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel14.setText(" Evidence (Data Source) should be indexed to be searchable and pefrom all functions.");
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel15.setText("Would you like to index the case:");
+
+        jRadioButton6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jRadioButton6.setText("Yes (Recommended)");
+
+        jRadioButton7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jRadioButton7.setText("No");
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel16.setText("Would you like to calculate MD5 Hashe Values for the case so you can perform \"Hash Analysis\".");
+
+        jRadioButton8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jRadioButton8.setText("Yes");
+
+        jRadioButton9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jRadioButton9.setText("No");
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel17.setText("Options:");
+
+        jCheckBox1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jCheckBox1.setText("Export copy of hashes to DEM Hash Library.");
+
+        jCheckBox2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jCheckBox2.setText("Detect and cluster duplicated files within case files.");
+
+        jCheckBox3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jCheckBox3.setText("Detect and cluster duplicated files compared with DEM Hash Library");
+
+        javax.swing.GroupLayout CaseWizardA2Layout = new javax.swing.GroupLayout(CaseWizardA2);
+        CaseWizardA2.setLayout(CaseWizardA2Layout);
+        CaseWizardA2Layout.setHorizontalGroup(
+            CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CaseWizardA2Layout.createSequentialGroup()
+                .addGroup(CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBox3)
+                    .addComponent(jCheckBox2)
+                    .addComponent(jCheckBox1)
+                    .addGroup(CaseWizardA2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton6)
+                            .addComponent(jRadioButton8))
+                        .addGap(59, 59, 59)
+                        .addGroup(CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton9)
+                            .addComponent(jRadioButton7)))
+                    .addGroup(CaseWizardA2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel16))
+                    .addGroup(CaseWizardA2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel15))
+                    .addGroup(CaseWizardA2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(CaseWizardA2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel17)))
+                .addContainerGap(166, Short.MAX_VALUE))
+        );
+        CaseWizardA2Layout.setVerticalGroup(
+            CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CaseWizardA2Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabel14)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel15)
+                .addGap(18, 18, 18)
+                .addGroup(CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton7)
+                    .addComponent(jRadioButton6))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel16)
+                .addGap(18, 18, 18)
+                .addGroup(CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton9)
+                    .addComponent(jRadioButton8))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel17)
+                .addGap(18, 18, 18)
+                .addComponent(jCheckBox1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(allRadioButton)
-                .addGap(117, 117, 117))
+                .addComponent(jCheckBox3)
+                .addContainerGap(44, Short.MAX_VALUE))
         );
-        indexFileSystemPanelLayout.setVerticalGroup(
-            indexFileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexFileSystemPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6)
-                .addGap(11, 11, 11)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(indexFileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(clearListButton, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(removeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(addFileButton, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(addFolderButton, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addComponent(selectAllDrivesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+
+        indexWizardPanel.add(CaseWizardA2, "CaseWizardA2");
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel18.setText("*Indexing Options*");
+
+        jCheckBox4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jCheckBox4.setText("Index archieved folders (ZIP, RAR)");
+
+        jCheckBox5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jCheckBox5.setText("Index embedded files on MS Office and Attachments");
+
+        jCheckBox6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jCheckBox6.setText("Cache Images to view on Multimedia Viewer");
+
+        jCheckBox7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jCheckBox7.setText("Exclude Windows System Files from Indexing (Warning: Only choose this when you know that no evidences could be found within System Files): ");
+
+        jRadioButton10.setText("Folder 1");
+
+        jRadioButton11.setText("Folder 2");
+
+        javax.swing.GroupLayout CaseWizardA3Layout = new javax.swing.GroupLayout(CaseWizardA3);
+        CaseWizardA3.setLayout(CaseWizardA3Layout);
+        CaseWizardA3Layout.setHorizontalGroup(
+            CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CaseWizardA3Layout.createSequentialGroup()
+                .addGroup(CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(CaseWizardA3Layout.createSequentialGroup()
+                        .addGap(312, 312, 312)
+                        .addComponent(jLabel18))
+                    .addGroup(CaseWizardA3Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton11)
+                            .addComponent(jRadioButton10)
+                            .addComponent(jCheckBox7)
+                            .addComponent(jCheckBox6)
+                            .addComponent(jCheckBox5)
+                            .addComponent(jCheckBox4))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        CaseWizardA3Layout.setVerticalGroup(
+            CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CaseWizardA3Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(jLabel18)
+                .addGap(43, 43, 43)
+                .addComponent(jCheckBox4)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(indexFileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(manualRadioButton)
-                    .addComponent(allRadioButton))
-                .addGap(13, 13, 13)
-                .addGroup(indexFileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(indexFileSystemPanelLayout.createSequentialGroup()
-                        .addComponent(pdfCheckBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(xmlCheckBox))
-                    .addGroup(indexFileSystemPanelLayout.createSequentialGroup()
-                        .addGroup(indexFileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(htmlCheckBox)
-                            .addComponent(docCheckBox))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(indexFileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(rtfCheckBox)
-                            .addComponent(txtCheckBox))))
+                .addComponent(jCheckBox5)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(imagesCheckBox)
-                .addContainerGap())
-        );
-
-        indexWizardPanel.add(indexFileSystemPanel, "indexFileSystemPanel");
-
-        indexEmailPanel.setMaximumSize(new java.awt.Dimension(608, 361));
-        indexEmailPanel.setPreferredSize(new java.awt.Dimension(608, 361));
-
-        pstList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane3.setViewportView(pstList);
-
-        autoDetectPSTButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        autoDetectPSTButton.setText("Auto Detect PST Files");
-        autoDetectPSTButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                autoDetectPSTButtonActionPerformed(evt);
-            }
-        });
-
-        manulPSTButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        manulPSTButton.setText("Manual Selection");
-        manulPSTButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                manulPSTButtonActionPerformed(evt);
-            }
-        });
-
-        removePSTButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        removePSTButton.setText("Remove Selected");
-        removePSTButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removePSTButtonActionPerformed(evt);
-            }
-        });
-
-        clearPSTButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        clearPSTButton.setText("Clear All");
-        clearPSTButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearPSTButtonActionPerformed(evt);
-            }
-        });
-
-        outlookCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        outlookCheckBox.setText("Add Microsoft Outlook");
-        outlookCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                outlookCheckBoxActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout indexEmailPanelLayout = new javax.swing.GroupLayout(indexEmailPanel);
-        indexEmailPanel.setLayout(indexEmailPanelLayout);
-        indexEmailPanelLayout.setHorizontalGroup(
-            indexEmailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexEmailPanelLayout.createSequentialGroup()
-                .addGroup(indexEmailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(indexEmailPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(outlookCheckBox))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, indexEmailPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(indexEmailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
-                            .addGroup(indexEmailPanelLayout.createSequentialGroup()
-                                .addComponent(autoDetectPSTButton, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(manulPSTButton, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(removePSTButton, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(clearPSTButton, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)))))
-                .addContainerGap())
-        );
-        indexEmailPanelLayout.setVerticalGroup(
-            indexEmailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexEmailPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(outlookCheckBox)
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(indexEmailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(clearPSTButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(removePSTButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(autoDetectPSTButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(manulPSTButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        indexWizardPanel.add(indexEmailPanel, "indexEmailPanel");
-
-        indexBroswerPanel.setMaximumSize(new java.awt.Dimension(608, 361));
-        indexBroswerPanel.setPreferredSize(new java.awt.Dimension(608, 361));
-
-        ieCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        ieCheckBox.setText("Internet Explorer Histories");
-        ieCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ieCheckBoxActionPerformed(evt);
-            }
-        });
-
-        ieList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane7.setViewportView(ieList);
-
-        autoDetectIEButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        autoDetectIEButton.setText("Auto Detect IE");
-        autoDetectIEButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                autoDetectIEButtonActionPerformed(evt);
-            }
-        });
-
-        removeIEButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        removeIEButton.setText("Remove Selected");
-        removeIEButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeIEButtonActionPerformed(evt);
-            }
-        });
-
-        clearIEButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        clearIEButton.setText("Clear All");
-        clearIEButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearIEButtonActionPerformed(evt);
-            }
-        });
-
-        ffCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        ffCheckBox.setText("FireFox Broswer Histories");
-        ffCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ffCheckBoxActionPerformed(evt);
-            }
-        });
-
-        ffList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane8.setViewportView(ffList);
-
-        autoDetectFFButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        autoDetectFFButton.setText("Auto Detect FF");
-        autoDetectFFButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                autoDetectFFButtonActionPerformed(evt);
-            }
-        });
-
-        removeFFButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        removeFFButton.setText("Remove Selected");
-        removeFFButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeFFButtonActionPerformed(evt);
-            }
-        });
-
-        clearFFButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        clearFFButton.setText("Clear All");
-        clearFFButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearFFButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout indexBroswerPanelLayout = new javax.swing.GroupLayout(indexBroswerPanel);
-        indexBroswerPanel.setLayout(indexBroswerPanelLayout);
-        indexBroswerPanelLayout.setHorizontalGroup(
-            indexBroswerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, indexBroswerPanelLayout.createSequentialGroup()
-                .addGroup(indexBroswerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, indexBroswerPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, indexBroswerPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(ieCheckBox))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, indexBroswerPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(ffCheckBox))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, indexBroswerPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(indexBroswerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
-                            .addGroup(indexBroswerPanelLayout.createSequentialGroup()
-                                .addComponent(autoDetectFFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(44, 44, 44)
-                                .addComponent(removeFFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                                .addComponent(clearFFButton, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, indexBroswerPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(autoDetectIEButton, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
-                        .addComponent(removeIEButton, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42)
-                        .addComponent(clearIEButton, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        indexBroswerPanelLayout.setVerticalGroup(
-            indexBroswerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexBroswerPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(ieCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(indexBroswerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(autoDetectIEButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(clearIEButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(removeIEButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(37, 37, 37)
-                .addComponent(ffCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(indexBroswerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(autoDetectFFButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(clearFFButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(removeFFButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        indexWizardPanel.add(indexBroswerPanel, "indexBroswerPanel");
-
-        indexChatPanel.setMaximumSize(new java.awt.Dimension(608, 361));
-        indexChatPanel.setPreferredSize(new java.awt.Dimension(608, 361));
-
-        msnList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane4.setViewportView(msnList);
-
-        autoDetectMSNButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        autoDetectMSNButton.setText("Auto Detect MSN");
-        autoDetectMSNButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                autoDetectMSNButtonActionPerformed(evt);
-            }
-        });
-
-        removeMSNButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        removeMSNButton.setText("Remove Selected");
-        removeMSNButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeMSNButtonActionPerformed(evt);
-            }
-        });
-
-        clearMSNButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        clearMSNButton.setText("Clear All");
-        clearMSNButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearMSNButtonActionPerformed(evt);
-            }
-        });
-
-        msnCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        msnCheckBox.setText("MSN Windows Live Chat");
-        msnCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                msnCheckBoxActionPerformed(evt);
-            }
-        });
-
-        yahooCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        yahooCheckBox.setText("Yahoo Chat Archive");
-        yahooCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                yahooCheckBoxActionPerformed(evt);
-            }
-        });
-
-        yahooList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane6.setViewportView(yahooList);
-
-        autoDetectYahooButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        autoDetectYahooButton.setText("Auto Detect Yahoo");
-        autoDetectYahooButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                autoDetectYahooButtonActionPerformed(evt);
-            }
-        });
-
-        removeYahooButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        removeYahooButton.setText("Remove Selected");
-        removeYahooButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeYahooButtonActionPerformed(evt);
-            }
-        });
-
-        clearYahooButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        clearYahooButton.setText("Clear All");
-        clearYahooButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearYahooButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout indexChatPanelLayout = new javax.swing.GroupLayout(indexChatPanel);
-        indexChatPanel.setLayout(indexChatPanelLayout);
-        indexChatPanelLayout.setHorizontalGroup(
-            indexChatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, indexChatPanelLayout.createSequentialGroup()
-                .addGroup(indexChatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, indexChatPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, indexChatPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(msnCheckBox))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, indexChatPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(yahooCheckBox))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, indexChatPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(autoDetectYahooButton, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                        .addComponent(removeYahooButton, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addComponent(clearYahooButton, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, indexChatPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, indexChatPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(autoDetectMSNButton, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(removeMSNButton, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                        .addComponent(clearMSNButton, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        indexChatPanelLayout.setVerticalGroup(
-            indexChatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexChatPanelLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(msnCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(indexChatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(autoDetectMSNButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(clearMSNButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(removeMSNButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jCheckBox6)
                 .addGap(18, 18, 18)
-                .addComponent(yahooCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jCheckBox7)
                 .addGap(18, 18, 18)
-                .addGroup(indexChatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(autoDetectYahooButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(clearYahooButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(removeYahooButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(jRadioButton10)
+                .addGap(18, 18, 18)
+                .addComponent(jRadioButton11)
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
-        indexWizardPanel.add(indexChatPanel, "indexChatPanel");
-
-        indexChatPanel2.setMaximumSize(new java.awt.Dimension(608, 361));
-        indexChatPanel2.setPreferredSize(new java.awt.Dimension(608, 361));
-
-        skypeeCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        skypeeCheckBox.setText("Skype Chat Messages");
-        skypeeCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                skypeeCheckBoxActionPerformed(evt);
-            }
-        });
-
-        skypeeList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane9.setViewportView(skypeeList);
-
-        autoDetectSkypeeButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        autoDetectSkypeeButton.setText("Auto Detect Skype");
-        autoDetectSkypeeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                autoDetectSkypeeButtonActionPerformed(evt);
-            }
-        });
-
-        removeSkypeeButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        removeSkypeeButton.setText("Remove Selected");
-        removeSkypeeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeSkypeeButtonActionPerformed(evt);
-            }
-        });
-
-        clearSkypeeButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        clearSkypeeButton.setText("Clear All");
-        clearSkypeeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearSkypeeButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout indexChatPanel2Layout = new javax.swing.GroupLayout(indexChatPanel2);
-        indexChatPanel2.setLayout(indexChatPanel2Layout);
-        indexChatPanel2Layout.setHorizontalGroup(
-            indexChatPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexChatPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(indexChatPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(indexChatPanel2Layout.createSequentialGroup()
-                        .addGroup(indexChatPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(skypeeCheckBox, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE))
-                        .addGap(10, 10, 10))
-                    .addGroup(indexChatPanel2Layout.createSequentialGroup()
-                        .addComponent(autoDetectSkypeeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                        .addComponent(removeSkypeeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
-                        .addComponent(clearSkypeeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-        );
-        indexChatPanel2Layout.setVerticalGroup(
-            indexChatPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexChatPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(skypeeCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(indexChatPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(autoDetectSkypeeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(clearSkypeeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(removeSkypeeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(201, 201, 201))
-        );
-
-        indexWizardPanel.add(indexChatPanel2, "indexChatPanel2");
+        indexWizardPanel.add(CaseWizardA3, "CaseWizardA3");
 
         indexFooterPanel.setMaximumSize(new java.awt.Dimension(608, 63));
         indexFooterPanel.setPreferredSize(new java.awt.Dimension(608, 63));
 
-        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         finishButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/finish.png"))); // NOI18N
         finishButton.setText("Finish");
         finishButton.addActionListener(new java.awt.event.ActionListener() {
@@ -944,7 +511,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             }
         });
 
-        backButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        backButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         backButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/back.png"))); // NOI18N
         backButton.setText("Back");
         backButton.addActionListener(new java.awt.event.ActionListener() {
@@ -962,7 +529,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             }
         });
 
-        cancelButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        cancelButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -977,9 +544,9 @@ public class CaseWizardDialog extends javax.swing.JDialog {
             indexFooterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(indexFooterPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                 .addGap(113, 113, 113)
                 .addComponent(cancelButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1008,7 +575,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         indexHeaderPanel.setMaximumSize(new java.awt.Dimension(628, 76));
         indexHeaderPanel.setPreferredSize(new java.awt.Dimension(628, 76));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24));
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/2 copy.jpg"))); // NOI18N
         jLabel5.setText(" ");
@@ -1068,45 +635,6 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         }
     }    
 
-    private void addFolderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFolderButtonActionPerformed
-        JDirectoryDialog directoryDialog = new JDirectoryDialog();
-        directoryDialog.show(CaseWizardDialog.this);
-        String path = directoryDialog.getSelectedDirectory();
-        if (path != null) {
-            addToList(path, documentModel, documentList);
-        }
-}//GEN-LAST:event_addFolderButtonActionPerformed
-
-    private void addFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFileButtonActionPerformed
-        JFileDialog fileDialog = new JFileDialog();
-        fileDialog.show(CaseWizardDialog.this);
-        String path = fileDialog.getParentDirectory();
-
-        if (path != null) {
-            path += "\\" + fileDialog.getSelectedFileName();
-            addToList(path, documentModel, documentList);
-        }
-}//GEN-LAST:event_addFileButtonActionPerformed
-
-    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        String value = (String) documentList.getSelectedValue();
-        removeFromList(value, documentModel, documentList);
-}//GEN-LAST:event_removeButtonActionPerformed
-
-    private void clearListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearListButtonActionPerformed
-        documentModel.removeAllElements();
-}//GEN-LAST:event_clearListButtonActionPerformed
-
-    private void selectAllDrivesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectAllDrivesButtonActionPerformed
-        File[] files = File.listRoots();
-
-        for (File file : files) {
-            if (Utilities.isALocalDirve(file.getAbsolutePath())) {
-                addToList(file.getAbsolutePath(), documentModel, documentList);
-            }
-        }
-}//GEN-LAST:event_selectAllDrivesButtonActionPerformed
-
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
         JDirectoryDialog directoryDialog = new JDirectoryDialog();
         directoryDialog.show(CaseWizardDialog.this);
@@ -1125,39 +653,38 @@ public class CaseWizardDialog extends javax.swing.JDialog {
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         switch (currentIndex) {
-            case 0:
-                if ( checkIndexInfoPanel() )
-                    next();
-                break;
-                
-            case 1:
-                if ( checkIndexFileSystemPanel() )
-                    next();
-                break;
-                
-            case 2:
-            case 3:
+                case 0:
+               // if ( checkIndexInfoPanel() )
                 next();
                 break;
-
-            case 4:
-                nextLast();
+                
+                case 1:
+               // if ( checkIndexFileSystemPanel() )
+                next();
                 break;
-        }
+                case 2:
+                nextLast();
+                 break;
+               
+       }
     }//GEN-LAST:event_nextButtonActionPerformed
         
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         switch (currentIndex) {
+            
             case 1:
-                backFirst();
+                 backFirst();
                 break;
 
             case 2:
-            case 3:
-            case 4:
-            case 5:
                 back();
                 break;
+           case 3:
+                back();
+                break;     
+                
+
+                
         }
     }//GEN-LAST:event_backButtonActionPerformed
    
@@ -1165,113 +692,6 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         currentCase = null;
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
-
-    private void removePSTButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removePSTButtonActionPerformed
-        String value = (String) pstList.getSelectedValue();
-        removeFromList(value, pstModel, pstList);
-    }//GEN-LAST:event_removePSTButtonActionPerformed
-
-    private void removeMSNButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeMSNButtonActionPerformed
-        String value = (String) msnList.getSelectedValue();
-        removeFromList(value, msnModel, msnList);
-    }//GEN-LAST:event_removeMSNButtonActionPerformed
-
-    private void clearPSTButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearPSTButtonActionPerformed
-        pstModel.removeAllElements();
-    }//GEN-LAST:event_clearPSTButtonActionPerformed
-
-    private void clearMSNButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearMSNButtonActionPerformed
-        msnModel.removeAllElements();
-    }//GEN-LAST:event_clearMSNButtonActionPerformed
-
-    private void autoDetectPSTButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectPSTButtonActionPerformed
-
-        OutlookDetector detector = new OutlookDetector();
-        List<String> pstPaths = detector.getFilesInCurrentSystem();
-
-        if (pstPaths.isEmpty()) {
-            showEmptyMessage("Cannot Found Any PST/OST Files");
-            return;
-        }
-
-        for (String file : pstPaths) {
-            if (!existsInModel(file, pstModel)) {
-                addToList(file, pstModel, pstList);
-            }
-        }
-    }//GEN-LAST:event_autoDetectPSTButtonActionPerformed
-
-    private void removeYahooButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeYahooButtonActionPerformed
-        String value = (String) yahooList.getSelectedValue();
-        removeFromList(value, yahooModel, yahooList);
-    }//GEN-LAST:event_removeYahooButtonActionPerformed
-
-    private void clearYahooButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearYahooButtonActionPerformed
-        yahooModel.removeAllElements();
-    }//GEN-LAST:event_clearYahooButtonActionPerformed
-
-    private void outlookCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outlookCheckBoxActionPerformed
-        if (outlookCheckBox.isSelected()) {
-            setEmailComponents(true);
-        } else {
-            setEmailComponents(false);
-        }
-    }//GEN-LAST:event_outlookCheckBoxActionPerformed
-
-    private void yahooCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yahooCheckBoxActionPerformed
-        if (yahooCheckBox.isSelected()) {
-            setYahooChatComponents(true);
-        } else {
-            setYahooChatComponents(false);
-        }
-    }//GEN-LAST:event_yahooCheckBoxActionPerformed
-
-    private void msnCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msnCheckBoxActionPerformed
-        if (msnCheckBox.isSelected()) {
-            setMSNChatComponents(true);
-        } else {
-            setMSNChatComponents(false);
-        }
-    }//GEN-LAST:event_msnCheckBoxActionPerformed
-
-    private void ieCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ieCheckBoxActionPerformed
-        if (ieCheckBox.isSelected()) {
-            setIEComponents(true);
-        } else {
-            setIEComponents(false);
-        }
-    }//GEN-LAST:event_ieCheckBoxActionPerformed
-
-    private void removeIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeIEButtonActionPerformed
-        String value = (String) ieList.getSelectedValue();
-        removeFromList(value, ieModel, ieList);
-    }//GEN-LAST:event_removeIEButtonActionPerformed
-
-    private void clearIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearIEButtonActionPerformed
-        ieModel.removeAllElements();
-    }//GEN-LAST:event_clearIEButtonActionPerformed
-
-    private void ffCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ffCheckBoxActionPerformed
-        if (ffCheckBox.isSelected()) {
-            setFirefoxComponents(true);
-        } else {
-            setFirefoxComponents(false);
-        }
-    }//GEN-LAST:event_ffCheckBoxActionPerformed
-
-    private void removeFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFFButtonActionPerformed
-        String value = (String) ffList.getSelectedValue();
-        removeFromList(value, ffModel, ffList);
-    }//GEN-LAST:event_removeFFButtonActionPerformed
-
-    private void clearFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearFFButtonActionPerformed
-        ffModel.removeAllElements();
-    }//GEN-LAST:event_clearFFButtonActionPerformed
-
-    private void manulPSTButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manulPSTButtonActionPerformed
-        FilesFilter pstFilter = new FilesFilter("Microsoft Outlook", "pst", "ost");
-        openDialog(pstFilter, pstModel, pstList);
-    }//GEN-LAST:event_manulPSTButtonActionPerformed
 
     private void openDialog(FilesFilter filter, DefaultListModel model, JList list) {
         fileChooser.setFileFilter(filter);
@@ -1284,239 +704,10 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         }
     }
 
-    private void autoDetectIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectIEButtonActionPerformed
-        UsersDetector detector = new UsersDetector();
-        List<String> iePaths = detector.getFilesInCurrentSystem();
-        
-        if (iePaths.isEmpty()) {
-            showEmptyMessage("Cannot Found Any IE Files");
-            return;
-        }
-
-        for (String path : iePaths) {
-            if (!existsInModel(path, ieModel)) {
-                addToList(path, ieModel, ieList);
-            }
-        }
-    }//GEN-LAST:event_autoDetectIEButtonActionPerformed
-
-    private void autoDetectFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectFFButtonActionPerformed
-        FirefoxDetector detector = new FirefoxDetector();
-        List<String> ffPaths = detector.getFilesInCurrentSystem();
-
-        if (ffPaths.isEmpty()) {
-            showEmptyMessage("Cannot Found Any FireFox Files");
-            return;
-        }
-
-        for (String path : ffPaths) {
-            if (!existsInModel(path, ffModel)) {
-                addToList(path, ffModel, ffList);
-            }
-        }
-    }//GEN-LAST:event_autoDetectFFButtonActionPerformed
-
-    private void autoDetectMSNButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectMSNButtonActionPerformed
-        try {
-            if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
-                RegistryDetector detector = new RegistryDetector();
-                List<String> paths = detector.getFilesInCurrentSystem();
-
-                if (paths.isEmpty()) {
-                    showEmptyMessage("Cannot Found Any MSN Files");
-                    return;
-                }
-
-                for (String regPath : paths) {
-                    MSNParser msnParser = new MSNParser(regPath);
-                    msnParser.parse();
-
-                    HashMap<String, String> mapOfPath = msnParser.getAllUserLoggingPath();
-                    for (Map.Entry<String, String> map : mapOfPath.entrySet()) {
-                        String path = map.getValue();
-
-                        if (!existsInModel(path, msnModel)) {
-                            addToList(path, msnModel, msnList);
-                        }
-                    }
-                }
-            } else {
-                UsersDetector detector = new UsersDetector();
-                List<String> users = detector.getFilesInCurrentSystem();
-
-                for (String path : users) {
-                    String newPath = path + "\\Documents\\My Received Files\\";
-                    File file = new File(newPath);
-
-                    if (file.exists()) {
-                        File[] files = file.listFiles();
-
-                        for (File userFile : files) {
-                            if (!userFile.isHidden() && userFile.canRead()) {
-                                File f = new File(userFile.getAbsolutePath() + "\\" + "History");
-
-                                if (f.exists()) { // this contain char log file
-                                    if (!existsInModel(f.getAbsolutePath(), msnModel)) {
-                                        addToList(f.getAbsolutePath(), msnModel, msnList);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-        }
-    }//GEN-LAST:event_autoDetectMSNButtonActionPerformed
-
-    private void autoDetectYahooButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectYahooButtonActionPerformed
-        YahooDetector detector = new YahooDetector();
-        List<String> yahooPaths = detector.getFilesInCurrentSystem();
-
-        if (yahooPaths.isEmpty()) {
-            showEmptyMessage("Cannot Found Any Yahoo! Files");
-            return;
-        }
-
-        for (String path : yahooPaths) {
-            if (!existsInModel(path, yahooModel)) {
-                addToList(path, yahooModel, yahooList);
-            }
-        }
-    }//GEN-LAST:event_autoDetectYahooButtonActionPerformed
-
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
        
-        /**
-         * Get Case Information 
-         */
-        String indexName = getCaseName(caseLocationTextField.getText().trim());
-        String indexLocation = caseLocationTextField.getText().trim();
-        String investigator = investigatorTextField.getText().trim();
-        String desc = descriptionTextArea.getText().trim();
 
-        
-        /**
-         * Get Documents And its Extensions
-         */
-        ArrayList<String> docs = new ArrayList<String>();
-        int size = documentModel.size();
 
-        for (int i = 0; i < size; i++) {
-            docs.add((String) documentModel.getElementAt(i));
-        }
-
-        List<String> ext = checkSelectedExtension();
-
-        /**
-         * Check Outlook Data
-         * Outlook Extension , if Outlook Files is Selected
-         */
-        ArrayList<String> pst = new ArrayList<String>();
-
-        if (outlookCheckBox.isSelected()) {
-            AddFromModelToList(pstModel, pst);
-        }
-
-        if (outlookCheckBox.isSelected() && pstModel.size() > 0) {
-            ext.add("pst");
-            ext.add("ost");
-        }
-        
-        
-        /**
-         * Check Browsers Data and add to there List
-         */
-        ArrayList<String> ie = new ArrayList<String>();
-        ArrayList<String> ff = new ArrayList<String>();
-
-        if (ieCheckBox.isSelected()) {
-            AddFromModelToList(ieModel, ie);
-        }
-
-        if (ffCheckBox.isSelected()) {
-            AddFromModelToList(ffModel, ff);
-        }
-
-        /**
-         * Check Chat Panel
-         * And Add Chat Data to There Related List
-         */
-        ArrayList<String> msn = new ArrayList<String>();
-        ArrayList<String> yahoo = new ArrayList<String>();
-        ArrayList<String> skype = new ArrayList<String>();
-
-        if (msnCheckBox.isSelected()) {
-            AddFromModelToList(msnModel, msn);
-        }
-
-        if (yahooCheckBox.isSelected()) {
-            AddFromModelToList(yahooModel, yahoo);
-        }
-
-        if (skypeeCheckBox.isSelected()) {
-            AddFromModelToList(skypeModel, skype);
-        }
-
-        /**
-         * Check if There is no Any Options Selected in This Case
-         * And Show Error Message
-         */
-
-        if (indexName.equals("") || indexLocation.equals("") || (docs.size() < 1 && ext.size() < 1
-                && pst.isEmpty() && ie.isEmpty() && ff.isEmpty() && msn.isEmpty() && yahoo.isEmpty()
-                && skype.isEmpty())) {
-            showErrorMessage("You're Not Select Any Option In This Case, DEM Cannot Create This Case Unitl Select Some Options", "Please Select At Least One Option!");
-                   
-            return;
-        }
-
-        /**
-         * Images Extension, if Cache Image Option is Selected
-         */
-        boolean cacheImages = false, checkCompressed = false;
-
-        if (imagesCheckBox.isSelected()) {
-            cacheImages = true;
-            ext.add("bmp");
-            ext.add("gif");
-            ext.add("jpg");
-            ext.add("jpeg");
-            ext.add("png");
-            ext.add("tif");
-            ext.add("tiff");
-        }
-
-        /**
-         * Check Smart Card License if its Full Version
-         */
-        if (isFullVersion) { //show smart card inserting/usage dialog
-            SmartCardDialog scd = new SmartCardDialog(parent, true, false);
-            scd.setVisible(true);
-
-            if (!scd.getResult()) {
-                return;
-            }
-        }
-        
-        // ask for creating case and indexing it automaticlly
-        int respone = JOptionPane.showConfirmDialog(parent, "Do you want to start Indexing after create the case?"
-                , "Quick Case Indexing", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        
-        if ( respone == JOptionPane.YES_OPTION ) {
-            indexTheCase = true;
-        }
-        
-        Case newCase = new Case(indexName, indexLocation, investigator, desc, docs, ext, pst, ie, ff, msn, yahoo, skype,
-                new Date(), new File(indexLocation).length(), cacheImages, checkCompressed, false, "", "");
-            
-        boolean caseStatus = createCase(newCase);
-            
-        if ( ! caseStatus ) {
-            showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
-        }
-        
-        setVisible(false);
     }//GEN-LAST:event_finishButtonActionPerformed
 
     public boolean checkDirectIndex() {
@@ -1536,61 +727,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         
         return false;
     }
-        
-    private void skypeeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_skypeeCheckBoxActionPerformed
-        if (skypeeCheckBox.isSelected()) {
-            setSkypeChatComponents(true);
-        } else {
-            setSkypeChatComponents(false);
-        }
-    }//GEN-LAST:event_skypeeCheckBoxActionPerformed
-
-    private void autoDetectSkypeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectSkypeeButtonActionPerformed
-        UsersDetector detector = new UsersDetector();
-        List<String> users = detector.getFilesInCurrentSystem();
-        
-        for (String path : users ) {
-            SkypeParser parser = new SkypeParser(path);
-
-            try {
-                ArrayList<Tuple<String, ArrayList<SkypeMessage>>> msgs = parser.parse();
-
-                if (msgs == null || msgs.isEmpty()) {
-                    continue;
-                }
-
-                for (Tuple<String, ArrayList<SkypeMessage>> user : msgs) {
-                    String p = parser.getPath() + "\\" + user.getA();
-                    if (!existsInModel(p, skypeModel)) {
-                        addToList(p, skypeModel, skypeeList);
-                    }
-                }
-            } catch (Exception e) {
-            }
-        }
-
-        if (skypeModel.isEmpty()) {
-            showEmptyMessage("Not Found Any Skype Files");
-        }
-    }//GEN-LAST:event_autoDetectSkypeeButtonActionPerformed
-
-    private void removeSkypeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSkypeeButtonActionPerformed
-        String value = (String) skypeeList.getSelectedValue();
-        removeFromList(value, skypeModel, skypeeList);
-    }//GEN-LAST:event_removeSkypeeButtonActionPerformed
-
-    private void clearSkypeeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearSkypeeButtonActionPerformed
-        skypeModel.removeAllElements();
-    }//GEN-LAST:event_clearSkypeeButtonActionPerformed
-
-    private void allRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allRadioButtonActionPerformed
-        setDocumentExtensionComponents(true);
-    }//GEN-LAST:event_allRadioButtonActionPerformed
-
-    private void manualRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualRadioButtonActionPerformed
-        setDocumentExtensionComponents(false);
-    }//GEN-LAST:event_manualRadioButtonActionPerformed
-    
+            
     /*
      * Check The IndexPanelInfo Before Go to the Next Panel
      * Check caseName if empty or is its existed
@@ -1623,24 +760,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         return (true);
     }
     
-    
-    /**
-     * Check The indexFileSystemPanel Panel
-     * Check if there is Document and Extensions is empty
-     * And Check if there is Extensions selected and no Documents
-     */
-    public boolean checkIndexFileSystemPanel() {
-        int size = documentModel.size();
-
-        List<String> ext = checkSelectedExtension();
-
-        if (size > 0 && ext.isEmpty() || ext.size() > 0 && size == 0) {
-            showErrorMessage("You Should Select Some Documents And Extension in This Case","Please Select Documents and Extensions Now");
-            return false;
-        }
-        
-        return true;
-    }
+ 
     
     /**
      * Check if their is folder name in case location text field
@@ -1683,6 +803,8 @@ public class CaseWizardDialog extends javax.swing.JDialog {
      */
     private void backFirst() {
         currentIndex--;
+      
+        
         showPanel(cardsName[currentIndex], indexWizardPanel);
         backButton.setEnabled(false);
         nextButton.setEnabled(true);
@@ -1694,6 +816,7 @@ public class CaseWizardDialog extends javax.swing.JDialog {
      */
     private void back() {
         currentIndex--;
+     
         showPanel(cardsName[currentIndex], indexWizardPanel);
         backButton.setEnabled(true);
         nextButton.setEnabled(true);
@@ -1710,121 +833,8 @@ public class CaseWizardDialog extends javax.swing.JDialog {
         card.show(name, panelName);
     }
     
-    /**
-     * Set Documents Check Boxes to state
-     * @param state 
-     */
-    private void setDocumentExtensionComponents(boolean state) {
-        htmlCheckBox.setSelected(state);
-        docCheckBox.setSelected(state);
-        pdfCheckBox.setSelected(state);
-        rtfCheckBox.setSelected(state);
-        txtCheckBox.setSelected(state);
-        xmlCheckBox.setSelected(state);
-    }
-
-    /**
-     * Set Email Components to enable
-     * @param enable 
-     */
-    private void setEmailComponents(boolean enable) {
-        pstList.setEnabled(enable);
-        autoDetectPSTButton.setEnabled(enable);
-        manulPSTButton.setEnabled(enable);
-        removePSTButton.setEnabled(enable);
-        clearPSTButton.setEnabled(enable);
-    }
-
-    /**
-     * Set MSN Components to enable
-     * @param enable 
-     */
-    private void setMSNChatComponents(boolean enable) {
-        msnList.setEnabled(enable);
-        autoDetectMSNButton.setEnabled(enable);
-        removeMSNButton.setEnabled(enable);
-        clearMSNButton.setEnabled(enable);
-    }
     
-    /**
-     * Set Yahoo Components to enable
-     * @param enable 
-     */
-    private void setYahooChatComponents(boolean enable) {
-        yahooList.setEnabled(enable);
-        autoDetectYahooButton.setEnabled(enable);
-        removeYahooButton.setEnabled(enable);
-        clearYahooButton.setEnabled(enable);
-    }
 
-    /**
-     * Set Skype Components to enable
-     * @param enable 
-     */    
-    private void setSkypeChatComponents(boolean enable) {
-        skypeeList.setEnabled(enable);
-        autoDetectSkypeeButton.setEnabled(enable);
-        removeSkypeeButton.setEnabled(enable);
-        clearSkypeeButton.setEnabled(enable);
-    }
-
-    /**
-     * Set IE Components to enable
-     * @param enable 
-     */    
-    private void setIEComponents(boolean enable) {
-        ieList.setEnabled(enable);
-        autoDetectIEButton.setEnabled(enable);
-        removeIEButton.setEnabled(enable);
-        clearIEButton.setEnabled(enable);
-    }
-
-    /**
-     * Set FireFox Components to enable
-     * @param enable 
-     */    
-    private void setFirefoxComponents(boolean enable) {
-        ffList.setEnabled(enable);
-        autoDetectFFButton.setEnabled(enable);
-        removeFFButton.setEnabled(enable);
-        clearFFButton.setEnabled(enable);
-    }
-
-    /**
-     * Check if the Check boxes in Document Panel is Selected and add the related extension for this item
-     * @return List contain selected extensions
-     */
-    private List<String> checkSelectedExtension() {
-        List<String> eList = new ArrayList<String>();
-        
-        if (htmlCheckBox.isSelected()) {
-            eList.add("html");
-            eList.add("htm");
-            eList.add("mht");
-        }
-
-        if (pdfCheckBox.isSelected()) {
-            eList.add("pdf");
-        }
-
-        if (txtCheckBox.isSelected()) {
-            eList.add("txt");
-        }
-
-        if (docCheckBox.isSelected()) {
-            eList.add("doc");
-        }
-
-        if (xmlCheckBox.isSelected()) {
-            eList.add("xml");
-        }
-
-        if (rtfCheckBox.isSelected()) {
-            eList.add("rtf");
-        }
-        
-        return (eList);
-    }
     
     // TODO: General List Model Methods, Move it to Utilties
 
@@ -1923,87 +933,61 @@ public class CaseWizardDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addFileButton;
-    private javax.swing.JButton addFolderButton;
-    private javax.swing.JRadioButton allRadioButton;
-    private javax.swing.JButton autoDetectFFButton;
-    private javax.swing.JButton autoDetectIEButton;
-    private javax.swing.JButton autoDetectMSNButton;
-    private javax.swing.JButton autoDetectPSTButton;
-    private javax.swing.JButton autoDetectSkypeeButton;
-    private javax.swing.JButton autoDetectYahooButton;
+    private javax.swing.JPanel CaseWizardA1;
+    private javax.swing.JPanel CaseWizardA2;
+    private javax.swing.JPanel CaseWizardA3;
     private javax.swing.JButton backButton;
     private javax.swing.JButton browseButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextField caseLocationTextField;
     private javax.swing.JTextField caseNameTextField;
-    private javax.swing.JButton clearFFButton;
-    private javax.swing.JButton clearIEButton;
-    private javax.swing.JButton clearListButton;
-    private javax.swing.JButton clearMSNButton;
-    private javax.swing.JButton clearPSTButton;
-    private javax.swing.JButton clearSkypeeButton;
-    private javax.swing.JButton clearYahooButton;
     private javax.swing.JTextArea descriptionTextArea;
-    private javax.swing.JCheckBox docCheckBox;
-    private javax.swing.JList documentList;
-    private javax.swing.JCheckBox ffCheckBox;
-    private javax.swing.JList ffList;
     private javax.swing.JButton finishButton;
-    private javax.swing.JCheckBox htmlCheckBox;
-    private javax.swing.JCheckBox ieCheckBox;
-    private javax.swing.JList ieList;
-    private javax.swing.JCheckBox imagesCheckBox;
-    private javax.swing.JPanel indexBroswerPanel;
-    private javax.swing.JPanel indexChatPanel;
-    private javax.swing.JPanel indexChatPanel2;
-    private javax.swing.JPanel indexEmailPanel;
-    private javax.swing.JPanel indexFileSystemPanel;
     private javax.swing.JPanel indexFooterPanel;
     private javax.swing.JPanel indexHeaderPanel;
     private javax.swing.JPanel indexInfoPanel;
     private javax.swing.JPanel indexWizardPanel;
     private javax.swing.JTextField investigatorTextField;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JCheckBox jCheckBox4;
+    private javax.swing.JCheckBox jCheckBox5;
+    private javax.swing.JCheckBox jCheckBox6;
+    private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton10;
+    private javax.swing.JRadioButton jRadioButton11;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JRadioButton jRadioButton5;
+    private javax.swing.JRadioButton jRadioButton6;
+    private javax.swing.JRadioButton jRadioButton7;
+    private javax.swing.JRadioButton jRadioButton8;
+    private javax.swing.JRadioButton jRadioButton9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JRadioButton manualRadioButton;
-    private javax.swing.JButton manulPSTButton;
-    private javax.swing.JCheckBox msnCheckBox;
-    private javax.swing.JList msnList;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private javax.swing.JButton nextButton;
-    private javax.swing.JCheckBox outlookCheckBox;
-    private javax.swing.JCheckBox pdfCheckBox;
-    private javax.swing.JList pstList;
-    private javax.swing.JButton removeButton;
-    private javax.swing.JButton removeFFButton;
-    private javax.swing.JButton removeIEButton;
-    private javax.swing.JButton removeMSNButton;
-    private javax.swing.JButton removePSTButton;
-    private javax.swing.JButton removeSkypeeButton;
-    private javax.swing.JButton removeYahooButton;
-    private javax.swing.JCheckBox rtfCheckBox;
-    private javax.swing.JButton selectAllDrivesButton;
-    private javax.swing.JCheckBox skypeeCheckBox;
-    private javax.swing.JList skypeeList;
-    private javax.swing.JCheckBox txtCheckBox;
-    private javax.swing.JCheckBox xmlCheckBox;
-    private javax.swing.JCheckBox yahooCheckBox;
-    private javax.swing.JList yahooList;
     // End of variables declaration//GEN-END:variables
 }
