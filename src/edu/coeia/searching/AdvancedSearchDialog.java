@@ -22,7 +22,6 @@ import java.io.IOException ;
 import java.io.File ;
 
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  *
@@ -32,12 +31,10 @@ import java.util.ArrayList;
 class AdvancedSearchDialog extends javax.swing.JDialog {
 
     private JFileChooser fileChooser ;
-
     private String queryText ;
-    private List<String> supportedExtensions ;
     
     /** Creates new form AdvancedSearchDialog */
-    public AdvancedSearchDialog(java.awt.Frame parent, boolean modal, List<String> exts) {
+    public AdvancedSearchDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
@@ -52,34 +49,6 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
         orFileTextField.getDocument().addDocumentListener( new TextInputListener());
         orTextField1.getDocument().addDocumentListener( new TextInputListener());
         notTextField.getDocument().addDocumentListener( new TextInputListener());
-
-        // add the supported extension in index
-        for(String ext: exts){
-            if ( ext.equalsIgnoreCase("txt")){
-                txtCheckBox1.setEnabled(true);
-                txtCheckBox1.setSelected(true);
-            }
-            else if ( ext.equalsIgnoreCase("doc")) {
-                docCheckBox1.setEnabled(true);
-                docCheckBox1.setSelected(true);
-            }
-            else if ( ext.equalsIgnoreCase("pdf")){
-                pdfCheckBox1.setEnabled(true);
-                pdfCheckBox1.setSelected(true);
-            }
-            else if ( ext.equalsIgnoreCase("xml")){
-                xmlCheckBox1.setEnabled(true);
-                xmlCheckBox1.setSelected(true);
-            }
-            else if ( ext.equalsIgnoreCase("rtf")){
-                rtfCheckBox1.setEnabled(true);
-                rtfCheckBox1.setSelected(true);
-            }
-            else if ( ext.equalsIgnoreCase("html") || ext.equalsIgnoreCase("htm") || ext.equalsIgnoreCase("mht")){
-                htmlCheckBox1.setEnabled(true);
-                htmlCheckBox1.setSelected(true);
-            }
-        }
     }
 
     /** This method is called from within the constructor to
@@ -104,19 +73,12 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         notTextField = new javax.swing.JTextField();
-        advancedSearchButton = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         orFileTextField = new javax.swing.JTextField();
         selectFileButton = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
-        pdfCheckBox1 = new javax.swing.JCheckBox();
-        txtCheckBox1 = new javax.swing.JCheckBox();
-        rtfCheckBox1 = new javax.swing.JCheckBox();
-        htmlCheckBox1 = new javax.swing.JCheckBox();
-        xmlCheckBox1 = new javax.swing.JCheckBox();
-        docCheckBox1 = new javax.swing.JCheckBox();
         jToolBar2 = new javax.swing.JToolBar();
         resultLabel = new javax.swing.JLabel();
+        advancedSearchButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Advanced Search Options");
@@ -158,14 +120,6 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
 
         notTextField.setText(" ");
 
-        advancedSearchButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        advancedSearchButton.setText("Advanced Search");
-        advancedSearchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                advancedSearchButtonActionPerformed(evt);
-            }
-        });
-
         jLabel10.setText("OR from List file:");
         jLabel10.setToolTipText("the result will be connected by OR operator");
 
@@ -179,84 +133,44 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
             }
         });
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel11.setText("File Type...");
-
-        pdfCheckBox1.setText("PDF ");
-        pdfCheckBox1.setEnabled(false);
-
-        txtCheckBox1.setText("TXT");
-        txtCheckBox1.setEnabled(false);
-
-        rtfCheckBox1.setText("RTF");
-        rtfCheckBox1.setEnabled(false);
-
-        htmlCheckBox1.setText("HTML/HTM");
-        htmlCheckBox1.setEnabled(false);
-
-        xmlCheckBox1.setText("XML");
-        xmlCheckBox1.setEnabled(false);
-
-        docCheckBox1.setText("DOC");
-        docCheckBox1.setEnabled(false);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel2)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGap(8, 8, 8)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel3))
+                                    .addGap(68, 68, 68))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addGap(18, 18, 18)))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel2)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addGap(8, 8, 8)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel4)
-                                                .addComponent(jLabel3))
-                                            .addGap(68, 68, 68))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel5)
-                                            .addGap(18, 18, 18)))
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel10)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(orFileTextField)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(selectFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(phraseTextField)
-                                        .addComponent(andTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                                        .addComponent(orTextField1))
-                                    .addGap(34, 34, 34)))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel8)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                    .addComponent(jLabel9)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel10)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(notTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel11)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(pdfCheckBox1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(docCheckBox1)
-                                .addGap(8, 8, 8)
-                                .addComponent(xmlCheckBox1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(htmlCheckBox1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rtfCheckBox1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCheckBox1))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(194, 194, 194)
-                        .addComponent(advancedSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(orFileTextField)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(selectFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(phraseTextField)
+                                .addComponent(andTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                                .addComponent(orTextField1))
+                            .addGap(34, 34, 34)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel8)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                            .addComponent(jLabel9)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(notTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -287,19 +201,7 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                     .addComponent(jLabel9)
                     .addComponent(notTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pdfCheckBox1)
-                    .addComponent(docCheckBox1)
-                    .addComponent(xmlCheckBox1)
-                    .addComponent(htmlCheckBox1)
-                    .addComponent(rtfCheckBox1)
-                    .addComponent(txtCheckBox1))
-                .addGap(27, 27, 27)
-                .addComponent(advancedSearchButton, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jToolBar2.setFloatable(false);
@@ -309,6 +211,15 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
         resultLabel.setMaximumSize(new java.awt.Dimension(500, 14));
         resultLabel.setMinimumSize(new java.awt.Dimension(10, 14));
         jToolBar2.add(resultLabel);
+
+        advancedSearchButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        advancedSearchButton.setText("Advanced Search");
+        advancedSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                advancedSearchButtonActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(advancedSearchButton);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -326,8 +237,8 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -339,34 +250,10 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_selectFileButtonActionPerformed
 
     private void advancedSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_advancedSearchButtonActionPerformed
-        supportedExtensions = new ArrayList<String>();
-        
-        if ( txtCheckBox1.isSelected() )
-            supportedExtensions.add("txt");
-
-        if ( rtfCheckBox1.isSelected())
-            supportedExtensions.add("rtf");
-
-        if (htmlCheckBox1.isSelected()) {
-            supportedExtensions.add("html");
-            supportedExtensions.add("htm");
-            supportedExtensions.add("mht");
-        }
-
-        if (docCheckBox1.isSelected())
-            supportedExtensions.add("doc");
-
-        if (pdfCheckBox1.isSelected())
-            supportedExtensions.add("pdf");
-
-        if ( xmlCheckBox1.isSelected())
-            supportedExtensions.add("xml");
-
         setVisible(false);
     }//GEN-LAST:event_advancedSearchButtonActionPerformed
 
     public String getQuery () { return queryText; }
-    public List<String> getSupportedExtensions () { return supportedExtensions ; }
     
     private class TextInputListener implements DocumentListener {
         public void changedUpdate(DocumentEvent e){ addToResult(); }
@@ -380,37 +267,37 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
         String and = andTextField.getText().trim() ;
         if ( ! and.isEmpty() ) {
             if ( result.toString().trim().length() > 0)
-                result.append(" AND " + tokenText(and, "AND"));
+                result.append(" AND ").append(tokenText(and, "AND"));
             else
-                result.append("" + tokenText(and, "AND"));
+                result.append("").append(tokenText(and, "AND"));
         }
 
         String phrase = phraseTextField.getText().trim();
         if ( ! phrase.isEmpty() )
-            result.append(" \"" + phrase + "\"");
+            result.append(" \"").append(phrase).append("\"");
 
         String or1 = orTextField1.getText().trim();
         if ( ! or1.isEmpty() ) {
             if ( result.toString().trim().length() > 0)
-                result.append(" OR " + tokenText(or1, "OR") );
+                result.append(" OR ").append(tokenText(or1, "OR"));
             else
-                result.append(" " + tokenText(or1, "OR") );
+                result.append(" ").append(tokenText(or1, "OR"));
         }
 
         String orFile = orFileTextField.getText().trim();
         if ( ! orFile.isEmpty() ) {
             if ( result.toString().trim().length() > 0)
-                result.append(" OR " + tokenText(orFile, "OR") );
+                result.append(" OR ").append(tokenText(orFile, "OR"));
             else
-                result.append(" " + tokenText(orFile, "OR") );
+                result.append(" ").append(tokenText(orFile, "OR"));
         }
 
         String not = notTextField.getText().trim();
         if ( ! not.isEmpty() )  {
             if ( result.toString().trim().length() > 0)
-                result.append(" NOT " + tokenText(not, "NOT") );
+                result.append(" NOT ").append(tokenText(not, "NOT"));
             else
-                result.append(" " + tokenText(not, "NOT") );
+                result.append(" ").append(tokenText(not, "NOT"));
         }
 
         resultLabel.setText(result.toString());
@@ -441,11 +328,8 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton advancedSearchButton;
     private javax.swing.JTextField andTextField;
-    private javax.swing.JCheckBox docCheckBox1;
-    private javax.swing.JCheckBox htmlCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -458,13 +342,9 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
     private javax.swing.JTextField notTextField;
     private javax.swing.JTextField orFileTextField;
     private javax.swing.JTextField orTextField1;
-    private javax.swing.JCheckBox pdfCheckBox1;
     private javax.swing.JTextField phraseTextField;
     private javax.swing.JLabel resultLabel;
-    private javax.swing.JCheckBox rtfCheckBox1;
     private javax.swing.JButton selectFileButton;
-    private javax.swing.JCheckBox txtCheckBox1;
-    private javax.swing.JCheckBox xmlCheckBox1;
     // End of variables declaration//GEN-END:variables
 
 }

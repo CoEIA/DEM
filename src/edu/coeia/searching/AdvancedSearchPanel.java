@@ -619,16 +619,12 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }
     
     private void showAdvancedSearch() {
-        AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true, caseObj.getExtensionAllowed());
+        AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true);
         asd.setVisible(true);
 
         String query = asd.getQuery() ;
-        List<String> ext = asd.getSupportedExtensions() ;
 
         if ( query == null || query.isEmpty() )
-            return ;
-
-        if ( ext == null || ext.isEmpty())
             return ;
 
         queryTextField.setText(query);
