@@ -52,17 +52,19 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     private long time ;
     private File indexLocation  ;
     private String queryString ;
-    private GUIComponent searchGUI ;
     private LuceneSearcher searcher ;
     private int count = 0 ;
     private List<String> extensionsAllowed, filePath;
+    private AdvancedSearchPanel panel ;
+    private SearchScope searchScope; 
     
-    public SearcherThread (File indexLocation, String queryString, GUIComponent searchGUI) {
+    public SearcherThread (File indexLocation, String queryString, AdvancedSearchPanel panel, SearchScope fields) {
         this.indexLocation = indexLocation ;
         this.queryString = queryString;
-        this.searchGUI = searchGUI ;
-
-        extensionsAllowed = searchGUI.getExtension();
+        this.panel = panel ;
+        this.searchScope = fields ;
+        
+        extensionsAllowed = panel.getSupportedExtension();
         filePath = new ArrayList<String>();
     }
     
@@ -71,7 +73,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             long start = new Date().getTime();
             
             searcher = new LuceneSearcher(indexLocation);
-            count = searcher.search(queryString);
+            count = searcher.search(queryString, this.searchScope);
 
             fillTable();
             
@@ -116,19 +118,19 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             
             Date date = new Date(file.lastModified());
             
-            ((DefaultTableModel)searchGUI.table.getModel()).addRow(new Object[] {
+            ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
                 fileId, fileName, fileTitle, Utilities.formatDateTime(date), size, 0
             });
         }
 
        int index = chunks.size()-1 ;
        //Utilities.scrollToVisible(searchGUI.table,(chunks.get(index)).getCount(),0);
-       Utilities.packColumns(searchGUI.table, index);
+       Utilities.packColumns(panel.getSearchTable(), index);
     }
     
     @Override
     public void done() {
-        searchGUI.progressBar.setIndeterminate(false);
+        panel.getSearchProgressBar().setIndeterminate(false);
         //searchGUI.timeLbl.setText("" + Utilities.getTimeFromMilliseconds(time));
         //searchGUI.dateLbl.setText(Utilities.formatDateTime(new Date()));
         //searchGUI.indexLocationLbl.setText(indexLocation.getAbsoluteFile().getName());
@@ -139,11 +141,11 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             // show clustering in cluster tree
             ArrayList<Tuple<String, ArrayList<String>>> result = ClusteringData.clustetringData(
                     indexLocation, queryString, IndexingConstant.FILE_NAME, IndexingConstant.FILE_CONTENT);        
-            buildTree("Result OF Clustering Path", result, searchGUI.clusterTree);
+            buildTree("Result OF Clustering Path", result, panel.getClusterPathTree());
 
             // show clustering in type cluster tree
             result = getTypeClustering();
-            buildTree("Result OF Clustering Type", result, searchGUI.clusterTypeTree);
+            buildTree("Result OF Clustering Type", result, this.panel.getClusterTypeTree());
             
         }
         catch (Exception e){

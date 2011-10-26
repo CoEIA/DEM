@@ -35,6 +35,11 @@ import java.util.logging.Level;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 import edu.coeia.indexing.IndexingConstant;
+import java.util.ArrayList;
+import java.util.Collections;
+import javax.swing.JProgressBar;
+import javax.swing.JTable;
+import javax.swing.JTree;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Fieldable;
 import org.apache.tika.Tika;
@@ -78,14 +83,14 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         LeftPanel = new javax.swing.JPanel();
         searchScopePanel = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
-        jCheckBox8 = new javax.swing.JCheckBox();
+        fileSystemCheckBox = new javax.swing.JCheckBox();
+        fileSystemMetadataCheckBox = new javax.swing.JCheckBox();
+        fileSystemContentCheckBox = new javax.swing.JCheckBox();
+        emailCheckBox = new javax.swing.JCheckBox();
+        emailHeaderCheckBox = new javax.swing.JCheckBox();
+        emailContentCheckBox = new javax.swing.JCheckBox();
+        chatCheckBox = new javax.swing.JCheckBox();
+        chatContentCheckBox = new javax.swing.JCheckBox();
         headerPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         queryTextField = new javax.swing.JTextField();
@@ -122,31 +127,38 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         searchScopePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Search Scope"));
 
-        jCheckBox1.setSelected(true);
-        jCheckBox1.setText("File System:");
-        jCheckBox1.setEnabled(false);
+        fileSystemCheckBox.setSelected(true);
+        fileSystemCheckBox.setText("File System:");
+        fileSystemCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileSystemCheckBoxActionPerformed(evt);
+            }
+        });
 
-        jCheckBox2.setText("Metadata");
-        jCheckBox2.setEnabled(false);
+        fileSystemMetadataCheckBox.setText("Metadata");
 
-        jCheckBox3.setSelected(true);
-        jCheckBox3.setText("Content");
-        jCheckBox3.setEnabled(false);
+        fileSystemContentCheckBox.setSelected(true);
+        fileSystemContentCheckBox.setText("Content");
 
-        jCheckBox4.setText("Email:");
-        jCheckBox4.setEnabled(false);
+        emailCheckBox.setText("Email:");
+        emailCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailCheckBoxActionPerformed(evt);
+            }
+        });
 
-        jCheckBox5.setText("Headers");
-        jCheckBox5.setEnabled(false);
+        emailHeaderCheckBox.setText("Headers");
 
-        jCheckBox6.setText("Content");
-        jCheckBox6.setEnabled(false);
+        emailContentCheckBox.setText("Content");
 
-        jCheckBox7.setText("Instant Messaging:");
-        jCheckBox7.setEnabled(false);
+        chatCheckBox.setText("Instant Messaging:");
+        chatCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chatCheckBoxActionPerformed(evt);
+            }
+        });
 
-        jCheckBox8.setText("Content");
-        jCheckBox8.setEnabled(false);
+        chatContentCheckBox.setText("Content");
 
         javax.swing.GroupLayout searchScopePanelLayout = new javax.swing.GroupLayout(searchScopePanel);
         searchScopePanel.setLayout(searchScopePanelLayout);
@@ -155,44 +167,44 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             .addGroup(searchScopePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox4)
+                    .addComponent(fileSystemCheckBox)
+                    .addComponent(emailCheckBox)
                     .addGroup(searchScopePanelLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, searchScopePanelLayout.createSequentialGroup()
-                                .addComponent(jCheckBox5)
+                                .addComponent(emailHeaderCheckBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBox6))
+                                .addComponent(emailContentCheckBox))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, searchScopePanelLayout.createSequentialGroup()
-                                .addComponent(jCheckBox2)
+                                .addComponent(fileSystemMetadataCheckBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBox3))))
+                                .addComponent(fileSystemContentCheckBox))))
                     .addGroup(searchScopePanelLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jCheckBox8))
-                    .addComponent(jCheckBox7))
+                        .addComponent(chatContentCheckBox))
+                    .addComponent(chatCheckBox))
                 .addContainerGap(120, Short.MAX_VALUE))
         );
         searchScopePanelLayout.setVerticalGroup(
             searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(searchScopePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCheckBox1)
+                .addComponent(fileSystemCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3))
+                    .addComponent(fileSystemMetadataCheckBox)
+                    .addComponent(fileSystemContentCheckBox))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox4)
+                .addComponent(emailCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox5)
-                    .addComponent(jCheckBox6))
+                    .addComponent(emailHeaderCheckBox)
+                    .addComponent(emailContentCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addComponent(jCheckBox7)
+                .addComponent(chatCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox8)
+                .addComponent(chatContentCheckBox)
                 .addContainerGap())
         );
 
@@ -526,7 +538,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_clusterTypeTreeValueChanged
 
     private void startSearchingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSearchingButtonActionPerformed
-        startSearching(caseObj.getExtensionAllowed());
+        startSearching();
     }//GEN-LAST:event_startSearchingButtonActionPerformed
 
     private void clearLabelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearLabelButtonMouseClicked
@@ -548,6 +560,37 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private void resultSavingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultSavingButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_resultSavingButtonActionPerformed
+
+    private void fileSystemCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemCheckBoxActionPerformed
+        if ( fileSystemCheckBox.isSelected() ) {
+            fileSystemContentCheckBox.setEnabled(true);
+            fileSystemMetadataCheckBox.setEnabled(true);
+        }
+        else {
+            fileSystemContentCheckBox.setEnabled(false);
+            fileSystemMetadataCheckBox.setEnabled(false);
+        }
+    }//GEN-LAST:event_fileSystemCheckBoxActionPerformed
+
+    private void emailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailCheckBoxActionPerformed
+        if ( emailCheckBox.isSelected() ) {
+            emailContentCheckBox.setEnabled(true);
+            emailHeaderCheckBox.setEnabled(true);
+        }
+        else {
+            emailContentCheckBox.setEnabled(false);
+            emailHeaderCheckBox.setEnabled(false);
+        }
+    }//GEN-LAST:event_emailCheckBoxActionPerformed
+
+    private void chatCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatCheckBoxActionPerformed
+        if ( chatCheckBox.isSelected() ) {
+            chatContentCheckBox.setEnabled(true);
+        }
+        else {
+            chatContentCheckBox.setEnabled(false);
+        }        
+    }//GEN-LAST:event_chatCheckBoxActionPerformed
 
     private void tableMouseEvent(java.awt.event.MouseEvent evt) {
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
@@ -589,7 +632,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             return ;
 
         queryTextField.setText(query);
-        startSearching(ext);
+        startSearching();
     }
     
     private void clusterPathTreeAction() {
@@ -722,7 +765,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         return (bodyText);
     }
     
-    private void startSearching (List<String> supportedExtension) {
+    private void startSearching () {
         removeSearchField(false,false);
 
         if ( caseObj.getIndexStatus() == false ) {
@@ -741,14 +784,52 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         Utilities.packColumns(searchTable, 2);
         searchProgressBard.setIndeterminate(true);
-
-        GUIComponent searchGUI = new GUIComponent(searchProgressBard,searchTable,null,null,
-            null,null, supportedExtension , clusterPathTree,clusterTypeTree);
-
-         SearcherThread sThread = new SearcherThread(indexLocation,queryString,searchGUI);
+        
+        // build lucene fileds
+        SearchScope searchScope = getSearchScope();
+        
+         SearcherThread sThread = new SearcherThread(indexLocation,queryString,this, searchScope);
          sThread.execute();
     }
+    
+    private SearchScope getSearchScope() {
+        SearchScope.Builder builder = new SearchScope.Builder();
+        
+        if ( fileSystemCheckBox.isSelected() ) {
+            if ( fileSystemContentCheckBox.isSelected() ) {
+                builder = builder.fileSystemContent(true);
+            }
+            
+            if ( fileSystemMetadataCheckBox.isSelected() ) {
+                builder = builder.fileSystemMetadata(true);
+            }
+        }
+        
+        if ( emailCheckBox.isSelected() ) {
+            if ( emailContentCheckBox.isSelected() ) {
+                builder = builder.emailContent(true);
+            }
+            
+            if ( emailHeaderCheckBox.isSelected() ) {
+                builder = builder.emailHeader(true);
+            }
+        }
+        
+        if ( chatCheckBox.isSelected() ) {
+            if ( chatContentCheckBox.isSelected() ) {
+                builder = builder.chatContent(true);
+            }
+        }
+        
+        return builder.build();
+    }
 
+    JProgressBar getSearchProgressBar () { return this.searchProgressBard ; }
+    JTable getSearchTable() { return this.searchTable ; }
+    List<String> getSupportedExtension () { return new ArrayList<String>(); }
+    JTree getClusterPathTree() { return this.clusterPathTree ;}
+    JTree getClusterTypeTree() { return this.clusterTypeTree ;}
+    
     private void removeSearchField (boolean all, boolean restCheckBox) {
         searchProgressBard.setIndeterminate(false); 
 
@@ -783,21 +864,21 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private javax.swing.JPanel LeftPanel;
     private javax.swing.JLabel advancedSearchLabelButton;
     private javax.swing.JPanel audioViewPanel;
+    private javax.swing.JCheckBox chatCheckBox;
+    private javax.swing.JCheckBox chatContentCheckBox;
     private javax.swing.JLabel clearLabelButton;
     private javax.swing.JTree clusterPathTree;
     private javax.swing.JTree clusterTypeTree;
     private javax.swing.JPanel documentView;
+    private javax.swing.JCheckBox emailCheckBox;
+    private javax.swing.JCheckBox emailContentCheckBox;
+    private javax.swing.JCheckBox emailHeaderCheckBox;
     private javax.swing.JPanel fileRenderPanel;
+    private javax.swing.JCheckBox fileSystemCheckBox;
+    private javax.swing.JCheckBox fileSystemContentCheckBox;
+    private javax.swing.JCheckBox fileSystemMetadataCheckBox;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JPanel imageViewPanel;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel22;

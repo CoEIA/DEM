@@ -670,8 +670,8 @@ private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent ev
         GUIComponent searchGUI = new GUIComponent(searchProgressBard,searchTable,searchingDateLbl,indexDirLbl2,
             userQueryLbl,searchTime, supportedExtension , clusterPathTree,clusterTypeTree);
 
-         SearcherThread sThread = new SearcherThread(indexLocation,queryString,searchGUI);
-         sThread.execute();
+//         SearcherThread sThread = new SearcherThread(indexLocation,queryString,searchGUI);
+//         sThread.execute();
     }
 
     private void removeSearchField (boolean all, boolean restCheckBox) {
