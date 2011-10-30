@@ -10,20 +10,19 @@
  */
 package edu.coeia.searching;
 
-
 import edu.coeia.cases.Case;
-
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
-import edu.coeia.util.MetaDataExtraction ;
+import edu.coeia.indexing.IndexingConstant;
 
 import java.awt.BorderLayout;
 import java.awt.event.InputEvent;
 
+import javax.swing.JProgressBar;
+import javax.swing.JTable;
 import javax.swing.JOptionPane ;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.tree.DefaultMutableTreeNode ;
 import javax.swing.JFrame;
 
 import java.io.File ;
@@ -31,17 +30,12 @@ import java.io.File ;
 import java.util.List; 
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.ArrayList;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
-import edu.coeia.indexing.IndexingConstant;
-import java.util.ArrayList;
-import java.util.Collections;
-import javax.swing.JProgressBar;
-import javax.swing.JTable;
-import javax.swing.JTree;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Fieldable;
-import org.apache.tika.Tika;
 
 /**
  *
@@ -603,16 +597,23 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 //       }
 //    }
     
-    private void showInformationByID (String fileId) {
-        System.out.println("fileId: " + fileId);
-        
+    private void showInformationByID (String fileId) {        
         try {
             File indexPath = new File(caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+            
+            // Do Lucene Search
             LuceneSearcher searcher = new LuceneSearcher(indexPath);
             Document document = searcher.searchById(fileId);
             
-            String content = document.get(IndexingConstant.FILE_CONTENT);
+            //TODO: Getting Object Type
+            // Show Object Content, FILE, CHAT, EMAIL
             
+            // Show File Content
+            String content = document.get(IndexingConstant.FILE_CONTENT);
+            String keyword = queryTextField.getText().trim().toLowerCase();
+            fileBrowser.setHTMLContent(highlightString(content, keyword));
+            
+            // show matadata information for File
             List<Fieldable> fields = document.getFields();
             StringBuilder metadataBuilder = new StringBuilder();
             
@@ -622,13 +623,8 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             }
             
             String metadata = metadataBuilder.toString();
-            String keyword = queryTextField.getText().trim().toLowerCase();
-            
-            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-            String rep = content.replace(keyword, highlither);
-            fileBrowser.setHTMLContent(rep);
-
-            // show matadata information for file
+            //TODO: replace metadate view to browser or html type to support html rendering
+            //metaDataTextArea.setText(highlightString(metadata, keyword));
             metaDataTextArea.setText(metadata);
 
             fileRenderPanel.validate();
@@ -638,36 +634,11 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         }
     }
     
-//    private void showInformation (String filePath) throws Exception {
-//        File fileName = new File(filePath);
-//        
-//        String keyword = queryTextField.getText().trim();
-//        String extension = Utilities.getExtension(fileName);
-//        
-//        String content = parseFile(fileName);
-//        String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-//        String rep = content.replace(keyword, highlither);
-//        fileBrowser.setHTMLContent(rep);
-//            
-//        // show matadata information for file
-//        String metaData = MetaDataExtraction.getMetaData(filePath);
-//        metaDataTextArea.setText(metaData);
-//        
-//        fileRenderPanel.validate();
-//    }
-    
-    private String parseFile(final File filePath) {
-        Tika tika = new Tika();
-        String bodyText = "" ;
+    private String highlightString (String content, String keyword) {
+        String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+        String highlitedString = content.replace(keyword, highlither);
         
-        try {
-            bodyText = tika.parseToString(filePath);
-        }
-        catch (Exception e ){
-            
-        }
-        
-        return (bodyText);
+        return highlitedString ;
     }
     
     private void startSearching () {
