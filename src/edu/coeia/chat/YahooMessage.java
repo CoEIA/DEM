@@ -10,8 +10,10 @@ package edu.coeia.chat;
  * @author wajdyessam
  */
 
-import edu.coeia.util.Utilities;
+import edu.coeia.util.DateUtil;
+
 import java.io.UnsupportedEncodingException;
+
 import java.util.Date ;
 
 /**
@@ -79,7 +81,7 @@ public final class YahooMessage {
         result.append("YahooMessage").append("[")
                 .append("from: ").append(from)
                 .append(", To:").append(to)
-                .append(", Time: ").append(Utilities.formatDateTime(this.getTimeStamp()));
+                .append(", Time: ").append(DateUtil.formatDateTime(this.getTimeStamp()));
         
         try {
             byte[] plainText  = YahooMessageDecoder.decode(this.cipherText,this.profileName);

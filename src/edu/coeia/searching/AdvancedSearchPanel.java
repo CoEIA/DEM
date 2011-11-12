@@ -12,9 +12,9 @@ package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.GuiUtil;
-import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.gutil.JTableUtil;
 
 import java.awt.BorderLayout;
 import java.awt.event.InputEvent;
@@ -61,7 +61,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         fileBrowser.setStatusBarVisible(false);
         fileRenderPanel.add(fileBrowser, BorderLayout.CENTER);  
         
-        Utilities.packColumns(searchTable, 0);
+        JTableUtil.packColumns(searchTable, 0);
         disableNotIndexedComponent();        
     }
 
@@ -658,7 +658,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             return  ;
         }
 
-        Utilities.packColumns(searchTable, 2);
+        JTableUtil.packColumns(searchTable, 2);
         searchProgressBard.setIndeterminate(true);
         
         // build lucene fileds

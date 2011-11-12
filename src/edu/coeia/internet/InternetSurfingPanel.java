@@ -12,6 +12,7 @@ import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.email.CorrelationDialog;
+import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.FileUtil;
 
 import java.awt.Desktop ;
@@ -85,7 +86,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         
         disableNotIndexedComponent();
                 
-        Utilities.setTableAlignmentValue(summaryTable, 1);
+        JTableUtil.setTableAlignmentValue(summaryTable, 1);
     }
 
     /** This method is called from within the constructor to
@@ -1195,7 +1196,7 @@ private void summaryInternetButtonActionPerformed(java.awt.event.ActionEvent evt
         }
 
         if ( summaryTable.getModel().getRowCount() > 0 )
-            Utilities.removeAllRows(summaryTable);
+            JTableUtil.removeAllRows(summaryTable);
         
         for (InternetSummaryDate data: result) {
             ((DefaultTableModel)summaryTable.getModel()).addRow( new Object[] {
@@ -1383,7 +1384,7 @@ private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
            //int margin = 1;
            //Utilities.packColumns(downloadTable, margin);
 
-           Utilities.scrollToVisible(downloadTable, 0, 0);
+           JTableUtil.scrollToVisible(downloadTable, 0, 0);
        }
        catch (SQLException e){
 //              e.printStackTrace();
@@ -1558,7 +1559,7 @@ private void ffViewHTMLReportButtonActionPerformed(java.awt.event.ActionEvent ev
             ArrayList<String> data = new ArrayList<String>();
             data.add(result.toString());
             
-            Utilities.writeToFile(data, FilesPath.FF_REPORT);
+            FileUtil.writeToFile(data, FilesPath.FF_REPORT);
             
             // lunch browser
             Desktop desktop = null;
@@ -1609,17 +1610,17 @@ private void ffVisualizingVisitedHostButtonActionPerformed(java.awt.event.Action
 private void mozillaFilterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mozillaFilterComboBoxActionPerformed
         // date sorting for all tables in mozilla
         if (mozillaFilterComboBox.getSelectedIndex() == 0  ) {
-            Utilities.sortTable(webHistoryTable,0);
-            Utilities.sortTable(bookmarkTable,2);
-            Utilities.sortTable(cookiesTable,4);
-            Utilities.sortTable(logginsTable,3);
+            JTableUtil.sortTable(webHistoryTable,0);
+            JTableUtil.sortTable(bookmarkTable,2);
+            JTableUtil.sortTable(cookiesTable,4);
+            JTableUtil.sortTable(logginsTable,3);
         }
         else if ( mozillaFilterComboBox.getSelectedIndex() == 1  ) {
-            Utilities.sortTable(webHistoryTable,1);
-            Utilities.sortTable(bookmarkTable,1);
-            Utilities.sortTable(cookiesTable,0);
-            Utilities.sortTable(downloadTable,1);
-            Utilities.sortTable(logginsTable,0);
+            JTableUtil.sortTable(webHistoryTable,1);
+            JTableUtil.sortTable(bookmarkTable,1);
+            JTableUtil.sortTable(cookiesTable,0);
+            JTableUtil.sortTable(downloadTable,1);
+            JTableUtil.sortTable(logginsTable,0);
         }
 }//GEN-LAST:event_mozillaFilterComboBoxActionPerformed
 
@@ -1662,14 +1663,14 @@ private void webHistoryButton1ActionPerformed(java.awt.event.ActionEvent evt) {/
 
                // Pack the all columns of the table
                int margin = 1;
-               Utilities.packColumns(IEWebHistoryTable, margin);
+               JTableUtil.packColumns(IEWebHistoryTable, margin);
            }
            else {
                 System.out.println("not found in: " + userPath);
                
                 // remove old data
                 if ( IEWebHistoryTable.getModel().getRowCount() > 0 )
-                     Utilities.removeAllRows(IEWebHistoryTable);
+                     JTableUtil.removeAllRows(IEWebHistoryTable);
            }
        }
        catch (IOException e){
@@ -1697,14 +1698,14 @@ private void bookmarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
 
                // Pack the all columns of the table
                int margin = 1;
-               Utilities.packColumns(IEBookmarkTable, margin);
+               JTableUtil.packColumns(IEBookmarkTable, margin);
            }
            else {
                 System.out.println("not found in: " + userPath);
 
                 // remove old data
                 if ( IEBookmarkTable.getModel().getRowCount() > 0 )
-                    Utilities.removeAllRows(IEBookmarkTable);
+                    JTableUtil.removeAllRows(IEBookmarkTable);
            }
        }
        catch (IOException e){
@@ -1728,14 +1729,14 @@ private void cookiesButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
 
                 // Pack the all columns of the table
                 int margin = 1;
-                Utilities.packColumns(IECookiesTable, margin);
+                JTableUtil.packColumns(IECookiesTable, margin);
             }
             else {
                 System.out.println("not found in: " + userPath);
 
                 // remove old data
                 if ( IECookiesTable.getModel().getRowCount() > 0 )
-                     Utilities.removeAllRows(IECookiesTable);
+                     JTableUtil.removeAllRows(IECookiesTable);
            }
         }
         catch (IOException e){
@@ -1759,14 +1760,14 @@ private void cacheButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 
                 // Pack the all columns of the table
                 int margin = 1;
-                Utilities.packColumns(IECacheTable, margin);
+                JTableUtil.packColumns(IECacheTable, margin);
             }
             else {
                 System.out.println("not found in: " + userPath);
 
                 // remove old data
                 if ( IECacheTable.getModel().getRowCount() > 0 )
-                     Utilities.removeAllRows(IECacheTable);
+                     JTableUtil.removeAllRows(IECacheTable);
            }
         }
         catch (IOException e){
@@ -1788,7 +1789,7 @@ private void logginsButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
 
            // Pack the all columns of the table
            int margin = 1;
-           Utilities.packColumns(IELogginsTable, margin);
+           JTableUtil.packColumns(IELogginsTable, margin);
         }
         catch (IOException e){
             e.printStackTrace();
@@ -1803,16 +1804,16 @@ private void logginsButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
 private void IEFilterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IEFilterComboBoxActionPerformed
         // date sorting for all tables in IE
         if (IEFilterComboBox.getSelectedIndex() == 0  ) {
-            Utilities.sortTable(IEWebHistoryTable,3);
-            Utilities.sortTable(IECacheTable,0);
-            Utilities.sortTable(IECookiesTable,0);
+            JTableUtil.sortTable(IEWebHistoryTable,3);
+            JTableUtil.sortTable(IECacheTable,0);
+            JTableUtil.sortTable(IECookiesTable,0);
         }
         else if ( IEFilterComboBox.getSelectedIndex() == 1  ) {
-            Utilities.sortTable(IEWebHistoryTable,0);
-            Utilities.sortTable(IEBookmarkTable,0);
-            Utilities.sortTable(IECookiesTable,1);
-            Utilities.sortTable(IECacheTable,1);
-            Utilities.sortTable(IELogginsTable,0);
+            JTableUtil.sortTable(IEWebHistoryTable,0);
+            JTableUtil.sortTable(IEBookmarkTable,0);
+            JTableUtil.sortTable(IECookiesTable,1);
+            JTableUtil.sortTable(IECacheTable,1);
+            JTableUtil.sortTable(IELogginsTable,0);
         }
 }//GEN-LAST:event_IEFilterComboBoxActionPerformed
 
@@ -1953,7 +1954,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
                     if ( result == JFileChooser.APPROVE_OPTION) {
                         String name = fileChooser.getSelectedFile().getAbsolutePath();
-                        Utilities.exportJTable(table,name);
+                        JTableUtil.exportJTable(table,name);
                     }
                 }
                 catch (Exception e){
@@ -1975,7 +1976,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
         // remove old data
         if ( webHistoryTable.getModel().getRowCount() > 0 ) {
-             Utilities.removeAllRows(webHistoryTable);
+             JTableUtil.removeAllRows(webHistoryTable);
         }
         
         for (int i=0 ; i<rows.size() ; i++) {
@@ -1996,7 +1997,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
         // remove old data
         if ( bookmarkTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(bookmarkTable);
+             JTableUtil.removeAllRows(bookmarkTable);
         
         for (int i=0 ; i<rows.size() ; i++) {
             ((DefaultTableModel)bookmarkTable.getModel()).addRow(new Object[] {
@@ -2015,7 +2016,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
         // remove old data
         if ( cookiesTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(cookiesTable);
+             JTableUtil.removeAllRows(cookiesTable);
 
         for (int i=0 ; i<rows.size() ; i++) {
             ((DefaultTableModel)cookiesTable.getModel()).addRow(new Object[] {
@@ -2036,7 +2037,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
         // remove old data
         if ( downloadTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(downloadTable);
+             JTableUtil.removeAllRows(downloadTable);
 
         for (int i=0 ; i<rows.size() ; i++) {
             ((DefaultTableModel) downloadTable.getModel()).addRow(new Object[] {
@@ -2056,7 +2057,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
         // remove old data
         if ( logginsTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(logginsTable);
+             JTableUtil.removeAllRows(logginsTable);
         
         for (int i=0 ; i<rows.size() ; i++) {
             ((DefaultTableModel) logginsTable.getModel()).addRow(new Object[] {
@@ -2076,7 +2077,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
         // remove old data
         if ( searchEngineTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(searchEngineTable);
+             JTableUtil.removeAllRows(searchEngineTable);
 
         for (int i=0 ; i<rows.size() ; i++) {
             ((DefaultTableModel) searchEngineTable.getModel()).addRow(new Object[] {
@@ -2095,7 +2096,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
         
         // remove old data
         if ( topURLTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(topURLTable);
+             JTableUtil.removeAllRows(topURLTable);
 
         for (int i=0 ; i<rows.size() ; i++) {
             ((DefaultTableModel) topURLTable.getModel()).addRow(new Object[] {
@@ -2114,7 +2115,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
         // remove old data
         if ( topHostTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(topHostTable);
+             JTableUtil.removeAllRows(topHostTable);
 
         for (int i=0 ; i<rows.size() ; i++) {
             ((DefaultTableModel) topHostTable.getModel()).addRow(new Object[] {
@@ -2128,7 +2129,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
          // remove old data
         if ( IECacheTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(IECacheTable);
+             JTableUtil.removeAllRows(IECacheTable);
         
         for (int i=0 ; i<rows.size() ; i++) {
              String[] str = rows.get(i).split(",");
@@ -2165,7 +2166,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
         // remove old data
         if ( IEWebHistoryTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(IEWebHistoryTable);
+             JTableUtil.removeAllRows(IEWebHistoryTable);
         
         for (int i=0 ; i<rows.size() ; i++) {
              String[] str = rows.get(i).split("\t");
@@ -2184,7 +2185,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
         // remove old data
         if ( IEBookmarkTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(IEBookmarkTable);
+             JTableUtil.removeAllRows(IEBookmarkTable);
         
         for (int i=0; i<filesName.size() ; i++){
             ( (DefaultTableModel) IEBookmarkTable.getModel() ).addRow(
@@ -2198,7 +2199,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
         // remove old data
         if ( IELogginsTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(IELogginsTable);
+             JTableUtil.removeAllRows(IELogginsTable);
         
         for (int i=0 ; i<pass.size(); i++){
             String[] str = pass.get(i).split(",");
@@ -2219,7 +2220,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
     public void filterSummaryTable () {
         String text = summaryTextField.getText().trim();
-        GuiUtil.filterTable(summaryTable, text);
+        JTableUtil.filterTable(summaryTable, text);
     }
     
     private class MozillaInputListener implements DocumentListener {
@@ -2232,11 +2233,11 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
         String text = mozillaSearchField.getText().trim();
 
         // search in all tables for mozilla text search and filetr result
-        GuiUtil.filterTable(webHistoryTable, text);
-        GuiUtil.filterTable(bookmarkTable, text);
-        GuiUtil.filterTable(cookiesTable, text);
-        GuiUtil.filterTable(downloadTable,text) ;
-        GuiUtil.filterTable(logginsTable,text);
+        JTableUtil.filterTable(webHistoryTable, text);
+        JTableUtil.filterTable(bookmarkTable, text);
+        JTableUtil.filterTable(cookiesTable, text);
+        JTableUtil.filterTable(downloadTable,text) ;
+        JTableUtil.filterTable(logginsTable,text);
     }
 
     private class IEInputListener implements DocumentListener {
@@ -2249,11 +2250,11 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
         String text = IESearchField.getText().trim();
 
         // search in all tables for mozilla text search and filetr result
-        GuiUtil.filterTable(IEWebHistoryTable, text);
-        GuiUtil.filterTable(IEBookmarkTable, text);
-        GuiUtil.filterTable(IECookiesTable, text);
-        GuiUtil.filterTable(IECacheTable,text) ;
-        GuiUtil.filterTable(IELogginsTable,text);
+        JTableUtil.filterTable(IEWebHistoryTable, text);
+        JTableUtil.filterTable(IEBookmarkTable, text);
+        JTableUtil.filterTable(IECookiesTable, text);
+        JTableUtil.filterTable(IECacheTable,text) ;
+        JTableUtil.filterTable(IELogginsTable,text);
     }
     
     private void resetInternetSurfing (JTextField f, JComboBox box){
@@ -2291,7 +2292,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
 
                     if ( result == JFileChooser.APPROVE_OPTION) {
                         String name = fileChooser.getSelectedFile().getAbsolutePath();
-                        Utilities.exportJTable(table,name);
+                        JTableUtil.exportJTable(table,name);
                     }
                 }
                 catch (Exception e){

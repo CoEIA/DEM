@@ -7,6 +7,7 @@ import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.internet.FilesFilter ;
 import edu.coeia.util.Tuple ;
+import edu.coeia.util.DateUtil;
 
 import java.awt.BorderLayout;
 import java.awt.event.InputEvent;
@@ -30,6 +31,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
+import edu.coeia.gutil.JTableUtil;
 import java.util.Collections;
 
 /*
@@ -360,7 +362,7 @@ private void yahooChatTreeValueChanged(javax.swing.event.TreeSelectionEvent evt)
                         text.append(msg.getDestinationName() + " at (" );
                     }
 
-                    text.append( Utilities.formatDateTime(msg.getTimeStamp()) + ") :  " );
+                    text.append( DateUtil.formatDateTime(msg.getTimeStamp()) + ") :  " );
                     
                     byte[] cipher = msg.getCipherText();
                     String name   = msg.getProfileName();
@@ -446,7 +448,7 @@ private void loadSkypeButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
         
         try {
             if ( skypeTable.getModel().getRowCount() > 0 )
-                 Utilities.removeAllRows(skypeTable);
+                 JTableUtil.removeAllRows(skypeTable);
             
             fillSkypeTree(path);
             skypeChatTree.setModel(new DefaultTreeModel(rootSkypeNode));

@@ -10,8 +10,9 @@ package edu.coeia.searching;
  * @author wajdyessam
  */
 
-import edu.coeia.util.Utilities;
+import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant ;
+import edu.coeia.util.DateUtil;
 
 import javax.swing.SwingWorker ;
 import javax.swing.table.DefaultTableModel ;
@@ -99,12 +100,12 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             Date date = new Date(file.lastModified());
             
             ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
-                fileId, fileName, fileTitle, Utilities.formatDateTime(date), size, 0
+                fileId, fileName, fileTitle, DateUtil.formatDateTime(date), size, 0
             });
         }
 
        int index = chunks.size()-1 ;
-       Utilities.packColumns(panel.getSearchTable(), index);
+       JTableUtil.packColumns(panel.getSearchTable(), index);
     }
     
     @Override

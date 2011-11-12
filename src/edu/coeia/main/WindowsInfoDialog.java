@@ -17,6 +17,7 @@ package edu.coeia.main;
  *
  */
 
+import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.Utilities ;
 
 import javax.swing.table.DefaultTableModel;
@@ -42,7 +43,7 @@ public class WindowsInfoDialog extends javax.swing.JDialog {
     private void fillTable () {
         // remove all data
         if ( windowsSystemTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(windowsSystemTable);
+             JTableUtil.removeAllRows(windowsSystemTable);
 
         for (int i=1 ; i<data.size() ; i++){
             String[] row = data.get(i).split(":");
@@ -69,7 +70,7 @@ public class WindowsInfoDialog extends javax.swing.JDialog {
 
        // Pack the all columns of the table
        int margin = 1;
-       Utilities.packColumns(windowsSystemTable, margin);
+       JTableUtil.packColumns(windowsSystemTable, margin);
     }
     
     /** This method is called from within the constructor to

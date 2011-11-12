@@ -11,7 +11,7 @@
 
 package edu.coeia.searching;
 
-import edu.coeia.util.Utilities ;
+import edu.coeia.util.FileUtil;
 import edu.coeia.internet.FilesFilter;
 
 import javax.swing.event.DocumentEvent ;
@@ -21,7 +21,6 @@ import javax.swing.JFileChooser ;
 import java.io.IOException ;
 import java.io.File ;
 
-import java.util.List;
 
 /**
  *
@@ -315,7 +314,7 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
         try {
             if ( result == JFileChooser.APPROVE_OPTION ) {
                 String path = fileChooser.getSelectedFile().getAbsolutePath();
-                String content = Utilities.getFileContentWithSpace(new File(path));
+                String content = FileUtil.getFileContentWithSpace(new File(path));
                 
                 orFileTextField.setText(content);
             }

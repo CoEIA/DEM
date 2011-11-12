@@ -19,10 +19,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.BufferedReader ;
 import java.io.InputStreamReader ;
+import java.io.FileNotFoundException ;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 import java.util.List ;
-import java.util.ArrayList; 
-
+import java.util.ArrayList ;
+import java.util.Scanner ;
 /*
  * Noninstantiable utility class
  */
@@ -117,4 +120,86 @@ public class FileUtil {
 	input.close();
 	return ( result );
     }
+    
+    
+    public static boolean removeDirectory (File dirPath) {
+        if ( dirPath.isDirectory() ) {
+            File[] files = dirPath.listFiles() ;
+
+            for(File file: files ) {
+                if ( file.isDirectory() )
+                    removeDirectory(file);
+                else {
+                    boolean status = file.delete() ;
+
+                    if ( ! status )
+                        return false ;
+                }
+            }
+        }
+
+        return dirPath.delete() ;
+    }
+
+    public static void writeToFile (List<String> data, String fileName) 
+            throws FileNotFoundException, UnsupportedEncodingException {
+        
+        File file = new File(fileName);
+        PrintWriter writer = new PrintWriter(file,"UTF-8");
+
+        for(String line: data) {
+            writer.println(line );
+        }
+
+        writer.close();
+    }
+    
+    public static String getFileContent (File file) throws FileNotFoundException {
+        Scanner input = new Scanner(file);
+        StringBuilder content = new StringBuilder("");
+        while ( input.hasNext() )
+            content.append( input.nextLine() );
+
+        return content.toString();
+    }
+
+   public static String getFileContentWithSpace (File file) throws FileNotFoundException {
+        Scanner input = new Scanner(file);
+        StringBuilder content = new StringBuilder("");
+        while ( input.hasNext() )
+            content.append(input.nextLine()).append( " ");
+
+        return content.toString();
+    }
+
+    public static ArrayList<String> getFileContentInArrayList (File file) throws FileNotFoundException {
+        ArrayList<String> aList = new ArrayList<String>();
+        Scanner input = new Scanner(file);
+
+        while ( input.hasNext() ) {
+            aList.add(input.nextLine());
+        }
+
+        return (aList);
+    }    
+    
+    public static String getExtension (File f){
+        if ( !f.exists() || f.isDirectory() ) {
+            //System.out.println("File: " + f.getAbsolutePath());
+            return null ;
+        }
+        
+        int index = f.getAbsolutePath().lastIndexOf(".");
+        
+        if ((index < 0) && (index >= f.toString().length()))
+            return null ;
+
+        String ext = f.toString().substring(index+1);
+
+        return (ext);
+    }
+
+    public static String getExtension (String f){
+        return getExtension(new File(f));
+    }    
 }

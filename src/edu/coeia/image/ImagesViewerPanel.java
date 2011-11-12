@@ -4,8 +4,7 @@ package edu.coeia.image;
 
 
 import edu.coeia.cases.Case;
-import edu.coeia.image.ImageViewer;
-
+import edu.coeia.util.SizeUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.gutil.ImageLabel;
 
@@ -37,7 +36,6 @@ import java.io.File ;
 import java.io.IOException ;
 
 import java.net.URI ;
-
 
 /*
  * ImagesViewerPanel.java
@@ -413,7 +411,7 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         File file = new File(path);
 
         imagePathLabel.setText( file.getAbsolutePath());
-        imageSizeLabel.setText( Utilities.toKB(file.length()) + " KB" );
+        imageSizeLabel.setText( SizeUtil.toKB(file.length()) + " KB" );
         imageDateLabel.setText( new Date(file.lastModified()) + "");
 
         try {

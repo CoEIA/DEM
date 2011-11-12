@@ -1,16 +1,14 @@
 
 package edu.coeia.email;
 
-import edu.coeia.email.EmailTableModel;
-import edu.coeia.email.EmailVisualizationThread;
+
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.internet.FilesFilter ;
 import edu.coeia.cases.Case;
-import edu.coeia.email.EmailReaderThread;
-import edu.coeia.email.MessageHeader ;
 import edu.coeia.gutil.InfiniteProgressPanel;
+import edu.coeia.util.DateUtil;
 
 import java.awt.BorderLayout;
 import java.awt.event.InputEvent;
@@ -56,6 +54,7 @@ import com.pff.PSTObject ;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 import com.toedter.calendar.JDateChooser;
+import edu.coeia.gutil.JTableUtil;
 import org.apache.lucene.document.Document;
 
 /*
@@ -109,10 +108,10 @@ public class EmailPanel extends javax.swing.JPanel {
             outlookComboBox.addItem( pstPath );      
         
         disableNotIndexedComponent();
-        Utilities.setTableAlignmentValue(inboxTable, 2);
-        Utilities.setTableAlignmentValue(sentItemTable, 2);
-        Utilities.setTableAlignmentValue(espTable, 1);
-        Utilities.setTableAlignmentValue(locationTable, 1);
+        JTableUtil.setTableAlignmentValue(inboxTable, 2);
+        JTableUtil.setTableAlignmentValue(sentItemTable, 2);
+        JTableUtil.setTableAlignmentValue(espTable, 1);
+        JTableUtil.setTableAlignmentValue(locationTable, 1);
 
     }
 
@@ -700,7 +699,7 @@ private void emailSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {/
         ArrayList<String> aList = searchEmail();
 
         if ( aList != null) {
-            filterEmailTable(emailTable,aList);
+            JTableUtil.filterTable(emailTable,aList);
         }
 }//GEN-LAST:event_emailSearchButtonActionPerformed
 
@@ -763,8 +762,8 @@ private void correlationComboBoxActionPerformed(java.awt.event.ActionEvent evt) 
 
 private void emailVisualizationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailVisualizationButtonActionPerformed
         // from date to date
-        String from = Utilities.formatDate( ((JDateChooser) fromDatePanel.getComponent(0)).getDate() );
-        String to   = Utilities.formatDate( ((JDateChooser) toDatePanel.getComponent(0)).getDate() );
+        String from = DateUtil.formatDate( ((JDateChooser) fromDatePanel.getComponent(0)).getDate() );
+        String to   = DateUtil.formatDate( ((JDateChooser) toDatePanel.getComponent(0)).getDate() );
 
         if ( outlookComboBox.getSelectedIndex() < 0 )
             return ;
@@ -916,23 +915,6 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
         
         return null ;
     }
-
-    private void filterEmailTable (final JTable table, final ArrayList<String> aList) {
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-        table.setRowSorter(sorter);
-
-        sorter.setRowFilter( new RowFilter<TableModel, Object>() {
-            public boolean include (Entry entry) {
-                String row = String.valueOf(entry.getValue(0));
-                
-                if ( aList.contains(row))
-                    return true;
-                else
-                    return false;
-
-            }
-        });
-    }
     
     private PSTMessage getMessage (long id)throws IOException, PSTException {
         return (PSTMessage) PSTObject.detectAndLoadPSTObject(pstFile, id);
@@ -949,7 +931,7 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
     
     public void filterEmailSearch () {
         String text = emailSearchTextField.getText().trim();
-        GuiUtil.filterTable(emailTable, text);
+        JTableUtil.filterTable(emailTable, text);
     }
      
     private class EmailSearchInputListener implements DocumentListener {
@@ -1054,7 +1036,7 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
         
         // Pack the all columns of the table
         int margin = 1;
-        Utilities.packColumns(emailTable, margin);
+        JTableUtil.packColumns(emailTable, margin);
     }
     
     private void disableNotIndexedComponent () {

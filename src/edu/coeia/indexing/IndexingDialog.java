@@ -10,15 +10,17 @@
  */
 package edu.coeia.indexing;
 
-import edu.coeia.indexing.CrawlerThread;
-import edu.coeia.util.FilesPath;
-import edu.coeia.util.Utilities;
-import edu.coeia.cases.Case;
 
+import edu.coeia.util.FilesPath;
+import edu.coeia.cases.Case;
 import edu.coeia.gutil.IndexGUIComponent;
+import edu.coeia.gutil.JTableUtil;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -398,7 +400,7 @@ public class IndexingDialog extends javax.swing.JDialog {
         startIndexButton.setEnabled(! startIndexButtonFlag);
         stopIndexingButton.setEnabled(startIndexButtonFlag);
 
-        Utilities.removeAllRows(indexTable);
+        JTableUtil.removeAllRows(indexTable);
         
         IndexGUIComponent indexGUI = new IndexGUIComponent(progressBar,indexTable,indexDateLbl
             ,timeLbl,currentFileLbl, sizeOfFileLbl, numberOfFilesLbl, fileExtensionLbl, numberOfErrorFilesLbl,bigSizeMsgLbl, startIndexButton,

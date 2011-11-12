@@ -14,7 +14,7 @@ import edu.coeia.chat.YahooMessageDecoder;
 import edu.coeia.chat.YahooMessageReader;
 import edu.coeia.chat.YahooMessageReader.YahooConversation;
 import edu.coeia.chat.YahooMessageReader.YahooChatSession;
-import edu.coeia.util.Utilities;
+import edu.coeia.util.DateUtil;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -131,7 +131,7 @@ public class YahooChatIndexer extends Indexer{
         doc.add(new Field(IndexingConstant.CHAT_FILE, path, Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_FROM, from, Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_TO, to, Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_TIME, Utilities.formatDateTime(msg.getTimeStamp()) , Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.CHAT_TIME, DateUtil.formatDateTime(msg.getTimeStamp()) , Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_MESSAGE, result.toString(), Field.Store.YES, Field.Index.ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_LENGTH, String.valueOf(msg.getMessageLength()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_MESSAGE_PATH, msg.getMessagePath().toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));

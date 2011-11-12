@@ -12,13 +12,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JFileChooser ;
 import javax.swing.JTable ;
 import javax.swing.JPanel;
-import javax.swing.RowFilter ;
-import javax.swing.table.TableRowSorter ;
-import javax.swing.table.TableModel ;
 
 import java.awt.CardLayout ;
-
-import java.util.regex.PatternSyntaxException;
 
 /**
  *
@@ -30,24 +25,6 @@ public class GuiUtil {
     public static void showPanel (String panelName, JPanel name) {
         CardLayout card = (CardLayout) name.getLayout();
         card.show(name, panelName);
-    }
-    
-    // filer table, ignore case (case insensitive)
-    public static void filterTable (JTable table, String text) {
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-        table.setRowSorter(sorter);
-
-        if ( text.equalsIgnoreCase(" ") ) {
-            sorter.setRowFilter(null);
-        }
-        else {
-            try {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-            }
-            catch (PatternSyntaxException e){
-                
-            }
-        }
     }
     
     public static void showPopup (java.awt.event.MouseEvent event) {
@@ -69,7 +46,7 @@ public class GuiUtil {
 
                     if ( result == JFileChooser.APPROVE_OPTION) {
                         String name = fileChooser.getSelectedFile().getAbsolutePath();
-                        Utilities.exportJTable(table,name);
+                        JTableUtil.exportJTable(table,name);
                     }
                 }
                 catch (Exception e){
