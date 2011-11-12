@@ -57,8 +57,20 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         caseLogsTable = new javax.swing.JTable();
         caseTagsPanel = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        caseTagsViewerPanel = new javax.swing.JPanel();
+        caseTagVeiwerPanel = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        caseTagControllerPanel = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        caseTagsButtonsPanel = new javax.swing.JPanel();
         newTagsButton = new javax.swing.JButton();
         removeTagsButton = new javax.swing.JButton();
         caseControllerPanel = new javax.swing.JPanel();
@@ -75,43 +87,53 @@ public class CaseManagerPanel extends javax.swing.JPanel {
 
         jLabel1.setText("Case Name:");
 
+        caseNameTextField.setEditable(false);
         caseNameTextField.setText(" ");
 
         jLabel2.setText("Created Date:");
 
+        createdDateTextField.setEditable(false);
         createdDateTextField.setText(" ");
 
         jLabel3.setText("Last Modified:");
 
+        lastModifiedTextField.setEditable(false);
         lastModifiedTextField.setText(" ");
 
         jLabel4.setText("Case Path:");
 
+        casePathTextField.setEditable(false);
         casePathTextField.setText(" ");
 
         jLabel5.setText("Indexed:");
 
+        indexedTextField.setEditable(false);
         indexedTextField.setText(" ");
 
         jLabel6.setText("#of item indexed:");
 
+        itemIndexedTextField.setEditable(false);
         itemIndexedTextField.setText(" ");
 
         jLabel7.setText("Case Description:");
 
+        caseDescriptionTextField.setEditable(false);
         caseDescriptionTextField.setText(" ");
 
         jLabel8.setText("Created By:");
 
+        createdByTextField.setEditable(false);
         createdByTextField.setText(" ");
 
         jLabel10.setText("Case Size:");
 
+        jTextField1.setEditable(false);
         jTextField1.setText(" ");
 
         jLabel11.setText("Case Sources:");
 
         jTextArea1.setColumns(20);
+        jTextArea1.setEditable(false);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
@@ -237,47 +259,115 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         caseTagsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Case Tag(s)"));
         caseTagsPanel.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 307, Short.MAX_VALUE)
+        caseTagsViewerPanel.setLayout(new java.awt.BorderLayout());
+
+        jLabel12.setText("By:");
+
+        jTextField2.setEditable(false);
+        jTextField2.setText(" ");
+
+        jLabel13.setText("Date:");
+
+        jTextField3.setEditable(false);
+        jTextField3.setText(" ");
+
+        jLabel14.setText("Content:");
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setEditable(false);
+        jTextArea2.setRows(5);
+        jScrollPane3.setViewportView(jTextArea2);
+
+        caseTagControllerPanel.setLayout(new java.awt.BorderLayout());
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel15.setText("Prev");
+        caseTagControllerPanel.add(jLabel15, java.awt.BorderLayout.WEST);
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(0, 51, 255));
+        jLabel17.setText("Next");
+        caseTagControllerPanel.add(jLabel17, java.awt.BorderLayout.EAST);
+
+        jLabel16.setText("1/N");
+
+        javax.swing.GroupLayout caseTagVeiwerPanelLayout = new javax.swing.GroupLayout(caseTagVeiwerPanel);
+        caseTagVeiwerPanel.setLayout(caseTagVeiwerPanelLayout);
+        caseTagVeiwerPanelLayout.setHorizontalGroup(
+            caseTagVeiwerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(caseTagVeiwerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(caseTagVeiwerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseTagVeiwerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(caseTagVeiwerPanelLayout.createSequentialGroup()
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+                    .addGroup(caseTagVeiwerPanelLayout.createSequentialGroup()
+                        .addComponent(caseTagControllerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                        .addComponent(jLabel16)))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+        caseTagVeiwerPanelLayout.setVerticalGroup(
+            caseTagVeiwerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(caseTagVeiwerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(caseTagVeiwerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseTagVeiwerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(caseTagVeiwerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel16)
+                    .addComponent(caseTagControllerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
-        caseTagsPanel.add(jPanel1, java.awt.BorderLayout.CENTER);
+        caseTagsViewerPanel.add(caseTagVeiwerPanel, java.awt.BorderLayout.PAGE_START);
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(100, 100));
+        caseTagsPanel.add(caseTagsViewerPanel, java.awt.BorderLayout.CENTER);
+
+        caseTagsButtonsPanel.setPreferredSize(new java.awt.Dimension(100, 100));
 
         newTagsButton.setText("New");
 
         removeTagsButton.setText("Remove");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout caseTagsButtonsPanelLayout = new javax.swing.GroupLayout(caseTagsButtonsPanel);
+        caseTagsButtonsPanel.setLayout(caseTagsButtonsPanelLayout);
+        caseTagsButtonsPanelLayout.setHorizontalGroup(
+            caseTagsButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caseTagsButtonsPanelLayout.createSequentialGroup()
                 .addContainerGap(19, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(caseTagsButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(newTagsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(removeTagsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        caseTagsButtonsPanelLayout.setVerticalGroup(
+            caseTagsButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(caseTagsButtonsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(newTagsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(removeTagsButton)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
-        caseTagsPanel.add(jPanel2, java.awt.BorderLayout.EAST);
+        caseTagsPanel.add(caseTagsButtonsPanel, java.awt.BorderLayout.EAST);
 
         tagsLogsPanel.add(caseTagsPanel, java.awt.BorderLayout.PAGE_START);
 
@@ -300,7 +390,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(caseHashValueTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                .addComponent(caseHashValueTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(verifyButton)
                 .addContainerGap())
@@ -352,7 +442,11 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     private javax.swing.JTextField caseNameTextField;
     private javax.swing.JTextField casePathTextField;
     private javax.swing.JPanel caseSavePanel;
+    private javax.swing.JPanel caseTagControllerPanel;
+    private javax.swing.JPanel caseTagVeiwerPanel;
+    private javax.swing.JPanel caseTagsButtonsPanel;
     private javax.swing.JPanel caseTagsPanel;
+    private javax.swing.JPanel caseTagsViewerPanel;
     private javax.swing.JTextField createdByTextField;
     private javax.swing.JTextField createdDateTextField;
     private javax.swing.JTextField indexedTextField;
@@ -360,6 +454,12 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -368,12 +468,14 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField lastModifiedTextField;
     private javax.swing.JButton newTagsButton;
     private javax.swing.JButton removeTagsButton;
