@@ -166,7 +166,6 @@
               <Image iconType="3" name="/edu/coeia/main/resources/1274612774_kservices.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Case Manager"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>

@@ -169,10 +169,9 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
 
         headerGroupButton.add(caseManagerToggleButton);
-        caseManagerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        caseManagerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         caseManagerToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274612774_kservices.png"))); // NOI18N
         caseManagerToggleButton.setText("Case Manager");
-        caseManagerToggleButton.setEnabled(false);
         caseManagerToggleButton.setFocusable(false);
         caseManagerToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         caseManagerToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -184,7 +183,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(caseManagerToggleButton);
 
         headerGroupButton.add(searchToggleButton);
-        searchToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        searchToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         searchToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/Copy of search.png"))); // NOI18N
         searchToggleButton.setText("Case Search");
         searchToggleButton.setFocusable(false);

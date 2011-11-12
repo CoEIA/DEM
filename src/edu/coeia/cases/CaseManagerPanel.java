@@ -30,17 +30,355 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        caseInformationPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        caseNameTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        createdDateTextField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        lastModifiedTextField = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        casePathTextField = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        indexedTextField = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        itemIndexedTextField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        caseDescriptionTextField = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        createdByTextField = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        tagsLogsPanel = new javax.swing.JPanel();
+        caseLogsPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        caseLogsTable = new javax.swing.JTable();
+        caseTagsPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        newTagsButton = new javax.swing.JButton();
+        removeTagsButton = new javax.swing.JButton();
+        caseControllerPanel = new javax.swing.JPanel();
+        caseHashVerifyPanel = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        caseHashValueTextField = new javax.swing.JTextField();
+        verifyButton = new javax.swing.JButton();
+        caseSavePanel = new javax.swing.JPanel();
+        saveCaseButton = new javax.swing.JButton();
+
+        setLayout(new java.awt.BorderLayout());
+
+        caseInformationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Case Information"));
+
+        jLabel1.setText("Case Name:");
+
+        caseNameTextField.setText(" ");
+
+        jLabel2.setText("Created Date:");
+
+        createdDateTextField.setText(" ");
+
+        jLabel3.setText("Last Modified:");
+
+        lastModifiedTextField.setText(" ");
+
+        jLabel4.setText("Case Path:");
+
+        casePathTextField.setText(" ");
+
+        jLabel5.setText("Indexed:");
+
+        indexedTextField.setText(" ");
+
+        jLabel6.setText("#of item indexed:");
+
+        itemIndexedTextField.setText(" ");
+
+        jLabel7.setText("Case Description:");
+
+        caseDescriptionTextField.setText(" ");
+
+        jLabel8.setText("Created By:");
+
+        createdByTextField.setText(" ");
+
+        jLabel10.setText("Case Size:");
+
+        jTextField1.setText(" ");
+
+        jLabel11.setText("Case Sources:");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout caseInformationPanelLayout = new javax.swing.GroupLayout(caseInformationPanel);
+        caseInformationPanel.setLayout(caseInformationPanelLayout);
+        caseInformationPanelLayout.setHorizontalGroup(
+            caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(caseInformationPanelLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(caseDescriptionTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(itemIndexedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(indexedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(casePathTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(lastModifiedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(createdDateTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(createdByTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(caseNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        caseInformationPanelLayout.setVerticalGroup(
+            caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(caseInformationPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(caseNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(createdByTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(createdDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(lastModifiedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(casePathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(indexedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(itemIndexedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(caseDescriptionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(caseInformationPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(53, 53, 53))
+                    .addGroup(caseInformationPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
+
+        add(caseInformationPanel, java.awt.BorderLayout.WEST);
+
+        tagsLogsPanel.setLayout(new java.awt.BorderLayout());
+
+        caseLogsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Case Log(s)"));
+        caseLogsPanel.setLayout(new java.awt.BorderLayout());
+
+        caseLogsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Date", "By", "Description"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(caseLogsTable);
+
+        caseLogsPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        tagsLogsPanel.add(caseLogsPanel, java.awt.BorderLayout.CENTER);
+
+        caseTagsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Case Tag(s)"));
+        caseTagsPanel.setLayout(new java.awt.BorderLayout());
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 307, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        caseTagsPanel.add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        jPanel2.setPreferredSize(new java.awt.Dimension(100, 100));
+
+        newTagsButton.setText("New");
+
+        removeTagsButton.setText("Remove");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(newTagsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(removeTagsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(newTagsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(removeTagsButton)
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
+
+        caseTagsPanel.add(jPanel2, java.awt.BorderLayout.EAST);
+
+        tagsLogsPanel.add(caseTagsPanel, java.awt.BorderLayout.PAGE_START);
+
+        add(tagsLogsPanel, java.awt.BorderLayout.CENTER);
+
+        caseControllerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Case Controller"));
+        caseControllerPanel.setLayout(new java.awt.BorderLayout());
+
+        jLabel9.setText("Case Hash Value:");
+
+        caseHashValueTextField.setText(" ");
+
+        verifyButton.setText("Verifey");
+
+        javax.swing.GroupLayout caseHashVerifyPanelLayout = new javax.swing.GroupLayout(caseHashVerifyPanel);
+        caseHashVerifyPanel.setLayout(caseHashVerifyPanelLayout);
+        caseHashVerifyPanelLayout.setHorizontalGroup(
+            caseHashVerifyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(caseHashVerifyPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(caseHashValueTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(verifyButton)
+                .addContainerGap())
+        );
+        caseHashVerifyPanelLayout.setVerticalGroup(
+            caseHashVerifyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(caseHashVerifyPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(caseHashVerifyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(caseHashValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(verifyButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        caseControllerPanel.add(caseHashVerifyPanel, java.awt.BorderLayout.CENTER);
+
+        saveCaseButton.setText("Save  Case");
+
+        javax.swing.GroupLayout caseSavePanelLayout = new javax.swing.GroupLayout(caseSavePanel);
+        caseSavePanel.setLayout(caseSavePanelLayout);
+        caseSavePanelLayout.setHorizontalGroup(
+            caseSavePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caseSavePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(saveCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        caseSavePanelLayout.setVerticalGroup(
+            caseSavePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caseSavePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(saveCaseButton)
+                .addContainerGap())
+        );
+
+        caseControllerPanel.add(caseSavePanel, java.awt.BorderLayout.EAST);
+
+        add(caseControllerPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel caseControllerPanel;
+    private javax.swing.JTextField caseDescriptionTextField;
+    private javax.swing.JTextField caseHashValueTextField;
+    private javax.swing.JPanel caseHashVerifyPanel;
+    private javax.swing.JPanel caseInformationPanel;
+    private javax.swing.JPanel caseLogsPanel;
+    private javax.swing.JTable caseLogsTable;
+    private javax.swing.JTextField caseNameTextField;
+    private javax.swing.JTextField casePathTextField;
+    private javax.swing.JPanel caseSavePanel;
+    private javax.swing.JPanel caseTagsPanel;
+    private javax.swing.JTextField createdByTextField;
+    private javax.swing.JTextField createdDateTextField;
+    private javax.swing.JTextField indexedTextField;
+    private javax.swing.JTextField itemIndexedTextField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField lastModifiedTextField;
+    private javax.swing.JButton newTagsButton;
+    private javax.swing.JButton removeTagsButton;
+    private javax.swing.JButton saveCaseButton;
+    private javax.swing.JPanel tagsLogsPanel;
+    private javax.swing.JButton verifyButton;
     // End of variables declaration//GEN-END:variables
 }
