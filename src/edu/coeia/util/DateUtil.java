@@ -16,6 +16,14 @@ import java.text.SimpleDateFormat ;
 import java.text.DateFormat ;
 
 public class DateUtil {
+    
+    /*
+     * Suppress default constructor for noninstantiability
+     */    
+    private DateUtil() {
+        throw new AssertionError();
+    }
+    
     public static String getTimeFromMilliseconds (long ms) {
 	int time = (int) ms / 1000 ;
 	int seconds = time %  60 ;
@@ -59,6 +67,7 @@ public class DateUtil {
         DateFormat df = new SimpleDateFormat("hh:mm:ss - dd/MM/yyyy");
 	Calendar c = Calendar.getInstance();
 	c.setTime(d);
+        
 	return df.format( c.getTime() );
     }
 }

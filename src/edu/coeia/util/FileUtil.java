@@ -121,6 +121,9 @@ public class FileUtil {
 	return ( result );
     }
     
+    public static boolean removeDirectory (String path) {
+        return removeDirectory(new File(path));
+    }
     
     public static boolean removeDirectory (File dirPath) {
         if ( dirPath.isDirectory() ) {
@@ -142,7 +145,7 @@ public class FileUtil {
     }
 
     public static void writeToFile (List<String> data, String fileName) 
-            throws FileNotFoundException, UnsupportedEncodingException {
+        throws FileNotFoundException, UnsupportedEncodingException {
         
         File file = new File(fileName);
         PrintWriter writer = new PrintWriter(file,"UTF-8");
@@ -172,8 +175,8 @@ public class FileUtil {
         return content.toString();
     }
 
-    public static ArrayList<String> getFileContentInArrayList (File file) throws FileNotFoundException {
-        ArrayList<String> aList = new ArrayList<String>();
+    public static List<String> getFileContentInArrayList (File file) throws FileNotFoundException {
+        List<String> aList = new ArrayList<String>();
         Scanner input = new Scanner(file);
 
         while ( input.hasNext() ) {
@@ -185,7 +188,6 @@ public class FileUtil {
     
     public static String getExtension (File f){
         if ( !f.exists() || f.isDirectory() ) {
-            //System.out.println("File: " + f.getAbsolutePath());
             return null ;
         }
         
@@ -202,4 +204,17 @@ public class FileUtil {
     public static String getExtension (String f){
         return getExtension(new File(f));
     }    
+    
+    public static boolean isDirectoryExists(String Path) {
+        File file = new File(Path);
+        boolean isExist = false;
+
+        if (file.exists()) {
+            if (file.isDirectory()) {
+                isExist = true;
+            }
+        }
+
+        return isExist;
+    }
 }

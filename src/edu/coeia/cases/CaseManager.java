@@ -49,7 +49,7 @@ public enum CaseManager {
     public static boolean caseExists(String caseName)  {
         try {
             File casesInfo = new File(FilesPath.INDEXES_INFO);
-            ArrayList<String> casesInfoContent = FileUtil.getFileContentInArrayList(casesInfo);
+            List<String> casesInfoContent = FileUtil.getFileContentInArrayList(casesInfo);
 
             for (String path : casesInfoContent) {
                 Case aCase = CaseManager.getCase(path);

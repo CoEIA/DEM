@@ -13,6 +13,14 @@ import java.io.File ;
 import java.text.DecimalFormat;
 
 public class SizeUtil {
+    
+    /*
+     * Suppress default constructor for noninstantiability
+     */
+    private SizeUtil() {
+        throw new AssertionError();
+    }
+    
     public static String getSize (String path) {
         long fileSize = new File(path).length() ;
         String resultString = "";

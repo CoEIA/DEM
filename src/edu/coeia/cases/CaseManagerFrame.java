@@ -20,7 +20,8 @@ import java.io.FileWriter ;
 import java.io.PrintWriter ;
 import java.io.FileNotFoundException ;
 
-import java.util.ArrayList ;
+import java.util.List ;
+import java.util.ArrayList; 
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -440,7 +441,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private void updateRecentTable () throws FileNotFoundException, IOException, ClassNotFoundException {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        ArrayList<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
+        List<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
 
         // clear value on table before adding new values
         JTableUtil.removeAllRows(recentCaseTable);
@@ -503,8 +504,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             File file = new File( index.getIndexLocation() );
             
             if ( FileUtil.removeDirectory(file) ) {
-                ArrayList<String> indexPtr = FileUtil.getFileContentInArrayList(new File(FilesPath.INDEXES_INFO) );
-                ArrayList<String> newIndexPtr = new ArrayList<String>();
+                List<String> indexPtr = FileUtil.getFileContentInArrayList(new File(FilesPath.INDEXES_INFO) );
+                List<String> newIndexPtr = new ArrayList<String>();
                 
                 for (String line: indexPtr) {
                     String name = line.split("-")[0].trim();
@@ -541,7 +542,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private Case getIndexInformationFromIndexName (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        ArrayList<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
+        List<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
 
         for(String path: indexesInfoContent) {
             Case index = CaseManager.getCase(path);
