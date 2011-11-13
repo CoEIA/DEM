@@ -10,15 +10,39 @@
  */
 package edu.coeia.cases;
 
+import edu.coeia.main.CaseFrame;
+import edu.coeia.tags.TagsManager;
+import edu.coeia.tags.Tag ;
+
+import java.util.List ;
+import java.util.Date ;
+import org.apache.commons.httpclient.util.DateUtil;
+
 /**
  *
  * @author wajdyessam
  */
 public class CaseManagerPanel extends javax.swing.JPanel {
 
+    private CaseFrame parent ;
+    private Case aCase; 
+    private TagsManager tagsManager ;
+    
+    private int currentTagIndex, maxTagIndex; 
+    
     /** Creates new form CaseManagerPanel */
-    public CaseManagerPanel() {
+    public CaseManagerPanel(CaseFrame frame) {
         initComponents();
+        
+        this.parent = frame;
+        this.aCase = frame.getCase() ;
+        this.tagsManager = frame.getTagsManager() ;
+        
+        // update tags panel
+        resetTagsPanel();
+        
+        // update case information panel
+        displayCaseInformationPanel();
     }
 
     /** This method is called from within the constructor to
@@ -60,15 +84,15 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         caseTagsViewerPanel = new javax.swing.JPanel();
         caseTagVeiwerPanel = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        tagNameTextField = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        tagDateTextField = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        tagContentTextArea = new javax.swing.JTextArea();
         caseTagControllerPanel = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
+        nextButton = new javax.swing.JButton();
+        prevButton = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         caseTagsButtonsPanel = new javax.swing.JPanel();
         newTagsButton = new javax.swing.JButton();
@@ -134,6 +158,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
 
         jTextArea1.setColumns(20);
         jTextArea1.setEditable(false);
+        jTextArea1.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
@@ -263,32 +288,39 @@ public class CaseManagerPanel extends javax.swing.JPanel {
 
         jLabel12.setText("By:");
 
-        jTextField2.setEditable(false);
-        jTextField2.setText(" ");
+        tagNameTextField.setEditable(false);
+        tagNameTextField.setText(" ");
 
         jLabel13.setText("Date:");
 
-        jTextField3.setEditable(false);
-        jTextField3.setText(" ");
+        tagDateTextField.setEditable(false);
+        tagDateTextField.setText(" ");
 
         jLabel14.setText("Content:");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setEditable(false);
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
+        tagContentTextArea.setColumns(20);
+        tagContentTextArea.setEditable(false);
+        tagContentTextArea.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
+        tagContentTextArea.setRows(5);
+        jScrollPane3.setViewportView(tagContentTextArea);
 
         caseTagControllerPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel15.setText("Prev");
-        caseTagControllerPanel.add(jLabel15, java.awt.BorderLayout.WEST);
+        nextButton.setText("Next");
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+        caseTagControllerPanel.add(nextButton, java.awt.BorderLayout.CENTER);
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(0, 51, 255));
-        jLabel17.setText("Next");
-        caseTagControllerPanel.add(jLabel17, java.awt.BorderLayout.EAST);
+        prevButton.setText("prev");
+        prevButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prevButtonActionPerformed(evt);
+            }
+        });
+        caseTagControllerPanel.add(prevButton, java.awt.BorderLayout.WEST);
 
         jLabel16.setText("1/N");
 
@@ -304,15 +336,15 @@ public class CaseManagerPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(caseTagVeiwerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(caseTagVeiwerPanelLayout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tagNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                        .addComponent(tagDateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
                     .addGroup(caseTagVeiwerPanelLayout.createSequentialGroup()
-                        .addComponent(caseTagControllerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                        .addComponent(caseTagControllerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
                         .addComponent(jLabel16)))
                 .addContainerGap())
         );
@@ -321,10 +353,10 @@ public class CaseManagerPanel extends javax.swing.JPanel {
             .addGroup(caseTagVeiwerPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(caseTagVeiwerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tagNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
                     .addComponent(jLabel13)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tagDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(caseTagVeiwerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel14)
@@ -343,14 +375,24 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         caseTagsButtonsPanel.setPreferredSize(new java.awt.Dimension(100, 100));
 
         newTagsButton.setText("New");
+        newTagsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newTagsButtonActionPerformed(evt);
+            }
+        });
 
         removeTagsButton.setText("Remove");
+        removeTagsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeTagsButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout caseTagsButtonsPanelLayout = new javax.swing.GroupLayout(caseTagsButtonsPanel);
         caseTagsButtonsPanel.setLayout(caseTagsButtonsPanelLayout);
         caseTagsButtonsPanelLayout.setHorizontalGroup(
             caseTagsButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caseTagsButtonsPanelLayout.createSequentialGroup()
+            .addGroup(caseTagsButtonsPanelLayout.createSequentialGroup()
                 .addContainerGap(19, Short.MAX_VALUE)
                 .addGroup(caseTagsButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(newTagsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -364,7 +406,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
                 .addComponent(newTagsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(removeTagsButton)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
 
         caseTagsPanel.add(caseTagsButtonsPanel, java.awt.BorderLayout.EAST);
@@ -381,6 +423,11 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         caseHashValueTextField.setText(" ");
 
         verifyButton.setText("Verifey");
+        verifyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verifyButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout caseHashVerifyPanelLayout = new javax.swing.GroupLayout(caseHashVerifyPanel);
         caseHashVerifyPanel.setLayout(caseHashVerifyPanelLayout);
@@ -409,6 +456,11 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         caseControllerPanel.add(caseHashVerifyPanel, java.awt.BorderLayout.CENTER);
 
         saveCaseButton.setText("Save  Case");
+        saveCaseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveCaseButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout caseSavePanelLayout = new javax.swing.GroupLayout(caseSavePanel);
         caseSavePanel.setLayout(caseSavePanelLayout);
@@ -431,6 +483,62 @@ public class CaseManagerPanel extends javax.swing.JPanel {
 
         add(caseControllerPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void newTagsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTagsButtonActionPerformed
+        this.tagsManager.addTag(Tag.newInstance("Dummy Name", new Date(), "Some Comments here"));
+        resetTagsPanel();
+    }//GEN-LAST:event_newTagsButtonActionPerformed
+
+    private void removeTagsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeTagsButtonActionPerformed
+        int index = 0;
+        this.tagsManager.removeTag(index);
+    }//GEN-LAST:event_removeTagsButtonActionPerformed
+
+    private void verifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verifyButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_verifyButtonActionPerformed
+
+    private void saveCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCaseButtonActionPerformed
+        this.tagsManager.setTags();
+    }//GEN-LAST:event_saveCaseButtonActionPerformed
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        if ( this.currentTagIndex < this.maxTagIndex-1 ) {
+            this.currentTagIndex++;
+            displayTagsElements();
+        }
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
+        if ( this.currentTagIndex > 0 ) {
+            this.currentTagIndex--;
+            displayTagsElements();
+        }
+    }//GEN-LAST:event_prevButtonActionPerformed
+
+    private void resetTagsPanel() {
+        List<Tag> tags = this.tagsManager.getTags();
+        this.maxTagIndex = tags.size();
+        this.currentTagIndex = 0;
+    }
+    
+    private void displayTagsElements() {
+        List<Tag> tags = this.tagsManager.getTags();
+        Tag tag = tags.get(this.currentTagIndex);
+        
+        this.tagNameTextField.setText(tag.getName());
+        this.tagDateTextField.setText(DateUtil.formatDate(tag.getDate()));
+        this.tagContentTextArea.setText(tag.getMessage());
+    }
+    
+    private void displayCaseInformationPanel() {
+        this.caseNameTextField.setText(this.aCase.getIndexingTime());
+        this.createdDateTextField.setText(DateUtil.formatDate(this.aCase.getCreateTime()));
+        this.createdByTextField.setText(this.aCase.getInvestigatorName());
+        this.casePathTextField.setText(this.aCase.getIndexLocation());
+        this.caseDescriptionTextField.setText(this.aCase.getDescription());
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel caseControllerPanel;
     private javax.swing.JTextField caseDescriptionTextField;
@@ -457,9 +565,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -472,14 +578,16 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField lastModifiedTextField;
     private javax.swing.JButton newTagsButton;
+    private javax.swing.JButton nextButton;
+    private javax.swing.JButton prevButton;
     private javax.swing.JButton removeTagsButton;
     private javax.swing.JButton saveCaseButton;
+    private javax.swing.JTextArea tagContentTextArea;
+    private javax.swing.JTextField tagDateTextField;
+    private javax.swing.JTextField tagNameTextField;
     private javax.swing.JPanel tagsLogsPanel;
     private javax.swing.JButton verifyButton;
     // End of variables declaration//GEN-END:variables

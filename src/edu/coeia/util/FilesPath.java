@@ -38,6 +38,9 @@ public class FilesPath {
     // path for storing case tmp folder
     public final static String CASE_TMP = "TMP" ;
     
+    // path for storing case Tags
+    public final static String CASE_TAGS = "Tags" ;
+    
     // log path
     public final static String APPLICATION_LOG_PATH = APPLICATION_PATH + "\\" + "LOG";
     

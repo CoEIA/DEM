@@ -54,14 +54,14 @@ final public class TagsManager {
      * Read all the current tags , not modifiable list
      * @return 
      */
-    public List<Tag> readTags() {
+    public List<Tag> getTags() {
         return Collections.unmodifiableList(this.tags);
     }
     
     /**
      * write all the current tags to the database
      */
-    public void saveTags() {
+    public void setTags() {
         this.tagsDataBase.setTags(this.tags);
     }
     

@@ -14,6 +14,7 @@ import edu.coeia.internet.InternetSurfingPanel;
 import edu.coeia.searching.CaseSearchPanel;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
+import edu.coeia.tags.TagsManager ;
 
 import java.awt.Toolkit ;
 import java.awt.event.WindowAdapter;
@@ -38,6 +39,7 @@ import java.util.logging.Logger;
 
 public class CaseFrame extends javax.swing.JFrame {
     private Case caseObj ;
+    private TagsManager tagsManager ;
     
     private final String APPLICATION_NAME = "Digital Evidence Miner: ";
     private String applicationTitle;
@@ -71,6 +73,7 @@ public class CaseFrame extends javax.swing.JFrame {
          */
         this.caseObj = aCase ;
         this.listOfOpeningCase = list;
+        this.tagsManager = TagsManager.getTagsManager(this.caseObj.getIndexLocation() + FilesPath.CASE_TAGS);
         
         /**
          * Remove Case Name From the list when Frame Closed
@@ -101,6 +104,8 @@ public class CaseFrame extends javax.swing.JFrame {
             }
         });
 
+        // Get Tags Manager for this Case
+        
         // add gui panels
         FileSystemPanel fileSystemPanel = new FileSystemPanel(this.caseObj, this);
         EmailPanel emailPanel = new EmailPanel(this.caseObj, this);
@@ -108,7 +113,7 @@ public class CaseFrame extends javax.swing.JFrame {
         ChatPanel chatPanel = new ChatPanel(this.caseObj);
         ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.caseObj);
         CaseSearchPanel searchPanel = new CaseSearchPanel(this.caseObj, this);
-        CaseManagerPanel caseManagerPanel = new CaseManagerPanel();
+        CaseManagerPanel caseManagerPanel = new CaseManagerPanel(this);
         ReportPanel reportPanel = new ReportPanel();
         
         this.CardPanel.add(fileSystemPanel, "fileSystemCard");
@@ -472,6 +477,14 @@ public class CaseFrame extends javax.swing.JFrame {
         IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj, startIndex);
         indexPanel.setLocationRelativeTo(this);
         indexPanel.setVisible(true);
+    }
+    
+    public Case getCase() {
+        return this.caseObj ;
+    }
+    
+    public TagsManager getTagsManager() {
+        return this.tagsManager;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

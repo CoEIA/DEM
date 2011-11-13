@@ -34,17 +34,17 @@ public class TagsManagerTest {
     
     @Test
     public void createTagsManagerTest() {
-        assertEquals(0, tm.readTags().size());
+        assertEquals(0, tm.getTags().size());
     }
     
     @Test
     public void createTagsManagerTest2() {
-        assertEquals(0, tm.readTags().size());
+        assertEquals(0, tm.getTags().size());
         
         tm.addTag(Tag.newInstance("Wajdy Essam", new Date(), "This is my first Comment"));
         tm.addTag(Tag.newInstance("Ahmed Ali", new Date(2154545), "this is ahmed ali comments"));
         
-        assertEquals(2, tm.readTags().size());
+        assertEquals(2, tm.getTags().size());
     }
     
     @Test
@@ -53,7 +53,7 @@ public class TagsManagerTest {
         tm.addTag(Tag.newInstance("testing", new Date(), "this is testing"));
         
         tm.removeTag(1);
-        assertEquals(1, tm.readTags().size());
+        assertEquals(1, tm.getTags().size());
     }
     
     @Test
@@ -63,23 +63,23 @@ public class TagsManagerTest {
         
         // remove one
         tm.removeTag(1);
-        assertEquals(1, tm.readTags().size());
+        assertEquals(1, tm.getTags().size());
         
         // close without saving value
         tm.closeManager();
         tm = TagsManager.getTagsManager(location);
-        assertEquals(0, tm.readTags().size());
+        assertEquals(0, tm.getTags().size());
         
         // writes tags
         tm.addTag(Tag.newInstance("testing", new Date(), "this is testing"));
         tm.addTag(Tag.newInstance("another testing", new Date(), "this is another testing"));
-        tm.saveTags();
-        assertEquals(2, tm.readTags().size());
+        tm.setTags();
+        assertEquals(2, tm.getTags().size());
         tm.closeManager();
         
         // open again
         tm = TagsManager.getTagsManager(location);
-        assertEquals(2, tm.readTags().size());
+        assertEquals(2, tm.getTags().size());
     }
     
     @Test(expected=NullPointerException.class)
