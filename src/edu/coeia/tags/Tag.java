@@ -36,6 +36,15 @@ public final class Tag {
         this.message = msg;
     }
     
+    /**
+     * toString implementation, for debugging purpose
+     * @return 
+     */
+    public String toString() {
+        return String.format("%s[name=%s, date=%s, message=%s]", this.getClass().getName(),
+                this.getName(), this.getDate().toString(), this.getMessage());
+    }
+    
     public String getName() { return this.creatorName ; }
     public String getMessage() { return this.message ; }
     public Date getDate() { return new Date(this.creationDate.getTime()) ; }

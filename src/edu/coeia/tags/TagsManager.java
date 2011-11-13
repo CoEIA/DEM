@@ -6,6 +6,7 @@ package edu.coeia.tags;
 
 import static edu.coeia.util.PreconditionsChecker.* ;
 
+import java.sql.SQLException;
 import java.util.List; 
 import java.util.ArrayList ;
 import java.util.Collections;
@@ -19,7 +20,7 @@ import java.util.Collections;
  * 
  * @author wajdyessam
  */
-public class TagsManager {
+final public class TagsManager {
     
     /**
      * Get New Instance of Tags Manager for this case
@@ -71,7 +72,13 @@ public class TagsManager {
         try {
             this.tagsDataBase.closeDB();
         }
-        catch(Exception e) {
+        catch (SQLException e){
+            if ( e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState()))
+                System.out.println("Derby Shutdown normally");
+            else {
+                System.out.println("Derby Did not shutdown normally");
+                e.printStackTrace();
+            }
         }
     }
     

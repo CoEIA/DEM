@@ -8,7 +8,6 @@ import edu.coeia.util.FileUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore ;
 import static org.junit.Assert.*;
 
 import java.util.Date; 
@@ -57,16 +56,39 @@ public class TagsManagerTest {
         assertEquals(1, tm.readTags().size());
     }
     
-//    @Test
-//    public void createTagsManagerTest34() {
-//        tm.addTag(Tag.newInstance("name", new Date(), "this testing comments"));
-//        tm.addTag(Tag.newInstance("testing", new Date(), "this is testing"));
-//        
-//        tm.removeTag(1);
-//        assertEquals(1, tm.readTags().size());
-//        
-//        tm.closeManager();
-//        tm = TagsManager.getTagsManager(location);
-//        assertEquals(1, tm.readTags().size());
-//    }
+    @Test
+    public void createTagsManagerTest4() {
+        tm.addTag(Tag.newInstance("name", new Date(), "this testing comments"));
+        tm.addTag(Tag.newInstance("testing", new Date(), "this is testing"));
+        
+        // remove one
+        tm.removeTag(1);
+        assertEquals(1, tm.readTags().size());
+        
+        // close without saving value
+        tm.closeManager();
+        tm = TagsManager.getTagsManager(location);
+        assertEquals(0, tm.readTags().size());
+        
+        // writes tags
+        tm.addTag(Tag.newInstance("testing", new Date(), "this is testing"));
+        tm.addTag(Tag.newInstance("another testing", new Date(), "this is another testing"));
+        tm.saveTags();
+        assertEquals(2, tm.readTags().size());
+        tm.closeManager();
+        
+        // open again
+        tm = TagsManager.getTagsManager(location);
+        assertEquals(2, tm.readTags().size());
+    }
+    
+    @Test(expected=NullPointerException.class)
+    public void testNullLocation() {
+        tm = TagsManager.getTagsManager(null);
+    }
+    
+    @Test(expected=IllegalArgumentException.class) 
+    public void testEmptyLocation() {
+        tm = TagsManager.getTagsManager("");
+    }
 }
