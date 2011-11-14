@@ -359,7 +359,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="caseTagControllerPanel" min="-2" pref="124" max="-2" attributes="0"/>
                                       <EmptySpace pref="149" max="32767" attributes="0"/>
-                                      <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                                      <Component id="currentTagLabel" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -383,7 +383,7 @@
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                                  <Component id="currentTagLabel" min="-2" max="-2" attributes="0"/>
                                   <Component id="caseTagControllerPanel" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -470,7 +470,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Component class="javax.swing.JLabel" name="jLabel16">
+                    <Component class="javax.swing.JLabel" name="currentTagLabel">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="1/N"/>
                       </Properties>

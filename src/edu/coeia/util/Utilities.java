@@ -5,11 +5,6 @@
 
 package edu.coeia.util;
 
-/**
- *
- * @author wajdyessam
- */
-
 import edu.coeia.email.Message;
 
 import java.io.File ;
@@ -20,6 +15,13 @@ import java.awt.Toolkit ;
 import java.awt.datatransfer.StringSelection ;
 
 import java.util.List ;
+import java.util.logging.Logger ;
+
+
+/**
+ * Static convenience methods for common tasks, which eliminate code duplication
+ * @author wajdyessam
+ */
 
 public class Utilities {
 
@@ -108,5 +110,28 @@ public class Utilities {
                 return true ;
 
         return (false);
+    }
+    
+    /**
+     * Return a Logger whose name follows a specific naming convention.
+     * 
+     * <P>The conventional Logger names are taken as
+     * <tt>aClass.getPackage().getName()</tt>
+     */
+    public static Logger getLogger(Class<?> aClass) {
+        return Logger.getLogger(aClass.getPackage().getName());
+    }
+    
+    /**
+     * Return <tt>true</tt> only if <tt>aText</tt> is not null,
+     * and is not empty after tramming.
+     * 
+     * Trimming removes both leading/trailing white-spaces and ASCII 
+     * control characters
+     * 
+     * @param aText string of text
+     */
+    public static boolean textHasContent(String aText) {
+        return aText != null && !aText.isEmpty() ;
     }
 }

@@ -38,8 +38,8 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         this.aCase = frame.getCase() ;
         this.tagsManager = frame.getTagsManager() ;
         
-        // update tags panel
-        resetTagsPanel();
+        // initializing tags panel
+        initializingTagsPanel();
         
         // update case information panel
         displayCaseInformationPanel();
@@ -93,7 +93,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         caseTagControllerPanel = new javax.swing.JPanel();
         nextButton = new javax.swing.JButton();
         prevButton = new javax.swing.JButton();
-        jLabel16 = new javax.swing.JLabel();
+        currentTagLabel = new javax.swing.JLabel();
         caseTagsButtonsPanel = new javax.swing.JPanel();
         newTagsButton = new javax.swing.JButton();
         removeTagsButton = new javax.swing.JButton();
@@ -322,7 +322,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         });
         caseTagControllerPanel.add(prevButton, java.awt.BorderLayout.WEST);
 
-        jLabel16.setText("1/N");
+        currentTagLabel.setText("1/N");
 
         javax.swing.GroupLayout caseTagVeiwerPanelLayout = new javax.swing.GroupLayout(caseTagVeiwerPanel);
         caseTagVeiwerPanel.setLayout(caseTagVeiwerPanelLayout);
@@ -345,7 +345,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
                     .addGroup(caseTagVeiwerPanelLayout.createSequentialGroup()
                         .addComponent(caseTagControllerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
-                        .addComponent(jLabel16)))
+                        .addComponent(currentTagLabel)))
                 .addContainerGap())
         );
         caseTagVeiwerPanelLayout.setVerticalGroup(
@@ -363,7 +363,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(caseTagVeiwerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel16)
+                    .addComponent(currentTagLabel)
                     .addComponent(caseTagControllerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -485,13 +485,25 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newTagsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTagsButtonActionPerformed
-        this.tagsManager.addTag(Tag.newInstance("Dummy Name", new Date(), "Some Comments here"));
-        resetTagsPanel();
+        TagsDialog tagDialog = new TagsDialog(this.parent,true);
+        tagDialog.setVisible(true);
+        
+        Tag tag = tagDialog.getTag();
+        if ( tag != null ) {
+            this.tagsManager.addTag(tag);
+            displayCurrentTag();
+            this.currentTagIndex++;
+        }
     }//GEN-LAST:event_newTagsButtonActionPerformed
 
     private void removeTagsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeTagsButtonActionPerformed
-        int index = 0;
-        this.tagsManager.removeTag(index);
+        int index = currentTagIndex;
+        
+        if ( index > 0 && index < maxTagIndex ) {
+            this.tagsManager.removeTag(index);
+            this.currentTagIndex--;
+            displayCurrentTag();
+        }
     }//GEN-LAST:event_removeTagsButtonActionPerformed
 
     private void verifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verifyButtonActionPerformed
@@ -505,32 +517,58 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         if ( this.currentTagIndex < this.maxTagIndex-1 ) {
             this.currentTagIndex++;
-            displayTagsElements();
+            displayCurrentTag();
         }
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
         if ( this.currentTagIndex > 0 ) {
             this.currentTagIndex--;
-            displayTagsElements();
+            displayCurrentTag();
         }
     }//GEN-LAST:event_prevButtonActionPerformed
 
-    private void resetTagsPanel() {
+    /**
+     * initializing tags panel 
+     */
+    private void initializingTagsPanel() {
         List<Tag> tags = this.tagsManager.getTags();
         this.maxTagIndex = tags.size();
         this.currentTagIndex = 0;
+        
+        /**
+         * disable remove button when their is not tags
+         */
+        if ( this.maxTagIndex == 0 )
+            this.removeTagsButton.setEnabled(false);
+        else
+            this.removeTagsButton.setEnabled(true);
     }
     
-    private void displayTagsElements() {
+    /**
+     * display tag specified by current tag index
+     */
+    private void displayCurrentTag() {
         List<Tag> tags = this.tagsManager.getTags();
         Tag tag = tags.get(this.currentTagIndex);
-        
-        this.tagNameTextField.setText(tag.getName());
-        this.tagDateTextField.setText(DateUtil.formatDate(tag.getDate()));
-        this.tagContentTextArea.setText(tag.getMessage());
+        displayTagElement(tag);
+        this.currentTagLabel.setText("(" + this.currentTagIndex + "/" + tags.size() + ")");
     }
     
+    /*
+     * display tag in swing ui elements, and then revalidate the frame
+     */
+    private void displayTagElement(final Tag tag) {
+        assert tag != null; 
+        this.tagNameTextField.setText(tag.getName());
+        this.tagDateTextField.setText(DateUtil.formatDate(tag.getDate()));
+        this.tagContentTextArea.setText(tag.getMessage());  
+        this.revalidate();
+    }
+    
+    /**
+     * display case information in the related panel
+     */
     private void displayCaseInformationPanel() {
         this.caseNameTextField.setText(this.aCase.getIndexingTime());
         this.createdDateTextField.setText(DateUtil.formatDate(this.aCase.getCreateTime()));
@@ -557,6 +595,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     private javax.swing.JPanel caseTagsViewerPanel;
     private javax.swing.JTextField createdByTextField;
     private javax.swing.JTextField createdDateTextField;
+    private javax.swing.JLabel currentTagLabel;
     private javax.swing.JTextField indexedTextField;
     private javax.swing.JTextField itemIndexedTextField;
     private javax.swing.JLabel jLabel1;
@@ -565,7 +604,6 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

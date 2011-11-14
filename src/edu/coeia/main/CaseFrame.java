@@ -38,14 +38,13 @@ import java.util.logging.Logger;
  */
 
 public class CaseFrame extends javax.swing.JFrame {
-    private Case caseObj ;
-    private TagsManager tagsManager ;
+    private final Case caseObj ;
+    private final TagsManager tagsManager ;
     
     private final String APPLICATION_NAME = "Digital Evidence Miner: ";
-    private String applicationTitle;
-   
-    private List<String> listOfOpeningCase ;
-
+    private final String applicationTitle;
+    
+    private final List<String> listOfOpeningCase ;
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
     /** Creates new form OfflineMinningFrame 
@@ -73,7 +72,7 @@ public class CaseFrame extends javax.swing.JFrame {
          */
         this.caseObj = aCase ;
         this.listOfOpeningCase = list;
-        this.tagsManager = TagsManager.getTagsManager(this.caseObj.getIndexLocation() + FilesPath.CASE_TAGS);
+        this.tagsManager = TagsManager.getTagsManager(this.caseObj.getIndexLocation() + "\\" + FilesPath.CASE_TAGS);
         
         /**
          * Remove Case Name From the list when Frame Closed
@@ -126,9 +125,6 @@ public class CaseFrame extends javax.swing.JFrame {
         this.CardPanel.add(reportPanel, "reportCard");
         
         searchToggleButtonActionPerformed(null);
-        
-//        if ( !caseObj.getIndexStatus() )
-//            showIndexDialog();
     }
     
     /** This method is called from within the constructor to
@@ -479,13 +475,8 @@ public class CaseFrame extends javax.swing.JFrame {
         indexPanel.setVisible(true);
     }
     
-    public Case getCase() {
-        return this.caseObj ;
-    }
-    
-    public TagsManager getTagsManager() {
-        return this.tagsManager;
-    }
+    public Case getCase() { return this.caseObj ; }
+    public TagsManager getTagsManager() { return this.tagsManager; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CardPanel;

@@ -24,6 +24,9 @@ final public class TagsManager {
     
     /**
      * Get New Instance of Tags Manager for this case
+     * its will be calling one time during case opening, but there is no harm
+     * to re-call to with multiple time during case, since its will open the location
+     * if there is database in this location
      * @param dbLocation is the database location inside the case
      * @return TagsManager for this case
      */
