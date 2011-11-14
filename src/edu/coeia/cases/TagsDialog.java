@@ -18,6 +18,7 @@ package edu.coeia.cases;
 import edu.coeia.tags.Tag ;
 
 import java.util.Date ;
+import javax.swing.JOptionPane;
 
 public class TagsDialog extends javax.swing.JDialog {
 
@@ -57,6 +58,7 @@ public class TagsDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Add New Tag Dialog");
 
         okButton.setText("Ok");
         okButton.addActionListener(new java.awt.event.ActionListener() {
@@ -102,6 +104,7 @@ public class TagsDialog extends javax.swing.JDialog {
 
         createNameTextField.setText(" ");
 
+        creatorDateTextField.setEditable(false);
         creatorDateTextField.setText(" ");
 
         jLabel2.setText("Creator Date:");
@@ -170,6 +173,11 @@ public class TagsDialog extends javax.swing.JDialog {
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         String name = this.createNameTextField.getText().trim();
         String content = this.tagContentTextArea.getText().trim();
+        
+        if ( name.isEmpty() || content.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "Please Fill the necessary components");
+            return ;
+        }
         
         tag = Tag.newInstance(name, time, content);
         this.setVisible(false);

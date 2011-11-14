@@ -78,17 +78,23 @@ final class TagsDBHandler {
      * Remove database records and then add the new tags
      * @param tags 
      */
-    void setTags(final List<Tag> tags) {
+    boolean setTags(final List<Tag> tags) {
+        boolean status = false; 
+        
         try {
             this.removeRecords();
             
             for(Tag tag: tags) {
                 this.insertRecord(tag);
             }
+            
+            status = true;
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+        
+        return (status);
     }
     
     private void createDB(boolean foundDB, String databasePath)

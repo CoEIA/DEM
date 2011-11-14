@@ -64,8 +64,8 @@ final public class TagsManager {
     /**
      * write all the current tags to the database
      */
-    public void setTags() {
-        this.tagsDataBase.setTags(this.tags);
+    public boolean setTags() {
+        return this.tagsDataBase.setTags(this.tags);
     }
     
     /**

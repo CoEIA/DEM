@@ -15,7 +15,7 @@ import edu.coeia.tags.TagsManager;
 import edu.coeia.tags.Tag ;
 
 import java.util.List ;
-import java.util.Date ;
+import javax.swing.JOptionPane;
 import org.apache.commons.httpclient.util.DateUtil;
 
 /**
@@ -28,7 +28,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     private Case aCase; 
     private TagsManager tagsManager ;
     
-    private int currentTagIndex, maxTagIndex; 
+    private int currentTagIndex;
     
     /** Creates new form CaseManagerPanel */
     public CaseManagerPanel(CaseFrame frame) {
@@ -489,21 +489,11 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         tagDialog.setVisible(true);
         
         Tag tag = tagDialog.getTag();
-        if ( tag != null ) {
-            this.tagsManager.addTag(tag);
-            displayCurrentTag();
-            this.currentTagIndex++;
-        }
+        this.addTag(tag);
     }//GEN-LAST:event_newTagsButtonActionPerformed
 
     private void removeTagsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeTagsButtonActionPerformed
-        int index = currentTagIndex;
-        
-        if ( index > 0 && index < maxTagIndex ) {
-            this.tagsManager.removeTag(index);
-            this.currentTagIndex--;
-            displayCurrentTag();
-        }
+        this.removeTag();
     }//GEN-LAST:event_removeTagsButtonActionPerformed
 
     private void verifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verifyButtonActionPerformed
@@ -511,48 +501,101 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_verifyButtonActionPerformed
 
     private void saveCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCaseButtonActionPerformed
-        this.tagsManager.setTags();
+        if ( this.tagsManager.setTags() ) {
+            JOptionPane.showMessageDialog(this, "Case have been saved", 
+                    "Saving Case Message", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_saveCaseButtonActionPerformed
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
-        if ( this.currentTagIndex < this.maxTagIndex-1 ) {
-            this.currentTagIndex++;
-            displayCurrentTag();
-        }
+        showNextTag();
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
-        if ( this.currentTagIndex > 0 ) {
-            this.currentTagIndex--;
-            displayCurrentTag();
-        }
+        showPreviousTag();
     }//GEN-LAST:event_prevButtonActionPerformed
 
+    /**
+     * go back to previous tag, and show it
+     */
+    public void showPreviousTag() {
+        if ( this.currentTagIndex > 0 ) {
+            this.currentTagIndex--;
+            displayCurrentTag(currentTagIndex);
+        }
+    }
+    
+    /**
+     * show the next tag if there is a tag
+     */
+    public void showNextTag() {
+        if ( this.currentTagIndex < this.tagsManager.getTags().size() ) {
+            this.currentTagIndex++;
+            displayCurrentTag(currentTagIndex);
+        }        
+    }
+    
+    /**
+     * add new tag, then update the tags indexer
+     */
+    private void addTag(final Tag tag) {
+        if ( tag != null ) {
+            this.tagsManager.addTag(tag);
+            int index = this.tagsManager.getTags().indexOf(tag);
+            this.currentTagIndex = index;
+            displayCurrentTag(currentTagIndex);
+        }
+    }
+    
+    /**
+     * remove current tag
+     */
+    private void removeTag() {
+//        int index = currentTagIndex;
+//        
+//        if ( index >= 0 && index <= this.tagsManager.getTags().size()-1 ) {
+//            this.tagsManager.removeTag(index);
+//            
+//            if ( this.tagsManager.getTags().size() <= 1 ) {
+//                this.initializingTagsPanel();
+//            }
+//            else {
+//                if ( this.currentTagIndex > 0)
+//                    this.currentTagIndex--;
+//                
+//                displayCurrentTag(this.currentTagIndex);
+//            }
+//        }
+        
+        this.tagsManager.removeTag(this.currentTagIndex);
+        this.initializingTagsPanel();
+    }
+    
     /**
      * initializing tags panel 
      */
     private void initializingTagsPanel() {
         List<Tag> tags = this.tagsManager.getTags();
-        this.maxTagIndex = tags.size();
         this.currentTagIndex = 0;
         
-        /**
-         * disable remove button when their is not tags
-         */
-        if ( this.maxTagIndex == 0 )
-            this.removeTagsButton.setEnabled(false);
+        if ( !tags.isEmpty() )
+            this.displayTagElement(tags.get(this.currentTagIndex));
         else
-            this.removeTagsButton.setEnabled(true);
+            this.resetTagsElements();
+        
+        this.currentTagLabel.setText("(" + this.currentTagIndex + "/" + tags.size() + ")");
+        this.checkingButtons();
     }
     
     /**
      * display tag specified by current tag index
      */
-    private void displayCurrentTag() {
+    private void displayCurrentTag(final int index) {
         List<Tag> tags = this.tagsManager.getTags();
-        Tag tag = tags.get(this.currentTagIndex);
+        Tag tag = tags.get(index);
         displayTagElement(tag);
-        this.currentTagLabel.setText("(" + this.currentTagIndex + "/" + tags.size() + ")");
+        this.currentTagLabel.setText("(" + index + "/" + tags.size() + ")");
+        this.checkingButtons();
     }
     
     /*
@@ -565,6 +608,48 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         this.tagContentTextArea.setText(tag.getMessage());  
         this.revalidate();
     }
+    
+    /**
+     * Resetting Tags Element to empty string
+     * this because when delete last tag from list
+     * we should clean the ui elements
+     */
+    private void resetTagsElements() {
+        this.tagNameTextField.setText("");
+        this.tagDateTextField.setText("");
+        this.tagContentTextArea.setText("");
+        this.currentTagLabel.setText("(" + 0 + "/" + this.tagsManager.getTags().size() + ")");
+    }
+    
+    /**
+     * checking buttons on frame, to disable it if no data
+     */
+    private void checkingButtons() {
+        /**
+         * disable remove button when their is not tags
+         */
+        if ( this.tagsManager.getTags().isEmpty() )
+            this.removeTagsButton.setEnabled(false);
+        else
+            this.removeTagsButton.setEnabled(true);
+        
+        /**
+         * disable previous button
+         */
+        if ( this.currentTagIndex == 0 )
+            this.prevButton.setEnabled(false);
+        else
+            this.prevButton.setEnabled(true);
+        
+        /**
+         * disable next button
+         */
+        if ( this.currentTagIndex < this.tagsManager.getTags().size()-1)
+            this.nextButton.setEnabled(true);
+        else
+            this.nextButton.setEnabled(false);
+    }
+
     
     /**
      * display case information in the related panel
