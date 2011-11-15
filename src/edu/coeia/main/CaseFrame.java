@@ -125,6 +125,9 @@ public class CaseFrame extends javax.swing.JFrame {
         this.CardPanel.add(reportPanel, "reportCard");
         
         searchToggleButtonActionPerformed(null);
+        
+       GuiUtil.showPanel("caseManagerCard",CardPanel);
+       this.setTitle(APPLICATION_NAME + "Case Manager Window");
     }
     
     /** This method is called from within the constructor to

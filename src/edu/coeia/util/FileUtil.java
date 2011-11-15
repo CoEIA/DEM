@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.BufferedReader ;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.InputStreamReader ;
 import java.io.FileNotFoundException ;
 import java.io.PrintWriter;
@@ -216,5 +218,49 @@ public class FileUtil {
         }
 
         return isExist;
+    }
+    
+    /**
+     * check if the file in the path is exist in the system
+     * and its a valid file object
+     * @param path
+     * @return 
+     */
+    public static boolean isFileFound(final String path) {
+        File file = new File(path);
+        return file.exists() && file.isFile();
+    }
+    
+    /**
+     * read bytes from file and get it in array of bytes
+     * @param path the file path
+     * @return an array with the bytes in the file
+     */
+    public static byte[] getFileBytes(final String path) {
+        assert path != null;
+        
+        File file = new File(path);
+        InputStream in = null; 
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int ch;
+        
+        try {
+            in = new FileInputStream(file);
+            
+            while ( (ch=in.read()) != -1 )
+                buffer.write(ch);
+        }
+        catch(IOException e) {
+        }
+        finally {
+            try {
+                in.close();
+            }
+            catch(IOException e) {
+                
+            }
+        }
+        
+        return buffer.toByteArray();
     }
 }
