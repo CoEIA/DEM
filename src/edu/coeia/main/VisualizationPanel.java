@@ -131,9 +131,9 @@ public class VisualizationPanel extends javax.swing.JPanel {
     }
 
     private void disableNotIndexedComponent() {
-        if (caseObj.getDocumentInIndex().isEmpty()) {
-            indexVisulizingButton.setEnabled(false);
-        }
+//        if (caseObj.getDocumentInIndex().isEmpty()) {
+//            indexVisulizingButton.setEnabled(false);
+//        }
     }
     
     private void generateVisualization() {

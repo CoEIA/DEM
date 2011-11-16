@@ -44,6 +44,7 @@ import java.util.logging.Level;
 
 import java.sql.SQLException ;
 import java.net.URISyntaxException ;
+import java.util.List;
 
 /*
  * InternetSurfingPanel.java
@@ -1161,7 +1162,7 @@ private void summaryInternetButtonActionPerformed(java.awt.event.ActionEvent evt
         ArrayList<InternetSummaryDate> result = new ArrayList<InternetSummaryDate>();
         String resultString = "" ;
 
-        ArrayList<String> ffPath = index.getFFPath();
+        List<String> ffPath = index.getFFPath();
         if ( ffPath.isEmpty() )
             resultString += "FireFox is not Selected when create case\n" ;
 
@@ -1174,7 +1175,7 @@ private void summaryInternetButtonActionPerformed(java.awt.event.ActionEvent evt
             }
         }
 
-        ArrayList<String> iePath = index.getIePath();
+         List<String> iePath = index.getIePath();
         if ( iePath.isEmpty() )
             resultString += "IE is not Selected when create case" ;
         

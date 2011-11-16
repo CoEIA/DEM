@@ -254,6 +254,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     private void newCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCaseButtonActionPerformed
         try {
             logger.info("Create New Case Entring");
+  
             CaseWizardDialog indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, licenseManager.isFullVersion());
             indexWizard.setVisible(true);
             
@@ -433,6 +434,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         } catch (IOException ex) {
             Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

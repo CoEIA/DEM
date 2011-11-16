@@ -476,10 +476,10 @@ public class TextCloudPanel extends javax.swing.JPanel {
     }
     
     private void disableNotIndexedComponent() {
-        if (caseObj.getDocumentInIndex().isEmpty()) {
-            tagSelectButton.setEnabled(false);
-            cloudsTable.setEnabled(false);
-        }
+//        if (caseObj.getDocumentInIndex().isEmpty()) {
+//            tagSelectButton.setEnabled(false);
+//            cloudsTable.setEnabled(false);
+//        }
     }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables

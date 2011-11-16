@@ -14,22 +14,18 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+
 
 public class Case implements Serializable {
 
-    private String indexName;
-    private String indexLocation;
-    private String investigatorName;
-    private String description;
-    private String usernameHotmail;
-    private String usernameGmail;
-    private String passHotmail;
-    private String passGmail;
-    private String caseSource;
-    private Date createTime;
-    private long caseSize;
-    private boolean isGmail;
-    private boolean isHotmail;
+    private final String indexName;
+    private final String indexLocation;
+    private final String investigatorName;
+    private final String description;
+    private final Date createTime;
+    private final long caseSize;
     private boolean isIndex;
     private boolean isHash;
     private boolean isExportLibrary;
@@ -43,48 +39,150 @@ public class Case implements Serializable {
     private boolean indexStatus;
     private String lastIndexDate;
     private String indexingTime;
-       //private int dataIndexedCount, dataIndexedSize ;
+    private String caseSource;
+    //private int dataIndexedCount, dataIndexedSize ;
+    private List<EmailConfig> emailInfo;
 
-    private boolean cacheImages ;
-    private boolean checkCompressed ;
-    private ArrayList<String> documentInIndex;
-    private List<String> extensionAllowed;
-    private ArrayList<String> pstPath;
-    private ArrayList<String> msnPath, yahooPath, skypePath;
-    private ArrayList<String> iePath, ffPath;
+    private Case(Builder builder) {
 
-    private Case() {
+        this.indexName = builder.indexName;
+        this.indexLocation = builder.indexLocation;
+        this.investigatorName = builder.investigatorName;
+        this.description = builder.description;
+        this.createTime = builder.createTime;
+        this.caseSize = builder.caseSize;
+        this.indexStatus = builder.indexStatus;
+        this.lastIndexDate = builder.lastIndexDate;
+        this.indexingTime = builder.indexingTime;
+        this.caseSource = builder.caseSource;
+        this.emailInfo = builder.emailInfo;
+
+        this.isIndex = builder.isIndex;
+        this.isHash = builder.isHash;
+        this.isExportLibrary = builder.isExportLibrary;
+        this.isClusterWithCase = builder.isClusterWithCase;
+        this.isClusterWithLibrary = builder.isClusterWithLibrary;
+        this.isIndexArchive = builder.isIndexArchive;
+        this.isIndexEmbedded = builder.isIndexEmbedded;
+        this.isCacheImages = builder.isCacheImages;
+        this.isExcludeFileSystems = builder.isExcludeFileSystems;
+
+
     }
 
-    public Case(String indexName, String indexLocation, String investigatorName, String description, String usernameHotmail,
-            String usernameGmail, String passHotmail, String passGmail, String CaseSource,
-            boolean isGmail, boolean isHotmail, boolean isIndex, boolean isHash,
-            boolean isExportLibrary, boolean isClusterWithCase, boolean isClusterWithLibrary, boolean isIndexArchive,
-            boolean isIndexEmbedded, boolean isCacheImages, boolean isExcludeFileSystems) {
+    public static class Builder {
 
-        this.indexName = indexName;
-        this.indexLocation = indexLocation;
-        this.investigatorName = investigatorName;
-        this.description = description;
+        private final String indexName;
+        private final String indexLocation;
+        private final String investigatorName;
+        private final String description;
+        private final String caseSource;
+        private final Date createTime;
+        private final long caseSize;
+        private boolean isIndex = false;
+        private boolean isHash = false;
+        private boolean isExportLibrary = false;
+        private boolean isClusterWithCase = false;
+        private boolean isClusterWithLibrary = false;
+        private boolean isIndexArchive = false;
+        private boolean isIndexEmbedded = false;
+        private boolean isCacheImages = false;
+        private boolean isExcludeFileSystems = false;
+        private List<EmailConfig> emailInfo;
+        // index history information
+        private boolean indexStatus = false;
+        private String lastIndexDate = "";
+        private String indexingTime = "";
+        //private int dataIndexedCount, dataIndexedSize ;
+        private boolean cacheImages = false;
+        private boolean checkCompressed = false;
+        private ArrayList<String> documentInIndex = new ArrayList<String>();
+        private List<String> extensionAllowed = new ArrayList<String>();
+        private ArrayList<String> pstPath = new ArrayList<String>();
+        private ArrayList<String> msnPath = new ArrayList<String>();
+        private ArrayList<String> yahooPath = new ArrayList<String>();
+        private ArrayList<String> skypePath  = new ArrayList<String>();
+        private ArrayList<String> iePath  = new ArrayList<String>();
+        private ArrayList<String> ffPath  = new ArrayList<String>();
 
-        this.caseSource = CaseSource;
-        this.isGmail = isGmail;
-        this.isHotmail = isHotmail;
-        this.isIndex = isIndex;
-        this.isHash = isHash;
-        this.isExportLibrary = isExportLibrary;
-        this.isClusterWithCase = isClusterWithCase;
-        this.isClusterWithLibrary = isClusterWithLibrary;
-        this.isIndexArchive = isIndexArchive;
-        this.isIndexEmbedded = isIndexEmbedded;
-        this.isCacheImages = isCacheImages;
-        this.isExcludeFileSystems = isExcludeFileSystems;
-        this.usernameHotmail = usernameHotmail;
-        this.usernameGmail = usernameGmail;
-        this.passHotmail = passHotmail;
-        this.passGmail = passGmail;
+        public Builder(String indexName, String indexLocation, String investigatorName,
+                String description, String caseSource, Date createTime, long caseSize) {
+            this.indexName = indexName;
+            this.indexLocation = indexLocation;
+            this.investigatorName = investigatorName;
+            this.description = description;
+            this.caseSource = caseSource;
+            this.createTime = createTime;
+            this.caseSize = caseSize;
 
 
+        }
+
+        public Case build() {
+
+            return new Case(this);
+        }
+
+        public Builder(String indexName, String indexLocation, String investigatorName, String description,
+                String caseSource, long caseSize, Date creationDate) {
+            this.indexName = indexName;
+            this.indexLocation = indexLocation;
+            this.investigatorName = investigatorName;
+            this.description = description;
+            this.caseSource = caseSource;
+            this.caseSize = caseSize;
+            this.createTime = creationDate;
+        }
+
+        public Builder isIndex(boolean val) {
+            isIndex = val;
+            return this;
+        }
+
+        public Builder isHash(boolean val) {
+            isHash = val;
+            return this;
+        }
+
+        public Builder isExportLibrary(boolean val) {
+            isExportLibrary = val;
+            return this;
+        }
+
+        public Builder isClusterWithCase(boolean val) {
+            isClusterWithCase = val;
+            return this;
+        }
+
+        public Builder isClusterWithLibrary(boolean val) {
+            isClusterWithLibrary = val;
+            return this;
+        }
+
+        public Builder isIndexArchive(boolean val) {
+            isIndexArchive = val;
+            return this;
+        }
+
+        public Builder isIndexEmbedded(boolean val) {
+            isIndexEmbedded = val;
+            return this;
+        }
+
+        public Builder isCacheImages(boolean val) {
+            isCacheImages = val;
+            return this;
+        }
+
+        public Builder isExcludeFileSystems(boolean val) {
+            isExcludeFileSystems = val;
+            return this;
+        }
+
+        public Builder createEmailConfig(List<EmailConfig> configList) {
+            emailInfo = configList;
+            return this;
+        }
     }
 
 //    public void setIndexName (String indexName) { this.indexName = indexName ; }
@@ -92,7 +190,6 @@ public class Case implements Serializable {
 //    public void setInvestigatorName (String name) { this.investigatorName = name; }
 //    public void setDescription(String desc) { this.description = desc; }
     public void setIndexStatus(boolean status) {
-        this.indexStatus = status;
     }
 
 //    public void setDocumentInIndex (ArrayList<String> doc) { this.documentInIndex = doc ; }
@@ -113,15 +210,17 @@ public class Case implements Serializable {
 //    public void setCacheImages (boolean value) { this.cacheImages = value ; }
 //    public void setCheckCompressed (boolean value) { this.checkCompressed = value ; }
     public void setLastIndexDate(String value) {
-        this.lastIndexDate = value;
     }
 
     public void setIndexingTime(String value) {
-        this.indexingTime = value;
     }
 
     public String getIndexName() {
         return this.indexName;
+    }
+    
+    public List<EmailConfig> getEmailConfig() {
+        return this.emailInfo;
     }
 
     public String getIndexLocation() {
@@ -139,49 +238,37 @@ public class Case implements Serializable {
     public boolean getIndexStatus() {
         return this.indexStatus;
     }
-    
-    public void setCaseSource(String Path)
-    {
-        caseSource = Path;
-        
-    }
-    
-    public String getCaseSource()
-    {
-        
-        return this.caseSource;
-    }
 
-    public ArrayList<String> getDocumentInIndex() {
-        return this.documentInIndex;
+    public List<String> getDocumentInIndex() {
+        return Collections.emptyList();
     }
 
     public List<String> getExtensionAllowed() {
-        return this.extensionAllowed;
+        return Collections.emptyList();
     }
 
-    public ArrayList<String> getPstPath() {
-        return this.pstPath;
+    public  List<String> getPstPath() {
+        return Collections.emptyList();
     }
 
-    public ArrayList<String> getIePath() {
-        return this.iePath;
+    public  List<String> getIePath() {
+        return Collections.emptyList();
     }
 
-    public ArrayList<String> getFFPath() {
-        return this.ffPath;
+    public  List<String> getFFPath() {
+        return Collections.emptyList();
     }
 
-    public ArrayList<String> getMsnPath() {
-        return this.msnPath;
+    public List<String> getMsnPath() {
+        return Collections.emptyList();
     }
 
-    public ArrayList<String> getYahooPath() {
-        return this.yahooPath;
+    public List<String> getYahooPath() {
+        return Collections.emptyList();
     }
 
-    public ArrayList<String> getSkypePath() {
-        return this.skypePath;
+    public List<String> getSkypePath() {
+        return Collections.emptyList();
     }
 
     public Date getCreateTime() {
@@ -195,14 +282,18 @@ public class Case implements Serializable {
     //public int getDataIndexedCount () { return this.dataIndexedCount ;}
 
     public boolean getCacheImages() {
-        return this.cacheImages;
+        return false;
     }
 
     public boolean getCheckCompressed() {
-        return this.checkCompressed;
+        return false;
     }
-    
-    
-    public String getLastIndexDate () { return this.lastIndexDate ; }
-    public String getIndexingTime () { return this.indexingTime ;}
+
+    public String getLastIndexDate() {
+        return this.lastIndexDate;
+    }
+
+    public String getIndexingTime() {
+        return this.indexingTime;
+    }
 }
