@@ -4,11 +4,6 @@
  */
 package edu.coeia.util;
 
-/**
- *
- * @author wajdyessam
- */
-
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -19,24 +14,36 @@ import javax.swing.JDialog ;
 import javax.swing.JFrame; 
 
 import java.util.List;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+/**
+ * Hash Verifier will check if the current hash value submitted by user is
+ * equal to the value of the folder <tt>path</tt> that also submitted to constructor
+ * its then will run background thread to do the hash value calculation
+ * and in the same time it will display progress bar dialog that show the 
+ * current file under processing
+ * 
+ * @author wajdyessam
+ */
 public final class HashVerifier {
     private final String hashValue ;
     private final String sourcePath ;
     private final JFrame parent ;
     
     private ProgressDialog progressDialog ;
-    private HashVeriferThread hashVerifierThread; 
+    private SwingWorker<String, HashProgress> hashVerifierThread; 
     
     /**
      * Create new instance of hash verifier that can execute thread for hash computing
-     * @param parent
-     * @param hash
-     * @param path
+     * it will compute the hash of path folder and compare it with hash value that caller want to verify
+     * @param parent parent for the dialog that will show progress bar
+     * @param hash the hash value that we want to verify
+     * @param path the path of evidence that we will compute its has
      * @return 
      */
     public static HashVerifier newInstance (final JFrame parent, final String hash, final String path) {
@@ -65,53 +72,83 @@ public final class HashVerifier {
      * used to update progress dialog when calculate directory hash value
      */
     private class HashVeriferThread extends SwingWorker<String, HashProgress> {
+        private HashCalculator.DirectoryHash dirHash = HashCalculator.DirectoryHash.newInstance();
+        
         @Override
         public String doInBackground() {
             calculateDirectoryHash(HashVerifier.this.sourcePath);
-            return "";
+            return dirHash.done();
         }
         
         @Override
         public void process(List<HashProgress> data) {
-            if ( isCancelled() )
-                return ;
-            
-            for(HashProgress item: data) {
-                HashVerifier.this.progressDialog.setFileLabel(item.getName());
-                HashVerifier.this.progressDialog.setHashLabel(item.getHash());
+            if ( isCancelled() ) {
+                return; 
+            }
+            else {
+                for(HashProgress item: data) {
+                    HashVerifier.this.progressDialog.setFileLabel(item.getName());
+                    HashVerifier.this.progressDialog.setHashLabel(item.getHash());
+                }
             }
         }
         
         @Override
         public void done() {
-            System.out.println("done hash thread");
+            try {
+                String result = get();
+                System.out.println("Result: " + result);
+                
+                if ( result.equalsIgnoreCase(hashValue)) {
+                    System.out.println("equal hash value");
+                }
+                else
+                    System.out.println("not equal hash value");
+                
+                // clean dialog
+                progressDialog.fileLabel.setText("");
+                progressDialog.hashLabel.setText("");
+                progressDialog.progressBar.setIndeterminate(false);
+            }
+            catch(InterruptedException e) {} 
+            catch(CancellationException e) {
+                progressDialog.setVisible(false);
+                return;
+            }
+            catch(ExecutionException e) {
+                e.printStackTrace();
+            }
         }
         
         private void calculateDirectoryHash(final String path) {
+            if ( this.isCancelled() )
+                throw new CancellationException("SwingWorker Cancelled by cancel button");
+                            
             if ( new File(path).isDirectory()) {
                 File[] files = new File(path).listFiles();
                 
-                if ( this.isCancelled() )
-                    return ; 
-                
                 for(File file: files) {
+                    if ( this.isCancelled() )
+                        throw new CancellationException("SwingWorker Cancelled by cancel button");
+                                
                     if ( file.isDirectory()) {
                         calculateDirectoryHash(file.getAbsolutePath());
                     }
                     else if ( file.isFile() ) {
                         String filePath = file.getAbsolutePath();
                         
-                        System.out.println("calc: " + filePath);
+                        // compute hash for file
                         String hash = HashCalculator.calculateFileHash(filePath);
+                        
+                        // add hash to dir hash value
+                        dirHash.addFile(filePath);
+                        
+                        // update gui elements
                         HashProgress chunks = new HashProgress(filePath, hash);
                         this.publish(chunks);
                     }
                 }
             }
-        }
-        
-        void stopThread() {
-            this.cancel(true);
         }
     }
     
@@ -175,8 +212,7 @@ public final class HashVerifier {
             JButton button = new JButton("Stop");
             button.addActionListener(new ActionListener() {
                 public void actionPerformed (ActionEvent event){ 
-                    System.out.println("Stopped Thread");
-                    HashVerifier.this.hashVerifierThread.stopThread();
+                    hashVerifierThread.cancel(true);
                 }
             });
             

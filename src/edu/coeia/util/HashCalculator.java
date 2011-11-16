@@ -35,22 +35,33 @@ public class HashCalculator {
         
         return MD5HashCalculator(path);
     }
-    
+
     /**
-     * Calculate MD5 Hash for entire directory content
-     * it work by appending hash value for each files inside directory
-     * to a some location then compute this data as hash value for directory
-     * @param path
-     * @return 
+     * Calculate Hash Value for directory
      */
-    public static String calculateDirectoryHash(final String path) {
-        checkNull("path must be not null", path);
-        checkNotEmptyString("path must be not empty", path);
+    final static class DirectoryHash {
+        private final MessageDigest digest ;
         
-        if ( !FileUtil.isDirectoryExists(path) )
-            throw new IllegalArgumentException("path should point to valid directory");
+        public static DirectoryHash newInstance() {
+            try {
+                return new DirectoryHash();
+            }
+            catch(NoSuchAlgorithmException e ) { }
+            
+            throw new NullPointerException("cannot make md5 algorithm");
+        }
         
-        return "";
+        private DirectoryHash() throws NoSuchAlgorithmException{
+            digest = MessageDigest.getInstance("MD5");
+        }
+        
+        public void addFile(final String path) {
+            digest.update(FileUtil.getFileBytes(path));
+        }
+        
+        public String done() {
+            return (toHex(digest.digest()));
+        }
     }
     
     /**
