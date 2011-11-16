@@ -797,28 +797,26 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
         }
 
         this.setVisible(false);
-//        
-//     
-//        EventQueue.invokeLater(new Runnable() {
-//
-//            public void run() {
-//                JFrame frame = new JFrame();
-//
-//                JDialog emailDialogue = null;
-//             
-//                    try {
-//                        emailDialogue = new EmailDownDialogue(frame, true, currentCase);
-//                    } catch (Exception ex) {
-//                        Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//               
-//
-//
-//                emailDialogue.setVisible(true);
-//            }
-//        });
+  
+        if(GmailCheckBox.isSelected() || HotmailCheckBox.isSelected())
+        {
+        
+           EventQueue.invokeLater(new Runnable() {
 
+            public void run() {
+                JFrame frame = new JFrame();
 
+                JDialog emailDialogue = null;
+             
+                    try {
+                        emailDialogue = new EmailDownDialogue(frame, true, currentCase);                    } catch (Exception ex) {
+                        Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                emailDialogue.setVisible(true);
+            }
+       });
+
+        }
               
 
     }//GEN-LAST:event_finishButtonActionPerformed
