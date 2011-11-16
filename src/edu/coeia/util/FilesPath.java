@@ -41,6 +41,7 @@ public class FilesPath {
     // path for storing case Tags
     public final static String CASE_TAGS = "Tags" ;
     
+    // path for storing emails in database and attachments in separate folder
     public final static String ATTACHMENTS = "attachments" ;
     public final static String EMAIL_DB = "Emails" ;
     
