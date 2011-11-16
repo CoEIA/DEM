@@ -104,8 +104,8 @@ public class EmailPanel extends javax.swing.JPanel {
         fromDatePanel.add(new JDateChooser(new Date(0)),BorderLayout.CENTER);        
         
         // set outlook data to outlook combobox
-        for (String pstPath: index.getPstPath())
-            outlookComboBox.addItem( pstPath );      
+//        for (String pstPath: index.getPstPath())
+//            outlookComboBox.addItem( pstPath );      
         
         disableNotIndexedComponent();
         JTableUtil.setTableAlignmentValue(inboxTable, 2);
@@ -876,33 +876,33 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
             int len = pSearcher.search(emailSearchTextField.getText().trim(), PSTSearcher.SearchField.CONTENT);
             System.out.println("length of search = " + len);
            
-            for (String path: index.getPstPath()) {
-                if ( path.equals(outlookComboBox.getSelectedItem())) {
-                    for (int i=0 ; i<len ; i++){
-                        Document doc = pSearcher.getDocHits(i);
-                        int id =  Integer.parseInt(doc.get("mailid")) ;
-                        String location =  doc.get("location") ;
-                        PSTMessage msg = null;
-
-                        try {
-                            msg = getMessage(id);
-                        }
-                        catch (PSTException e) {
-                            
-                        }
-
-                        if ( msg != null ) {
-                            aList.add(String.valueOf(msg.getDescriptorNode().descriptorIdentifier));
-                        }
-                        else {
-                            System.out.println("msg == null (3701) ");
-                        }
-                    }
-
-                    pSearcher.closeSearcher();
-                    return aList ;
-                }
-            }
+//            for (String path: index.getPstPath()) {
+//                if ( path.equals(outlookComboBox.getSelectedItem())) {
+//                    for (int i=0 ; i<len ; i++){
+//                        Document doc = pSearcher.getDocHits(i);
+//                        int id =  Integer.parseInt(doc.get("mailid")) ;
+//                        String location =  doc.get("location") ;
+//                        PSTMessage msg = null;
+//
+//                        try {
+//                            msg = getMessage(id);
+//                        }
+//                        catch (PSTException e) {
+//                            
+//                        }
+//
+//                        if ( msg != null ) {
+//                            aList.add(String.valueOf(msg.getDescriptorNode().descriptorIdentifier));
+//                        }
+//                        else {
+//                            System.out.println("msg == null (3701) ");
+//                        }
+//                    }
+//
+//                    pSearcher.closeSearcher();
+//                    return aList ;
+//                }
+//            }
         }
         catch (Exception e){
             //e.printStackTrace();
@@ -1041,22 +1041,22 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
     
     private void disableNotIndexedComponent () {
         // close email if there is no pst file
-        if ( index.getPstPath().isEmpty() ) {
-           // emailPanel.setEnabled(false);
-            loadPstButton.setEnabled(false);
-            //clusteringButton.setEnabled(false);
-            emailSearchButton.setEnabled(false);
-            outlookComboBox.setEnabled(false);
-            emailSearchButton.setEnabled(false);
-            emailVisualizationButton.setEnabled(false);
-            inboxTable.setEnabled(false);
-            sentItemTable.setEnabled(false);
-            espTable.setEnabled(false);
-            locationTable.setEnabled(false);
-            correlationComboBox.setEnabled(false);
-            fromDatePanel.getComponent(0).setEnabled(false);
-            toDatePanel.getComponent(0).setEnabled(false);
-        }
+//        if ( index.getPstPath().isEmpty() ) {
+//           // emailPanel.setEnabled(false);
+//            loadPstButton.setEnabled(false);
+//            //clusteringButton.setEnabled(false);
+//            emailSearchButton.setEnabled(false);
+//            outlookComboBox.setEnabled(false);
+//            emailSearchButton.setEnabled(false);
+//            emailVisualizationButton.setEnabled(false);
+//            inboxTable.setEnabled(false);
+//            sentItemTable.setEnabled(false);
+//            espTable.setEnabled(false);
+//            locationTable.setEnabled(false);
+//            correlationComboBox.setEnabled(false);
+//            fromDatePanel.getComponent(0).setEnabled(false);
+//            toDatePanel.getComponent(0).setEnabled(false);
+//        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -73,14 +73,14 @@ public class ChatPanel extends javax.swing.JPanel {
         fileChooser.setFileFilter(new FilesFilter("Text Files (*.txt)", "txt"));
         
         // set msn & yahoo & skype data to thier combobox
-        for (String yahooPath: index.getYahooPath())
-            yahooComboBox.addItem(yahooPath);
-
-        for (String msnPath: index.getMsnPath())
-            msnComboBox.addItem(msnPath);
-
-        for (String skypePath: index.getSkypePath())
-            skypeComboBox.addItem(skypePath);
+//        for (String yahooPath: index.getYahooPath())
+//            yahooComboBox.addItem(yahooPath);
+//
+//        for (String msnPath: index.getMsnPath())
+//            msnComboBox.addItem(msnPath);
+//
+//        for (String skypePath: index.getSkypePath())
+//            skypeComboBox.addItem(skypePath);
         
         // yahoo chat display area
         yahooChatContentPanel.add(yahooChat, BorderLayout.CENTER);
@@ -577,32 +577,32 @@ private void loadSkypeButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
 
     private void disableNotIndexedComponent () {
         // close chat panels
-        if (index.getMsnPath().isEmpty()) {
-            WindowsLivePanel.setEnabled(false);
-            msnComboBox.setEnabled(false);
-            msnChat.setEnabled(false);
-            msnChatContentPanel.setEnabled(false);
-            msnChatTree.setEnabled(false);
-            loadMSNButton.setEnabled(false);
-        }
-
-        if ( index.getYahooPath().isEmpty()) {
-            yahooChatContentPanel.setEnabled(false);
-            yahooChat.setEnabled(false);
-            yahooChatTree.setEnabled(false);
-            yahooComboBox.setEnabled(false);
-            yahooMessangerPanel.setEnabled(false);
-            loadYahooButton.setEnabled(false);
-        }
-
-        if (index.getSkypePath().isEmpty() ) {
-            skypePanel.setEnabled(false);
-            loadSkypeButton.setEnabled(false);
-            skypeComboBox.setEnabled(false);
-            skypeChatTree.setEnabled(false);
-            skypeChatContentPanel.setEnabled(false);
-            skypeTable.setEnabled(false);
-        }
+//        if (index.getMsnPath().isEmpty()) {
+//            WindowsLivePanel.setEnabled(false);
+//            msnComboBox.setEnabled(false);
+//            msnChat.setEnabled(false);
+//            msnChatContentPanel.setEnabled(false);
+//            msnChatTree.setEnabled(false);
+//            loadMSNButton.setEnabled(false);
+//        }
+//
+//        if ( index.getYahooPath().isEmpty()) {
+//            yahooChatContentPanel.setEnabled(false);
+//            yahooChat.setEnabled(false);
+//            yahooChatTree.setEnabled(false);
+//            yahooComboBox.setEnabled(false);
+//            yahooMessangerPanel.setEnabled(false);
+//            loadYahooButton.setEnabled(false);
+//        }
+//
+//        if (index.getSkypePath().isEmpty() ) {
+//            skypePanel.setEnabled(false);
+//            loadSkypeButton.setEnabled(false);
+//            skypeComboBox.setEnabled(false);
+//            skypeChatTree.setEnabled(false);
+//            skypeChatContentPanel.setEnabled(false);
+//            skypeTable.setEnabled(false);
+//        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

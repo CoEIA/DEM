@@ -110,12 +110,12 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
         logger.log(Level.INFO, "Start Index Email if contain");
         
         // index outlooks pst files
-        for (String path: caseObject.getPstPath() ) {
-            logger.log(Level.INFO, "Index Mail: " + path);
-            File file = new File(path);
-            boolean ignoreEmail = false;
-            dirTraversal(file, ignoreEmail);
-        }
+//        for (String path: caseObject.getPstPath() ) {
+//            logger.log(Level.INFO, "Index Mail: " + path);
+//            File file = new File(path);
+//            boolean ignoreEmail = false;
+//            dirTraversal(file, ignoreEmail);
+//        }
 
         logger.log(Level.INFO, "End of indexing");
         long end = new Date().getTime();

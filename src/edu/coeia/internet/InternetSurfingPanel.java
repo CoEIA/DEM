@@ -79,11 +79,11 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         summaryTextField.getDocument().addDocumentListener(new SummaryInputListener());          
         
         // set ff & IE data to thier combobox
-        for (String ffPath: index.getFFPath() )
-            ffComboBox.addItem(ffPath);
-
-        for (String iePath: index.getIePath())
-            ieComboBox.addItem(iePath);      
+//        for (String ffPath: index.getFFPath() )
+//            ffComboBox.addItem(ffPath);
+//
+//        for (String iePath: index.getIePath())
+//            ieComboBox.addItem(iePath);      
         
         disableNotIndexedComponent();
                 
@@ -1160,50 +1160,50 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
 private void summaryInternetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summaryInternetButtonActionPerformed
-        ArrayList<InternetSummaryDate> result = new ArrayList<InternetSummaryDate>();
-        String resultString = "" ;
-
-        List<String> ffPath = index.getFFPath();
-        if ( ffPath.isEmpty() )
-            resultString += "FireFox is not Selected when create case\n" ;
-
-        for (String path: ffPath) {
-            try {
-                result.addAll(getFFSummary(path));
-            }
-            catch (Exception e) {
-                logger.log(Level.SEVERE, "Uncaught exception", e);
-            }
-        }
-
-         List<String> iePath = index.getIePath();
-        if ( iePath.isEmpty() )
-            resultString += "IE is not Selected when create case" ;
-        
-        for (String path: iePath ) {
-            try {
-                result.addAll(getIESummary(path));
-            } catch (IOException ex) {
-                logger.log(Level.SEVERE, "Uncaught exception", ex);
-            } catch (InterruptedException ex) {
-                logger.log(Level.SEVERE, "Uncaught exception", ex);
-            }
-        }
-
-        if ( result.isEmpty() ) {
-            JOptionPane.showMessageDialog(this,resultString,"Their is no data to display",
-                    JOptionPane.ERROR_MESSAGE);
-            return ;
-        }
-
-        if ( summaryTable.getModel().getRowCount() > 0 )
-            JTableUtil.removeAllRows(summaryTable);
-        
-        for (InternetSummaryDate data: result) {
-            ((DefaultTableModel)summaryTable.getModel()).addRow( new Object[] {
-                data.getURL(), data.getNumberOfVisit(), data.getDate()
-            } );
-        }
+//        ArrayList<InternetSummaryDate> result = new ArrayList<InternetSummaryDate>();
+//        String resultString = "" ;
+//
+//        List<String> ffPath = index.getFFPath();
+//        if ( ffPath.isEmpty() )
+//            resultString += "FireFox is not Selected when create case\n" ;
+//
+//        for (String path: ffPath) {
+//            try {
+//                result.addAll(getFFSummary(path));
+//            }
+//            catch (Exception e) {
+//                logger.log(Level.SEVERE, "Uncaught exception", e);
+//            }
+//        }
+//
+//         List<String> iePath = index.getIePath();
+//        if ( iePath.isEmpty() )
+//            resultString += "IE is not Selected when create case" ;
+//        
+//        for (String path: iePath ) {
+//            try {
+//                result.addAll(getIESummary(path));
+//            } catch (IOException ex) {
+//                logger.log(Level.SEVERE, "Uncaught exception", ex);
+//            } catch (InterruptedException ex) {
+//                logger.log(Level.SEVERE, "Uncaught exception", ex);
+//            }
+//        }
+//
+//        if ( result.isEmpty() ) {
+//            JOptionPane.showMessageDialog(this,resultString,"Their is no data to display",
+//                    JOptionPane.ERROR_MESSAGE);
+//            return ;
+//        }
+//
+//        if ( summaryTable.getModel().getRowCount() > 0 )
+//            JTableUtil.removeAllRows(summaryTable);
+//        
+//        for (InternetSummaryDate data: result) {
+//            ((DefaultTableModel)summaryTable.getModel()).addRow( new Object[] {
+//                data.getURL(), data.getNumberOfVisit(), data.getDate()
+//            } );
+//        }
 }//GEN-LAST:event_summaryInternetButtonActionPerformed
 
 private void summaryTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_summaryTableMousePressed
@@ -2350,51 +2350,51 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
     }
 
     private void disableNotIndexedComponent () {
-        // close web browers data
-        if ( index.getFFPath().isEmpty() ) {
-            mozillaPanel.setEnabled(false);
-            ffComboBox.setEnabled(false);
-            loadFFButton.setEnabled(false);
-            mozillaSearchField.setEnabled(false);
-            mozillaFilterComboBox.setEnabled(false);
-            webHistoryButton.setEnabled(false);
-            bookmarButton.setEnabled(false);
-            cookiesButton.setEnabled(false);
-            downloadButton.setEnabled(false);
-            logginsButton.setEnabled(false);
-            webHistoryTable.setEnabled(false);
-            ffSummaryButtton.setEnabled(false);
-            ffViewHTMLReportButton.setEnabled(false);
-            ffVisualizingVisitedHostButton.setEnabled(false);
-            bookmarkTable.setEnabled(false);
-            cookiesTable.setEnabled(false);
-            downloadTable.setEnabled(false);
-            logginsTable.setEnabled(false);
-        }
-
-        if ( index.getIePath().isEmpty() ) {
-            IEPanel.setEnabled(false);
-            ieComboBox.setEnabled(false);
-            loadIEButton.setEnabled(false);
-            IESearchField.setEnabled(false);
-            IEFilterComboBox.setEnabled(false);
-            webHistoryButton1.setEnabled(false);
-            bookmarButton1.setEnabled(false);
-            cookiesButton1.setEnabled(false);
-            cacheButton.setEnabled(false);
-            logginsButton1.setEnabled(false);
-            IEWebHistoryTable.setEnabled(false);
-            IEBookmarkTable.setEnabled(false);
-            IECookiesTable.setEnabled(false);
-            IECacheTable.setEnabled(false);
-            IELogginsTable.setEnabled(false);
-        }
-
-        if ( index.getFFPath().isEmpty() && index.getIePath().isEmpty() ) {
-            summaryInternetPanel.setEnabled(false);
-            summaryInternetButton.setEnabled(false);
-            summaryTable.setEnabled(false);
-        }
+//        // close web browers data
+//        if ( index.getFFPath().isEmpty() ) {
+//            mozillaPanel.setEnabled(false);
+//            ffComboBox.setEnabled(false);
+//            loadFFButton.setEnabled(false);
+//            mozillaSearchField.setEnabled(false);
+//            mozillaFilterComboBox.setEnabled(false);
+//            webHistoryButton.setEnabled(false);
+//            bookmarButton.setEnabled(false);
+//            cookiesButton.setEnabled(false);
+//            downloadButton.setEnabled(false);
+//            logginsButton.setEnabled(false);
+//            webHistoryTable.setEnabled(false);
+//            ffSummaryButtton.setEnabled(false);
+//            ffViewHTMLReportButton.setEnabled(false);
+//            ffVisualizingVisitedHostButton.setEnabled(false);
+//            bookmarkTable.setEnabled(false);
+//            cookiesTable.setEnabled(false);
+//            downloadTable.setEnabled(false);
+//            logginsTable.setEnabled(false);
+//        }
+//
+//        if ( index.getIePath().isEmpty() ) {
+//            IEPanel.setEnabled(false);
+//            ieComboBox.setEnabled(false);
+//            loadIEButton.setEnabled(false);
+//            IESearchField.setEnabled(false);
+//            IEFilterComboBox.setEnabled(false);
+//            webHistoryButton1.setEnabled(false);
+//            bookmarButton1.setEnabled(false);
+//            cookiesButton1.setEnabled(false);
+//            cacheButton.setEnabled(false);
+//            logginsButton1.setEnabled(false);
+//            IEWebHistoryTable.setEnabled(false);
+//            IEBookmarkTable.setEnabled(false);
+//            IECookiesTable.setEnabled(false);
+//            IECacheTable.setEnabled(false);
+//            IELogginsTable.setEnabled(false);
+//        }
+//
+//        if ( index.getFFPath().isEmpty() && index.getIePath().isEmpty() ) {
+//            summaryInternetPanel.setEnabled(false);
+//            summaryInternetButton.setEnabled(false);
+//            summaryTable.setEnabled(false);
+//        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -20,12 +20,15 @@ import java.util.Collections;
 
 public class Case implements Serializable {
 
+    // Requaird paramters for case
     private final String indexName;
     private final String indexLocation;
     private final String investigatorName;
     private final String description;
     private final Date createTime;
     private final long caseSize;
+    
+    // Optional Paramaters for case
     private boolean isIndex;
     private boolean isHash;
     private boolean isExportLibrary;
@@ -35,12 +38,16 @@ public class Case implements Serializable {
     private boolean isIndexEmbedded;
     private boolean isCacheImages;
     private boolean isExcludeFileSystems;
+    
     // index history information
     private boolean indexStatus;
     private String lastIndexDate;
     private String indexingTime;
     private String caseSource;
+    
     //private int dataIndexedCount, dataIndexedSize ;
+    
+    // Email Configuation
     private List<EmailConfig> emailInfo;
 
     private Case(Builder builder) {
@@ -66,8 +73,6 @@ public class Case implements Serializable {
         this.isIndexEmbedded = builder.isIndexEmbedded;
         this.isCacheImages = builder.isCacheImages;
         this.isExcludeFileSystems = builder.isExcludeFileSystems;
-
-
     }
 
     public static class Builder {
@@ -94,16 +99,6 @@ public class Case implements Serializable {
         private String lastIndexDate = "";
         private String indexingTime = "";
         //private int dataIndexedCount, dataIndexedSize ;
-        private boolean cacheImages = false;
-        private boolean checkCompressed = false;
-        private ArrayList<String> documentInIndex = new ArrayList<String>();
-        private List<String> extensionAllowed = new ArrayList<String>();
-        private ArrayList<String> pstPath = new ArrayList<String>();
-        private ArrayList<String> msnPath = new ArrayList<String>();
-        private ArrayList<String> yahooPath = new ArrayList<String>();
-        private ArrayList<String> skypePath  = new ArrayList<String>();
-        private ArrayList<String> iePath  = new ArrayList<String>();
-        private ArrayList<String> ffPath  = new ArrayList<String>();
 
         public Builder(String indexName, String indexLocation, String investigatorName,
                 String description, String caseSource, Date createTime, long caseSize) {
@@ -114,12 +109,9 @@ public class Case implements Serializable {
             this.caseSource = caseSource;
             this.createTime = createTime;
             this.caseSize = caseSize;
-
-
         }
 
         public Case build() {
-
             return new Case(this);
         }
 
@@ -184,34 +176,13 @@ public class Case implements Serializable {
             return this;
         }
     }
-
-//    public void setIndexName (String indexName) { this.indexName = indexName ; }
-//    public void setIndexLocation (String indexLocation) { this.indexLocation = indexLocation ; }
-//    public void setInvestigatorName (String name) { this.investigatorName = name; }
-//    public void setDescription(String desc) { this.description = desc; }
+    
+    // used to update case status after indexing
+    // Wajdy: to be removed when find other way to store case information!
     public void setIndexStatus(boolean status) {
     }
-
-//    public void setDocumentInIndex (ArrayList<String> doc) { this.documentInIndex = doc ; }
-//    public void setExtensionAllowed (ArrayList<String> ext) { this.extensionAllowed = ext ; }
-//
-//    public void setPstPath (ArrayList<String> pst) { this.pstPath = pst ; }
-//
-//    public void setIePath (ArrayList<String> ie) { this.iePath = ie; }
-//    public void setFFPath (ArrayList<String> ff) { this.ffPath = ff ;}
-//    
-//    public void setMsnPath (ArrayList<String> msn) { this.msnPath = msn ; }
-//    public void setYahooPath (ArrayList<String> yahoo) { this.yahooPath = yahoo ; }
-//    public void setSkypePath (ArrayList<String> skype) { this.skypePath= skype ; }
-//    public void setCreateTime (Date d) { this.createTime = d ; }
-//    public void setCaseSize (long size) { this.caseSize = size; }
-//    public void setDataIndexedSize (long size) { this.dataIndexedSize = size; }
-//    public void setDataIndexedCount (int count) { this.dataIndexedCount = count ; }
-//    public void setCacheImages (boolean value) { this.cacheImages = value ; }
-//    public void setCheckCompressed (boolean value) { this.checkCompressed = value ; }
     public void setLastIndexDate(String value) {
     }
-
     public void setIndexingTime(String value) {
     }
 
@@ -247,30 +218,6 @@ public class Case implements Serializable {
         return Collections.emptyList();
     }
 
-    public  List<String> getPstPath() {
-        return Collections.emptyList();
-    }
-
-    public  List<String> getIePath() {
-        return Collections.emptyList();
-    }
-
-    public  List<String> getFFPath() {
-        return Collections.emptyList();
-    }
-
-    public List<String> getMsnPath() {
-        return Collections.emptyList();
-    }
-
-    public List<String> getYahooPath() {
-        return Collections.emptyList();
-    }
-
-    public List<String> getSkypePath() {
-        return Collections.emptyList();
-    }
-
     public Date getCreateTime() {
         return this.createTime;
     }
@@ -278,8 +225,6 @@ public class Case implements Serializable {
     public long getCaseSize() {
         return this.caseSize;
     }
-    //public long getDataIndexedSize() { return this.dataIndexedSize ;}
-    //public int getDataIndexedCount () { return this.dataIndexedCount ;}
 
     public boolean getCacheImages() {
         return false;
