@@ -211,7 +211,10 @@ public class Case implements Serializable {
     }
 
     public List<String> getDocumentInIndex() {
-        return Collections.emptyList();
+        
+        List<String> list = new ArrayList<String>();
+        list.add(caseSource);
+        return list;
     }
 
     public List<String> getExtensionAllowed() {

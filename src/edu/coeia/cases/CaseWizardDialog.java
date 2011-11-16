@@ -701,12 +701,12 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         switch (currentIndex) {
                 case 0:
-               // if ( checkIndexInfoPanel() )
+               if ( checkWizardFirstPanel() )
                 next();
                 break;
                 
                 case 1:
-               // if ( checkIndexFileSystemPanel() )
+                if ( checkWizardSecondPanel() )
                 next();
                 break;
                 case 2:
@@ -886,14 +886,23 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
      * Check caseName if empty or is its existed
      * @return true if the all information are correct
      */
-    private boolean checkIndexInfoPanel() {
-        String caseName = getCaseName(caseLocationTextField.getText().trim());
-
+    private boolean checkWizardFirstPanel() {
+        String caseName = getCaseName(caseNameTextField.getText().trim());
+        String caseLocation = caseLocationTextField.getText().trim();
+        String caseDesc    =  descriptionTextArea.getText(); 
         if (caseName == null || caseName.isEmpty()) {
             showErrorMessage("You must choose a Case Name","Empty Index Name");
             return false;
         }
+         if (caseDesc == null || caseDesc.isEmpty()) {
+            showErrorMessage("You must choose Description for Case ","Empty Description ");
+            return false;
+        }
         
+        if (caseLocation == null || caseLocation.isEmpty()) {
+            showErrorMessage("You must choose a Location for the Case ","Empty Case Location");
+            return false;
+        }
         if (CaseManager.caseExists(caseName)) {
             showErrorMessage("The Case Name is Already Taken, Choose Another Name","Case Name Exists");
             return false;
@@ -907,6 +916,19 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
         String investigator = investigatorTextField.getText().trim();
         if (investigator.isEmpty()) {
             showErrorMessage("Investigator name is empty","Please Write A Clear Investigator Name");
+            return false;
+        }
+        
+        return (true);
+    }
+    
+    
+    
+     private boolean checkWizardSecondPanel() {
+        String caseSource = CaseSource;
+
+        if (caseSource == null || caseSource.isEmpty()) {
+            showErrorMessage("You must choose a Case Source","Empty Source");
             return false;
         }
         
