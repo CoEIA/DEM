@@ -1,30 +1,29 @@
-    /*
-    * To change this template, choose Tools | Templates
-    * and open the template in the editor.
-    */
-    package edu.coeia.onlinemail;
+/*
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
+*/
+package edu.coeia.onlinemail;
 
-    import java.io.IOException;
-    import java.sql.SQLException;
-    import java.util.List;
-    import java.util.ArrayList;
-    import javax.mail.MessagingException;
-    import javax.mail.NoSuchProviderException;
-    import org.junit.Test ;
-    import org.junit.Before; 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.ArrayList;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import org.junit.Test ;
+import org.junit.Before; 
 import org.junit.Ignore;
-    import static org.junit.Assert.* ;
+import static org.junit.Assert.* ;
     /**
     *
     * @author Ahmed
     */
     public class OnlineEmailReaderTest {
 
+    private OnlineEmailReader reader = null;  
+    
      @Test
-     
     public void getFormattedStringTest () throws SQLException  {
-     OnlineEmailReader reader = OnlineEmailReader.newInstance("xgameprogrammer@gmail.com", "windows98","C:\\Attachments","C:\\SECURE_DB");
-
          List<String> list = new ArrayList<String>();
          list.add("ahmed");
          list.add("mahmad");
@@ -34,7 +33,6 @@ import org.junit.Ignore;
     @Test
     @Ignore
     public void getFormattedStringTest1 () throws SQLException  {
-     OnlineEmailReader reader = OnlineEmailReader.newInstance("xgameprogrammer@gmail.com", "windows98","C:\\Attachments","C:\\SECURE_DB");
      List<String> list = new ArrayList<String>();
      assertEquals("", reader.getFormattedString(list));
 
@@ -42,8 +40,6 @@ import org.junit.Ignore;
     @Test
     @Ignore
     public void getFormattedStringTest3 () throws SQLException  {
-    OnlineEmailReader reader = OnlineEmailReader.newInstance("xgameprogrammer@gmail.com", "windows98","C:\\Attachments","C:\\SECURE_DB");
-  
      List<String> list = new ArrayList<String>();
      
      list.add("ahmed");
@@ -54,7 +50,6 @@ import org.junit.Ignore;
     
     public void readMessagesTest() throws SQLException, MessagingException, NoSuchProviderException, IOException
     {
-     OnlineEmailReader reader = OnlineEmailReader.newInstance("xgameprogrammer@gmail.com", "windows98","C:\\Attachments","C:\\SECURE_DB");
      reader.Connect();
      reader.readMessages();
 

@@ -20,6 +20,8 @@ import java.io.File ;
 
 public class IndexingFileTest extends CaseBaseSource{
     
+    private Case fackCaseObject ;
+    
     @Before
     public void init() {
         initForIndexFactoryTest();
@@ -28,10 +30,6 @@ public class IndexingFileTest extends CaseBaseSource{
     @Test
     public void indexZipFileTest() {
         try {  
-            Case fackCaseObject = new Case(null, fakeCasePath, null, null, null, null,
-                    null, null, null, null, null, null, null, 0, true,
-                    true, true, null, null);
-            
             LuceneIndexer luceneIndexer = LuceneIndexer.getInstance(fackCaseObject, true);
             
             File file = new File(zipFiles.get(0));
@@ -47,10 +45,6 @@ public class IndexingFileTest extends CaseBaseSource{
     @Test
     public void indexTxtFileTest() {
         try {
-            Case fackCaseObject = new Case(null, fakeCasePath, null, null, null, null,
-                    null, null, null, null, null, null, null, 0, true,
-                    true, true, null, null);
-            
             LuceneIndexer luceneIndexer = LuceneIndexer.getInstance(fackCaseObject, true);
             
             File file = new File(textFiles.get(0));
@@ -67,10 +61,6 @@ public class IndexingFileTest extends CaseBaseSource{
     @Test
     public void indexDOCXFileTest() {
         try {
-            Case fackCaseObject = new Case(null, fakeCasePath, null, null, null, null,
-                    null, null, null, null, null, null, null, 0, true,
-                    true, true, null, null);
-            
             LuceneIndexer luceneIndexer = LuceneIndexer.getInstance(fackCaseObject, true);
             
             File file = new File(docFiles.get(1));
@@ -87,10 +77,6 @@ public class IndexingFileTest extends CaseBaseSource{
     @Test
     public void indexDOCFileTest1() {
         try {
-            Case fackCaseObject = new Case(null, fakeCasePath, null, null, null, null,
-                    null, null, null, null, null, null, null, 0, true,
-                    true, true, null, null);
-            
             LuceneIndexer luceneIndexer = LuceneIndexer.getInstance(fackCaseObject, true);
             
             File file = new File(docFiles.get(0));
