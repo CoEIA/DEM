@@ -40,6 +40,7 @@ public final class Tag {
      * toString implementation, for debugging purpose
      * @return 
      */
+    @Override
     public String toString() {
         return String.format("%s[name=%s, date=%s, message=%s]", this.getClass().getName(),
                 this.getName(), this.getDate().toString(), this.getMessage());
