@@ -10,29 +10,30 @@ import java.io.Serializable;
  *
  * @author Ahmed
  */
-public class EmailConfig implements Serializable{
+public final class EmailConfig implements Serializable{
     
-    private String userName;
-    private String password;
-    private boolean isGmail;
-    private boolean isHotmail;
+    public enum SOURCE {HOTMAIL, GMAIL };
+    
+    private final String userName;
+    private final String password;
+    private final SOURCE source ;
 
-    public EmailConfig(String username, String password, boolean isGmail, boolean isHotmail) {
-
+    public static EmailConfig newInstance(final String username, final String password, final SOURCE source) {
+        return new EmailConfig(username, password, source);
+    }
+    
+    private EmailConfig(final String username, final String password, final SOURCE source) {
         this.userName = username;
         this.password = password;
-        this.isGmail = isGmail;
-        this.isHotmail = isHotmail;
-
-
+        this.source = source ;
     }
     
     public String getUserName()
     { return this.userName;}
+    
     public String getPassword()
     { return this.password;}
-    public boolean isGmail()
-    { return this.isGmail; }
-    public boolean isHotmail()
-    { return this.isHotmail;}
+    
+    public SOURCE getSource() { return this.source ;}
+
 }

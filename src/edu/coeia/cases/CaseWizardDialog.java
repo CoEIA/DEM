@@ -342,7 +342,7 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
                             .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(PasswordHotmailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                                 .addComponent(UserNameHotmailTextField)))))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         CaseWizardA1Layout.setVerticalGroup(
             CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -395,7 +395,7 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
         jLabel16.setText("Would you like to calculate MD5 Hashe Values for the case so you can perform \"Hash Analysis\".");
 
         YesNoMD5HashButtonGroup.add(YesMD5RadioButton);
-        YesMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        YesMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         YesMD5RadioButton.setText("Yes");
 
         YesNoMD5HashButtonGroup.add(NoMD5RadioButton);
@@ -444,7 +444,7 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
                     .addGroup(CaseWizardA2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel17)))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         CaseWizardA2Layout.setVerticalGroup(
             CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -479,7 +479,7 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel18.setText("Indexing Options");
 
-        IndexZipCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        IndexZipCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
         IndexZipCheckBox.setText("Index archieved folders (ZIP, RAR)");
 
         IndexEmbeddedFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -520,7 +520,7 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
                     .addGroup(CaseWizardA3Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jLabel6)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         CaseWizardA3Layout.setVerticalGroup(
             CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -541,7 +541,7 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
                 .addComponent(ProgramFilesRadioButton)
                 .addGap(18, 18, 18)
                 .addComponent(WindowsFilesRadioButton)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         indexWizardPanel.add(CaseWizardA3, "CaseWizardA3");
@@ -622,7 +622,7 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
         indexHeaderPanel.setMaximumSize(new java.awt.Dimension(628, 76));
         indexHeaderPanel.setPreferredSize(new java.awt.Dimension(628, 76));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24));
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/2 copy.jpg"))); // NOI18N
         jLabel5.setText(" ");
@@ -664,7 +664,7 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -770,10 +770,40 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
             
         List<EmailConfig> emailInfos = new ArrayList<EmailConfig>();
         
-        emailInfos.add(new EmailConfig(UserNameHotmailTextField.getText(), 
-                PasswordHotmailTextField.getText(),
-                GmailCheckBox.isSelected(), HotmailCheckBox.isSelected()));
+        // get email data if user add emails
+        if ( this.GmailCheckBox.isSelected() ) {
+            String user = this.UserNameGmailTextField.getText().trim();
+            String pass = this.PasswordGmailTextField.getText().trim() ;
+            EmailConfig.SOURCE source = EmailConfig.SOURCE.GMAIL;
+            
+            // check input
+            // TODO: check inputs when selecting radio button in email page
+            // and show message
+            if ( user.isEmpty() || pass.isEmpty() ) {
+                return ;
+            }
+            
+            EmailConfig config = EmailConfig.newInstance(user, pass, source);
+            emailInfos.add(config);
+        }
         
+        if ( this.HotmailCheckBox.isSelected() ) {
+            String user = this.UserNameHotmailTextField.getText().trim();
+            String pass = this.PasswordHotmailTextField.getText().trim() ;
+            EmailConfig.SOURCE source = EmailConfig.SOURCE.HOTMAIL;
+            
+            // check input
+            // TODO: check inputs when selecting radio button in email page
+            // and show message
+            if ( user.isEmpty() || pass.isEmpty() ) {
+                return ;
+            }
+            
+            EmailConfig config = EmailConfig.newInstance(user, pass, source);
+            emailInfos.add(config);
+        }
+       
+        // Build Case
         currentCase = new Case.Builder(caseNameTextField.getText().trim(),
                  caseLocationTextField.getText().trim(),
                  investigatorTextField.getText().trim(), 

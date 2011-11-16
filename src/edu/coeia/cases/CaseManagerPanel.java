@@ -639,7 +639,6 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         else
             this.nextButton.setEnabled(false);
     }
-
     
     /**
      * display case information in the related panel
