@@ -10,32 +10,16 @@
  */
 package edu.coeia.indexing;
 
-import edu.coeia.indexing.CrawlerThread;
-import edu.coeia.util.FilesPath;
-import edu.coeia.util.Utilities;
 import edu.coeia.cases.Case;
 
-import edu.coeia.cases.EmailConfig;
-import edu.coeia.email.EmailReader;
-import edu.coeia.gutil.IndexGUIComponent;
-import edu.coeia.onlinemail.OnlineEmailDBHandler;
 import edu.coeia.onlinemail.OnlineEmailReader;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
+import edu.coeia.util.FilesPath;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.swing.JLabel;
-import javax.swing.SwingWorker;
+
 
 /**
  *
@@ -54,7 +38,13 @@ public class EmailDownDialogue extends javax.swing.JDialog
     {
         super(parent, modal);
         initComponents();
-        reader = new OnlineEmailReader(this,"xgameprogrammer@gmail.com","windows98", "C:\\Attachments", "C:\\Secure_DB");
+        
+        String Username = aCase.GetEmailConfig().get(0).getUserName();
+        String Password = aCase.GetEmailConfig().get(0).getPassword();
+        
+        reader = new OnlineEmailReader(this,Username,Password, 
+                aCase.getIndexLocation()+"\\"+FilesPath.ATTACHMENTS, 
+                aCase.getIndexLocation()+"\\"+FilesPath.EMAIL_DB);
         reader.Connect();
         reader.execute();
          

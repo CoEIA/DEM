@@ -770,8 +770,8 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
             
         List<EmailConfig> emailInfos = new ArrayList<EmailConfig>();
         
-        emailInfos.add(new EmailConfig(UserNameHotmailTextField.getText(), 
-                PasswordHotmailTextField.getText(),
+        emailInfos.add(new EmailConfig(UserNameHotmailTextField.getText().toString(), 
+                PasswordHotmailTextField.getText().toString(),
                 GmailCheckBox.isSelected(), HotmailCheckBox.isSelected()));
         
         currentCase = new Case.Builder(caseNameTextField.getText().trim(),
@@ -796,7 +796,7 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
             showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
         }
 
-        this.setVisible(false);
+       
   
         if(GmailCheckBox.isSelected() || HotmailCheckBox.isSelected())
         {

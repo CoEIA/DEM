@@ -228,6 +228,7 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
     @Override
     protected void done() {
     
+       emaildialogue.setVisible(false);
     
     }
 
