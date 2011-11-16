@@ -254,19 +254,19 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             CaseWizardDialog indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, licenseManager.isFullVersion());
             indexWizard.setVisible(true);
             
-            Case index = indexWizard.getCurrentCase();
-            if ( index == null) {
+            Case aCase = indexWizard.getCurrentCase();
+            if ( aCase == null) {
                 logger.info("Create New Case Cancled");
                 return ;
             }
             
             logger.info("Create New Case Don Successfully");
-            updateIndexesInfoFile(index); // update indexes info file with new index
+            writeCaseToInfoFile(aCase); // update indexes info file with new index
             readCases(); // update recent table with this new information
             
             if ( indexWizard.checkDirectIndex()) {
                 try {
-                    loadCase(index.getIndexName(), true);
+                    loadCase(aCase.getIndexName(), true);
                 }
                 catch(Exception e){
                     logger.severe("Cannot Index the case directly after create it");
@@ -426,7 +426,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private void readCases() {
         try {
-            updateRecentTable(); // read cases into case JTable 
+            updateCasesTable(); // read cases into case JTable 
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -441,23 +441,23 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     /*
      * Update recent table by reading cases (reading from indexes_info file) info table
      */
-    private void updateRecentTable () throws FileNotFoundException, IOException, ClassNotFoundException {
+    private void updateCasesTable () throws FileNotFoundException, IOException, ClassNotFoundException {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        List<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
+        List<String> casesPath  = FileUtil.getFileContentInArrayList(indexesInfo);
 
         // clear value on table before adding new values
         JTableUtil.removeAllRows(recentCaseTable);
 
-        for(String path: indexesInfoContent) {
+        for(String path: casesPath) {
             Case index = CaseManager.getCase(path);
-            addIndexInformationToTable(index);
+            insertIntoCaseTable(index);
         }
     }
     
     /*
      * Add index information to recent table (used when update recent)
      */
-    private void addIndexInformationToTable (Case index) {
+    private void insertIntoCaseTable (Case index) {
         DefaultTableModel model = (DefaultTableModel) recentCaseTable.getModel();
         model.addRow( new Object[] {index.getIndexName(), index.getInvestigatorName(), DateUtil.formatDateTime(index.getCreateTime()), index.getDescription(),
             index.getIndexStatus() });
@@ -532,7 +532,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     }
     
     // add entry to indexes info file
-    private void updateIndexesInfoFile (Case index) throws IOException {
+    private void writeCaseToInfoFile (Case index) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(new File(FilesPath.INDEXES_INFO), true));
         writer.println(index.getIndexName() + " - " + index.getIndexLocation());
         writer.close();
