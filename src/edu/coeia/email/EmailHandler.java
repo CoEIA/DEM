@@ -13,6 +13,7 @@ package edu.coeia.email;
 
 import edu.coeia.util.Utilities;
 import edu.coeia.util.Tuple;
+import edu.coeia.util.DateUtil;
 
 import java.util.ArrayList ;
 import java.util.HashMap ;
@@ -243,7 +244,7 @@ public class EmailHandler {
                         Message message = new Message();
                         message.setSenderName(senderName);
                         message.setReceiverName(user);
-                        message.setDate(Utilities.formatDate(fromDate) + "  to  " + Utilities.formatDate(toDate));
+                        message.setDate(DateUtil.formatDate(fromDate) + "  to  " + DateUtil.formatDate(toDate));
                         message.setNumberOfMessage(1);
 
                         addData(data,message);
@@ -256,7 +257,7 @@ public class EmailHandler {
                         Message message = new Message();
                         message.setSenderName(s);
                         message.setReceiverName(user);
-                        message.setDate(Utilities.formatDate(fromDate) + "  to  " + Utilities.formatDate(toDate));
+                        message.setDate(DateUtil.formatDate(fromDate) + "  to  " + DateUtil.formatDate(toDate));
                         message.setNumberOfMessage(1);
 
                         addData(data,message);

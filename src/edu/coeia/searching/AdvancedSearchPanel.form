@@ -67,28 +67,28 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jCheckBox1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCheckBox4" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="fileSystemCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="emailCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Group type="102" alignment="0" attributes="1">
-                                      <Component id="jCheckBox5" min="-2" max="-2" attributes="0"/>
+                                      <Component id="emailHeaderCheckBox" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="jCheckBox6" min="-2" max="-2" attributes="0"/>
+                                      <Component id="emailContentCheckBox" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="fileSystemMetadataCheckBox" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jCheckBox3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="fileSystemContentCheckBox" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="21" pref="21" max="21" attributes="0"/>
-                              <Component id="jCheckBox8" min="-2" max="-2" attributes="0"/>
+                              <Component id="chatContentCheckBox" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jCheckBox7" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="chatCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="120" max="32767" attributes="0"/>
                   </Group>
@@ -98,77 +98,78 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                      <Component id="fileSystemCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jCheckBox2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCheckBox3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="fileSystemMetadataCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="fileSystemContentCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jCheckBox4" min="-2" max="-2" attributes="0"/>
+                      <Component id="emailCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jCheckBox5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jCheckBox6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="emailHeaderCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="emailContentCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="19" max="32767" attributes="0"/>
-                      <Component id="jCheckBox7" min="-2" max="-2" attributes="0"/>
+                      <Component id="chatCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jCheckBox8" min="-2" max="-2" attributes="0"/>
+                      <Component id="chatContentCheckBox" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+            <Component class="javax.swing.JCheckBox" name="fileSystemCheckBox">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="File System:"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fileSystemCheckBoxActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBox2">
+            <Component class="javax.swing.JCheckBox" name="fileSystemMetadataCheckBox">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Metadata"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBox3">
+            <Component class="javax.swing.JCheckBox" name="fileSystemContentCheckBox">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Content"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBox4">
+            <Component class="javax.swing.JCheckBox" name="emailCheckBox">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Email:"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="emailCheckBoxActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBox5">
+            <Component class="javax.swing.JCheckBox" name="emailHeaderCheckBox">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Headers"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBox6">
+            <Component class="javax.swing.JCheckBox" name="emailContentCheckBox">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Content"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBox7">
+            <Component class="javax.swing.JCheckBox" name="chatCheckBox">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Instant Messaging:"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chatCheckBoxActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBox8">
+            <Component class="javax.swing.JCheckBox" name="chatContentCheckBox">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Content"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -397,92 +398,6 @@
                     </Container>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="jPanel24">
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                      <JTabbedPaneConstraints tabName="Path Clustering">
-                        <Property name="tabTitle" type="java.lang.String" value="Path Clustering"/>
-                      </JTabbedPaneConstraints>
-                    </Constraint>
-                  </Constraints>
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane12" alignment="0" pref="573" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane12" alignment="0" pref="210" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                  <SubComponents>
-                    <Container class="javax.swing.JScrollPane" name="jScrollPane12">
-                      <AuxValues>
-                        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                      </AuxValues>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                      <SubComponents>
-                        <Component class="javax.swing.JTree" name="clusterPathTree">
-                          <Properties>
-                            <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                              <Connection code="null" type="code"/>
-                            </Property>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="valueChanged" listener="javax.swing.event.TreeSelectionListener" parameters="javax.swing.event.TreeSelectionEvent" handler="clusterPathTreeValueChanged"/>
-                          </Events>
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                  </SubComponents>
-                </Container>
-                <Container class="javax.swing.JPanel" name="jPanel29">
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                      <JTabbedPaneConstraints tabName="Type Clustering">
-                        <Property name="tabTitle" type="java.lang.String" value="Type Clustering"/>
-                      </JTabbedPaneConstraints>
-                    </Constraint>
-                  </Constraints>
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane27" alignment="0" pref="573" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane27" alignment="0" pref="210" max="32767" attributes="0"/>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                  <SubComponents>
-                    <Container class="javax.swing.JScrollPane" name="jScrollPane27">
-                      <AuxValues>
-                        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                      </AuxValues>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                      <SubComponents>
-                        <Component class="javax.swing.JTree" name="clusterTypeTree">
-                          <Properties>
-                            <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                              <Connection code="null" type="code"/>
-                            </Property>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="valueChanged" listener="javax.swing.event.TreeSelectionListener" parameters="javax.swing.event.TreeSelectionEvent" handler="clusterTypeTreeValueChanged"/>
-                          </Events>
-                        </Component>
-                      </SubComponents>
-                    </Container>
-                  </SubComponents>
-                </Container>
               </SubComponents>
             </Container>
           </SubComponents>
@@ -562,6 +477,9 @@
                         <Component class="javax.swing.JTextArea" name="metaDataTextArea">
                           <Properties>
                             <Property name="columns" type="int" value="20"/>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="Tahoma" size="14" style="0"/>
+                            </Property>
                             <Property name="rows" type="int" value="5"/>
                           </Properties>
                         </Component>

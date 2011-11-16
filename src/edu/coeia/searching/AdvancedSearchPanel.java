@@ -10,21 +10,19 @@
  */
 package edu.coeia.searching;
 
-
 import edu.coeia.cases.Case;
-
 import edu.coeia.gutil.GuiUtil;
-import edu.coeia.gutil.GUIComponent ;
-import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
-import edu.coeia.util.MetaDataExtraction ;
+import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.gutil.JTableUtil;
 
 import java.awt.BorderLayout;
 import java.awt.event.InputEvent;
 
+import javax.swing.JProgressBar;
+import javax.swing.JTable;
 import javax.swing.JOptionPane ;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.tree.DefaultMutableTreeNode ;
 import javax.swing.JFrame;
 
 import java.io.File ;
@@ -32,9 +30,12 @@ import java.io.File ;
 import java.util.List; 
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.ArrayList;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
-import org.apache.tika.Tika;
+
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Fieldable;
 
 /**
  *
@@ -44,7 +45,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
     private JWebBrowser fileBrowser = new JWebBrowser();
     
-    private Case index;
+    private Case caseObj;
     private JFrame parentFrame ;
     private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
     
@@ -52,7 +53,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     public AdvancedSearchPanel(Case aIndex, JFrame aParentFrame) {
         initComponents();
         
-        this.index = aIndex;
+        this.caseObj = aIndex;
         this.parentFrame = aParentFrame;
         
         // add file browser
@@ -60,7 +61,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         fileBrowser.setStatusBarVisible(false);
         fileRenderPanel.add(fileBrowser, BorderLayout.CENTER);  
         
-        Utilities.packColumns(searchTable, 0);
+        JTableUtil.packColumns(searchTable, 0);
         disableNotIndexedComponent();        
     }
 
@@ -75,14 +76,14 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         LeftPanel = new javax.swing.JPanel();
         searchScopePanel = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
-        jCheckBox8 = new javax.swing.JCheckBox();
+        fileSystemCheckBox = new javax.swing.JCheckBox();
+        fileSystemMetadataCheckBox = new javax.swing.JCheckBox();
+        fileSystemContentCheckBox = new javax.swing.JCheckBox();
+        emailCheckBox = new javax.swing.JCheckBox();
+        emailHeaderCheckBox = new javax.swing.JCheckBox();
+        emailContentCheckBox = new javax.swing.JCheckBox();
+        chatCheckBox = new javax.swing.JCheckBox();
+        chatContentCheckBox = new javax.swing.JCheckBox();
         headerPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         queryTextField = new javax.swing.JTextField();
@@ -98,12 +99,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         jPanel22 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         searchTable = new javax.swing.JTable();
-        jPanel24 = new javax.swing.JPanel();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        clusterPathTree = new javax.swing.JTree();
-        jPanel29 = new javax.swing.JPanel();
-        jScrollPane27 = new javax.swing.JScrollPane();
-        clusterTypeTree = new javax.swing.JTree();
         viewPanel = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         fileRenderPanel = new javax.swing.JPanel();
@@ -119,31 +114,38 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         searchScopePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Search Scope"));
 
-        jCheckBox1.setSelected(true);
-        jCheckBox1.setText("File System:");
-        jCheckBox1.setEnabled(false);
+        fileSystemCheckBox.setSelected(true);
+        fileSystemCheckBox.setText("File System:");
+        fileSystemCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileSystemCheckBoxActionPerformed(evt);
+            }
+        });
 
-        jCheckBox2.setText("Metadata");
-        jCheckBox2.setEnabled(false);
+        fileSystemMetadataCheckBox.setText("Metadata");
 
-        jCheckBox3.setSelected(true);
-        jCheckBox3.setText("Content");
-        jCheckBox3.setEnabled(false);
+        fileSystemContentCheckBox.setSelected(true);
+        fileSystemContentCheckBox.setText("Content");
 
-        jCheckBox4.setText("Email:");
-        jCheckBox4.setEnabled(false);
+        emailCheckBox.setText("Email:");
+        emailCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailCheckBoxActionPerformed(evt);
+            }
+        });
 
-        jCheckBox5.setText("Headers");
-        jCheckBox5.setEnabled(false);
+        emailHeaderCheckBox.setText("Headers");
 
-        jCheckBox6.setText("Content");
-        jCheckBox6.setEnabled(false);
+        emailContentCheckBox.setText("Content");
 
-        jCheckBox7.setText("Instant Messaging:");
-        jCheckBox7.setEnabled(false);
+        chatCheckBox.setText("Instant Messaging:");
+        chatCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chatCheckBoxActionPerformed(evt);
+            }
+        });
 
-        jCheckBox8.setText("Content");
-        jCheckBox8.setEnabled(false);
+        chatContentCheckBox.setText("Content");
 
         javax.swing.GroupLayout searchScopePanelLayout = new javax.swing.GroupLayout(searchScopePanel);
         searchScopePanel.setLayout(searchScopePanelLayout);
@@ -152,44 +154,44 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             .addGroup(searchScopePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox4)
+                    .addComponent(fileSystemCheckBox)
+                    .addComponent(emailCheckBox)
                     .addGroup(searchScopePanelLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, searchScopePanelLayout.createSequentialGroup()
-                                .addComponent(jCheckBox5)
+                                .addComponent(emailHeaderCheckBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jCheckBox6))
+                                .addComponent(emailContentCheckBox))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, searchScopePanelLayout.createSequentialGroup()
-                                .addComponent(jCheckBox2)
+                                .addComponent(fileSystemMetadataCheckBox)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBox3))))
+                                .addComponent(fileSystemContentCheckBox))))
                     .addGroup(searchScopePanelLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jCheckBox8))
-                    .addComponent(jCheckBox7))
+                        .addComponent(chatContentCheckBox))
+                    .addComponent(chatCheckBox))
                 .addContainerGap(120, Short.MAX_VALUE))
         );
         searchScopePanelLayout.setVerticalGroup(
             searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(searchScopePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCheckBox1)
+                .addComponent(fileSystemCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3))
+                    .addComponent(fileSystemMetadataCheckBox)
+                    .addComponent(fileSystemContentCheckBox))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox4)
+                .addComponent(emailCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox5)
-                    .addComponent(jCheckBox6))
+                    .addComponent(emailHeaderCheckBox)
+                    .addComponent(emailContentCheckBox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                .addComponent(jCheckBox7)
+                .addComponent(chatCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox8)
+                .addComponent(chatContentCheckBox)
                 .addContainerGap())
         );
 
@@ -359,48 +361,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         jTabbedPane4.addTab("Search Result", jPanel22);
 
-        clusterPathTree.setModel(null);
-        clusterPathTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-                clusterPathTreeValueChanged(evt);
-            }
-        });
-        jScrollPane12.setViewportView(clusterPathTree);
-
-        javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
-        jPanel24.setLayout(jPanel24Layout);
-        jPanel24Layout.setHorizontalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
-        );
-        jPanel24Layout.setVerticalGroup(
-            jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-        );
-
-        jTabbedPane4.addTab("Path Clustering", jPanel24);
-
-        clusterTypeTree.setModel(null);
-        clusterTypeTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-                clusterTypeTreeValueChanged(evt);
-            }
-        });
-        jScrollPane27.setViewportView(clusterTypeTree);
-
-        javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
-        jPanel29.setLayout(jPanel29Layout);
-        jPanel29Layout.setHorizontalGroup(
-            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
-        );
-        jPanel29Layout.setVerticalGroup(
-            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-        );
-
-        jTabbedPane4.addTab("Type Clustering", jPanel29);
-
         javax.swing.GroupLayout resultPanelLayout = new javax.swing.GroupLayout(resultPanel);
         resultPanel.setLayout(resultPanelLayout);
         resultPanelLayout.setHorizontalGroup(
@@ -423,6 +383,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         jTabbedPane2.addTab("Text Content", fileRenderPanel);
 
         metaDataTextArea.setColumns(20);
+        metaDataTextArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         metaDataTextArea.setRows(5);
         jScrollPane28.setViewportView(metaDataTextArea);
 
@@ -513,16 +474,8 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         add(CenterPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void clusterPathTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_clusterPathTreeValueChanged
-        clusterPathTreeAction();
-    }//GEN-LAST:event_clusterPathTreeValueChanged
-
-    private void clusterTypeTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_clusterTypeTreeValueChanged
-        clusterPathTreeAction();
-    }//GEN-LAST:event_clusterTypeTreeValueChanged
-
     private void startSearchingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSearchingButtonActionPerformed
-        startSearching(index.getExtensionAllowed());
+        startSearching();
     }//GEN-LAST:event_startSearchingButtonActionPerformed
 
     private void clearLabelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearLabelButtonMouseClicked
@@ -545,6 +498,37 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_resultSavingButtonActionPerformed
 
+    private void fileSystemCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemCheckBoxActionPerformed
+        if ( fileSystemCheckBox.isSelected() ) {
+            fileSystemContentCheckBox.setEnabled(true);
+            fileSystemMetadataCheckBox.setEnabled(true);
+        }
+        else {
+            fileSystemContentCheckBox.setEnabled(false);
+            fileSystemMetadataCheckBox.setEnabled(false);
+        }
+    }//GEN-LAST:event_fileSystemCheckBoxActionPerformed
+
+    private void emailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailCheckBoxActionPerformed
+        if ( emailCheckBox.isSelected() ) {
+            emailContentCheckBox.setEnabled(true);
+            emailHeaderCheckBox.setEnabled(true);
+        }
+        else {
+            emailContentCheckBox.setEnabled(false);
+            emailHeaderCheckBox.setEnabled(false);
+        }
+    }//GEN-LAST:event_emailCheckBoxActionPerformed
+
+    private void chatCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatCheckBoxActionPerformed
+        if ( chatCheckBox.isSelected() ) {
+            chatContentCheckBox.setEnabled(true);
+        }
+        else {
+            chatContentCheckBox.setEnabled(false);
+        }        
+    }//GEN-LAST:event_chatCheckBoxActionPerformed
+
     private void tableMouseEvent(java.awt.event.MouseEvent evt) {
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( searchTable.isEnabled() )
@@ -562,9 +546,9 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
             // other click event
             int row = searchTable.getSelectedRow();
-            String filePath = (String) searchTable.getValueAt(row, 2);
+            String fileId = String.valueOf(searchTable.getValueAt(row, 0));
 
-            showInformation(filePath);
+            showInformationByID(fileId);
         }
         catch (Exception e ){
             logger.log(Level.SEVERE, "Uncaught exception", e);
@@ -572,127 +556,101 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }
     
     private void showAdvancedSearch() {
-        AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true, index.getExtensionAllowed());
+        AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true);
         asd.setVisible(true);
 
         String query = asd.getQuery() ;
-        List<String> ext = asd.getSupportedExtensions() ;
 
         if ( query == null || query.isEmpty() )
             return ;
 
-        if ( ext == null || ext.isEmpty())
-            return ;
-
         queryTextField.setText(query);
-        startSearching(ext);
+        startSearching();
     }
     
-    private void clusterPathTreeAction() {
+//    private void clusterPathTreeAction() {
+//        try {
+//            DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterPathTree.getLastSelectedPathComponent();
+//            if ( node == null || node.isRoot() || ! node.isLeaf()) {
+//                return ;
+//            }
+//            
+//            String filePath= node.getUserObject().toString();
+//            showInformation(filePath);
+//       }
+//       catch (Exception e ){
+//           logger.log(Level.SEVERE, "Uncaught exception", e);
+//       }
+//    }
+//    
+//    private void clusterTypeTreeAction() {
+//        try {
+//            DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterTypeTree.getLastSelectedPathComponent();
+//            if ( node == null || node.isRoot() || ! node.isLeaf()) {
+//                return ;
+//            }
+//
+//            String filePath= node.getUserObject().toString();
+//            showInformation(filePath);
+//       }
+//       catch (Exception e ){
+//       }
+//    }
+    
+    private void showInformationByID (String fileId) {        
         try {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterPathTree.getLastSelectedPathComponent();
-            if ( node == null || node.isRoot() || ! node.isLeaf()) {
-                return ;
+            File indexPath = new File(caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+            
+            // Do Lucene Search
+            LuceneSearcher searcher = new LuceneSearcher(indexPath);
+            Document document = searcher.searchById(fileId);
+            
+            //TODO: Getting Object Type
+            // Show Object Content, FILE, CHAT, EMAIL
+            
+            // Show File Content
+            String content = document.get(IndexingConstant.FILE_CONTENT);
+            String keyword = queryTextField.getText().trim().toLowerCase();
+            fileBrowser.setHTMLContent(highlightString(content, keyword));
+            
+            // show matadata information for File
+            List<Fieldable> fields = document.getFields();
+            StringBuilder metadataBuilder = new StringBuilder();
+            
+            for (Fieldable field: fields) {
+                if ( ! field.name().startsWith("file_")) // files in IndexingConstant start with prefix file_
+                    metadataBuilder.append(field.name()).append(" : " ).append(field.stringValue()).append("\n");
             }
             
-            String filePath= node.getUserObject().toString();
-            showInformation(filePath);
-       }
-       catch (Exception e ){
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
+            String metadata = metadataBuilder.toString();
+            //TODO: replace metadate view to browser or html type to support html rendering
+            //metaDataTextArea.setText(highlightString(metadata, keyword));
+            metaDataTextArea.setText(metadata);
+
+            fileRenderPanel.validate();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
     
-    private void clusterTypeTreeAction() {
-        try {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterTypeTree.getLastSelectedPathComponent();
-            if ( node == null || node.isRoot() || ! node.isLeaf()) {
-                return ;
-            }
-
-            String filePath= node.getUserObject().toString();
-            showInformation(filePath);
-       }
-       catch (Exception e ){
-       }
-    }
-    
-    private void showInformation (String filePath) throws Exception {
-        File fileName = new File(filePath);
-        
-        String keyword = queryTextField.getText().trim();
-        String extension = Utilities.getExtension(fileName);
-        
-//        searchFileNameLbl.setText(fileName.getName());
-//        searchFileExtensionLbl.setText(extension);
-//        searchFileSizeLbl.setText(fileName.length() + "");
-
-        // set summary panel and file rendered panel depen on file
-//        if (extension.equalsIgnoreCase("txt")) {
-//            String content = Utilities.getFileContent(fileName) ;
-//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-//            String rep = content.replace(keyword, highlither);
-//            fileBrowser.setHTMLContent(rep);
-//        }
-//        else if ( extension.equalsIgnoreCase("pdf") ) {
-//            //fileBrowser.navigate(filePath + "#search= " + keyword + "");
-//            String content = parseFile(fileName);
-//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-//            String rep = content.replace(keyword, highlither);
-//            fileBrowser.setHTMLContent(rep);
-//        }
-//        else if ( extension.equalsIgnoreCase("html") ||
-//                  extension.equalsIgnoreCase("htm") ||
-//                  extension.equalsIgnoreCase("mht") ) {
-//            //fileBrowser.navigate(filePath);
-//            String content = parseFile(fileName);
-//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-//            String rep = content.replace(keyword, highlither);
-//            fileBrowser.setHTMLContent(rep);
-//        }
-//        else if ( extension.equalsIgnoreCase("doc")) {
-//            String content = parseFile(fileName);
-//            String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-//            String rep = content.replace(keyword, highlither);
-//            fileBrowser.setHTMLContent(rep);
-//        }
-
-        String content = parseFile(fileName);
+    private String highlightString (String content, String keyword) {
         String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-        String rep = content.replace(keyword, highlither);
-        fileBrowser.setHTMLContent(rep);
-            
-        // show matadata information for file
-        String metaData = MetaDataExtraction.getMetaData(filePath);
-        metaDataTextArea.setText(metaData);
+        String highlitedString = content.replace(keyword, highlither);
         
-        fileRenderPanel.validate();
+        return highlitedString ;
     }
     
-    private String parseFile(final File filePath) {
-        Tika tika = new Tika();
-        String bodyText = "" ;
-        
-        try {
-            bodyText = tika.parseToString(filePath);
-        }
-        catch (Exception e ){
-            
-        }
-        
-        return (bodyText);
-    }
-    
-    private void startSearching (List<String> supportedExtension) {
+    private void startSearching () {
         removeSearchField(false,false);
 
-        if ( index.getIndexStatus() == false ) {
+        if ( caseObj.getIndexStatus() == false ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
             return ;
         }
 
-        File indexLocation = new File (index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+        File indexLocation = new File (caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
         String queryString = queryTextField.getText().trim();
 
         if ( queryString.isEmpty() ) {
@@ -700,16 +658,52 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             return  ;
         }
 
-        Utilities.packColumns(searchTable, 2);
+        JTableUtil.packColumns(searchTable, 2);
         searchProgressBard.setIndeterminate(true);
-
-        GUIComponent searchGUI = new GUIComponent(searchProgressBard,searchTable,null,null,
-            null,null, supportedExtension , clusterPathTree,clusterTypeTree);
-
-         SearcherThread sThread = new SearcherThread(indexLocation,queryString,searchGUI);
+        
+        // build lucene fileds
+        SearchScope searchScope = getSearchScope();
+        
+         SearcherThread sThread = new SearcherThread(indexLocation,queryString,this, searchScope);
          sThread.execute();
     }
+    
+    private SearchScope getSearchScope() {
+        SearchScope.Builder builder = new SearchScope.Builder();
+        
+        if ( fileSystemCheckBox.isSelected() ) {
+            if ( fileSystemContentCheckBox.isSelected() ) {
+                builder = builder.fileSystemContent(true);
+            }
+            
+            if ( fileSystemMetadataCheckBox.isSelected() ) {
+                builder = builder.fileSystemMetadata(true);
+            }
+        }
+        
+        if ( emailCheckBox.isSelected() ) {
+            if ( emailContentCheckBox.isSelected() ) {
+                builder = builder.emailContent(true);
+            }
+            
+            if ( emailHeaderCheckBox.isSelected() ) {
+                builder = builder.emailHeader(true);
+            }
+        }
+        
+        if ( chatCheckBox.isSelected() ) {
+            if ( chatContentCheckBox.isSelected() ) {
+                builder = builder.chatContent(true);
+            }
+        }
+        
+        return builder.build();
+    }
 
+    JProgressBar getSearchProgressBar () { return this.searchProgressBard ; }
+    JTable getSearchTable() { return this.searchTable ; }
+    List<String> getSupportedExtension () { return new ArrayList<String>(); }
+    
     private void removeSearchField (boolean all, boolean restCheckBox) {
         searchProgressBard.setIndeterminate(false); 
 
@@ -727,7 +721,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }
     
     private void disableNotIndexedComponent () {
-        if ( index.getDocumentInIndex().isEmpty() ) {
+        if ( caseObj.getDocumentInIndex().isEmpty() ) {
             startSearchingButton.setEnabled(false);
 //            clearFieldsButton.setEnabled(false);
 //            keywordsListButton.setEnabled(false);
@@ -744,29 +738,23 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private javax.swing.JPanel LeftPanel;
     private javax.swing.JLabel advancedSearchLabelButton;
     private javax.swing.JPanel audioViewPanel;
+    private javax.swing.JCheckBox chatCheckBox;
+    private javax.swing.JCheckBox chatContentCheckBox;
     private javax.swing.JLabel clearLabelButton;
-    private javax.swing.JTree clusterPathTree;
-    private javax.swing.JTree clusterTypeTree;
     private javax.swing.JPanel documentView;
+    private javax.swing.JCheckBox emailCheckBox;
+    private javax.swing.JCheckBox emailContentCheckBox;
+    private javax.swing.JCheckBox emailHeaderCheckBox;
     private javax.swing.JPanel fileRenderPanel;
+    private javax.swing.JCheckBox fileSystemCheckBox;
+    private javax.swing.JCheckBox fileSystemContentCheckBox;
+    private javax.swing.JCheckBox fileSystemMetadataCheckBox;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JPanel imageViewPanel;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel29;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane27;
     private javax.swing.JScrollPane jScrollPane28;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane4;

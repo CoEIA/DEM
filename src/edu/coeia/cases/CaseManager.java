@@ -1,7 +1,7 @@
 package edu.coeia.cases;
 
+import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath ;
-import edu.coeia.util.Utilities ;
 
 import java.io.File ;
 import java.io.FileInputStream ;
@@ -49,7 +49,7 @@ public enum CaseManager {
     public static boolean caseExists(String caseName)  {
         try {
             File casesInfo = new File(FilesPath.INDEXES_INFO);
-            ArrayList<String> casesInfoContent = Utilities.getFileContentInArrayList(casesInfo);
+            List<String> casesInfoContent = FileUtil.getFileContentInArrayList(casesInfo);
 
             for (String path : casesInfoContent) {
                 Case aCase = CaseManager.getCase(path);

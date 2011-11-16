@@ -16,7 +16,7 @@ package edu.coeia.main;
  * @author wajdyessam
  */
 
-import edu.coeia.util.Utilities ;
+import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.internet.IEHandler ;
 
@@ -46,7 +46,7 @@ public class RecentDialog extends javax.swing.JDialog {
 
         // remove old data
         if ( recentFilesTable.getModel().getRowCount() > 0 )
-             Utilities.removeAllRows(recentFilesTable);
+             JTableUtil.removeAllRows(recentFilesTable);
 
         for (int i=0; i<filesName.size() ; i++){
             File file = new File( filesName.get(i) );
@@ -57,9 +57,9 @@ public class RecentDialog extends javax.swing.JDialog {
 
         // Pack the all columns of the table
         int margin = 1;
-        Utilities.packColumns(recentFilesTable, margin);
+        JTableUtil.packColumns(recentFilesTable, margin);
 
-        Utilities.sortTable(recentFilesTable,1);
+        JTableUtil.sortTable(recentFilesTable,1);
     }
 
     /** This method is called from within the constructor to

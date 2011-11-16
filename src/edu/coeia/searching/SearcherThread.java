@@ -10,57 +10,50 @@ package edu.coeia.searching;
  * @author wajdyessam
  */
 
-import edu.coeia.util.Utilities;
-import edu.coeia.gutil.GUIComponent;
-import edu.coeia.util.Tuple;
+import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant ;
+import edu.coeia.util.DateUtil;
 
 import javax.swing.SwingWorker ;
 import javax.swing.table.DefaultTableModel ;
-import javax.swing.tree.DefaultMutableTreeNode ;
-import javax.swing.tree.DefaultTreeModel ;
-import javax.swing.JTree;
 
 import java.io.File ;
 
 import java.util.Date ;
-import java.util.ArrayList ;
-import java.util.List ;
 
-import edu.coeia.clustering.ClusteringData ;
+import org.apache.lucene.document.Document;
 
 class ProgressSearchData {
     private String path;
     private int count ;
     private int numberOfPatterns ;
+    private Document document ;
     
-    public ProgressSearchData (int c, String p, String type, int numberOfPatterns) {
+    public ProgressSearchData (int c, Document doc) {
         count = c ;
-        path = p ;
-        this.numberOfPatterns = numberOfPatterns ;
+        this.document = doc;
     }
 
     public String getPath ()    { return path   ; }
     public int getCount ()      { return count  ; }
     public int getNumberOfPatterns () { return numberOfPatterns ; }
+    public Document getDocument () { return this.document ; }
 }
 
 class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     private long time ;
     private File indexLocation  ;
     private String queryString ;
-    private GUIComponent searchGUI ;
     private LuceneSearcher searcher ;
     private int count = 0 ;
-    private List<String> extensionsAllowed, filePath;
+    private AdvancedSearchPanel panel ;
+    private SearchScope searchScope; 
     
-    public SearcherThread (File indexLocation, String queryString, GUIComponent searchGUI) {
+    public SearcherThread (File indexLocation, String queryString, AdvancedSearchPanel panel, SearchScope fields) {
         this.indexLocation = indexLocation ;
         this.queryString = queryString;
-        this.searchGUI = searchGUI ;
-
-        extensionsAllowed = searchGUI.getExtension();
-        filePath = new ArrayList<String>();
+        this.panel = panel ;
+        this.searchScope = fields ;
     }
     
     public String doInBackground() {
@@ -68,7 +61,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             long start = new Date().getTime();
             
             searcher = new LuceneSearcher(indexLocation);
-            count = searcher.search(queryString);
+            count = searcher.search(queryString, this.searchScope);
 
             fillTable();
             
@@ -87,101 +80,36 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
 
     private void fillTable () throws Exception {
         for (int i=0 ; i<count ; i++) {
-            String file = searcher.getHits(i);
-            
-            //if ( Utilities.isExtentionAllowed(extensionsAllowed, Utilities.getExtension(file))) {
-                publish(new ProgressSearchData(i, file , Utilities.getExtension(file), 0));
-
-                if ( file != null )
-                    filePath.add(file);
-            //}
+            Document document = searcher.getDocHits(i);
+            publish(new ProgressSearchData(i, document));
         }
     }
     
     @Override
     protected void process(java.util.List<ProgressSearchData> chunks) {
         for (ProgressSearchData pd : chunks) {
-            File file = new File(pd.getPath());
             
-            String filename = file.getName();
+            String fileId = pd.getDocument().get(IndexingConstant.FILE_ID);
+            String fileDate = pd.getDocument().get(IndexingConstant.FILE_DATE);
+            String fileTitle = pd.getDocument().get(IndexingConstant.FILE_TITLE);
+            String fileName = pd.getDocument().get(IndexingConstant.FILE_NAME);
+            
+            File file = new File(fileName);
             int size = (int) file.length();
+            
             Date date = new Date(file.lastModified());
             
-            ((DefaultTableModel)searchGUI.table.getModel()).addRow(new Object[] {
-                0, filename, file.getAbsolutePath(), Utilities.formatDateTime(date), size, 0
+            ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
+                fileId, fileName, fileTitle, DateUtil.formatDateTime(date), size, 0
             });
         }
 
        int index = chunks.size()-1 ;
-       //Utilities.scrollToVisible(searchGUI.table,(chunks.get(index)).getCount(),0);
-       Utilities.packColumns(searchGUI.table, index);
+       JTableUtil.packColumns(panel.getSearchTable(), index);
     }
     
     @Override
     public void done() {
-        searchGUI.progressBar.setIndeterminate(false);
-        //searchGUI.timeLbl.setText("" + Utilities.getTimeFromMilliseconds(time));
-        //searchGUI.dateLbl.setText(Utilities.formatDateTime(new Date()));
-        //searchGUI.indexLocationLbl.setText(indexLocation.getAbsoluteFile().getName());
-        //searchGUI.dataIndexedLocation.setText(queryString);
-
-
-        try {
-            // show clustering in cluster tree
-            ArrayList<Tuple<String, ArrayList<String>>> result = ClusteringData.clustetringData(
-                    indexLocation, queryString, IndexingConstant.FILE_NAME, IndexingConstant.FILE_CONTENT);        
-            buildTree("Result OF Clustering Path", result, searchGUI.clusterTree);
-
-            // show clustering in type cluster tree
-            result = getTypeClustering();
-            buildTree("Result OF Clustering Type", result, searchGUI.clusterTypeTree);
-            
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private void buildTree (String header, ArrayList<Tuple<String, ArrayList<String>>> data, JTree tree) {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(header);
-
-        for (Tuple<String,ArrayList<String>> cluster: data) {
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode(cluster.getA());
-
-            for (String file: cluster.getB() ){
-                DefaultMutableTreeNode fileNode = new DefaultMutableTreeNode(file);
-                node.add(fileNode);
-            }
-            root.add(node);
-        }
-
-        tree.setModel(new DefaultTreeModel(root));
-    }
-
-    private ArrayList<Tuple<String, ArrayList<String>>> getTypeClustering () {
-        ArrayList<Tuple<String, ArrayList<String>>> result = new ArrayList<Tuple<String, ArrayList<String>>>();
-
-        for (String ext: extensionsAllowed) {
-            Tuple<String, ArrayList<String>> tple = new Tuple<String, ArrayList<String>>();
-            tple.setA(ext);
-            ArrayList<String> files = getFilesPath(ext);
-            tple.setB(files);
-
-            if (files.size() > 0 )
-                result.add(tple);
-        }
-
-        return result;
-    }
-
-    private ArrayList<String> getFilesPath (String ext) {
-        ArrayList<String> result = new ArrayList<String>();
-
-        for (String file: filePath) {
-            if ( Utilities.getExtension(file).equalsIgnoreCase(ext))
-                result.add(file);
-        }
-
-        return result;
+        panel.getSearchProgressBar().setIndeterminate(false);
     }
 }

@@ -9,12 +9,13 @@ import edu.coeia.gutil.GuiUtil ;
 import edu.coeia.chat.ChatPanel;
 import edu.coeia.email.EmailPanel;
 import edu.coeia.indexing.IndexingDialog;
-import edu.coeia.searching.SearchPanel;
 import edu.coeia.image.ImagesViewerPanel;
 import edu.coeia.internet.InternetSurfingPanel;
-
 import edu.coeia.searching.CaseSearchPanel;
+import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
+import edu.coeia.tags.TagsManager ;
+
 import java.awt.Toolkit ;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -24,7 +25,6 @@ import javax.swing.JOptionPane;
 import java.io.IOException ;
 
 import java.util.List; 
-import java.util.ArrayList ;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,13 +38,13 @@ import java.util.logging.Logger;
  */
 
 public class CaseFrame extends javax.swing.JFrame {
-    private Case caseObj ;
+    private final Case caseObj ;
+    private final TagsManager tagsManager ;
     
     private final String APPLICATION_NAME = "Digital Evidence Miner: ";
-    private String applicationTitle;
-   
-    private List<String> listOfOpeningCase ;
-
+    private final String applicationTitle;
+    
+    private final List<String> listOfOpeningCase ;
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
     /** Creates new form OfflineMinningFrame 
@@ -72,6 +72,7 @@ public class CaseFrame extends javax.swing.JFrame {
          */
         this.caseObj = aCase ;
         this.listOfOpeningCase = list;
+        this.tagsManager = TagsManager.getTagsManager(this.caseObj.getIndexLocation() + "\\" + FilesPath.CASE_TAGS);
         
         /**
          * Remove Case Name From the list when Frame Closed
@@ -102,15 +103,16 @@ public class CaseFrame extends javax.swing.JFrame {
             }
         });
 
+        // Get Tags Manager for this Case
+        
         // add gui panels
         FileSystemPanel fileSystemPanel = new FileSystemPanel(this.caseObj, this);
         EmailPanel emailPanel = new EmailPanel(this.caseObj, this);
         InternetSurfingPanel internetPanel = new InternetSurfingPanel(this.caseObj);
         ChatPanel chatPanel = new ChatPanel(this.caseObj);
         ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.caseObj);
-        //SearchPanel searchPanel = new SearchPanel(this.caseObj);
         CaseSearchPanel searchPanel = new CaseSearchPanel(this.caseObj, this);
-        CaseManagerPanel caseManagerPanel = new CaseManagerPanel();
+        CaseManagerPanel caseManagerPanel = new CaseManagerPanel(this);
         ReportPanel reportPanel = new ReportPanel();
         
         this.CardPanel.add(fileSystemPanel, "fileSystemCard");
@@ -124,8 +126,8 @@ public class CaseFrame extends javax.swing.JFrame {
         
         searchToggleButtonActionPerformed(null);
         
-//        if ( !caseObj.getIndexStatus() )
-//            showIndexDialog();
+       GuiUtil.showPanel("caseManagerCard",CardPanel);
+       this.setTitle(APPLICATION_NAME + "Case Manager Window");
     }
     
     /** This method is called from within the constructor to
@@ -171,10 +173,9 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
 
         headerGroupButton.add(caseManagerToggleButton);
-        caseManagerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        caseManagerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         caseManagerToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274612774_kservices.png"))); // NOI18N
         caseManagerToggleButton.setText("Case Manager");
-        caseManagerToggleButton.setEnabled(false);
         caseManagerToggleButton.setFocusable(false);
         caseManagerToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         caseManagerToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -186,7 +187,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(caseManagerToggleButton);
 
         headerGroupButton.add(searchToggleButton);
-        searchToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        searchToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         searchToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/Copy of search.png"))); // NOI18N
         searchToggleButton.setText("Case Search");
         searchToggleButton.setFocusable(false);
@@ -386,7 +387,7 @@ public class CaseFrame extends javax.swing.JFrame {
 
     private void windowsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_windowsMenuItemActionPerformed
         try {
-            ArrayList<String> data = Utilities.readProgramOutputStream("systeminfo.exe");
+            List<String> data = FileUtil.readProgramOutputStream("systeminfo.exe");
 
             WindowsInfoDialog wid = new WindowsInfoDialog(CaseFrame.this, true, data);
             wid.setVisible(true);
@@ -476,6 +477,9 @@ public class CaseFrame extends javax.swing.JFrame {
         indexPanel.setLocationRelativeTo(this);
         indexPanel.setVisible(true);
     }
+    
+    public Case getCase() { return this.caseObj ; }
+    public TagsManager getTagsManager() { return this.tagsManager; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CardPanel;

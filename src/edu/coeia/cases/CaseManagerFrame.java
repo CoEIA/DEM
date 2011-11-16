@@ -2,21 +2,16 @@ package edu.coeia.cases;
 
 /* import internal classes */
 import edu.coeia.util.FilesPath ;
-import edu.coeia.util.Utilities;
-import edu.coeia.cases.LicenseManager;
-import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
-import edu.coeia.cases.CaseWizardDialog;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.main.SmartCardDialog;
+import edu.coeia.gutil.JTableUtil;
+import edu.coeia.util.DateUtil;
+import edu.coeia.util.FileUtil;
 
 /* import sun classes */
 import javax.swing.UIManager ;
 import javax.swing.SwingUtilities ;
-import javax.swing.JTable ;
 import javax.swing.table.DefaultTableModel ;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter ;
 import javax.swing.JOptionPane ;
 
 import java.io.IOException ;
@@ -25,7 +20,8 @@ import java.io.FileWriter ;
 import java.io.PrintWriter ;
 import java.io.FileNotFoundException ;
 
-import java.util.ArrayList ;
+import java.util.List ;
+import java.util.ArrayList; 
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -206,7 +202,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     jToolBar1.setFloatable(false);
     jToolBar1.setRollover(true);
 
-    jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+    jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24));
     jLabel2.setForeground(new java.awt.Color(153, 153, 153));
     jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/caseManager.jpg"))); // NOI18N
     jToolBar1.add(jLabel2);
@@ -344,7 +340,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                      String className = record.getSourceClassName();
                      String methodName = record.getSourceMethodName();
                      String message = record.getMessage();
-                     String time = Utilities.formatDateTime(new Date(record.getMillis()));
+                     String time = DateUtil.formatDateTime(new Date(record.getMillis()));
                      
                      row.append("[");
                      row.append(level);
@@ -360,7 +356,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             
             ConsoleHandler consoleHandler = new ConsoleHandler();    
             
-            String fileName = FilesPath.APPLICATION_LOG_PATH + "\\" + String.format("DEM_%s.log", Utilities.formatDateForLogFileName(new Date()));
+            String fileName = FilesPath.APPLICATION_LOG_PATH + "\\" + String.format("DEM_%s.log", DateUtil.formatDateForLogFileName(new Date()));
             FileHandler fileHandler = new FileHandler(fileName, true);
             
             consoleHandler.setFormatter(new CustomeFormatter());
@@ -447,10 +443,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private void updateRecentTable () throws FileNotFoundException, IOException, ClassNotFoundException {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        ArrayList<String> indexesInfoContent  = Utilities.getFileContentInArrayList(indexesInfo);
+        List<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
 
         // clear value on table before adding new values
-        removeAllRows(recentCaseTable);
+        JTableUtil.removeAllRows(recentCaseTable);
 
         for(String path: indexesInfoContent) {
             Case index = CaseManager.getCase(path);
@@ -463,59 +459,9 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private void addIndexInformationToTable (Case index) {
         DefaultTableModel model = (DefaultTableModel) recentCaseTable.getModel();
-        model.addRow( new Object[] {index.getIndexName(), index.getInvestigatorName(), Utilities.formatDateTime(index.getCreateTime()), index.getDescription(),
+        model.addRow( new Object[] {index.getIndexName(), index.getInvestigatorName(), DateUtil.formatDateTime(index.getCreateTime()), index.getDescription(),
             index.getIndexStatus() });
     }
-    
-    /*
-     * Show case information down in case manager
-     */
-//    private void showCaseInformation () {
-//        int row = recentCaseTable.getSelectedRow();
-//
-//        if ( row < 0 )
-//            return ;
-//
-//        String indexName = (String) recentCaseTable.getValueAt(row, 0);
-//
-//        // clear value on table before adding new values
-//        //removeAllRows(caseInformationTable);
-//
-//        try {
-//            Case index = getIndexInformationFromIndexName(indexName);
-//            DefaultTableModel model = (DefaultTableModel) caseInformationTable.getModel();
-//
-//            model.addRow( new Object[] { "Index Name" , index.getIndexName() });
-//            model.addRow( new Object[] { "Index Path" , index.getIndexLocation() });
-//            model.addRow( new Object[] { "Created Date and Time" , Utilities.formatDateTime(index.getCreateTime()) } );
-//            //model.addRow( new Object[] { "Data Indexed Size" , Utilities.formatSize(Utilities.toKB(index.getDataIndexedSize())) + " KB"  });
-//            model.addRow( new Object[] { "Extensions Allowed" , index.getExtensionAllowed() });
-//
-//            addListToRow(index.getDocumentInIndex(),"Case In Index",model);
-//            addListToRow(index.getPstPath(),"Outlook Documents in Index", model);
-//            addListToRow(index.getIePath(),"IE Paths in Index", model);
-//            addListToRow(index.getFFPath(), "FF Paths in Index", model);
-//            addListToRow(index.getMsnPath(),"MSN Paths in Index", model);
-//            addListToRow(index.getYahooPath(),"Yahoo Paths in Index", model);
-//            addListToRow(index.getSkypePath(), "Skype Paths in Index", model);
-//
-//            model.addRow( new Object[] { "Cache All Images" , index.getCacheImages() });
-//        }
-//        catch (IOException e) {
-//            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
-//                JOptionPane.ERROR_MESSAGE);
-//        }
-//        catch (ClassNotFoundException e){
-//        }
-//    }
-        
-//    // add value from list to case information table
-//    private void addListToRow (ArrayList<String> data, String text, DefaultTableModel model) {
-//        for (String s: data ) {
-//            model.addRow( new Object[] { text , s });
-//            text = "" ;
-//        }
-//    }
     
     private String getSelectedCase () {
         int row = recentCaseTable.getSelectedRow();
@@ -559,9 +505,9 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             Case index = getIndexInformationFromIndexName(caseName);
             File file = new File( index.getIndexLocation() );
             
-            if ( Utilities.removeDirectory(file) ) {
-                ArrayList<String> indexPtr = Utilities.getFileContentInArrayList(new File(FilesPath.INDEXES_INFO) );
-                ArrayList<String> newIndexPtr = new ArrayList<String>();
+            if ( FileUtil.removeDirectory(file) ) {
+                List<String> indexPtr = FileUtil.getFileContentInArrayList(new File(FilesPath.INDEXES_INFO) );
+                List<String> newIndexPtr = new ArrayList<String>();
                 
                 for (String line: indexPtr) {
                     String name = line.split("-")[0].trim();
@@ -574,7 +520,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 }
 
                 // write new index information to file
-                Utilities.writeToFile(newIndexPtr, FilesPath.INDEXES_INFO);
+                FileUtil.writeToFile(newIndexPtr, FilesPath.INDEXES_INFO);
             }
         }
         catch (IOException e) {
@@ -592,26 +538,13 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         writer.close();
     }
 
-    private void removeAllRows (JTable table) {
-        if ( table.getModel().getRowCount() <= 0 )
-            return; 
-        
-        TableModel model = table.getModel();
-        ( (DefaultTableModel) model ).getDataVector().removeAllElements();
-        ( (DefaultTableModel) model ).fireTableDataChanged();
-
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
-        table.setRowSorter(sorter);
-        sorter.setRowFilter(null);
-    }
-
     /*
      * Get index path from index name 
      * @return IndexInformation 
      */
     private Case getIndexInformationFromIndexName (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        ArrayList<String> indexesInfoContent  = Utilities.getFileContentInArrayList(indexesInfo);
+        List<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
 
         for(String path: indexesInfoContent) {
             Case index = CaseManager.getCase(path);

@@ -20,6 +20,7 @@ import edu.coeia.indexing.IndexReaderThread ;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.gutil.WrapLayout;
 import edu.coeia.gutil.GuiUtil;
+import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath;
 
@@ -62,7 +63,7 @@ public class TextCloudPanel extends javax.swing.JPanel {
         this.parentFrame = aParentFrame;
         this.parentPanel = aParentPanel;
 
-        Utilities.setTableAlignmentValue(cloudsTable, 1);
+        JTableUtil.setTableAlignmentValue(cloudsTable, 1);
         //add a native web browser
         tagsPanel.setLayout(new WrapLayout());
 
@@ -337,7 +338,7 @@ public class TextCloudPanel extends javax.swing.JPanel {
             }
 
             // remove data
-            Utilities.removeAllRows(cloudsTable);
+            JTableUtil.removeAllRows(cloudsTable);
             tagsPanel.removeAll();
 
             tagsPanel.repaint();
@@ -457,7 +458,7 @@ public class TextCloudPanel extends javax.swing.JPanel {
 
     public void filterCloudTable() {
         String text = cloudsFilterTextField.getText().trim();
-        GuiUtil.filterTable(cloudsTable, text);
+        JTableUtil.filterTable(cloudsTable, text);
     }
 
     private class CloudsInputListener implements DocumentListener {

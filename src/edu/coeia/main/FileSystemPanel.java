@@ -1,7 +1,6 @@
 
 package edu.coeia.main;
 
-import edu.coeia.searching.SearchFileSystemPanel;
 import edu.coeia.cases.Case;
 import javax.swing.JFrame;
 
@@ -39,7 +38,7 @@ public class FileSystemPanel extends javax.swing.JPanel {
 
     public void showSearchWithKeyword (String text) {
         fileSystemTappedPane.setSelectedIndex(0);
-        ((SearchFileSystemPanel)fileSystemTappedPane.getComponentAt(0)).setSearchKeyword(text);
+        //((SearchFileSystemPanel)fileSystemTappedPane.getComponentAt(0)).setSearchKeyword(text);
     }
     
     /** This method is called from within the constructor to

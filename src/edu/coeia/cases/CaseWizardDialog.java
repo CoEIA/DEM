@@ -750,6 +750,21 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
             addToList(path, model, list);
         }
     }
+    
+    private void autoDetectIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectIEButtonActionPerformed
+
+    }//GEN-LAST:event_autoDetectIEButtonActionPerformed
+
+    private void autoDetectFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectFFButtonActionPerformed
+    }//GEN-LAST:event_autoDetectFFButtonActionPerformed
+
+    private void autoDetectMSNButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectMSNButtonActionPerformed
+
+    }//GEN-LAST:event_autoDetectMSNButtonActionPerformed
+
+    private void autoDetectYahooButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectYahooButtonActionPerformed
+
+    }//GEN-LAST:event_autoDetectYahooButtonActionPerformed
 
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
             

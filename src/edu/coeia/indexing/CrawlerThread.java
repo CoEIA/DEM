@@ -10,26 +10,28 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
-import edu.coeia.util.Utilities;
-import edu.coeia.gutil.IndexGUIComponent ;
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
+import edu.coeia.gutil.JTableUtil;
+import edu.coeia.gutil.IndexGUIComponent ;
+import edu.coeia.util.DateUtil;
+import edu.coeia.util.FileUtil;
+import edu.coeia.util.SizeUtil;
 
 import javax.swing.SwingWorker ;
 import javax.swing.table.DefaultTableModel ;
+import javax.swing.JOptionPane;
 
 import java.io.File ;
 import java.io.IOException ;
 
 import java.util.Date ;
 import java.util.List ;
-
-import com.pff.PSTException ;
-
-import edu.coeia.cases.CaseManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JOptionPane;
+import com.pff.PSTException ;
+
 import org.apache.tika.exception.TikaException;
 
 class ProgressIndexData {
@@ -165,7 +167,7 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
 
             //if ( Utilities.isExtentionAllowed(caseObject.getExtensionAllowed(), Utilities.getExtension(dir))) {
                 publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), "" , 1 , msg));
-                logger.log(Level.INFO, "Index File: " + dir.getAbsolutePath() + " , size: " + getSize(dir.getAbsolutePath()));
+                logger.log(Level.INFO, "Index File: " + dir.getAbsolutePath() + " , size: " + SizeUtil.getSize(dir.getAbsolutePath()));
                 try {
                     if ( isEmailFile(dir.getAbsolutePath()) &&  ignoreEmail ) {
                         indexCount++;
@@ -249,7 +251,7 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
     protected void process(List<ProgressIndexData> chunks) {
         for (ProgressIndexData pd : chunks) {
             if ( pd.getType() == 0 ) {
-                ((DefaultTableModel)indexGUI.table.getModel()).addRow(new Object[] { Utilities.getExtension(pd.getPath())
+                ((DefaultTableModel)indexGUI.table.getModel()).addRow(new Object[] { FileUtil.getExtension(pd.getPath())
                     , pd.getPath(), "cannot index this file (password protected or internal error in file format)"});
 
                 totalNumberOfError++;
@@ -261,9 +263,9 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
             else {
                 indexGUI.currentFileLbl.setText(pd.getPath());
                 //indexGUI.sizeOfFileLbl.setText(new File(pd.getPath()).length() + " Bytes");
-                indexGUI.sizeOfFileLbl.setText(getSize(pd.getPath()));
+                indexGUI.sizeOfFileLbl.setText(SizeUtil.getSize(pd.getPath()));
                 indexGUI.numberOfFileLbl.setText("(" + pd.getIndexCount()  + ")");
-                indexGUI.fileExtensionLbl.setText(Utilities.getExtension(pd.getPath()));
+                indexGUI.fileExtensionLbl.setText(FileUtil.getExtension(pd.getPath()));
                 indexGUI.bigSizeMsgLbl.setText(pd.getSizeMsg());
                 
                 indexGUI.progressBar.setValue( pd.getProgressCount() );
@@ -273,30 +275,7 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
         }
 
        int indexNum = chunks.size()-1 ;
-       Utilities.scrollToVisible(indexGUI.table,(chunks.get(indexNum)).getProgressCount(),0);
-    }
-
-    private String getSize (String path) {
-        long fileSize = new File(path).length() ;
-        String resultString = "";
-
-        if ( fileSize > 1073741824L) {
-            long tmp = (long) Utilities.toGB(fileSize);
-            resultString = tmp + " GB";
-        }
-        else if ( fileSize > 1048576 ) {
-            long tmp = (long) Utilities.toMB(fileSize);
-            resultString = tmp + " MB";
-        }
-        else if ( fileSize > 1024 ) {
-            long tmp = (long) Utilities.toKB(fileSize);
-            resultString = tmp + " KB";
-        }
-        else {
-             resultString = fileSize + " Bytes" ;
-        }
-        
-        return (resultString);
+       JTableUtil.scrollToVisible(indexGUI.table,(chunks.get(indexNum)).getProgressCount(),0);
     }
 
     @Override
@@ -305,8 +284,8 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
 
         this.indexGUI.progressBar.setIndeterminate(false);
         
-        String indexingTime = "" + Utilities.getTimeFromMilliseconds(time) ;
-        String lastIndexDate = Utilities.formatDateTime(new Date()) ;
+        String indexingTime = "" + DateUtil.getTimeFromMilliseconds(time) ;
+        String lastIndexDate = DateUtil.formatDateTime(new Date()) ;
 
         indexGUI.timeLbl.setText(indexingTime);
         indexGUI.dateLbl.setText(lastIndexDate);

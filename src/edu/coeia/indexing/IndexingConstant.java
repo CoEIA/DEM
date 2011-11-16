@@ -4,6 +4,9 @@
  */
 package edu.coeia.indexing;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author wajdyessam

@@ -12,10 +12,9 @@ package edu.coeia.indexing;
 
 import edu.coeia.main.TextCloudPanel;
 import edu.coeia.main.VisualizationPanel;
-import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.main.PieChartPanel;
-import edu.coeia.util.Utilities;
+import edu.coeia.util.FileUtil;
 
 import org.apache.lucene.index.IndexReader ;
 import org.apache.lucene.store.Directory ;
@@ -150,7 +149,7 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
                 if ( file == null )
                     continue ;
 
-                String ext = Utilities.getExtension(file);
+                String ext = FileUtil.getExtension(file);
 
                 if ( ext == null || ext.length() > 6) // no more extension than 5 character!
                     continue;

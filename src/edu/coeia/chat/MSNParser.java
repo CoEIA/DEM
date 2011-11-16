@@ -10,6 +10,7 @@ package edu.coeia.chat;
  * @author wajdyessam
  */
 
+import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
 
 import java.io.IOException ;
@@ -19,6 +20,8 @@ import java.io.FilenameFilter ;
 import java.util.ArrayList ;
 import java.util.HashMap ;
 
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern ;
 import java.util.regex.Matcher ;
 
@@ -29,8 +32,8 @@ public class MSNParser {
     private static final String USER_NAME_KEY = " /v UTL" ;
     private static final String MESSAGE_PATH = " /v MessageLogPath" ;
 
-    private ArrayList<String> allUserLoggingToMSN ;
-    private HashMap<String,String> allUserLoggingPath ;
+    private List<String> allUserLoggingToMSN ;
+    private Map<String,String> allUserLoggingPath ;
 
     private String path ;
     public MSNParser (String path) {
@@ -40,7 +43,7 @@ public class MSNParser {
     }
 
     public void parse () throws IOException {
-        ArrayList<String> msnPathes = getMSNHistoryPath();
+        List<String> msnPathes = getMSNHistoryPath();
 
         for (String line: msnPathes) {
             int value = getLoggingValue(line);
@@ -57,17 +60,17 @@ public class MSNParser {
         }
     }
 
-    public ArrayList<String> getAllUserLoggingToMsn () {
+    public List<String> getAllUserLoggingToMsn () {
         return allUserLoggingToMSN ;
     }
 
-    public HashMap<String,String> getAllUserLoggingPath () {
+    public Map<String,String> getAllUserLoggingPath () {
         return allUserLoggingPath ;
     }
 
     private String getMessagePathFromKey (String path) throws IOException {
-        ArrayList<String> result  = queryRegistryForSubKeys(path + MESSAGE_PATH);
-        ArrayList<String> newPath = parseKey(result);
+        List<String> result  = queryRegistryForSubKeys(path + MESSAGE_PATH);
+        List<String> newPath = parseKey(result);
         String line = newPath.get(0).trim() ;
 
         String msgPath = getPath(line);
@@ -81,8 +84,8 @@ public class MSNParser {
     }
 
     private String getUserNameFromKey (String path) throws IOException {
-        ArrayList<String> result  = queryRegistryForSubKeys(path + USER_NAME_KEY);
-        ArrayList<String> newPath = parseKey(result);
+        List<String> result  = queryRegistryForSubKeys(path + USER_NAME_KEY);
+        List<String> newPath = parseKey(result);
         String line = newPath.get(0).trim() ;
         String userName = getEmail(line);
 
@@ -96,8 +99,8 @@ public class MSNParser {
         return email ;
     }
 
-    private ArrayList<String> parseKey (ArrayList<String> oldList) {
-        ArrayList<String> newList = new ArrayList<String>();
+    private List<String> parseKey (List<String> oldList) {
+        List<String> newList = new ArrayList<String>();
 
         for (String line: oldList ) {
             if ( ! line.isEmpty()  && ! line.startsWith("! REG.EXE VERSION 3.0") && !line.startsWith("HKEY_CURRENT_USER") ) {
@@ -114,8 +117,8 @@ public class MSNParser {
         -1 means not valid logging
     */
     private int getLoggingValue (String path) throws IOException {
-        ArrayList<String> result  = queryRegistryForSubKeys(path + Valid_LOGGING_KEY);
-        ArrayList<String> newPath = parseValues(result);
+        List<String> result  = queryRegistryForSubKeys(path + Valid_LOGGING_KEY);
+        List<String> newPath = parseValues(result);
 
         for (String line: newPath) {
             if ( line.startsWith("Error:") )
@@ -129,8 +132,8 @@ public class MSNParser {
         return -1 ;
     }
 
-    private ArrayList<String> parseValues (ArrayList<String> oldList) {
-        ArrayList<String> newList = new ArrayList<String>();
+    private List<String> parseValues (List<String> oldList) {
+        List<String> newList = new ArrayList<String>();
 
         for (String line: oldList ) {
             if ( ! line.isEmpty()  && ! line.startsWith("! REG.EXE VERSION 3.0") && line.trim().startsWith("MessageLoggingEnabled") ) {
@@ -141,11 +144,11 @@ public class MSNParser {
         return newList ;
     }
 
-    public ArrayList<String> getMSNHistoryPath () throws IOException {
-        ArrayList<String> subkeys = queryRegistryForSubKeys();
-        ArrayList<String> result  = new ArrayList<String>();
+    public List<String> getMSNHistoryPath () throws IOException {
+        List<String> subkeys = queryRegistryForSubKeys();
+        List<String> result  = new ArrayList<String>();
 
-        ArrayList<String> newSubKeys = parseSubKeys(subkeys);
+        List<String> newSubKeys = parseSubKeys(subkeys);
 
         for (String subkey: newSubKeys) {
             result.add( subkey );
@@ -154,8 +157,8 @@ public class MSNParser {
         return (result);
     }
 
-    private ArrayList<String> parseSubKeys (ArrayList<String> oldList) {
-        ArrayList<String> newList = new ArrayList<String>();
+    private List<String> parseSubKeys (List<String> oldList) {
+        List<String> newList = new ArrayList<String>();
 
         for (String line: oldList ) {
             if ( ! line.isEmpty()  && line.startsWith("HKEY_CURRENT_USER") && ! line.equals(MSN_SETTINGS) ) {
@@ -166,13 +169,13 @@ public class MSNParser {
         return newList ;
     }
 
-    private ArrayList<String> queryRegistryForSubKeys () throws IOException  {
+    private List<String> queryRegistryForSubKeys () throws IOException  {
         return queryRegistryForSubKeys(MSN_SETTINGS);
     }
 
-    private ArrayList<String> queryRegistryForSubKeys (String command) throws IOException  {
+    private List<String> queryRegistryForSubKeys (String command) throws IOException  {
         String query = path + " QUERY " + command ;
-        return ( Utilities.readProgramOutputStream( query)  );
+        return ( FileUtil.readProgramOutputStream( query)  );
     }
 
     // msn raeder

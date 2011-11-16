@@ -36,7 +36,7 @@ public class FileUtilTest {
         FileUtil.saveObject(stream, "test.txt", "C:\\");
         
         try {
-            assertEquals(123, Utilities.getFileContent(new File("C:\\test.txt")).charAt(0));
+            assertEquals(123, FileUtil.getFileContent(new File("C:\\test.txt")).charAt(0));
         }
         catch(Exception e) {
             
@@ -50,7 +50,7 @@ public class FileUtilTest {
         FileUtil.saveObject(stream, "", "C:\\");
         
         try {
-            assertEquals(123, Utilities.getFileContent(new File("C:\\test.txt")).charAt(0));
+            assertEquals(123, FileUtil.getFileContent(new File("C:\\test.txt")).charAt(0));
         }
         catch(Exception e) {
             
