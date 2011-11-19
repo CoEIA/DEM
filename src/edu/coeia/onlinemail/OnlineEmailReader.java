@@ -2,6 +2,8 @@ package edu.coeia.onlinemail;
 
 import edu.coeia.indexing.EmailDownDialogue;
 import edu.coeia.util.FileUtil;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import static edu.coeia.util.PreconditionsChecker.*;
 
 import java.io.IOException;
@@ -120,8 +122,44 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
         this.password = password;
         this.attachmentsPath = attachmentsPath;
 
+    
         this.emaildialogue = dialogue;
         
+        
+        this.emaildialogue.addWindowListener(new WindowListener() {
+
+          
+         
+            public void windowClosed(WindowEvent e) {
+                
+                cancel(true);
+                
+            }
+
+            public void windowOpened(WindowEvent e) {
+                
+            }
+
+            public void windowClosing(WindowEvent e) {
+                
+            }
+
+            public void windowIconified(WindowEvent e) {
+                
+            }
+
+            public void windowDeiconified(WindowEvent e) {
+                
+            }
+
+            public void windowActivated(WindowEvent e) {
+                
+            }
+
+            public void windowDeactivated(WindowEvent e) {
+                
+            }
+        });
         FileUtil.createFolder(attachmentsPath);
 
         boolean create = OnlineEmailDBHandler.isDBExists(dbPath);
@@ -143,6 +181,8 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
         }
 
     }
+    
+    
 
     /**
      * return Iterator to get EmailMesaages
@@ -157,6 +197,9 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
     protected Void doInBackground() throws Exception {
 
         int count = 0;
+        
+        if (isCancelled())
+            return null;
 
         javax.mail.Folder[] folders = store.getDefaultFolder().list("*");
         for (javax.mail.Folder folder : folders) {
@@ -236,7 +279,7 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
     protected void process(List<ProgressData> chunks) {
 
             if (isCancelled()) {
-            return;
+            return ;
             }
 
             for (ProgressData pd : chunks) {

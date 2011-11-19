@@ -57,7 +57,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jSeparator1" pref="1" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="indexFooterPanel" min="-2" pref="63" max="-2" attributes="0"/>
+              <Component id="indexFooterPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -255,27 +255,23 @@
                                           <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="GmailCheckBox" min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                              <Component id="UserNameGmailTextField" alignment="0" pref="169" max="32767" attributes="1"/>
-                                              <Component id="PasswordGmailTextField" alignment="0" max="32767" attributes="1"/>
-                                          </Group>
+                                          <Component id="UserNameGmailTextField" alignment="0" pref="169" max="32767" attributes="1"/>
+                                          <Component id="PasswordGmailTextField" alignment="0" max="32767" attributes="1"/>
                                       </Group>
                                   </Group>
                                   <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="HotmailCheckBox" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="PasswordHotmailTextField" alignment="0" pref="174" max="32767" attributes="1"/>
-                                      <Component id="UserNameHotmailTextField" alignment="0" max="32767" attributes="1"/>
-                                  </Group>
+                                  <Component id="PasswordHotmailTextField" alignment="0" pref="171" max="32767" attributes="1"/>
+                                  <Component id="UserNameHotmailTextField" alignment="0" max="32767" attributes="1"/>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="90" max="32767" attributes="0"/>
+                      <EmptySpace pref="95" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -400,21 +396,27 @@
             </Component>
             <Component class="javax.swing.JTextField" name="UserNameGmailTextField">
             </Component>
-            <Component class="javax.swing.JTextField" name="PasswordGmailTextField">
-            </Component>
             <Component class="javax.swing.JTextField" name="UserNameHotmailTextField">
-            </Component>
-            <Component class="javax.swing.JTextField" name="PasswordHotmailTextField">
             </Component>
             <Component class="javax.swing.JCheckBox" name="GmailCheckBox">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Gmail"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GmailCheckBoxActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JCheckBox" name="HotmailCheckBox">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Hotmail"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="HotmailCheckBoxActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JPasswordField" name="PasswordGmailTextField">
+            </Component>
+            <Component class="javax.swing.JPasswordField" name="PasswordHotmailTextField">
             </Component>
           </SubComponents>
         </Container>
@@ -462,7 +464,7 @@
                               <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="61" max="32767" attributes="0"/>
+                      <EmptySpace pref="63" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
