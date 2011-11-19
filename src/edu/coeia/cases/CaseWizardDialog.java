@@ -22,6 +22,8 @@ import java.awt.Frame;
 import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /*
  * IndexWizard.java
@@ -71,6 +73,21 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         // creating model for all lists
         documentModel = new DefaultListModel();
+
+        // add listener for index name text feild
+        caseNameTextField.getDocument().addDocumentListener(new DocumentListener() {
+
+            public void insertUpdate(DocumentEvent e) {
+                checkforCaseLocationPath();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                checkforCaseLocationPath();
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
 
 
 

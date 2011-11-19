@@ -219,6 +219,10 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
             for (Message message : messages) {
 
 
+
+                if (isCancelled()) {
+                    return null;
+                }
                 // Get cc
                 List<String> cclist = getAddress(message, Message.RecipientType.BCC);
                 String ccBuilder = getFormattedString(cclist);
