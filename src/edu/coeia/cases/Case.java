@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Collections;
 
 public class Case implements Serializable {
@@ -26,6 +25,7 @@ public class Case implements Serializable {
     private final String description;
     private final Date createTime;
     private final long caseSize;
+    
     // Optional Paramaters for case
     private boolean isIndex;
     private boolean isHash;
@@ -36,12 +36,11 @@ public class Case implements Serializable {
     private boolean isIndexEmbedded;
     private boolean isCacheImages;
     private boolean isExcludeFileSystems;
+    
     // index history information
-    private boolean indexStatus;
-    private String lastIndexDate;
-    private String indexingTime;
+    //private boolean indexStatus;
     private String caseSource;
-    //private int dataIndexedCount, dataIndexedSize ;
+    
     // Email Configuation
     private List<EmailConfig> emailInfo;
 
@@ -53,9 +52,7 @@ public class Case implements Serializable {
         this.description = builder.description;
         this.createTime = builder.createTime;
         this.caseSize = builder.caseSize;
-        this.indexStatus = builder.indexStatus;
-        this.lastIndexDate = builder.lastIndexDate;
-        this.indexingTime = builder.indexingTime;
+        //this.indexStatus = builder.indexStatus;
         this.caseSource = builder.caseSource;
         this.emailInfo = builder.emailInfo;
 
@@ -89,11 +86,9 @@ public class Case implements Serializable {
         private boolean isCacheImages = false;
         private boolean isExcludeFileSystems = false;
         private List<EmailConfig> emailInfo;
+        
         // index history information
         private boolean indexStatus = false;
-        private String lastIndexDate = "";
-        private String indexingTime = "";
-        //private int dataIndexedCount, dataIndexedSize ;
 
         public Builder(String indexName, String indexLocation, String investigatorName,
                 String description, String caseSource, Date createTime, long caseSize) {
@@ -203,17 +198,6 @@ public class Case implements Serializable {
         return this.emailInfo;
     }
 
-    // used to update case status after indexing
-    // Wajdy: to be removed when find other way to store case information!
-    public void setIndexStatus(boolean status) {
-    }
-
-    public void setLastIndexDate(String value) {
-    }
-
-    public void setIndexingTime(String value) {
-    }
-
     public String getIndexName() {
         return this.indexName;
     }
@@ -234,9 +218,9 @@ public class Case implements Serializable {
         return this.description;
     }
 
-    public boolean getIndexStatus() {
-        return this.indexStatus;
-    }
+//    public boolean getIndexStatus() {
+//        return this.indexStatus;
+//    }
 
     public List<String> getDocumentInIndex() {
 
@@ -267,13 +251,5 @@ public class Case implements Serializable {
     
     public boolean getCheckEmbedded() {
         return isIndexEmbedded;
-    }
-
-    public String getLastIndexDate() {
-        return this.lastIndexDate;
-    }
-
-    public String getIndexingTime() {
-        return this.indexingTime;
     }
 }

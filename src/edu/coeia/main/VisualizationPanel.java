@@ -16,6 +16,7 @@ package edu.coeia.main;
  */
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseHistoryHandler;
 import edu.coeia.indexing.IndexReaderThread ;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.util.FilesPath;
@@ -138,7 +139,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
     
     private void generateVisualization() {
         try {
-            if (caseObj.getIndexStatus() == false) {
+            if (CaseHistoryHandler.get(this.caseObj.getIndexName()).getIsCaseIndexed() == false ) {
                 JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                         "Case is not indexed", JOptionPane.ERROR_MESSAGE);
                 return;

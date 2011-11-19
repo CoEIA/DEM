@@ -20,7 +20,7 @@ import java.util.Date ;
 import java.util.prefs.BackingStoreException;
 import static edu.coeia.util.PreconditionsChecker.* ;
 
-final class CaseHistoryHandler {
+public final class CaseHistoryHandler {
    
     /**
      * constant used for storing variable into registry (the default
@@ -39,7 +39,7 @@ final class CaseHistoryHandler {
      * the case must be indexed before written into storing location
      * or it will not written on registry 
      */
-    static void set (final CaseHistory caseHistory) {
+    public static void set (final CaseHistory caseHistory) {
         checkNull("caseHistory cannot be null object", caseHistory);
 
         if ( caseHistory.getIsCaseIndexed() ) {
@@ -61,34 +61,25 @@ final class CaseHistoryHandler {
      * @return CaseHistory object that hold history information for this <tt>caseName</tt>
      * @throws NullPointerException if <tt>caseName</tt> is not exists
      */
-    static CaseHistory get (final String caseName) {
+    public static CaseHistory get (final String caseName) {
         checkNull("case name must be not null", caseName);
         checkNotEmptyString("case name must have value", caseName);
         
         Preferences root = Preferences.userRoot();
         
         CaseHistory history = null ;
-        
-        try {
-            if ( root.nodeExists(CaseHistoryHandler.DEM_CASES_NODES_PATH + caseName)) {
-                Preferences node = root.node(CaseHistoryHandler.DEM_CASES_NODES_PATH + caseName) ;
-                
-                history = CaseHistory.newInstance(
-                    node.get(CASE_NAME, caseName),
-                    node.get(CASE_TIME, new Date().toString()),
-                    node.getBoolean(CASE_STATUS, false),
-                    node.getLong(CASE_ITEMS, 0),
-                    node.getLong(CASE_SIZE, 0)
-                );
-                
-                return history;
-            }
-        }
-        catch(BackingStoreException e) {
-            throw new NullPointerException("Cannot find Histoy for this case: " + caseName);
-        }
-        
-        throw new NullPointerException("Cannot find Histoy for this case: " + caseName);
+
+        Preferences node = root.node(CaseHistoryHandler.DEM_CASES_NODES_PATH + caseName) ;
+
+        history = CaseHistory.newInstance(
+            node.get(CASE_NAME, caseName),
+            node.get(CASE_TIME, "Case is not modified"),
+            node.getBoolean(CASE_STATUS, false),
+            node.getLong(CASE_ITEMS, 0),
+            node.getLong(CASE_SIZE, 0)
+        );
+
+        return history;
     }
     
     /**
@@ -121,7 +112,7 @@ final class CaseHistoryHandler {
     /**
      * Container for holding case history information
      */
-    static final class CaseHistory {
+    public static final class CaseHistory {
         private String caseName ;
         private String lastModified ;
         private boolean isCaseIndexed ;

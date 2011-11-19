@@ -34,6 +34,7 @@ import java.util.ArrayList;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
+import edu.coeia.cases.CaseHistoryHandler;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Fieldable;
 
@@ -644,7 +645,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private void startSearching () {
         removeSearchField(false,false);
 
-        if ( caseObj.getIndexStatus() == false ) {
+        if ( CaseHistoryHandler.get(this.caseObj.getIndexName()).getIsCaseIndexed() == false ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
             return ;

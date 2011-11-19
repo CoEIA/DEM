@@ -35,13 +35,6 @@ public class CaseHistoryHandlerTest {
         assertEquals(true, CaseHistoryHandler.remove(history.getCaseName()));
     }
     
-    @Test(expected=NullPointerException.class)
-    public void handleNotExistsCaseHistoryTest() {
-        CaseHistoryHandler.CaseHistory history = CaseHistoryHandler.CaseHistory.newInstance(
-                "test22", new Date().toString(), true, 34534, 34534534);
-        CaseHistoryHandler.get(history.getCaseName());
-        
-    }
     
     @Test(expected=NullPointerException.class)
     public void handleNullCaseHistoryNameTest() {
@@ -52,13 +45,5 @@ public class CaseHistoryHandlerTest {
     public void handleRemoveNotExistsCaseHistoryNameTest() {
         assertEquals(false, CaseHistoryHandler.remove("this is invalid case history name"));
     }
-    
-    @Test(expected=NullPointerException.class)
-    public void handleSetNotIndexedCaseHistoryTest() {
-        CaseHistoryHandler.CaseHistory history = CaseHistoryHandler.CaseHistory.newInstance
-                ("testing", new Date().toString(), false, 324, 435);
-        CaseHistoryHandler.set(history);
-        
-        CaseHistoryHandler.get(history.getCaseName());
-    }
+ 
 }

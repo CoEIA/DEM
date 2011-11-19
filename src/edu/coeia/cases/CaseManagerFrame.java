@@ -460,7 +460,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     private void insertIntoCaseTable (Case index) {
         DefaultTableModel model = (DefaultTableModel) recentCaseTable.getModel();
         model.addRow( new Object[] {index.getIndexName(), index.getInvestigatorName(), DateUtil.formatDateTime(index.getCreateTime()), index.getDescription(),
-            index.getIndexStatus() });
+            CaseHistoryHandler.get(index.getIndexName()).getIsCaseIndexed() });
     }
     
     private String getSelectedCase () {
@@ -487,10 +487,9 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 mainFrame.setLocationRelativeTo(this);
                 mainFrame.setVisible(true);
                 
-                if ( !index.getIndexStatus() ) {
+                if ( ! CaseHistoryHandler.get(index.getIndexName()).getIsCaseIndexed() ) {
                     logger.info("show direct indexing panel");
                     mainFrame.showIndexDialog(startIndex);
-                    
                 }
             }
             else {
@@ -521,6 +520,9 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
                 // write new index information to file
                 FileUtil.writeToFile(newIndexPtr, FilesPath.INDEXES_INFO);
+                
+                // remove case history from preferences
+                CaseHistoryHandler.remove(index.getIndexName());
             }
         }
         catch (IOException e) {

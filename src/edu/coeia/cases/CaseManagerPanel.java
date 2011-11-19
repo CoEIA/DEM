@@ -44,6 +44,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         
         // update case information panel
         displayCaseInformationPanel();
+        displayMutableCaseInformationPanel();
     }
 
     /** This method is called from within the constructor to
@@ -73,7 +74,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         createdByTextField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        caseSizeTextField = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         caseSourcesTextView = new javax.swing.JTextArea();
@@ -152,14 +153,14 @@ public class CaseManagerPanel extends javax.swing.JPanel {
 
         jLabel10.setText("Case Size:");
 
-        jTextField1.setEditable(false);
-        jTextField1.setText(" ");
+        caseSizeTextField.setEditable(false);
+        caseSizeTextField.setText(" ");
 
         jLabel11.setText("Case Sources:");
 
         caseSourcesTextView.setColumns(20);
         caseSourcesTextView.setEditable(false);
-        caseSourcesTextView.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
+        caseSourcesTextView.setFont(new java.awt.Font("Courier New", 0, 12));
         caseSourcesTextView.setRows(5);
         jScrollPane2.setViewportView(caseSourcesTextView);
 
@@ -183,7 +184,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(caseSizeTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                     .addComponent(caseDescriptionTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                     .addComponent(itemIndexedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                     .addComponent(indexedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
@@ -232,7 +233,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(caseSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(caseInformationPanelLayout.createSequentialGroup()
@@ -301,7 +302,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
 
         tagContentTextArea.setColumns(20);
         tagContentTextArea.setEditable(false);
-        tagContentTextArea.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
+        tagContentTextArea.setFont(new java.awt.Font("Courier New", 0, 14));
         tagContentTextArea.setRows(5);
         jScrollPane3.setViewportView(tagContentTextArea);
 
@@ -654,6 +655,19 @@ public class CaseManagerPanel extends javax.swing.JPanel {
             this.caseSourcesTextView.append(doc + "\n");
     }
     
+    /**
+     * Display information on case panel
+     * this information will be changed after each indexing
+     */
+    private void displayMutableCaseInformationPanel() {
+        CaseHistoryHandler.CaseHistory history = CaseHistoryHandler.get(this.aCase.getIndexName());
+        
+        this.lastModifiedTextField.setText(history.getLastModified());
+        this.indexedTextField.setText(String.valueOf(history.getIsCaseIndexed()));
+        this.itemIndexedTextField.setText(String.valueOf(history.getNumberOfItemsIndexed()));
+        this.caseSizeTextField.setText(String.valueOf(history.getCaseSize()));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel caseControllerPanel;
     private javax.swing.JTextField caseDescriptionTextField;
@@ -665,6 +679,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     private javax.swing.JTextField caseNameTextField;
     private javax.swing.JTextField casePathTextField;
     private javax.swing.JPanel caseSavePanel;
+    private javax.swing.JTextField caseSizeTextField;
     private javax.swing.JTextArea caseSourcesTextView;
     private javax.swing.JPanel caseTagControllerPanel;
     private javax.swing.JPanel caseTagVeiwerPanel;
@@ -693,7 +708,6 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField lastModifiedTextField;
     private javax.swing.JButton newTagsButton;
     private javax.swing.JButton nextButton;
