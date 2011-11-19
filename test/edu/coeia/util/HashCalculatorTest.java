@@ -9,6 +9,7 @@ package edu.coeia.util;
  * @author wajdyessam
  */
 
+import edu.coeia.hash.HashCalculator;
 import org.junit.Test;
 import static org.junit.Assert.* ;
 

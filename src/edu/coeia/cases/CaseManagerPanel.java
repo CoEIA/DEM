@@ -14,7 +14,7 @@ import edu.coeia.main.CaseFrame;
 import edu.coeia.tags.TagsManager;
 import edu.coeia.tags.Tag ;
 
-import edu.coeia.util.HashVerifier;
+import edu.coeia.hash.HashVerifier;
 import java.util.List ;
 import javax.swing.JOptionPane;
 import org.apache.commons.httpclient.util.DateUtil;
