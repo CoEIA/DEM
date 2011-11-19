@@ -722,7 +722,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }
     
     private void disableNotIndexedComponent () {
-        if ( caseObj.getDocumentInIndex().isEmpty() ) {
+        if ( caseObj.getEvidenceSourceLocation().isEmpty() ) {
             startSearchingButton.setEnabled(false);
 //            clearFieldsButton.setEnabled(false);
 //            keywordsListButton.setEnabled(false);

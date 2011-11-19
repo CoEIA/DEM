@@ -100,7 +100,7 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
          
         // index selected files
         logger.log(Level.INFO, "Start Index Files");
-        for ( String dirName : caseObject.getDocumentInIndex() ) {
+        for ( String dirName : caseObject.getEvidenceSourceLocation() ) {
             File file = new File(dirName);
             System.out.println("File: " + file.getAbsolutePath());
             boolean ignoreEmail = true;

@@ -501,7 +501,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     private void verifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verifyButtonActionPerformed
         String hash = this.caseHashValueTextField.getText().trim();
         if ( !hash.isEmpty() )
-            HashVerifier.newInstance(this.parent, hash, this.aCase.getDocumentInIndex().get(0)).start();
+            HashVerifier.newInstance(this.parent, hash, this.aCase.getEvidenceSourceLocation().get(0)).start();
         else
             JOptionPane.showMessageDialog(this, "Please enter the original hash value",
                     "Missing Hash Value", JOptionPane.ERROR_MESSAGE);
@@ -651,7 +651,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         this.casePathTextField.setText(this.aCase.getIndexLocation());
         this.caseDescriptionTextField.setText(this.aCase.getDescription());
         
-        for(String doc: this.aCase.getDocumentInIndex())
+        for(String doc: this.aCase.getEvidenceSourceLocation())
             this.caseSourcesTextView.append(doc + "\n");
     }
     
