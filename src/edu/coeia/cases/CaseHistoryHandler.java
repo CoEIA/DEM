@@ -15,7 +15,6 @@ package edu.coeia.cases;
  */
 
 import java.util.prefs.Preferences ;
-import java.util.Date ;
 
 import java.util.prefs.BackingStoreException;
 import static edu.coeia.util.PreconditionsChecker.* ;

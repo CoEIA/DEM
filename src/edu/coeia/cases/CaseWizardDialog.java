@@ -987,12 +987,12 @@ private void HotmailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//G
 
         if (GmailCheckBox.isSelected()) {
 
-            if (UserNameGmailTextField.getText().isEmpty()) {
+            if (UserNameGmailTextField.getText().trim().isEmpty()) {
                 showErrorMessage("Username of Gmail is Empty ", "Please Write UserName");
                 return false;
             }
 
-            if (PasswordGmailTextField.getText().isEmpty()) {
+            if (PasswordGmailTextField.getPassword().length <= 0) {
 
                 showErrorMessage("Password is of Gmail Empty ", "Please Write Password");
                 return false;
@@ -1000,12 +1000,12 @@ private void HotmailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//G
             }
 
         } else if (HotmailCheckBox.isSelected()) {
-            if (UserNameHotmailTextField.getText().isEmpty()) {
+            if (UserNameHotmailTextField.getText().trim().isEmpty()) {
                 showErrorMessage("Username of Hotmail is Empty ", "Please Write UserName");
                 return false;
             }
 
-            if (PasswordHotmailTextField.getText().isEmpty()) {
+            if (PasswordHotmailTextField.getPassword().length <= 0) {
 
                 showErrorMessage("Password is of Hotmail Empty ", "Please Write Password");
                 return false;
