@@ -2,13 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.util;
+package edu.coeia.hash;
 
 /**
  *
  * @author wajdyessam
  */
 
+import edu.coeia.util.FileUtil;
 import static edu.coeia.util.PreconditionsChecker.* ;
 
 import java.security.MessageDigest ;

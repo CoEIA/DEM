@@ -169,23 +169,23 @@ public enum CaseManager {
         if  ( ! root.exists() )
             root.mkdir();   // make offline folder in applicationData
         
-         if  ( ! cases.exists() )
-             cases.mkdir();  // make offlinemining\cases
+        if  ( ! cases.exists() )
+            cases.mkdir();  // make offlinemining\cases
 
-         if  ( ! indexesInfo.exists() )
-             indexesInfo.createNewFile();  // make offlinemining\indexes.txt
+        if  ( ! indexesInfo.exists() )
+            indexesInfo.createNewFile();  // make offlinemining\indexes.txt
 
-         if  ( ! tmpFile.exists() )
-             tmpFile.mkdir();
+        if  ( ! tmpFile.exists() )
+            tmpFile.mkdir();
 
-         if ( !logFile.exists() ) 
-             logFile.mkdir();
-         
-         if ( !attachments.exists() )
-             attachments.mkdir();
-         
-         if ( ! emailDB.exists())
-             emailDB.mkdir();
+        if ( !logFile.exists() ) 
+            logFile.mkdir();
+
+        if ( !attachments.exists() )
+            attachments.mkdir();
+
+        if ( ! emailDB.exists())
+            emailDB.mkdir();
          
         // craete tmp files
         new File(FilesPath.HIS_TMP).createNewFile();
