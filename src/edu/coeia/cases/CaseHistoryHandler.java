@@ -37,25 +37,21 @@ final class CaseHistoryHandler {
     /**
      * Write Case information into preference locations
      * the case must be indexed before written into storing location
-     * @param aCase the case to be written its history
-     * @param itemsCount the number of items indexed in the case
-     * @param caseSize the size of evidence source
+     * or it will not written on registry 
      */
-    static void set (final Case aCase, final long itemsCount, final long caseSize) {
-        checkNull("case cannot be null object", aCase);
-        
-        String caseName = aCase.getIndexName() ;
-        
-        if ( aCase.getIndexStatus() ) {
+    static void set (final CaseHistory caseHistory) {
+        checkNull("caseHistory cannot be null object", caseHistory);
+
+        if ( caseHistory.getIsCaseIndexed() ) {
             Preferences root = Preferences.userRoot();
-            Preferences node = root.node(CaseHistoryHandler.DEM_CASES_NODES_PATH + caseName);
+            Preferences node = root.node(CaseHistoryHandler.DEM_CASES_NODES_PATH + caseHistory.caseName);
             
             // write history
-            node.put(CASE_NAME, caseName);
-            node.put(CASE_TIME, new Date().toString());
-            node.putBoolean(CASE_STATUS, true);
-            node.putLong(CASE_ITEMS, itemsCount);
-            node.putLong(CASE_SIZE, caseSize);
+            node.put(CASE_NAME, caseHistory.caseName);
+            node.put(CASE_TIME, caseHistory.lastModified);
+            node.putBoolean(CASE_STATUS, caseHistory.isCaseIndexed);
+            node.putLong(CASE_ITEMS, caseHistory.numberOfItemsIndexed);
+            node.putLong(CASE_SIZE, caseHistory.caseSize);
         }
     }
     
@@ -63,6 +59,7 @@ final class CaseHistoryHandler {
      * Get case history information
      * @param caseName the name of case we want to extract its history
      * @return CaseHistory object that hold history information for this <tt>caseName</tt>
+     * @throws NullPointerException if <tt>caseName</tt> is not exists
      */
     static CaseHistory get (final String caseName) {
         checkNull("case name must be not null", caseName);
@@ -83,13 +80,15 @@ final class CaseHistoryHandler {
                     node.getLong(CASE_ITEMS, 0),
                     node.getLong(CASE_SIZE, 0)
                 );
+                
+                return history;
             }
         }
         catch(BackingStoreException e) {
             throw new NullPointerException("Cannot find Histoy for this case: " + caseName);
         }
         
-        return history;
+        throw new NullPointerException("Cannot find Histoy for this case: " + caseName);
     }
     
     /**
