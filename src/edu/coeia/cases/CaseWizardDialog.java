@@ -1,25 +1,12 @@
 package edu.coeia.cases;
 
-import chrriis.dj.nativeswing.swtimpl.components.JFileDialog;
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
-import edu.coeia.chat.MSNParser;
-import edu.coeia.chat.SkypeParser;
-import edu.coeia.chat.SkypeMessage;
-
 import edu.coeia.util.FilesPath;
-import edu.coeia.util.Tuple;
 import edu.coeia.internet.FilesFilter;
-import edu.coeia.util.Utilities;
-
-import edu.coeia.detector.OutlookDetector;
-import edu.coeia.detector.FirefoxDetector;
-import edu.coeia.detector.RegistryDetector;
-import edu.coeia.detector.UsersDetector;
-import edu.coeia.detector.YahooDetector ;
 import edu.coeia.indexing.EmailDownDialogue;
-import edu.coeia.main.SmartCardDialog;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,24 +17,17 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultListModel;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
-import java.util.List ;
+import java.util.List;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import java.io.File;
-import java.io.IOException;
-
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 import java.awt.Frame;
-import java.awt.datatransfer.StringSelection;
 import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /*
  * IndexWizard.java
@@ -57,53 +37,64 @@ import javax.swing.JFrame;
  * Created on Jul 13, 2010, 2:00:51 PM
  * 
  */
-
-public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
+public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
     private DefaultListModel documentModel;
     private DefaultListModel msnModel, yahooModel, skypeModel;
     private DefaultListModel pstModel;
     private DefaultListModel ieModel, ffModel;
-
     private Case currentCase;
     private String PATH = FilesPath.CASES_PATH;
-
     private String CaseSource;
-  
     private Frame parent;
     private boolean isFullVersion;
-
     private JFileChooser fileChooser;
-    
     boolean indexTheCase = false;   // index the case after create it
     /*
      * Wizard CardLayout - Panels Names
      */
-    private String[] cardsName = {"indexInfoPanel","CaseWizardA1","CaseWizardA2","CaseWizardA3"};
+    private String[] cardsName = {"indexInfoPanel", "CaseWizardA1", "CaseWizardA2", "CaseWizardA3"};
     private int currentIndex = 0;
-    
 
     /** Creates new form IndexWizard */
     public CaseWizardDialog(java.awt.Frame parent, boolean modal, boolean isFullVersion) {
         super(parent, modal);
         initComponents();
-        
+
         this.parent = parent;
         this.isFullVersion = isFullVersion;
 
+        UserNameGmailTextField.setEnabled(false);
+        PasswordGmailTextField.setEnabled(false);
+        UserNameHotmailTextField.setEnabled(false);
+        PasswordHotmailTextField.setEnabled(false);
         // show first card indexInfoPanel and disable back button and finish button
         showPanel(cardsName[0], indexWizardPanel);
         backButton.setEnabled(false);
         finishButton.setEnabled(false);
-        
+
         setLocationRelativeTo(parent);
 
-        
         // creating model for all lists
         documentModel = new DefaultListModel();
-        
 
-       
+        // add listener for index name text feild
+        caseNameTextField.getDocument().addDocumentListener(new DocumentListener() {
+
+            public void insertUpdate(DocumentEvent e) {
+                checkforCaseLocationPath();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                checkforCaseLocationPath();
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
+
+
+
     }
 
     /** This method is called from within the constructor to
@@ -140,11 +131,11 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         UserNameGmailTextField = new javax.swing.JTextField();
-        PasswordGmailTextField = new javax.swing.JTextField();
         UserNameHotmailTextField = new javax.swing.JTextField();
-        PasswordHotmailTextField = new javax.swing.JTextField();
         GmailCheckBox = new javax.swing.JCheckBox();
         HotmailCheckBox = new javax.swing.JCheckBox();
+        PasswordGmailTextField = new javax.swing.JPasswordField();
+        PasswordHotmailTextField = new javax.swing.JPasswordField();
         CaseWizardA2 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -308,8 +299,18 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
         jLabel13.setText("Provider");
 
         GmailCheckBox.setText("Gmail");
+        GmailCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GmailCheckBoxActionPerformed(evt);
+            }
+        });
 
         HotmailCheckBox.setText("Hotmail");
+        HotmailCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HotmailCheckBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout CaseWizardA1Layout = new javax.swing.GroupLayout(CaseWizardA1);
         CaseWizardA1.setLayout(CaseWizardA1Layout);
@@ -330,19 +331,17 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
                                     .addComponent(jLabel11)
                                     .addComponent(jLabel12))
                                 .addGap(39, 39, 39)
-                                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(GmailCheckBox)
-                                    .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(UserNameGmailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                                        .addComponent(PasswordGmailTextField))))
+                                    .addComponent(UserNameGmailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                                    .addComponent(PasswordGmailTextField)))
                             .addComponent(jLabel10))
                         .addGap(61, 61, 61)
-                        .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(HotmailCheckBox)
-                            .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(PasswordHotmailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                                .addComponent(UserNameHotmailTextField)))))
-                .addContainerGap(90, Short.MAX_VALUE))
+                            .addComponent(PasswordHotmailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
+                            .addComponent(UserNameHotmailTextField))))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
         CaseWizardA1Layout.setVerticalGroup(
             CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -444,7 +443,7 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
                     .addGroup(CaseWizardA2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel17)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
         CaseWizardA2Layout.setVerticalGroup(
             CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -622,7 +621,7 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
         indexHeaderPanel.setMaximumSize(new java.awt.Dimension(628, 76));
         indexHeaderPanel.setPreferredSize(new java.awt.Dimension(628, 76));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24));
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/2 copy.jpg"))); // NOI18N
         jLabel5.setText(" ");
@@ -664,7 +663,7 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -673,14 +672,14 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
 
     private void checkforCaseLocationPath() {
         String text = caseNameTextField.getText().trim();
-        
-        if (! CaseNameChecker.isInvalidText(text)) {
+
+        if (!CaseNameChecker.isInvalidText(text)) {
             caseLocationTextField.setText(PATH + "\\" + text);
         } else {
             String word = CaseNameChecker.removeInvalid(text);
             caseLocationTextField.setText(PATH + "\\" + word);
         }
-    }    
+    }
 
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
         JDirectoryDialog directoryDialog = new JDirectoryDialog();
@@ -700,41 +699,40 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         switch (currentIndex) {
-                case 0:
-               if ( checkWizardFirstPanel() )
-                next();
+            case 0:
+                if (checkWizardFirstPanel()) {
+                    next();
+                }
                 break;
-                
-                case 1:
-                if ( checkWizardSecondPanel() )
-                next();
+
+            case 1:
+                if (checkWizardSecondPanel()) {
+                    next();
+                }
                 break;
-                case 2:
+            case 2:
                 nextLast();
-                 break;
-               
-       }
+                break;
+
+        }
     }//GEN-LAST:event_nextButtonActionPerformed
-        
+
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         switch (currentIndex) {
-            
+
             case 1:
-                 backFirst();
+                backFirst();
                 break;
 
             case 2:
                 back();
                 break;
-           case 3:
+            case 3:
                 back();
-                break;     
-                
-
-                
+                break;
         }
     }//GEN-LAST:event_backButtonActionPerformed
-   
+
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         currentCase = null;
         dispose();
@@ -750,104 +748,109 @@ public class CaseWizardDialog extends javax.swing.JDialog  implements  Runnable{
             addToList(path, model, list);
         }
     }
-    
-    private void autoDetectIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectIEButtonActionPerformed
 
+    private void autoDetectIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectIEButtonActionPerformed
     }//GEN-LAST:event_autoDetectIEButtonActionPerformed
 
     private void autoDetectFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectFFButtonActionPerformed
     }//GEN-LAST:event_autoDetectFFButtonActionPerformed
 
     private void autoDetectMSNButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectMSNButtonActionPerformed
-
     }//GEN-LAST:event_autoDetectMSNButtonActionPerformed
 
     private void autoDetectYahooButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectYahooButtonActionPerformed
-
     }//GEN-LAST:event_autoDetectYahooButtonActionPerformed
 
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
-            
+
         List<EmailConfig> emailInfos = new ArrayList<EmailConfig>();
-        
+
+
         // get email data if user add emails
-        if ( this.GmailCheckBox.isSelected() ) {
+        if (this.GmailCheckBox.isSelected()) {
             String user = this.UserNameGmailTextField.getText().trim();
-            String pass = this.PasswordGmailTextField.getText().trim() ;
+            String pass = this.PasswordGmailTextField.getText().trim();
             EmailConfig.SOURCE source = EmailConfig.SOURCE.GMAIL;
-            
+
             // check input
             // TODO: check inputs when selecting radio button in email page
             // and show message
-            if ( user.isEmpty() || pass.isEmpty() ) {
-                return ;
+            if (user.isEmpty() || pass.isEmpty()) {
+                return;
             }
-            
+
             EmailConfig config = EmailConfig.newInstance(user, pass, source);
             emailInfos.add(config);
         }
-        
-        if ( this.HotmailCheckBox.isSelected() ) {
+
+
+        if (this.HotmailCheckBox.isSelected()) {
             String user = this.UserNameHotmailTextField.getText().trim();
-            String pass = this.PasswordHotmailTextField.getText().trim() ;
+            String pass = this.PasswordHotmailTextField.getText().trim();
             EmailConfig.SOURCE source = EmailConfig.SOURCE.HOTMAIL;
-            
+
             // check input
             // TODO: check inputs when selecting radio button in email page
             // and show message
-            if ( user.isEmpty() || pass.isEmpty() ) {
-                return ;
+            if (user.isEmpty() || pass.isEmpty()) {
+                return;
             }
-            
+
             EmailConfig config = EmailConfig.newInstance(user, pass, source);
             emailInfos.add(config);
         }
-       
-        // Build Case
-        currentCase = new Case.Builder(caseNameTextField.getText().trim(),
-                 caseLocationTextField.getText().trim(),
-                 investigatorTextField.getText().trim(), 
-                 descriptionTextArea.getText().trim(),
-                 CaseSource,new Date(),0).isCacheImages(CacheImageCheckBox.isSelected())
-                .isClusterWithCase(DetectClusterCaseRadioButton.isSelected())
-                .isClusterWithLibrary(DetectClusterLibraryRadioButton.isSelected())
-                .isExcludeFileSystems(ExcludeSystemFilesCheckBox.isSelected())
-                .isExportLibrary(ExportRadioButton.isSelected())
-                .isHash(YesMD5RadioButton.isSelected())
-                .isIndex(YesIndexRadioButton.isSelected())
-                .isIndexArchive(IndexZipCheckBox.isSelected())
-                .isIndexEmbedded(IndexEmbeddedFilesCheckBox.isSelected())
-                .createEmailConfig(emailInfos)
-                .build();
-                    
-        boolean caseStatus = createCase(currentCase);
-            
-        if ( ! caseStatus ) {
-            showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
+
+        if (GmailCheckBox.isSelected() || HotmailCheckBox.isSelected()) {
+
+
+            EventQueue.invokeLater(new Runnable() {
+
+                public void run() {
+                    JFrame frame = new JFrame();
+
+                    JDialog emailDialogue = null;
+
+
+                    try {
+                        emailDialogue = new EmailDownDialogue(frame, true, currentCase);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (NoSuchProviderException ex) {
+                        showErrorMessage("You must choose correct Provider name", "Wrong Email Provider");
+                        showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
+                        return;
+                    } catch (MessagingException ex) {
+                        showErrorMessage("Please Write Correct Email Login", "Error Connecting Email");
+                        showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
+                        return;
+
+                    } catch (IOException ex) {
+                        return;
+                    } catch (Exception ex) {
+                        return;
+                    }
+
+                    emailDialogue.setVisible(true);
+                }
+            });
+
         }
 
         this.setVisible(false);
-  
-        if(GmailCheckBox.isSelected() || HotmailCheckBox.isSelected())
-        {
-        
-           EventQueue.invokeLater(new Runnable() {
 
-            public void run() {
-                JFrame frame = new JFrame();
+        // Build Case
+        currentCase = new Case.Builder(caseNameTextField.getText().trim(),
+                caseLocationTextField.getText().trim(),
+                investigatorTextField.getText().trim(),
+                descriptionTextArea.getText().trim(),
+                CaseSource, new Date(), 0).isCacheImages(CacheImageCheckBox.isSelected()).isClusterWithCase(DetectClusterCaseRadioButton.isSelected()).isClusterWithLibrary(DetectClusterLibraryRadioButton.isSelected()).isExcludeFileSystems(ExcludeSystemFilesCheckBox.isSelected()).isExportLibrary(ExportRadioButton.isSelected()).isHash(YesMD5RadioButton.isSelected()).isIndex(YesIndexRadioButton.isSelected()).isIndexArchive(IndexZipCheckBox.isSelected()).isIndexEmbedded(IndexEmbeddedFilesCheckBox.isSelected()).createEmailConfig(emailInfos).build();
 
-                JDialog emailDialogue = null;
-             
-                    try {
-                        emailDialogue = new EmailDownDialogue(frame, true, currentCase);                    } catch (Exception ex) {
-                        Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                emailDialogue.setVisible(true);
-            }
-       });
+        boolean     caseStatus = createCase(currentCase);
 
+        if (!caseStatus) {
+            showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
         }
-              
+
 
     }//GEN-LAST:event_finishButtonActionPerformed
 
@@ -857,58 +860,82 @@ private void ExcludeSystemFilesCheckBoxActionPerformed(java.awt.event.ActionEven
 
 private void LocalDriveRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LocalDriveRadioButtonActionPerformed
 
-        JDirectoryDialog directoryDialog = new JDirectoryDialog();
-        directoryDialog.show(CaseWizardDialog.this);
-        String path = directoryDialog.getSelectedDirectory();
-        if(path == null)
-            return;
-         CaseSource = path;
-        
+    JDirectoryDialog directoryDialog = new JDirectoryDialog();
+    directoryDialog.show(CaseWizardDialog.this);
+    String path = directoryDialog.getSelectedDirectory();
+    if (path == null) {
+        return;
+    }
+    CaseSource = path;
+
 
 }//GEN-LAST:event_LocalDriveRadioButtonActionPerformed
 
 private void LocalFolderRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LocalFolderRadioButtonActionPerformed
 // TODO add your handling code here:
-    
-       final JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int returnVal = fc.showOpenDialog(this);
 
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
+    final JFileChooser fc = new JFileChooser();
+    fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    int returnVal = fc.showOpenDialog(this);
+
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
         File file = fc.getSelectedFile();
-               CaseSource = file.getPath();
-        } 
-        else {
-        
-            
-        }
+        CaseSource = file.getPath();
+    } else {
+    }
 }//GEN-LAST:event_LocalFolderRadioButtonActionPerformed
 
 private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EncaseImageRadioButtonActionPerformed
 // TODO add your handling code here:
-    
-    
-    
 }//GEN-LAST:event_EncaseImageRadioButtonActionPerformed
+
+private void GmailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GmailCheckBoxActionPerformed
+// TODO add your handling code here:
+
+    if (GmailCheckBox.isSelected()) {
+
+        UserNameGmailTextField.setEnabled(true);
+        PasswordGmailTextField.setEnabled(true);
+
+    } else {
+
+        UserNameGmailTextField.setEnabled(false);
+        PasswordGmailTextField.setEnabled(false);
+    }
+}//GEN-LAST:event_GmailCheckBoxActionPerformed
+
+private void HotmailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HotmailCheckBoxActionPerformed
+// TODO add your handling code here:
+    if (HotmailCheckBox.isSelected()) {
+
+        UserNameHotmailTextField.setEnabled(true);
+        PasswordHotmailTextField.setEnabled(true);
+
+    } else {
+
+        UserNameHotmailTextField.setEnabled(false);
+        PasswordHotmailTextField.setEnabled(false);
+    }
+
+}//GEN-LAST:event_HotmailCheckBoxActionPerformed
 
     public boolean checkDirectIndex() {
         return indexTheCase;
     }
-    
-    private boolean createCase (Case aCase) {
+
+    private boolean createCase(Case aCase) {
         try {
             setCurrentCase(aCase);
             CaseManager.CaseOperation.writeCase(aCase);
-            
+
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return false;
     }
-            
+
     /*
      * Check The IndexPanelInfo Before Go to the Next Panel
      * Check caseName if empty or is its existed
@@ -917,22 +944,22 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
     private boolean checkWizardFirstPanel() {
         String caseName = getCaseName(caseNameTextField.getText().trim());
         String caseLocation = caseLocationTextField.getText().trim();
-        String caseDesc    =  descriptionTextArea.getText(); 
+        String caseDesc = descriptionTextArea.getText();
         if (caseName == null || caseName.isEmpty()) {
-            showErrorMessage("You must choose a Case Name","Empty Index Name");
+            showErrorMessage("You must choose a Case Name", "Empty Index Name");
             return false;
         }
-         if (caseDesc == null || caseDesc.isEmpty()) {
-            showErrorMessage("You must choose Description for Case ","Empty Description ");
+        if (caseDesc == null || caseDesc.isEmpty()) {
+            showErrorMessage("You must choose Description for Case ", "Empty Description ");
             return false;
         }
-        
+
         if (caseLocation == null || caseLocation.isEmpty()) {
-            showErrorMessage("You must choose a Location for the Case ","Empty Case Location");
+            showErrorMessage("You must choose a Location for the Case ", "Empty Case Location");
             return false;
         }
         if (CaseManager.caseExists(caseName)) {
-            showErrorMessage("The Case Name is Already Taken, Choose Another Name","Case Name Exists");
+            showErrorMessage("The Case Name is Already Taken, Choose Another Name", "Case Name Exists");
             return false;
         }
 
@@ -940,31 +967,54 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
             showErrorMessage("Case Name Should Not Contains Illegal Chatacters (-)", "Please Change Case Name And Remove Any Special Character");
             return false;
         }
-        
+
         String investigator = investigatorTextField.getText().trim();
         if (investigator.isEmpty()) {
-            showErrorMessage("Investigator name is empty","Please Write A Clear Investigator Name");
+            showErrorMessage("Investigator name is empty", "Please Write A Clear Investigator Name");
             return false;
         }
-        
+
         return (true);
     }
-    
-    
-    
-     private boolean checkWizardSecondPanel() {
+
+    private boolean checkWizardSecondPanel() {
         String caseSource = CaseSource;
 
         if (caseSource == null || caseSource.isEmpty()) {
-            showErrorMessage("You must choose a Case Source","Empty Source");
+            showErrorMessage("You must choose a Case Source", "Empty Source");
             return false;
         }
-        
+
+        if (GmailCheckBox.isSelected()) {
+
+            if (UserNameGmailTextField.getText().isEmpty()) {
+                showErrorMessage("Username of Gmail is Empty ", "Please Write UserName");
+                return false;
+            }
+
+            if (PasswordGmailTextField.getText().isEmpty()) {
+
+                showErrorMessage("Password is of Gmail Empty ", "Please Write Password");
+                return false;
+
+            }
+
+        } else if (HotmailCheckBox.isSelected()) {
+            if (UserNameHotmailTextField.getText().isEmpty()) {
+                showErrorMessage("Username of Hotmail is Empty ", "Please Write UserName");
+                return false;
+            }
+
+            if (PasswordHotmailTextField.getText().isEmpty()) {
+
+                showErrorMessage("Password is of Hotmail Empty ", "Please Write Password");
+                return false;
+            }
+
+        }
         return (true);
     }
-    
- 
-    
+
     /**
      * Check if their is folder name in case location text field
      */
@@ -978,7 +1028,7 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
 
         return name;
     }
-    
+
     /**
      * Move Current Panel in Card Layout to the Next Panel
      */
@@ -988,7 +1038,7 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
         backButton.setEnabled(true);
         nextButton.setEnabled(true);
     }
-    
+
     /**
      * Move this Panel to the Next Last Panel In the Card Layout
      * Enable This Finish Button
@@ -1000,32 +1050,32 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
         nextButton.setEnabled(false);
         finishButton.setEnabled(true);
     }
-       
+
     /**
      * Return to Previous Panel in The Card Layout
      */
     private void backFirst() {
         currentIndex--;
-      
-        
+
+
         showPanel(cardsName[currentIndex], indexWizardPanel);
         backButton.setEnabled(false);
         nextButton.setEnabled(true);
     }
-    
+
     /**
      * Return to The First Panel in the Card Layout
      * Disable Finish Button
      */
     private void back() {
         currentIndex--;
-     
+
         showPanel(cardsName[currentIndex], indexWizardPanel);
         backButton.setEnabled(true);
         nextButton.setEnabled(true);
         finishButton.setEnabled(false);
     }
-    
+
     /**
      * Show The Selected Panel in The CardLayout
      * @param panelName
@@ -1035,15 +1085,14 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
         CardLayout card = (CardLayout) name.getLayout();
         card.show(name, panelName);
     }
-        
-    // TODO: General List Model Methods, Move it to Utilties
 
+    // TODO: General List Model Methods, Move it to Utilties
     private void AddFromModelToList(DefaultListModel model, ArrayList<String> list) {
         for (int i = 0; i < model.size(); i++) {
             list.add((String) model.getElementAt(i));
         }
     }
-        
+
     private void addToList(String path, DefaultListModel model, JList list) {
         if ((path != null || !path.startsWith("null")) && !existsInModel(path, model)) {
             model.addElement(path);
@@ -1069,10 +1118,8 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
     private void showErrorMessage(String msg, String title) {
         JOptionPane.showMessageDialog(CaseWizardDialog.this, msg, title, JOptionPane.ERROR_MESSAGE);
     }
-    
-    
+
     // TODO: check why there is acces/mutu ?
-    
     public Case getCurrentCase() {
         return currentCase;
     }
@@ -1084,12 +1131,13 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
     public void run() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-        
+
     /*
      * Case Name Checker
      * Check the Validity of The Case That Created By The User
      */
     private static class CaseNameChecker {
+
         private static boolean isInvalidText(String text) {
             for (String word : illegalCharacters) {
                 if (text.contains(word)) {
@@ -1125,7 +1173,6 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
 
             return result.toString();
         }
-        
         /*
          * Illegal case strings and characters
          */
@@ -1135,7 +1182,6 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
             "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
         };
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox CacheImageCheckBox;
     private javax.swing.JPanel CaseWizardA1;
@@ -1155,8 +1201,8 @@ private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent ev
     private javax.swing.JRadioButton LocalFolderRadioButton;
     private javax.swing.JRadioButton NoIndexRadioButton;
     private javax.swing.JRadioButton NoMD5RadioButton;
-    private javax.swing.JTextField PasswordGmailTextField;
-    private javax.swing.JTextField PasswordHotmailTextField;
+    private javax.swing.JPasswordField PasswordGmailTextField;
+    private javax.swing.JPasswordField PasswordHotmailTextField;
     private javax.swing.JRadioButton ProgramFilesRadioButton;
     private javax.swing.JTextField UserNameGmailTextField;
     private javax.swing.JTextField UserNameHotmailTextField;
