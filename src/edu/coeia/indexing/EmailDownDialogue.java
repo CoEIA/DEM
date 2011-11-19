@@ -45,7 +45,7 @@ public class EmailDownDialogue extends javax.swing.JDialog
         reader = new OnlineEmailReader(this,Username,Password, 
                 aCase.getIndexLocation()+"\\"+FilesPath.ATTACHMENTS, 
                 aCase.getIndexLocation()+"\\"+FilesPath.EMAIL_DB);
-        reader.Connect();
+    
         reader.execute();
          
     }

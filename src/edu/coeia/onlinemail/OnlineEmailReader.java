@@ -35,6 +35,7 @@ import javax.mail.MessagingException;
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.internet.MimeUtility;
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 class ProgressData {
@@ -121,15 +122,15 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
         this.userName = userName;
         this.password = password;
         this.attachmentsPath = attachmentsPath;
-
-    
         this.emaildialogue = dialogue;
+        
+        
+        Connect();
         
         
         this.emaildialogue.addWindowListener(new WindowListener() {
 
-          
-         
+              
             public void windowClosed(WindowEvent e) {
                 
                 cancel(true);
@@ -345,6 +346,8 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
         Session session = Session.getDefaultInstance(props, null);
         store = session.getStore("imaps");
         store.connect(PROTOCOL, userName, password);
+         
+       
     }
 
     private void ListAllFolders() throws MessagingException {

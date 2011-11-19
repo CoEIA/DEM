@@ -9,6 +9,9 @@ import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 
 /* import sun classes */
+import java.sql.SQLException;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
 import javax.swing.UIManager ;
 import javax.swing.SwingUtilities ;
 import javax.swing.table.DefaultTableModel ;
@@ -251,7 +254,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         try {
             logger.info("Create New Case Entring");
   
-            CaseWizardDialog indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, licenseManager.isFullVersion());
+            CaseWizardDialog indexWizard = null;
+        
+            indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, licenseManager.isFullVersion());
+            
             indexWizard.setVisible(true);
             
             Case aCase = indexWizard.getCurrentCase();

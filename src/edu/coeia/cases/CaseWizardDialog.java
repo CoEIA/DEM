@@ -6,8 +6,12 @@ import edu.coeia.util.FilesPath;
 import edu.coeia.internet.FilesFilter;
 import edu.coeia.indexing.EmailDownDialogue;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -726,7 +730,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             case 3:
                 back();
                 break;
-         }
+        }
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -760,6 +764,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
 
         List<EmailConfig> emailInfos = new ArrayList<EmailConfig>();
+
 
         // get email data if user add emails
         if (this.GmailCheckBox.isSelected()) {
@@ -795,22 +800,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             emailInfos.add(config);
         }
 
-        // Build Case
-        currentCase = new Case.Builder(caseNameTextField.getText().trim(),
-                caseLocationTextField.getText().trim(),
-                investigatorTextField.getText().trim(),
-                descriptionTextArea.getText().trim(),
-                CaseSource, new Date(), 0).isCacheImages(CacheImageCheckBox.isSelected()).isClusterWithCase(DetectClusterCaseRadioButton.isSelected()).isClusterWithLibrary(DetectClusterLibraryRadioButton.isSelected()).isExcludeFileSystems(ExcludeSystemFilesCheckBox.isSelected()).isExportLibrary(ExportRadioButton.isSelected()).isHash(YesMD5RadioButton.isSelected()).isIndex(YesIndexRadioButton.isSelected()).isIndexArchive(IndexZipCheckBox.isSelected()).isIndexEmbedded(IndexEmbeddedFilesCheckBox.isSelected()).createEmailConfig(emailInfos).build();
-
-        boolean caseStatus = createCase(currentCase);
-
-        if (!caseStatus) {
-            showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
-        }
-
         if (GmailCheckBox.isSelected() || HotmailCheckBox.isSelected()) {
-            
-          
+
+
             EventQueue.invokeLater(new Runnable() {
 
                 public void run() {
@@ -818,19 +810,46 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
                     JDialog emailDialogue = null;
 
+
                     try {
                         emailDialogue = new EmailDownDialogue(frame, true, currentCase);
-                    } catch (Exception ex) {
+                    } catch (SQLException ex) {
                         Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (NoSuchProviderException ex) {
+                        showErrorMessage("You must choose correct Provider name", "Wrong Email Provider");
+                        showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
+                        return;
+                    } catch (MessagingException ex) {
+                        showErrorMessage("Please Write Correct Email Login", "Error Connecting Email");
+                        showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
+                        return;
+
+                    } catch (IOException ex) {
+                        return;
+                    } catch (Exception ex) {
+                        return;
                     }
+
                     emailDialogue.setVisible(true);
                 }
             });
 
         }
-      
+
         this.setVisible(false);
 
+        // Build Case
+        currentCase = new Case.Builder(caseNameTextField.getText().trim(),
+                caseLocationTextField.getText().trim(),
+                investigatorTextField.getText().trim(),
+                descriptionTextArea.getText().trim(),
+                CaseSource, new Date(), 0).isCacheImages(CacheImageCheckBox.isSelected()).isClusterWithCase(DetectClusterCaseRadioButton.isSelected()).isClusterWithLibrary(DetectClusterLibraryRadioButton.isSelected()).isExcludeFileSystems(ExcludeSystemFilesCheckBox.isSelected()).isExportLibrary(ExportRadioButton.isSelected()).isHash(YesMD5RadioButton.isSelected()).isIndex(YesIndexRadioButton.isSelected()).isIndexArchive(IndexZipCheckBox.isSelected()).isIndexEmbedded(IndexEmbeddedFilesCheckBox.isSelected()).createEmailConfig(emailInfos).build();
+
+        boolean     caseStatus = createCase(currentCase);
+
+        if (!caseStatus) {
+            showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
+        }
 
 
     }//GEN-LAST:event_finishButtonActionPerformed
@@ -980,22 +999,20 @@ private void HotmailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//G
 
             }
 
-        } 
-        
-        else if (HotmailCheckBox.isSelected()) {
+        } else if (HotmailCheckBox.isSelected()) {
             if (UserNameHotmailTextField.getText().isEmpty()) {
                 showErrorMessage("Username of Hotmail is Empty ", "Please Write UserName");
                 return false;
             }
-  
+
             if (PasswordHotmailTextField.getText().isEmpty()) {
 
                 showErrorMessage("Password is of Hotmail Empty ", "Please Write Password");
                 return false;
-           }
+            }
 
         }
-         return (true);
+        return (true);
     }
 
     /**
