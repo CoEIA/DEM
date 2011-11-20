@@ -391,6 +391,7 @@ public class CaseFrame extends javax.swing.JFrame {
     
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         this.closeCaseFrame();
+        this.dispose();
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void helpMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpMenuItemActionPerformed
