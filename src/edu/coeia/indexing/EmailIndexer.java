@@ -75,7 +75,7 @@ public class EmailIndexer extends Indexer {
                 
                 for (String sAttachments : msg.getAttachments()) {
                
-                LuceneIndexer.indexFile(new File("C:\\Attachments\\"+sAttachments), msg.getId());
+                LuceneIndex.indexFile(new File("C:\\Attachments\\"+sAttachments), msg.getId());
                 }
              
                 

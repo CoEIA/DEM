@@ -45,7 +45,7 @@ public class ArchiveIndexer extends Indexer {
             for(TikaObjectExtractor.ObjectLocation location: handler.getLocations()) {
                 System.out.println("object: " + location.oldFilePath + " , " + location.newFilePath);
                 try {
-                    LuceneIndexer.indexFile(new File(location.newFilePath), parentId);
+                    LuceneIndex.indexFile(new File(location.newFilePath), parentId);
                 }
                 catch(Exception e) {
                     e.printStackTrace();

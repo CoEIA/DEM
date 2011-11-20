@@ -10,47 +10,37 @@
  */
 package edu.coeia.indexing;
 
-
-import edu.coeia.util.FilesPath;
 import edu.coeia.cases.Case;
-import edu.coeia.gutil.IndexGUIComponent;
 import edu.coeia.gutil.JTableUtil;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import java.io.File;
-
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.JTable ;
 
 /**
  *
  * @author wajdyessam
  */
-public class IndexingDialog extends javax.swing.JDialog {
+public final class IndexingDialog extends javax.swing.JDialog {
 
-    private List<String> imagesPath ;
-
-    private CrawlerThread indexerThread ;
-    private boolean startIndexButtonFlag = true ;
+    private CrawlerIndexerThread indexerThread ;
     
-    private Case caseObj;
-    private boolean startIndexNow ;
+    private final boolean startIndexButtonFlag = true ;
+    private final Case caseObj;
+    private final boolean startIndexNow ;
     
     /** Creates new form IndexingDialog */
     public IndexingDialog(java.awt.Frame parent, boolean modal, Case aCase, boolean startIndexNow) {
         super(parent, modal);
         initComponents();
         
+        this.caseObj = aCase;
         this.startIndexNow = startIndexNow ;
         
         // set start and end button
         startIndexButton.setEnabled(startIndexButtonFlag);
         stopIndexingButton.setEnabled(! startIndexButtonFlag);
-        
-        this.imagesPath = new ArrayList<String>();
-        this.caseObj = aCase;
         
         // close thread if the thread running and user close the window
         this.addWindowListener( new WindowAdapter() {
@@ -389,18 +379,12 @@ public class IndexingDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_stopIndexingButtonActionPerformed
 
     private void startIndex () {
-        File indexLocation = new File ( caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH );
-
         startIndexButton.setEnabled(! startIndexButtonFlag);
         stopIndexingButton.setEnabled(startIndexButtonFlag);
 
         JTableUtil.removeAllRows(indexTable);
         
-        IndexGUIComponent indexGUI = new IndexGUIComponent(progressBar,indexTable,indexDateLbl
-            ,timeLbl,currentFileLbl, sizeOfFileLbl, numberOfFilesLbl, fileExtensionLbl, numberOfErrorFilesLbl,bigSizeMsgLbl, startIndexButton,
-            stopIndexingButton);
-
-        indexerThread = new CrawlerThread(indexLocation,indexGUI,caseObj,imagesPath, this);
+        indexerThread = new CrawlerIndexerThread(this);
         indexerThread.execute();
     }
     
@@ -417,6 +401,22 @@ public class IndexingDialog extends javax.swing.JDialog {
     public void closeDialog() {
         stopIndex();
     }
+    
+    public Case getCase() { return this.caseObj ; }
+    public JTable getLoggingTable () { return this.indexTable; }
+    
+    public void setTimeLabel(final String time) { this.timeLbl.setText(time); }
+    public void setCurrentFile(final String fileName) { this.currentFileLbl.setText(fileName); }
+    public void setFileSize(final String size) { this.sizeOfFileLbl.setText(size); }
+    public void setFileExtension(final String ext) { this.fileExtensionLbl.setText(ext) ; }
+    public void setNumberOfFiles(final String no) { this.numberOfFilesLbl.setText(no); }
+    public void setNumberOfFilesError(final String no) { this.numberOfErrorFilesLbl.setText(no); }
+    public void setLastIndexTime(final String time) { this.indexDateLbl.setText(time); }
+    public void setprogressBar(final int value) { this.progressBar.setValue(value); }
+    public void setBigSizeLabel(final String text) { this.bigSizeMsgLbl.setText(text); }
+    public void setProgressIndetermined(final boolean status) { this.progressBar.setIndeterminate(status); }
+    public void setStartButtonStatus(final boolean status) { this.startIndexButton.setEnabled(status); }
+    public void setStopButtonStatus(final boolean status) { this.stopIndexingButton.setEnabled(status); }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel InfinatePanel;

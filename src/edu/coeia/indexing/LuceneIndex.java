@@ -27,7 +27,7 @@ import org.apache.lucene.analysis.StopAnalyzer;
 
 import org.apache.tika.exception.TikaException;
 
-public class LuceneIndexer {
+final class LuceneIndex {
 
     private static IndexWriter writer ;
     public static Case caseObject; 
@@ -36,17 +36,17 @@ public class LuceneIndexer {
      * Static Factory Method 
      * Create New Instance of Lucene Indexer
      */
-    public static LuceneIndexer getInstance(Case aCase, boolean createIndex) throws IOException{ 
-        return new LuceneIndexer(aCase, createIndex);
+    public static LuceneIndex getInstance(Case aCase, boolean createIndex) throws IOException{ 
+        return new LuceneIndex(aCase, createIndex);
     }
     
     // last parameter will create new index folder
-    private LuceneIndexer (Case aCase) throws IOException {
+    private LuceneIndex (Case aCase) throws IOException {
        this(aCase, true);
     }
 
     // add index to exists index folder if boolean value is false
-    private LuceneIndexer (Case aCase, boolean newIndex) throws IOException {
+    private LuceneIndex (Case aCase, boolean newIndex) throws IOException {
         File indexDir = new File(aCase.getCaseLocation() + "\\" +  FilesPath.INDEX_PATH);
         
         if ( !indexDir.exists() ) {
