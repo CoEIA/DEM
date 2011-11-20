@@ -267,6 +267,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             
             logger.info("Create New Case Don Successfully");
             writeCaseToInfoFile(aCase); // update indexes info file with new index
+            createEmailFolders(aCase);
+            
             readCases(); // update recent table with this new information
             
             if ( indexWizard.checkDirectIndex()) {
@@ -578,6 +580,22 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         return null ;
     }
 
+    /**
+     * Create folders to store email and attachments in this case
+     */
+    private void createEmailFolders(final Case aCase) {
+        String path = aCase.getCaseLocation(); 
+        
+        File attachments = new File(path + "\\" + FilesPath.ATTACHMENTS);
+        File emailDB = new File(path + "\\" + FilesPath.EMAIL_DB);
+        
+        if ( !attachments.exists() )
+            attachments.mkdir();
+
+        if ( ! emailDB.exists())
+            emailDB.mkdir();
+    }
+    
     /**
     * @param args the command line arguments
     */
