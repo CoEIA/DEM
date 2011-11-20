@@ -869,7 +869,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         if (GmailCheckBox.isSelected() || HotmailCheckBox.isSelected()) {
 
-
+            // create email folders
+            createEmailFolders(this.caseLocationTextField.getText().trim());
+            
             EventQueue.invokeLater(new Runnable() {
 
                 public void run() {
@@ -1017,6 +1019,22 @@ private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.Actio
 
         return false;
     }
+    
+    /**
+     * Create folders to store email and attachments in this case
+     */
+    private void createEmailFolders(final String path) {
+
+        File attachments = new File(path + "\\" + FilesPath.ATTACHMENTS);
+        File emailDB = new File(path + "\\" + FilesPath.EMAIL_DB);
+        
+        if ( !attachments.exists() )
+            attachments.mkdir();
+
+        if ( ! emailDB.exists())
+            emailDB.mkdir();
+    }
+    
 
     /*
      * Check The IndexPanelInfo Before Go to the Next Panel

@@ -190,9 +190,13 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
             db = new OnlineEmailDBHandler(!create, dbPath);
 
         } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
         } catch (InstantiationException ex) {
+            ex.printStackTrace();
         } catch (SQLException ex) {
+            ex.printStackTrace();
         } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
         }
 
     }
