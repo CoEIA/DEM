@@ -27,7 +27,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private CrawlerIndexerThread indexerThread ;
     
     private final boolean startIndexButtonFlag = true ;
-    private final Case caseObj;
+    private final Case aCase;
     private final boolean startIndexNow ;
     
     /** Creates new form IndexingDialog */
@@ -35,7 +35,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        this.caseObj = aCase;
+        this.aCase = aCase;
         this.startIndexNow = startIndexNow ;
         
         // set start and end button
@@ -398,11 +398,11 @@ public final class IndexingDialog extends javax.swing.JDialog {
         this.setVisible(false);
     }
     
-    public void closeDialog() {
+     void closeDialog() {
         stopIndex();
     }
     
-    public Case getCase() { return this.caseObj ; }
+    public Case getCase() { return this.aCase ; }
     public JTable getLoggingTable () { return this.indexTable; }
     
     public void setTimeLabel(final String time) { this.timeLbl.setText(time); }
