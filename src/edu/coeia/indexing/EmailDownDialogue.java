@@ -20,47 +20,45 @@ import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.swing.JLabel;
 
-
 /**
  *
  * @author wajdyessam
  */
-public class EmailDownDialogue extends javax.swing.JDialog  
-{
+public class EmailDownDialogue extends javax.swing.JDialog {
+
     private OnlineEmailReader reader;
-    
-    public EmailDownDialogue() throws NoSuchProviderException, MessagingException, IOException, SQLException
-    {
-     
-        
+
+    public EmailDownDialogue() throws NoSuchProviderException, MessagingException, IOException, SQLException {
     }
-    public EmailDownDialogue(java.awt.Frame parent,boolean modal, Case aCase) throws SQLException, NoSuchProviderException, MessagingException, IOException, Exception
-    {
+
+    public EmailDownDialogue(java.awt.Frame parent, boolean modal, Case aCase) throws SQLException, NoSuchProviderException, MessagingException, IOException, Exception {
         super(parent, modal);
         initComponents();
-        
+
         String Username = aCase.GetEmailConfig().get(0).getUserName();
         String Password = aCase.GetEmailConfig().get(0).getPassword();
-        
-        reader = new OnlineEmailReader(this,Username,Password, 
-                aCase.getIndexLocation()+"\\"+FilesPath.ATTACHMENTS, 
-                aCase.getIndexLocation()+"\\"+FilesPath.EMAIL_DB);
-    
+
+        reader = new OnlineEmailReader(this, Username, Password,
+                aCase.getIndexLocation() + "\\" + FilesPath.ATTACHMENTS,
+                aCase.getIndexLocation() + "\\" + FilesPath.EMAIL_DB);
+
         reader.execute();
-         
+
     }
-    
-     public JLabel getFrom() {
+
+    public JLabel getFrom() {
         return this.from;
     }
 
     public JLabel getBCC() {
         return this.bcc;
     }
+
     public JLabel getCC() {
         return this.cc;
     }
-   public JLabel getSentDate() {
+
+    public JLabel getSentDate() {
         return this.sdate;
     }
 
@@ -71,15 +69,14 @@ public class EmailDownDialogue extends javax.swing.JDialog
     public JLabel getAttachments() {
         return this.attachments;
     }
-    public JLabel getSubject()
-    {
-       return this.subject; 
+
+    public JLabel getSubject() {
+        return this.subject;
     }
-    public JLabel getTo()
-    {
+
+    public JLabel getTo() {
         return this.to;
     }
-        
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -117,7 +114,7 @@ public class EmailDownDialogue extends javax.swing.JDialog
         progressEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email Indexing", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         progressEmail.setLayout(new java.awt.BorderLayout());
 
-        FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         FromjLabel.setText("From:");
 
         SentDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -149,15 +146,9 @@ public class EmailDownDialogue extends javax.swing.JDialog
                 .addContainerGap()
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, progresLabelPanelLayout.createSequentialGroup()
-                                .addComponent(SubjectjLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(subject, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE))
-                            .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                                .addComponent(TojLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(to, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(TojLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(to, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(progresLabelPanelLayout.createSequentialGroup()
                         .addComponent(FromjLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -165,17 +156,20 @@ public class EmailDownDialogue extends javax.swing.JDialog
                         .addComponent(from, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(81, Short.MAX_VALUE))
                     .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(CCjLabel)
-                            .addComponent(BCCjLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE))
+                        .addComponent(SubjectjLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                                .addComponent(bcc, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
-                                .addGap(74, 74, 74))
-                            .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                                .addComponent(cc, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
-                                .addContainerGap())))
+                        .addComponent(subject, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
+                        .addComponent(CCjLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cc, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
+                        .addComponent(BCCjLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bcc, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                        .addGap(74, 74, 74))
                     .addGroup(progresLabelPanelLayout.createSequentialGroup()
                         .addComponent(SentDatejLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -185,13 +179,13 @@ public class EmailDownDialogue extends javax.swing.JDialog
                         .addComponent(CreateDatejLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cdate, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addContainerGap(52, Short.MAX_VALUE))
                     .addGroup(progresLabelPanelLayout.createSequentialGroup()
                         .addComponent(AttachjLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(attachments, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-            .addComponent(ProgBar, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
+                        .addContainerGap(12, Short.MAX_VALUE))))
+            .addComponent(ProgBar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
         );
         progresLabelPanelLayout.setVerticalGroup(
             progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,21 +195,20 @@ public class EmailDownDialogue extends javax.swing.JDialog
                     .addComponent(FromjLabel)
                     .addComponent(from, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
+                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, progresLabelPanelLayout.createSequentialGroup()
                         .addComponent(TojLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))
-                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                        .addComponent(to, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)))
+                        .addGap(4, 4, 4))
+                    .addComponent(to, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(subject, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(SubjectjLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(SubjectjLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CCjLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(CCjLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(BCCjLabel)
                     .addComponent(bcc, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -223,20 +216,19 @@ public class EmailDownDialogue extends javax.swing.JDialog
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(SentDatejLabel)
                     .addComponent(sdate, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(CreateDatejLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(CreateDatejLabel))
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(AttachjLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addGap(21, 21, 21)
                         .addComponent(attachments, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(ProgBar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
+                .addGap(24, 24, 24)
+                .addComponent(ProgBar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         progressEmail.add(progresLabelPanel, java.awt.BorderLayout.CENTER);
@@ -253,17 +245,15 @@ public class EmailDownDialogue extends javax.swing.JDialog
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(progressEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addComponent(progressEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleName("Email Indexing");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
- 
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AttachjLabel;
     private javax.swing.JLabel BCCjLabel;
@@ -285,10 +275,4 @@ public class EmailDownDialogue extends javax.swing.JDialog
     private javax.swing.JLabel subject;
     private javax.swing.JLabel to;
     // End of variables declaration//GEN-END:variables
-
-   
-
-        
-
-     
 }

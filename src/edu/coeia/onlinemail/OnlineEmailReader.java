@@ -48,12 +48,11 @@ class ProgressData {
     private String Attachments;
     private String Subject;
     private String To;
-    
 
     public ProgressData() {
     }
 
-    public ProgressData(String From,String To, String Subject, String SentDate,
+    public ProgressData(String From, String To, String Subject, String SentDate,
             String CreationDate, List<String> CC, List<String> BCC, String Attachments) {
         this.From = From;
         this.SentDate = SentDate;
@@ -61,18 +60,18 @@ class ProgressData {
         this.CC = CC;
         this.BCC = BCC;
         this.Attachments = Attachments;
-        this.Subject =  Subject;
-        this.To      = To;
+        this.Subject = Subject;
+        this.To = To;
     }
 
-    public String getSubject()
-    {
+    public String getSubject() {
         return this.Subject;
     }
-    public String getTo()
-    {
+
+    public String getTo() {
         return this.To;
     }
+
     public String getFrom() {
         return this.From;
     }
@@ -137,45 +136,37 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
         this.password = password;
         this.attachmentsPath = attachmentsPath;
         this.emaildialogue = dialogue;
-        
-        
+
+
         Connect();
-        
-        
+
+
         this.emaildialogue.addWindowListener(new WindowListener() {
 
-              
             public void windowClosed(WindowEvent e) {
-                
+
                 cancel(true);
-                
+
             }
 
             public void windowOpened(WindowEvent e) {
-                
             }
 
             public void windowClosing(WindowEvent e) {
-                
             }
 
             public void windowIconified(WindowEvent e) {
-                
             }
 
             public void windowDeiconified(WindowEvent e) {
-                
             }
 
             public void windowActivated(WindowEvent e) {
-                
             }
 
             public void windowDeactivated(WindowEvent e) {
-                
             }
         });
-        FileUtil.createFolder(attachmentsPath);
 
         boolean create = OnlineEmailDBHandler.isDBExists(dbPath);
 
@@ -200,15 +191,13 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
         }
 
     }
-    
-    
 
     /**
      * return Iterator to get EmailMesaages
      * throw NoSuchProviderException, MessagingException, IOException
      */
     public EmailIterator createIterator() throws NoSuchProviderException, MessagingException, IOException, SQLException {
-        readMessages();
+
         return new EmailIterator(this);
     }
 
@@ -216,9 +205,10 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
     protected Void doInBackground() throws Exception {
 
         int count = 0;
-        
-        if (isCancelled())
+
+        if (isCancelled()) {
             return null;
+        }
 
         javax.mail.Folder[] folders = store.getDefaultFolder().list("*");
         for (javax.mail.Folder folder : folders) {
@@ -236,9 +226,7 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
             Message[] messages = folder.getMessages();
 
             for (Message message : messages) {
-
-
-
+        
                 if (isCancelled()) {
                     return null;
                 }
@@ -252,17 +240,16 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
 
                 int messageId = messages.length - count++;
                 String from = getFromAddress(message.getFrom()[0].toString());
-                List<String> to   = getAddress(message, Message.RecipientType.TO);
+                List<String> to = getAddress(message, Message.RecipientType.TO);
                 String subject = message.getSubject();
                 String body = null;
-              
+
                 try {
-                 body = getMessageContent(message);
-                }
-                catch (MessagingException ex) {
-                    
+                    body = getMessageContent(message);
+                } catch (MessagingException ex) {
+
                     ex.printStackTrace();
-                    
+
                 }
                 Date sentDate = message.getSentDate();
                 Date receiveDate = message.getReceivedDate();
@@ -288,16 +275,14 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
                 String pathBuilder = getFormattedString(Paths);
 
                 try {
-                // Save Message in DB 
-                db.inserteEmail(messageId, from, subject, body, sentDate.toString(), receiveDate.toString(), ccBuilder, bccBuilder, pathBuilder.toString(), folder.getFullName());
-                }
-                catch (SQLException ex)
-                {
+                    // Save Message in DB 
+                    db.inserteEmail(messageId, from, subject, body, sentDate.toString(), receiveDate.toString(), ccBuilder, bccBuilder, pathBuilder.toString(), folder.getFullName());
+                } catch (SQLException ex) {
                     ex.printStackTrace();
-                    
+
                 }
-                
-                ProgressData PData = new ProgressData(from,to.get(0),subject, sentDate.toString(), receiveDate.toString(),
+
+                ProgressData PData = new ProgressData(from, to.get(0), subject, sentDate.toString(), receiveDate.toString(),
                         cclist, bcclist, pathBuilder);
 
                 publish(PData);
@@ -310,27 +295,27 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
 
     @Override
     protected void done() {
-       JOptionPane.showMessageDialog(emaildialogue, "Finished downladoing emails", "Done", JOptionPane.ERROR_MESSAGE);
-       emaildialogue.setVisible(false);
-    
+        JOptionPane.showMessageDialog(emaildialogue, "Finished downladoing emails", "Done", JOptionPane.INFORMATION_MESSAGE);
+        emaildialogue.setVisible(false);
+
     }
 
     @Override
     protected void process(List<ProgressData> chunks) {
 
-            if (isCancelled()) {
-            return ;
-            }
+        if (isCancelled()) {
+            return;
+        }
 
-            for (ProgressData pd : chunks) {
+        for (ProgressData pd : chunks) {
             emaildialogue.getFrom().setText(pd.getFrom());
-            
+
             for (String s1 : pd.getCC()) {
-            emaildialogue.getCC().setText(s1 + "\n");
+                emaildialogue.getCC().setText(s1 + "\n");
             }
 
             for (String s2 : pd.getBCC()) {
-            emaildialogue.getBCC().setText(s2 + "\n");
+                emaildialogue.getBCC().setText(s2 + "\n");
             }
             emaildialogue.getSubject().setText(pd.getSubject());
             emaildialogue.getTo().setText(pd.getTo());
@@ -382,8 +367,8 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
         Session session = Session.getDefaultInstance(props, null);
         store = session.getStore("imaps");
         store.connect(PROTOCOL, userName, password);
-         
-       
+
+
     }
 
     private void ListAllFolders() throws MessagingException {
@@ -391,70 +376,6 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
         for (Folder fd : folder) {
             if ((fd.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
                 System.out.println(fd.getFullName() + ": " + fd.getMessageCount());
-            }
-        }
-    }
-
-    public void readMessages() throws NoSuchProviderException, MessagingException, IOException, SQLException {
-
-        int count = 0;
-
-        javax.mail.Folder[] folders = store.getDefaultFolder().list("*");
-        for (javax.mail.Folder folder : folders) {
-
-            if ((folder.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
-
-                System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
-                folder.open(Folder.READ_WRITE);
-
-            } else if (javax.mail.Folder.HOLDS_FOLDERS != 0) {
-
-                continue;
-            }
-
-            Message[] messages = folder.getMessages();
-
-            for (Message message : messages) {
-
-
-                // Get cc
-                List<String> cclist = getAddress(message, Message.RecipientType.BCC);
-                String ccBuilder = getFormattedString(cclist);
-
-                // Get Bcc
-                List<String> bcclist = getAddress(message, Message.RecipientType.CC);
-                String bccBuilder = getFormattedString(bcclist);
-
-                int messageId = messages.length - count++;
-                String from = getFromAddress(message.getFrom()[0].toString());
-                String subject = message.getSubject();
-                String body = getMessageContent(message);
-                Date sentDate = message.getSentDate();
-                Date receiveDate = message.getReceivedDate();
-
-                System.out.println("SentDate : " + sentDate);
-                System.out.println("ReceiveDate : " + receiveDate);
-                System.out.println("------------From------\n" + from);
-                System.out.println();
-                for (String d : cclist) {
-
-                    System.out.println("------------CC------\n" + d);
-
-                }
-                for (String s : bcclist) {
-                    System.out.println("------------BCC------\n" + s);
-
-                }
-                System.out.println("------------Subject------\n" + subject);
-                System.out.println("------------Body------\n" + body);
-
-                // Save Attachment
-                List<String> Paths = getAttachments(message);
-                String pathBuilder = getFormattedString(Paths);
-
-                // Save Message in DB 
-                db.inserteEmail(messageId, from, subject, body, sentDate.toString(), receiveDate.toString(), ccBuilder, bccBuilder, pathBuilder.toString(), folder.getFullName());
-
             }
         }
     }
