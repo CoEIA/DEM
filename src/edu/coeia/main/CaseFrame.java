@@ -390,7 +390,7 @@ public class CaseFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_recentMenuItemActionPerformed
     
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-        this.dispose();
+        this.closeCaseFrame();
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void helpMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpMenuItemActionPerformed
