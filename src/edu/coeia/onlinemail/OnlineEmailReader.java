@@ -190,9 +190,13 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
             db = new OnlineEmailDBHandler(!create, dbPath);
 
         } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
         } catch (InstantiationException ex) {
+            ex.printStackTrace();
         } catch (SQLException ex) {
+            ex.printStackTrace();
         } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
         }
 
     }
@@ -283,9 +287,16 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
                 List<String> Paths = getAttachments(message);
                 String pathBuilder = getFormattedString(Paths);
 
+                try {
                 // Save Message in DB 
                 db.inserteEmail(messageId, from, subject, body, sentDate.toString(), receiveDate.toString(), ccBuilder, bccBuilder, pathBuilder.toString(), folder.getFullName());
-
+                }
+                catch (SQLException ex)
+                {
+                    ex.printStackTrace();
+                    
+                }
+                
                 ProgressData PData = new ProgressData(from,to.get(0),subject, sentDate.toString(), receiveDate.toString(),
                         cclist, bcclist, pathBuilder);
 
@@ -299,7 +310,7 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
 
     @Override
     protected void done() {
-    
+       JOptionPane.showMessageDialog(emaildialogue, "Finished downladoing emails", "Done", JOptionPane.ERROR_MESSAGE);
        emaildialogue.setVisible(false);
     
     }
