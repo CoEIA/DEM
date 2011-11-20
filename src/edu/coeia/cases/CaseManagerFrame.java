@@ -9,9 +9,6 @@ import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 
 /* import sun classes */
-import java.sql.SQLException;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
 import javax.swing.UIManager ;
 import javax.swing.SwingUtilities ;
 import javax.swing.table.DefaultTableModel ;
@@ -248,6 +245,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         }
         catch (ClassNotFoundException e){
         }
+        catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "please select the case you want to open",
+                    "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_loadCaseButtonActionPerformed
 
     private void newCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCaseButtonActionPerformed
@@ -284,20 +285,29 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_newCaseButtonActionPerformed
 
     private void removeCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeCaseButtonActionPerformed
-       int row = recentCaseTable.getSelectedRow();
-
-        if ( row < 0 ) {
+        
+        String caseName = null; 
+        
+        try {
+            caseName = getSelectedCase();
+        }
+        catch(NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to remove",
                 "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
+            
             return ;
         }
         
-        String indexName = (String) recentCaseTable.getValueAt(row, 0);
-        removeCase(indexName);
-        logger.info("Remove Case : " + indexName);
-        
-        readCases(); // update view table
-        //removeAllRows(caseInformationTable); // remove entrie in case information table
+        if ( !caseManager.isContain(caseName)) {
+            removeCase(caseName);
+            logger.info("Remove Case : " + caseName);
+
+            readCases(); // update view table
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "This case is already opening, close it first to remove it",
+                    "Please close the openining Case", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_removeCaseButtonActionPerformed
 
     private void recentCaseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recentCaseTableMouseClicked
@@ -439,8 +449,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             ex.printStackTrace();
         } catch (IOException ex) {
             Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
     
@@ -473,9 +485,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         int row = recentCaseTable.getSelectedRow();
 
         if ( row < 0 ) {
-            JOptionPane.showMessageDialog(this, "please select the case you want to open",
-                    "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
-            return null ;
+//            JOptionPane.showMessageDialog(this, "please select the case you want to open",
+//                    "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
+//            return null ;
+            throw new NullPointerException("Case is Not Selected");
         }
 
         String indexName = (String) recentCaseTable.getValueAt(row, 0);
