@@ -46,19 +46,33 @@ class ProgressData {
     private List<String> CC;
     private List<String> BCC;
     private String Attachments;
+    private String Subject;
+    private String To;
+    
 
     public ProgressData() {
     }
 
-    public ProgressData(String From, String SentDate, String CreationDate, List<String> CC, List<String> BCC, String Attachments) {
+    public ProgressData(String From,String To, String Subject, String SentDate,
+            String CreationDate, List<String> CC, List<String> BCC, String Attachments) {
         this.From = From;
         this.SentDate = SentDate;
         this.CreationDate = CreationDate;
         this.CC = CC;
         this.BCC = BCC;
         this.Attachments = Attachments;
+        this.Subject =  Subject;
+        this.To      = To;
     }
 
+    public String getSubject()
+    {
+        return this.Subject;
+    }
+    public String getTo()
+    {
+        return this.To;
+    }
     public String getFrom() {
         return this.From;
     }
@@ -234,8 +248,18 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
 
                 int messageId = messages.length - count++;
                 String from = getFromAddress(message.getFrom()[0].toString());
+                List<String> to   = getAddress(message, Message.RecipientType.TO);
                 String subject = message.getSubject();
-                String body = getMessageContent(message);
+                String body = null;
+              
+                try {
+                 body = getMessageContent(message);
+                }
+                catch (MessagingException ex) {
+                    
+                    ex.printStackTrace();
+                    
+                }
                 Date sentDate = message.getSentDate();
                 Date receiveDate = message.getReceivedDate();
 
@@ -262,7 +286,7 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
                 // Save Message in DB 
                 db.inserteEmail(messageId, from, subject, body, sentDate.toString(), receiveDate.toString(), ccBuilder, bccBuilder, pathBuilder.toString(), folder.getFullName());
 
-                ProgressData PData = new ProgressData(from, sentDate.toString(), receiveDate.toString(),
+                ProgressData PData = new ProgressData(from,to.get(0),subject, sentDate.toString(), receiveDate.toString(),
                         cclist, bcclist, pathBuilder);
 
                 publish(PData);
@@ -297,7 +321,8 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
             for (String s2 : pd.getBCC()) {
             emaildialogue.getBCC().setText(s2 + "\n");
             }
-
+            emaildialogue.getSubject().setText(pd.getSubject());
+            emaildialogue.getTo().setText(pd.getTo());
             emaildialogue.getAttachments().setText(pd.getAttachments());
             emaildialogue.getSentDate().setText(pd.getSentDate());
             emaildialogue.getCreationDate().setText(pd.getCreationDate());
