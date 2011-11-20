@@ -178,7 +178,7 @@ public final class Case implements Serializable {
         return this.emailConfig;
     }
 
-    public String getIndexLocation() {
+    public String getCaseLocation() {
         return this.caseLocation;
     }
 
@@ -195,10 +195,6 @@ public final class Case implements Serializable {
         list.add(evidenceSourceLocation);
         
         return list;
-    }
-
-    public List<String> getExtensionAllowed() {
-        return Collections.emptyList();
     }
 
     public Date getCreateTime() {

@@ -72,16 +72,16 @@ public class CaseFrame extends javax.swing.JFrame {
          */
         this.caseObj = aCase ;
         this.listOfOpeningCase = list;
-        this.tagsManager = TagsManager.getTagsManager(this.caseObj.getIndexLocation() + "\\" + FilesPath.CASE_TAGS);
+        this.tagsManager = TagsManager.getTagsManager(this.caseObj.getCaseLocation() + "\\" + FilesPath.CASE_TAGS);
         
         /**
          * Remove Case Name From the list when Frame Closed
          */
         this.addWindowListener( new WindowAdapter() {
-            @Override
-            public void windowClosed (WindowEvent event){
-                doChecking();
-            }
+//            @Override
+//            public void windowClosed (WindowEvent event){
+//                doChecking();
+//            }
 
             @Override
             public void windowClosing (WindowEvent event){
@@ -95,7 +95,11 @@ public class CaseFrame extends javax.swing.JFrame {
 
                         if ( !caseName.isEmpty() )
                             listOfOpeningCase.remove(caseName);
-                        }
+                    }
+                    
+                    if ( tagsManager !=  null ) {
+                        tagsManager.closeManager();
+                    }
                 }
                 catch (Exception e){
                     logger.log(Level.SEVERE, "Uncaught exception", e);

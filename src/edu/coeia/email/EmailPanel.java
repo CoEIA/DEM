@@ -872,7 +872,7 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
         ArrayList<String> aList = new ArrayList<String>();
         
         try {
-            File indexLocation = new File (index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+            File indexLocation = new File (index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
             PSTSearcher pSearcher = new PSTSearcher(indexLocation);
             int len = pSearcher.search(emailSearchTextField.getText().trim(), PSTSearcher.SearchField.CONTENT);
             System.out.println("length of search = " + len);

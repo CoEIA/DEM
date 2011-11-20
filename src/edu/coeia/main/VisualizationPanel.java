@@ -147,7 +147,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
 
             indexVisualizingPiePanel.removeAll();
 
-            String indexPath = caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH;
+            String indexPath = caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
             String indexName = caseObj.getIndexName();
 
             InfiniteProgressPanel i = new InfiniteProgressPanel("Loading Index Extensions ...");

@@ -600,7 +600,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     
     private void showInformationByID (String fileId) {        
         try {
-            File indexPath = new File(caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+            File indexPath = new File(caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
             
             // Do Lucene Search
             LuceneSearcher searcher = new LuceneSearcher(indexPath);
@@ -651,7 +651,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             return ;
         }
 
-        File indexLocation = new File (caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+        File indexLocation = new File (caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
         String queryString = queryTextField.getText().trim();
 
         if ( queryString.isEmpty() ) {

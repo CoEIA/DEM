@@ -47,7 +47,7 @@ public class LuceneIndexer {
 
     // add index to exists index folder if boolean value is false
     private LuceneIndexer (Case aCase, boolean newIndex) throws IOException {
-        File indexDir = new File(aCase.getIndexLocation() + "\\" +  FilesPath.INDEX_PATH);
+        File indexDir = new File(aCase.getCaseLocation() + "\\" +  FilesPath.INDEX_PATH);
         
         if ( !indexDir.exists() ) {
             throw new IOException("not found indexing folder");
@@ -84,7 +84,7 @@ public class LuceneIndexer {
         try {
             
             Indexer indexType = IndexerFactory.getIndexer(writer, file, caseObject.getCacheImages(),
-                    caseObject.getIndexLocation(), parentId);
+                    caseObject.getCaseLocation(), parentId);
             
             return indexType.doIndexing();
         }
@@ -98,14 +98,14 @@ public class LuceneIndexer {
     public static boolean indexYahooDir(File path) {
 
         YahooChatIndexer indexer = YahooChatIndexer.newInstance(writer, path, "", false, 
-                caseObject.getIndexLocation(), new NoneImageExtractor());
+                caseObject.getCaseLocation(), new NoneImageExtractor());
         
         return indexer.doIndexing();
     }
     
     public static boolean indexHotmailDir(File path) {
         MSNIndexer indexer = MSNIndexer.newInstance(writer, path, "", false, 
-                caseObject.getIndexLocation(), new NoneImageExtractor());
+                caseObject.getCaseLocation(), new NoneImageExtractor());
         
         return indexer.doIndexing();
     }

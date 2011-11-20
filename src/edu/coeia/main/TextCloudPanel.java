@@ -349,7 +349,7 @@ public class TextCloudPanel extends javax.swing.JPanel {
             parentFrame.setGlassPane(i);
             i.start();
 
-            String indexPath = caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH;
+            String indexPath = caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
             String indexName = caseObj.getIndexName();
 
             IndexReaderThread thread = new IndexReaderThread(i, indexPath, indexName, IndexReaderThread.IndexItem.TAGS, this);

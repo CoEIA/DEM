@@ -5,7 +5,9 @@
 package edu.coeia.cases;
 
 /**
- * Retrieve, Put and Remove Case History Information
+ * Retrieve, Put and Remove Case History Information (case name, 
+ * last modification time, case status i.e is indexed or not, 
+ * the number of items in the case, the size of evidence source file)
  * this information is not stored in case file.DAT because
  * it's will modified each time case is indexed (mutable information)
  * the current implementation use java preference (registry) to store

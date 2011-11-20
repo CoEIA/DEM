@@ -389,7 +389,7 @@ public class IndexingDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_stopIndexingButtonActionPerformed
 
     private void startIndex () {
-        File indexLocation = new File ( caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH );
+        File indexLocation = new File ( caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH );
 
         startIndexButton.setEnabled(! startIndexButtonFlag);
         stopIndexingButton.setEnabled(startIndexButtonFlag);

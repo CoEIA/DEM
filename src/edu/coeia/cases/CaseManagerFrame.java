@@ -256,9 +256,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             logger.info("Create New Case Entring");
   
             CaseWizardDialog indexWizard = null;
-        
             indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, licenseManager.isFullVersion());
-            
             indexWizard.setVisible(true);
             
             Case aCase = indexWizard.getCurrentCase();
@@ -498,7 +496,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     private void loadCase (String caseName, boolean startIndex) throws FileNotFoundException, IOException, ClassNotFoundException{
         if ( caseName != null ) {
             if ( !caseManager.isContain(caseName)) {
-                Case index = getIndexInformationFromIndexName(caseName);
+                Case index = getCase(caseName);
 
                 caseManager.addCase(caseName);
 
@@ -520,8 +518,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     
     private void removeCase (String caseName) {
         try {
-            Case index = getIndexInformationFromIndexName(caseName);
-            File file = new File( index.getIndexLocation() );
+            Case aCase = getCase(caseName);
+            File file = new File( aCase.getCaseLocation() );
             
             if ( FileUtil.removeDirectory(file) ) {
                 List<String> indexPtr = FileUtil.getFileContentInArrayList(new File(FilesPath.INDEXES_INFO) );
@@ -531,7 +529,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                     String name = line.split("-")[0].trim();
                     String path = line.split("-")[1].trim();
 
-                    if ( name.equals(index.getIndexName()) && path.equals(index.getIndexLocation()))
+                    if ( name.equals(aCase.getIndexName()) && path.equals(aCase.getCaseLocation()))
                         continue ;
 
                     newIndexPtr.add(line);
@@ -541,7 +539,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 FileUtil.writeToFile(newIndexPtr, FilesPath.INDEXES_INFO);
                 
                 // remove case history from preferences
-                CaseHistoryHandler.remove(index.getIndexName());
+                CaseHistoryHandler.remove(aCase.getIndexName());
+            }
+            else {
+                System.out.println("error in removing file: " + file.getAbsolutePath());
             }
         }
         catch (IOException e) {
@@ -555,7 +556,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     // add entry to indexes info file
     private void writeCaseToInfoFile (Case index) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(new File(FilesPath.INDEXES_INFO), true));
-        writer.println(index.getIndexName() + " - " + index.getIndexLocation());
+        writer.println(index.getIndexName() + " - " + index.getCaseLocation());
         writer.close();
     }
 
@@ -563,7 +564,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      * Get index path from index name 
      * @return IndexInformation 
      */
-    private Case getIndexInformationFromIndexName (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
+    private Case getCase (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
         List<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
 

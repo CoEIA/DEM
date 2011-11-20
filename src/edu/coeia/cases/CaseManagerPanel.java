@@ -648,7 +648,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         this.caseNameTextField.setText(this.aCase.getIndexName());
         this.createdDateTextField.setText(DateUtil.formatDate(this.aCase.getCreateTime()));
         this.createdByTextField.setText(this.aCase.getInvestigatorName());
-        this.casePathTextField.setText(this.aCase.getIndexLocation());
+        this.casePathTextField.setText(this.aCase.getCaseLocation());
         this.caseDescriptionTextField.setText(this.aCase.getDescription());
         
         for(String doc: this.aCase.getEvidenceSourceLocation())
