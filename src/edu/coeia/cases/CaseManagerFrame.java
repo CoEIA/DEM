@@ -313,7 +313,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     private void recentCaseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recentCaseTableMouseClicked
         if ( evt.getClickCount() == 2 ) { // double click
             try {
-                //showCaseInformation();
                 String caseName = getSelectedCase();
                 loadCase(caseName, false);
             }
@@ -323,9 +322,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             }
             catch (ClassNotFoundException e){
             }
-        }
-        else { // one click , then show information
-            //showCaseInformation();
         }
     }//GEN-LAST:event_recentCaseTableMouseClicked
 
@@ -485,9 +481,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         int row = recentCaseTable.getSelectedRow();
 
         if ( row < 0 ) {
-//            JOptionPane.showMessageDialog(this, "please select the case you want to open",
-//                    "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
-//            return null ;
             throw new NullPointerException("Case is Not Selected");
         }
 
