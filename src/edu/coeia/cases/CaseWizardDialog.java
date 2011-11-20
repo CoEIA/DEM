@@ -68,6 +68,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         PasswordGmailTextField.setEnabled(false);
         UserNameHotmailTextField.setEnabled(false);
         PasswordHotmailTextField.setEnabled(false);
+        ProgramFilesRadioButton.setVisible(false);
+        WindowsFilesRadioButton.setVisible(false);
+        
         // show first card indexInfoPanel and disable back button and finish button
         showPanel(cardsName[0], indexWizardPanel);
         backButton.setEnabled(false);
@@ -137,25 +140,27 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         PasswordGmailTextField = new javax.swing.JPasswordField();
         PasswordHotmailTextField = new javax.swing.JPasswordField();
         CaseWizardA2 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        NoIndexRadioButton = new javax.swing.JRadioButton();
+        DetectClusterCaseRadioButton = new javax.swing.JCheckBox();
+        ExportRadioButton = new javax.swing.JCheckBox();
         jLabel15 = new javax.swing.JLabel();
         YesIndexRadioButton = new javax.swing.JRadioButton();
-        NoIndexRadioButton = new javax.swing.JRadioButton();
-        jLabel16 = new javax.swing.JLabel();
-        YesMD5RadioButton = new javax.swing.JRadioButton();
-        NoMD5RadioButton = new javax.swing.JRadioButton();
-        jLabel17 = new javax.swing.JLabel();
-        ExportRadioButton = new javax.swing.JCheckBox();
-        DetectClusterCaseRadioButton = new javax.swing.JCheckBox();
         DetectClusterLibraryRadioButton = new javax.swing.JCheckBox();
+        NoMD5RadioButton = new javax.swing.JRadioButton();
+        jLabel14 = new javax.swing.JLabel();
+        YesMD5RadioButton = new javax.swing.JRadioButton();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
         CaseWizardA3 = new javax.swing.JPanel();
-        jLabel18 = new javax.swing.JLabel();
-        IndexZipCheckBox = new javax.swing.JCheckBox();
-        IndexEmbeddedFilesCheckBox = new javax.swing.JCheckBox();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         CacheImageCheckBox = new javax.swing.JCheckBox();
         ExcludeSystemFilesCheckBox = new javax.swing.JCheckBox();
-        ProgramFilesRadioButton = new javax.swing.JRadioButton();
+        IndexZipCheckBox = new javax.swing.JCheckBox();
         WindowsFilesRadioButton = new javax.swing.JRadioButton();
+        ProgramFilesRadioButton = new javax.swing.JRadioButton();
+        IndexEmbeddedFilesCheckBox = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         indexFooterPanel = new javax.swing.JPanel();
         finishButton = new javax.swing.JButton();
@@ -376,90 +381,102 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         indexWizardPanel.add(CaseWizardA1, "CaseWizardA1");
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel14.setText(" Evidence (Data Source) should be indexed to be searchable and pefrom all functions.");
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Additonal Options"));
+
+        YesNoIndexButtonGroup.add(NoIndexRadioButton);
+        NoIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        NoIndexRadioButton.setText("No");
+
+        DetectClusterCaseRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        DetectClusterCaseRadioButton.setSelected(true);
+        DetectClusterCaseRadioButton.setText("Detect and cluster duplicated files within case files.");
+
+        ExportRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ExportRadioButton.setSelected(true);
+        ExportRadioButton.setText("Export copy of hashes to DEM Hash Library.");
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel15.setText("Would you like to index the case:");
 
         YesNoIndexButtonGroup.add(YesIndexRadioButton);
-        YesIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        YesIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        YesIndexRadioButton.setSelected(true);
         YesIndexRadioButton.setText("Yes (Recommended)");
 
-        YesNoIndexButtonGroup.add(NoIndexRadioButton);
-        NoIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        NoIndexRadioButton.setText("No");
-
-        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel16.setText("Would you like to calculate MD5 Hashe Values for the case so you can perform \"Hash Analysis\".");
-
-        YesNoMD5HashButtonGroup.add(YesMD5RadioButton);
-        YesMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        YesMD5RadioButton.setText("Yes");
+        DetectClusterLibraryRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        DetectClusterLibraryRadioButton.setText("Detect and cluster duplicated files compared with DEM Hash Library");
+        DetectClusterLibraryRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DetectClusterLibraryRadioButtonActionPerformed(evt);
+            }
+        });
 
         YesNoMD5HashButtonGroup.add(NoMD5RadioButton);
         NoMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         NoMD5RadioButton.setText("No");
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel14.setText(" Evidence (Data Source) should be indexed to be searchable and pefrom all functions.");
+
+        YesNoMD5HashButtonGroup.add(YesMD5RadioButton);
+        YesMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        YesMD5RadioButton.setSelected(true);
+        YesMD5RadioButton.setText("Yes");
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel16.setText("Would you like to calculate MD5 Hashe Values for the case so you can perform \"Hash Analysis\".");
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel17.setText("Options:");
 
-        ExportRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        ExportRadioButton.setText("Export copy of hashes to DEM Hash Library.");
-
-        DetectClusterCaseRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        DetectClusterCaseRadioButton.setText("Detect and cluster duplicated files within case files.");
-
-        DetectClusterLibraryRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        DetectClusterLibraryRadioButton.setText("Detect and cluster duplicated files compared with DEM Hash Library");
-
-        javax.swing.GroupLayout CaseWizardA2Layout = new javax.swing.GroupLayout(CaseWizardA2);
-        CaseWizardA2.setLayout(CaseWizardA2Layout);
-        CaseWizardA2Layout.setHorizontalGroup(
-            CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CaseWizardA2Layout.createSequentialGroup()
-                .addGroup(CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(DetectClusterLibraryRadioButton)
                     .addComponent(DetectClusterCaseRadioButton)
                     .addComponent(ExportRadioButton)
-                    .addGroup(CaseWizardA2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(YesIndexRadioButton)
                             .addComponent(YesMD5RadioButton))
                         .addGap(59, 59, 59)
-                        .addGroup(CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(NoMD5RadioButton)
                             .addComponent(NoIndexRadioButton)))
-                    .addGroup(CaseWizardA2Layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel16))
-                    .addGroup(CaseWizardA2Layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel15))
-                    .addGroup(CaseWizardA2Layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(CaseWizardA2Layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel17)))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        CaseWizardA2Layout.setVerticalGroup(
-            CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CaseWizardA2Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel14)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel15)
                 .addGap(18, 18, 18)
-                .addGroup(CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NoIndexRadioButton)
                     .addComponent(YesIndexRadioButton))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel16)
                 .addGap(18, 18, 18)
-                .addGroup(CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NoMD5RadioButton)
                     .addComponent(YesMD5RadioButton))
                 .addGap(29, 29, 29)
@@ -470,24 +487,34 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addComponent(DetectClusterCaseRadioButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(DetectClusterLibraryRadioButton)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout CaseWizardA2Layout = new javax.swing.GroupLayout(CaseWizardA2);
+        CaseWizardA2.setLayout(CaseWizardA2Layout);
+        CaseWizardA2Layout.setHorizontalGroup(
+            CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CaseWizardA2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(464, 464, 464))
+        );
+        CaseWizardA2Layout.setVerticalGroup(
+            CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CaseWizardA2Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 342, Short.MAX_VALUE)
+                .addGap(47, 47, 47))
         );
 
         indexWizardPanel.add(CaseWizardA2, "CaseWizardA2");
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel18.setText("Indexing Options");
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Indexing Options"));
 
-        IndexZipCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        IndexZipCheckBox.setText("Index archieved folders (ZIP, RAR)");
-
-        IndexEmbeddedFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
-        IndexEmbeddedFilesCheckBox.setText("Index embedded files on MS Office and Attachments");
-
-        CacheImageCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
+        CacheImageCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         CacheImageCheckBox.setText("Cache Images to view on Multimedia Viewer");
 
-        ExcludeSystemFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
+        ExcludeSystemFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         ExcludeSystemFilesCheckBox.setText("Exclude Windows System Files from Indexing: ");
         ExcludeSystemFilesCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -495,38 +522,44 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        ProgramFilesRadioButton.setText("Program Files");
+        IndexZipCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        IndexZipCheckBox.setSelected(true);
+        IndexZipCheckBox.setText("Index archieved folders (ZIP, RAR)");
 
         WindowsFilesRadioButton.setText("Windows Files");
+
+        ProgramFilesRadioButton.setText("Program Files");
+
+        IndexEmbeddedFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        IndexEmbeddedFilesCheckBox.setSelected(true);
+        IndexEmbeddedFilesCheckBox.setText("Index embedded files on MS Office and Attachments");
 
         jLabel6.setForeground(new java.awt.Color(255, 0, 0));
         jLabel6.setText("(Warning: Only choose this when you know that no evidences could be found within System Files)");
 
-        javax.swing.GroupLayout CaseWizardA3Layout = new javax.swing.GroupLayout(CaseWizardA3);
-        CaseWizardA3.setLayout(CaseWizardA3Layout);
-        CaseWizardA3Layout.setHorizontalGroup(
-            CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CaseWizardA3Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(WindowsFilesRadioButton)
-                    .addComponent(ProgramFilesRadioButton)
-                    .addComponent(ExcludeSystemFilesCheckBox)
-                    .addComponent(CacheImageCheckBox)
-                    .addComponent(IndexEmbeddedFilesCheckBox)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(IndexZipCheckBox)
-                    .addGroup(CaseWizardA3Layout.createSequentialGroup()
+                    .addComponent(IndexEmbeddedFilesCheckBox)
+                    .addComponent(CacheImageCheckBox)
+                    .addComponent(ExcludeSystemFilesCheckBox)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jLabel6)))
-                .addContainerGap(82, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(ProgramFilesRadioButton)
+                            .addComponent(WindowsFilesRadioButton))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        CaseWizardA3Layout.setVerticalGroup(
-            CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CaseWizardA3Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel18)
-                .addGap(43, 43, 43)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
                 .addComponent(IndexZipCheckBox)
                 .addGap(18, 18, 18)
                 .addComponent(IndexEmbeddedFilesCheckBox)
@@ -534,13 +567,47 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addComponent(CacheImageCheckBox)
                 .addGap(18, 18, 18)
                 .addComponent(ExcludeSystemFilesCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ProgramFilesRadioButton)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(WindowsFilesRadioButton)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addGap(60, 60, 60))
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout CaseWizardA3Layout = new javax.swing.GroupLayout(CaseWizardA3);
+        CaseWizardA3.setLayout(CaseWizardA3Layout);
+        CaseWizardA3Layout.setHorizontalGroup(
+            CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CaseWizardA3Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+        CaseWizardA3Layout.setVerticalGroup(
+            CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CaseWizardA3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         indexWizardPanel.add(CaseWizardA3, "CaseWizardA3");
@@ -590,9 +657,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             indexFooterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(indexFooterPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
                 .addGap(113, 113, 113)
                 .addComponent(cancelButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -648,7 +715,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(indexFooterPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
+                            .addComponent(indexFooterPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(indexWizardPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(indexHeaderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE))
@@ -856,6 +923,17 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
 private void ExcludeSystemFilesCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcludeSystemFilesCheckBoxActionPerformed
 // TODO add your handling code here:
+    if (!ProgramFilesRadioButton.isVisible() && !WindowsFilesRadioButton.isVisible()) {
+        ProgramFilesRadioButton.setVisible(true);
+        WindowsFilesRadioButton.setVisible(true);
+    } else {
+
+        ProgramFilesRadioButton.setVisible(false);
+        WindowsFilesRadioButton.setVisible(false);
+
+    }
+    
+
 }//GEN-LAST:event_ExcludeSystemFilesCheckBoxActionPerformed
 
 private void LocalDriveRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LocalDriveRadioButtonActionPerformed
@@ -918,6 +996,10 @@ private void HotmailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//G
     }
 
 }//GEN-LAST:event_HotmailCheckBoxActionPerformed
+
+private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectClusterLibraryRadioButtonActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_DetectClusterLibraryRadioButtonActionPerformed
 
     public boolean checkDirectIndex() {
         return indexTheCase;
@@ -1232,13 +1314,15 @@ private void HotmailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//G
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton nextButton;
