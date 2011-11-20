@@ -876,10 +876,11 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                     JFrame frame = new JFrame();
 
                     JDialog emailDialogue = null;
-
+                  
 
                     try {
                         emailDialogue = new EmailDownDialogue(frame, true, currentCase);
+                        emailDialogue.setVisible(true);
                     } catch (SQLException ex) {
                         Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (NoSuchProviderException ex) {
@@ -897,7 +898,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                         return;
                     }
 
-                    emailDialogue.setVisible(true);
+                    
                 }
             });
 

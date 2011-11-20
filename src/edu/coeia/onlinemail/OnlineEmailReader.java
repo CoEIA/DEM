@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.Iterator;
@@ -48,6 +50,7 @@ class ProgressData {
     private String Attachments;
     private String Subject;
     private String To;
+    
 
     public ProgressData() {
     }
@@ -62,6 +65,7 @@ class ProgressData {
         this.Attachments = Attachments;
         this.Subject = Subject;
         this.To = To;
+        
     }
 
     public String getSubject() {
@@ -106,7 +110,7 @@ class ProgressData {
 public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
 
     private EmailDownDialogue emaildialogue;
-
+    private boolean emailFinished;
     /**
      * static factory that read all message from user account and store it in list
      * @param username the name of the account
@@ -207,6 +211,7 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
         int count = 0;
 
         if (isCancelled()) {
+            emailFinished = false;
             return null;
         }
 
@@ -228,6 +233,7 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
             for (Message message : messages) {
         
                 if (isCancelled()) {
+                    emailFinished = false;
                     return null;
                 }
                 // Get cc
@@ -279,7 +285,6 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
                     db.inserteEmail(messageId, from, subject, body, sentDate.toString(), receiveDate.toString(), ccBuilder, bccBuilder, pathBuilder.toString(), folder.getFullName());
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-
                 }
 
                 ProgressData PData = new ProgressData(from, to.get(0), subject, sentDate.toString(), receiveDate.toString(),
@@ -289,13 +294,27 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
 
             }
         }
+        
+        emailFinished = true;
+         
         return null;
 
     }
 
     @Override
     protected void done() {
+        
+        if(emailFinished)
+        {
         JOptionPane.showMessageDialog(emaildialogue, "Finished downladoing emails", "Done", JOptionPane.INFORMATION_MESSAGE);
+        } else{
+            JOptionPane.showMessageDialog(emaildialogue, "Cancelled Email Downloading", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+        }
+        try {
+            db.closeDB();
+        } catch (SQLException ex) {
+            Logger.getLogger(OnlineEmailReader.class.getName()).log(Level.SEVERE, null, ex);
+        }
         emaildialogue.setVisible(false);
 
     }
@@ -304,6 +323,7 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
     protected void process(List<ProgressData> chunks) {
 
         if (isCancelled()) {
+            emailFinished = false;
             return;
         }
 
@@ -494,6 +514,5 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
     private List<OnlineEmailMessage> messageList = new ArrayList<OnlineEmailMessage>();
     private List<String> attachments;
     private String attachmentsPath;
-    private static String dbPath;
     private OnlineEmailDBHandler db;
 }
