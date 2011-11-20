@@ -43,8 +43,8 @@ public class EmailDownDialogue extends javax.swing.JDialog
         String Password = aCase.GetEmailConfig().get(0).getPassword();
         
         reader = new OnlineEmailReader(this,Username,Password, 
-                aCase.getIndexLocation()+"\\"+FilesPath.ATTACHMENTS, 
-                aCase.getIndexLocation()+"\\"+FilesPath.EMAIL_DB);
+                aCase.getCaseLocation()+"\\"+FilesPath.ATTACHMENTS, 
+                aCase.getCaseLocation()+"\\"+FilesPath.EMAIL_DB);
     
         reader.execute();
          

@@ -11,7 +11,7 @@ package edu.coeia.indexing;
  */
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseHistoryHandler;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.IndexGUIComponent ;
 import edu.coeia.util.DateUtil;
@@ -66,7 +66,7 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
     private LuceneIndexer luceneIndexer ;
     private IndexGUIComponent indexGUI ;
     private Case caseObject ;
-    //private int totalNumberOfFiles ;
+    private long itemsCount, caseSize ;
     private int totalNumberOfError = 0;
     private boolean indexStatus = false;
     
@@ -100,7 +100,7 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
          
         // index selected files
         logger.log(Level.INFO, "Start Index Files");
-        for ( String dirName : caseObject.getDocumentInIndex() ) {
+        for ( String dirName : caseObject.getEvidenceSourceLocation() ) {
             File file = new File(dirName);
             System.out.println("File: " + file.getAbsolutePath());
             boolean ignoreEmail = true;
@@ -296,11 +296,17 @@ public class CrawlerThread extends SwingWorker<String,ProgressIndexData> {
         // save log files
         try {
             if ( indexStatus ) {
-                caseObject.setIndexStatus(true);
-                caseObject.setLastIndexDate(lastIndexDate);
-                caseObject.setIndexingTime(indexingTime);
-                CaseManager.CaseOperation.writeCase(caseObject);
+//                caseObject.setIndexStatus(true);
+//                caseObject.setLastIndexDate(lastIndexDate);
+//                caseObject.setIndexingTime(indexingTime);
+//                CaseManager.CaseOperation.writeCase(caseObject);
                 //System.out.println("write status information after indexing");
+                
+                CaseHistoryHandler.CaseHistory history = CaseHistoryHandler.CaseHistory.newInstance(
+                        this.caseObject.getIndexName(), new Date().toString(), true, this.itemsCount, 
+                        this.caseSize);
+                
+                CaseHistoryHandler.set(history);
             }
             closeIndex();
         }

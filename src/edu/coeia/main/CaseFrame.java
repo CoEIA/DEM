@@ -72,34 +72,20 @@ public class CaseFrame extends javax.swing.JFrame {
          */
         this.caseObj = aCase ;
         this.listOfOpeningCase = list;
-        this.tagsManager = TagsManager.getTagsManager(this.caseObj.getIndexLocation() + "\\" + FilesPath.CASE_TAGS);
+        this.tagsManager = TagsManager.getTagsManager(this.caseObj.getCaseLocation() + "\\" + FilesPath.CASE_TAGS);
         
         /**
          * Remove Case Name From the list when Frame Closed
          */
         this.addWindowListener( new WindowAdapter() {
-            @Override
-            public void windowClosed (WindowEvent event){
-                doChecking();
-            }
+//            @Override
+//            public void windowClosed (WindowEvent event){
+//                doChecking();
+//            }
 
             @Override
             public void windowClosing (WindowEvent event){
-                doChecking();
-            }
-
-            public void doChecking () {
-                try {
-                    if ( caseObj != null ) {
-                        String caseName = caseObj.getIndexName() ;
-
-                        if ( !caseName.isEmpty() )
-                            listOfOpeningCase.remove(caseName);
-                        }
-                }
-                catch (Exception e){
-                    logger.log(Level.SEVERE, "Uncaught exception", e);
-                }
+                closeCaseFrame();
             }
         });
 
@@ -173,7 +159,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
 
         headerGroupButton.add(caseManagerToggleButton);
-        caseManagerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        caseManagerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         caseManagerToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274612774_kservices.png"))); // NOI18N
         caseManagerToggleButton.setText("Case Manager");
         caseManagerToggleButton.setFocusable(false);
@@ -201,9 +187,10 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(searchToggleButton);
 
         headerGroupButton.add(fileSystemToggleButton);
-        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         fileSystemToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/file-manager.png"))); // NOI18N
         fileSystemToggleButton.setText("File System");
+        fileSystemToggleButton.setEnabled(false);
         fileSystemToggleButton.setFocusable(false);
         fileSystemToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         fileSystemToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -215,7 +202,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(fileSystemToggleButton);
 
         headerGroupButton.add(emailToggleButton);
-        emailToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        emailToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         emailToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/email.png"))); // NOI18N
         emailToggleButton.setText("Online and Offline Email");
         emailToggleButton.setEnabled(false);
@@ -403,6 +390,7 @@ public class CaseFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_recentMenuItemActionPerformed
     
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
+        this.closeCaseFrame();
         this.dispose();
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
@@ -476,6 +464,24 @@ public class CaseFrame extends javax.swing.JFrame {
         IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj, startIndex);
         indexPanel.setLocationRelativeTo(this);
         indexPanel.setVisible(true);
+    }
+    
+    private void closeCaseFrame() {
+        try {
+            if ( caseObj != null ) {
+                String caseName = caseObj.getIndexName() ;
+
+                if ( !caseName.isEmpty() )
+                    listOfOpeningCase.remove(caseName);
+            }
+
+            if ( tagsManager !=  null ) {
+                tagsManager.closeManager();
+            }
+        }
+        catch (Exception e){
+            logger.log(Level.SEVERE, "Uncaught exception", e);
+        }
     }
     
     public Case getCase() { return this.caseObj ; }

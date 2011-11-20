@@ -830,14 +830,14 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
 
-        List<EmailConfig> emailInfos = new ArrayList<EmailConfig>();
+        List<EmailConfiguration> emailInfos = new ArrayList<EmailConfiguration>();
 
 
         // get email data if user add emails
         if (this.GmailCheckBox.isSelected()) {
             String user = this.UserNameGmailTextField.getText().trim();
             String pass = this.PasswordGmailTextField.getText().trim();
-            EmailConfig.SOURCE source = EmailConfig.SOURCE.GMAIL;
+            EmailConfiguration.SOURCE source = EmailConfiguration.SOURCE.GMAIL;
 
             // check input
             // TODO: check inputs when selecting radio button in email page
@@ -846,7 +846,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 return;
             }
 
-            EmailConfig config = EmailConfig.newInstance(user, pass, source);
+            EmailConfiguration config = EmailConfiguration.newInstance(user, pass, source);
             emailInfos.add(config);
         }
 
@@ -854,7 +854,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         if (this.HotmailCheckBox.isSelected()) {
             String user = this.UserNameHotmailTextField.getText().trim();
             String pass = this.PasswordHotmailTextField.getText().trim();
-            EmailConfig.SOURCE source = EmailConfig.SOURCE.HOTMAIL;
+            EmailConfiguration.SOURCE source = EmailConfiguration.SOURCE.HOTMAIL;
 
             // check input
             // TODO: check inputs when selecting radio button in email page
@@ -863,7 +863,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 return;
             }
 
-            EmailConfig config = EmailConfig.newInstance(user, pass, source);
+            EmailConfiguration config = EmailConfiguration.newInstance(user, pass, source);
             emailInfos.add(config);
         }
 
@@ -1069,12 +1069,12 @@ private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.Actio
 
         if (GmailCheckBox.isSelected()) {
 
-            if (UserNameGmailTextField.getText().isEmpty()) {
+            if (UserNameGmailTextField.getText().trim().isEmpty()) {
                 showErrorMessage("Username of Gmail is Empty ", "Please Write UserName");
                 return false;
             }
 
-            if (PasswordGmailTextField.getText().isEmpty()) {
+            if (PasswordGmailTextField.getPassword().length <= 0) {
 
                 showErrorMessage("Password is of Gmail Empty ", "Please Write Password");
                 return false;
@@ -1082,12 +1082,12 @@ private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.Actio
             }
 
         } else if (HotmailCheckBox.isSelected()) {
-            if (UserNameHotmailTextField.getText().isEmpty()) {
+            if (UserNameHotmailTextField.getText().trim().isEmpty()) {
                 showErrorMessage("Username of Hotmail is Empty ", "Please Write UserName");
                 return false;
             }
 
-            if (PasswordHotmailTextField.getText().isEmpty()) {
+            if (PasswordHotmailTextField.getPassword().length <= 0) {
 
                 showErrorMessage("Password is of Hotmail Empty ", "Please Write Password");
                 return false;

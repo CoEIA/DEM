@@ -54,6 +54,7 @@ import com.pff.PSTObject ;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 import com.toedter.calendar.JDateChooser;
+import edu.coeia.cases.CaseHistoryHandler;
 import edu.coeia.gutil.JTableUtil;
 import org.apache.lucene.document.Document;
 
@@ -684,7 +685,7 @@ public class EmailPanel extends javax.swing.JPanel {
 
 private void emailSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailSearchButtonActionPerformed
 
-        if ( index.getIndexStatus() == false ) {
+        if ( CaseHistoryHandler.get(this.index.getIndexName()).getIsCaseIndexed() == false ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                 "Case is not indexed",JOptionPane.ERROR_MESSAGE );
             return ;
@@ -871,7 +872,7 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
         ArrayList<String> aList = new ArrayList<String>();
         
         try {
-            File indexLocation = new File (index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+            File indexLocation = new File (index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
             PSTSearcher pSearcher = new PSTSearcher(indexLocation);
             int len = pSearcher.search(emailSearchTextField.getText().trim(), PSTSearcher.SearchField.CONTENT);
             System.out.println("length of search = " + len);

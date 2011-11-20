@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author Ahmed
  */
-public final class EmailConfig implements Serializable{
+public final class EmailConfiguration implements Serializable{
     
     public enum SOURCE {HOTMAIL, GMAIL };
     
@@ -18,11 +18,11 @@ public final class EmailConfig implements Serializable{
     private final String password;
     private final SOURCE source ;
 
-    public static EmailConfig newInstance(final String username, final String password, final SOURCE source) {
-        return new EmailConfig(username, password, source);
+    public static EmailConfiguration newInstance(final String username, final String password, final SOURCE source) {
+        return new EmailConfiguration(username, password, source);
     }
     
-    private EmailConfig(final String username, final String password, final SOURCE source) {
+    private EmailConfiguration(final String username, final String password, final SOURCE source) {
         this.userName = username;
         this.password = password;
         this.source = source ;

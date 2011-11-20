@@ -52,12 +52,6 @@ public class IndexingDialog extends javax.swing.JDialog {
         this.imagesPath = new ArrayList<String>();
         this.caseObj = aCase;
         
-        // display indexing information if already indexing
-        if ( caseObj.getIndexStatus() ) {
-            indexDateLbl.setText(caseObj.getLastIndexDate());
-            timeLbl.setText(caseObj.getIndexingTime());
-        }
-        
         // close thread if the thread running and user close the window
         this.addWindowListener( new WindowAdapter() {
             @Override
@@ -395,7 +389,7 @@ public class IndexingDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_stopIndexingButtonActionPerformed
 
     private void startIndex () {
-        File indexLocation = new File ( caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH );
+        File indexLocation = new File ( caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH );
 
         startIndexButton.setEnabled(! startIndexButtonFlag);
         stopIndexingButton.setEnabled(startIndexButtonFlag);
