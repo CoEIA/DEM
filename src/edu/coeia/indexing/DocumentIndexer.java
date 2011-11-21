@@ -19,7 +19,7 @@ import org.apache.lucene.document.Field;
  * @author wajdyessam
  */
 
-public class DocumentIndexer extends Indexer {
+final class DocumentIndexer extends Indexer {
 
     private int parentId ;
     

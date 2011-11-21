@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import org.apache.tika.Tika;
 
-public class IndexerFactory {
+final class IndexerFactory {
     
     public static Indexer getIndexer (LuceneIndex luceneIndex, File file, int parentId) {
         String mime = null;

@@ -16,6 +16,10 @@ import edu.coeia.gutil.JTableUtil;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JProgressBar;
 import javax.swing.JTable ;
 
 /**
@@ -25,10 +29,7 @@ import javax.swing.JTable ;
 public final class IndexingDialog extends javax.swing.JDialog {
 
     private CrawlerIndexerThread indexerThread ;
-    
-    private final boolean startIndexButtonFlag = true ;
     private final Case aCase;
-    private final boolean startIndexNow ;
     
     /** Creates new form IndexingDialog */
     public IndexingDialog(java.awt.Frame parent, boolean modal, Case aCase, boolean startIndexNow) {
@@ -36,22 +37,25 @@ public final class IndexingDialog extends javax.swing.JDialog {
         initComponents();
         
         this.aCase = aCase;
-        this.startIndexNow = startIndexNow ;
         
-        // set start and end button
-        startIndexButton.setEnabled(startIndexButtonFlag);
-        stopIndexingButton.setEnabled(! startIndexButtonFlag);
+        // set start and end button)
+        resettingButtons(true);
         
         // close thread if the thread running and user close the window
         this.addWindowListener( new WindowAdapter() {
             @Override
             public void windowClosed (WindowEvent event){
-                stopIndex();
+                try {
+                    stopIndexerThread();
+                    hideIndexingDialog();
+                } catch (IOException ex) {
+                    Logger.getLogger(IndexingDialog.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         
-        if (this.startIndexNow) {
-            startIndex();
+        if ( startIndexNow ) {
+            startIndexerThread();
         }
     }
 
@@ -371,39 +375,45 @@ public final class IndexingDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startIndexButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startIndexButtonActionPerformed
-        startIndex();
+        startIndexerThread();
     }//GEN-LAST:event_startIndexButtonActionPerformed
 
     private void stopIndexingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopIndexingButtonActionPerformed
-        stopIndex();
+        try {
+            stopIndexerThread();
+        } catch (IOException ex) {
+            Logger.getLogger(IndexingDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_stopIndexingButtonActionPerformed
 
-    private void startIndex () {
-        startIndexButton.setEnabled(! startIndexButtonFlag);
-        stopIndexingButton.setEnabled(startIndexButtonFlag);
-
+    private void startIndexerThread () {
+        resettingButtons(false);
         JTableUtil.removeAllRows(indexTable);
         
+        // starting thread
         indexerThread = new CrawlerIndexerThread(this);
         indexerThread.execute();
     }
     
-    private void stopIndex() {
+    private void stopIndexerThread() throws IOException {
         if ( indexerThread != null) {
             indexerThread.clearFields();
-            indexerThread.cancel(true);
-            indexerThread = null ;
+            indexerThread.stopIndexingThread();
         }
-        
-        this.setVisible(false);
     }
     
-     void closeDialog() {
-        stopIndex();
+    void hideIndexingDialog() {
+        this.dispose();
     }
     
+    private void resettingButtons(boolean state) {
+        startIndexButton.setEnabled(state);
+        stopIndexingButton.setEnabled(!state);
+    }
+   
     public Case getCase() { return this.aCase ; }
     public JTable getLoggingTable () { return this.indexTable; }
+    public JProgressBar getProgressBar() { return this.progressBar ; }
     
     public void setTimeLabel(final String time) { this.timeLbl.setText(time); }
     public void setCurrentFile(final String fileName) { this.currentFileLbl.setText(fileName); }

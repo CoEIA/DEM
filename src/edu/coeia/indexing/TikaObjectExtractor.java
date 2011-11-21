@@ -5,9 +5,11 @@ package edu.coeia.indexing ;
  * @author wajdyessam
  */
 
-import java.io.InputStream;
+import edu.coeia.util.FileUtil;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 import org.apache.tika.extractor.ContainerExtractor;
 import org.apache.tika.extractor.ParserContainerExtractor;
@@ -16,10 +18,7 @@ import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.mime.MediaType;
 
 import java.io.File ;
-import java.io.OutputStream ;
-import java.io.FileOutputStream; 
-import java.io.IOException ;
-import java.util.Collections;
+import java.io.InputStream;
 
 class TikaObjectExtractor {
     private String filename ;
@@ -131,54 +130,39 @@ class TikaObjectExtractor {
         }
     
         private void extractEmbbeddedObject(InputStream stream, String originalFilePath, String type, String ext) {
-            try {
-                
-                String newFileName = originalFilePath ;
-                
-                if (this.type == OBJECT_TYPE.CONTAINER ) { // extract images  from file 
-                    // exported name will be the time stamp in nanosecond
-                    long value =  System.nanoTime();
-                    newFileName = "image-" + value + ".";
-                    newFileName += type.substring(type.indexOf('/')+1);
-                }
-                
-                String fileName = newFileName;
-                
-                // ignore empty subfolder and extract file name
-                if ( originalFilePath.contains("\\") ) {
-                    String[] tmp = originalFilePath.split("\\\\");
-                    fileName = tmp[tmp.length-1];
-                    
-                    // check empty folder
-                    if ( tmp.length == 1) {
-                        System.out.println("Empty Folder...");
-                        return;
-                    }
-                }
-                
-                // get distenation path
-                String distenationPath = this.destination + "\\" + fileName;
-                
-                // create location object
-                ObjectLocation location = new ObjectLocation(fileName, type, originalFilePath,
-                        distenationPath, ext);
-                locations.add(location);
-                
-                // write object to file
-                File file = new File(distenationPath);
-                OutputStream outputStream = new FileOutputStream(file);
+            String newFileName = originalFilePath ;
 
-                byte[] buffer = new byte[1024];
-                int length = 0;
-
-                while ( (length = stream.read(buffer)) > 0 ) {
-                    outputStream.write(buffer, 0, length);
-                }
-
-                outputStream.close();
+            if (this.type == OBJECT_TYPE.CONTAINER ) { // extract images  from file 
+                // exported name will be the time stamp in nanosecond
+                long value =  System.nanoTime();
+                newFileName = "image-" + value + ".";
+                newFileName += type.substring(type.indexOf('/')+1);
             }
-            catch (IOException e) {
+
+            String fileName = newFileName;
+
+            // ignore empty subfolder and extract file name
+            if ( originalFilePath.contains("\\") ) {
+                String[] tmp = originalFilePath.split("\\\\");
+                fileName = tmp[tmp.length-1];
+
+                // check empty folder
+                if ( tmp.length == 1) {
+                    System.out.println("Empty Folder...");
+                    return;
+                }
             }
+
+            // get distenation path
+            String distenationPath = this.destination + "\\" + fileName;
+
+            // create location object
+            ObjectLocation location = new ObjectLocation(fileName, type, originalFilePath,
+                    distenationPath, ext);
+            locations.add(location);
+
+            // write object to file
+            FileUtil.saveObject(stream, fileName, this.destination);
         }
     }
 }

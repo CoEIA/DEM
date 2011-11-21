@@ -20,7 +20,7 @@ import org.apache.lucene.document.Document ;
 import org.apache.lucene.document.Field ;
 
 
-public class ImageIndexer extends Indexer{
+final class ImageIndexer extends Indexer{
     
     private int parentId ;
     
@@ -82,8 +82,6 @@ public class ImageIndexer extends Indexer{
     // provide lucene document for images format (JPEG, PNG.. etc)
     private Document getDocument(File file, Map<String, String> metadata) {
         Document doc = new Document();
-        
-        
         
         doc.add(new Field(IndexingConstant.FILE_NAME, file.getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_TITLE, file.getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));

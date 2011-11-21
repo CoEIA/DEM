@@ -16,7 +16,7 @@ import java.io.File ;
  * @author wajdyessam
  */
 
-public abstract class Indexer {
+abstract class Indexer {
     
     public Indexer(LuceneIndex luceneIndex, File file, String mimeType, ImageExtractor imageExtractor) {
         this.file = file ;

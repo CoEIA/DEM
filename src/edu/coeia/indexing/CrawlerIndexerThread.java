@@ -27,24 +27,23 @@ import java.io.IOException ;
 
 import java.util.Date ;
 import java.util.List ;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.pff.PSTException ;
-
-import org.apache.tika.exception.TikaException;
-
 final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
 
-    private long time = 0 ;
-    private int progressCount = 0, indexCount=0;
-    
+    private long totalTimeOfIndexingProcess = 0 ;
     private long itemsCount, caseSize ;
     
-    private int totalNumberOfError = 0;
+    private int noOfFilesEnumerated = 0, noOfFilesIndexed=0;
+    private int noOfFilesCannotIndexing = 0;
+
     private boolean indexStatus = false;
     
     private LuceneIndex luceneIndex ;
+    
     private final Case aCase ;
     private final IndexingDialog parentDialog ;
     
@@ -56,8 +55,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
      
         try {
             luceneIndex = LuceneIndex.newInstance(this.aCase);
-            
-            logger.log(Level.INFO, "this is first line in indexing");
+            logger.log(Level.INFO, "Create Lucene Indexer Instance");
         } catch (IOException ex) {
            logger.log(Level.SEVERE, "Uncaught exception", ex);
         }
@@ -66,85 +64,85 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         this.parentDialog.setProgressIndetermined(true);
     }
     
+    @Override
     public String doInBackground() {
         long start = new Date().getTime();
          
-        for ( String dirName : aCase.getEvidenceSourceLocation() ) {
-            logger.log(Level.INFO, "Start Index File: {0}", dirName);
-            File file = new File(dirName);
-            dirTraversal(file);
-            logger.log(Level.INFO, "End of indexing: {0}", dirName);
-        }       
+        startCrawling();
         
         long end = new Date().getTime();
-        time = end-start ;
+        totalTimeOfIndexingProcess = end-start ;
 
-        indexStatus = true ;      
-        return "" + time ;
+        indexStatus = true ;  
+        itemsCount = this.noOfFilesIndexed ;
+        
+        return String.valueOf(totalTimeOfIndexingProcess);
     }
     
-    private void dirTraversal(File dir) {
-        if ( dir.isDirectory() ) {
-            File[] files = dir.listFiles();
-
-            if ( files != null ) {
-                for (int i=0 ; i<files.length ; i++) {
-                    progressCount++;
-                    dirTraversal(files[i]);
-                }
+    private void startCrawling () {
+        for ( String dirName : aCase.getEvidenceSourceLocation() ) {
+            if ( this.isCancelled() )
+                throw new CancellationException("Cralwer is Cancelled by stop button");
+                  
+            logger.log(Level.INFO, "Start Index File: " + dirName);
+            
+            File directory = new File(dirName);
+            doDirectoryCrawling(directory);
+        } 
+    }
+    
+    private void doDirectoryCrawling(File path) {
+        if ( this.isCancelled() )
+            throw new CancellationException("Cralwer is Cancelled by stop button");
+                    
+        if ( path.isDirectory() ) {
+            File[] files = path.listFiles();
+               
+            for(File file: files) {
+                if ( this.isCancelled() )
+                    throw new CancellationException("Cralwer is Cancelled by stop button");
+                            
+                noOfFilesEnumerated++;
+                doDirectoryCrawling(file);
             }
             
-            /**
-             * Check if this path is chat path, then index it with special
-             * care of handling chat conversation sessions
-             */
-            try {
-                this.luceneIndex.indexDir(dir);
-            }
-            catch(Exception e) { e.printStackTrace(); }
+            if ( this.luceneIndex.indexDir(path) )
+                noOfFilesIndexed++;
         }
         else {
-            long size = dir.length();
+            long size = path.length();
+            caseSize += size; 
             
             // if file size more than 3 MB then show size message to indicate that indexing will take some time
             String msg = size > 3145728 ? "This file will take some minutes to index, please wait..." : " " ;
+            
+            // publish file progress (update labels)
+            publish(new ProgressIndexData( noOfFilesEnumerated,noOfFilesIndexed, 
+                    path.getAbsolutePath(), "" , ProgressIndexData.TYPE.LABEL , msg));
 
-            publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), "" , 1 , msg));
-            logger.log(Level.INFO, "Index File: {0} , size: {1}", new Object[]{dir.getAbsolutePath(), SizeUtil.getSize(dir.getAbsolutePath())});
-            try {
-                boolean status = luceneIndex.indexFile(dir);
+            boolean status = luceneIndex.indexFile(path);
+            if ( ! status ) // update error table
+                publish(new ProgressIndexData( noOfFilesEnumerated,noOfFilesIndexed,
+                        path.getAbsolutePath(), "Cannot Index This File", ProgressIndexData.TYPE.TABEL , msg));
+            else
+                noOfFilesIndexed++;
 
-                if ( ! status )
-                    publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), "Cannot Index This File", 0 , msg));
-                else
-                    indexCount++;
-            }
-            catch (IOException e) {
-                publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), e.getMessage() , 0 , msg));
-                logger.log(Level.SEVERE, "Uncaught exception", e);
-            }
-            catch (PSTException e) {
-                publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), e.getMessage() , 0 , msg));
-                logger.log(Level.SEVERE, "Uncaught exception", e);
-            }
-            catch (TikaException e) {
-                publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), e.getMessage() , 0 , msg));
-                logger.log(Level.SEVERE, "Uncaught exception", e);
-            }
-
-            ++progressCount ;
+            ++noOfFilesEnumerated ;
         }
     }
     
     @Override
     protected void process(List<ProgressIndexData> chunks) {
+        if ( isCancelled() )
+            return; 
+                
         for (ProgressIndexData pd : chunks) {
-            if ( pd.getType() == 0 ) {
+            if ( pd.getType() == ProgressIndexData.TYPE.TABEL ) {
                 ((DefaultTableModel)this.parentDialog.getLoggingTable().getModel()).addRow(new Object[] { FileUtil.getExtension(pd.getPath())
                     , pd.getPath(), "cannot index this file (password protected or internal error in file format)"});
 
-                totalNumberOfError++;
-                this.parentDialog.setNumberOfFilesError(String.valueOf(this.totalNumberOfError));
+                noOfFilesCannotIndexing++;
+                this.parentDialog.setNumberOfFilesError(String.valueOf(this.noOfFilesCannotIndexing));
                 this.parentDialog.setprogressBar(pd.getProgressCount());
             }
             else {
@@ -164,44 +162,50 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
 
     @Override
     public void done() {
-        logger.log(Level.INFO, "Done Indexing Process");
-
-        this.parentDialog.setProgressIndetermined(false);
-        
-        String indexingTime = "" + DateUtil.getTimeFromMilliseconds(time) ;
-        String lastIndexDate = DateUtil.formatDateTime(new Date()) ;
-
-        this.parentDialog.setTimeLabel(indexingTime);
-        this.parentDialog.setLastIndexTime(lastIndexDate);
-        this.parentDialog.setStartButtonStatus(true);
-        this.parentDialog.setStopButtonStatus(false);
-        
-        // save log files
         try {
+            logger.log(Level.INFO, "Done Indexing Process");
+            
+            String endTime = this.get();
+            String lastIndexDate = DateUtil.formatDateTime(new Date()) ;
+
+            // show message box after finish the indexing process if there is problem
+            if ( indexStatus )
+                JOptionPane.showMessageDialog(this.parentDialog, "Indexing Process Completed Successfully","Indexing Process Is Completed",
+                    JOptionPane.INFORMATION_MESSAGE);
+            
+            // set dialog label
+            this.parentDialog.setProgressIndetermined(false);
+            this.parentDialog.setTimeLabel(endTime);
+            this.parentDialog.setLastIndexTime(lastIndexDate);
+            this.parentDialog.setStartButtonStatus(true);
+            this.parentDialog.setStopButtonStatus(false);
+
+            // save case history & close the index
             if ( indexStatus ) {
                 CaseHistoryHandler.CaseHistory history = CaseHistoryHandler.CaseHistory.newInstance(
                         this.aCase.getIndexName(), new Date().toString(), true, this.itemsCount, 
                         this.caseSize);
-                
+
                 CaseHistoryHandler.set(history);
             }
-            closeIndex();
+            this.parentDialog.hideIndexingDialog();
         }
-        catch (IOException e){
-            logger.log(Level.SEVERE, "Uncaught exception", e);
-        }
-
-        // show message box after finish the indexing process if there is problem
-        if ( ! indexStatus )
+        catch(InterruptedException e) {}
+        catch(CancellationException e) {
             JOptionPane.showMessageDialog(this.parentDialog, "Indexing Process Stopped","Indexing Process Is Not Completed",
                     JOptionPane.ERROR_MESSAGE);
-        else 
-            JOptionPane.showMessageDialog(this.parentDialog, "Indexing Process Completed Successfully","Indexing Process Is Completed",
-                JOptionPane.INFORMATION_MESSAGE);
-
-        clearFields();
-        
-        this.parentDialog.closeDialog();
+        }
+        catch(ExecutionException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                clearFields();
+                closeIndex();
+            } catch (IOException ex) {
+                Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void clearFields() {
@@ -210,24 +214,32 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         this.parentDialog.setCurrentFile("");
         this.parentDialog.setFileSize("");
         this.parentDialog.setprogressBar(0);
-
-        //indexGUI.progressBar.setStringPainted(false);
+        this.parentDialog.getProgressBar().setStringPainted(false);
+        this.parentDialog.setProgressIndetermined(false);
+        this.parentDialog.setStartButtonStatus(true);
+        this.parentDialog.setStopButtonStatus(false);
     }
     
-    public void closeIndex () throws IOException {
+    public void stopIndexingThread() throws IOException {
+        this.cancel(true);
+    }
+    
+    private void closeIndex () throws IOException {
         luceneIndex.closeIndex();
     }
     
-    final class ProgressIndexData {
+    static final class ProgressIndexData {
+        private enum TYPE {LABEL, TABEL}
+        
         private final String path;
         private final int progressCount ;
         private final int indexCount ;
         private final String status ;
-        private final int type ; // 0 for set data in table , 1 for change label
+        private final TYPE type ;
         private final String sizeMsg ;
 
         public ProgressIndexData (int progressCount, int indexCount, String p,
-                String status, int type, String sm) {
+                String status, TYPE type, String sm) {
             this.progressCount = progressCount;
             this.path = p ;
             this.indexCount = indexCount ;
@@ -239,7 +251,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         public String getPath ()        { return this.path   ; }
         public int getProgressCount ()  { return this.progressCount  ; }
         public String getStatus()       { return this.status ; }
-        public int getType ()           { return this.type   ; }
+        public TYPE getType ()           { return this.type   ; }
         public int getIndexCount()      { return this.indexCount ;}
         public String getSizeMsg()      { return this.sizeMsg; }
     }

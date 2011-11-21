@@ -47,6 +47,9 @@ public class CaseFrame extends javax.swing.JFrame {
     private final List<String> listOfOpeningCase ;
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
+    // to update the panel after direct indexing 
+    private CaseManagerPanel caseManagerPanel;
+    
     /** Creates new form OfflineMinningFrame 
      * 
      * @param aCase case opened in CaseManager
@@ -98,7 +101,7 @@ public class CaseFrame extends javax.swing.JFrame {
         ChatPanel chatPanel = new ChatPanel(this.caseObj);
         ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.caseObj);
         CaseSearchPanel searchPanel = new CaseSearchPanel(this.caseObj, this);
-        CaseManagerPanel caseManagerPanel = new CaseManagerPanel(this);
+        caseManagerPanel = new CaseManagerPanel(this);
         ReportPanel reportPanel = new ReportPanel();
         
         this.CardPanel.add(fileSystemPanel, "fileSystemCard");
@@ -464,6 +467,9 @@ public class CaseFrame extends javax.swing.JFrame {
         IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj, startIndex);
         indexPanel.setLocationRelativeTo(this);
         indexPanel.setVisible(true);
+        
+        caseManagerPanel.displayCaseInformationPanel();
+        caseManagerPanel.displayMutableCaseInformationPanel();
     }
     
     private void closeCaseFrame() {

@@ -11,7 +11,7 @@ package edu.coeia.indexing;
 
 import java.io.File ;
 
-public class OfficeImageExtractor implements ImageExtractor{
+final class OfficeImageExtractor implements ImageExtractor{
     
     @Override
     public void extractImages(Indexer indexer, File file,int parentId) {

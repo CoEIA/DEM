@@ -11,7 +11,7 @@ package edu.coeia.indexing;
 
 import java.io.File ;
 
-public class ArchiveIndexer extends Indexer {
+final class ArchiveIndexer extends Indexer {
     
     private int parentId ;
     

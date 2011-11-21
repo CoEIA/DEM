@@ -11,7 +11,7 @@ package edu.coeia.indexing;
 
 import java.io.File ;
 
-public class PDFImageExtractor implements ImageExtractor {
+final class PDFImageExtractor implements ImageExtractor {
     
     @Override
     public void extractImages(Indexer indexer, File file,int parentId) {

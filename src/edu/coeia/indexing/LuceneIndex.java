@@ -11,26 +11,21 @@ package edu.coeia.indexing;
  *
  */
 
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.store.FSDirectory ;
-import org.apache.lucene.util.Version ;
-
-import com.pff.PSTException ;
 import edu.coeia.cases.Case;
 import edu.coeia.util.FilesPath;
 
-import java.io.FileNotFoundException ;
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.lucene.analysis.StopAnalyzer;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.store.FSDirectory ;
+import org.apache.lucene.util.Version ;
 
-import org.apache.tika.exception.TikaException;
+final class LuceneIndex {
 
-public final class LuceneIndex {
-
-    private IndexWriter writer ;
-    private Case caseObject; 
+    private final IndexWriter writer ;
+    private final Case caseObject; 
     
     /*
      * Static Factory Method 
@@ -57,27 +52,24 @@ public final class LuceneIndex {
 	writer.setUseCompoundFile(false);
     }
 
-    public Case getCase () { return this.caseObject ; }
-    public IndexWriter getWriter () { return this.writer ; }
+    Case getCase () { return this.caseObject ; }
+    IndexWriter getWriter () { return this.writer ; }
     
-    public int getIndexNumber () throws IOException {
+    int getIndexNumber () throws IOException {
         int numIndexed = writer.numDocs();
         return numIndexed ;
     }
 
-    public void closeIndex () throws IOException {
+    void closeIndex () throws IOException {
         writer.optimize();
 	writer.close();
     }
     
-    public boolean indexFile(File file)  
-            throws IOException, FileNotFoundException, PSTException, TikaException {
+    boolean indexFile(File file) {
         return indexFile(file, 0);
     }
     
-    public boolean indexFile(File file, int parentId)  
-            throws IOException, FileNotFoundException, PSTException, TikaException {
-   
+    boolean indexFile(File file, int parentId) { 
         try {
             Indexer indexType = IndexerFactory.getIndexer(this, file, parentId);
             return indexType.doIndexing();
@@ -89,9 +81,7 @@ public final class LuceneIndex {
         return false;
     }
     
-    public boolean indexDir(File dir) 
-            throws IOException, FileNotFoundException, PSTException, TikaException {
-
+    boolean indexDir(File dir){
         try {
             Indexer indexType = IndexerFactory.getFolderIndexer(this, dir);
             return indexType.doIndexing();
