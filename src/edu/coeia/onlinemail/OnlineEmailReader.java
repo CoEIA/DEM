@@ -36,7 +36,9 @@ import javax.mail.NoSuchProviderException;
 import javax.mail.MessagingException;
 import javax.mail.Address;
 import javax.mail.BodyPart;
+import javax.mail.internet.ContentType;
 import javax.mail.internet.MimeUtility;
+import javax.mail.internet.ParseException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
@@ -49,13 +51,13 @@ class ProgressData {
     private List<String> BCC;
     private String Attachments;
     private String Subject;
-    private String To;
+    private List<String> to;
     
 
     public ProgressData() {
     }
 
-    public ProgressData(String From, String To, String Subject, String SentDate,
+    public ProgressData(String From, List<String> To, String Subject, String SentDate,
             String CreationDate, List<String> CC, List<String> BCC, String Attachments) {
         this.From = From;
         this.SentDate = SentDate;
@@ -64,7 +66,7 @@ class ProgressData {
         this.BCC = BCC;
         this.Attachments = Attachments;
         this.Subject = Subject;
-        this.To = To;
+        this.to = To;
         
     }
 
@@ -73,7 +75,12 @@ class ProgressData {
     }
 
     public String getTo() {
-        return this.To;
+
+        String to = new String();
+        for (String s : this.to) {
+            to = s;
+        }
+        return to;
     }
 
     public String getFrom() {
@@ -247,19 +254,25 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
                 int messageId = messages.length - count++;
                 String from = getFromAddress(message.getFrom()[0].toString());
                 List<String> to = getAddress(message, Message.RecipientType.TO);
+                if(to == null) to = new ArrayList<String>();
                 String subject = message.getSubject();
-                String body = null;
+                String body = "";
 
-                try {
-                    body = getMessageContent(message);
-                } catch (MessagingException ex) {
-
-                    ex.printStackTrace();
-
-                }
+//                try {
+//                    body = getMessageContent(message);
+//                } catch (MessagingException ex) {
+//
+//                    ex.printStackTrace();
+//
+//                }
+                
+              
+                
                 Date sentDate = message.getSentDate();
+                if (sentDate == null) sentDate = new Date();
                 Date receiveDate = message.getReceivedDate();
-
+                if (receiveDate == null ) receiveDate = new Date();
+                
                 System.out.println("SentDate : " + sentDate);
                 System.out.println("ReceiveDate : " + receiveDate);
                 System.out.println("------------From------\n" + from);
@@ -274,6 +287,8 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
 
                 }
                 System.out.println("------------Subject------\n" + subject);
+                
+               // dumpPart(message);
                 System.out.println("------------Body------\n" + body);
 
                 // Save Attachment
@@ -287,10 +302,16 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
                     ex.printStackTrace();
                 }
 
-                ProgressData PData = new ProgressData(from, to.get(0), subject, sentDate.toString(), receiveDate.toString(),
+               try{
+                   ProgressData PData = new ProgressData(from, to, subject, sentDate.toString(), receiveDate.toString(),
                         cclist, bcclist, pathBuilder);
 
                 publish(PData);
+               }
+               catch (Exception ex )
+               {
+                   ex.printStackTrace();
+               }
 
             }
         }
@@ -386,7 +407,7 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
 
         Session session = Session.getDefaultInstance(props, null);
         store = session.getStore("imaps");
-        store.connect(PROTOCOL, userName, password);
+        store.connect(PROTOCOL, "xgameprogrammer@gmail.com","windows98");
 
 
     }
@@ -466,8 +487,6 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
 
             System.out.println("file name" + filename);
             FileUtil.saveObject(bodyPart.getInputStream(), filename, attachmentsPath);
-
-
             attachments.add(filename);
 
         }
@@ -507,6 +526,65 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
         }
         return messageContent.toString();
     }
+    
+    
+       public static void dumpPart(Part p) throws Exception {
+	 
+	String ct = p.getContentType();
+	try {
+	    pr("CONTENT-TYPE: " + (new ContentType(ct)).toString());
+	} catch (ParseException pex) {
+	    pr("BAD CONTENT-TYPE: " + ct);
+	}
+	String filename = p.getFileName();
+	if (filename != null)
+	    pr("FILENAME: " + filename);
+
+	/*
+	 * Using isMimeType to determine the content type avoids
+	 * fetching the actual content data until we need it.
+	 */
+	if (p.isMimeType("text/plain")) {
+	    pr("This is plain text");
+	    pr("---------------------------");
+	   
+	System.out.println((String)p.getContent());
+	} else if (p.isMimeType("multipart/*")) {
+	    pr("This is a Multipart");
+	    pr("---------------------------");
+	    Multipart mp = (Multipart)p.getContent();
+	    level++;
+	    int count = mp.getCount();
+	    for (int i = 0; i < count; i++)
+		dumpPart(mp.getBodyPart(i));
+	    level--;
+	} else if (p.isMimeType("message/rfc822")) {
+	    pr("This is a Nested Message");
+	    pr("---------------------------");
+	    level++;
+	    dumpPart((Part)p.getContent());
+	    level--;
+	} else {
+	     
+		/*
+		 * If we actually want to see the data, and it's not a
+		 * MIME type we know, fetch it and check its Java type.
+		 */
+		Object o = p.getContent();
+		if (o instanceof String) {
+		    pr("This is a string");
+		    pr("---------------------------");
+		    System.out.println((String)o);
+                }
+	    
+	}
+ 
+    }
+    public static void pr(String s) {
+	
+	    System.out.print(indentStr.substring(0, level * 2));
+	System.out.println(s);
+    }
     private final String userName;
     private final String password;
     private static final String PROTOCOL = "imap.gmail.com";
@@ -515,4 +593,6 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
     private List<String> attachments;
     private String attachmentsPath;
     private OnlineEmailDBHandler db;
+    static String indentStr = "                                               ";
+    static int level = 0;
 }
