@@ -107,8 +107,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             new Object [][] {
             },
             new String [] {
-                "Case Name","Investigator Name","Case Date","Case Description",
-                "Case Indexed"
+                "Case Name","Investigator Name","Case Date","Case Description"
             }
 
         )
@@ -129,7 +128,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         caseManagerDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(caseManagerDataPanelLayout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
             .addContainerGap())
     );
     caseManagerDataPanelLayout.setVerticalGroup(
@@ -473,7 +472,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     private void insertIntoCaseTable (Case index) {
         DefaultTableModel model = (DefaultTableModel) recentCaseTable.getModel();
         model.addRow( new Object[] {index.getIndexName(), index.getInvestigatorName(), DateUtil.formatDateTime(index.getCreateTime()), index.getDescription(),
-            CaseHistoryHandler.get(index.getIndexName()).getIsCaseIndexed() });
+            });
     }
     
     private String getSelectedCase () {
