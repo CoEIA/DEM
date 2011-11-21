@@ -55,7 +55,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         this.parentDialog = parentDialog;
      
         try {
-            luceneIndex = LuceneIndex.getInstance(this.aCase, true);
+            luceneIndex = LuceneIndex.newInstance(this.aCase);
             
             logger.log(Level.INFO, "this is first line in indexing");
         } catch (IOException ex) {
@@ -72,8 +72,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         for ( String dirName : aCase.getEvidenceSourceLocation() ) {
             logger.log(Level.INFO, "Start Index File: {0}", dirName);
             File file = new File(dirName);
-            boolean ignoreEmail = true;
-            dirTraversal(file, ignoreEmail);
+            dirTraversal(file);
             logger.log(Level.INFO, "End of indexing: {0}", dirName);
         }       
         
@@ -84,39 +83,25 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         return "" + time ;
     }
     
-    private void dirTraversal(File dir, boolean ignoreEmail) {
+    private void dirTraversal(File dir) {
         if ( dir.isDirectory() ) {
             File[] files = dir.listFiles();
 
             if ( files != null ) {
                 for (int i=0 ; i<files.length ; i++) {
                     progressCount++;
-                    dirTraversal(files[i], ignoreEmail);
+                    dirTraversal(files[i]);
                 }
             }
             
             /**
-             * is end with Program Files\Yahoo!\Messenger\Profiles
+             * Check if this path is chat path, then index it with special
+             * care of handling chat conversation sessions
              */
-            if ( isValidYahooPath(dir.getAbsolutePath()) ) {
-                System.out.println("found yahoo at: " + dir.getAbsolutePath());
-                LuceneIndex.indexYahooDir(dir);
+            try {
+                this.luceneIndex.indexDir(dir);
             }
-            
-            /**
-             * is ending userXX\My Documents\My Received Files
-             */
-            if (isValidMSNPath(dir.getAbsolutePath())) {
-                System.out.println("found msn at: " + dir.getAbsolutePath());
-                LuceneIndex.indexHotmailDir(dir);
-            }
-            
-            /**
-             * is path ending with Application Data\SKYPE
-             */
-            if ( isValidSkypePath(dir.getAbsolutePath())) {
-                System.out.println("found skype at: " + dir.getAbsolutePath());
-            }
+            catch(Exception e) { e.printStackTrace(); }
         }
         else {
             long size = dir.length();
@@ -127,17 +112,12 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), "" , 1 , msg));
             logger.log(Level.INFO, "Index File: {0} , size: {1}", new Object[]{dir.getAbsolutePath(), SizeUtil.getSize(dir.getAbsolutePath())});
             try {
-                if ( isEmailFile(dir.getAbsolutePath()) &&  ignoreEmail ) {
-                    indexCount++;
-                }
-                else {
-                    boolean status = LuceneIndex.indexFile(dir);
+                boolean status = luceneIndex.indexFile(dir);
 
-                    if ( ! status )
-                        publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), "Cannot Index This File", 0 , msg));
-                    else
-                        indexCount++;
-                }
+                if ( ! status )
+                    publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), "Cannot Index This File", 0 , msg));
+                else
+                    indexCount++;
             }
             catch (IOException e) {
                 publish(new ProgressIndexData( progressCount,indexCount, dir.getAbsolutePath(), e.getMessage() , 0 , msg));
@@ -155,52 +135,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             ++progressCount ;
         }
     }
-
-    /**
-     * Test if the path is valid Yahoo path
-     * @param path to chat profile
-     * @return true if path is correct and false if not
-     */
-    public static boolean isValidYahooPath(String path) {
-        if ( path.endsWith("Program Files\\Yahoo!\\Messenger\\Profiles") )
-            return true;
-        
-        return false;
-    }
     
-    /**
-     * Test if the path is valid MSN path
-     * @param path to chat profile
-     * @return true if path is correct and false if not
-     */
-    public static boolean isValidMSNPath(String path) {
-        if ( path.endsWith("My Documents\\My Received Files") )
-            return true;
-        
-        return false;
-    }
-    
-    /**
-     * Test if the path is valid SKYPE path
-     * @param path to chat profile
-     * @return true if path is correct and false if not
-     */
-    public static boolean isValidSkypePath(String path) {
-        if ( path.endsWith("Application Data\\Skype") )
-            return true;
-        
-        return false;
-    }
-    
-    private boolean isEmailFile (String path) {
-        if ( path.endsWith("ost") || path.endsWith("OST") ||
-                path.endsWith("pst") || path.endsWith("PST"))
-            return true;
-        
-        else
-            return false;
-    }
-
     @Override
     protected void process(List<ProgressIndexData> chunks) {
         for (ProgressIndexData pd : chunks) {

@@ -13,7 +13,6 @@ import java.util.Map;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexWriter;
 
 /**
  *
@@ -27,29 +26,23 @@ public class DocumentIndexer extends Indexer {
     /*
      * static factory method to get an instance of DocumentIndexer
      */
-    public static DocumentIndexer newInstance(IndexWriter writer, File file, String mimeType, 
-            boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
-            
-        return new DocumentIndexer(writer, file, mimeType, imageCaching, caseLocation, imageExtractor, 0);
+    public static DocumentIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
+            ImageExtractor imageExtractor) {
+        return new DocumentIndexer(luceneIndex, file, mimeType, imageExtractor, 0);
     }
-    
+     
     /*
      * static factory method to get an instance of DocumentIndexer
      */
-    public static DocumentIndexer newInstance(IndexWriter writer, File file, String mimeType, 
-            boolean imageCaching, String caseLocation, ImageExtractor imageExtractor, int parentId) {
-            
-        return new DocumentIndexer(writer, file, mimeType, imageCaching, caseLocation, imageExtractor, parentId);
+    public static DocumentIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
+            ImageExtractor imageExtractor, int parentId) {
+        return new DocumentIndexer(luceneIndex, file, mimeType, imageExtractor, parentId);
     }
     
-    /*
-     * index file object with parentid
-     */
-    private DocumentIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor,
-            int parentId) {
-        
-        super(writer, file, mimeType, imageCaching, caseLocation, imageExtractor);
-        this.parentId = parentId;
+    private DocumentIndexer(LuceneIndex luceneIndex, File file, String mimeType, 
+            ImageExtractor imageExtractor,int parentId) {
+        super(luceneIndex, file,mimeType, imageExtractor);
+        this.parentId = parentId ;
     }
     
     @Override
@@ -65,7 +58,7 @@ public class DocumentIndexer extends Indexer {
             int objectId = id;
             
             if (doc != null) {
-                this.writer.addDocument(doc);    // index file
+                this.luceneIndex.getWriter().addDocument(doc);    // index file
                 this.id++;                       // increase the id counter if file indexed successfully
                 
             } else {

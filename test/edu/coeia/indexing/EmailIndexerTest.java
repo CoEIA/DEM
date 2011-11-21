@@ -36,24 +36,24 @@ public class EmailIndexerTest {
      public void TestEmails() throws CorruptIndexException, LockObtainFailedException, IOException
       
     {
-         Directory dir = null;
-         IndexWriter writer_ = null;
-         
-         try {
-            dir = FSDirectory.open(new File("C:\\Indexer"));
-        } catch (IOException ex) {
-            Logger.getLogger(EmailIndexer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-            writer_ = new IndexWriter(dir,
-                new StandardAnalyzer(
-                Version.LUCENE_21),
-                true,
-                IndexWriter.MaxFieldLength.UNLIMITED);
-      
-            EmailIndexer ei = new EmailIndexer(writer_, new File("C:\\Secure_DB"), null, true, null, null);
-        
-        ei.doIndexing();
+//         Directory dir = null;
+//         IndexWriter writer_ = null;
+//         
+//         try {
+//            dir = FSDirectory.open(new File("C:\\Indexer"));
+//        } catch (IOException ex) {
+//            Logger.getLogger(EmailIndexer.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//            writer_ = new IndexWriter(dir,
+//                new StandardAnalyzer(
+//                Version.LUCENE_21),
+//                true,
+//                IndexWriter.MaxFieldLength.UNLIMITED);
+//      
+//            EmailIndexer ei = new EmailIndexer(writer_, new File("C:\\Secure_DB"), null, true, null, null);
+//        
+//        ei.doIndexing();
        
         
 

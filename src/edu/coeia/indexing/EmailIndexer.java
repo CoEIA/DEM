@@ -38,10 +38,10 @@ import org.apache.tika.exception.TikaException;
  * @author Ahmed
  */
 public class EmailIndexer extends Indexer {
-
-  
-    public EmailIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
-        super(writer, file, mimeType, imageCaching, caseLocation, imageExtractor);
+    
+    public EmailIndexer (LuceneIndex luceneIndex, File file, String mimeType, 
+            ImageExtractor imageExtractor) {
+        super(luceneIndex, file, mimeType, imageExtractor);
     }
 
     @Override
@@ -69,13 +69,13 @@ public class EmailIndexer extends Indexer {
                 doc = getDocument(msg);
                 if (doc != null) {
                 
-                writer.addDocument(doc);    // index file
+                this.luceneIndex.getWriter().addDocument(doc);    // index file
                 this.id++;
                 
                 
                 for (String sAttachments : msg.getAttachments()) {
                
-                LuceneIndex.indexFile(new File("C:\\Attachments\\"+sAttachments), msg.getId());
+                luceneIndex.indexFile(new File("C:\\Attachments\\"+sAttachments), msg.getId());
                 }
              
                 

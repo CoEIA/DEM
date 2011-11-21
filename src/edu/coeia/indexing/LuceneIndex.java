@@ -27,26 +27,21 @@ import org.apache.lucene.analysis.StopAnalyzer;
 
 import org.apache.tika.exception.TikaException;
 
-final class LuceneIndex {
+public final class LuceneIndex {
 
-    private static IndexWriter writer ;
-    public static Case caseObject; 
+    private IndexWriter writer ;
+    private Case caseObject; 
     
     /*
      * Static Factory Method 
      * Create New Instance of Lucene Indexer
      */
-    public static LuceneIndex getInstance(Case aCase, boolean createIndex) throws IOException{ 
-        return new LuceneIndex(aCase, createIndex);
+    public static LuceneIndex newInstance(Case aCase) throws IOException{ 
+        return new LuceneIndex(aCase);
     }
     
-    // last parameter will create new index folder
-    private LuceneIndex (Case aCase) throws IOException {
-       this(aCase, true);
-    }
-
     // add index to exists index folder if boolean value is false
-    private LuceneIndex (Case aCase, boolean newIndex) throws IOException {
+    private LuceneIndex (Case aCase) throws IOException {
         File indexDir = new File(aCase.getCaseLocation() + "\\" +  FilesPath.INDEX_PATH);
         
         if ( !indexDir.exists() ) {
@@ -62,9 +57,11 @@ final class LuceneIndex {
 	writer.setUseCompoundFile(false);
     }
 
+    public Case getCase () { return this.caseObject ; }
+    public IndexWriter getWriter () { return this.writer ; }
+    
     public int getIndexNumber () throws IOException {
         int numIndexed = writer.numDocs();
-        
         return numIndexed ;
     }
 
@@ -73,19 +70,16 @@ final class LuceneIndex {
 	writer.close();
     }
     
-    public static boolean indexFile(File file)  
+    public boolean indexFile(File file)  
             throws IOException, FileNotFoundException, PSTException, TikaException {
         return indexFile(file, 0);
     }
     
-    public static boolean indexFile(File file, int parentId)  
+    public boolean indexFile(File file, int parentId)  
             throws IOException, FileNotFoundException, PSTException, TikaException {
    
         try {
-            
-            Indexer indexType = IndexerFactory.getIndexer(writer, file, caseObject.getCacheImages(),
-                    caseObject.getCaseLocation(), parentId);
-            
+            Indexer indexType = IndexerFactory.getIndexer(this, file, parentId);
             return indexType.doIndexing();
         }
         catch(UnsupportedOperationException e){
@@ -95,18 +89,17 @@ final class LuceneIndex {
         return false;
     }
     
-    public static boolean indexYahooDir(File path) {
+    public boolean indexDir(File dir) 
+            throws IOException, FileNotFoundException, PSTException, TikaException {
 
-        YahooChatIndexer indexer = YahooChatIndexer.newInstance(writer, path, "", false, 
-                caseObject.getCaseLocation(), new NoneImageExtractor());
+        try {
+            Indexer indexType = IndexerFactory.getFolderIndexer(this, dir);
+            return indexType.doIndexing();
+        }
+        catch(UnsupportedOperationException e){
+            System.out.println(e.getMessage());
+        }
         
-        return indexer.doIndexing();
-    }
-    
-    public static boolean indexHotmailDir(File path) {
-        MSNIndexer indexer = MSNIndexer.newInstance(writer, path, "", false, 
-                caseObject.getCaseLocation(), new NoneImageExtractor());
-        
-        return indexer.doIndexing();
+        return false;
     }
 }

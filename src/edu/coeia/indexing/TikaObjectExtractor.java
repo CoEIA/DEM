@@ -1,15 +1,9 @@
 package edu.coeia.indexing ;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author wajdyessam
  */
-
 
 import java.io.InputStream;
 import java.util.ArrayList;

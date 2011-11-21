@@ -4,7 +4,6 @@
  */
 package edu.coeia.hash;
 
-import edu.coeia.hash.HashCalculator;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

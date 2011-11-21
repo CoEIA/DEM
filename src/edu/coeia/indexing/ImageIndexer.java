@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.lucene.document.DateTools;
-import org.apache.lucene.index.IndexWriter ;
 import org.apache.lucene.document.Document ;
 import org.apache.lucene.document.Field ;
 
@@ -25,16 +24,19 @@ public class ImageIndexer extends Indexer{
     
     private int parentId ;
     
-    public static ImageIndexer newInstance(IndexWriter writer, File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor) {
-        return new ImageIndexer(writer, file,mimeType, imageCaching, location, imageExtractor, 0);
+    public static ImageIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType,
+            ImageExtractor imageExtractor) {
+        return new ImageIndexer(luceneIndex, file,mimeType, imageExtractor, 0);
     }
         
-    public static ImageIndexer newInstance(IndexWriter writer, File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor, int parentId) {
-        return new ImageIndexer(writer, file,mimeType, imageCaching, location, imageExtractor, parentId);
+    public static ImageIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType,
+            ImageExtractor imageExtractor, int parentId) {
+        return new ImageIndexer(luceneIndex, file,mimeType, imageExtractor, parentId);
     }
     
-    private ImageIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String location, ImageExtractor imageExtractor, int parentId) {
-        super(writer, file,mimeType, imageCaching, location, imageExtractor);
+    private ImageIndexer(LuceneIndex luceneIndex, File file, String mimeType,
+            ImageExtractor imageExtractor, int parentId) {
+        super(luceneIndex, file,mimeType, imageExtractor);
         this.parentId = parentId ;
     }
         
@@ -46,12 +48,12 @@ public class ImageIndexer extends Indexer{
             Map<String, String> metadata = extractor.getMetadata();
             
             Document doc = getDocument(file, metadata);
-            writer.addDocument(doc);
+            this.luceneIndex.getWriter().addDocument(doc);
             
             int objectId = this.id ;
             
             if ( doc != null) {
-                writer.addDocument(doc);    // index file
+                this.luceneIndex.getWriter().addDocument(doc);    // index file
                 this.id++;
             }
             else {

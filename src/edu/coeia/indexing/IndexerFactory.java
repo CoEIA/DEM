@@ -14,11 +14,9 @@ import java.io.IOException;
 
 import org.apache.tika.Tika;
 
-import org.apache.lucene.index.IndexWriter;
-
 public class IndexerFactory {
     
-    public static Indexer getIndexer (IndexWriter writer, File file, boolean supportCaching, String caseLocation, int parentId) {
+    public static Indexer getIndexer (LuceneIndex luceneIndex, File file, int parentId) {
         String mime = null;
         
         try {
@@ -43,37 +41,89 @@ public class IndexerFactory {
                  mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.presentation") ||
                  mime.equals("application/rtf") )
                 
-                 return DocumentIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new OfficeImageExtractor(), parentId);
+                 return DocumentIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
 
             if ( mime.equalsIgnoreCase("text/plain") ||
                  mime.equalsIgnoreCase("application/xml") ||
                  mime.equalsIgnoreCase("application/xhtml+xml") ||
                  mime.equalsIgnoreCase("text/html") )
-                return DocumentIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new NoneImageExtractor(), parentId);
+                return DocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
 
 
             if ( mime.equalsIgnoreCase("application/pdf") )
-                return DocumentIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new PDFImageExtractor(), parentId);
+                return DocumentIndexer.newInstance(luceneIndex, file, mime, new PDFImageExtractor(), parentId);
 
              if ( mime.equalsIgnoreCase("application/zip") ||
                   mime.equalsIgnoreCase("application/x-rar-compressed"))
-                return ArchiveIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new OfficeImageExtractor(), parentId);
+                return ArchiveIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
 
             else if (mime.startsWith("image/"))
-                return DocumentIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new ExternalImageExtractor(), parentId);
-             
-             //System.out.println("mime: " + mime);
+                return DocumentIndexer.newInstance(luceneIndex, file, mime, new ExternalImageExtractor(), parentId);
         }
         catch(IOException e){
             e.printStackTrace();
         }        
         
         // Unkown file Format
-        return DocumentIndexer.newInstance(writer, file, mime, supportCaching, caseLocation, new NoneImageExtractor(), parentId);
+        return DocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
         //throw new UnsupportedOperationException("This file have no handler to handle it");
     }
     
-    public static Indexer getIndexer (IndexWriter writer, File file, boolean supportCaching, String caseLocation){
-        return getIndexer(writer, file, supportCaching, caseLocation, 0);
+    public static Indexer getIndexer (LuceneIndex luceneIndex, File file){
+        return getIndexer(luceneIndex, file, 0);
+    }
+    
+    public static Indexer getFolderIndexer (LuceneIndex luceneIndex, File dir) {
+        if ( isValidMSNPath(dir.getAbsolutePath()) )
+            return indexHotmailDir(luceneIndex, dir);
+        
+        else if ( isValidYahooPath(dir.getAbsolutePath()) )
+            return indexYahooDir(luceneIndex, dir);
+        
+        throw new UnsupportedOperationException("Normal Folder");
+    }
+    
+    private static Indexer indexYahooDir(LuceneIndex luceneIndex, File path) {
+        return YahooChatIndexer.newInstance(luceneIndex, path, "", new NoneImageExtractor());  
+    }
+    
+    private static Indexer indexHotmailDir(LuceneIndex luceneIndex, File path) {
+        return MSNIndexer.newInstance(luceneIndex, path, "", new NoneImageExtractor());
+    }
+    
+    /**
+     * Test if the path is valid Yahoo path
+     * @param path to chat profile
+     * @return true if path is correct and false if not
+     */
+    private static boolean isValidYahooPath(String path) {
+        if ( path.endsWith("Program Files\\Yahoo!\\Messenger\\Profiles") )
+            return true;
+        
+        return false;
+    }
+    
+    /**
+     * Test if the path is valid MSN path
+     * @param path to chat profile
+     * @return true if path is correct and false if not
+     */
+    private static boolean isValidMSNPath(String path) {
+        if ( path.endsWith("My Documents\\My Received Files") )
+            return true;
+        
+        return false;
+    }
+    
+    /**
+     * Test if the path is valid SKYPE path
+     * @param path to chat profile
+     * @return true if path is correct and false if not
+     */
+    private static boolean isValidSkypePath(String path) {
+        if ( path.endsWith("Application Data\\Skype") )
+            return true;
+        
+        return false;
     }
 }
