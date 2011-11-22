@@ -18,6 +18,11 @@ import java.util.Collections;
  * and its written to database when user save the tags
  * using saveTags method
  * 
+ * the tags manager contain list of unchanged tags that is reading when accessing db
+ * this list is using to verify the that the tags list is changed or not
+ * so the user can know their is modification in tags list
+ * and ask application user to save it
+ * 
  * @author wajdyessam
  */
 final public class TagsManager {
@@ -126,6 +131,6 @@ final public class TagsManager {
         this.firstStatesTags.addAll(this.getTags());
     }
     
-    private List<Tag> tags, firstStatesTags;
+    private final List<Tag> tags, firstStatesTags;
     private TagsDBHandler tagsDataBase;
 }
