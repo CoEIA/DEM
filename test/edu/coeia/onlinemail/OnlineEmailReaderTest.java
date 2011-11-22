@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  */
 public class OnlineEmailReaderTest {
 
-    private OnlineEmailReader reader = null;
+    private OnlineEmailDownloader reader = null;
 
     @Test
     public void getFormattedStringTest() throws SQLException {

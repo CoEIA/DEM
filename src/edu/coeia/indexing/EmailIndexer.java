@@ -22,7 +22,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import edu.coeia.onlinemail.OnlineEmailMessage;
-import edu.coeia.onlinemail.OnlineEmailReader;
+import edu.coeia.onlinemail.OnlineEmailDownloader;
 import edu.coeia.util.FilesPath;
 import java.util.Collections;
 import org.apache.lucene.analysis.StopAnalyzer;

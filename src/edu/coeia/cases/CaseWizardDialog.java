@@ -7,7 +7,7 @@ import edu.coeia.util.FilesPath;
 import edu.coeia.internet.FilesFilter;
 import edu.coeia.indexing.EmailDownDialogue;
 
-import edu.coeia.onlinemail.OnlineEmailReader;
+import edu.coeia.onlinemail.OnlineEmailDownloader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -894,42 +894,35 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             JFrame frame = new JFrame();
 
             for (EmailConfig s : emailInfos) {
-
                 if (s.getSource() == SOURCE.HOTMAIL) {
 
                     EmailDownDialogue hotmail_dialogue = null;
                     String Username = s.getUserName();
                     String Password = s.getPassword();
-
                     try {
-
                         hotmail_dialogue = new EmailDownDialogue(frame, true, currentCase);
-
-                        hotmail_dialogue.reader = new OnlineEmailReader(hotmail_dialogue,
+                        hotmail_dialogue.downloader = new OnlineEmailDownloader(hotmail_dialogue,
                                 currentCase.getIndexLocation() + "\\" + FilesPath.ATTACHMENTS,
                                 currentCase.getIndexLocation() + "\\" + FilesPath.EMAIL_DB);
-                        hotmail_dialogue.reader.ConnectPop3(Username, Password);
-                        hotmail_dialogue.reader.execute();
+                        hotmail_dialogue.downloader.ConnectPop3(Username, Password);
+                        hotmail_dialogue.downloader.execute();
                         hotmail_dialogue.setVisible(true);
                     } catch (Exception ex) {
                         Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
                 } // End IF Hotmail
 
-                if (s.getSource() == SOURCE.GMAIL) {
+              if (s.getSource() == SOURCE.GMAIL) {
                     EmailDownDialogue gmail_dialogue = null;
                     String Username = s.getUserName();
                     String Password = s.getPassword();
                     try {
                         gmail_dialogue = new EmailDownDialogue(frame, true, currentCase);
-                        gmail_dialogue.reader = new OnlineEmailReader(gmail_dialogue,
+                        gmail_dialogue.downloader = new OnlineEmailDownloader(gmail_dialogue,
                                 currentCase.getIndexLocation() + "\\" + FilesPath.ATTACHMENTS,
                                 currentCase.getIndexLocation() + "\\" + FilesPath.EMAIL_DB);
-
-                        gmail_dialogue.reader.ConnectIMAP(Username, Password);
-
-                        gmail_dialogue.reader.execute();
+                        gmail_dialogue.downloader.ConnectIMAP(Username, Password);
+                        gmail_dialogue.downloader.execute();
                         gmail_dialogue.setVisible(true);
                     } catch (Exception ex) {
                         Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);

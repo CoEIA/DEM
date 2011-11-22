@@ -12,15 +12,11 @@ package edu.coeia.indexing;
 
 import edu.coeia.cases.Case;
 
-import edu.coeia.onlinemail.OnlineEmailReader;
-import edu.coeia.util.FilesPath;
+import edu.coeia.onlinemail.OnlineEmailDownloader;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
-import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -31,7 +27,7 @@ import javax.swing.JTextField;
  */
 public class EmailDownDialogue extends javax.swing.JDialog {
 
-    public OnlineEmailReader reader;
+    public OnlineEmailDownloader downloader;
    
 
     public EmailDownDialogue() throws NoSuchProviderException, MessagingException, IOException, SQLException {
@@ -296,8 +292,8 @@ private void fromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:ev
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-    if (reader!= null) {
-        reader.cancel(true);
+    if (downloader!= null) {
+        downloader.cancel(true);
        
     }
    
