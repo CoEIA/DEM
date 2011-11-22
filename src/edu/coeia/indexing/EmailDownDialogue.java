@@ -16,6 +16,8 @@ import edu.coeia.onlinemail.OnlineEmailReader;
 import edu.coeia.util.FilesPath;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.swing.JLabel;
@@ -28,7 +30,8 @@ import javax.swing.JTextField;
  */
 public class EmailDownDialogue extends javax.swing.JDialog {
 
-    private OnlineEmailReader reader;
+    public OnlineEmailReader reader;
+   
 
     public EmailDownDialogue() throws NoSuchProviderException, MessagingException, IOException, SQLException {
     }
@@ -37,14 +40,7 @@ public class EmailDownDialogue extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
 
-        String Username = aCase.GetEmailConfig().get(0).getUserName();
-        String Password = aCase.GetEmailConfig().get(0).getPassword();
 
-        reader = new OnlineEmailReader(this, Username, Password,
-                aCase.getIndexLocation() + "\\" + FilesPath.ATTACHMENTS,
-                aCase.getIndexLocation() + "\\" + FilesPath.EMAIL_DB);
-
-        reader.execute();
 
     }
 
@@ -281,10 +277,13 @@ private void fromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:ev
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-    
-reader.cancel(true); 
-}//GEN-LAST:event_jButton1ActionPerformed
+    if (reader!= null) {
+        reader.cancel(true);
+       
+    }
+   
 
+}//GEN-LAST:event_jButton1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AttachjLabel;
     private javax.swing.JLabel BCCjLabel;

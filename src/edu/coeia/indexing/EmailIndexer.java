@@ -50,7 +50,7 @@ public class EmailIndexer extends Indexer {
         List<OnlineEmailMessage> AllMsgs = Collections.EMPTY_LIST;
         OnlineEmailDBHandler db = null;
         try {
-            db = new OnlineEmailDBHandler(false, file.getAbsolutePath());
+            db = new OnlineEmailDBHandler(file.getAbsolutePath());
             AllMsgs = db.getAllMessages();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(EmailIndexer.class.getName()).log(Level.SEVERE, null, ex);

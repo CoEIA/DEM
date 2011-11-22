@@ -2,10 +2,12 @@ package edu.coeia.cases;
 
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
+import edu.coeia.cases.EmailConfig.SOURCE;
 import edu.coeia.util.FilesPath;
 import edu.coeia.internet.FilesFilter;
 import edu.coeia.indexing.EmailDownDialogue;
 
+import edu.coeia.onlinemail.OnlineEmailReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -70,7 +72,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         PasswordHotmailTextField.setEnabled(false);
         ProgramFilesRadioButton.setVisible(false);
         WindowsFilesRadioButton.setVisible(false);
-        
+
         // show first card indexInfoPanel and disable back button and finish button
         showPanel(cardsName[0], indexWizardPanel);
         backButton.setEnabled(false);
@@ -303,6 +305,15 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel13.setText("Provider");
 
+        UserNameGmailTextField.setText("S2v2012@gmail.com");
+        UserNameGmailTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UserNameGmailTextFieldActionPerformed(evt);
+            }
+        });
+
+        UserNameHotmailTextField.setText("masregyptian@hotmail.com");
+
         GmailCheckBox.setText("Gmail");
         GmailCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,6 +327,10 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 HotmailCheckBoxActionPerformed(evt);
             }
         });
+
+        PasswordGmailTextField.setText("s2v123456789");
+
+        PasswordHotmailTextField.setText("windows98");
 
         javax.swing.GroupLayout CaseWizardA1Layout = new javax.swing.GroupLayout(CaseWizardA1);
         CaseWizardA1.setLayout(CaseWizardA1Layout);
@@ -384,14 +399,14 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Additonal Options"));
 
         YesNoIndexButtonGroup.add(NoIndexRadioButton);
-        NoIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        NoIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         NoIndexRadioButton.setText("No");
 
-        DetectClusterCaseRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        DetectClusterCaseRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         DetectClusterCaseRadioButton.setSelected(true);
         DetectClusterCaseRadioButton.setText("Detect and cluster duplicated files within case files.");
 
-        ExportRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ExportRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         ExportRadioButton.setSelected(true);
         ExportRadioButton.setText("Export copy of hashes to DEM Hash Library.");
 
@@ -399,11 +414,11 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         jLabel15.setText("Would you like to index the case:");
 
         YesNoIndexButtonGroup.add(YesIndexRadioButton);
-        YesIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        YesIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         YesIndexRadioButton.setSelected(true);
         YesIndexRadioButton.setText("Yes (Recommended)");
 
-        DetectClusterLibraryRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        DetectClusterLibraryRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         DetectClusterLibraryRadioButton.setText("Detect and cluster duplicated files compared with DEM Hash Library");
         DetectClusterLibraryRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -415,18 +430,18 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         NoMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         NoMD5RadioButton.setText("No");
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel14.setText(" Evidence (Data Source) should be indexed to be searchable and pefrom all functions.");
 
         YesNoMD5HashButtonGroup.add(YesMD5RadioButton);
-        YesMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        YesMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         YesMD5RadioButton.setSelected(true);
         YesMD5RadioButton.setText("Yes");
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel16.setText("Would you like to calculate MD5 Hashe Values for the case so you can perform \"Hash Analysis\".");
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel17.setText("Options:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -440,7 +455,6 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                     .addComponent(DetectClusterCaseRadioButton)
                     .addComponent(ExportRadioButton)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(YesIndexRadioButton)
                             .addComponent(YesMD5RadioButton))
@@ -448,18 +462,10 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(NoMD5RadioButton)
                             .addComponent(NoIndexRadioButton)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel16))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel15))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel17)))
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -511,10 +517,10 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Indexing Options"));
 
-        CacheImageCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CacheImageCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
         CacheImageCheckBox.setText("Cache Images to view on Multimedia Viewer");
 
-        ExcludeSystemFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ExcludeSystemFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
         ExcludeSystemFilesCheckBox.setText("Exclude Windows System Files from Indexing: ");
         ExcludeSystemFilesCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -522,7 +528,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        IndexZipCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        IndexZipCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
         IndexZipCheckBox.setSelected(true);
         IndexZipCheckBox.setText("Index archieved folders (ZIP, RAR)");
 
@@ -530,7 +536,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         ProgramFilesRadioButton.setText("Program Files");
 
-        IndexEmbeddedFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        IndexEmbeddedFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
         IndexEmbeddedFilesCheckBox.setSelected(true);
         IndexEmbeddedFilesCheckBox.setText("Index embedded files on MS Office and Attachments");
 
@@ -600,7 +606,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(CaseWizardA3Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         CaseWizardA3Layout.setVerticalGroup(
             CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -615,7 +621,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         indexFooterPanel.setMaximumSize(new java.awt.Dimension(608, 63));
         indexFooterPanel.setPreferredSize(new java.awt.Dimension(608, 63));
 
-        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         finishButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/finish.png"))); // NOI18N
         finishButton.setText("Finish");
         finishButton.addActionListener(new java.awt.event.ActionListener() {
@@ -657,9 +663,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             indexFooterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(indexFooterPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                 .addGap(113, 113, 113)
                 .addComponent(cancelButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -715,7 +721,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(indexFooterPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(indexFooterPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(indexWizardPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(indexHeaderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE))
@@ -830,7 +836,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
 
-        List<EmailConfig> emailInfos = new ArrayList<EmailConfig>();
+        final List<EmailConfig> emailInfos = new ArrayList<EmailConfig>();
 
 
         // get email data if user add emails
@@ -867,42 +873,6 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             emailInfos.add(config);
         }
 
-        if (GmailCheckBox.isSelected() || HotmailCheckBox.isSelected()) {
-
-
-            EventQueue.invokeLater(new Runnable() {
-
-                public void run() {
-                    JFrame frame = new JFrame();
-
-                    JDialog emailDialogue = null;
-                  
-
-                    try {
-                        emailDialogue = new EmailDownDialogue(frame, true, currentCase);
-                        emailDialogue.setVisible(true);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NoSuchProviderException ex) {
-                        showErrorMessage("You must choose correct Provider name", "Wrong Email Provider");
-                        showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
-                        return;
-                    } catch (MessagingException ex) {
-                        showErrorMessage("Please Write Correct Email Login", "Error Connecting Email");
-                        showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
-                        return;
-
-                    } catch (IOException ex) {
-                        return;
-                    } catch (Exception ex) {
-                        return;
-                    }
-
-                    
-                }
-            });
-
-        }
 
         this.setVisible(false);
 
@@ -913,11 +883,62 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 descriptionTextArea.getText().trim(),
                 CaseSource, new Date(), 0).isCacheImages(CacheImageCheckBox.isSelected()).isClusterWithCase(DetectClusterCaseRadioButton.isSelected()).isClusterWithLibrary(DetectClusterLibraryRadioButton.isSelected()).isExcludeFileSystems(ExcludeSystemFilesCheckBox.isSelected()).isExportLibrary(ExportRadioButton.isSelected()).isHash(YesMD5RadioButton.isSelected()).isIndex(YesIndexRadioButton.isSelected()).isIndexArchive(IndexZipCheckBox.isSelected()).isIndexEmbedded(IndexEmbeddedFilesCheckBox.isSelected()).createEmailConfig(emailInfos).build();
 
-        boolean     caseStatus = createCase(currentCase);
+        boolean caseStatus = createCase(currentCase);
 
         if (!caseStatus) {
             showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
         }
+
+        if (GmailCheckBox.isSelected() || HotmailCheckBox.isSelected()) {
+
+            JFrame frame = new JFrame();
+
+            for (EmailConfig s : emailInfos) {
+
+                if (s.getSource() == SOURCE.HOTMAIL) {
+
+                    EmailDownDialogue hotmail_dialogue = null;
+                    String Username = s.getUserName();
+                    String Password = s.getPassword();
+
+                    try {
+
+                        hotmail_dialogue = new EmailDownDialogue(frame, true, currentCase);
+
+                        hotmail_dialogue.reader = new OnlineEmailReader(hotmail_dialogue,
+                                currentCase.getIndexLocation() + "\\" + FilesPath.ATTACHMENTS,
+                                currentCase.getIndexLocation() + "\\" + FilesPath.EMAIL_DB);
+                        hotmail_dialogue.reader.ConnectPop3(Username, Password);
+                        hotmail_dialogue.reader.execute();
+                        hotmail_dialogue.setVisible(true);
+                    } catch (Exception ex) {
+                        Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                } // End IF Hotmail
+
+                if (s.getSource() == SOURCE.GMAIL) {
+                    EmailDownDialogue gmail_dialogue = null;
+                    String Username = s.getUserName();
+                    String Password = s.getPassword();
+                    try {
+                        gmail_dialogue = new EmailDownDialogue(frame, true, currentCase);
+                        gmail_dialogue.reader = new OnlineEmailReader(gmail_dialogue,
+                                currentCase.getIndexLocation() + "\\" + FilesPath.ATTACHMENTS,
+                                currentCase.getIndexLocation() + "\\" + FilesPath.EMAIL_DB);
+
+                        gmail_dialogue.reader.ConnectIMAP(Username, Password);
+
+                        gmail_dialogue.reader.execute();
+                        gmail_dialogue.setVisible(true);
+                    } catch (Exception ex) {
+                        Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                } // End IF Gmail
+
+            } // End For Each Email Config
+        } // End if Emails are Selected 
 
 
     }//GEN-LAST:event_finishButtonActionPerformed
@@ -933,7 +954,7 @@ private void ExcludeSystemFilesCheckBoxActionPerformed(java.awt.event.ActionEven
         WindowsFilesRadioButton.setVisible(false);
 
     }
-    
+
 
 }//GEN-LAST:event_ExcludeSystemFilesCheckBoxActionPerformed
 
@@ -1001,6 +1022,10 @@ private void HotmailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//G
 private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectClusterLibraryRadioButtonActionPerformed
 // TODO add your handling code here:
 }//GEN-LAST:event_DetectClusterLibraryRadioButtonActionPerformed
+
+private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserNameGmailTextFieldActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_UserNameGmailTextFieldActionPerformed
 
     public boolean checkDirectIndex() {
         return indexTheCase;
