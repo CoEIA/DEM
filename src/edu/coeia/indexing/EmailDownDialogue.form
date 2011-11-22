@@ -76,7 +76,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jProgressBar1" alignment="1" min="-2" pref="467" max="-2" attributes="0"/>
+                          <Component id="DownloadProgressBar" alignment="1" min="-2" pref="467" max="-2" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="FromjLabel" alignment="1" min="-2" max="-2" attributes="1"/>
@@ -151,7 +151,7 @@
                           <Component id="jScrollPane1" min="-2" pref="37" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jProgressBar1" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="DownloadProgressBar" min="-2" pref="36" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -223,21 +223,42 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="from">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fromActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="to">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="cc">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="bcc">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="subject">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="sdate">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="cdate">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
@@ -249,12 +270,13 @@
                 <Component class="javax.swing.JTextArea" name="attachments">
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
+                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="rows" type="int" value="5"/>
                   </Properties>
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JProgressBar" name="jProgressBar1">
+            <Component class="javax.swing.JProgressBar" name="DownloadProgressBar">
             </Component>
           </SubComponents>
         </Container>
