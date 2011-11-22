@@ -23,6 +23,7 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.onlinemail.OnlineEmailDownloader;
+import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 import java.util.Collections;
 import org.apache.lucene.analysis.StopAnalyzer;
@@ -75,7 +76,8 @@ public class EmailIndexer extends Indexer {
                 
                 for (String sAttachments : msg.getAttachments()) {
                
-                LuceneIndexer.indexFile(new File("C:\\Attachments\\"+sAttachments), msg.getId());
+                File file = new File(this.caseLocation+"\\"+FilesPath.ATTACHMENTS+"\\"+sAttachments);
+                LuceneIndexer.indexFile(file, msg.getId());
                 }
              
                 

@@ -27,10 +27,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="progressEmail" alignment="1" pref="615" max="32767" attributes="1"/>
+                  <Component id="progressEmail" alignment="1" pref="666" max="32767" attributes="1"/>
                   <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -39,11 +39,11 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-              <Component id="progressEmail" pref="332" max="32767" attributes="0"/>
+              <Component id="progressEmail" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="jPanel1" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -75,35 +75,30 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="DownloadProgressBar" alignment="1" min="-2" pref="467" max="-2" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="FromjLabel" alignment="1" min="-2" max="-2" attributes="1"/>
-                                  <Component id="AttachjLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="CreateDatejLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="SentDatejLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="SubjectjLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="BCCjLabel" alignment="1" min="-2" max="-2" attributes="1"/>
-                                  <Component id="CCjLabel" alignment="1" min="-2" max="-2" attributes="1"/>
-                                  <Component id="TojLabel" alignment="1" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane1" pref="466" max="32767" attributes="1"/>
-                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="cdate" max="32767" attributes="1"/>
-                                      <Component id="sdate" max="32767" attributes="1"/>
-                                      <Component id="subject" max="32767" attributes="1"/>
-                                      <Component id="bcc" max="32767" attributes="1"/>
-                                      <Component id="cc" max="32767" attributes="1"/>
-                                      <Component id="to" max="32767" attributes="1"/>
-                                      <Component id="from" alignment="0" pref="466" max="32767" attributes="1"/>
-                                  </Group>
-                              </Group>
-                          </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="AttachjLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="CreateDatejLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="SentDatejLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="SubjectjLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="BCCjLabel" alignment="0" min="-2" max="-2" attributes="1"/>
+                          <Component id="CCjLabel" alignment="0" min="-2" max="-2" attributes="1"/>
+                          <Component id="TojLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="FromjLabel" alignment="0" min="-2" max="-2" attributes="1"/>
+                          <Component id="jLabel1" alignment="0" pref="135" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="DownloadProgressBar" max="32767" attributes="1"/>
+                          <Component id="jScrollPane1" alignment="0" max="32767" attributes="1"/>
+                          <Component id="cdate" alignment="0" max="32767" attributes="1"/>
+                          <Component id="sdate" alignment="0" max="32767" attributes="1"/>
+                          <Component id="subject" alignment="0" max="32767" attributes="1"/>
+                          <Component id="bcc" alignment="0" max="32767" attributes="1"/>
+                          <Component id="cc" alignment="0" max="32767" attributes="1"/>
+                          <Component id="to" alignment="0" max="32767" attributes="1"/>
+                          <Component id="from" alignment="0" pref="466" max="32767" attributes="1"/>
+                      </Group>
+                      <EmptySpace pref="39" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -150,9 +145,12 @@
                           <Component id="AttachjLabel" min="-2" max="-2" attributes="0"/>
                           <Component id="jScrollPane1" min="-2" pref="37" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="DownloadProgressBar" min="-2" pref="36" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <Component id="DownloadProgressBar" min="-2" pref="23" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -179,7 +177,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Creation Date:"/>
+                <Property name="text" type="java.lang.String" value="Received Date:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="CCjLabel">
@@ -278,6 +276,14 @@
             </Container>
             <Component class="javax.swing.JProgressBar" name="DownloadProgressBar">
             </Component>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="11" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Downloading Progress:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
@@ -289,16 +295,16 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="255" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" pref="104" max="-2" attributes="0"/>
-                  <EmptySpace pref="256" max="32767" attributes="0"/>
+                  <Component id="jButton1" min="-2" pref="120" max="-2" attributes="0"/>
+                  <EmptySpace pref="291" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton1" max="32767" attributes="0"/>
+                  <Component id="jButton1" pref="57" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -306,6 +312,9 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/edu/coeia/main/resources/cancel.png"/>
             </Property>
