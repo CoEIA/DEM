@@ -86,11 +86,34 @@ final public class TagsManager {
     }
     
     /**
+     * check if first state tags is different from database state
+     */
+    public boolean isTagsDbModified() {
+        boolean result = false;
+        
+        if ( this.tags.size() != this.firstStatesTags.size() )
+            return !result ;
+        
+        for(int i=0; i<this.tags.size(); i++) {
+            Tag tag1 = this.tags.get(i);
+            Tag tag2 = this.firstStatesTags.get(i);
+            
+            if ( ! tag1.equals(tag2) ) {
+                result = true;
+                break ;
+            }
+        }
+        
+        return result ;
+    }
+    
+    /**
      * private constructor
      * create new database and then read tags to tags list
      */
     private TagsManager(String dbLocation) {
         this.tags = new ArrayList<Tag>();
+        this.firstStatesTags = new ArrayList<Tag>();
         
         try {
             this.tagsDataBase = TagsDBHandler.newInstance(dbLocation);
@@ -100,8 +123,9 @@ final public class TagsManager {
         }
         
         this.tags.addAll(this.tagsDataBase.getTags());
+        this.firstStatesTags.addAll(this.getTags());
     }
     
-    private List<Tag> tags;
+    private List<Tag> tags, firstStatesTags;
     private TagsDBHandler tagsDataBase;
 }

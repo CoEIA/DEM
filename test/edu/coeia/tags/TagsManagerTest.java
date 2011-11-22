@@ -91,4 +91,34 @@ public class TagsManagerTest {
     public void testEmptyLocation() {
         tm = TagsManager.getTagsManager("");
     }
+    
+    @Test
+    public void testTagEquality() {
+        Date date = new Date();
+        Tag tag1 = Tag.newInstance("ahmed", date, "test");
+        Tag tag2 = Tag.newInstance("ahmed", date, "test");
+        
+        assertEquals(tag1, tag2);
+    }
+    
+    @Test
+    public void testTagNonEquality() {
+        Date date = new Date();
+        Tag tag1 = Tag.newInstance("wajdy", date, "test");
+        Tag tag2 = Tag.newInstance("ahmed", date, "test");
+        
+        assertTrue(! tag1.equals(tag2));
+    }
+    
+    
+    @Test
+    public void testNotChangedTags() {
+        assertEquals(false, tm.isTagsDbModified());
+    }
+    
+    @Test
+    public void testChangedTags() {
+        tm.addTag(Tag.newInstance("Testing", new Date(), "this is simple message"));
+        assertEquals(true, tm.isTagsDbModified());
+    }
 }

@@ -88,6 +88,7 @@ public class CaseFrame extends javax.swing.JFrame {
 
             @Override
             public void windowClosing (WindowEvent event){
+                promptUserToSaveCase();
                 closeCaseFrame();
             }
         });
@@ -487,6 +488,29 @@ public class CaseFrame extends javax.swing.JFrame {
         }
         catch (Exception e){
             logger.log(Level.SEVERE, "Uncaught exception", e);
+        }
+    }
+    
+    /**
+     * Ask User to save case if he add new tags
+     * and not save the case
+     */
+    private void promptUserToSaveCase() {
+        if ( this.tagsManager.isTagsDbModified() ) {
+            askForSavingMessage();
+        }
+    }
+    
+    /**
+     * the message ask user for save the case
+     */
+    private void askForSavingMessage() {
+        int value = JOptionPane.showConfirmDialog(this,
+                    "The case is not saved, Do you want to save it?",
+                    applicationTitle, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                    
+        if ( value == JOptionPane.YES_OPTION ) {
+            this.caseManagerPanel.saveCaseModifications();
         }
     }
     

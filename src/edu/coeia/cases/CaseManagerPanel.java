@@ -15,6 +15,7 @@ import edu.coeia.tags.TagsManager;
 import edu.coeia.tags.Tag ;
 
 import edu.coeia.hash.HashVerifier;
+import java.awt.Toolkit;
 import java.util.List ;
 import javax.swing.JOptionPane;
 import org.apache.commons.httpclient.util.DateUtil;
@@ -23,7 +24,7 @@ import org.apache.commons.httpclient.util.DateUtil;
  *
  * @author wajdyessam
  */
-public class CaseManagerPanel extends javax.swing.JPanel {
+public final class CaseManagerPanel extends javax.swing.JPanel {
 
     private CaseFrame parent ;
     private Case aCase; 
@@ -508,10 +509,7 @@ public class CaseManagerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_verifyButtonActionPerformed
 
     private void saveCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCaseButtonActionPerformed
-        if ( this.tagsManager.setTags() ) {
-            JOptionPane.showMessageDialog(this, "Case have been saved", 
-                    "Saving Case Message", JOptionPane.INFORMATION_MESSAGE);
-        }
+        saveCaseModifications();
     }//GEN-LAST:event_saveCaseButtonActionPerformed
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
@@ -522,6 +520,17 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         showPreviousTag();
     }//GEN-LAST:event_prevButtonActionPerformed
 
+    /**
+     * Save case modifications
+     */
+    public void saveCaseModifications() {
+        if ( this.tagsManager.setTags() ) {
+            Toolkit.getDefaultToolkit().beep();
+            JOptionPane.showMessageDialog(this, "Case have been saved", 
+                    "Saving Case Message", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
     /**
      * go back to previous tag, and show it
      */
@@ -651,8 +660,11 @@ public class CaseManagerPanel extends javax.swing.JPanel {
         this.casePathTextField.setText(this.aCase.getCaseLocation());
         this.caseDescriptionTextField.setText(this.aCase.getDescription());
         
+        StringBuilder paths = new StringBuilder();
         for(String doc: this.aCase.getEvidenceSourceLocation())
-            this.caseSourcesTextView.append(doc + "\n");
+            paths.append(doc).append("\n");
+        
+        this.caseSourcesTextView.setText(paths.toString());   // clear the field and append new data
     }
     
     /**
