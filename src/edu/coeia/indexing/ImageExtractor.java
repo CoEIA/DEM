@@ -12,6 +12,6 @@ package edu.coeia.indexing;
 
 import java.io.File ;
 
-public interface ImageExtractor {
+interface ImageExtractor {
     public void extractImages (Indexer indexer, File file,int parentId);
 }

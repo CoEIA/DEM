@@ -166,16 +166,12 @@ public final class Case implements Serializable {
         return this.isExcludeFileSystems;
     }
 
-    public List<EmailConfiguration> GetEmailConfig() {
+    public List<EmailConfiguration> getEmailConfig() {
         return Collections.unmodifiableList(this.emailConfig);
     }
 
     public String getIndexName() {
         return this.caseName;
-    }
-
-    public List<EmailConfiguration> getEmailConfig() {
-        return this.emailConfig;
     }
 
     public String getCaseLocation() {

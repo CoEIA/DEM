@@ -37,7 +37,7 @@ import org.apache.tika.exception.TikaException;
  *
  * @author Ahmed
  */
-public class EmailIndexer extends Indexer {
+final class EmailIndexer extends Indexer {
     
     public EmailIndexer (LuceneIndex luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor) {
@@ -66,16 +66,19 @@ public class EmailIndexer extends Indexer {
         for (OnlineEmailMessage msg : AllMsgs) {
             Document doc = null;
             try {
+                System.out.println("msg from: " + msg.toString());
+                
                 doc = getDocument(msg);
                 if (doc != null) {
                 
                 this.luceneIndex.getWriter().addDocument(doc);    // index file
                 this.id++;
                 
-                
-                for (String sAttachments : msg.getAttachments()) {
                
-                luceneIndex.indexFile(new File("C:\\Attachments\\"+sAttachments), msg.getId());
+                String attachmentPath = this.luceneIndex.getCase().getCaseLocation() + "\\" + FilesPath.ATTACHMENTS;
+                for (String sAttachments : msg.getAttachments()) {
+                    System.out.println("attachments: " + sAttachments);
+                luceneIndex.indexFile(new File(attachmentPath + "\\"+sAttachments), msg.getId());
                 }
              
                 

@@ -17,56 +17,46 @@ import org.apache.tika.Tika;
 final class IndexerFactory {
     
     public static Indexer getIndexer (LuceneIndex luceneIndex, File file, int parentId) {
-        String mime = null;
+        Indexer indexer  = null;
         
         try {
             Tika tika = new Tika();
 
-            mime = tika.detect(file);
+            String mime = tika.detect(file);
             
-            if ( mime.equalsIgnoreCase("application/msword") ||
-                 mime.equalsIgnoreCase("application/vnd.ms-excel.sheet.binary.macroenabled.12") ||
-                 mime.equalsIgnoreCase("application/x-mspublisher") ||
-                 mime.equalsIgnoreCase("application/x-tika-msoffice") ||
-                 mime.equalsIgnoreCase("application/vnd.ms-outlook") ||
-                 mime.equalsIgnoreCase("application/vnd.ms-excel") ||
-                 mime.equalsIgnoreCase("application/vnd.ms-powerpoint") ||
-                 mime.equalsIgnoreCase("application/vnd.visio") ||     
-                 mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.slideshow") ||
-                 mime.equalsIgnoreCase("application/vnd.ms-word.document.macroenabled.12") ||
-                 mime.equalsIgnoreCase("application/vnd.ms-excel") ||
-                 mime.equalsIgnoreCase("application/vnd.ms-powerpoint") ||
-                 mime.equalsIgnoreCase("application/vnd.visio") || 
-                 mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.wordprocessingml.document") || 
-                 mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.presentation") ||
-                 mime.equals("application/rtf") )
-                
-                 return DocumentIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
-
-            if ( mime.equalsIgnoreCase("text/plain") ||
-                 mime.equalsIgnoreCase("application/xml") ||
-                 mime.equalsIgnoreCase("application/xhtml+xml") ||
-                 mime.equalsIgnoreCase("text/html") )
-                return DocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
-
-
-            if ( mime.equalsIgnoreCase("application/pdf") )
-                return DocumentIndexer.newInstance(luceneIndex, file, mime, new PDFImageExtractor(), parentId);
-
-             if ( mime.equalsIgnoreCase("application/zip") ||
-                  mime.equalsIgnoreCase("application/x-rar-compressed"))
-                return ArchiveIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
-
-            else if (mime.startsWith("image/"))
-                return DocumentIndexer.newInstance(luceneIndex, file, mime, new ExternalImageExtractor(), parentId);
+            // if found office file and user select extract images, then do it
+            // else it will indexed without images extractors
+            if ( isOfficeFile(mime) && luceneIndex.getCase().getCacheImages())
+                indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
+                         
+            // simple file (html, txt, xml) is file that have not images
+            // inside it
+            else if ( isSimpleFile(mime))
+                indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
+                        
+            // pdf files
+            else if ( isPDFFile(mime))
+                indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new PDFImageExtractor(), parentId);
+                        
+            // if found archive files and user select to index archive files
+            // else consider them as normal file
+            else if (isArchiveFile(mime) && luceneIndex.getCase().getCheckCompressed())
+                indexer = ArchiveIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
+             
+            // images type
+            else if ( isImage(mime) )
+                indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new ExternalImageExtractor(), parentId); 
+            
+            // Unkown file Format
+            else
+                indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
+                        
         }
         catch(IOException e){
             e.printStackTrace();
         }        
         
-        // Unkown file Format
-        return DocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
-        //throw new UnsupportedOperationException("This file have no handler to handle it");
+        return indexer;
     }
     
     public static Indexer getIndexer (LuceneIndex luceneIndex, File file){
@@ -74,7 +64,11 @@ final class IndexerFactory {
     }
     
     public static Indexer getFolderIndexer (LuceneIndex luceneIndex, File dir) {
-        if ( isValidMSNPath(dir.getAbsolutePath()) )
+        // TODO:
+        // if chat session suppport, then continue to detec it
+        // else return from this method
+        
+        if ( isValidMSNPath(dir.getAbsolutePath()))
             return indexHotmailDir(luceneIndex, dir);
         
         else if ( isValidYahooPath(dir.getAbsolutePath()) )
@@ -125,5 +119,44 @@ final class IndexerFactory {
             return true;
         
         return false;
+    }
+    
+    private static boolean isArchiveFile(final String mime) {
+        return mime.equalsIgnoreCase("application/zip") ||
+          mime.equalsIgnoreCase("application/x-rar-compressed") ;
+    }
+    
+    private static boolean isImage(final String mime) {
+        return mime.startsWith("image/") ;
+    }
+    
+    private static boolean isPDFFile(final String mime) {
+        return mime.equalsIgnoreCase("application/pdf") ;
+    }
+    
+    private static boolean isSimpleFile(final String mime) {
+        return mime.equalsIgnoreCase("text/plain") ||
+                 mime.equalsIgnoreCase("application/xml") ||
+                 mime.equalsIgnoreCase("application/xhtml+xml") ||
+                 mime.equalsIgnoreCase("text/html")  ;
+    }
+    
+    private static boolean isOfficeFile(final String mime) {
+        return mime.equalsIgnoreCase("application/msword") ||
+                 mime.equalsIgnoreCase("application/vnd.ms-excel.sheet.binary.macroenabled.12") ||
+                 mime.equalsIgnoreCase("application/x-mspublisher") ||
+                 mime.equalsIgnoreCase("application/x-tika-msoffice") ||
+                 mime.equalsIgnoreCase("application/vnd.ms-outlook") ||
+                 mime.equalsIgnoreCase("application/vnd.ms-excel") ||
+                 mime.equalsIgnoreCase("application/vnd.ms-powerpoint") ||
+                 mime.equalsIgnoreCase("application/vnd.visio") ||     
+                 mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.slideshow") ||
+                 mime.equalsIgnoreCase("application/vnd.ms-word.document.macroenabled.12") ||
+                 mime.equalsIgnoreCase("application/vnd.ms-excel") ||
+                 mime.equalsIgnoreCase("application/vnd.ms-powerpoint") ||
+                 mime.equalsIgnoreCase("application/vnd.visio") || 
+                 mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.wordprocessingml.document") || 
+                 mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.presentation") ||
+                 mime.equals("application/rtf"); 
     }
 }

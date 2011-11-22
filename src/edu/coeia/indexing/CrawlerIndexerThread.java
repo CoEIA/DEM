@@ -12,10 +12,12 @@ package edu.coeia.indexing;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.cases.EmailConfiguration;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.CrawlerIndexerThread.ProgressIndexData;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
+import edu.coeia.util.FilesPath;
 import edu.coeia.util.SizeUtil;
 
 import javax.swing.SwingWorker ;
@@ -80,6 +82,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
     }
     
     private void startCrawling () {
+        // crawle and index source directories
         for ( String dirName : aCase.getEvidenceSourceLocation() ) {
             if ( this.isCancelled() )
                 throw new CancellationException("Cralwer is Cancelled by stop button");
@@ -89,6 +92,13 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             File directory = new File(dirName);
             doDirectoryCrawling(directory);
         } 
+        
+        // crawl and index emails
+        if ( aCase.getEmailConfig().size() > 0 ) {
+            File dbPath = new File(this.aCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB );
+            EmailIndexer emailIndexer = new EmailIndexer(luceneIndex, dbPath, "", new OfficeImageExtractor());
+            System.out.println("Status: " + emailIndexer.doIndexing());
+        }
     }
     
     private void doDirectoryCrawling(File path) {
@@ -120,7 +130,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             publish(new ProgressIndexData( noOfFilesEnumerated,noOfFilesIndexed, 
                     path.getAbsolutePath(), "" , ProgressIndexData.TYPE.LABEL , msg));
 
-            boolean status = luceneIndex.indexFile(path);
+            boolean status = this.luceneIndex.indexFile(path);
             if ( ! status ) // update error table
                 publish(new ProgressIndexData( noOfFilesEnumerated,noOfFilesIndexed,
                         path.getAbsolutePath(), "Cannot Index This File", ProgressIndexData.TYPE.TABEL , msg));
