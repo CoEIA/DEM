@@ -8,12 +8,8 @@ import edu.coeia.internet.FilesFilter;
 import edu.coeia.indexing.EmailDownDialogue;
 
 import edu.coeia.onlinemail.OnlineEmailDownloader;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -23,10 +19,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.File;
 import java.awt.CardLayout;
-import java.awt.EventQueue;
-import java.awt.Frame;
 import java.util.Date;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -41,15 +34,10 @@ import javax.swing.event.DocumentListener;
  */
 public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
-    private DefaultListModel documentModel;
-    private DefaultListModel msnModel, yahooModel, skypeModel;
-    private DefaultListModel pstModel;
-    private DefaultListModel ieModel, ffModel;
     private Case currentCase;
     private String PATH = FilesPath.CASES_PATH;
     private String CaseSource;
-    private Frame parent;
-    private boolean isFullVersion;
+    
     private JFileChooser fileChooser;
     boolean indexTheCase = false;   // index the case after create it
     /*
@@ -63,9 +51,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         super(parent, modal);
         initComponents();
 
-        this.parent = parent;
-        this.isFullVersion = isFullVersion;
-
+       
         UserNameGmailTextField.setEnabled(false);
         PasswordGmailTextField.setEnabled(false);
         UserNameHotmailTextField.setEnabled(false);
@@ -79,9 +65,6 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         finishButton.setEnabled(false);
 
         setLocationRelativeTo(parent);
-
-        // creating model for all lists
-        documentModel = new DefaultListModel();
 
         // add listener for index name text feild
         caseNameTextField.getDocument().addDocumentListener(new DocumentListener() {
@@ -164,6 +147,8 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         ProgramFilesRadioButton = new javax.swing.JRadioButton();
         IndexEmbeddedFilesCheckBox = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
+        IndexChatCheckBox = new javax.swing.JCheckBox();
+        DetectBrowserCheckBox = new javax.swing.JCheckBox();
         indexFooterPanel = new javax.swing.JPanel();
         finishButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
@@ -517,7 +502,8 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Indexing Options"));
 
-        CacheImageCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
+        CacheImageCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CacheImageCheckBox.setSelected(true);
         CacheImageCheckBox.setText("Cache Images to view on Multimedia Viewer");
 
         ExcludeSystemFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -528,7 +514,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        IndexZipCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
+        IndexZipCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         IndexZipCheckBox.setSelected(true);
         IndexZipCheckBox.setText("Index archieved folders (ZIP, RAR)");
 
@@ -542,6 +528,14 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         jLabel6.setForeground(new java.awt.Color(255, 0, 0));
         jLabel6.setText("(Warning: Only choose this when you know that no evidences could be found within System Files)");
+
+        IndexChatCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        IndexChatCheckBox.setSelected(true);
+        IndexChatCheckBox.setText("Index Chat Sessions ( MSN, YAHOO, and SKYPE)");
+
+        DetectBrowserCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        DetectBrowserCheckBox.setSelected(true);
+        DetectBrowserCheckBox.setText("Detect and read Browsers (FireFox, IE) Sessions");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -559,7 +553,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(ProgramFilesRadioButton)
-                            .addComponent(WindowsFilesRadioButton))))
+                            .addComponent(WindowsFilesRadioButton)))
+                    .addComponent(IndexChatCheckBox)
+                    .addComponent(DetectBrowserCheckBox))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -567,9 +563,13 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(IndexZipCheckBox)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(IndexChatCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(IndexEmbeddedFilesCheckBox)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(DetectBrowserCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(CacheImageCheckBox)
                 .addGap(18, 18, 18)
                 .addComponent(ExcludeSystemFilesCheckBox)
@@ -595,7 +595,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -621,7 +621,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         indexFooterPanel.setMaximumSize(new java.awt.Dimension(608, 63));
         indexFooterPanel.setPreferredSize(new java.awt.Dimension(608, 63));
 
-        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         finishButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/finish.png"))); // NOI18N
         finishButton.setText("Finish");
         finishButton.addActionListener(new java.awt.event.ActionListener() {
@@ -663,9 +663,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             indexFooterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(indexFooterPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
                 .addGap(113, 113, 113)
                 .addComponent(cancelButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -721,10 +721,10 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(indexFooterPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
+                            .addComponent(indexFooterPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(indexWizardPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(indexHeaderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE))
+                    .addComponent(indexHeaderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -881,7 +881,19 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 caseLocationTextField.getText().trim(),
                 investigatorTextField.getText().trim(),
                 descriptionTextArea.getText().trim(),
-                CaseSource, new Date(), 0).isCacheImages(CacheImageCheckBox.isSelected()).isClusterWithCase(DetectClusterCaseRadioButton.isSelected()).isClusterWithLibrary(DetectClusterLibraryRadioButton.isSelected()).isExcludeFileSystems(ExcludeSystemFilesCheckBox.isSelected()).isExportLibrary(ExportRadioButton.isSelected()).isHash(YesMD5RadioButton.isSelected()).isIndex(YesIndexRadioButton.isSelected()).isIndexArchive(IndexZipCheckBox.isSelected()).isIndexEmbedded(IndexEmbeddedFilesCheckBox.isSelected()).createEmailConfig(emailInfos).build();
+                CaseSource, new Date(), 0).
+                isCacheImages(CacheImageCheckBox.isSelected())
+                .isClusterWithCase(DetectClusterCaseRadioButton.isSelected())
+                .isClusterWithLibrary(DetectClusterLibraryRadioButton.isSelected())
+                .isExcludeFileSystems(ExcludeSystemFilesCheckBox.isSelected())
+                .isExportLibrary(ExportRadioButton.isSelected())
+                .isHash(YesMD5RadioButton.isSelected())
+                .isIndex(YesIndexRadioButton.isSelected())
+                .isIndexArchive(IndexZipCheckBox.isSelected())
+                .isIndexEmbedded(IndexEmbeddedFilesCheckBox.isSelected())
+                .isIndexChatSessions(IndexChatCheckBox.isSelected())
+                .isDetectBrowserSessiond(DetectBrowserCheckBox.isSelected())
+                .createEmailConfig(emailInfos).build();
 
         boolean caseStatus = createCase(currentCase);
 
@@ -1289,6 +1301,7 @@ private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent ev
     private javax.swing.JPanel CaseWizardA2;
     private javax.swing.JPanel CaseWizardA3;
     private javax.swing.ButtonGroup DataSourceButtonGroup;
+    private javax.swing.JCheckBox DetectBrowserCheckBox;
     private javax.swing.JCheckBox DetectClusterCaseRadioButton;
     private javax.swing.JCheckBox DetectClusterLibraryRadioButton;
     private javax.swing.JRadioButton EncaseImageRadioButton;
@@ -1296,6 +1309,7 @@ private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent ev
     private javax.swing.JCheckBox ExportRadioButton;
     private javax.swing.JCheckBox GmailCheckBox;
     private javax.swing.JCheckBox HotmailCheckBox;
+    private javax.swing.JCheckBox IndexChatCheckBox;
     private javax.swing.JCheckBox IndexEmbeddedFilesCheckBox;
     private javax.swing.JCheckBox IndexZipCheckBox;
     private javax.swing.JRadioButton LocalDriveRadioButton;

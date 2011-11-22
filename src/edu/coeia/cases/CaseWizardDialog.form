@@ -37,12 +37,12 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="indexFooterPanel" alignment="0" pref="618" max="32767" attributes="1"/>
+                          <Component id="indexFooterPanel" alignment="0" max="32767" attributes="1"/>
                           <Component id="jSeparator1" alignment="0" pref="0" max="32767" attributes="2"/>
                           <Component id="indexWizardPanel" alignment="0" min="-2" max="-2" attributes="3"/>
                       </Group>
                   </Group>
-                  <Component id="indexHeaderPanel" alignment="0" pref="628" max="32767" attributes="2"/>
+                  <Component id="indexHeaderPanel" alignment="0" pref="721" max="32767" attributes="2"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -689,7 +689,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel1" pref="336" max="32767" attributes="0"/>
+                          <Component id="jPanel1" pref="346" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -708,7 +708,7 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="IndexZipCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -723,6 +723,8 @@
                                           <Component id="WindowsFilesRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
+                                  <Component id="IndexChatCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="DetectBrowserCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -733,9 +735,13 @@
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="IndexZipCheckBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="IndexChatCheckBox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="IndexEmbeddedFilesCheckBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="DetectBrowserCheckBox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="CacheImageCheckBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="ExcludeSystemFilesCheckBox" min="-2" max="-2" attributes="0"/>
@@ -756,6 +762,7 @@
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Tahoma" size="11" style="1"/>
                         </Property>
+                        <Property name="selected" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Cache Images to view on Multimedia Viewer"/>
                       </Properties>
                     </Component>
@@ -806,6 +813,24 @@
                         <Property name="text" type="java.lang.String" value="(Warning: Only choose this when you know that no evidences could be found within System Files)"/>
                       </Properties>
                     </Component>
+                    <Component class="javax.swing.JCheckBox" name="IndexChatCheckBox">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Tahoma" size="11" style="1"/>
+                        </Property>
+                        <Property name="selected" type="boolean" value="true"/>
+                        <Property name="text" type="java.lang.String" value="Index Chat Sessions ( MSN, YAHOO, and SKYPE)"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="DetectBrowserCheckBox">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Tahoma" size="11" style="1"/>
+                        </Property>
+                        <Property name="selected" type="boolean" value="true"/>
+                        <Property name="text" type="java.lang.String" value="Detect and read Browsers (FireFox, IE) Sessions"/>
+                      </Properties>
+                    </Component>
                   </SubComponents>
                 </Container>
               </SubComponents>
@@ -829,9 +854,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="backButton" pref="129" max="32767" attributes="0"/>
+                  <Component id="backButton" pref="124" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="nextButton" pref="129" max="32767" attributes="0"/>
+                  <Component id="nextButton" pref="124" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
                   <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>

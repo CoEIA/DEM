@@ -36,6 +36,9 @@ public class Case implements Serializable {
     private boolean isIndexEmbedded;
     private boolean isCacheImages;
     private boolean isExcludeFileSystems;
+    private boolean isIndexChatSessions;
+    private boolean isDetectBrowserRessions;
+    
     // index history information
     private boolean indexStatus;
     private String lastIndexDate;
@@ -68,6 +71,8 @@ public class Case implements Serializable {
         this.isIndexEmbedded = builder.isIndexEmbedded;
         this.isCacheImages = builder.isCacheImages;
         this.isExcludeFileSystems = builder.isExcludeFileSystems;
+        this.isIndexChatSessions  = builder.isIndexChatSessions;
+        this.isDetectBrowserRessions  = builder.isDetectBrowserRessions;
     }
 
     public static class Builder {
@@ -88,6 +93,8 @@ public class Case implements Serializable {
         private boolean isIndexEmbedded = false;
         private boolean isCacheImages = false;
         private boolean isExcludeFileSystems = false;
+        private boolean isIndexChatSessions = false;
+        private boolean isDetectBrowserRessions = false;
         private List<EmailConfig> emailInfo;
         // index history information
         private boolean indexStatus = false;
@@ -170,6 +177,16 @@ public class Case implements Serializable {
             emailInfo = configList;
             return this;
         }
+        public Builder isIndexChatSessions(boolean val)
+        {
+            isIndexChatSessions = val; 
+            return this;
+        }
+        public Builder isDetectBrowserSessiond(boolean val)
+        {
+            isDetectBrowserRessions = val;
+            return this;
+        }
     }
 
     public boolean GetisHash() {
@@ -191,7 +208,13 @@ public class Case implements Serializable {
         return this.isClusterWithCase;
     }
 
-  
+   public boolean isIndexChatSessions() {
+       return this.isIndexChatSessions;
+   }
+   public boolean isDectetBroswerSessions()
+   {
+       return this.isDetectBrowserRessions;
+   }
 
     public boolean GetisExcludeFileSystems() {
 

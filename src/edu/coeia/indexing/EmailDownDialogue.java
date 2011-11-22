@@ -110,10 +110,10 @@ public class EmailDownDialogue extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Email Indexing Window");
+        setTitle("Email Downloading ");
         setResizable(false);
 
-        progressEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email Indexing", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        progressEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email Downloading", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         progressEmail.setLayout(new java.awt.BorderLayout());
 
         FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -237,6 +237,7 @@ public class EmailDownDialogue extends javax.swing.JDialog {
 
         progressEmail.add(progresLabelPanel, java.awt.BorderLayout.PAGE_START);
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         jButton1.setText("Cancel");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,7 +258,7 @@ public class EmailDownDialogue extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
