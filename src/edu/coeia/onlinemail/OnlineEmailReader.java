@@ -262,16 +262,11 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
                 }
                 String subject = message.getSubject();
                 String body = "";
-
-//                try {
-//                    body = getMessageContent(message);
-//                } catch (MessagingException ex) {
-//
-//                    ex.printStackTrace();
-//
-//                }
-
-
+               
+                try {
+                 body = getMessageContent(message);
+                }
+                catch (Exception ex) { ex.printStackTrace();}
 
                 Date sentDate = message.getSentDate();
                 if (sentDate == null) {
@@ -384,7 +379,7 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
         }
         
            emaildialogue.setVisible(false);
-
+           emaildialogue.getDownloadBar().setIndeterminate(false);
 
     }
 
@@ -574,71 +569,21 @@ public class OnlineEmailReader extends SwingWorker<Void, ProgressData> {
             for (int i = 0; i < multipart.getCount(); i++) {
                 Part part = (Part) multipart.getBodyPart(i);
 
+                if (part.isMimeType("text/plain"))
+                {
                 messageContent.append(part.getContent().toString());
-
-                return "";
-
-
-            }
-        }
+                }
+                else if (part.isMimeType("message/rfc822"))
+                {
+                messageContent.append(part.getContent().toString());     
+                messageContent.append('\n');    
+                }
+             }
+          }
         return messageContent.toString();
     }
 
-    public static void dumpPart(Part p) throws Exception {
-
-        String ct = p.getContentType();
-        try {
-            pr("CONTENT-TYPE: " + (new ContentType(ct)).toString());
-        } catch (ParseException pex) {
-            pr("BAD CONTENT-TYPE: " + ct);
-        }
-        String filename = p.getFileName();
-        if (filename != null) {
-            pr("FILENAME: " + filename);
-        }
-
-        /*
-         * Using isMimeType to determine the content type avoids
-         * fetching the actual content data until we need it.
-         */
-        if (p.isMimeType("text/plain")) {
-            pr("This is plain text");
-            pr("---------------------------");
-
-            System.out.println((String) p.getContent());
-        } else if (p.isMimeType("multipart/*")) {
-            pr("This is a Multipart");
-            pr("---------------------------");
-            Multipart mp = (Multipart) p.getContent();
-            level++;
-            int count = mp.getCount();
-            for (int i = 0; i < count; i++) {
-                dumpPart(mp.getBodyPart(i));
-            }
-            level--;
-        } else if (p.isMimeType("message/rfc822")) {
-            pr("This is a Nested Message");
-            pr("---------------------------");
-            level++;
-            dumpPart((Part) p.getContent());
-            level--;
-        } else {
-
-            /*
-             * If we actually want to see the data, and it's not a
-             * MIME type we know, fetch it and check its Java type.
-             */
-            Object o = p.getContent();
-            if (o instanceof String) {
-                pr("This is a string");
-                pr("---------------------------");
-                System.out.println((String) o);
-            }
-
-        }
-
-    }
-
+   
     public static void pr(String s) {
 
         System.out.print(indentStr.substring(0, level * 2));

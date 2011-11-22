@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.swing.JLabel;
+import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -40,7 +41,7 @@ public class EmailDownDialogue extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
 
-
+        DownloadProgressBar.setIndeterminate(true);
 
     }
 
@@ -75,6 +76,10 @@ public class EmailDownDialogue extends javax.swing.JDialog {
     public JTextField getTo() {
         return this.to;
     }
+    public JProgressBar getDownloadBar()
+    {
+        return this.DownloadProgressBar;
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -104,7 +109,7 @@ public class EmailDownDialogue extends javax.swing.JDialog {
         cdate = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         attachments = new javax.swing.JTextArea();
-        jProgressBar1 = new javax.swing.JProgressBar();
+        DownloadProgressBar = new javax.swing.JProgressBar();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
@@ -115,37 +120,51 @@ public class EmailDownDialogue extends javax.swing.JDialog {
         progressEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email Indexing", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         progressEmail.setLayout(new java.awt.BorderLayout());
 
-        FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         FromjLabel.setText("From:");
 
-        SentDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        SentDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         SentDatejLabel.setText("Sent Date:");
 
-        CreateDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CreateDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         CreateDatejLabel.setText("Creation Date:");
 
-        CCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         CCjLabel.setText("CC:");
 
-        BCCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        BCCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         BCCjLabel.setText("BCC:");
 
-        AttachjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        AttachjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         AttachjLabel.setText("Attachment Files:");
 
-        TojLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        TojLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         TojLabel.setText("To:");
 
-        SubjectjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        SubjectjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         SubjectjLabel.setText("Subject:");
 
+        from.setEditable(false);
         from.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fromActionPerformed(evt);
             }
         });
 
+        to.setEditable(false);
+
+        cc.setEditable(false);
+
+        bcc.setEditable(false);
+
+        subject.setEditable(false);
+
+        sdate.setEditable(false);
+
+        cdate.setEditable(false);
+
         attachments.setColumns(20);
+        attachments.setEditable(false);
         attachments.setRows(5);
         jScrollPane1.setViewportView(attachments);
 
@@ -156,7 +175,7 @@ public class EmailDownDialogue extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, progresLabelPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(DownloadProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(progresLabelPanelLayout.createSequentialGroup()
                         .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(FromjLabel)
@@ -216,7 +235,7 @@ public class EmailDownDialogue extends javax.swing.JDialog {
                     .addComponent(AttachjLabel)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(DownloadProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -289,6 +308,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JLabel BCCjLabel;
     private javax.swing.JLabel CCjLabel;
     private javax.swing.JLabel CreateDatejLabel;
+    private javax.swing.JProgressBar DownloadProgressBar;
     private javax.swing.JLabel FromjLabel;
     private javax.swing.JLabel SentDatejLabel;
     private javax.swing.JLabel SubjectjLabel;
@@ -300,7 +320,6 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JTextField from;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel progresLabelPanel;
     private javax.swing.JPanel progressEmail;
