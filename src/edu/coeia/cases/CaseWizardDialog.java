@@ -2,16 +2,14 @@ package edu.coeia.cases;
 
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
+import edu.coeia.cases.EmailConfiguration.SOURCE;
 import edu.coeia.util.FilesPath;
 import edu.coeia.internet.FilesFilter;
 import edu.coeia.indexing.EmailDownDialogue;
 
-import java.io.IOException;
-import java.sql.SQLException;
+import edu.coeia.onlinemail.OnlineEmailReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -21,10 +19,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.File;
 import java.awt.CardLayout;
-import java.awt.EventQueue;
 import java.awt.Frame;
 import java.util.Date;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -70,7 +66,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         PasswordHotmailTextField.setEnabled(false);
         ProgramFilesRadioButton.setVisible(false);
         WindowsFilesRadioButton.setVisible(false);
-        
+
         // show first card indexInfoPanel and disable back button and finish button
         showPanel(cardsName[0], indexWizardPanel);
         backButton.setEnabled(false);
@@ -303,6 +299,15 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel13.setText("Provider");
 
+        UserNameGmailTextField.setText("S2v2012@gmail.com");
+        UserNameGmailTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UserNameGmailTextFieldActionPerformed(evt);
+            }
+        });
+
+        UserNameHotmailTextField.setText("masregyptian@hotmail.com");
+
         GmailCheckBox.setText("Gmail");
         GmailCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -316,6 +321,10 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 HotmailCheckBoxActionPerformed(evt);
             }
         });
+
+        PasswordGmailTextField.setText("s2v123456789");
+
+        PasswordHotmailTextField.setText("windows98");
 
         javax.swing.GroupLayout CaseWizardA1Layout = new javax.swing.GroupLayout(CaseWizardA1);
         CaseWizardA1.setLayout(CaseWizardA1Layout);
@@ -576,7 +585,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(CaseWizardA3Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         CaseWizardA3Layout.setVerticalGroup(
             CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -591,7 +600,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         indexFooterPanel.setMaximumSize(new java.awt.Dimension(608, 63));
         indexFooterPanel.setPreferredSize(new java.awt.Dimension(608, 63));
 
-        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         finishButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/finish.png"))); // NOI18N
         finishButton.setText("Finish");
         finishButton.addActionListener(new java.awt.event.ActionListener() {
@@ -808,7 +817,6 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         List<EmailConfiguration> emailInfos = new ArrayList<EmailConfiguration>();
 
-
         // get email data if user add emails
         if (this.GmailCheckBox.isSelected()) {
             String user = this.UserNameGmailTextField.getText().trim();
@@ -843,44 +851,6 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             emailInfos.add(config);
         }
 
-        if (GmailCheckBox.isSelected() || HotmailCheckBox.isSelected()) {
-
-            // create email folders
-            createEmailFolders(this.caseLocationTextField.getText().trim());
-            
-            EventQueue.invokeLater(new Runnable() {
-
-                public void run() {
-                    JFrame frame = new JFrame();
-
-                    JDialog emailDialogue = null;
-
-
-                    try {
-                        emailDialogue = new EmailDownDialogue(frame, true, currentCase);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NoSuchProviderException ex) {
-                        showErrorMessage("You must choose correct Provider name", "Wrong Email Provider");
-                        showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
-                        return;
-                    } catch (MessagingException ex) {
-                        showErrorMessage("Please Write Correct Email Login", "Error Connecting Email");
-                        showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
-                        return;
-
-                    } catch (IOException ex) {
-                        return;
-                    } catch (Exception ex) {
-                        return;
-                    }
-
-                    emailDialogue.setVisible(true);
-                }
-            });
-
-        }
-
         this.setVisible(false);
 
         // Build Case
@@ -890,11 +860,62 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 descriptionTextArea.getText().trim(),
                 CaseSource, new Date(), 0).isCacheImages(CacheImageCheckBox.isSelected()).isClusterWithCase(DetectClusterCaseRadioButton.isSelected()).isClusterWithLibrary(DetectClusterLibraryRadioButton.isSelected()).isExcludeFileSystems(ExcludeSystemFilesCheckBox.isSelected()).isExportLibrary(ExportRadioButton.isSelected()).isHash(YesMD5RadioButton.isSelected()).isIndex(YesIndexRadioButton.isSelected()).isIndexArchive(IndexZipCheckBox.isSelected()).isIndexEmbedded(IndexEmbeddedFilesCheckBox.isSelected()).createEmailConfig(emailInfos).build();
 
-        boolean     caseStatus = createCase(currentCase);
+        boolean caseStatus = createCase(currentCase);
 
         if (!caseStatus) {
             showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
         }
+
+        if (GmailCheckBox.isSelected() || HotmailCheckBox.isSelected()) {
+
+            JFrame frame = new JFrame();
+
+            for (EmailConfiguration s : emailInfos) {
+
+                if (s.getSource() == SOURCE.HOTMAIL) {
+
+                    EmailDownDialogue hotmail_dialogue = null;
+                    String Username = s.getUserName();
+                    String Password = s.getPassword();
+
+                    try {
+
+                        hotmail_dialogue = new EmailDownDialogue(frame, true, currentCase);
+
+                        hotmail_dialogue.reader = new OnlineEmailReader(hotmail_dialogue,
+                                currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
+                                currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
+                        hotmail_dialogue.reader.ConnectPop3(Username, Password);
+                        hotmail_dialogue.reader.execute();
+                        hotmail_dialogue.setVisible(true);
+                    } catch (Exception ex) {
+                        Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                } // End IF Hotmail
+
+                if (s.getSource() == SOURCE.GMAIL) {
+                    EmailDownDialogue gmail_dialogue = null;
+                    String Username = s.getUserName();
+                    String Password = s.getPassword();
+                    try {
+                        gmail_dialogue = new EmailDownDialogue(frame, true, currentCase);
+                        gmail_dialogue.reader = new OnlineEmailReader(gmail_dialogue,
+                                currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
+                                currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
+
+                        gmail_dialogue.reader.ConnectIMAP(Username, Password);
+
+                        gmail_dialogue.reader.execute();
+                        gmail_dialogue.setVisible(true);
+                    } catch (Exception ex) {
+                        Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                } // End IF Gmail
+
+            } // End For Each Email Config
+        } // End if Emails are Selected 
 
 
     }//GEN-LAST:event_finishButtonActionPerformed
@@ -910,7 +931,7 @@ private void ExcludeSystemFilesCheckBoxActionPerformed(java.awt.event.ActionEven
         WindowsFilesRadioButton.setVisible(false);
 
     }
-    
+
 
 }//GEN-LAST:event_ExcludeSystemFilesCheckBoxActionPerformed
 
@@ -978,6 +999,10 @@ private void HotmailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//G
 private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectClusterLibraryRadioButtonActionPerformed
 // TODO add your handling code here:
 }//GEN-LAST:event_DetectClusterLibraryRadioButtonActionPerformed
+
+private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserNameGmailTextFieldActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_UserNameGmailTextFieldActionPerformed
 
     public boolean checkDirectIndex() {
         return indexTheCase;

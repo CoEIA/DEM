@@ -43,7 +43,7 @@ public class FilesPath {
     
     // path for storing emails in database and attachments in separate folder
     public final static String ATTACHMENTS = "attachments" ;
-    public final static String EMAIL_DB = "Emails" ;
+    public final static String EMAIL_DB = "emails" ;
     
     // log path
     public final static String APPLICATION_LOG_PATH = APPLICATION_PATH + "\\" + "LOG";

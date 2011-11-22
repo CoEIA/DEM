@@ -4,23 +4,14 @@
  */
 package edu.coeia.hash;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.SwingWorker;
-import javax.swing.JDialog ;
 import javax.swing.JFrame; 
 
 import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 
 /**
  * Hash Verifier will check if the current hash value submitted by user is

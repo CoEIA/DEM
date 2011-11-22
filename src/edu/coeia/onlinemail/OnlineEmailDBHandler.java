@@ -1,5 +1,6 @@
 package edu.coeia.onlinemail;
 
+import edu.coeia.util.FileUtil;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -21,21 +22,31 @@ import static edu.coeia.util.PreconditionsChecker.* ;
 
 public class OnlineEmailDBHandler {
 
-    public OnlineEmailDBHandler(boolean nDB, String databasePath)
+    
+    public OnlineEmailDBHandler(String databasePath) throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException
+    {
+        boolean isDBFound = FileUtil.isDirectoryExists(databasePath);
+        this.createDB(isDBFound, databasePath);   
+        
+    }
+    public void createDB(boolean nDB, String databasePath)
             throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
 
         databasePath = checkNull("database path must be not null", databasePath);
         
-        DB_URL = databasePath;
-        DB_NAME += DB_URL;
-        if (nDB) {
-           
-            DB_NAME += ";create=true";
+         DB_URL = DB_NAME + databasePath;
+        
+        if (!nDB) {
+            DB_URL += ";create=true";
+            System.out.println("Creating Database ");
         }
-
+        else {
+            System.out.println("Opening Existing Database ");
+        }
+       
         connectDB();
 
-        if (nDB) {
+        if (!nDB) {
             makeDBStructure();
         }
     }
@@ -44,7 +55,7 @@ public class OnlineEmailDBHandler {
      
         
         String select = "SELECT * FROM emails ";
-        Statement statement = getConnection().createStatement();
+        Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(select);
         List<OnlineEmailMessage> mEmails = new ArrayList<OnlineEmailMessage>();
         OnlineEmailMessage message = null;
@@ -104,7 +115,7 @@ public class OnlineEmailDBHandler {
     public  void connectDB() throws ClassNotFoundException, InstantiationException,
             SQLException, IllegalAccessException {
         Class.forName(DB_DRIVER).newInstance();
-        connection = DriverManager.getConnection(DB_NAME, DB_USER, DB_PASS);
+        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
     }
 
     private void makeDBStructure() throws SQLException {
@@ -144,12 +155,8 @@ public class OnlineEmailDBHandler {
         return isDB;
     }
     
-    public Connection getConnection()
-    {
-        
-        return connection;
-    }
-    private static String DB_URL;
+   
+    private        String DB_URL;
     private static String DB_NAME = "jdbc:derby:";
     private static String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
     private static String DB_USER = "";

@@ -395,8 +395,17 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="UserNameGmailTextField">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="S2v2012@gmail.com"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="UserNameGmailTextFieldActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="UserNameHotmailTextField">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="masregyptian@hotmail.com"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="GmailCheckBox">
               <Properties>
@@ -415,8 +424,14 @@
               </Events>
             </Component>
             <Component class="javax.swing.JPasswordField" name="PasswordGmailTextField">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="s2v123456789"/>
+              </Properties>
             </Component>
             <Component class="javax.swing.JPasswordField" name="PasswordHotmailTextField">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="windows98"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -624,7 +639,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="44" max="32767" attributes="0"/>
+
+                      <EmptySpace pref="48" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
