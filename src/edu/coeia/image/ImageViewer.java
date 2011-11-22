@@ -22,7 +22,7 @@ public class ImageViewer {
 
     public static List<String> getInstance(Case index) throws IOException {
         if ( imagesPath == null ) {
-            ImageReader ir = new ImageReader(index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+            ImageReader ir = new ImageReader(index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
             imagesPath = ir.getImagesPath();
             ir.close();
         }

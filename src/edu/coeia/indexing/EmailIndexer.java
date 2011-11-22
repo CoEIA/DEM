@@ -38,11 +38,11 @@ import org.apache.tika.exception.TikaException;
  *
  * @author Ahmed
  */
-public class EmailIndexer extends Indexer {
-
-  
-    public EmailIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
-        super(writer, file, mimeType, imageCaching, caseLocation, imageExtractor);
+final class EmailIndexer extends Indexer {
+    
+    public EmailIndexer (LuceneIndex luceneIndex, File file, String mimeType, 
+            ImageExtractor imageExtractor) {
+        super(luceneIndex, file, mimeType, imageExtractor);
     }
 
     @Override
@@ -67,17 +67,22 @@ public class EmailIndexer extends Indexer {
         for (OnlineEmailMessage msg : AllMsgs) {
             Document doc = null;
             try {
+                System.out.println("msg from: " + msg.toString());
+                
                 doc = getDocument(msg);
                 if (doc != null) {
                 
-                writer.addDocument(doc);    // index file
+                this.luceneIndex.getWriter().addDocument(doc);    // index file
                 this.id++;
                 
-                
+
+                String attachmentPath = this.luceneIndex.getCase().getCaseLocation() + "\\" + FilesPath.ATTACHMENTS;
                 for (String sAttachments : msg.getAttachments()) {
-               
-                File file = new File(this.caseLocation+"\\"+FilesPath.ATTACHMENTS+"\\"+sAttachments);
-                LuceneIndexer.indexFile(file, msg.getId());
+                    System.out.println("attachments: " + sAttachments);
+                    File file = new File(this.caseLocation+"\\"+FilesPath.ATTACHMENTS+"\\"+sAttachments);
+
+                    luceneIndex.indexFile(file , msg.getId());
+
                 }
              
                 

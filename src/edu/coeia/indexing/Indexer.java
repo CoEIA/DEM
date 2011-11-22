@@ -5,9 +5,6 @@
 package edu.coeia.indexing;
 
 import edu.coeia.util.FilesPath;
-
-import org.apache.lucene.index.IndexWriter;
-
 import org.apache.tika.metadata.Metadata;
 
 import java.util.HashSet;
@@ -19,17 +16,17 @@ import java.io.File ;
  * @author wajdyessam
  */
 
-public abstract class Indexer {
+abstract class Indexer {
     
-    public Indexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
+    public Indexer(LuceneIndex luceneIndex, File file, String mimeType, ImageExtractor imageExtractor) {
         this.file = file ;
         this.mimeType = mimeType; 
-        this.imageCache = imageCaching;
+        this.imageCache = luceneIndex.getCase().getCacheImages();
         this.imageExtractor = imageExtractor;
+        this.caseLocation = luceneIndex.getCase().getCaseLocation();
         this.imagesLocation = caseLocation + "\\" + FilesPath.IMAGES_PATH;
         this.tmpLocation = caseLocation + "\\" + FilesPath.CASE_TMP;
-        this.caseLocation = caseLocation;
-        this.writer = writer ;
+        this.luceneIndex = luceneIndex ;
         
         createCaseDataFolders(); // used when indexer called by archiveIndexer
     }
@@ -55,8 +52,7 @@ public abstract class Indexer {
     
     protected static int id = 1;
     protected ImageExtractor imageExtractor;
-    
-    protected IndexWriter writer;
+    protected LuceneIndex luceneIndex ;
     
     protected static final Set<String> indexedMetadataFields = new HashSet<String>();
     static {

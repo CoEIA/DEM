@@ -9,9 +9,6 @@ import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 
 /* import sun classes */
-import java.sql.SQLException;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
 import javax.swing.UIManager ;
 import javax.swing.SwingUtilities ;
 import javax.swing.table.DefaultTableModel ;
@@ -110,8 +107,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             new Object [][] {
             },
             new String [] {
-                "Case Name","Investigator Name","Case Date","Case Description",
-                "Case Indexed"
+                "Case Name","Investigator Name","Case Date","Case Description"
             }
 
         )
@@ -132,7 +128,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         caseManagerDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(caseManagerDataPanelLayout.createSequentialGroup()
             .addContainerGap()
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
             .addContainerGap())
     );
     caseManagerDataPanelLayout.setVerticalGroup(
@@ -248,6 +244,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         }
         catch (ClassNotFoundException e){
         }
+        catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "please select the case you want to open",
+                    "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_loadCaseButtonActionPerformed
 
     private void newCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCaseButtonActionPerformed
@@ -255,9 +255,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             logger.info("Create New Case Entring");
   
             CaseWizardDialog indexWizard = null;
-        
             indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, licenseManager.isFullVersion());
-            
             indexWizard.setVisible(true);
             
             Case aCase = indexWizard.getCurrentCase();
@@ -268,6 +266,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             
             logger.info("Create New Case Don Successfully");
             writeCaseToInfoFile(aCase); // update indexes info file with new index
+            
             readCases(); // update recent table with this new information
             
             if ( indexWizard.checkDirectIndex()) {
@@ -284,26 +283,34 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_newCaseButtonActionPerformed
 
     private void removeCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeCaseButtonActionPerformed
-       int row = recentCaseTable.getSelectedRow();
-
-        if ( row < 0 ) {
+        
+        String caseName = null; 
+        
+        try {
+            caseName = getSelectedCase();
+        }
+        catch(NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to remove",
                 "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
+            
             return ;
         }
         
-        String indexName = (String) recentCaseTable.getValueAt(row, 0);
-        removeCase(indexName);
-        logger.info("Remove Case : " + indexName);
-        
-        readCases(); // update view table
-        //removeAllRows(caseInformationTable); // remove entrie in case information table
+        if ( !caseManager.isContain(caseName)) {
+            removeCase(caseName);
+            logger.info("Remove Case : " + caseName);
+
+            readCases(); // update view table
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "This case is already opening, close it first to remove it",
+                    "Please close the openining Case", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_removeCaseButtonActionPerformed
 
     private void recentCaseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recentCaseTableMouseClicked
         if ( evt.getClickCount() == 2 ) { // double click
             try {
-                //showCaseInformation();
                 String caseName = getSelectedCase();
                 loadCase(caseName, false);
             }
@@ -313,9 +320,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             }
             catch (ClassNotFoundException e){
             }
-        }
-        else { // one click , then show information
-            //showCaseInformation();
         }
     }//GEN-LAST:event_recentCaseTableMouseClicked
 
@@ -439,8 +443,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             ex.printStackTrace();
         } catch (IOException ex) {
             Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
     
@@ -466,16 +472,14 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     private void insertIntoCaseTable (Case index) {
         DefaultTableModel model = (DefaultTableModel) recentCaseTable.getModel();
         model.addRow( new Object[] {index.getIndexName(), index.getInvestigatorName(), DateUtil.formatDateTime(index.getCreateTime()), index.getDescription(),
-            index.getIndexStatus() });
+            });
     }
     
     private String getSelectedCase () {
         int row = recentCaseTable.getSelectedRow();
 
         if ( row < 0 ) {
-            JOptionPane.showMessageDialog(this, "please select the case you want to open",
-                    "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
-            return null ;
+            throw new NullPointerException("Case is Not Selected");
         }
 
         String indexName = (String) recentCaseTable.getValueAt(row, 0);
@@ -485,7 +489,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     private void loadCase (String caseName, boolean startIndex) throws FileNotFoundException, IOException, ClassNotFoundException{
         if ( caseName != null ) {
             if ( !caseManager.isContain(caseName)) {
-                Case index = getIndexInformationFromIndexName(caseName);
+                Case index = getCase(caseName);
 
                 caseManager.addCase(caseName);
 
@@ -493,10 +497,9 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 mainFrame.setLocationRelativeTo(this);
                 mainFrame.setVisible(true);
                 
-                if ( !index.getIndexStatus() ) {
+                if ( ! CaseHistoryHandler.get(index.getIndexName()).getIsCaseIndexed() ) {
                     logger.info("show direct indexing panel");
                     mainFrame.showIndexDialog(startIndex);
-                    
                 }
             }
             else {
@@ -508,8 +511,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     
     private void removeCase (String caseName) {
         try {
-            Case index = getIndexInformationFromIndexName(caseName);
-            File file = new File( index.getIndexLocation() );
+            Case aCase = getCase(caseName);
+            File file = new File( aCase.getCaseLocation() );
             
             if ( FileUtil.removeDirectory(file) ) {
                 List<String> indexPtr = FileUtil.getFileContentInArrayList(new File(FilesPath.INDEXES_INFO) );
@@ -519,7 +522,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                     String name = line.split("-")[0].trim();
                     String path = line.split("-")[1].trim();
 
-                    if ( name.equals(index.getIndexName()) && path.equals(index.getIndexLocation()))
+                    if ( name.equals(aCase.getIndexName()) && path.equals(aCase.getCaseLocation()))
                         continue ;
 
                     newIndexPtr.add(line);
@@ -527,6 +530,12 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
                 // write new index information to file
                 FileUtil.writeToFile(newIndexPtr, FilesPath.INDEXES_INFO);
+                
+                // remove case history from preferences
+                CaseHistoryHandler.remove(aCase.getIndexName());
+            }
+            else {
+                System.out.println("error in removing file: " + file.getAbsolutePath());
             }
         }
         catch (IOException e) {
@@ -540,7 +549,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     // add entry to indexes info file
     private void writeCaseToInfoFile (Case index) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(new File(FilesPath.INDEXES_INFO), true));
-        writer.println(index.getIndexName() + " - " + index.getIndexLocation());
+        writer.println(index.getIndexName() + " - " + index.getCaseLocation());
         writer.close();
     }
 
@@ -548,7 +557,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      * Get index path from index name 
      * @return IndexInformation 
      */
-    private Case getIndexInformationFromIndexName (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
+    private Case getCase (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
         List<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
 
@@ -561,7 +570,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
         return null ;
     }
-
+    
     /**
     * @param args the command line arguments
     */

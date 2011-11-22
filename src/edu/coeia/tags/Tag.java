@@ -46,6 +46,33 @@ public final class Tag {
                 this.getName(), this.getDate().toString(), this.getMessage());
     }
     
+    /**
+     * Logical Equality of two tags
+     * @return 
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if ( obj == this)
+            return true;
+        
+        if ( ! (obj instanceof Tag) )
+            return false;
+        
+        Tag tag = (Tag) obj ;
+        return tag.creatorName.equals(this.creatorName) 
+                && tag.creationDate.equals(this.creationDate)
+                && tag.message.equals(this.message) ;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + (this.creationDate != null ? this.creationDate.hashCode() : 0);
+        hash = 29 * hash + (this.creatorName != null ? this.creatorName.hashCode() : 0);
+        hash = 29 * hash + (this.message != null ? this.message.hashCode() : 0);
+        return hash;
+    }
+    
     public String getName() { return this.creatorName ; }
     public String getMessage() { return this.message ; }
     public Date getDate() { return new Date(this.creationDate.getTime()) ; }

@@ -2,12 +2,13 @@ package edu.coeia.cases;
 
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
-import edu.coeia.cases.EmailConfig.SOURCE;
+import edu.coeia.cases.EmailConfiguration.SOURCE;
 import edu.coeia.util.FilesPath;
 import edu.coeia.internet.FilesFilter;
 import edu.coeia.indexing.EmailDownDialogue;
 
 import edu.coeia.onlinemail.OnlineEmailDownloader;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.File;
 import java.awt.CardLayout;
+
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.event.DocumentEvent;
@@ -346,7 +348,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                             .addComponent(HotmailCheckBox)
                             .addComponent(PasswordHotmailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
                             .addComponent(UserNameHotmailTextField))))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         CaseWizardA1Layout.setVerticalGroup(
             CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -481,22 +483,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout CaseWizardA2Layout = new javax.swing.GroupLayout(CaseWizardA2);
-        CaseWizardA2.setLayout(CaseWizardA2Layout);
-        CaseWizardA2Layout.setHorizontalGroup(
-            CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CaseWizardA2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(464, 464, 464))
-        );
-        CaseWizardA2Layout.setVerticalGroup(
-            CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CaseWizardA2Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 342, Short.MAX_VALUE)
-                .addGap(47, 47, 47))
-        );
+        CaseWizardA2.add(jPanel3);
 
         indexWizardPanel.add(CaseWizardA2, "CaseWizardA2");
 
@@ -736,7 +723,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -836,14 +823,13 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
 
-        final List<EmailConfig> emailInfos = new ArrayList<EmailConfig>();
-
+        List<EmailConfiguration> emailInfos = new ArrayList<EmailConfiguration>();
 
         // get email data if user add emails
         if (this.GmailCheckBox.isSelected()) {
             String user = this.UserNameGmailTextField.getText().trim();
             String pass = this.PasswordGmailTextField.getText().trim();
-            EmailConfig.SOURCE source = EmailConfig.SOURCE.GMAIL;
+            EmailConfiguration.SOURCE source = EmailConfiguration.SOURCE.GMAIL;
 
             // check input
             // TODO: check inputs when selecting radio button in email page
@@ -852,7 +838,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 return;
             }
 
-            EmailConfig config = EmailConfig.newInstance(user, pass, source);
+            EmailConfiguration config = EmailConfiguration.newInstance(user, pass, source);
             emailInfos.add(config);
         }
 
@@ -860,7 +846,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         if (this.HotmailCheckBox.isSelected()) {
             String user = this.UserNameHotmailTextField.getText().trim();
             String pass = this.PasswordHotmailTextField.getText().trim();
-            EmailConfig.SOURCE source = EmailConfig.SOURCE.HOTMAIL;
+            EmailConfiguration.SOURCE source = EmailConfiguration.SOURCE.HOTMAIL;
 
             // check input
             // TODO: check inputs when selecting radio button in email page
@@ -869,10 +855,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 return;
             }
 
-            EmailConfig config = EmailConfig.newInstance(user, pass, source);
+            EmailConfiguration config = EmailConfiguration.newInstance(user, pass, source);
             emailInfos.add(config);
         }
-
 
         this.setVisible(false);
 
@@ -905,7 +890,8 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
             JFrame frame = new JFrame();
 
-            for (EmailConfig s : emailInfos) {
+            for (EmailConfiguration s : emailInfos) {
+
                 if (s.getSource() == SOURCE.HOTMAIL) {
 
                     EmailDownDialogue hotmail_dialogue = null;
@@ -913,11 +899,13 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                     String Password = s.getPassword();
                     try {
                         hotmail_dialogue = new EmailDownDialogue(frame, true, currentCase);
+
                         hotmail_dialogue.downloader = new OnlineEmailDownloader(hotmail_dialogue,
-                                currentCase.getIndexLocation() + "\\" + FilesPath.ATTACHMENTS,
-                                currentCase.getIndexLocation() + "\\" + FilesPath.EMAIL_DB);
+                                currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
+                                currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
                         hotmail_dialogue.downloader.ConnectPop3(Username, Password);
                         hotmail_dialogue.downloader.execute();
+
                         hotmail_dialogue.setVisible(true);
                     } catch (Exception ex) {
                         Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
@@ -930,11 +918,13 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                     String Password = s.getPassword();
                     try {
                         gmail_dialogue = new EmailDownDialogue(frame, true, currentCase);
+
                         gmail_dialogue.downloader = new OnlineEmailDownloader(gmail_dialogue,
-                                currentCase.getIndexLocation() + "\\" + FilesPath.ATTACHMENTS,
-                                currentCase.getIndexLocation() + "\\" + FilesPath.EMAIL_DB);
+                                currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
+                                currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
                         gmail_dialogue.downloader.ConnectIMAP(Username, Password);
                         gmail_dialogue.downloader.execute();
+
                         gmail_dialogue.setVisible(true);
                     } catch (Exception ex) {
                         Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
@@ -1048,6 +1038,22 @@ private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent ev
 
         return false;
     }
+    
+    /**
+     * Create folders to store email and attachments in this case
+     */
+    private void createEmailFolders(final String path) {
+
+        File attachments = new File(path + "\\" + FilesPath.ATTACHMENTS);
+        File emailDB = new File(path + "\\" + FilesPath.EMAIL_DB);
+        
+        if ( !attachments.exists() )
+            attachments.mkdir();
+
+        if ( !emailDB.exists())
+            emailDB.mkdir();
+    }
+    
 
     /*
      * Check The IndexPanelInfo Before Go to the Next Panel
@@ -1100,12 +1106,12 @@ private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent ev
 
         if (GmailCheckBox.isSelected()) {
 
-            if (UserNameGmailTextField.getText().isEmpty()) {
+            if (UserNameGmailTextField.getText().trim().isEmpty()) {
                 showErrorMessage("Username of Gmail is Empty ", "Please Write UserName");
                 return false;
             }
 
-            if (PasswordGmailTextField.getText().isEmpty()) {
+            if (PasswordGmailTextField.getPassword().length <= 0) {
 
                 showErrorMessage("Password is of Gmail Empty ", "Please Write Password");
                 return false;
@@ -1113,12 +1119,12 @@ private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent ev
             }
 
         } else if (HotmailCheckBox.isSelected()) {
-            if (UserNameHotmailTextField.getText().isEmpty()) {
+            if (UserNameHotmailTextField.getText().trim().isEmpty()) {
                 showErrorMessage("Username of Hotmail is Empty ", "Please Write UserName");
                 return false;
             }
 
-            if (PasswordHotmailTextField.getText().isEmpty()) {
+            if (PasswordHotmailTextField.getPassword().length <= 0) {
 
                 showErrorMessage("Password is of Hotmail Empty ", "Please Write Password");
                 return false;

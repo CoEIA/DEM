@@ -10,25 +10,24 @@ package edu.coeia.indexing;
  */
 
 import java.io.File ;
-import org.apache.lucene.index.IndexWriter ;
 
-public class ArchiveIndexer extends Indexer {
+final class ArchiveIndexer extends Indexer {
     
     private int parentId ;
     
-    public static ArchiveIndexer newInstance (IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor,
-            int parentId) {
-        return new ArchiveIndexer(writer, file, mimeType, imageCaching, caseLocation, imageExtractor, parentId);
+    public static ArchiveIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
+           ImageExtractor imageExtractor, int parentId) {
+        return new ArchiveIndexer(luceneIndex, file, mimeType, imageExtractor, parentId);
     }
         
-    public static ArchiveIndexer newInstance (IndexWriter writer, File file, String mimeType, 
-            boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
-        return new ArchiveIndexer(writer, file, mimeType, imageCaching, caseLocation, imageExtractor, 0);
+    public static ArchiveIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
+            ImageExtractor imageExtractor) {
+        return new ArchiveIndexer(luceneIndex, file, mimeType, imageExtractor, 0);
     }
         
-    private ArchiveIndexer(IndexWriter writer, File file, String mimeType, 
-            boolean imageCaching, String caseLocation, ImageExtractor imageExtractor,int parentId) {
-        super(writer, file,mimeType, imageCaching, caseLocation, imageExtractor);
+    private ArchiveIndexer(LuceneIndex luceneIndex, File file, String mimeType, 
+            ImageExtractor imageExtractor,int parentId) {
+        super(luceneIndex, file,mimeType, imageExtractor);
         this.parentId = parentId ;
     }
         
@@ -45,7 +44,7 @@ public class ArchiveIndexer extends Indexer {
             for(TikaObjectExtractor.ObjectLocation location: handler.getLocations()) {
                 System.out.println("object: " + location.oldFilePath + " , " + location.newFilePath);
                 try {
-                    LuceneIndexer.indexFile(new File(location.newFilePath), parentId);
+                    luceneIndex.indexFile(new File(location.newFilePath), parentId);
                 }
                 catch(Exception e) {
                     e.printStackTrace();

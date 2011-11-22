@@ -51,8 +51,8 @@ public class OnlineEmailReaderTest {
 
     @Test
     public void readMessagesTest() throws SQLException, MessagingException, NoSuchProviderException, IOException {
-        reader.Connect();
-        reader.readMessages();
+//        reader.Connect();
+//        reader.readMessages();
 
     }
 }

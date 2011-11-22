@@ -30,11 +30,11 @@ public class IndexingFileTest extends CaseBaseSource{
     @Test
     public void indexZipFileTest() {
         try {  
-            LuceneIndexer luceneIndexer = LuceneIndexer.getInstance(fackCaseObject, true);
+            LuceneIndex luceneIndexer = LuceneIndex.newInstance(fackCaseObject);
             
             File file = new File(zipFiles.get(0));
             
-            boolean state = LuceneIndexer.indexFile(file);
+            boolean state = luceneIndexer.indexFile(file);
             luceneIndexer.closeIndex();
             
             assertEquals(state, true);
@@ -45,11 +45,11 @@ public class IndexingFileTest extends CaseBaseSource{
     @Test
     public void indexTxtFileTest() {
         try {
-            LuceneIndexer luceneIndexer = LuceneIndexer.getInstance(fackCaseObject, true);
+            LuceneIndex luceneIndexer = LuceneIndex.newInstance(fackCaseObject);
             
             File file = new File(textFiles.get(0));
             
-            boolean state = LuceneIndexer.indexFile(file);
+            boolean state = luceneIndexer.indexFile(file);
             luceneIndexer.closeIndex();
             
             assertEquals(state, true);
@@ -61,11 +61,11 @@ public class IndexingFileTest extends CaseBaseSource{
     @Test
     public void indexDOCXFileTest() {
         try {
-            LuceneIndexer luceneIndexer = LuceneIndexer.getInstance(fackCaseObject, true);
+            LuceneIndex luceneIndexer = LuceneIndex.newInstance(fackCaseObject);
             
             File file = new File(docFiles.get(1));
             
-            boolean state = LuceneIndexer.indexFile(file);
+            boolean state = luceneIndexer.indexFile(file);
             luceneIndexer.closeIndex();
             
             assertEquals(state, true);
@@ -77,11 +77,11 @@ public class IndexingFileTest extends CaseBaseSource{
     @Test
     public void indexDOCFileTest1() {
         try {
-            LuceneIndexer luceneIndexer = LuceneIndexer.getInstance(fackCaseObject, true);
+            LuceneIndex luceneIndexer = LuceneIndex.newInstance(fackCaseObject);
             
             File file = new File(docFiles.get(0));
             
-            boolean state = LuceneIndexer.indexFile(file);
+            boolean state = luceneIndexer.indexFile(file);
             luceneIndexer.closeIndex();
             
             assertEquals(state, true);

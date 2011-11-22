@@ -34,6 +34,7 @@ import java.util.ArrayList;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
+import edu.coeia.cases.CaseHistoryHandler;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Fieldable;
 
@@ -599,7 +600,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     
     private void showInformationByID (String fileId) {        
         try {
-            File indexPath = new File(caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+            File indexPath = new File(caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
             
             // Do Lucene Search
             LuceneSearcher searcher = new LuceneSearcher(indexPath);
@@ -644,13 +645,13 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private void startSearching () {
         removeSearchField(false,false);
 
-        if ( caseObj.getIndexStatus() == false ) {
+        if ( CaseHistoryHandler.get(this.caseObj.getIndexName()).getIsCaseIndexed() == false ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
             return ;
         }
 
-        File indexLocation = new File (caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+        File indexLocation = new File (caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
         String queryString = queryTextField.getText().trim();
 
         if ( queryString.isEmpty() ) {
@@ -721,7 +722,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }
     
     private void disableNotIndexedComponent () {
-        if ( caseObj.getDocumentInIndex().isEmpty() ) {
+        if ( caseObj.getEvidenceSourceLocation().isEmpty() ) {
             startSearchingButton.setEnabled(false);
 //            clearFieldsButton.setEnabled(false);
 //            keywordsListButton.setEnabled(false);

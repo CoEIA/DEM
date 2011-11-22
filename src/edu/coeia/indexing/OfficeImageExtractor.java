@@ -11,7 +11,7 @@ package edu.coeia.indexing;
 
 import java.io.File ;
 
-public class OfficeImageExtractor implements ImageExtractor{
+final class OfficeImageExtractor implements ImageExtractor{
     
     @Override
     public void extractImages(Indexer indexer, File file,int parentId) {
@@ -25,7 +25,7 @@ public class OfficeImageExtractor implements ImageExtractor{
         // index the images using ImageIndexer
         for(TikaObjectExtractor.ObjectLocation location: handler.getLocations()) {
             try {
-                LuceneIndexer.indexFile(new File(location.newFilePath), parentId);
+                indexer.luceneIndex.indexFile(new File(location.newFilePath), parentId);
             }
             catch(Exception e) {
                 e.printStackTrace();

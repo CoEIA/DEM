@@ -10,64 +10,52 @@
  */
 package edu.coeia.indexing;
 
-
-import edu.coeia.util.FilesPath;
 import edu.coeia.cases.Case;
-import edu.coeia.gutil.IndexGUIComponent;
 import edu.coeia.gutil.JTableUtil;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import java.io.File;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JProgressBar;
+import javax.swing.JTable ;
 
 /**
  *
  * @author wajdyessam
  */
-public class IndexingDialog extends javax.swing.JDialog {
+public final class IndexingDialog extends javax.swing.JDialog {
 
-    private List<String> imagesPath ;
-
-    private CrawlerThread indexerThread ;
-    private boolean startIndexButtonFlag = true ;
-    
-    private Case caseObj;
-    private boolean startIndexNow ;
+    private CrawlerIndexerThread indexerThread ;
+    private final Case aCase;
     
     /** Creates new form IndexingDialog */
     public IndexingDialog(java.awt.Frame parent, boolean modal, Case aCase, boolean startIndexNow) {
         super(parent, modal);
         initComponents();
         
-        this.startIndexNow = startIndexNow ;
+        this.aCase = aCase;
         
-        // set start and end button
-        startIndexButton.setEnabled(startIndexButtonFlag);
-        stopIndexingButton.setEnabled(! startIndexButtonFlag);
-        
-        this.imagesPath = new ArrayList<String>();
-        this.caseObj = aCase;
-        
-        // display indexing information if already indexing
-        if ( caseObj.getIndexStatus() ) {
-            indexDateLbl.setText(caseObj.getLastIndexDate());
-            timeLbl.setText(caseObj.getIndexingTime());
-        }
+        // set start and end button)
+        resettingButtons(true);
         
         // close thread if the thread running and user close the window
         this.addWindowListener( new WindowAdapter() {
             @Override
             public void windowClosed (WindowEvent event){
-                stopIndex();
+                try {
+                    stopIndexerThread();
+                    hideIndexingDialog();
+                } catch (IOException ex) {
+                    Logger.getLogger(IndexingDialog.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         
-        if (this.startIndexNow) {
-            startIndex();
+        if ( startIndexNow ) {
+            startIndexerThread();
         }
     }
 
@@ -387,42 +375,58 @@ public class IndexingDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startIndexButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startIndexButtonActionPerformed
-        startIndex();
+        startIndexerThread();
     }//GEN-LAST:event_startIndexButtonActionPerformed
 
     private void stopIndexingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopIndexingButtonActionPerformed
-        stopIndex();
+        try {
+            stopIndexerThread();
+        } catch (IOException ex) {
+            Logger.getLogger(IndexingDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_stopIndexingButtonActionPerformed
 
-    private void startIndex () {
-        File indexLocation = new File ( caseObj.getIndexLocation() + "\\" + FilesPath.INDEX_PATH );
-
-        startIndexButton.setEnabled(! startIndexButtonFlag);
-        stopIndexingButton.setEnabled(startIndexButtonFlag);
-
+    private void startIndexerThread () {
+        resettingButtons(false);
         JTableUtil.removeAllRows(indexTable);
         
-        IndexGUIComponent indexGUI = new IndexGUIComponent(progressBar,indexTable,indexDateLbl
-            ,timeLbl,currentFileLbl, sizeOfFileLbl, numberOfFilesLbl, fileExtensionLbl, numberOfErrorFilesLbl,bigSizeMsgLbl, startIndexButton,
-            stopIndexingButton);
-
-        indexerThread = new CrawlerThread(indexLocation,indexGUI,caseObj,imagesPath, this);
+        // starting thread
+        indexerThread = new CrawlerIndexerThread(this);
         indexerThread.execute();
     }
     
-    private void stopIndex() {
+    private void stopIndexerThread() throws IOException {
         if ( indexerThread != null) {
             indexerThread.clearFields();
-            indexerThread.cancel(true);
-            indexerThread = null ;
+            indexerThread.stopIndexingThread();
         }
-        
-        this.setVisible(false);
     }
     
-    public void closeDialog() {
-        stopIndex();
+    void hideIndexingDialog() {
+        this.dispose();
     }
+    
+    private void resettingButtons(boolean state) {
+        startIndexButton.setEnabled(state);
+        stopIndexingButton.setEnabled(!state);
+    }
+   
+    public Case getCase() { return this.aCase ; }
+    public JTable getLoggingTable () { return this.indexTable; }
+    public JProgressBar getProgressBar() { return this.progressBar ; }
+    
+    public void setTimeLabel(final String time) { this.timeLbl.setText(time); }
+    public void setCurrentFile(final String fileName) { this.currentFileLbl.setText(fileName); }
+    public void setFileSize(final String size) { this.sizeOfFileLbl.setText(size); }
+    public void setFileExtension(final String ext) { this.fileExtensionLbl.setText(ext) ; }
+    public void setNumberOfFiles(final String no) { this.numberOfFilesLbl.setText(no); }
+    public void setNumberOfFilesError(final String no) { this.numberOfErrorFilesLbl.setText(no); }
+    public void setLastIndexTime(final String time) { this.indexDateLbl.setText(time); }
+    public void setprogressBar(final int value) { this.progressBar.setValue(value); }
+    public void setBigSizeLabel(final String text) { this.bigSizeMsgLbl.setText(text); }
+    public void setProgressIndetermined(final boolean status) { this.progressBar.setIndeterminate(status); }
+    public void setStartButtonStatus(final boolean status) { this.startIndexButton.setEnabled(status); }
+    public void setStopButtonStatus(final boolean status) { this.stopIndexingButton.setEnabled(status); }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel InfinatePanel;

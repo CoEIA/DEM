@@ -36,9 +36,7 @@ public class EmailDownDialogue extends javax.swing.JDialog {
     public EmailDownDialogue(java.awt.Frame parent, boolean modal, Case aCase) throws SQLException, NoSuchProviderException, MessagingException, IOException, Exception {
         super(parent, modal);
         initComponents();
-
         DownloadProgressBar.setIndeterminate(true);
-
     }
 
     public JTextField getFrom() {

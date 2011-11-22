@@ -9,20 +9,16 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
-import edu.coeia.util.Utilities;
 import edu.coeia.chat.MSNMessageReader;
 import static edu.coeia.chat.MSNMessageReader.* ;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 
 import java.util.List ;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexWriter;
 
-public class MSNIndexer extends Indexer{
+final class MSNIndexer extends Indexer{
     
     /**
      *  chat type
@@ -40,17 +36,16 @@ public class MSNIndexer extends Indexer{
      * @param imageExtractor
      * @return YahooChatIndexer
      */
-    public static MSNIndexer newInstance(IndexWriter writer, File file, String mimeType, 
-            boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
+    public static MSNIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType, 
+            ImageExtractor imageExtractor) {
             
-        return new MSNIndexer(writer, file, mimeType, imageCaching, caseLocation, imageExtractor, 0);
+        return new MSNIndexer(luceneIndex, file, mimeType, imageExtractor, 0);
     }
     
-    
-    private MSNIndexer (IndexWriter writer, File file, String mimeType, boolean imageCaching,
-            String caseLocation, ImageExtractor imageExtractor,int parentId) {
+    private MSNIndexer (LuceneIndex luceneIndex, File file, String mimeType,
+            ImageExtractor imageExtractor,int parentId) {
         
-        super(writer, file, mimeType, imageCaching, caseLocation, imageExtractor);
+        super(luceneIndex, file, mimeType, imageExtractor);
     }
     
     @Override
@@ -68,7 +63,7 @@ public class MSNIndexer extends Indexer{
                         //int objectId = id;
 
                         if (doc != null) {
-                            this.writer.addDocument(doc);    // index file
+                            this.luceneIndex.getWriter().addDocument(doc);    // index file
                             //this.id++;                       // increase the id counter if file indexed successfully
 
                         } else {

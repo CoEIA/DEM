@@ -86,25 +86,25 @@ public enum CaseManager {
 
         public static void writeCase (Case index) throws IOException {
             // create index folder
-            File dir = new File( index.getIndexLocation());
+            File dir = new File( index.getCaseLocation());
             dir.mkdir();
 
             // create THE_INDEX that hold index data used by lucene engine
-            File dir2 = new File( index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH );
+            File dir2 = new File( index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH );
             dir2.mkdir();
 
             // create IMAGES that hold case images
-            File imgDir = new File( index.getIndexLocation() + "\\" + FilesPath.IMAGES_PATH);
+            File imgDir = new File( index.getCaseLocation() + "\\" + FilesPath.IMAGES_PATH);
             imgDir.mkdir();
             
             // create index information file & write the index on it
-            String info = index.getIndexLocation() + "\\" + index.getIndexName() + ".DAT" ;
+            String info = index.getCaseLocation() + "\\" + index.getIndexName() + ".DAT" ;
             File infoFile = new File(info);
             infoFile.createNewFile();
             CaseOperation.writeCase(index, infoFile);
 
             // create log file
-            String log = index.getIndexLocation() + "\\" + index.getIndexName() + ".LOG" ;
+            String log = index.getCaseLocation() + "\\" + index.getIndexName() + ".LOG" ;
             new File(log).createNewFile();
         }
     }
@@ -163,8 +163,6 @@ public enum CaseManager {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
         File tmpFile = new File(FilesPath.TMP_PATH);
         File logFile = new File(FilesPath.APPLICATION_LOG_PATH);
-        File attachments = new File(FilesPath.ATTACHMENTS);
-        File emailDB = new File(FilesPath.EMAIL_DB);
         
         if  ( ! root.exists() )
             root.mkdir();   // make offline folder in applicationData
@@ -180,12 +178,6 @@ public enum CaseManager {
 
         if ( !logFile.exists() ) 
             logFile.mkdir();
-
-        if ( !attachments.exists() )
-            attachments.mkdir();
-
-        if ( ! emailDB.exists())
-            emailDB.mkdir();
          
         // craete tmp files
         new File(FilesPath.HIS_TMP).createNewFile();

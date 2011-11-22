@@ -18,7 +18,7 @@ import java.util.prefs.Preferences;
 public enum LicenseManager {
     FULL_LICENSE(true), BETA_LICENSE(false);
     
-    LicenseManager(boolean state) {
+    private LicenseManager(boolean state) {
         isFullVersion = state;
     }
     

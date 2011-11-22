@@ -43,10 +43,10 @@ public class YahooChatIndexer extends Indexer{
      * @param imageExtractor
      * @return YahooChatIndexer
      */
-    public static YahooChatIndexer newInstance(IndexWriter writer, File file, String mimeType, 
-            boolean imageCaching, String caseLocation, ImageExtractor imageExtractor) {
+    public static YahooChatIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType, 
+            ImageExtractor imageExtractor) {
             
-        return new YahooChatIndexer(writer, file, mimeType, imageCaching, caseLocation, imageExtractor, 0);
+        return new YahooChatIndexer(luceneIndex, file, mimeType, imageExtractor, 0);
     }
     
     /**
@@ -60,10 +60,10 @@ public class YahooChatIndexer extends Indexer{
      * @param imageExtractor
      * @param parentId 
      */
-    private YahooChatIndexer(IndexWriter writer, File file, String mimeType, boolean imageCaching, String caseLocation, ImageExtractor imageExtractor,
+    private YahooChatIndexer(LuceneIndex luceneIndex, File file, String mimeType, ImageExtractor imageExtractor,
             int parentId) {
         
-        super(writer, file, mimeType, imageCaching, caseLocation, imageExtractor);
+        super(luceneIndex, file, mimeType, imageExtractor);
     }
     
     @Override
@@ -82,7 +82,7 @@ public class YahooChatIndexer extends Indexer{
                         //int objectId = id;
 
                         if (doc != null) {
-                            this.writer.addDocument(doc);    // index file
+                            this.luceneIndex.getWriter().addDocument(doc);    // index file
                             //this.id++;                       // increase the id counter if file indexed successfully
 
                         } else {

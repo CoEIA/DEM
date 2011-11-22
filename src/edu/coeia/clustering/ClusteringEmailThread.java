@@ -56,7 +56,7 @@ public class ClusteringEmailThread extends SwingWorker<Integer,Void>{
     @Override
     protected Integer doInBackground()  {
         try {
-            File indexLocation = new File (index.getIndexLocation() + "\\" + FilesPath.INDEX_PATH);
+            File indexLocation = new File (index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
             ArrayList<Tuple<String, ArrayList<String>>> result = ClusteringData.clustetringData(
                     indexLocation, keyword, "mailtitle", "mailcontent");
 
