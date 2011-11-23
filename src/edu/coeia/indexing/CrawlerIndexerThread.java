@@ -129,13 +129,17 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             publish(new ProgressIndexData( noOfFilesEnumerated,noOfFilesIndexed, 
                     path.getAbsolutePath(), "" , ProgressIndexData.TYPE.LABEL , msg));
 
-            boolean status = this.luceneIndex.indexFile(path);
-            if ( ! status ) // update error table
-                publish(new ProgressIndexData( noOfFilesEnumerated,noOfFilesIndexed,
-                        path.getAbsolutePath(), "Cannot Index This File", ProgressIndexData.TYPE.TABEL , msg));
-            else
+            boolean status = false;
+            
+            try {
+                status = this.luceneIndex.indexFile(path);
                 noOfFilesIndexed++;
-
+            }
+            catch (UnsupportedOperationException e) {
+              publish(new ProgressIndexData( noOfFilesEnumerated,noOfFilesIndexed,
+                    path.getAbsolutePath(), e.getMessage() , ProgressIndexData.TYPE.TABEL , msg));
+            }
+            
             ++noOfFilesEnumerated ;
         }
     }
@@ -148,7 +152,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         for (ProgressIndexData pd : chunks) {
             if ( pd.getType() == ProgressIndexData.TYPE.TABEL ) {
                 ((DefaultTableModel)this.parentDialog.getLoggingTable().getModel()).addRow(new Object[] { FileUtil.getExtension(pd.getPath())
-                    , pd.getPath(), "cannot index this file (password protected or internal error in file format)"});
+                    , pd.getPath(), pd.getStatus()});
 
                 noOfFilesCannotIndexing++;
                 this.parentDialog.setNumberOfFilesError(String.valueOf(this.noOfFilesCannotIndexing));

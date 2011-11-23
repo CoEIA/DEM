@@ -37,7 +37,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="indexFooterPanel" alignment="0" max="32767" attributes="1"/>
+                          <Component id="indexFooterPanel" alignment="0" pref="711" max="32767" attributes="1"/>
                           <Component id="jSeparator1" alignment="0" pref="0" max="32767" attributes="2"/>
                           <Component id="indexWizardPanel" alignment="0" min="-2" max="-2" attributes="3"/>
                       </Group>
@@ -639,8 +639,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-
-                      <EmptySpace pref="48" max="32767" attributes="0"/>
+                      <EmptySpace pref="44" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -836,9 +835,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="backButton" pref="124" max="32767" attributes="0"/>
+                  <Component id="backButton" pref="175" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="nextButton" pref="124" max="32767" attributes="0"/>
+                  <Component id="nextButton" pref="176" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
                   <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>

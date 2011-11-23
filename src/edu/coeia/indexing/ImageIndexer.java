@@ -68,10 +68,7 @@ final class ImageIndexer extends Indexer{
             
             return true;
         }
-        catch(FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        catch(IOException e) {
+        catch(Exception e) {
             e.printStackTrace();
         }
         

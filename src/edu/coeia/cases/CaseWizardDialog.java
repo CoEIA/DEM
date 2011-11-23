@@ -861,6 +861,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         this.setVisible(false);
 
+        // set direct indexing the case after creating
+        this.indexTheCase = YesIndexRadioButton.isSelected() ;
+        
         // Build Case
         currentCase = new Case.Builder(caseNameTextField.getText().trim(),
                 caseLocationTextField.getText().trim(),

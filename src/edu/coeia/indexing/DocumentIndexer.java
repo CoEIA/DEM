@@ -48,6 +48,8 @@ final class DocumentIndexer extends Indexer {
     @Override
     public boolean doIndexing() {
 
+        boolean status = false ;
+        
         try {
             TikaExtractor extractor = TikaExtractor.getExtractor(this.file, this.mimeType);
             
@@ -71,13 +73,13 @@ final class DocumentIndexer extends Indexer {
                 imageExtractor.extractImages(this, file, objectId);
             }
             
-            return true;
+            status = true;
         }
         catch(Exception e){
-            e.printStackTrace();
+            throw new UnsupportedOperationException(e.getMessage());
         }
 
-        return false;
+        return status;
     }
         
     private Document getDocument(String content, Map<String, String> metadata) {

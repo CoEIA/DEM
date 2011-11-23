@@ -75,10 +75,8 @@ final class LuceneIndex {
             return indexType.doIndexing();
         }
         catch(UnsupportedOperationException e){
-            System.out.println(e.getMessage());
+            throw new UnsupportedOperationException(e.getMessage());
         }
-        
-        return false;
     }
     
     boolean indexDir(File dir){
