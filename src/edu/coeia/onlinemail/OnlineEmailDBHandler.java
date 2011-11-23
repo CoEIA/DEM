@@ -1,5 +1,6 @@
 package edu.coeia.onlinemail;
 
+import com.google.common.collect.Collections2;
 import edu.coeia.util.FileUtil;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.io.File;
 
+import java.util.Collections;
 import static edu.coeia.util.PreconditionsChecker.* ;
 
 /**
@@ -63,17 +65,29 @@ public class OnlineEmailDBHandler {
         while (resultSet.next()) {
 
             String paths = resultSet.getString("PATH");
-            String[] arrPaths = paths.split(",");
-            List<String> listPaths = Arrays.asList(arrPaths);
+            List<String> listPaths = Collections.emptyList();
+            if (!paths.isEmpty()) {
+                String[] arrPaths = paths.split(",");
+                listPaths = Arrays.asList(arrPaths);
+            }
 
             String bcc = resultSet.getString("BCC");
-            String[] bccArray = bcc.split(",");
-            List<String> bccList = Arrays.asList(bccArray);
+            List<String> bccList = Collections.emptyList();
+            if (!bcc.isEmpty()) {
+                String[] bccArray = bcc.split(",");
+                bccList = Arrays.asList(bccArray);
 
+            }
+            
             String cc = resultSet.getString("CC");
+            List<String> ccList = Collections.emptyList();
+            
+            if (!cc.isEmpty())
+            {
             String[] ccArray = cc.split(",");
-            List<String> ccList = Arrays.asList(ccArray);
-
+            ccList = Arrays.asList(ccArray);
+            }
+            
             message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"), resultSet.getString("FROM_ADDRESS"), bccList, ccList, resultSet.getString("SUBJECT"),
                     resultSet.getString("BODY_MESSAGE"), resultSet.getString("SENT_DATE"), resultSet.getString("CREATED_DATE"), listPaths,resultSet.getString("Folder_Name"));
 
