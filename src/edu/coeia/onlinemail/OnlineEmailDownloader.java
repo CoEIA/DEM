@@ -1,6 +1,5 @@
 package edu.coeia.onlinemail;
 
-import edu.coeia.indexing.EmailDownDialogue;
 import edu.coeia.util.FileUtil;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -115,7 +114,7 @@ class ProgressData {
  */
 public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
-    private EmailDownDialogue emaildialogue;
+    private EmailDownloaderDialog emaildialogue;
     private boolean emailFinished;
     private String dbPath;
     /**
@@ -124,7 +123,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
      * @param password the password of the account
      * @return EmailReader object that contain all the messages in list
      */
-    public static OnlineEmailDownloader newInstance(EmailDownDialogue dialogue,
+    public static OnlineEmailDownloader newInstance(EmailDownloaderDialog dialogue,
             String attachmentsPath, String dbPath) throws SQLException, NoSuchProviderException, MessagingException, IOException {
 
         // check null values
@@ -139,7 +138,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         return new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath);
     }
 
-    public OnlineEmailDownloader(EmailDownDialogue dialogue, String attachmentsPath, String dbPath) throws SQLException, NoSuchProviderException, MessagingException, IOException {
+    public OnlineEmailDownloader(EmailDownloaderDialog dialogue, String attachmentsPath, String dbPath) throws SQLException, NoSuchProviderException, MessagingException, IOException {
 
         this.attachmentsPath = attachmentsPath;
         this.emaildialogue = dialogue;

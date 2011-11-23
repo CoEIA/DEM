@@ -5,33 +5,20 @@
 package edu.coeia.indexing;
 
 import com.pff.PSTException;
-import edu.coeia.cases.Case;
-import edu.coeia.email.EmailReader;
 import edu.coeia.onlinemail.OnlineEmailDBHandler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.index.IndexWriter;
 import edu.coeia.onlinemail.OnlineEmailMessage;
-import edu.coeia.onlinemail.OnlineEmailDownloader;
-import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 import java.util.Collections;
-import org.apache.lucene.analysis.StopAnalyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.LockObtainFailedException;
-import org.apache.lucene.util.Version;
 import org.apache.tika.exception.TikaException;
 
 /**

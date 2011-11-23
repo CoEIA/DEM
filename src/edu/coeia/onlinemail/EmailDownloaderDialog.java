@@ -8,7 +8,7 @@
  *
  * Created on Sep 10, 2011, 9:01:08 AM
  */
-package edu.coeia.indexing;
+package edu.coeia.onlinemail;
 
 import edu.coeia.cases.Case;
 
@@ -25,15 +25,15 @@ import javax.swing.JTextField;
  *
  * @author wajdyessam
  */
-public class EmailDownDialogue extends javax.swing.JDialog {
+public class EmailDownloaderDialog extends javax.swing.JDialog {
 
     public OnlineEmailDownloader downloader;
    
 
-    public EmailDownDialogue() throws NoSuchProviderException, MessagingException, IOException, SQLException {
+    public EmailDownloaderDialog() throws NoSuchProviderException, MessagingException, IOException, SQLException {
     }
 
-    public EmailDownDialogue(java.awt.Frame parent, boolean modal, Case aCase) throws SQLException, NoSuchProviderException, MessagingException, IOException, Exception {
+    public EmailDownloaderDialog(java.awt.Frame parent, boolean modal, Case aCase) throws SQLException, NoSuchProviderException, MessagingException, IOException, Exception {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(parent);        
@@ -164,7 +164,7 @@ public class EmailDownDialogue extends javax.swing.JDialog {
         attachments.setRows(5);
         jScrollPane1.setViewportView(attachments);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel1.setText("Downloading Progress:");
 
         javax.swing.GroupLayout progresLabelPanelLayout = new javax.swing.GroupLayout(progresLabelPanel);
@@ -240,7 +240,7 @@ public class EmailDownDialogue extends javax.swing.JDialog {
 
         progressEmail.add(progresLabelPanel, java.awt.BorderLayout.PAGE_START);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         jButton1.setText("Cancel");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

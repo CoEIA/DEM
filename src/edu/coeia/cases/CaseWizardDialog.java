@@ -5,7 +5,7 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 import edu.coeia.cases.EmailConfiguration.SOURCE;
 import edu.coeia.util.FilesPath;
 import edu.coeia.internet.FilesFilter;
-import edu.coeia.indexing.EmailDownDialogue;
+import edu.coeia.onlinemail.EmailDownloaderDialog;
 
 import edu.coeia.onlinemail.OnlineEmailDownloader;
 
@@ -894,11 +894,11 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
                 if (s.getSource() == SOURCE.HOTMAIL) {
 
-                    EmailDownDialogue hotmail_dialogue = null;
+                    EmailDownloaderDialog hotmail_dialogue = null;
                     String Username = s.getUserName();
                     String Password = s.getPassword();
                     try {
-                        hotmail_dialogue = new EmailDownDialogue(frame, true, currentCase);
+                        hotmail_dialogue = new EmailDownloaderDialog(frame, true, currentCase);
 
                         hotmail_dialogue.downloader = new OnlineEmailDownloader(hotmail_dialogue,
                                 currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
@@ -913,11 +913,11 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 } // End IF Hotmail
 
               if (s.getSource() == SOURCE.GMAIL) {
-                    EmailDownDialogue gmail_dialogue = null;
+                    EmailDownloaderDialog gmail_dialogue = null;
                     String Username = s.getUserName();
                     String Password = s.getPassword();
                     try {
-                        gmail_dialogue = new EmailDownDialogue(frame, true, currentCase);
+                        gmail_dialogue = new EmailDownloaderDialog(frame, true, currentCase);
 
                         gmail_dialogue.downloader = new OnlineEmailDownloader(gmail_dialogue,
                                 currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
