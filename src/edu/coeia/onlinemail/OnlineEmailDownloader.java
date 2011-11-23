@@ -117,6 +117,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
     private EmailDownloaderDialog emaildialogue;
     private boolean emailFinished;
     private String dbPath;
+
     /**
      * static factory that read all message from user account and store it in list
      * @param username the name of the account
@@ -142,10 +143,10 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
         this.attachmentsPath = attachmentsPath;
         this.emaildialogue = dialogue;
-        this.dbPath  = dbPath;
-                
+        this.dbPath = dbPath;
+
         FileUtil.createFolder(attachmentsPath);
-       
+
 
         this.emaildialogue.addWindowListener(new WindowListener() {
 
@@ -173,8 +174,8 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             public void windowDeactivated(WindowEvent e) {
             }
         });
- 
-        
+
+
 
     }
 
@@ -186,10 +187,9 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
         return new EmailIterator(this);
     }
-    
-    
-    public void createDB() throws SQLException{
-    
+
+    public void createDB() throws SQLException {
+
         try {
             this.db = new OnlineEmailDBHandler(this.dbPath);
         } catch (ClassNotFoundException ex) {
@@ -199,8 +199,8 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         } catch (IllegalAccessException ex) {
             Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
+
     }
 
     @Override
@@ -210,12 +210,14 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
         if (isCancelled()) {
             emailFinished = false;
-           
+
             return null;
         }
 
+        // 1).  Create Data base 
         createDB();
-        
+
+       // 2).  Crawel For Each Folder 
         javax.mail.Folder[] folders = store.getDefaultFolder().list("*");
         for (javax.mail.Folder folder : folders) {
 
@@ -223,7 +225,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
                 try {
                     System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
-                } catch (MessagingException ex) {
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 try {
@@ -239,26 +241,50 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                 continue;
             }
 
+          // 3).  Get All Messages For Each Folder
             Message[] messages = folder.getMessages();
 
+          // 4). For Each Message dump the message and download attachment
             for (Message message : messages) {
 
                 if (isCancelled()) {
                     emailFinished = false;
-
                     return null;
                 }
-                // Get cc
-                List<String> cclist = getAddress(message, Message.RecipientType.BCC);
-                String ccBuilder = getFormattedString(cclist);
 
+                List<String> cclist = Collections.emptyList();
+                try {
+                    // Get cc
+                    cclist = getAddress(message, Message.RecipientType.BCC);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                String ccBuilder = getFormattedString(cclist);
+                
                 // Get Bcc
-                List<String> bcclist = getAddress(message, Message.RecipientType.CC);
+                List<String> bcclist = Collections.emptyList();
+                try {
+                    bcclist = getAddress(message, Message.RecipientType.CC);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 String bccBuilder = getFormattedString(bcclist);
 
+           
                 int messageId = messages.length - count++;
-                String from = getFromAddress(message.getFrom()[0].toString());
 
+                String getFrom = "";
+                try {
+                    getFrom = message.getFrom()[0].toString();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+                String from = "";
+                if (!getFrom.isEmpty()) {
+                    from = getFromAddress(getFrom);
+                }
+                
                 List<String> to = Collections.emptyList();
                 try {
                     to = getAddress(message, Message.RecipientType.TO);
@@ -268,18 +294,30 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                 if (to == null) {
                     to = Collections.emptyList();
                 }
-                String subject = message.getSubject();
-                String body = "";
-               
-                try {
-                 body = getMessageContent(message);
-                }
-                catch (Exception ex) { ex.printStackTrace();}
 
+                String subject = "";
+                try {
+                    subject = message.getSubject();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                if (subject == null) subject = "";
+
+
+                String body = "";
+                try {
+                    body = getMessageContent(message);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                if ( body == null ) body = "";
+
+                
                 Date sentDate = message.getSentDate();
                 if (sentDate == null) {
                     sentDate = new Date();
                 }
+                
                 Date receiveDate = message.getReceivedDate();
                 if (receiveDate == null) {
                     receiveDate = new Date();
@@ -289,11 +327,11 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                 System.out.println("ReceiveDate : " + receiveDate);
                 System.out.println("------------From------\n" + from);
                 System.out.println();
+                
                 for (String d : cclist) {
-
-                    System.out.println("------------CC------\n" + d);
-
-                }
+                   System.out.println("------------CC------\n" + d);
+                } 
+                
                 for (String s : bcclist) {
                     System.out.println("------------BCC------\n" + s);
 
@@ -324,6 +362,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                     ex.printStackTrace();
                 }
 
+
                 try {
                     ProgressData PData = new ProgressData(from, to, subject, sentDate.toString(), receiveDate.toString(),
                             cclist, bcclist, pathBuilder);
@@ -344,12 +383,12 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
     @Override
     protected void done() {
-      
-        
+
+
         if (emailFinished) {
 
             JOptionPane.showMessageDialog(emaildialogue, "Finished Downloading Emails", "Done", JOptionPane.INFORMATION_MESSAGE);
-            
+
             emaildialogue.setVisible(false);
             emaildialogue.getDownloadBar().setIndeterminate(false);
 
@@ -369,7 +408,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             } catch (MessagingException ex) {
                 Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
             }
-         
+
         } else {
             try {
                 store.close();
@@ -390,8 +429,8 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             JOptionPane.showMessageDialog(emaildialogue, "Cancelled Email Downloading", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
             emaildialogue.setVisible(false);
         }
-        
-           
+
+
     }
 
     @Override
@@ -403,23 +442,28 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         }
 
         for (ProgressData pd : chunks) {
-            emaildialogue.getFrom().setText(pd.getFrom());
 
+            emaildialogue.getFrom().setText(FormatString(pd.getFrom()));
             for (String s1 : pd.getCC()) {
-                emaildialogue.getCC().setText(s1 + "\n");
+                emaildialogue.getCC().setText(FormatString(s1) + "\n");
             }
-
-            for (String s2 : pd.getBCC()) {
-                emaildialogue.getBCC().setText(s2 + "\n");
+            for (String s2 : pd.getCC()) {
+                emaildialogue.getBCC().setText(FormatString(s2) + "\n");
             }
-            emaildialogue.getSubject().setText(pd.getSubject());
+            emaildialogue.getSubject().setText(FormatString(pd.getSubject()));
             emaildialogue.getTo().setText(pd.getTo());
             emaildialogue.getAttachments().setText(pd.getAttachments());
             emaildialogue.getSentDate().setText(pd.getSentDate());
             emaildialogue.getCreationDate().setText(pd.getCreationDate());
-
         }
+    }
 
+    private String FormatString(String input) {
+        if (!input.isEmpty()) {
+            return input;
+        } else {
+            return "";
+        }
 
     }
 
@@ -580,21 +624,17 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             for (int i = 0; i < multipart.getCount(); i++) {
                 Part part = (Part) multipart.getBodyPart(i);
 
-                if (part.isMimeType("text/plain"))
-                {
-                messageContent.append(part.getContent().toString());
+                if (part.isMimeType("text/plain")) {
+                    messageContent.append(part.getContent().toString());
+                } else if (part.isMimeType("message/rfc822")) {
+                    messageContent.append(part.getContent().toString());
+                    messageContent.append('\n');
                 }
-                else if (part.isMimeType("message/rfc822"))
-                {
-                messageContent.append(part.getContent().toString());     
-                messageContent.append('\n');    
-                }
-             }
-          }
+            }
+        }
         return messageContent.toString();
     }
 
-   
     public static void pr(String s) {
 
         System.out.print(indentStr.substring(0, level * 2));
