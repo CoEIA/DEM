@@ -54,7 +54,8 @@ final class EmailIndexer extends Indexer {
         for (OnlineEmailMessage msg : AllMsgs) {
             Document doc = null;
             try {
-                System.out.println("msg from: " + msg.toString());
+                //System.out.println("msg from: " + msg.toString());
+                System.out.println("Msg: " + msg.getFolderName() + " : " + msg.getSubject() + " , size:" + msg.getAttachments().size());
                 
                 doc = getDocument(msg);
                 if (doc != null) {

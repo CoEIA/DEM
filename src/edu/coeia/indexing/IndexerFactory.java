@@ -16,6 +16,13 @@ import org.apache.tika.Tika;
 
 final class IndexerFactory {
     
+    /**
+     * Get Indexer for Simple, Container, Images Document Files
+     * @param luceneIndex
+     * @param file
+     * @param parentId
+     * @return 
+     */
     public static Indexer getIndexer (LuceneIndex luceneIndex, File file, int parentId) {
         Indexer indexer  = null;
         
@@ -63,6 +70,12 @@ final class IndexerFactory {
         return getIndexer(luceneIndex, file, 0);
     }
     
+    /**
+     * Get Indexer for chat sessions
+     * @param luceneIndex
+     * @param dir
+     * @return 
+     */
     public static Indexer getFolderIndexer (LuceneIndex luceneIndex, File dir) {
         // TODO:
         // if chat session suppport, then continue to detec it

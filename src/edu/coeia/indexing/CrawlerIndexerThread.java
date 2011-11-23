@@ -12,7 +12,6 @@ package edu.coeia.indexing;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseHistoryHandler;
-import edu.coeia.cases.EmailConfiguration;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.CrawlerIndexerThread.ProgressIndexData;
 import edu.coeia.util.DateUtil;
@@ -91,7 +90,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             
             File directory = new File(dirName);
             doDirectoryCrawling(directory);
-        } 
+        }
         
         // crawl and index emails
         if ( aCase.getEmailConfig().size() > 0 ) {
