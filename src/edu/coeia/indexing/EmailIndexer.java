@@ -46,6 +46,7 @@ final class EmailIndexer extends Indexer {
             Logger.getLogger(EmailIndexer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(EmailIndexer.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         } catch (IllegalAccessException ex) {
             Logger.getLogger(EmailIndexer.class.getName()).log(Level.SEVERE, null, ex);
         }
