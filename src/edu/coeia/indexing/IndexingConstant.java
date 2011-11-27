@@ -29,42 +29,41 @@ public class IndexingConstant {
     /**
      * constants for all files and images
      */
-    public static final String FILE_NAME = "file_name" ;
-    public static final String FILE_TITLE = "file_title" ;
-    public static final String FILE_CONTENT = "file_content" ;
-    public static final String FILE_DATE = "file_date" ;
-    public static final String FILE_CONTAINER = "file_container" ;
-    public static final String FILE_ID = "file_id" ;
-    public static final String FILE_PARENT_ID = "file_parent_id" ;
-    public static final String FILE_MIME = "file_mime" ;
-    public static final String FILE_HASH = "file_hash" ;
+    public static final String FILE_NAME = "FILE_NAME" ;
+    public static final String FILE_TITLE = "FILE_TITLE" ;
+    public static final String FILE_CONTENT = "FILE_CONTENT" ;
+    public static final String FILE_DATE = "FILE_DATE" ;
+    public static final String FILE_CONTAINER = "FILE_CONTAINER" ;
+    public static final String FILE_ID = "FILE_ID" ;
+    public static final String FILE_PARENT_ID = "FILE_PARENT_ID" ;
+    public static final String FILE_MIME = "FILE_MIME" ;
+    public static final String FILE_HASH = "FILE_HASH" ;
     
     /**
      * constants for chat sessions
      */
-    public static final String CHAT_AGENT = "chat_agent" ;
-    public static final String CHAT_FILE = "chat_file" ;
-    public static final String CHAT_FROM = "chat_from" ;
-    public static final String CHAT_TO = "chat_to" ;
-    public static final String CHAT_TIME = "chat_time" ;
-    public static final String CHAT_MESSAGE = "chat_message" ;
-    public static final String CHAT_LENGTH = "chat_length" ;
-    public static final String CHAT_MESSAGE_PATH = "chat_message_path" ;
+    public static final String CHAT_AGENT = "CHAT_AGENT" ;
+    public static final String CHAT_FILE = "CHAT_FILE" ;
+    public static final String CHAT_FROM = "CHAT_FROM" ;
+    public static final String CHAT_TO = "CHAT_TO" ;
+    public static final String CHAT_TIME = "CHAT_TIME" ;
+    public static final String CHAT_MESSAGE = "CHAT_MESSAGE" ;
+    public static final String CHAT_LENGTH = "CHAT_LENGTH" ;
+    public static final String CHAT_MESSAGE_PATH = "CHAT_MESSAGE_PATH" ;
     
     /**
-     * constants for email
+     * constants for online email
      */
-    
-    public static final String OnlineEmail_FolderName = "folder_name";
-    public static final String OnlineEmail_From = "from";
-    public static final String OnlineEmail_To = "to";
-    public static final String OnlineEmail_Subject = "subject";
-    public static final String OnlineEmail_Body = "body";
-    public static final String OnlineEmail_CC  = "cc";
-    public static final String OnlineEmail_BCC = "bcc";
-    public static final String OnlineEmail_ReceivedDate = "received_date";
-    public static final String OnlineEmail_SentDate = "sent_date";
-    public static final String OnlineEmail_AttachmentsPath = "attachments_path";
-    public static final String OnlineEmail_Id = "message_id";
+    public static final String ONLINE_EMAIL_FOLDER_NAME = "ONLINE_EMAIL_FOLDER_NAME";
+    public static final String ONLINE_EMAIL_FROM = "ONLINE_EMAIL_FROM";
+    public static final String ONLINE_EMAIL_TO = "ONLINE_EMAIL_TO";
+    public static final String ONLINE_EMAIL_SUBJECT = "ONLINE_EMAIL_SUBJECT";
+    public static final String ONLINE_EMAIL_BODY = "ONLINE_EMAIL_BODY";
+    public static final String ONLINE_EMAIL_CC  = "ONLINE_EMAIL_CC";
+    public static final String ONLINE_EMAIL_BCC = "ONLINE_EMAIL_BCC";
+    public static final String ONLINE_EMAIL_RECIEVED_DATE = "ONLINE_EMAIL_RECIEVED_DATE";
+    public static final String ONLINE_EMAIL_SENT_DATE = "ONLINE_EMAIL_SENT_DATE";
+    public static final String ONLINE_EMAIL_ATTACHMENT_PATH = "ONLINE_EMAIL_ATTACHMENT_PATH";
+    public static final String ONLINE_EMAIL_ID = "ONLINE_EMAIL_ID";
     
 }

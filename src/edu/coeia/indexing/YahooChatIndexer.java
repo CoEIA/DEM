@@ -68,6 +68,7 @@ public class YahooChatIndexer extends Indexer{
     
     @Override
     public boolean doIndexing() {
+        boolean status = false ;
         
         try {
            List<YahooChatSession> sessions = YahooMessageReader.getAllYahooChatSession(this.file.getAbsolutePath());
@@ -94,13 +95,13 @@ public class YahooChatIndexer extends Indexer{
                 }
             }
         
-            return true;
+            status = true;
         }
         catch(Exception e){
-            e.printStackTrace();
+            throw new UnsupportedOperationException(e.getMessage());
         }
 
-        return false;
+        return status;
     }
     
     private Document getDocument(YahooMessage msg, String profileName, String destinationName, String path) {

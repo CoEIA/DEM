@@ -201,6 +201,11 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         jLabel1.setText("Query: ");
 
         queryTextField.setText(" ");
+        queryTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                queryTextFieldActionPerformed(evt);
+            }
+        });
 
         advancedSearchLabelButton.setForeground(new java.awt.Color(0, 51, 255));
         advancedSearchLabelButton.setText("Advanced Search");
@@ -384,7 +389,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         jTabbedPane2.addTab("Text Content", fileRenderPanel);
 
         metaDataTextArea.setColumns(20);
-        metaDataTextArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        metaDataTextArea.setFont(new java.awt.Font("Tahoma", 0, 14));
         metaDataTextArea.setRows(5);
         jScrollPane28.setViewportView(metaDataTextArea);
 
@@ -529,6 +534,10 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             chatContentCheckBox.setEnabled(false);
         }        
     }//GEN-LAST:event_chatCheckBoxActionPerformed
+
+    private void queryTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryTextFieldActionPerformed
+        startSearching();
+    }//GEN-LAST:event_queryTextFieldActionPerformed
 
     private void tableMouseEvent(java.awt.event.MouseEvent evt) {
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {

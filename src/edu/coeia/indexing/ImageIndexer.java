@@ -42,6 +42,7 @@ final class ImageIndexer extends Indexer{
         
     @Override
     public boolean doIndexing() {
+        boolean status = false; 
         
         try{            
             TikaExtractor extractor = TikaExtractor.getExtractor(this.file, this.mimeType);
@@ -66,14 +67,14 @@ final class ImageIndexer extends Indexer{
                 imageExtractor.extractImages(this, file, objectId);
             }
             
-            return true;
+            status = true;
         }
         catch(Exception e) {
-            e.printStackTrace();
+            throw new UnsupportedOperationException(e.getMessage());
         }
         
         
-        return false;
+        return status;
     }
     
     // provide lucene document for images format (JPEG, PNG.. etc)

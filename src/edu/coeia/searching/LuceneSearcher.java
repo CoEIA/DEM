@@ -117,7 +117,7 @@ class LuceneSearcher {
     private Collection<String> getEmailContentFields() { 
         Collection<String> fields = new ArrayList<String>();
         
-        fields.add(IndexingConstant.OnlineEmail_Body);
+        fields.add(IndexingConstant.ONLINE_EMAIL_BODY);
         
         return fields;        
     }
@@ -127,7 +127,7 @@ class LuceneSearcher {
         
         //TODO: change this with the email header
         // or adding or the fields in email
-        fields.add(IndexingConstant.OnlineEmail_Subject);
+        fields.add(IndexingConstant.ONLINE_EMAIL_SUBJECT);
         
         return fields;        
     }
