@@ -320,20 +320,20 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         searchTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "File Name", "File Path", "Last Modification", "File Size", "File Tag"
+                "ID", "Name", "Last Modification", "Type", "Path/Title"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -344,6 +344,9 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        searchTable.setFillsViewportHeight(true);
+        searchTable.setGridColor(new java.awt.Color(255, 255, 255));
+        searchTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         searchTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 searchTableMouseClicked(evt);
@@ -493,11 +496,11 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_advancedSearchLabelButtonMouseClicked
 
     private void searchTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMouseClicked
-        resultTableClicked(evt);
+        //resultTableClicked(evt);
     }//GEN-LAST:event_searchTableMouseClicked
 
     private void searchTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMousePressed
-        tableMouseEvent(evt);
+        //tableMouseEvent(evt);
     }//GEN-LAST:event_searchTableMousePressed
 
     private void resultSavingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultSavingButtonActionPerformed
@@ -578,35 +581,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         startSearching();
     }
     
-//    private void clusterPathTreeAction() {
-//        try {
-//            DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterPathTree.getLastSelectedPathComponent();
-//            if ( node == null || node.isRoot() || ! node.isLeaf()) {
-//                return ;
-//            }
-//            
-//            String filePath= node.getUserObject().toString();
-//            showInformation(filePath);
-//       }
-//       catch (Exception e ){
-//           logger.log(Level.SEVERE, "Uncaught exception", e);
-//       }
-//    }
-//    
-//    private void clusterTypeTreeAction() {
-//        try {
-//            DefaultMutableTreeNode node = (DefaultMutableTreeNode) clusterTypeTree.getLastSelectedPathComponent();
-//            if ( node == null || node.isRoot() || ! node.isLeaf()) {
-//                return ;
-//            }
-//
-//            String filePath= node.getUserObject().toString();
-//            showInformation(filePath);
-//       }
-//       catch (Exception e ){
-//       }
-//    }
-    
     private void showInformationByID (String fileId) {        
         try {
             File indexPath = new File(caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
@@ -618,24 +592,26 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             //TODO: Getting Object Type
             // Show Object Content, FILE, CHAT, EMAIL
             
-            // Show File Content
-            String content = document.get(IndexingConstant.FILE_CONTENT);
-            String keyword = queryTextField.getText().trim().toLowerCase();
-            fileBrowser.setHTMLContent(highlightString(content, keyword));
+            fileBrowser.setHTMLContent("Document Type: " + document.get(IndexingConstant.DOCUMENT));
             
-            // show matadata information for File
-            List<Fieldable> fields = document.getFields();
-            StringBuilder metadataBuilder = new StringBuilder();
-            
-            for (Fieldable field: fields) {
-                if ( ! field.name().startsWith("file_")) // files in IndexingConstant start with prefix file_
-                    metadataBuilder.append(field.name()).append(" : " ).append(field.stringValue()).append("\n");
-            }
-            
-            String metadata = metadataBuilder.toString();
-            //TODO: replace metadate view to browser or html type to support html rendering
-            //metaDataTextArea.setText(highlightString(metadata, keyword));
-            metaDataTextArea.setText(metadata);
+//            // Show File Content
+//            String content = document.get(IndexingConstant.FILE_CONTENT);
+//            String keyword = queryTextField.getText().trim().toLowerCase();
+//            fileBrowser.setHTMLContent(highlightString(content, keyword));
+//            
+//            // show matadata information for File
+//            List<Fieldable> fields = document.getFields();
+//            StringBuilder metadataBuilder = new StringBuilder();
+//            
+//            for (Fieldable field: fields) {
+//                if ( ! field.name().startsWith("file_")) // files in IndexingConstant start with prefix file_
+//                    metadataBuilder.append(field.name()).append(" : " ).append(field.stringValue()).append("\n");
+//            }
+//            
+//            String metadata = metadataBuilder.toString();
+//            //TODO: replace metadate view to browser or html type to support html rendering
+//            //metaDataTextArea.setText(highlightString(metadata, keyword));
+//            metaDataTextArea.setText(metadata);
 
             fileRenderPanel.validate();
         }

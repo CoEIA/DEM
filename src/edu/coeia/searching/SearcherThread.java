@@ -68,7 +68,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             long end = new Date().getTime();
             time = end-start ;
 
-            searcher.closeSearcher();
+            //searcher.closeSearcher();
 
            
         } catch (Exception ex) {
@@ -92,19 +92,40 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             //TODO: change to rende document, depend of type
             // file, online email, chat ..
             
-            String fileId = pd.getDocument().get(IndexingConstant.FILE_ID);
-            String fileDate = pd.getDocument().get(IndexingConstant.FILE_DATE);
-            String fileTitle = pd.getDocument().get(IndexingConstant.FILE_TITLE);
-            String fileName = pd.getDocument().get(IndexingConstant.FILE_NAME);
+            String type = pd.getDocument().get(IndexingConstant.DOCUMENT);
             
-            File file = new File(fileName);
-            int size = (int) file.length();
+            if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE))) {
+                String fileId = pd.getDocument().get(IndexingConstant.FILE_ID);
+                String fileDate = pd.getDocument().get(IndexingConstant.FILE_DATE);
+                String fileTitle = pd.getDocument().get(IndexingConstant.FILE_TITLE);
+                String fileName = pd.getDocument().get(IndexingConstant.FILE_NAME);
+
+                ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
+                    fileId, fileTitle, new Date(Long.valueOf(fileDate)) , type, fileName
+                });
+            }
             
-            Date date = new Date(file.lastModified());
+            if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL))) {
+                String fileId = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_ID);
+                String fileDate = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_SENT_DATE);
+                String fileTitle = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
+                String fileName = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_SUBJECT);
+
+                ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
+                    fileId, fileTitle, fileDate, type, fileName
+                });
+            }
             
-            ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
-                fileId, fileName, fileTitle, DateUtil.formatDateTime(date), size, 0
-            });
+            if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT))) {
+                String fileId = pd.getDocument().get(IndexingConstant.CHAT_AGENT);
+                String fileDate = pd.getDocument().get(IndexingConstant.CHAT_TIME);
+                String fileTitle = "" ;
+                String fileName = pd.getDocument().get(IndexingConstant.CHAT_FILE);
+
+                ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
+                    fileId, fileTitle, fileDate , type, fileName
+                }); 
+            }
         }
 
        int index = chunks.size()-1 ;

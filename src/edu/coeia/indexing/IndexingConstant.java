@@ -26,7 +26,7 @@ public class IndexingConstant {
         throw new AssertionError();
     }
     
-    public static enum DOCUMENT_TYPE {FILE, CHAT, ONLINE_EMAIL, OFFLINE_EMAIL };
+    public static enum DOCUMENT_TYPE {FILE, CHAT, ONLINE_EMAIL, OFFLINE_EMAIL};
     
     /**
      * return string representation for this enum
@@ -43,6 +43,11 @@ public class IndexingConstant {
     public static DOCUMENT_TYPE getDocumentType(final String value) {
         return DOCUMENT_TYPE.valueOf(value);
     }
+    
+    /**
+     * Constant for Document in Lucene index
+     */
+    public static final String DOCUMENT = "DOCUMENT" ;
     
     /**
      * constants for all files and images

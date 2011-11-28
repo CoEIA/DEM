@@ -93,7 +93,9 @@ final class DocumentIndexer extends Indexer {
         
         doc.add(new Field(IndexingConstant.FILE_ID, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
-         
+        
+        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        
         for(Map.Entry<String, String> entry: metadata.entrySet()) {
             String name =  entry.getKey();
             String value = entry.getValue();

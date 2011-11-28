@@ -159,12 +159,12 @@ class LuceneSearcher {
         return getDocHits(0);
     }
 
-    public String getHits (int index) throws Exception{
-        ScoreDoc[] hits = results.scoreDocs;
-        int id = hits[index].doc;
-        Document doc = searcher.doc(id);
-        return doc.get(IndexingConstant.FILE_NAME) ;
-    }
+//    public String getHits (int index) throws Exception{
+//        ScoreDoc[] hits = results.scoreDocs;
+//        int id = hits[index].doc;
+//        Document doc = searcher.doc(id);
+//        return doc.get(IndexingConstant.FILE_NAME) ;
+//    }
 
     public Document getDocHits (int index) throws Exception{
         ScoreDoc[] hits = results.scoreDocs;
