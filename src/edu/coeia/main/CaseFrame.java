@@ -49,6 +49,7 @@ public class CaseFrame extends javax.swing.JFrame {
     
     // to update the panel after direct indexing 
     private CaseManagerPanel caseManagerPanel;
+    private CaseSearchPanel searchPanel ;
     
     /** Creates new form OfflineMinningFrame 
      * 
@@ -101,7 +102,7 @@ public class CaseFrame extends javax.swing.JFrame {
         InternetSurfingPanel internetPanel = new InternetSurfingPanel(this.caseObj);
         ChatPanel chatPanel = new ChatPanel(this.caseObj);
         ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.caseObj);
-        CaseSearchPanel searchPanel = new CaseSearchPanel(this.caseObj, this);
+        searchPanel = new CaseSearchPanel(this.caseObj, this);
         caseManagerPanel = new CaseManagerPanel(this);
         ReportPanel reportPanel = new ReportPanel();
         
@@ -452,6 +453,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private void searchToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchToggleButtonActionPerformed
        GuiUtil.showPanel("searchCard",CardPanel);
        this.setTitle(APPLICATION_NAME + "Search Window");
+       this.searchPanel.setFocusInAdvancedSearchPanel();
     }//GEN-LAST:event_searchToggleButtonActionPerformed
 
     private void caseManagerToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caseManagerToggleButtonActionPerformed
