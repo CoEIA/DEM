@@ -143,6 +143,7 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="emailCheckBox">
               <Properties>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Email:"/>
               </Properties>
               <Events>
@@ -156,11 +157,13 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="emailContentCheckBox">
               <Properties>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Content"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="chatCheckBox">
               <Properties>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Instant Messaging:"/>
               </Properties>
               <Events>
@@ -169,6 +172,7 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="chatContentCheckBox">
               <Properties>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Content"/>
               </Properties>
             </Component>

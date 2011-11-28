@@ -35,6 +35,9 @@ import java.util.ArrayList;
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
 import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.main.SourceVeiwerFrame;
+import edu.coeia.main.FileSourceViewerPanel;
+import edu.coeia.main.SourceViewerDialog;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import org.apache.lucene.document.Document;
@@ -127,6 +130,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         fileSystemContentCheckBox.setSelected(true);
         fileSystemContentCheckBox.setText("Content");
 
+        emailCheckBox.setSelected(true);
         emailCheckBox.setText("Email:");
         emailCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,8 +140,10 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         emailHeaderCheckBox.setText("Headers");
 
+        emailContentCheckBox.setSelected(true);
         emailContentCheckBox.setText("Content");
 
+        chatCheckBox.setSelected(true);
         chatCheckBox.setText("Instant Messaging:");
         chatCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,6 +151,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             }
         });
 
+        chatContentCheckBox.setSelected(true);
         chatContentCheckBox.setText("Content");
 
         javax.swing.GroupLayout searchScopePanelLayout = new javax.swing.GroupLayout(searchScopePanel);
@@ -399,7 +406,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_advancedSearchLabelButtonMouseClicked
 
     private void searchTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMouseClicked
-        //resultTableClicked(evt);
+        resultTableClicked(evt);
     }//GEN-LAST:event_searchTableMouseClicked
 
     private void searchTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMousePressed
@@ -470,6 +477,30 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 //            logger.log(Level.SEVERE, "Uncaught exception", e);
 //        }
 //    }
+    
+    private void resultTableClicked(java.awt.event.MouseEvent evt) {
+        // set summary panel
+        try {
+            if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
+                GuiUtil.showPopup(evt);
+                System.out.println("return");
+                return ;
+            }
+
+            if ( evt.getClickCount() == 2  ) {
+                // other click event
+                int row = searchTable.getSelectedRow();
+                String fileId = String.valueOf(searchTable.getValueAt(row, 0));
+                System.out.println("id: " + fileId);
+
+                SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true);
+                panel.setVisible(true);
+            }
+        }
+        catch (Exception e ){
+            logger.log(Level.SEVERE, "Uncaught exception", e);
+        }
+    }
     
     private void showAdvancedSearch() {
         AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true);

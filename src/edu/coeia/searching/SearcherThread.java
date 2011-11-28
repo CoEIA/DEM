@@ -68,7 +68,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             long end = new Date().getTime();
             time = end-start ;
 
-            //searcher.closeSearcher();
+            searcher.closeSearcher();
 
            
         } catch (Exception ex) {
@@ -88,9 +88,6 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     @Override
     protected void process(java.util.List<ProgressSearchData> chunks) {
         for (ProgressSearchData pd : chunks) {
-            
-            //TODO: change to rende document, depend of type
-            // file, online email, chat ..
             
             String type = pd.getDocument().get(IndexingConstant.DOCUMENT);
             

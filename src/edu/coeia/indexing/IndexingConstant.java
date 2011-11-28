@@ -88,5 +88,4 @@ public class IndexingConstant {
     public static final String ONLINE_EMAIL_SENT_DATE = "ONLINE_EMAIL_SENT_DATE";
     public static final String ONLINE_EMAIL_ATTACHMENT_PATH = "ONLINE_EMAIL_ATTACHMENT_PATH";
     public static final String ONLINE_EMAIL_ID = "ONLINE_EMAIL_ID";
-    
 }
