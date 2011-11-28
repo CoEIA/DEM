@@ -23,7 +23,6 @@ import java.util.List ;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexWriter;
 
 public class YahooChatIndexer extends Indexer{
     
@@ -78,7 +77,7 @@ public class YahooChatIndexer extends Indexer{
                     for(YahooMessage msg: conversation.messages) {
                         
                         Document doc = getDocument(msg,  session.userName, session.otherName , conversation.path); // add parentid and parent metadata here
-                        System.out.println("indexing : " + msg.getCipherText());
+                        System.out.println("Yahoo Chat Indexing, Message : " + msg.getCipherText());
                         
                         //int objectId = id;
 

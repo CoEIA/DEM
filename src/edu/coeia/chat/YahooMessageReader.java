@@ -58,20 +58,15 @@ public final class YahooMessageReader {
      * @throws NullPointerException when path is null 
      * @return List of YahooChatSession contain all chat sessions in path
      */
-    public static List<YahooChatSession> getAllYahooChatSession(String path) {
+    public static List<YahooChatSession> getAllYahooChatSession(String path) throws IOException{
         if ( ! isValidYahooPath(path) )
             return Collections.emptyList();
         
         sessions = new ArrayList<YahooChatSession>();
         
-        try {
-            File dir = new File(path);
-            traverseDir(dir);
-        }
-        catch(IOException e) {
-            
-        }
-        
+        File dir = new File(path);
+        traverseDir(dir);
+
         return sessions;
     }
         

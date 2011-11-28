@@ -26,6 +26,24 @@ public class IndexingConstant {
         throw new AssertionError();
     }
     
+    public static enum DOCUMENT_TYPE {FILE, CHAT, ONLINE_EMAIL, OFFLINE_EMAIL };
+    
+    /**
+     * return string representation for this enum
+     */
+    public static String getDocumentType(DOCUMENT_TYPE type) {
+        return type.toString();
+    }
+    
+    /**
+     * return enum representation for this value
+     * @param value
+     * @return 
+     */
+    public static DOCUMENT_TYPE getDocumentType(final String value) {
+        return DOCUMENT_TYPE.valueOf(value);
+    }
+    
     /**
      * constants for all files and images
      */

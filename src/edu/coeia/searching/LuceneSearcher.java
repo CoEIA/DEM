@@ -100,10 +100,10 @@ class LuceneSearcher {
         Collection<String> allFileds = this.indexReader.getFieldNames(IndexReader.FieldOption.ALL);
         
         for(String field: allFileds) {
-            if ( !field.startsWith("file_") && // not file system fields
-                 !field.startsWith("chat_") && // not chat fields
-                 !field.startsWith("email_") && // not email fields
-                 !field.startsWith("online_"))  // not online emial fields
+            if ( !field.startsWith("FILE_") && // not file system fields
+                 !field.startsWith("CHAT_") && // not chat fields
+                 !field.startsWith("EMAIL_") && // not email fields
+                 !field.startsWith("ONLINE_EMAIL_"))  // not online emial fields
             {
                 // this will file system metadata , extracted by tika library
                 // since we don't know the name of this fields
@@ -125,9 +125,16 @@ class LuceneSearcher {
     private Collection<String> getEmailHeaderFields() {
         Collection<String> fields = new ArrayList<String>();
         
-        //TODO: change this with the email header
-        // or adding or the fields in email
+        fields.add(IndexingConstant.ONLINE_EMAIL_ATTACHMENT_PATH);
+        fields.add(IndexingConstant.ONLINE_EMAIL_BCC);
+        fields.add(IndexingConstant.ONLINE_EMAIL_CC);
+        fields.add(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
+        fields.add(IndexingConstant.ONLINE_EMAIL_FROM);
+        fields.add(IndexingConstant.ONLINE_EMAIL_ID);
+        fields.add(IndexingConstant.ONLINE_EMAIL_RECIEVED_DATE);
+        fields.add(IndexingConstant.ONLINE_EMAIL_SENT_DATE);
         fields.add(IndexingConstant.ONLINE_EMAIL_SUBJECT);
+        fields.add(IndexingConstant.ONLINE_EMAIL_TO);
         
         return fields;        
     }
@@ -135,8 +142,11 @@ class LuceneSearcher {
     private Collection<String> getChatContentFields() {
         Collection<String> fields = new ArrayList<String>();
         
-        // TODO: add chat metadata , and add the the fields as metadata search
         fields.add(IndexingConstant.CHAT_MESSAGE);
+        fields.add(IndexingConstant.CHAT_AGENT);
+        fields.add(IndexingConstant.CHAT_FROM);
+        fields.add(IndexingConstant.CHAT_TIME);
+        fields.add(IndexingConstant.CHAT_TO);
         
         return fields;        
     }
@@ -149,14 +159,14 @@ class LuceneSearcher {
         return getDocHits(0);
     }
 
-    public String getHits (int index) throws Exception  {
+    public String getHits (int index) throws Exception{
         ScoreDoc[] hits = results.scoreDocs;
         int id = hits[index].doc;
         Document doc = searcher.doc(id);
         return doc.get(IndexingConstant.FILE_NAME) ;
     }
 
-    public Document getDocHits (int index) throws Exception {
+    public Document getDocHits (int index) throws Exception{
         ScoreDoc[] hits = results.scoreDocs;
         int id = hits[index].doc;
         Document doc = searcher.doc(id);

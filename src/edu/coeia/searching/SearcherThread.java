@@ -89,6 +89,9 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     protected void process(java.util.List<ProgressSearchData> chunks) {
         for (ProgressSearchData pd : chunks) {
             
+            //TODO: change to rende document, depend of type
+            // file, online email, chat ..
+            
             String fileId = pd.getDocument().get(IndexingConstant.FILE_ID);
             String fileDate = pd.getDocument().get(IndexingConstant.FILE_DATE);
             String fileTitle = pd.getDocument().get(IndexingConstant.FILE_TITLE);
