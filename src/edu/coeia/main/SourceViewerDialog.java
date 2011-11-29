@@ -10,17 +10,57 @@
  */
 package edu.coeia.main;
 
+import edu.coeia.cases.Case;
+import edu.coeia.gutil.GuiUtil;
+import edu.coeia.util.FilesPath ;
+import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.gutil.JTableUtil;
+
+import java.awt.BorderLayout;
+import java.awt.event.InputEvent;
+
+import javax.swing.JProgressBar;
+import javax.swing.JTable;
+import javax.swing.JOptionPane ;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JFrame;
+
+import java.io.File ;
+
+import java.util.List; 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+import java.util.ArrayList;
+
+import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
+
+import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.main.SourceVeiwerFrame;
+import edu.coeia.main.FileSourceViewerPanel;
+import edu.coeia.main.SourceViewerDialog;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Fieldable;
+
 /**
  *
  * @author wajdyessam
  */
 public class SourceViewerDialog extends javax.swing.JDialog {
-
+    private Document document; 
+    private String keyword ;
+    
     /** Creates new form SourceViewerDialog */
-    public SourceViewerDialog(java.awt.Frame parent, boolean modal) {
+    public SourceViewerDialog(java.awt.Frame parent, boolean modal, Document document, String keyword) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
+        
+        this.keyword = keyword;
+        this.document = document;
+        
+        showDocument();
     }
 
     /** This method is called from within the constructor to
@@ -33,38 +73,83 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         controlPanel = new javax.swing.JPanel();
-        viewerPanel = new javax.swing.JPanel();
+        movePanel = new javax.swing.JPanel();
+        previousButton = new javax.swing.JButton();
+        nextButton = new javax.swing.JButton();
+        itemsPanel = new javax.swing.JPanel();
+        tagButton = new javax.swing.JButton();
+        exportButton = new javax.swing.JButton();
         statusPanel = new javax.swing.JPanel();
+        viewerPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Previewer Items Dialog");
 
-        controlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Control Panel"));
+        movePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Navigation"));
 
-        javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
-        controlPanel.setLayout(controlPanelLayout);
-        controlPanelLayout.setHorizontalGroup(
-            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 710, Short.MAX_VALUE)
+        previousButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/Previous48.png"))); // NOI18N
+        previousButton.setText("Previous");
+
+        nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/next48.png"))); // NOI18N
+        nextButton.setText("Next");
+
+        javax.swing.GroupLayout movePanelLayout = new javax.swing.GroupLayout(movePanel);
+        movePanel.setLayout(movePanelLayout);
+        movePanelLayout.setHorizontalGroup(
+            movePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(movePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(previousButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(nextButton)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
-        controlPanelLayout.setVerticalGroup(
-            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 48, Short.MAX_VALUE)
+        movePanelLayout.setVerticalGroup(
+            movePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, movePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(movePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(nextButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                    .addComponent(previousButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        viewerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Status"));
+        controlPanel.add(movePanel);
 
-        javax.swing.GroupLayout viewerPanelLayout = new javax.swing.GroupLayout(viewerPanel);
-        viewerPanel.setLayout(viewerPanelLayout);
-        viewerPanelLayout.setHorizontalGroup(
-            viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 710, Short.MAX_VALUE)
+        itemsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Tag and Export"));
+
+        tagButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/tag64.png"))); // NOI18N
+        tagButton.setText("Tag Item");
+
+        exportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/export48.png"))); // NOI18N
+        exportButton.setText("Export Item");
+
+        javax.swing.GroupLayout itemsPanelLayout = new javax.swing.GroupLayout(itemsPanel);
+        itemsPanel.setLayout(itemsPanelLayout);
+        itemsPanelLayout.setHorizontalGroup(
+            itemsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(itemsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tagButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(exportButton)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
-        viewerPanelLayout.setVerticalGroup(
-            viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 26, Short.MAX_VALUE)
+        itemsPanelLayout.setVerticalGroup(
+            itemsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemsPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(itemsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(exportButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tagButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 62, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        statusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Viewer"));
+        controlPanel.add(itemsPanel);
+
+        getContentPane().add(controlPanel, java.awt.BorderLayout.NORTH);
+
+        statusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Status"));
 
         javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
         statusPanel.setLayout(statusPanelLayout);
@@ -74,84 +159,50 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         );
         statusPanelLayout.setVerticalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 746, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(statusPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(viewerPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(controlPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+        getContentPane().add(statusPanel, java.awt.BorderLayout.SOUTH);
+
+        viewerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Viewer"));
+
+        javax.swing.GroupLayout viewerPanelLayout = new javax.swing.GroupLayout(viewerPanel);
+        viewerPanel.setLayout(viewerPanelLayout);
+        viewerPanelLayout.setHorizontalGroup(
+            viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 710, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 453, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(controlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(statusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(viewerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        viewerPanelLayout.setVerticalGroup(
+            viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 438, Short.MAX_VALUE)
         );
+
+        getContentPane().add(viewerPanel, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SourceViewerDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SourceViewerDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SourceViewerDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SourceViewerDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void showDocument () {
+        if ( this.document.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE))) {
+            FileSourceViewerPanel panel = new FileSourceViewerPanel(this.document, keyword);
+            this.viewerPanel.setLayout(new BorderLayout());
+            this.viewerPanel.add(panel, BorderLayout.CENTER);
+            this.viewerPanel.revalidate();
         }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                SourceViewerDialog dialog = new SourceViewerDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        else
+            System.out.println("document: " + this.document.get(IndexingConstant.DOCUMENT));
     }
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;
+    private javax.swing.JButton exportButton;
+    private javax.swing.JPanel itemsPanel;
+    private javax.swing.JPanel movePanel;
+    private javax.swing.JButton nextButton;
+    private javax.swing.JButton previousButton;
     private javax.swing.JPanel statusPanel;
+    private javax.swing.JButton tagButton;
     private javax.swing.JPanel viewerPanel;
     // End of variables declaration//GEN-END:variables
 }

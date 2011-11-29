@@ -4,9 +4,6 @@
  */
 package edu.coeia.indexing;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author wajdyessam
@@ -45,9 +42,10 @@ public class IndexingConstant {
     }
     
     /**
-     * Constant for Document in Lucene index
+     * Constant for any Document in Lucene index
      */
-    public static final String DOCUMENT = "DOCUMENT" ;
+    public static final String DOCUMENT = "DOCUMENT" ;          // type of this document
+    public static final String DOCUMENT_ID = "DOCUMENT_ID" ;    // id of the document in the index
     
     /**
      * constants for all files and images
@@ -57,7 +55,6 @@ public class IndexingConstant {
     public static final String FILE_CONTENT = "FILE_CONTENT" ;
     public static final String FILE_DATE = "FILE_DATE" ;
     public static final String FILE_CONTAINER = "FILE_CONTAINER" ;
-    public static final String FILE_ID = "FILE_ID" ;
     public static final String FILE_PARENT_ID = "FILE_PARENT_ID" ;
     public static final String FILE_MIME = "FILE_MIME" ;
     public static final String FILE_HASH = "FILE_HASH" ;
@@ -87,5 +84,5 @@ public class IndexingConstant {
     public static final String ONLINE_EMAIL_RECIEVED_DATE = "ONLINE_EMAIL_RECIEVED_DATE";
     public static final String ONLINE_EMAIL_SENT_DATE = "ONLINE_EMAIL_SENT_DATE";
     public static final String ONLINE_EMAIL_ATTACHMENT_PATH = "ONLINE_EMAIL_ATTACHMENT_PATH";
-    public static final String ONLINE_EMAIL_ID = "ONLINE_EMAIL_ID";
+    public static final String ONLINE_EMAIL_MESSAGE_ID = "ONLINE_EMAIL_ID";
 }

@@ -92,7 +92,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             String type = pd.getDocument().get(IndexingConstant.DOCUMENT);
             
             if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE))) {
-                String fileId = pd.getDocument().get(IndexingConstant.FILE_ID);
+                String fileId = pd.getDocument().get(IndexingConstant.DOCUMENT_ID);
                 String fileDate = pd.getDocument().get(IndexingConstant.FILE_DATE);
                 String fileTitle = pd.getDocument().get(IndexingConstant.FILE_TITLE);
                 String fileName = pd.getDocument().get(IndexingConstant.FILE_NAME);
@@ -103,7 +103,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             }
             
             if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL))) {
-                String fileId = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_ID);
+                String fileId = pd.getDocument().get(IndexingConstant.DOCUMENT_ID);
                 String fileDate = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_SENT_DATE);
                 String fileTitle = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
                 String fileName = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_SUBJECT);
@@ -114,9 +114,9 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             }
             
             if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT))) {
-                String fileId = pd.getDocument().get(IndexingConstant.CHAT_AGENT);
+                String fileId = pd.getDocument().get(IndexingConstant.DOCUMENT_ID);
                 String fileDate = pd.getDocument().get(IndexingConstant.CHAT_TIME);
-                String fileTitle = "" ;
+                String fileTitle = pd.getDocument().get(IndexingConstant.CHAT_AGENT);
                 String fileName = pd.getDocument().get(IndexingConstant.CHAT_FILE);
 
                 ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {

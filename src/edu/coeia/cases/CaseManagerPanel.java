@@ -278,6 +278,8 @@ public final class CaseManagerPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        caseLogsTable.setFillsViewportHeight(true);
+        caseLogsTable.setGridColor(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(caseLogsTable);
 
         caseLogsPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);

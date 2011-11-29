@@ -130,7 +130,7 @@ class LuceneSearcher {
         fields.add(IndexingConstant.ONLINE_EMAIL_CC);
         fields.add(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
         fields.add(IndexingConstant.ONLINE_EMAIL_FROM);
-        fields.add(IndexingConstant.ONLINE_EMAIL_ID);
+        //fields.add(IndexingConstant.DOCUMENT_ID);
         fields.add(IndexingConstant.ONLINE_EMAIL_RECIEVED_DATE);
         fields.add(IndexingConstant.ONLINE_EMAIL_SENT_DATE);
         fields.add(IndexingConstant.ONLINE_EMAIL_SUBJECT);
@@ -152,10 +152,21 @@ class LuceneSearcher {
     }
     
     public Document searchById (String fileId) throws Exception{
-        Term term = new Term(IndexingConstant.FILE_ID, fileId);
-        Query query = new TermQuery(term);
-        results = searcher.search(query, 10);
+//        Collection<String> allFileds = this.indexReader.getFieldNames(IndexReader.FieldOption.ALL);
+//        
+//        // converting to array 
+//        String[] fieldsArray = new String[allFileds.size()];
+//        fieldsArray = allFileds.toArray(fieldsArray);
+//        
+//        Analyzer analyzer = new StopAnalyzer(Version.LUCENE_20,  new File(FilesPath.STOP_WORD_FILE));
+//        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_20, fieldsArray, analyzer);
+//        
+//        Query query = parser.parse(fileId);
         
+        Term term = new Term(IndexingConstant.DOCUMENT_ID, fileId);
+        Query query = new TermQuery(term);
+        
+        results = searcher.search(query, 10);
         return getDocHits(0);
     }
 

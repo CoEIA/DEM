@@ -13,10 +13,10 @@ package edu.coeia.searching;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.FilesPath ;
-import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.gutil.JTableUtil;
+import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.main.SourceViewerDialog;
 
-import java.awt.BorderLayout;
 import java.awt.event.InputEvent;
 
 import javax.swing.JProgressBar;
@@ -32,25 +32,13 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.ArrayList;
 
-import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
-
-import edu.coeia.cases.CaseHistoryHandler;
-import edu.coeia.main.SourceVeiwerFrame;
-import edu.coeia.main.FileSourceViewerPanel;
-import edu.coeia.main.SourceViewerDialog;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Fieldable;
 
 /**
  *
  * @author wajdyessam
  */
 public class AdvancedSearchPanel extends javax.swing.JPanel {
-
-    //private JWebBrowser fileBrowser = new JWebBrowser();
-    
     private Case caseObj;
     private JFrame parentFrame ;
     private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
@@ -62,21 +50,8 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         this.caseObj = aIndex;
         this.parentFrame = aParentFrame;
         
-//        // add file browser
-//        fileBrowser.setBarsVisible(false);
-//        fileBrowser.setStatusBarVisible(false);
-//        fileRenderPanel.add(fileBrowser, BorderLayout.CENTER);  
-        
         JTableUtil.packColumns(searchTable, 0);
         disableNotIndexedComponent();
-        
-        // set query text field to be focusable every time this window is activated
-        this.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent event) {
-                System.out.println("focus now");
-            }
-        });
     }
 
     /** This method is called from within the constructor to
@@ -459,47 +434,41 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 //        }
 //    }
 //    
-//    private void resultTableClicked(java.awt.event.MouseEvent evt) {
-//        // set summary panel
-//        try {
-//            if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-//                GuiUtil.showPopup(evt);
-//                return ;
-//            }
-//
-//            // other click event
-//            int row = searchTable.getSelectedRow();
-//            String fileId = String.valueOf(searchTable.getValueAt(row, 0));
-//
-//            showInformationByID(fileId);
-//        }
-//        catch (Exception e ){
-//            logger.log(Level.SEVERE, "Uncaught exception", e);
-//        }
-//    }
     
     private void resultTableClicked(java.awt.event.MouseEvent evt) {
         // set summary panel
         try {
             if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
                 GuiUtil.showPopup(evt);
-                System.out.println("return");
                 return ;
             }
 
-            if ( evt.getClickCount() == 2  ) {
+            if ( evt.getClickCount() == 2  ) { // Double Click
                 // other click event
                 int row = searchTable.getSelectedRow();
+                if ( row < 0 ) return ; // if not select row
+                
                 String fileId = String.valueOf(searchTable.getValueAt(row, 0));
-                System.out.println("id: " + fileId);
-
-                SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true);
+                Document document = getDocument(fileId);
+                SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true, document,
+                        this.queryTextField.getText().trim());
                 panel.setVisible(true);
             }
         }
         catch (Exception e ){
             logger.log(Level.SEVERE, "Uncaught exception", e);
+            e.printStackTrace();
         }
+    }
+    
+    private Document getDocument(final String id) throws Exception {
+        File indexPath = new File(caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
+        
+        // Do Lucene Search
+        LuceneSearcher searcher = new LuceneSearcher(indexPath);
+        Document document = searcher.searchById(id);
+        
+        return document;
     }
     
     private void showAdvancedSearch() {
@@ -513,52 +482,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         queryTextField.setText(query);
         startSearching();
-    }
-    
-//    private void showInformationByID (String fileId) {        
-//        try {
-//            File indexPath = new File(caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
-//            
-//            // Do Lucene Search
-//            LuceneSearcher searcher = new LuceneSearcher(indexPath);
-//            Document document = searcher.searchById(fileId);
-//            
-//            //TODO: Getting Object Type
-//            // Show Object Content, FILE, CHAT, EMAIL
-//            
-//            fileBrowser.setHTMLContent("Document Type: " + document.get(IndexingConstant.DOCUMENT));
-//            
-//            // Show File Content
-//            String content = document.get(IndexingConstant.FILE_CONTENT);
-//            String keyword = queryTextField.getText().trim().toLowerCase();
-//            fileBrowser.setHTMLContent(highlightString(content, keyword));
-//            
-//            // show matadata information for File
-//            List<Fieldable> fields = document.getFields();
-//            StringBuilder metadataBuilder = new StringBuilder();
-//            
-//            for (Fieldable field: fields) {
-//                if ( ! field.name().startsWith("file_")) // files in IndexingConstant start with prefix file_
-//                    metadataBuilder.append(field.name()).append(" : " ).append(field.stringValue()).append("\n");
-//            }
-//            
-//            String metadata = metadataBuilder.toString();
-//            //TODO: replace metadate view to browser or html type to support html rendering
-//            //metaDataTextArea.setText(highlightString(metadata, keyword));
-//            metaDataTextArea.setText(metadata);
-//
-//            fileRenderPanel.validate();
-//        }
-//        catch(Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-    
-    private String highlightString (String content, String keyword) {
-        String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-        String highlitedString = content.replace(keyword, highlither);
-        
-        return highlitedString ;
     }
     
     private void startSearching () {

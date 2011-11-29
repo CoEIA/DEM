@@ -85,16 +85,19 @@ final class DocumentIndexer extends Indexer {
     private Document getDocument(String content, Map<String, String> metadata) {
         Document doc = new Document();
         
+        // genric document fields
+        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        
+        // spefic document fields
         doc.add(new Field(IndexingConstant.FILE_NAME, file.getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_TITLE, file.getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(file.lastModified(), DateTools.Resolution.MINUTE),Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_CONTENT, content, Field.Store.YES, Field.Index.ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_MIME, FileUtil.getExtension(this.file), Field.Store.YES, Field.Index.NOT_ANALYZED) );
-        
-        doc.add(new Field(IndexingConstant.FILE_ID, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
-        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        
         
         for(Map.Entry<String, String> entry: metadata.entrySet()) {
             String name =  entry.getKey();

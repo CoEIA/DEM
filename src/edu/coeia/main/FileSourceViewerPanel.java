@@ -10,15 +10,40 @@
  */
 package edu.coeia.main;
 
+import edu.coeia.indexing.IndexingConstant;
+
+import java.awt.BorderLayout;
+
+import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
+
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Fieldable;
+
+import java.util.List ;
+
 /**
  *
  * @author wajdyessam
  */
 public class FileSourceViewerPanel extends javax.swing.JPanel {
 
+    private JWebBrowser fileBrowser = new JWebBrowser();
+    private Document document ;
+    private String keyword ;
+    
     /** Creates new form FileSourceViewerPanel */
-    public FileSourceViewerPanel() {
+    public FileSourceViewerPanel(Document document, String keyword) {
         initComponents();
+        
+        this.document = document ;
+        this.keyword = keyword;
+        
+        // add file browser
+        fileBrowser.setBarsVisible(false);
+        fileBrowser.setStatusBarVisible(false);
+        fileRenderPanel.add(fileBrowser, BorderLayout.CENTER); 
+        
+        displayDocumentInformation();
     }
 
     /** This method is called from within the constructor to
@@ -37,7 +62,19 @@ public class FileSourceViewerPanel extends javax.swing.JPanel {
         jScrollPane28 = new javax.swing.JScrollPane();
         metaDataTextArea = new javax.swing.JTextArea();
         imageViewPanel = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        properitiesPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        fileNameTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        filePathTextField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        dateTextField = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        mimeTextField = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        embeddedTextField = new javax.swing.JTextField();
+
+        setLayout(new java.awt.BorderLayout());
 
         fileRenderPanel.setLayout(new java.awt.BorderLayout());
         jTabbedPane2.addTab("Text Content", fileRenderPanel);
@@ -51,11 +88,11 @@ public class FileSourceViewerPanel extends javax.swing.JPanel {
         FileMetaDataPanel.setLayout(FileMetaDataPanelLayout);
         FileMetaDataPanelLayout.setHorizontalGroup(
             FileMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
         );
         FileMetaDataPanelLayout.setVerticalGroup(
             FileMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("MetaData", FileMetaDataPanel);
@@ -64,11 +101,11 @@ public class FileSourceViewerPanel extends javax.swing.JPanel {
         imageViewPanel.setLayout(imageViewPanelLayout);
         imageViewPanelLayout.setHorizontalGroup(
             imageViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 573, Short.MAX_VALUE)
+            .addGap(0, 687, Short.MAX_VALUE)
         );
         imageViewPanelLayout.setVerticalGroup(
             imageViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 161, Short.MAX_VALUE)
+            .addGap(0, 384, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("Image", imageViewPanel);
@@ -79,60 +116,160 @@ public class FileSourceViewerPanel extends javax.swing.JPanel {
             viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
                 .addContainerGap())
         );
         viewPanelLayout.setVerticalGroup(
             viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        add(viewPanel, java.awt.BorderLayout.CENTER);
+
+        jLabel1.setText("File Name:");
+
+        fileNameTextField.setEditable(false);
+        fileNameTextField.setText(" ");
+
+        jLabel2.setText("File Path:");
+
+        filePathTextField.setEditable(false);
+        filePathTextField.setText(" ");
+
+        jLabel3.setText("Last Modification:");
+
+        dateTextField.setEditable(false);
+        dateTextField.setText(" ");
+
+        jLabel4.setText("File Type:");
+
+        mimeTextField.setEditable(false);
+        mimeTextField.setText(" ");
+
+        jLabel5.setText("Have Embedded:");
+
+        embeddedTextField.setEditable(false);
+        embeddedTextField.setText(" ");
+
+        javax.swing.GroupLayout properitiesPanelLayout = new javax.swing.GroupLayout(properitiesPanel);
+        properitiesPanel.setLayout(properitiesPanelLayout);
+        properitiesPanelLayout.setHorizontalGroup(
+            properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(properitiesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mimeTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+                    .addComponent(embeddedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+                    .addComponent(dateTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+                    .addComponent(filePathTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+                    .addComponent(fileNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        properitiesPanelLayout.setVerticalGroup(
+            properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(properitiesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(fileNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(filePathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(embeddedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 588, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 170, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 608, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(10, Short.MAX_VALUE))
-                    .addComponent(viewPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 414, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(viewPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        add(properitiesPanel, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
+
+        
+    private void displayDocumentInformation () {        
+        try {
+            // show file properities
+            String fileName = this.document.get(IndexingConstant.FILE_TITLE);
+            String filePath = this.document.get(IndexingConstant.FILE_NAME);
+            String date = this.document.get(IndexingConstant.FILE_DATE);
+            String embedded = this.document.get(IndexingConstant.FILE_PARENT_ID);
+            String mime = this.document.get(IndexingConstant.FILE_MIME);
+            
+            fileNameTextField.setText(fileName);
+            filePathTextField.setText(filePath);
+            dateTextField.setText(date);
+            embeddedTextField.setText(embedded);
+            mimeTextField.setText(mime);
+            
+            // Show File Content
+            String content = document.get(IndexingConstant.FILE_CONTENT);
+            fileBrowser.setHTMLContent(highlightString(content, this.keyword));
+            
+            // show matadata information for File
+            List<Fieldable> fields = document.getFields();
+            StringBuilder metadataBuilder = new StringBuilder();
+            
+            for (Fieldable field: fields) {
+                if ( ! field.name().startsWith("file_")) // files in IndexingConstant start with prefix file_
+                    metadataBuilder.append(field.name()).append(" : " ).append(field.stringValue()).append("\n");
+            }
+            
+            String metadata = metadataBuilder.toString();
+            //TODO: replace metadate view to browser or html type to support html rendering
+            //metaDataTextArea.setText(highlightString(metadata, keyword));
+            metaDataTextArea.setText(metadata);
+
+            fileRenderPanel.validate();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private String highlightString (String content, String keyword) {
+        String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+        String highlitedString = content.replace(keyword, highlither);
+        
+        return highlitedString ;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FileMetaDataPanel;
+    private javax.swing.JTextField dateTextField;
+    private javax.swing.JTextField embeddedTextField;
+    private javax.swing.JTextField fileNameTextField;
+    private javax.swing.JTextField filePathTextField;
     private javax.swing.JPanel fileRenderPanel;
     private javax.swing.JPanel imageViewPanel;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane28;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextArea metaDataTextArea;
+    private javax.swing.JTextField mimeTextField;
+    private javax.swing.JPanel properitiesPanel;
     private javax.swing.JPanel viewPanel;
     // End of variables declaration//GEN-END:variables
 }

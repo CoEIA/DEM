@@ -78,12 +78,10 @@ public class YahooChatIndexer extends Indexer{
                         
                         Document doc = getDocument(msg,  session.userName, session.otherName , conversation.path); // add parentid and parent metadata here
                         System.out.println("Yahoo Chat Indexing, Message : " + msg.getCipherText());
-                        
-                        //int objectId = id;
-
+                       
                         if (doc != null) {
                             this.luceneIndex.getWriter().addDocument(doc);    // index file
-                            //this.id++;                       // increase the id counter if file indexed successfully
+                            this.id++;                       // increase the id counter if file indexed successfully
 
                         } else {
                             System.out.println("Fail Parsing: " + file.getAbsolutePath());
@@ -127,6 +125,11 @@ public class YahooChatIndexer extends Indexer{
         catch(UnsupportedEncodingException e) {
         }
         
+        // genric lucene fileds
+        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        
+        // specific lucene fileds
         doc.add(new Field(IndexingConstant.CHAT_AGENT, CHAT_AGENT, Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_FILE, path, Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_FROM, from, Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -136,7 +139,7 @@ public class YahooChatIndexer extends Indexer{
         doc.add(new Field(IndexingConstant.CHAT_LENGTH, String.valueOf(msg.getMessageLength()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_MESSAGE_PATH, msg.getMessagePath().toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
-        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        
         
         return doc;
     }
