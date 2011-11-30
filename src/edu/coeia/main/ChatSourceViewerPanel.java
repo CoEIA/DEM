@@ -11,12 +11,9 @@
 package edu.coeia.main;
 
 import edu.coeia.indexing.IndexingConstant;
-
 import edu.coeia.searching.LuceneSearcher;
-import java.awt.BorderLayout;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Fieldable;
 
 /**
  *
@@ -25,6 +22,8 @@ import org.apache.lucene.document.Fieldable;
 public class ChatSourceViewerPanel extends javax.swing.JPanel {
 
     private Document document ;
+    private Document parentDocument ;
+    
     private String keyword ;
     private SourceViewerDialog dialog ;
     private LuceneSearcher searcher ;
@@ -41,6 +40,7 @@ public class ChatSourceViewerPanel extends javax.swing.JPanel {
         
         try {
              this.document = this.searcher.getDocument(String.valueOf(this.currentId));
+             this.parentDocument = this.searcher.getParentDocument(this.document.get(IndexingConstant.DOCUMENT_PARENT_ID));
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -71,6 +71,29 @@ public class ChatSourceViewerPanel extends javax.swing.JPanel {
             chatFromTextField.setText(from);
             chatToTextField.setText(to);
             messageTextField.setText(message);
+            
+            // show all conversatoin here
+            // by bring all the document that have parent-id as parent
+            // then display it here as converstion
+            int count = this.searcher.searchParentById(parentId);
+            for (int i=0; i<count; i++) {
+                try {
+                    Document chatDoc = this.searcher.getDocHits(i);
+                    
+                    String tmpChatAgent = chatDoc.get(IndexingConstant.CHAT_AGENT);
+                    String tmpChatPath = chatDoc.get(IndexingConstant.CHAT_FILE);
+                    String tmpDate = chatDoc.get(IndexingConstant.CHAT_TIME);
+                    String tmpFrom = chatDoc.get(IndexingConstant.CHAT_FROM);
+                    String tmpTo = chatDoc.get(IndexingConstant.CHAT_TO);
+                    String tmpMessage = chatDoc.get(IndexingConstant.CHAT_MESSAGE);
+                    
+                    System.out.println("Chat: " );
+                    System.out.println(tmpChatAgent + " " + tmpDate + " " + tmpFrom + " " + tmpTo + " M: " + tmpMessage);
+                }
+                catch(Exception e) { e.printStackTrace(); }
+            }
+            
+            System.out.println("no of chats: " + count);
             
             chatRenderPanel.validate();
         }

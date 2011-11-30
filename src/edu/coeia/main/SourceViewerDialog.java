@@ -10,40 +10,15 @@
  */
 package edu.coeia.main;
 
-import edu.coeia.cases.Case;
-import edu.coeia.gutil.GuiUtil;
-import edu.coeia.util.FilesPath ;
+import edu.coeia.searching.AdvancedSearchPanel;
 import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.gutil.JTableUtil;
 import edu.coeia.searching.LuceneSearcher ;
 
 import java.awt.BorderLayout;
-import java.awt.event.InputEvent;
-
-import javax.swing.JProgressBar;
-import javax.swing.JTable;
-import javax.swing.JOptionPane ;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JFrame;
-
-import java.io.File ;
 
 import java.util.List; 
-import java.util.logging.Logger;
-import java.util.logging.Level;
-import java.util.ArrayList;
 
-import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
-
-import edu.coeia.cases.CaseHistoryHandler;
-import edu.coeia.main.SourceVeiwerFrame;
-import edu.coeia.main.FileSourceViewerPanel;
-import edu.coeia.main.SourceViewerDialog;
-import edu.coeia.searching.AdvancedSearchPanel;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Fieldable;
 
 /**
  *
