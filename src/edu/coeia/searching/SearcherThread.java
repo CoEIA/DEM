@@ -20,6 +20,8 @@ import javax.swing.table.DefaultTableModel ;
 import java.io.File ;
 
 import java.util.Date ;
+import java.util.List ;
+import java.util.ArrayList ;
 
 import org.apache.lucene.document.Document;
 
@@ -42,33 +44,31 @@ class ProgressSearchData {
 
 class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     private long time ;
-    private File indexLocation  ;
+    private int count = 0 ;
     private String queryString ;
     private LuceneSearcher searcher ;
-    private int count = 0 ;
     private AdvancedSearchPanel panel ;
     private SearchScope searchScope; 
     
-    public SearcherThread (File indexLocation, String queryString, AdvancedSearchPanel panel, SearchScope fields) {
-        this.indexLocation = indexLocation ;
-        this.queryString = queryString;
+    public SearcherThread (AdvancedSearchPanel panel) {
+        this.queryString = panel.getQueryText();
         this.panel = panel ;
-        this.searchScope = fields ;
+        this.searchScope = panel.getSearchScope() ;
+        this.searcher = panel.getLuceneSearcher();
     }
     
     public String doInBackground() {
         try {
             long start = new Date().getTime();
             
-            searcher = new LuceneSearcher(indexLocation);
             count = searcher.search(queryString, this.searchScope);
 
-            fillTable();
+            //fillTable();
             
             long end = new Date().getTime();
             time = end-start ;
 
-            searcher.closeSearcher();
+            //searcher.closeSearcher();
 
            
         } catch (Exception ex) {
@@ -78,59 +78,62 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         return "" + time ;
     }
 
-    private void fillTable () throws Exception {
-        for (int i=0 ; i<count ; i++) {
-            Document document = searcher.getDocHits(i);
-            publish(new ProgressSearchData(i, document));
-        }
+    private void fillTable () {
+
     }
     
-    @Override
-    protected void process(java.util.List<ProgressSearchData> chunks) {
-        for (ProgressSearchData pd : chunks) {
-            
-            String type = pd.getDocument().get(IndexingConstant.DOCUMENT);
-            
-            if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE))) {
-                String fileId = pd.getDocument().get(IndexingConstant.DOCUMENT_ID);
-                String fileDate = pd.getDocument().get(IndexingConstant.FILE_DATE);
-                String fileTitle = pd.getDocument().get(IndexingConstant.FILE_TITLE);
-                String fileName = pd.getDocument().get(IndexingConstant.FILE_NAME);
+    private void showData(ProgressSearchData pd) {
+        String type = pd.getDocument().get(IndexingConstant.DOCUMENT);
 
-                ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
-                    fileId, fileTitle, new Date(Long.valueOf(fileDate)) , type, fileName
-                });
-            }
-            
-            if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL))) {
-                String fileId = pd.getDocument().get(IndexingConstant.DOCUMENT_ID);
-                String fileDate = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_SENT_DATE);
-                String fileTitle = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
-                String fileName = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_SUBJECT);
+        if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE))) {
+            String fileId = pd.getDocument().get(IndexingConstant.DOCUMENT_ID);
+            String fileDate = pd.getDocument().get(IndexingConstant.FILE_DATE);
+            String fileTitle = pd.getDocument().get(IndexingConstant.FILE_TITLE);
+            String fileName = pd.getDocument().get(IndexingConstant.FILE_NAME);
 
-                ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
-                    fileId, fileTitle, fileDate, type, fileName
-                });
-            }
-            
-            if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT))) {
-                String fileId = pd.getDocument().get(IndexingConstant.DOCUMENT_ID);
-                String fileDate = pd.getDocument().get(IndexingConstant.CHAT_TIME);
-                String fileTitle = pd.getDocument().get(IndexingConstant.CHAT_AGENT);
-                String fileName = pd.getDocument().get(IndexingConstant.CHAT_FILE);
-
-                ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
-                    fileId, fileTitle, fileDate , type, fileName
-                }); 
-            }
+            ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
+                fileId, fileTitle, new Date(Long.valueOf(fileDate)) , type, fileName
+            });
         }
 
-       int index = chunks.size()-1 ;
-       JTableUtil.packColumns(panel.getSearchTable(), index);
+        if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL))) {
+            String fileId = pd.getDocument().get(IndexingConstant.DOCUMENT_ID);
+            String fileDate = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_SENT_DATE);
+            String fileTitle = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
+            String fileName = pd.getDocument().get(IndexingConstant.ONLINE_EMAIL_SUBJECT);
+
+            ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
+                fileId, fileTitle, fileDate, type, fileName
+            });
+        }
+
+        if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT))) {
+            String fileId = pd.getDocument().get(IndexingConstant.DOCUMENT_ID);
+            String fileDate = pd.getDocument().get(IndexingConstant.CHAT_TIME);
+            String fileTitle = pd.getDocument().get(IndexingConstant.CHAT_AGENT);
+            String fileName = pd.getDocument().get(IndexingConstant.CHAT_FILE);
+
+            ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
+                fileId, fileTitle, fileDate , type, fileName
+            }); 
+        }
     }
     
     @Override
     public void done() {
         panel.getSearchProgressBar().setIndeterminate(false);
+        
+        List<Integer> ids = new ArrayList<Integer>();
+        
+        for (int i=0 ; i<count ; i++) {
+            try {
+                ids.add(i);
+                Document document = searcher.getDocHits(i);
+                showData(new ProgressSearchData(i, document));
+            }
+            catch(Exception e) { e.printStackTrace();}
+        }
+        
+        panel.setResultId(ids);
     }
 }

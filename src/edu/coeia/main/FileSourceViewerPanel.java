@@ -16,6 +16,7 @@ import java.awt.BorderLayout;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
+import edu.coeia.searching.LuceneSearcher;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Fieldable;
 
@@ -30,14 +31,26 @@ public class FileSourceViewerPanel extends javax.swing.JPanel {
     private JWebBrowser fileBrowser = new JWebBrowser();
     private Document document ;
     private String keyword ;
+    private SourceViewerDialog dialog ;
+    private LuceneSearcher searcher ;
+    private String currentId ;
     
     /** Creates new form FileSourceViewerPanel */
-    public FileSourceViewerPanel(Document document, String keyword) {
+    public FileSourceViewerPanel(SourceViewerDialog dialog) {
         initComponents();
         
-        this.document = document ;
-        this.keyword = keyword;
+        this.dialog = dialog;
+        this.keyword = dialog.getQueryString();
+        this.searcher = dialog.getLuceneSearch();
+        this.currentId = dialog.getCurrentId() ;
         
+        try {
+             this.document = this.searcher.getDocument(String.valueOf(this.currentId));
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+                
         // add file browser
         fileBrowser.setBarsVisible(false);
         fileBrowser.setStatusBarVisible(false);
@@ -92,7 +105,7 @@ public class FileSourceViewerPanel extends javax.swing.JPanel {
         );
         FileMetaDataPanelLayout.setVerticalGroup(
             FileMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
+            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("MetaData", FileMetaDataPanel);
@@ -105,7 +118,7 @@ public class FileSourceViewerPanel extends javax.swing.JPanel {
         );
         imageViewPanelLayout.setVerticalGroup(
             imageViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 384, Short.MAX_VALUE)
+            .addGap(0, 323, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("Image", imageViewPanel);
@@ -123,7 +136,7 @@ public class FileSourceViewerPanel extends javax.swing.JPanel {
             viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -211,7 +224,7 @@ public class FileSourceViewerPanel extends javax.swing.JPanel {
             String fileName = this.document.get(IndexingConstant.FILE_TITLE);
             String filePath = this.document.get(IndexingConstant.FILE_NAME);
             String date = this.document.get(IndexingConstant.FILE_DATE);
-            String embedded = this.document.get(IndexingConstant.FILE_PARENT_ID);
+            String embedded = this.document.get(IndexingConstant.DOCUMENT_PARENT_ID);
             String mime = this.document.get(IndexingConstant.FILE_MIME);
             
             fileNameTextField.setText(fileName);

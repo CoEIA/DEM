@@ -46,6 +46,7 @@ public class IndexingConstant {
      */
     public static final String DOCUMENT = "DOCUMENT" ;          // type of this document
     public static final String DOCUMENT_ID = "DOCUMENT_ID" ;    // id of the document in the index
+    public static final String DOCUMENT_PARENT_ID = "DOCUMENT_PARENT_ID"; // id of the parent of this document
     
     /**
      * constants for all files and images
@@ -55,7 +56,6 @@ public class IndexingConstant {
     public static final String FILE_CONTENT = "FILE_CONTENT" ;
     public static final String FILE_DATE = "FILE_DATE" ;
     public static final String FILE_CONTAINER = "FILE_CONTAINER" ;
-    public static final String FILE_PARENT_ID = "FILE_PARENT_ID" ;
     public static final String FILE_MIME = "FILE_MIME" ;
     public static final String FILE_HASH = "FILE_HASH" ;
     

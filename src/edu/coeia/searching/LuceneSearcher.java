@@ -34,7 +34,7 @@ import org.apache.lucene.index.Term ;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.search.TermQuery;
 
-class LuceneSearcher {
+public class LuceneSearcher {
 
     protected Directory fsDir ;
     protected IndexReader indexReader ;
@@ -151,31 +151,21 @@ class LuceneSearcher {
         return fields;        
     }
     
-    public Document searchById (String fileId) throws Exception{
-//        Collection<String> allFileds = this.indexReader.getFieldNames(IndexReader.FieldOption.ALL);
-//        
-//        // converting to array 
-//        String[] fieldsArray = new String[allFileds.size()];
-//        fieldsArray = allFileds.toArray(fieldsArray);
-//        
-//        Analyzer analyzer = new StopAnalyzer(Version.LUCENE_20,  new File(FilesPath.STOP_WORD_FILE));
-//        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_20, fieldsArray, analyzer);
-//        
-//        Query query = parser.parse(fileId);
-        
+    public int searchById (String fileId) throws Exception{
         Term term = new Term(IndexingConstant.DOCUMENT_ID, fileId);
         Query query = new TermQuery(term);
         
         results = searcher.search(query, 10);
-        return getDocHits(0);
+        return results.totalHits ;
     }
 
-//    public String getHits (int index) throws Exception{
-//        ScoreDoc[] hits = results.scoreDocs;
-//        int id = hits[index].doc;
-//        Document doc = searcher.doc(id);
-//        return doc.get(IndexingConstant.FILE_NAME) ;
-//    }
+    public int searchParentById (String fileId) throws Exception{
+        Term term = new Term(IndexingConstant.DOCUMENT_PARENT_ID, fileId);
+        Query query = new TermQuery(term);
+        
+        results = searcher.search(query, 10);
+        return results.totalHits;
+    }
 
     public Document getDocHits (int index) throws Exception{
         ScoreDoc[] hits = results.scoreDocs;
@@ -183,6 +173,37 @@ class LuceneSearcher {
         Document doc = searcher.doc(id);
 
         return doc ;
+    }
+    
+    public Document getDocument(final String id) {
+        Document document = null ;
+        try {
+            int count = searchById(id);
+            
+            if ( count > 0 )
+                document = getDocHits(0);
+        }
+        catch (Exception e) {
+            throw new IllegalArgumentException("Id is not valid lucene document");
+        }
+        
+        return document ;
+    }
+    
+    public Document getParentDocument(final String id) {
+        Document document = null ; 
+        
+        try {
+            int count = searchParentById(id);
+            
+            if ( count > 0 )
+                document = getDocHits(0);
+        }
+        catch (Exception e) {
+            throw new IllegalArgumentException("Id is not valid lucene document");
+        }
+        
+        return document ;
     }
     
     public void closeSearcher () throws Exception {

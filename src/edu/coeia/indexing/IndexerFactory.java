@@ -9,6 +9,7 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+import edu.coeia.util.FileUtil;
 import java.io.File ;
 import java.io.IOException; 
 
@@ -91,11 +92,11 @@ final class IndexerFactory {
     }
     
     private static Indexer indexYahooDir(LuceneIndex luceneIndex, File path) {
-        return YahooChatIndexer.newInstance(luceneIndex, path, "", new NoneImageExtractor());  
+        return YahooChatIndexer.newInstance(luceneIndex, path, FileUtil.getExtension(path), new NoneImageExtractor());  
     }
     
     private static Indexer indexHotmailDir(LuceneIndex luceneIndex, File path) {
-        return MSNIndexer.newInstance(luceneIndex, path, "", new NoneImageExtractor());
+        return MSNIndexer.newInstance(luceneIndex, path, FileUtil.getExtension(path), new NoneImageExtractor());
     }
     
     /**

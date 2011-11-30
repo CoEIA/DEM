@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.ArrayList;
 
-import org.apache.lucene.document.Document;
+import java.util.Collections;
 
 /**
  *
@@ -40,8 +40,12 @@ import org.apache.lucene.document.Document;
  */
 public class AdvancedSearchPanel extends javax.swing.JPanel {
     private Case caseObj;
+    private LuceneSearcher searcher ;
     private JFrame parentFrame ;
     private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
+    
+    private List<Integer> resultId ;
+    private int currentId = 0; 
     
     /** Creates new form AdvancedSearchPanel */
     public AdvancedSearchPanel(Case aIndex, JFrame aParentFrame) {
@@ -49,6 +53,15 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         
         this.caseObj = aIndex;
         this.parentFrame = aParentFrame;
+        this.resultId = new ArrayList<Integer>();
+        
+        try {
+            File indexLocation = new File (caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
+            this.searcher = new LuceneSearcher(indexLocation);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         
         JTableUtil.packColumns(searchTable, 0);
         disableNotIndexedComponent();
@@ -297,10 +310,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         searchTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Name", "Last Modification", "Type", "Path/Title"
@@ -434,84 +444,24 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 //        }
 //    }
 //    
+    void setResultId (List<Integer> ids) {  this.resultId.addAll(Collections.unmodifiableList(ids)); }
+    public List<Integer> getIds() { return Collections.unmodifiableList(this.resultId) ; }
     
-    private void resultTableClicked(java.awt.event.MouseEvent evt) {
-        // set summary panel
-        try {
-            if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-                GuiUtil.showPopup(evt);
-                return ;
-            }
-
-            if ( evt.getClickCount() == 2  ) { // Double Click
-                // other click event
-                int row = searchTable.getSelectedRow();
-                if ( row < 0 ) return ; // if not select row
-                
-                String fileId = String.valueOf(searchTable.getValueAt(row, 0));
-                Document document = getDocument(fileId);
-                SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true, document,
-                        this.queryTextField.getText().trim());
-                panel.setVisible(true);
-            }
-        }
-        catch (Exception e ){
-            logger.log(Level.SEVERE, "Uncaught exception", e);
-            e.printStackTrace();
-        }
-    }
+    public void setCurrentId (int id) { this.currentId = id ; }
+    public int getCurrentId() { return this.currentId ; }
     
-    private Document getDocument(final String id) throws Exception {
-        File indexPath = new File(caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
-        
-        // Do Lucene Search
-        LuceneSearcher searcher = new LuceneSearcher(indexPath);
-        Document document = searcher.searchById(id);
-        
-        return document;
-    }
+    JProgressBar getSearchProgressBar () { return this.searchProgressBard ; }
+    JTable getSearchTable() { return this.searchTable ; }
+    List<String> getSupportedExtension () { return new ArrayList<String>(); }
     
-    private void showAdvancedSearch() {
-        AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true);
-        asd.setVisible(true);
-
-        String query = asd.getQuery() ;
-
-        if ( query == null || query.isEmpty() )
-            return ;
-
-        queryTextField.setText(query);
-        startSearching();
-    }
-    
-    private void startSearching () {
-        removeSearchField(false,false);
-
-        if ( CaseHistoryHandler.get(this.caseObj.getIndexName()).getIsCaseIndexed() == false ) {
-            JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
-                    "Case is not indexed",JOptionPane.ERROR_MESSAGE );
-            return ;
-        }
-
-        File indexLocation = new File (caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
+    public String getQueryText() {
         String queryString = queryTextField.getText().trim();
-
-        if ( queryString.isEmpty() ) {
-            JOptionPane.showMessageDialog(this, "please fill the query string and choose an index location");
-            return  ;
-        }
-
-        JTableUtil.packColumns(searchTable, 2);
-        searchProgressBard.setIndeterminate(true);
-        
-        // build lucene fileds
-        SearchScope searchScope = getSearchScope();
-        
-         SearcherThread sThread = new SearcherThread(indexLocation,queryString,this, searchScope);
-         sThread.execute();
+        return queryString ;
     }
     
-    private SearchScope getSearchScope() {
+    public LuceneSearcher getLuceneSearcher() { return this.searcher ;}
+        
+    SearchScope getSearchScope() {
         SearchScope.Builder builder = new SearchScope.Builder();
         
         if ( fileSystemCheckBox.isSelected() ) {
@@ -542,18 +492,76 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         
         return builder.build();
     }
+    
+    private void resultTableClicked(java.awt.event.MouseEvent evt) {
+        // set summary panel
+        try {
+            if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
+                GuiUtil.showPopup(evt);
+                return ;
+            }
 
-    JProgressBar getSearchProgressBar () { return this.searchProgressBard ; }
-    JTable getSearchTable() { return this.searchTable ; }
-    List<String> getSupportedExtension () { return new ArrayList<String>(); }
+            if ( evt.getClickCount() == 2  ) { // Double Click
+                // other click event
+                int row = searchTable.getSelectedRow();
+                if ( row < 0 ) return ; // if not select row
+                
+                String fileId = String.valueOf(searchTable.getValueAt(row, 0));
+                this.currentId = Integer.parseInt(fileId);
+                
+                //Document document = getDocument(fileId);
+                //Document parent = getParentDocument(fileId);
+                
+                SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true, this);
+                panel.setVisible(true);
+            }
+        }
+        catch (Exception e ){
+            logger.log(Level.SEVERE, "Uncaught exception", e);
+            e.printStackTrace();
+        }
+    }
+    
+    private void showAdvancedSearch() {
+        AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true);
+        asd.setVisible(true);
+
+        String query = asd.getQuery() ;
+
+        if ( query == null || query.isEmpty() )
+            return ;
+
+        queryTextField.setText(query);
+        startSearching();
+    }
+    
+    private void startSearching () {
+        removeSearchField(false,false);
+
+        if ( CaseHistoryHandler.get(this.caseObj.getIndexName()).getIsCaseIndexed() == false ) {
+            JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
+                    "Case is not indexed",JOptionPane.ERROR_MESSAGE );
+            return ;
+        }
+
+        String queryString = getQueryText();
+        if ( queryString.isEmpty() ) {
+            JOptionPane.showMessageDialog(this, "please fill the query string and choose an index location");
+            return  ;
+        }
+
+        JTableUtil.packColumns(searchTable, 2);
+        searchProgressBard.setIndeterminate(true);
+        
+        SearcherThread sThread = new SearcherThread(this);
+        sThread.execute();
+    }
     
     private void removeSearchField (boolean all, boolean restCheckBox) {
         searchProgressBard.setIndeterminate(false); 
 
         ( (DefaultTableModel) searchTable.getModel() ).getDataVector().removeAllElements();
         ( (DefaultTableModel) searchTable.getModel() ).fireTableDataChanged();
-        
-        //fileBrowser.setHTMLContent("");
 
         if ( all ) {
             queryTextField.setText("");
@@ -566,8 +574,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private void disableNotIndexedComponent () {
         if ( caseObj.getEvidenceSourceLocation().isEmpty() ) {
             startSearchingButton.setEnabled(false);
-//            clearFieldsButton.setEnabled(false);
-//            keywordsListButton.setEnabled(false);
         }
     }
     

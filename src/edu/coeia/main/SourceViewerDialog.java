@@ -15,6 +15,7 @@ import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.gutil.JTableUtil;
+import edu.coeia.searching.LuceneSearcher ;
 
 import java.awt.BorderLayout;
 import java.awt.event.InputEvent;
@@ -38,6 +39,7 @@ import edu.coeia.cases.CaseHistoryHandler;
 import edu.coeia.main.SourceVeiwerFrame;
 import edu.coeia.main.FileSourceViewerPanel;
 import edu.coeia.main.SourceViewerDialog;
+import edu.coeia.searching.AdvancedSearchPanel;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import org.apache.lucene.document.Document;
@@ -48,19 +50,31 @@ import org.apache.lucene.document.Fieldable;
  * @author wajdyessam
  */
 public class SourceViewerDialog extends javax.swing.JDialog {
-    private Document document; 
     private String keyword ;
+    private AdvancedSearchPanel advancedSearchPanel ;
+    private int currentId ;
+    private LuceneSearcher searcher ;
+    private List<Integer> ids;
     
     /** Creates new form SourceViewerDialog */
-    public SourceViewerDialog(java.awt.Frame parent, boolean modal, Document document, String keyword) {
+    public SourceViewerDialog(java.awt.Frame parent, boolean modal, AdvancedSearchPanel panel) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
         
-        this.keyword = keyword;
-        this.document = document;
+        this.advancedSearchPanel = panel;
+        this.keyword = this.advancedSearchPanel.getQueryText();
+        this.currentId = this.advancedSearchPanel.getCurrentId() ;
+        this.searcher = this.advancedSearchPanel.getLuceneSearcher();
+        this.ids = this.advancedSearchPanel.getIds();
         
-        showDocument();
+        try {
+            Document document = this.searcher.getDocument(String.valueOf(this.currentId));
+            showDocument(document);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /** This method is called from within the constructor to
@@ -182,17 +196,28 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void showDocument () {
-        if ( this.document.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE))) {
-            FileSourceViewerPanel panel = new FileSourceViewerPanel(this.document, keyword);
+    private void showDocument (Document document) {
+        if ( document.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE))) {
+            FileSourceViewerPanel panel = new FileSourceViewerPanel(this);
+            
+            this.viewerPanel.setLayout(new BorderLayout());
+            this.viewerPanel.add(panel, BorderLayout.CENTER);
+            this.viewerPanel.revalidate();
+        }
+        else if ( document.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT))) {
+            ChatSourceViewerPanel panel = new ChatSourceViewerPanel(this);
+            
             this.viewerPanel.setLayout(new BorderLayout());
             this.viewerPanel.add(panel, BorderLayout.CENTER);
             this.viewerPanel.revalidate();
         }
         else
-            System.out.println("document: " + this.document.get(IndexingConstant.DOCUMENT));
+            System.out.println("document: " + document.get(IndexingConstant.DOCUMENT));
     }
-
+    
+    LuceneSearcher getLuceneSearch() { return this.searcher ; }
+    String getQueryString() { return this.keyword ; }
+    String getCurrentId() { return String.valueOf(this.currentId);  }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;

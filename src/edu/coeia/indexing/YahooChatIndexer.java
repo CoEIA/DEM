@@ -24,12 +24,13 @@ import java.util.List ;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
-public class YahooChatIndexer extends Indexer{
+public final class YahooChatIndexer extends Indexer{
     
     /**
      *  chat type
      */
     private static final String CHAT_AGENT = "YAHOO" ;
+    private int parentId ;
     
     /**
      * static factory method to get an instance of YahooChatIndexer
@@ -63,6 +64,7 @@ public class YahooChatIndexer extends Indexer{
             int parentId) {
         
         super(luceneIndex, file, mimeType, imageExtractor);
+        this.parentId = parentId ;
     }
     
     @Override
@@ -70,8 +72,16 @@ public class YahooChatIndexer extends Indexer{
         boolean status = false ;
         
         try {
-           List<YahooChatSession> sessions = YahooMessageReader.getAllYahooChatSession(this.file.getAbsolutePath());
+            YahooMessageReader reader = new YahooMessageReader();
+            
+            // then index the chat seesions in this file
+            List<YahooChatSession> sessions = reader.getAllYahooChatSession(this.file.getAbsolutePath());
+            String datPath = reader.getChatPath();
 
+            // first in .dat file first
+            this.parentId = ++id; 
+            luceneIndex.indexFile(new File(datPath), parentId);
+            
             for(YahooChatSession session: sessions) {
                 for(YahooConversation conversation: session.conversations) {
                     for(YahooMessage msg: conversation.messages) {
@@ -128,6 +138,7 @@ public class YahooChatIndexer extends Indexer{
         // genric lucene fileds
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specific lucene fileds
         doc.add(new Field(IndexingConstant.CHAT_AGENT, CHAT_AGENT, Field.Store.YES, Field.Index.NOT_ANALYZED));

@@ -28,7 +28,12 @@ public final class YahooMessageReader {
     /**
      * List of all YahooChatSession founded will be stored here
      */
-    private static List<YahooChatSession> sessions;
+    private List<YahooChatSession> sessions;
+    
+    /**
+     * contain the path of .DAT file
+     */
+    private String chatPath ;
     
     /*
      * Yahoo Chat Sessions
@@ -58,16 +63,24 @@ public final class YahooMessageReader {
      * @throws NullPointerException when path is null 
      * @return List of YahooChatSession contain all chat sessions in path
      */
-    public static List<YahooChatSession> getAllYahooChatSession(String path) throws IOException{
+    public List<YahooChatSession> getAllYahooChatSession(String path) throws IOException{
         if ( ! isValidYahooPath(path) )
             return Collections.emptyList();
         
         sessions = new ArrayList<YahooChatSession>();
         
         File dir = new File(path);
+        
         traverseDir(dir);
 
         return sessions;
+    }
+    
+    /*
+     * Return .DAT chat path
+     */
+    public String getChatPath () {
+        return this.chatPath ;
     }
         
     /**
@@ -85,7 +98,7 @@ public final class YahooMessageReader {
     /*
      * Recursive Method to traverse Dir to extract yahoo chat message
      */
-    private static void traverseDir (File dir) throws IOException {
+    private void traverseDir (File dir) throws IOException {
         if ( dir.isDirectory() ) {
             File[] files = dir.listFiles();
 
@@ -93,6 +106,7 @@ public final class YahooMessageReader {
                 traverseDir( file );
         }
         else {
+            this.chatPath = dir.getAbsolutePath();
              extractYahooMessage(dir);
         }
     }
@@ -100,7 +114,7 @@ public final class YahooMessageReader {
     /*
      * extract all yahoo messages in .DAT file
      */
-    private static void extractYahooMessage (File path) throws IOException {
+    private void extractYahooMessage (File path) throws IOException {
         String currentUserName = path.getParentFile().getParentFile().getParentFile().getParentFile().getName() ;
         String otherUserName   = path.getParentFile().getName();
         YahooConversation msg = getYahooMessages(path.getAbsolutePath(), currentUserName, otherUserName);
@@ -122,7 +136,7 @@ public final class YahooMessageReader {
      * @return List of YahooMesssage that contain yahoo messages
      * @throws IOException if the path/.DAT file is not found
      */
-     private static YahooConversation getYahooMessages (String path, String profileName,
+     private YahooConversation getYahooMessages (String path, String profileName,
         String otherName ) throws IOException {
 
         DataInputStream input = new DataInputStream(new FileInputStream(new File(path)) );
