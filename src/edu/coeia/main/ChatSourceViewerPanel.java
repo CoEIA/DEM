@@ -79,6 +79,8 @@ public class ChatSourceViewerPanel extends javax.swing.JPanel {
             for (int i=0; i<count; i++) {
                 try {
                     Document chatDoc = this.searcher.getDocHits(i);
+                    if ( chatDoc.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT)))
+                        continue ;
                     
                     String tmpChatAgent = chatDoc.get(IndexingConstant.CHAT_AGENT);
                     String tmpChatPath = chatDoc.get(IndexingConstant.CHAT_FILE);

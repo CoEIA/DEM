@@ -314,6 +314,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 String caseName = getSelectedCase();
                 loadCase(caseName, false);
             }
+            catch (NullPointerException e) { }
             catch (IOException e){
                 JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
                     JOptionPane.ERROR_MESSAGE);
