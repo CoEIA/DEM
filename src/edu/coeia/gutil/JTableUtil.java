@@ -193,4 +193,12 @@ public class JTableUtil {
             }
         });
     }
+    
+    /**
+     * Add new row to table
+     */
+    public static void addRowToJTable(final JTable table, final Object[] data) {
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+        tableModel.addRow(data);
+    }
 }

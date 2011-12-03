@@ -30,11 +30,6 @@ public final class YahooMessageReader {
      */
     private List<YahooChatSession> sessions;
     
-    /**
-     * contain the path of .DAT file
-     */
-    private String chatPath ;
-    
     /*
      * Yahoo Chat Sessions
      * contain list of all conversation between 2 user
@@ -75,13 +70,6 @@ public final class YahooMessageReader {
 
         return sessions;
     }
-    
-    /*
-     * Return .DAT chat path
-     */
-    public String getChatPath () {
-        return this.chatPath ;
-    }
         
     /**
      * Test if the path is valid Yahoo path
@@ -106,8 +94,7 @@ public final class YahooMessageReader {
                 traverseDir( file );
         }
         else {
-            this.chatPath = dir.getAbsolutePath();
-             extractYahooMessage(dir);
+            extractYahooMessage(dir);
         }
     }
 

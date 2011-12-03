@@ -73,21 +73,20 @@ public final class YahooChatIndexer extends Indexer{
         
         try {
             YahooMessageReader reader = new YahooMessageReader();
+            List<YahooChatSession> sessions = reader.getAllYahooChatSession(this.file.getAbsolutePath());
+            
+            id++;
             
             // then index the chat seesions in this file
-            List<YahooChatSession> sessions = reader.getAllYahooChatSession(this.file.getAbsolutePath());
-            String datPath = reader.getChatPath();
-
-            // first in .dat file first
-            this.parentId = ++id; 
-            luceneIndex.indexFile(new File(datPath), parentId);
-            
             for(YahooChatSession session: sessions) {
                 for(YahooConversation conversation: session.conversations) {
+                    // index the .DAT file first
+                    String datPath = conversation.path ;
+                    this.parentId = id;
+                    luceneIndex.indexFile(new File(datPath), parentId);
+                
                     for(YahooMessage msg: conversation.messages) {
-                        
                         Document doc = getDocument(msg,  session.userName, session.otherName , conversation.path); // add parentid and parent metadata here
-                        System.out.println("Yahoo Chat Indexing, Message : " + msg.getCipherText());
                        
                         if (doc != null) {
                             this.luceneIndex.getWriter().addDocument(doc);    // index file

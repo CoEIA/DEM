@@ -10,6 +10,7 @@
  */
 package edu.coeia.main;
 
+import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.searching.LuceneSearcher;
 
@@ -63,8 +64,6 @@ public class ChatSourceViewerPanel extends javax.swing.JPanel {
             String docId = this.document.get(IndexingConstant.DOCUMENT_ID);
             String parentId = this.document.get(IndexingConstant.DOCUMENT_PARENT_ID);
             
-            System.out.println("Document: " + doc + ", its ID: " + docId + ", parent: " + parentId);
-            
             chatAgentTextField.setText(chatAgent);
             chatPathTextField.setText(chatPath);
             dateTextField.setText(date);
@@ -79,23 +78,21 @@ public class ChatSourceViewerPanel extends javax.swing.JPanel {
             for (int i=0; i<count; i++) {
                 try {
                     Document chatDoc = this.searcher.getDocHits(i);
-                    if ( chatDoc.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT)))
+                    if ( ! chatDoc.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT)))
                         continue ;
                     
-                    String tmpChatAgent = chatDoc.get(IndexingConstant.CHAT_AGENT);
                     String tmpChatPath = chatDoc.get(IndexingConstant.CHAT_FILE);
                     String tmpDate = chatDoc.get(IndexingConstant.CHAT_TIME);
                     String tmpFrom = chatDoc.get(IndexingConstant.CHAT_FROM);
                     String tmpTo = chatDoc.get(IndexingConstant.CHAT_TO);
                     String tmpMessage = chatDoc.get(IndexingConstant.CHAT_MESSAGE);
                     
-                    System.out.println("Chat: " );
-                    System.out.println(tmpChatAgent + " " + tmpDate + " " + tmpFrom + " " + tmpTo + " M: " + tmpMessage);
+                    // add this to table
+                    Object[] data = {tmpFrom, tmpTo, tmpDate, tmpMessage} ;
+                    JTableUtil.addRowToJTable(chatTable, data);
                 }
                 catch(Exception e) { e.printStackTrace(); }
             }
-            
-            System.out.println("no of chats: " + count);
             
             chatRenderPanel.validate();
         }
@@ -117,7 +114,7 @@ public class ChatSourceViewerPanel extends javax.swing.JPanel {
         jTabbedPane2 = new javax.swing.JTabbedPane();
         chatRenderPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        chatTable = new javax.swing.JTable();
         chatMetaDataPanel = new javax.swing.JPanel();
         jScrollPane28 = new javax.swing.JScrollPane();
         metaDataTextArea = new javax.swing.JTextArea();
@@ -139,12 +136,12 @@ public class ChatSourceViewerPanel extends javax.swing.JPanel {
 
         chatRenderPanel.setLayout(new java.awt.BorderLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        chatTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "From", "To", "Data", "Message"
+                "From", "To", "Date", "Message"
             }
         ) {
             Class[] types = new Class [] {
@@ -162,15 +159,15 @@ public class ChatSourceViewerPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setFillsViewportHeight(true);
-        jScrollPane1.setViewportView(jTable1);
+        chatTable.setFillsViewportHeight(true);
+        jScrollPane1.setViewportView(chatTable);
 
         chatRenderPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jTabbedPane2.addTab("Conversation", chatRenderPanel);
 
         metaDataTextArea.setColumns(20);
-        metaDataTextArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        metaDataTextArea.setFont(new java.awt.Font("Tahoma", 0, 14));
         metaDataTextArea.setRows(5);
         jScrollPane28.setViewportView(metaDataTextArea);
 
@@ -297,6 +294,7 @@ public class ChatSourceViewerPanel extends javax.swing.JPanel {
     private javax.swing.JPanel chatMetaDataPanel;
     private javax.swing.JTextField chatPathTextField;
     private javax.swing.JPanel chatRenderPanel;
+    private javax.swing.JTable chatTable;
     private javax.swing.JTextField chatToTextField;
     private javax.swing.JTextField dateTextField;
     private javax.swing.JLabel jLabel1;
@@ -308,7 +306,6 @@ public class ChatSourceViewerPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane28;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField messageTextField;
     private javax.swing.JTextArea metaDataTextArea;
     private javax.swing.JPanel properitiesPanel;
