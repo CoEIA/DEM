@@ -144,7 +144,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         statusPanel.setLayout(statusPanelLayout);
         statusPanelLayout.setHorizontalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 710, Short.MAX_VALUE)
+            .addGap(0, 723, Short.MAX_VALUE)
         );
         statusPanelLayout.setVerticalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,11 +159,11 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         viewerPanel.setLayout(viewerPanelLayout);
         viewerPanelLayout.setHorizontalGroup(
             viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 710, Short.MAX_VALUE)
+            .addGap(0, 723, Short.MAX_VALUE)
         );
         viewerPanelLayout.setVerticalGroup(
             viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 438, Short.MAX_VALUE)
+            .addGap(0, 512, Short.MAX_VALUE)
         );
 
         getContentPane().add(viewerPanel, java.awt.BorderLayout.CENTER);
@@ -181,6 +181,13 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         }
         else if ( document.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT))) {
             ChatSourceViewerPanel panel = new ChatSourceViewerPanel(this);
+            
+            this.viewerPanel.setLayout(new BorderLayout());
+            this.viewerPanel.add(panel, BorderLayout.CENTER);
+            this.viewerPanel.revalidate();
+        }
+        else if ( document.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL)) ) {
+            EmailSourceViewerPanel panel = new EmailSourceViewerPanel(this);
             
             this.viewerPanel.setLayout(new BorderLayout());
             this.viewerPanel.add(panel, BorderLayout.CENTER);

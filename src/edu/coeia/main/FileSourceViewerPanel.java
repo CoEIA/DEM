@@ -10,17 +10,18 @@
  */
 package edu.coeia.main;
 
+import edu.coeia.util.Utilities;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.searching.LuceneSearcher;
 
 import java.awt.BorderLayout;
 
+import java.util.List ;
+
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Fieldable;
-
-import java.util.List ;
 
 /**
  *
@@ -235,7 +236,7 @@ public class FileSourceViewerPanel extends javax.swing.JPanel {
             
             // Show File Content
             String content = document.get(IndexingConstant.FILE_CONTENT);
-            fileBrowser.setHTMLContent(highlightString(content, this.keyword));
+            fileBrowser.setHTMLContent(Utilities.highlightString(content, this.keyword));
             
             // show matadata information for File
             List<Fieldable> fields = document.getFields();
@@ -258,12 +259,7 @@ public class FileSourceViewerPanel extends javax.swing.JPanel {
         }
     }
     
-    private String highlightString (String content, String keyword) {
-        String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
-        String highlitedString = content.replace(keyword, highlither);
-        
-        return highlitedString ;
-    }
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FileMetaDataPanel;
