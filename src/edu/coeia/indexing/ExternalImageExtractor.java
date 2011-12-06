@@ -14,6 +14,7 @@ import java.io.File ;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,10 +22,13 @@ public class ExternalImageExtractor implements ImageExtractor{
     
     @Override
     public void extractImages(Indexer indexer, File file,int parentId) {
-        try {
-            FileUtil.saveObject(new FileInputStream(file), file.getName(), indexer.imagesLocation);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ExternalImageExtractor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+            try {
+                FileUtil.saveObject(new FileInputStream(file), file.getName(), indexer.imagesLocation);
+            } catch (IOException ex) {
+                Logger.getLogger(ExternalImageExtractor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+       
     }
 }
+

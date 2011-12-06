@@ -72,7 +72,7 @@ public class FileUtil {
      * @param destination the location of the file to be saved
      * @throws NullPointerException if the stream, filename and destination contain null data
      */
-    public static void saveObject(InputStream stream, String filename, String destination) {
+    public static void saveObject(InputStream stream, String filename, String destination) throws IOException {
         filename = checkNull("filename can't be null", filename);
         destination = checkNull("destination string can't be null", destination);
         
@@ -97,6 +97,10 @@ public class FileUtil {
         }
         catch (IOException e) {
         }
+        
+        
+        
+        
     }
     
     /**
