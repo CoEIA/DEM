@@ -246,7 +246,6 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                 continue;
             }
             // 3).  Get All Messages For Each Folder
-
             Message[] messages = folder.getMessages();
 
             if (messages != null) {
@@ -259,60 +258,27 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                     }
 
                     try {
-                        // sent and receive date
-                        Date sentDate = null;
-                        sentDate = message.getSentDate();
-                        if (sentDate == null) {
-                            sentDate = new Date();
-                        }
-                        Date receiveDate = message.getReceivedDate();
-                        if (receiveDate == null) {
-                            receiveDate = new Date();
-                        }
-                        // Get cc, bcc, to list
-                        List<String> cclist = Collections.emptyList();
-                        List<String> bcclist = Collections.emptyList();
-                        List<String> to = Collections.emptyList();
-                        String ccBuilder = "";
-                        String bccBuilder = "";
-                        String toBuilder = "";
-
-                        cclist = getAddress(message, Message.RecipientType.CC);
-                        ccBuilder = GetAddresses(message, RecipientType.CC);
-
-                        bcclist = getAddress(message, Message.RecipientType.BCC);
-                        bccBuilder = GetAddresses(message, RecipientType.BCC);
-
-                        to = getAddress(message, Message.RecipientType.TO);
-                        toBuilder = GetAddresses(message, RecipientType.TO);
-
-                        if (cclist == null) {
-                            cclist = Collections.emptyList();
-                        }
-                        if (bcclist == null) {
-                            bcclist = Collections.emptyList();
-                        }
-                        if (to == null) {
-                            to = Collections.emptyList();
-                        }
+                        // message id
                         int messageId = messages.length - count++;
-
-                        String from = "";
-                        String getFrom = message.getFrom()[0].toString();
-                        if (!getFrom.isEmpty()) {
-                            from = getFromAddress(getFrom);
-                        }
-
-                        String subject = message.getSubject();
-                        if (subject == null) {
-                            subject = "";
-                        }
-
-                        String body = getText(message);
-                        if (body == null) {
-                            body = "";
-                        }
-
+                        
+                        // sent and receive date
+                        Date sentDate = checkDate(message.getSentDate());
+                        Date receiveDate = checkDate(message.getReceivedDate());
+                        
+                        // Get cc, bcc, to list
+                        List<String> cclist = getAddress(message, Message.RecipientType.CC);
+                        List<String> bcclist = getAddress(message, Message.RecipientType.BCC);
+                        List<String> to =   getAddress(message, Message.RecipientType.BCC);
+                        
+                        String ccBuilder = getFormattedString(cclist);
+                        String bccBuilder = getFormattedString(bcclist);
+                        String toBuilder = getFormattedString(to);
+                       
+                         
+                        String  from = getFrom(message); 
+                        String subject = formatInputString(message.getSubject());
+                        String body = formatInputString(getText(message));
+                        
                         // Print Debug Messages 
                         PrintDebugMessages(sentDate, receiveDate, from, cclist, bcclist, body, subject);
                         // Save Attachment
@@ -348,21 +314,22 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         return null;
     }
 
-    private String GetAddresses(Message message, Message.RecipientType type) {
-        List<String> list = Collections.emptyList();
-        String Builder = null;
-        try {
-            // Get address list
-            list = getAddress(message, type);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    private Date checkDate(Date date) {
+        if (date == null) {
+            return new Date();
         }
-        if (list != null) {
-            Builder = getFormattedString(list);
-        } else {
-            Builder = "";
+        return date;
+    }
+  
+    private String getFrom(Message message) throws MessagingException {
+        String result = "";
+        Address[] addresses = message.getFrom();
+        for (Address add : addresses) {
+            result = getFromAddress(add.toString());
+            break;
         }
-        return Builder;
+        return result;
+
     }
 
     private void PrintDebugMessages(Date sentDate, Date receiveDate, String from,
@@ -386,7 +353,6 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
     @Override
     protected void done() {
-
 
         if (emailFinished) {
 
@@ -446,14 +412,14 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
         for (ProgressData pd : chunks) {
 
-            emaildialogue.getFrom().setText(FormatString(pd.getFrom()));
+            emaildialogue.getFrom().setText(formatInputString(pd.getFrom()));
             for (String s1 : pd.getCC()) {
-                emaildialogue.getCC().setText(FormatString(s1) + "\n");
+                emaildialogue.getCC().setText(formatInputString(s1) + "\n");
             }
             for (String s2 : pd.getCC()) {
-                emaildialogue.getBCC().setText(FormatString(s2) + "\n");
+                emaildialogue.getBCC().setText(formatInputString(s2) + "\n");
             }
-            emaildialogue.getSubject().setText(FormatString(pd.getSubject()));
+            emaildialogue.getSubject().setText(formatInputString(pd.getSubject()));
             emaildialogue.getTo().setText(pd.getTo());
             emaildialogue.getAttachments().setText(pd.getAttachments());
             emaildialogue.getSentDate().setText(pd.getSentDate());
@@ -461,12 +427,13 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         }
     }
 
-    private String FormatString(String input) {
-        if (!input.isEmpty()) {
-            return input;
-        } else {
-            return "";
+    private String formatInputString(String input) {
+        String result = "";
+        if (input != null) {
+            result = input;
         }
+
+        return result;
     }
 
     class EmailIterator {

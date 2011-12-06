@@ -1,6 +1,9 @@
 package edu.coeia.onlinemail;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import edu.coeia.util.FileUtil;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -98,7 +101,7 @@ public class OnlineEmailDBHandler {
                     bccList, 
                     ccList, 
                     resultSet.getString("SUBJECT"),
-                    resultSet.getString("BODY_MESSAGE"), 
+                    resultSet.getAsciiStream("BODY_MESSAGE"), 
                     resultSet.getString("SENT_DATE"),
                     resultSet.getString("CREATED_DATE"), 
                     listPaths, resultSet.getString("Folder_Name"));
@@ -114,7 +117,7 @@ public class OnlineEmailDBHandler {
 
     public void inserteEmail(int id,String Username, String From, String To, String Subject, String Body,
             String Created_Date, String Sent_Date, String CC, String BCC, String Path, String FolderName)
-            throws SQLException {
+            throws SQLException, UnsupportedEncodingException {
 
         String s = "insert into emails values(?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement psInsert = connection.prepareStatement(s);
@@ -123,7 +126,8 @@ public class OnlineEmailDBHandler {
         psInsert.setString(3, From);
         psInsert.setString(4, To);
         psInsert.setString(5, Subject);
-        psInsert.setString(6, Body);
+        InputStream is = new ByteArrayInputStream(Body.getBytes());
+        psInsert.setAsciiStream(6, is);
         psInsert.setString(7, Created_Date);
         psInsert.setString(8, Sent_Date);
         psInsert.setString(9, CC);
@@ -158,7 +162,7 @@ public class OnlineEmailDBHandler {
                 + "FROM_ADDRESS VARCHAR(500), "
                 + "TO_ADDRESS VARCHAR (800),  "
                 + "SUBJECT VARCHAR(500),"
-                + "BODY_MESSAGE VARCHAR(32000),"
+                + "BODY_MESSAGE CLOB(10 M),"
                 + "CREATED_DATE VARCHAR(100),"
                 + "SENT_DATE VARCHAR(100),"
                 + "CC VARCHAR(5000),"

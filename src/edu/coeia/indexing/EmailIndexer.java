@@ -18,7 +18,9 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.util.FilesPath;
+import java.io.InputStream;
 import java.util.Collections;
+import java.util.Scanner;
 import org.apache.tika.exception.TikaException;
 
 /**
@@ -95,7 +97,9 @@ final class EmailIndexer extends Indexer {
         return true;
     
     }
-
+    public String convertStreamToString(InputStream is) {
+        return new Scanner(is).useDelimiter("\\A").next();
+    }
     public Document getDocument(OnlineEmailMessage msg) throws CorruptIndexException, IOException, FileNotFoundException, TikaException, PSTException {
 
         Document doc = new Document();
@@ -103,7 +107,11 @@ final class EmailIndexer extends Indexer {
         doc.add(new Field(IndexingConstant.OnlineEmail_Id, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.OnlineEmail_FolderName, msg.getFolderName(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.OnlineEmail_From, msg.getFrom(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.OnlineEmail_Body, msg.getBody(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        
+        
+        doc.add(new Field(IndexingConstant.OnlineEmail_Body, convertStreamToString(msg.getBody()), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        
+        
         doc.add(new Field(IndexingConstant.OnlineEmail_Subject, msg.getSubject(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.OnlineEmail_SentDate, msg.getSentDate(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.OnlineEmail_ReceivedDate, msg.getReceiveDate(), Field.Store.YES, Field.Index.NOT_ANALYZED));
