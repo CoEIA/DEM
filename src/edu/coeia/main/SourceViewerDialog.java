@@ -27,9 +27,17 @@ import org.apache.lucene.document.Document;
 public class SourceViewerDialog extends javax.swing.JDialog {
     private String keyword ;
     private AdvancedSearchPanel advancedSearchPanel ;
-    private int currentId ;
     private LuceneSearcher searcher ;
-    private List<Integer> ids;
+    
+    /**
+     * Lucene Document ID number list and the current id opened now
+     */
+    private List<Integer> documentsNumber;
+    
+    /*
+     * the current index of the document list
+     */
+    private int currentListIndex ;
     
     /** Creates new form SourceViewerDialog */
     public SourceViewerDialog(java.awt.Frame parent, boolean modal, AdvancedSearchPanel panel) {
@@ -39,17 +47,11 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         
         this.advancedSearchPanel = panel;
         this.keyword = this.advancedSearchPanel.getQueryText();
-        this.currentId = this.advancedSearchPanel.getCurrentId() ;
         this.searcher = this.advancedSearchPanel.getLuceneSearcher();
-        this.ids = this.advancedSearchPanel.getIds();
+        this.documentsNumber = this.advancedSearchPanel.getIds();
+        this.currentListIndex = this.documentsNumber.indexOf(this.advancedSearchPanel.getCurrentId());
         
-        try {
-            Document document = this.searcher.getDocument(String.valueOf(this.currentId));
-            showDocument(document);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+        this.showDocumentWithIndex(this.currentListIndex);
     }
 
     /** This method is called from within the constructor to
@@ -78,9 +80,19 @@ public class SourceViewerDialog extends javax.swing.JDialog {
 
         previousButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/Previous48.png"))); // NOI18N
         previousButton.setText("Previous");
+        previousButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previousButtonActionPerformed(evt);
+            }
+        });
 
         nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/next48.png"))); // NOI18N
         nextButton.setText("Next");
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout movePanelLayout = new javax.swing.GroupLayout(movePanel);
         movePanel.setLayout(movePanelLayout);
@@ -109,9 +121,19 @@ public class SourceViewerDialog extends javax.swing.JDialog {
 
         tagButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/tag64.png"))); // NOI18N
         tagButton.setText("Tag Item");
+        tagButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tagButtonActionPerformed(evt);
+            }
+        });
 
         exportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/export48.png"))); // NOI18N
         exportButton.setText("Export Item");
+        exportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout itemsPanelLayout = new javax.swing.GroupLayout(itemsPanel);
         itemsPanel.setLayout(itemsPanelLayout);
@@ -171,7 +193,40 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void showDocument (Document document) {
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        this.currentListIndex++;
+        this.showDocumentWithIndex(this.currentListIndex);
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void previousButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousButtonActionPerformed
+        this.currentListIndex--;
+        this.showDocumentWithIndex(this.currentListIndex);
+    }//GEN-LAST:event_previousButtonActionPerformed
+
+    private void tagButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tagButtonActionPerformed
+
+    private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_exportButtonActionPerformed
+
+    private void showDocumentWithIndex (final int id) {
+        checkControlButtons();
+        showDocumentWithID(this.documentsNumber.get(id));    
+    }
+    
+    private void showDocumentWithID (final int docId ) {
+        try {
+            Document document = this.searcher.getDocument(String.valueOf(docId));
+            showPanelForDocument(document);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void showPanelForDocument (Document document) {
         if ( document.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE))) {
             FileSourceViewerPanel panel = new FileSourceViewerPanel(this);
             
@@ -197,9 +252,33 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             System.out.println("document: " + document.get(IndexingConstant.DOCUMENT));
     }
     
+    /**
+     * Enable or disable back/next button depend on current list id and max list id
+     */
+    private void checkControlButtons () {
+        if ( this.documentsNumber.size() == 1 ) {
+            this.previousButton.setEnabled(false);
+            this.nextButton.setEnabled(true);
+            return ;
+        }
+        
+        if ( this.currentListIndex == 0 )
+            this.previousButton.setEnabled(false);
+        else
+            this.previousButton.setEnabled(true);
+        
+        if ( this.currentListIndex == this.documentsNumber.size()-1 )
+            this.nextButton.setEnabled(false);
+        else
+            this.nextButton.setEnabled(true);
+        
+        // remove any panel from render panel
+        this.viewerPanel.removeAll();
+    }
+    
     LuceneSearcher getLuceneSearch() { return this.searcher ; }
     String getQueryString() { return this.keyword ; }
-    String getCurrentId() { return String.valueOf(this.currentId);  }
+    String getCurrentId() { return String.valueOf(this.documentsNumber.get(this.currentListIndex));  }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;

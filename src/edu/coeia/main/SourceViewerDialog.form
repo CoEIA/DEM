@@ -74,6 +74,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Previous"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="previousButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="nextButton">
               <Properties>
@@ -82,6 +85,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Next"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nextButtonActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -127,6 +133,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Tag Item"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tagButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="exportButton">
               <Properties>
@@ -135,6 +144,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Export Item"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exportButtonActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

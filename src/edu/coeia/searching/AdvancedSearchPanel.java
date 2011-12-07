@@ -509,9 +509,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
                 String fileId = String.valueOf(searchTable.getValueAt(row, 0));
                 this.currentId = Integer.parseInt(fileId);
                 
-                //Document document = getDocument(fileId);
-                //Document parent = getParentDocument(fileId);
-                
                 SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true, this);
                 panel.setVisible(true);
             }

@@ -62,24 +62,15 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             long start = new Date().getTime();
             
             count = searcher.search(queryString, this.searchScope);
-
-            //fillTable();
             
             long end = new Date().getTime();
             time = end-start ;
-
-            //searcher.closeSearcher();
-
            
         } catch (Exception ex) {
            ex.printStackTrace();
         }
 
         return "" + time ;
-    }
-
-    private void fillTable () {
-
     }
     
     private void showData(ProgressSearchData pd) {
@@ -127,11 +118,13 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         
         for (int i=0 ; i<count ; i++) {
             try {
-                ids.add(i);
                 Document document = searcher.getDocHits(i);
+                ids.add(Integer.parseInt(document.get(IndexingConstant.DOCUMENT_ID)));
                 showData(new ProgressSearchData(i, document));
             }
-            catch(Exception e) { e.printStackTrace();}
+            catch(Exception e) { 
+                e.printStackTrace();
+            }
         }
         
         panel.setResultId(ids);
