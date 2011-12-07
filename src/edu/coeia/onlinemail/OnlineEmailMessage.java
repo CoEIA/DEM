@@ -1,5 +1,6 @@
 package edu.coeia.onlinemail;
 
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,21 +24,22 @@ public final class OnlineEmailMessage {
      * @param receive the date that the message was receiving to destination
      * @return new instance of EmailMessage
      */
-    public static OnlineEmailMessage newInstance(int id, String from, 
-            List<String> bcc, List<String> cc, String subject, String body,
+    public static OnlineEmailMessage newInstance(int id, String Username, String from,String to, 
+            List<String> bcc, List<String> cc, String subject, InputStream body,
             String sent, String receive, List<String> path,String FolderName) {
 
-        return new OnlineEmailMessage(id, from, bcc, cc, subject, body, sent, receive, path,FolderName);
+        return new OnlineEmailMessage(id,Username, from,to, bcc, cc, subject, body, sent, receive, path,FolderName);
     }
 
     /**
      * private constructor to construct email message
      */
-    private OnlineEmailMessage(int id, String from, 
+    private OnlineEmailMessage(int id,String username, String from,String to, 
             List<String> bcc, List<String> cc,
-            String subject, String body, String sent, String receive, List<String> path,String FolderName) {
+            String subject, InputStream body, String sent, String receive, List<String> path,String FolderName) {
         
         this.id = id;
+        this.username = username;
         this.from = from;
         this.bcc = bcc;
         this.cc = cc;
@@ -47,6 +49,7 @@ public final class OnlineEmailMessage {
         this.receiveDate = receive;
         this.attachments = path;
         this.FolderName  = FolderName;
+        this.to          = to;
     }
 
     /**
@@ -63,6 +66,10 @@ public final class OnlineEmailMessage {
     public int getId() {
         return this.id;
     }
+    public String getUsername()
+    {
+        return this.username;
+    }
 
     public String getFrom() {
         return this.from;
@@ -72,8 +79,12 @@ public final class OnlineEmailMessage {
         return this.subject;
     }
 
-    public String getBody() {
+    public InputStream getBody() {
         return this.body;
+    }
+    public String getTo()
+    {
+        return this.to;
     }
 
     public String getSentDate() {
@@ -101,10 +112,11 @@ public final class OnlineEmailMessage {
     
     private final int id;
     private final String from;
+    private final String username;
     private final String subject;
-    private final String body;
+    private final InputStream body;
     private final List<String> cc;
     private final List<String> bcc;
     private final List<String> attachments;
-    private final String sentDate, receiveDate,FolderName;
+    private final String sentDate, receiveDate,FolderName,to;
 }

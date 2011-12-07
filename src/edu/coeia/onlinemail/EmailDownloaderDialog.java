@@ -28,7 +28,7 @@ import javax.swing.JTextField;
 public class EmailDownloaderDialog extends javax.swing.JDialog {
 
     public OnlineEmailDownloader downloader;
-   
+    private Case aCase ;   
 
     public EmailDownloaderDialog() throws NoSuchProviderException, MessagingException, IOException, SQLException {
     }
@@ -38,6 +38,12 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(parent);        
         DownloadProgressBar.setIndeterminate(true);
+        this.aCase = aCase;
+    }
+    
+    public Case getCase()
+    {
+        return this.aCase;
     }
 
     public JTextField getFrom() {

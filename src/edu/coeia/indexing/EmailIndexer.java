@@ -15,6 +15,12 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.util.FilesPath;
+
+import edu.coeia.util.Utilities;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.Scanner;
+
 import org.apache.tika.exception.TikaException;
 
 /**
@@ -77,10 +83,11 @@ final class EmailIndexer extends Indexer {
         doc.add(new Field(IndexingConstant.ONLINE_EMAIL_MESSAGE_ID, String.valueOf(msg.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME, msg.getFolderName(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.ONLINE_EMAIL_FROM, msg.getFrom(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.ONLINE_EMAIL_BODY, msg.getBody(), Field.Store.YES, Field.Index.ANALYZED));
+        doc.add(new Field(IndexingConstant.ONLINE_EMAIL_BODY, Utilities.convertStreamToString(msg.getBody()), Field.Store.YES, Field.Index.ANALYZED));
         doc.add(new Field(IndexingConstant.ONLINE_EMAIL_SUBJECT, msg.getSubject(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.ONLINE_EMAIL_SENT_DATE, msg.getSentDate(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.ONLINE_EMAIL_RECIEVED_DATE, msg.getReceiveDate(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.ONLINE_EMAIL_TO, msg.getTo(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         for (String sBcc : msg.getBCC()) {
             doc.add(new Field(IndexingConstant.ONLINE_EMAIL_BCC, sBcc, Field.Store.YES, Field.Index.NOT_ANALYZED));

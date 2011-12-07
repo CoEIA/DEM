@@ -14,7 +14,9 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.Toolkit ;
 import java.awt.datatransfer.StringSelection ;
 
+import java.io.InputStream;
 import java.util.List ;
+import java.util.Scanner;
 import java.util.logging.Logger ;
 
 
@@ -147,5 +149,9 @@ public class Utilities {
      */
     public static boolean textHasContent(String aText) {
         return aText != null && !aText.isEmpty() ;
+    }
+    
+    public static String convertStreamToString(InputStream is) {
+        return new Scanner(is).useDelimiter("\\A").next();
     }
 }

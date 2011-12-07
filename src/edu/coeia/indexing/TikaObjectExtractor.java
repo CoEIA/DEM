@@ -7,10 +7,13 @@ package edu.coeia.indexing ;
 
 import edu.coeia.util.FileUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.tika.extractor.ContainerExtractor;
 import org.apache.tika.extractor.ParserContainerExtractor;
 import org.apache.tika.extractor.EmbeddedResourceHandler;
@@ -125,11 +128,14 @@ class TikaObjectExtractor {
             // ignore ole file
             if ( filename.startsWith("ole-") )
                 return ;
-            
-            extractEmbbeddedObject(stream, filename, mediaType.toString(), mediaType.getSubtype());
+            try {
+                extractEmbbeddedObject(stream, filename, mediaType.toString(), mediaType.getSubtype());
+            } catch (IOException ex) {
+                Logger.getLogger(TikaObjectExtractor.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     
-        private void extractEmbbeddedObject(InputStream stream, String originalFilePath, String type, String ext) {
+        private void extractEmbbeddedObject(InputStream stream, String originalFilePath, String type, String ext) throws IOException {
             String newFileName = originalFilePath ;
 
             if (this.type == OBJECT_TYPE.CONTAINER ) { // extract images  from file 
