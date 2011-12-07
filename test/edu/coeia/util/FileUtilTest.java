@@ -19,18 +19,18 @@ import java.io.File ;
 public class FileUtilTest {
     
     @Test(expected=NullPointerException.class)
-    public void saveNullStreamTest() {
+    public void saveNullStreamTest() throws Exception{
         FileUtil.saveObject(null, "file", "C:\\");
     }
     
     @Test(expected=NullPointerException.class)
-    public void saveNullLocation() {
+    public void saveNullLocation()  throws Exception{
         InputStream stream = new ByteArrayInputStream(new byte[] {123, 43, 53, 34} );
         FileUtil.saveObject(stream, "test.txt", null);
     }
     
     @Test
-    public void saveStreamTest() {
+    public void saveStreamTest()  throws Exception{
         
         InputStream stream = new ByteArrayInputStream(new byte[] {123, 43, 53, 34} );
         FileUtil.saveObject(stream, "test.txt", "C:\\");
@@ -44,7 +44,7 @@ public class FileUtilTest {
     }
     
     @Test(expected=IllegalArgumentException.class)
-    public void saveStreamEmptyPathTest() {
+    public void saveStreamEmptyPathTest()  throws Exception{
         
         InputStream stream = new ByteArrayInputStream(new byte[] {123, 43, 53, 34} );
         FileUtil.saveObject(stream, "", "C:\\");

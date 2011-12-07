@@ -19,7 +19,7 @@ import java.util.Map ;
 public class TikaExtractorTest extends CaseBaseSource{
     
    @Test
-   public void extractTextFileContent() {
+   public void extractTextFileContent()  throws Exception{
        TikaExtractor extractor = TikaExtractor.getExtractor(files.get(0), mimeType);
        String content = extractor.getContent().trim();
        System.out.println("content: " + content);
@@ -27,7 +27,7 @@ public class TikaExtractorTest extends CaseBaseSource{
    }
    
    @Test
-   public void extractTextFileMetadata() {
+   public void extractTextFileMetadata()  throws Exception{
         TikaExtractor extractor = TikaExtractor.getExtractor(files.get(0), mimeType);
         Map<String, String> metadata = extractor.getMetadata();
         
@@ -36,7 +36,7 @@ public class TikaExtractorTest extends CaseBaseSource{
    
    // test another file DOCX
    @Test
-   public void extractDOCXFileContent() {
+   public void extractDOCXFileContent()  throws Exception{
        TikaExtractor extractor = TikaExtractor.getExtractor(files.get(1), "");
        String content = extractor.getContent();
        
@@ -45,7 +45,7 @@ public class TikaExtractorTest extends CaseBaseSource{
    
    // test another file RTF
    @Test
-   public void extractRTFFileContent() {
+   public void extractRTFFileContent()  throws Exception{
        TikaExtractor extractor = TikaExtractor.getExtractor(files.get(2), "");
        String content = extractor.getContent();
        
@@ -54,7 +54,7 @@ public class TikaExtractorTest extends CaseBaseSource{
    
    // test PDF file
    @Test
-   public void extractPDFFileContent() {
+   public void extractPDFFileContent()  throws Exception{
        TikaExtractor extractor = TikaExtractor.getExtractor(files.get(3), "");
        assertTrue(extractor.getContent().contains("Hashes sometimes show up in unusual circumstances"));
    }

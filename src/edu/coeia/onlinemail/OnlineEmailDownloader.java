@@ -1,6 +1,7 @@
 package edu.coeia.onlinemail;
 
 import edu.coeia.util.FileUtil;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import static edu.coeia.util.PreconditionsChecker.*;
@@ -164,30 +165,9 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         FileUtil.createFolder(attachmentsPath);
 
 
-        this.emaildialogue.addWindowListener(new WindowListener() {
-
+        this.emaildialogue.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
-
                 cancel(true);
-
-            }
-
-            public void windowOpened(WindowEvent e) {
-            }
-
-            public void windowClosing(WindowEvent e) {
-            }
-
-            public void windowIconified(WindowEvent e) {
-            }
-
-            public void windowDeiconified(WindowEvent e) {
-            }
-
-            public void windowActivated(WindowEvent e) {
-            }
-
-            public void windowDeactivated(WindowEvent e) {
             }
         });
 
@@ -236,7 +216,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
             if ((folder.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
                 try {
-                    System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
+                    //System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
                     folder.open(Folder.READ_ONLY);
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -495,7 +475,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         this.Password = Password;
 
         /****************************/
-        session.setDebug(true);
+        //session.setDebug(true);
     }
 
     private void ListAllFolders() throws MessagingException {
