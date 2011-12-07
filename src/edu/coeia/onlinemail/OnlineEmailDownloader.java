@@ -7,7 +7,6 @@ import java.awt.event.WindowListener;
 import static edu.coeia.util.PreconditionsChecker.*;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 
 import java.io.InputStream;
@@ -41,11 +40,7 @@ import javax.mail.MessagingException;
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.FolderClosedException;
-import javax.mail.Message.RecipientType;
-import javax.mail.internet.ContentType;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeUtility;
-import javax.mail.internet.ParseException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
@@ -248,7 +243,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         // Get cc, bcc, to list
                         List<String> cclist = getAddress(message, Message.RecipientType.CC);
                         List<String> bcclist = getAddress(message, Message.RecipientType.BCC);
-                        List<String> to =   getAddress(message, Message.RecipientType.BCC);
+                        List<String> to =   getAddress(message, Message.RecipientType.TO);
                         
                         String ccBuilder = getFormattedString(cclist);
                         String bccBuilder = getFormattedString(bcclist);
@@ -272,15 +267,23 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         publish(PData);
 
                     } // Continue Crawling after Folder Closed Exception ** POP3 Only
+                    
+                  
                     catch (FolderClosedException ex) {
-                        ex.printStackTrace();
-                        ConnectPop3(Username, Password);
+                          ex.printStackTrace();
+                          ConnectPop3(Username, Password);
                         if (!folder.isOpen()) {
                             folder.open(Folder.READ_ONLY);
                             messages = folder.getMessages();
                         }
                     } catch (MessagingException ex) {
                         ex.printStackTrace();
+                        if (!folder.isOpen()) {
+                            ConnectPop3(Username, Password);
+                            folder.open(Folder.READ_ONLY);
+                            messages = folder.getMessages();
+
+                        }
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
