@@ -172,7 +172,7 @@ public class FileUtil {
         return content.toString();
     }
 
-   public static String getFileContentWithSpace (File file) throws FileNotFoundException {
+    public static String getFileContentWithSpace (File file) throws FileNotFoundException {
         Scanner input = new Scanner(file);
         StringBuilder content = new StringBuilder("");
         while ( input.hasNext() )
@@ -192,7 +192,7 @@ public class FileUtil {
         return (aList);
     }    
     
-    public static String getExtension (File f){
+    public static String getExtension (File f) {
         if ( !f.exists() || f.isDirectory() ) {
             return null ;
         }

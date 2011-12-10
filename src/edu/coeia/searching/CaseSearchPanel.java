@@ -21,16 +21,22 @@ import javax.swing.JFrame;
  */
 public class CaseSearchPanel extends javax.swing.JPanel {
 
+    private AdvancedSearchPanel advancedSearchPanel ;
+    
     /** Creates new form CaseSearchPanel */
     public CaseSearchPanel(Case aIndex, JFrame parentFrame) {
         initComponents();
         
         // make tap panel
-        AdvancedSearchPanel advancedSearchPanel = new AdvancedSearchPanel(aIndex, parentFrame);
+        this.advancedSearchPanel = new AdvancedSearchPanel(aIndex, parentFrame);
         //ConnectedSearchPanel connectedSearchPanel = new ConnectedSearchPanel();
         
         this.caseSearchTappedPane.add("Advanced Search", advancedSearchPanel);
         //this.caseSearchTappedPane.add("Connected Search", connectedSearchPanel);
+    }
+    
+    public void setFocusInAdvancedSearchPanel () {
+        this.advancedSearchPanel.setQueryTextFeildFocusable();
     }
 
     /** This method is called from within the constructor to

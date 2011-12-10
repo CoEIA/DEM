@@ -90,11 +90,11 @@ class TikaObjectExtractor {
      * Object Location hold information about the file extracted from object
      */
     static class ObjectLocation {
-        public String fileName ;
-        public String type;
-        public String extension ;
-        public String oldFilePath ;
-        public String newFilePath ;
+        final String fileName ;
+        final String type;
+        final String extension ;
+        final String oldFilePath ;
+        final String newFilePath ;
         
         public ObjectLocation(String fn, String t, String oldF, String newF, String ext) {
             this.fileName = fn;
@@ -145,30 +145,22 @@ class TikaObjectExtractor {
                 newFileName += type.substring(type.indexOf('/')+1);
             }
 
-            String fileName = newFileName;
-
-            // ignore empty subfolder and extract file name
-            if ( originalFilePath.contains("\\") ) {
-                String[] tmp = originalFilePath.split("\\\\");
-                fileName = tmp[tmp.length-1];
-
-                // check empty folder
-                if ( tmp.length == 1) {
-                    System.out.println("Empty Folder...");
-                    return;
-                }
-            }
-
+            // write object in same directory structures (if its inside archive file)
+            // it will create nessacery folders to move the objects
+            File objectFile = new File(this.destination + "\\" + newFileName);
+            File destinationParent = objectFile.getParentFile();
+            destinationParent.mkdirs();
+        
             // get distenation path
-            String distenationPath = this.destination + "\\" + fileName;
+            String distenationPath = objectFile.getAbsolutePath();
 
             // create location object
-            ObjectLocation location = new ObjectLocation(fileName, type, originalFilePath,
+            ObjectLocation location = new ObjectLocation(objectFile.getName(), type, originalFilePath,
                     distenationPath, ext);
             locations.add(location);
 
             // write object to file
-            FileUtil.saveObject(stream, fileName, this.destination);
+            FileUtil.saveObject(stream, objectFile.getName(), destinationParent.getAbsolutePath());
         }
     }
 }

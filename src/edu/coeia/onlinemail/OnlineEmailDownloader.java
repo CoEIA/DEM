@@ -161,8 +161,6 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
 
         this.emaildialogue.addWindowListener(new WindowAdapter() {
-
-            
             public void windowClosed(WindowEvent e) {
                 cancel(true);
             }
@@ -217,7 +215,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
             if ((folder.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
                 try {
-                    System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
+                    //System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
                     folder.open(Folder.READ_ONLY);
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -464,7 +462,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         this.Password = Password;
 
         /****************************/
-        session.setDebug(true);
+        //session.setDebug(true);
     }
 
     private void ListAllFolders() throws MessagingException {

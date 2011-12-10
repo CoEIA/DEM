@@ -14,7 +14,9 @@ import javax.swing.filechooser.FileSystemView;
 import java.awt.Toolkit ;
 import java.awt.datatransfer.StringSelection ;
 
+import java.io.InputStream;
 import java.util.List ;
+import java.util.Scanner;
 import java.util.logging.Logger ;
 
 
@@ -25,6 +27,20 @@ import java.util.logging.Logger ;
 
 public class Utilities {
 
+    /**
+     * Highlight the content with yellow color 
+     * the content that will be highlighted is the keyword
+     * @param content original content
+     * @param keyword the keyword to be highlighted
+     * @return highlighted string 
+     */
+    public static String highlightString (final String content, final String keyword) {
+        String highlither = "<span style=\"background-color: #FFFF00\">" + keyword +  "</span>" ;
+        String highlitedString = content.replace(keyword, highlither);
+        
+        return highlitedString ;
+    }
+        
     public static void selectObjectInExplorer (String path) throws Exception{
         Runtime rt = Runtime.getRuntime();
         rt.exec("explorer /select," + path);
@@ -133,5 +149,9 @@ public class Utilities {
      */
     public static boolean textHasContent(String aText) {
         return aText != null && !aText.isEmpty() ;
+    }
+    
+    public static String convertStreamToString(InputStream is) {
+        return new Scanner(is).useDelimiter("\\A").next();
     }
 }

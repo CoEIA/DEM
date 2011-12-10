@@ -35,20 +35,17 @@ public class TikaExtractor {
     /*
      * Extract Text Content and Metadata From Any Documents
      */
-    public static TikaExtractor getExtractor(File file, String mimeType) {
+    public static TikaExtractor getExtractor(File file, String mimeType) throws FileNotFoundException, IOException, SAXException, 
+            TikaException{
         return new TikaExtractor(file, mimeType);
     }
     
-    private TikaExtractor (File file, String mimeType) {
+    private TikaExtractor (File file, String mimeType) throws FileNotFoundException, IOException, SAXException, 
+            TikaException {
         this.file = file ;
         this.mimeType = mimeType;
-        
-        try {
-            processObject();
-        }
-        catch(Exception e) {
-            
-        }
+
+        processObject();
     }
     
     public String getContent() {

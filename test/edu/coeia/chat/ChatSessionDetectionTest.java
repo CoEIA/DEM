@@ -25,11 +25,12 @@ public class ChatSessionDetectionTest {
     
     @Test
     @Ignore
-    public void printYahooChatMethod() {
+    public void printYahooChatMethod() throws Exception {
         List<String> casePath = new YahooDetector().getFilesInCurrentSystem();
         
         for(String path: casePath) {
-            List<YahooChatSession> sessions = YahooMessageReader.getAllYahooChatSession(path);
+            YahooMessageReader reader = new YahooMessageReader();
+            List<YahooChatSession> sessions = reader.getAllYahooChatSession(path);
             
             for(YahooChatSession session: sessions) {
                 System.out.println("Conversation Between : " + session.userName + " and: " + session.otherName);
@@ -46,12 +47,13 @@ public class ChatSessionDetectionTest {
     }
     
     @Test
-    public void yahooChatDetectionTest1() {
+    public void yahooChatDetectionTest1() throws Exception {
         List<String> casePath = new ArrayList<String>();
         casePath.add("C:\\Program Files\\Yahoo!\\Messenger\\Profiles");
         
         for(String path: casePath) {
-            List<YahooChatSession> sessions = YahooMessageReader.getAllYahooChatSession(path);
+            YahooMessageReader reader = new YahooMessageReader();
+            List<YahooChatSession> sessions = reader.getAllYahooChatSession(path);
             assertEquals(4, sessions.size());
         }
     }

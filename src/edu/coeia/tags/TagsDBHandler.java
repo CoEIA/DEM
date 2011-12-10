@@ -163,9 +163,9 @@ final class TagsDBHandler {
 
         String tagsTable =
                 "CREATE TABLE case_tags ("
-                + "NAME VARCHAR(255), "
+                + "NAME VARCHAR(1024), "
                 + "WHEN TIMESTAMP,"
-                + "CONTENT VARCHAR(255)"
+                + "CONTENT VARCHAR(2048)"
                 + ")";
 
         statement.execute(tagsTable);

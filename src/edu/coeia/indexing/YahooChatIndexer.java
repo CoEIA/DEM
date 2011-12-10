@@ -23,14 +23,14 @@ import java.util.List ;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexWriter;
 
-public class YahooChatIndexer extends Indexer{
+public final class YahooChatIndexer extends Indexer{
     
     /**
      *  chat type
      */
     private static final String CHAT_AGENT = "YAHOO" ;
+    private int parentId ;
     
     /**
      * static factory method to get an instance of YahooChatIndexer
@@ -64,26 +64,33 @@ public class YahooChatIndexer extends Indexer{
             int parentId) {
         
         super(luceneIndex, file, mimeType, imageExtractor);
+        this.parentId = parentId ;
     }
     
     @Override
     public boolean doIndexing() {
+        boolean status = false ;
         
         try {
-           List<YahooChatSession> sessions = YahooMessageReader.getAllYahooChatSession(this.file.getAbsolutePath());
-
+            YahooMessageReader reader = new YahooMessageReader();
+            List<YahooChatSession> sessions = reader.getAllYahooChatSession(this.file.getAbsolutePath());
+            
+            id++;
+            
+            // then index the chat seesions in this file
             for(YahooChatSession session: sessions) {
                 for(YahooConversation conversation: session.conversations) {
+                    // index the .DAT file first
+                    String datPath = conversation.path ;
+                    this.parentId = id;
+                    luceneIndex.indexFile(new File(datPath), parentId);
+                
                     for(YahooMessage msg: conversation.messages) {
-                        
                         Document doc = getDocument(msg,  session.userName, session.otherName , conversation.path); // add parentid and parent metadata here
-                        System.out.println("indexing : " + msg.getCipherText());
-                        
-                        //int objectId = id;
-
+                       
                         if (doc != null) {
                             this.luceneIndex.getWriter().addDocument(doc);    // index file
-                            //this.id++;                       // increase the id counter if file indexed successfully
+                            this.id++;                       // increase the id counter if file indexed successfully
 
                         } else {
                             System.out.println("Fail Parsing: " + file.getAbsolutePath());
@@ -94,13 +101,13 @@ public class YahooChatIndexer extends Indexer{
                 }
             }
         
-            return true;
+            status = true;
         }
         catch(Exception e){
-            e.printStackTrace();
+            throw new UnsupportedOperationException(e.getMessage());
         }
 
-        return false;
+        return status;
     }
     
     private Document getDocument(YahooMessage msg, String profileName, String destinationName, String path) {
@@ -127,6 +134,12 @@ public class YahooChatIndexer extends Indexer{
         catch(UnsupportedEncodingException e) {
         }
         
+        // genric lucene fileds
+        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        
+        // specific lucene fileds
         doc.add(new Field(IndexingConstant.CHAT_AGENT, CHAT_AGENT, Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_FILE, path, Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_FROM, from, Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -135,6 +148,8 @@ public class YahooChatIndexer extends Indexer{
         doc.add(new Field(IndexingConstant.CHAT_MESSAGE, result.toString(), Field.Store.YES, Field.Index.ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_LENGTH, String.valueOf(msg.getMessageLength()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_MESSAGE_PATH, msg.getMessagePath().toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        
+        
         
         return doc;
     }

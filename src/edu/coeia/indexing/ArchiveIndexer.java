@@ -33,25 +33,29 @@ final class ArchiveIndexer extends Indexer {
         
     @Override
     public boolean doIndexing() {
-        String folderName = this.tmpLocation;
+        boolean status = false ;
         
-        // extract all the archive content in temp folder
-        TikaObjectExtractor.EmbeddedObjectHandler handler = TikaObjectExtractor.getExtractor(
-                this.file.getAbsolutePath(), folderName,
-                TikaObjectExtractor.OBJECT_TYPE.ARCHIVE).extract();
-        
-        if ( handler != null ) {
-            for(TikaObjectExtractor.ObjectLocation location: handler.getLocations()) {
-                System.out.println("object: " + location.oldFilePath + " , " + location.newFilePath);
-                try {
+        try {
+            String folderName = this.tmpLocation;
+
+            // extract all the archive content in temp folder
+            TikaObjectExtractor.EmbeddedObjectHandler handler = TikaObjectExtractor.getExtractor(
+                    this.file.getAbsolutePath(), folderName,
+                    TikaObjectExtractor.OBJECT_TYPE.ARCHIVE).extract();
+
+            if ( handler != null ) {
+                for(TikaObjectExtractor.ObjectLocation location: handler.getLocations()) {
+                    System.out.println("Extract: " + location.oldFilePath + " TO: " + location.newFilePath);
                     luceneIndex.indexFile(new File(location.newFilePath), parentId);
                 }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
             }
+
+            status = true;
+        }
+        catch (Exception e) {
+            throw new UnsupportedOperationException(e.getMessage());
         }
         
-        return true;
+        return status; 
     }
 }
