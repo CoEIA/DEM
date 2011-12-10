@@ -9,6 +9,8 @@ import java.util.GregorianCalendar;
 import java.util.Calendar ;
 
 import java.util.prefs.Preferences;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 
 
 /**
@@ -81,7 +83,7 @@ public enum LicenseManager {
 
         Date expireDate = addDays(installDate, TRIAL_LENGTH);
 
-        int diff = subtractDays( expireDate, currentDate);
+        int diff = subtractDaysJodaImpl( expireDate, currentDate);
         
         return (diff);
     }
@@ -115,6 +117,17 @@ public enum LicenseManager {
         days2 += gc2.get(Calendar.DAY_OF_YEAR) - 1;
 
         return (days1 - days2);
+    }
+    
+    
+    /*
+     * Joda implementation
+     */
+    private int subtractDaysJodaImpl(Date date1, Date date2) {
+        DateTime install = new DateTime(date1);
+        DateTime current = new DateTime(date2);
+        
+        return Days.daysBetween(current, install).getDays();
     }
     
     /**
