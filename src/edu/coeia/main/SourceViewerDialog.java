@@ -10,13 +10,20 @@
  */
 package edu.coeia.main;
 
+import edu.coeia.cases.CaseManagerFrame;
 import edu.coeia.searching.AdvancedSearchPanel;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.searching.LuceneSearcher ;
+import edu.coeia.tags.Tag;
+import edu.coeia.tags.TagsDialog;
 
+import edu.coeia.tags.TagsManager;
 import java.awt.BorderLayout;
+import java.awt.Frame;
 
 import java.util.List; 
+
+import javax.swing.JPanel;
 
 import org.apache.lucene.document.Document;
 
@@ -28,6 +35,9 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private String keyword ;
     private AdvancedSearchPanel advancedSearchPanel ;
     private LuceneSearcher searcher ;
+    private Document currentDocument ;
+    private Frame parent ;
+    private TagsManager tagManger  ;
     
     /**
      * Lucene Document ID number list and the current id opened now
@@ -43,14 +53,15 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     public SourceViewerDialog(java.awt.Frame parent, boolean modal, AdvancedSearchPanel panel) {
         super(parent, modal);
         initComponents();
-        this.setLocationRelativeTo(parent);
         
+        this.setLocationRelativeTo(parent);
+        this.parent = parent ;
+        this.tagManger = ((CaseFrame) parent).getTagsManager();
         this.advancedSearchPanel = panel;
         this.keyword = this.advancedSearchPanel.getQueryText();
         this.searcher = this.advancedSearchPanel.getLuceneSearcher();
         this.documentsNumber = this.advancedSearchPanel.getIds();
         this.currentListIndex = this.documentsNumber.indexOf(this.advancedSearchPanel.getCurrentId());
-        
         this.showDocumentWithIndex(this.currentListIndex);
     }
 
@@ -204,13 +215,42 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_previousButtonActionPerformed
 
     private void tagButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagButtonActionPerformed
-        // TODO add your handling code here:
+        tagDocument(this.currentDocument);
     }//GEN-LAST:event_tagButtonActionPerformed
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_exportButtonActionPerformed
 
+    private void tagDocument(final Document document) {
+        StringBuilder result = new StringBuilder();
+        
+        if ( isFileDocument(document) ) {
+            String fileName = document.get(IndexingConstant.FILE_TITLE);
+            String filePath = document.get(IndexingConstant.FILE_NAME);
+            String date = document.get(IndexingConstant.FILE_DATE);
+            String embedded = document.get(IndexingConstant.DOCUMENT_PARENT_ID);
+            String mime = document.get(IndexingConstant.FILE_MIME);
+            
+            result.append("File: ").append(fileName).append("\n")
+                    .append("Location: ").append(filePath).append("\n")
+                    .append("Modification Time: ").append(date).append("\n")
+                    .append("Extension: ").append(mime).append("\n")
+                    .append("Contain: ").append(embedded).append(" Document(s)").append("\n");
+        }
+        
+        TagsDialog tagDialog = new TagsDialog(this.parent, true);
+        tagDialog.setContent(result.toString());
+        tagDialog.setVisible(true);
+        
+        Tag tag = tagDialog.getTag();
+        
+        if ( tag !=  null ) {
+            this.tagManger.addTag(tag);
+            ((CaseFrame)this.parent).refreshTagsList();
+        }
+    }
+    
     private void showDocumentWithIndex (final int id) {
         checkControlButtons();
         showDocumentWithID(this.documentsNumber.get(id));    
@@ -218,8 +258,8 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     
     private void showDocumentWithID (final int docId ) {
         try {
-            Document document = this.searcher.getDocument(String.valueOf(docId));
-            showPanelForDocument(document);
+            currentDocument = this.searcher.getDocument(String.valueOf(docId));
+            showPanelForDocument(currentDocument);
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -227,31 +267,38 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     }
     
     private void showPanelForDocument (Document document) {
-        if ( document.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE))) {
-            FileSourceViewerPanel panel = new FileSourceViewerPanel(this);
-            
-            this.viewerPanel.setLayout(new BorderLayout());
-            this.viewerPanel.add(panel, BorderLayout.CENTER);
-            this.viewerPanel.revalidate();
+        JPanel panel = null;
+        
+        if ( isFileDocument(document) ) {
+            panel = new FileSourceViewerPanel(this);
         }
-        else if ( document.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT))) {
-            ChatSourceViewerPanel panel = new ChatSourceViewerPanel(this);
-            
-            this.viewerPanel.setLayout(new BorderLayout());
-            this.viewerPanel.add(panel, BorderLayout.CENTER);
-            this.viewerPanel.revalidate();
+        else if ( isChatDocument(document) ) {
+            panel = new ChatSourceViewerPanel(this);
         }
-        else if ( document.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL)) ) {
-            EmailSourceViewerPanel panel = new EmailSourceViewerPanel(this);
-            
-            this.viewerPanel.setLayout(new BorderLayout());
-            this.viewerPanel.add(panel, BorderLayout.CENTER);
-            this.viewerPanel.revalidate();
+        else if ( isEmailDocument(document) ) {
+            panel = new EmailSourceViewerPanel(this);
         }
-        else
-            System.out.println("document: " + document.get(IndexingConstant.DOCUMENT));
+        
+        this.viewerPanel.setLayout(new BorderLayout());
+        this.viewerPanel.add(panel, BorderLayout.CENTER);
+        this.viewerPanel.revalidate();
     }
     
+    private boolean isFileDocument(final Document document) {
+        return document.get(IndexingConstant.DOCUMENT)
+                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE));
+    }
+    
+    private boolean isChatDocument(final Document document) {
+        return document.get(IndexingConstant.DOCUMENT)
+                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT));
+    }
+   
+    private boolean isEmailDocument(final Document document) {
+        return document.get(IndexingConstant.DOCUMENT)
+                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL));
+    }
+   
     /**
      * Enable or disable back/next button depend on current list id and max list id
      */

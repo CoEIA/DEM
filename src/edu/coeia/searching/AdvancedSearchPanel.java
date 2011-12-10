@@ -584,6 +584,10 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         this.queryTextField.requestFocusInWindow();
     }
     
+    void setSearchTableFocusable() {
+        this.searchTable.requestFocusInWindow();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CenterPanel;
     private javax.swing.JPanel LeftPanel;

@@ -519,6 +519,10 @@ public class CaseFrame extends javax.swing.JFrame {
     public Case getCase() { return this.caseObj ; }
     public TagsManager getTagsManager() { return this.tagsManager; }
     
+    public void refreshTagsList() {
+        this.caseManagerPanel.initializingTagsPanel();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CardPanel;
     private javax.swing.JMenu aboutMenu;

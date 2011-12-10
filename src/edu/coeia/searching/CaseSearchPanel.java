@@ -28,7 +28,7 @@ public class CaseSearchPanel extends javax.swing.JPanel {
         initComponents();
         
         // make tap panel
-        advancedSearchPanel = new AdvancedSearchPanel(aIndex, parentFrame);
+        this.advancedSearchPanel = new AdvancedSearchPanel(aIndex, parentFrame);
         //ConnectedSearchPanel connectedSearchPanel = new ConnectedSearchPanel();
         
         this.caseSearchTappedPane.add("Advanced Search", advancedSearchPanel);

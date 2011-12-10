@@ -128,5 +128,6 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         }
         
         panel.setResultId(ids);
+        panel.setSearchTableFocusable();
     }
 }

@@ -8,14 +8,12 @@
  *
  * Created on Nov 14, 2011, 8:58:11 AM
  */
-package edu.coeia.cases;
+package edu.coeia.tags;
 
 /**
  *
  * @author wajdyessam
  */
-
-import edu.coeia.tags.Tag ;
 
 import java.util.Date ;
 import javax.swing.JOptionPane;
@@ -96,7 +94,7 @@ public class TagsDialog extends javax.swing.JDialog {
         );
 
         tagContentTextArea.setColumns(20);
-        tagContentTextArea.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
+        tagContentTextArea.setFont(new java.awt.Font("Courier New", 0, 14));
         tagContentTextArea.setRows(5);
         jScrollPane1.setViewportView(tagContentTextArea);
 
@@ -188,50 +186,8 @@ public class TagsDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     public Tag getTag() { return this.tag ; }
+    public void setContent (final String content) { this.tagContentTextArea.setText(content); }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TagsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TagsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TagsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TagsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                TagsDialog dialog = new TagsDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextField createNameTextField;

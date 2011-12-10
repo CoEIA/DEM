@@ -10,6 +10,7 @@
  */
 package edu.coeia.cases;
 
+import edu.coeia.tags.TagsDialog;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.tags.TagsManager;
 import edu.coeia.tags.Tag ;
@@ -576,7 +577,7 @@ public final class CaseManagerPanel extends javax.swing.JPanel {
     /**
      * initializing tags panel 
      */
-    private void initializingTagsPanel() {
+    public void initializingTagsPanel() {
         List<Tag> tags = this.tagsManager.getTags();
         this.currentTagIndex = 0;
         
