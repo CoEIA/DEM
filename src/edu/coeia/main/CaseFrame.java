@@ -194,7 +194,6 @@ public class CaseFrame extends javax.swing.JFrame {
         fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         fileSystemToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/file-manager.png"))); // NOI18N
         fileSystemToggleButton.setText("File System");
-        fileSystemToggleButton.setEnabled(false);
         fileSystemToggleButton.setFocusable(false);
         fileSystemToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         fileSystemToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -206,7 +205,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(fileSystemToggleButton);
 
         headerGroupButton.add(emailToggleButton);
-        emailToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        emailToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         emailToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/email.png"))); // NOI18N
         emailToggleButton.setText("Online and Offline Email");
         emailToggleButton.setEnabled(false);

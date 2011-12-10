@@ -206,7 +206,6 @@
               <Image iconType="3" name="/edu/coeia/main/resources/file-manager.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="File System"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
