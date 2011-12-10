@@ -15,7 +15,7 @@ import org.joda.time.Days;
 
 /**
  * Singleton Class For License Management
- * @author wajdyessam
+ * @author wajdyessam 
  */
 
 public enum LicenseManager {
