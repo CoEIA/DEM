@@ -305,7 +305,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private void checkControlButtons () {
         if ( this.documentsNumber.size() == 1 ) {
             this.previousButton.setEnabled(false);
-            this.nextButton.setEnabled(true);
+            this.nextButton.setEnabled(false);
             return ;
         }
         
