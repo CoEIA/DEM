@@ -40,6 +40,7 @@ import java.util.Collections;
  */
 public class AdvancedSearchPanel extends javax.swing.JPanel {
     private Case caseObj;
+    private File caseLocation ;
     private LuceneSearcher searcher ;
     private JFrame parentFrame ;
     private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
@@ -54,14 +55,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         this.caseObj = aIndex;
         this.parentFrame = aParentFrame;
         this.resultId = new ArrayList<Integer>();
-        
-        try {
-            File indexLocation = new File (caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
-            this.searcher = new LuceneSearcher(indexLocation);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.caseLocation = new File (caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
         
         JTableUtil.packColumns(searchTable, 0);
         disableNotIndexedComponent();
@@ -535,6 +529,14 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private void startSearching () {
         removeSearchField(false,false);
 
+        try {
+            if ( this.searcher == null )
+                this.searcher = new LuceneSearcher(this.caseLocation);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+                
         if ( CaseHistoryHandler.get(this.caseObj.getIndexName()).getIsCaseIndexed() == false ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
