@@ -74,7 +74,7 @@ public class FileSignaturePanel extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        SignatureTableDB = new javax.swing.JTable();
         jToggleButton1 = new javax.swing.JToggleButton();
         SelectFolderPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -86,7 +86,7 @@ public class FileSignaturePanel extends javax.swing.JPanel {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DEM FileSignature DataBase:"));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        SignatureTableDB.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -97,7 +97,7 @@ public class FileSignaturePanel extends javax.swing.JPanel {
                 "File Extension", "File Signature", "File Type", "File Category"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        jScrollPane3.setViewportView(SignatureTableDB);
 
         jToggleButton1.setText("Add New Signature");
 
@@ -215,12 +215,12 @@ public class FileSignaturePanel extends javax.swing.JPanel {
     private javax.swing.JTable FileAnalysisTable;
     private javax.swing.JTree FolderListTree;
     private javax.swing.JPanel SelectFolderPanel;
+    private javax.swing.JTable SignatureTableDB;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable2;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }

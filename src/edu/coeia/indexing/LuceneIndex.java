@@ -65,7 +65,7 @@ final class LuceneIndex {
 	writer.close();
     }
     
-    boolean indexFile(File file) {
+    boolean indexFile(File file) throws UnsupportedOperationException{
         return indexFile(file, 0);
     }
     

@@ -1,6 +1,7 @@
 package edu.coeia.onlinemail;
 
 import edu.coeia.util.FileUtil;
+import edu.coeia.util.Utilities;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -46,67 +47,15 @@ import javax.swing.SwingWorker;
 
 class ProgressData {
 
-    private String From;
-    private String SentDate;
-    private String CreationDate;
-    private List<String> CC;
-    private List<String> BCC;
-    private String Attachments;
-    private String Subject;
-    private List<String> to;
-
-    public ProgressData() {
+   
+   OnlineEmailMessage mEmail;
+    
+    public ProgressData(OnlineEmailMessage msg) {
+       
+        this.mEmail = msg;
     }
 
-    public ProgressData(String From, List<String> To, String Subject, String SentDate,
-            String CreationDate, List<String> CC, List<String> BCC, String Attachments) {
-        this.From = From;
-        this.SentDate = SentDate;
-        this.CreationDate = CreationDate;
-        this.CC = CC;
-        this.BCC = BCC;
-        this.Attachments = Attachments;
-        this.Subject = Subject;
-        this.to = To;
-
-    }
-
-    public String getSubject() {
-        return this.Subject;
-    }
-
-    public String getTo() {
-
-        String to = new String();
-        for (String s : this.to) {
-            to = s;
-        }
-        return to;
-    }
-
-    public String getFrom() {
-        return this.From;
-    }
-
-    public String getSentDate() {
-        return this.SentDate;
-    }
-
-    public String getCreationDate() {
-        return this.CreationDate;
-    }
-
-    public List<String> getCC() {
-        return this.CC;
-    }
-
-    public List<String> getBCC() {
-        return this.BCC;
-    }
-
-    public String getAttachments() {
-        return this.Attachments;
-    }
+   
 }
 
 /**
@@ -248,13 +197,9 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         List<String> cclist = getAddress(message, Message.RecipientType.CC);
                         List<String> bcclist = getAddress(message, Message.RecipientType.BCC);
                         List<String> to =   getAddress(message, Message.RecipientType.TO);
-                        
-                        String ccBuilder = getFormattedString(cclist);
-                        String bccBuilder = getFormattedString(bcclist);
-                        String toBuilder = getFormattedString(to);
                        
                          
-                        String  from = getFrom(message); 
+                        String from = getFrom(message); 
                         String subject = formatInputString(message.getSubject());
                         String body = formatInputString(getText(message));
                         
@@ -262,12 +207,15 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         PrintDebugMessages(sentDate, receiveDate, from, cclist, bcclist, body, subject);
                         // Save Attachment
                         List<String> Paths = getAttachments(message);
-                        String pathBuilder = getFormattedString(Paths);
-                        // Save In DB
-                        db.inserteEmail(messageId, from, toBuilder, this.Username, subject, body, sentDate.toString(), receiveDate.toString(), ccBuilder, bccBuilder, pathBuilder.toString(), folder.getFullName());
+                        
+                        // Save In DBint id, String Username, String from, List<String> to, 
+      
+                        OnlineEmailMessage msg = OnlineEmailMessage.newInstance(messageId, this.Username,
+                                from, to, bcclist, cclist, subject, body, sentDate.toString(), receiveDate.toString(), Paths, folder.getFullName());
+                        db.inserteEmail(msg);
+                        
                         // Publish Data To Thread
-                        ProgressData PData = new ProgressData(from, to, subject, sentDate.toString(), receiveDate.toString(),
-                                cclist, bcclist, pathBuilder);
+                        ProgressData PData = new ProgressData(msg);
                         publish(PData);
 
                     } // Continue Crawling after Folder Closed Exception ** POP3 Only
@@ -379,18 +327,36 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
         for (ProgressData pd : chunks) {
 
-            emaildialogue.getFrom().setText(formatInputString(pd.getFrom()));
-            for (String s1 : pd.getCC()) {
-                emaildialogue.getCC().setText(formatInputString(s1) + "\n");
+            emaildialogue.getFrom().setText(formatInputString(pd.mEmail.getFrom()));
+
+            List<String> listCC = pd.mEmail.getCC();
+            if (!listCC.isEmpty()) {
+                for (String s1 : pd.mEmail.getCC()) {
+                    emaildialogue.getCC().setText(formatInputString(s1) + "\n");
+                }
+            } else {
+                emaildialogue.getCC().setText("\n");
             }
-            for (String s2 : pd.getCC()) {
-                emaildialogue.getBCC().setText(formatInputString(s2) + "\n");
+            List<String> listBcc = pd.mEmail.getBCC();
+            if (!listBcc.isEmpty()) {
+                for (String s2 : pd.mEmail.getBCC()) {
+                    emaildialogue.getBCC().setText(formatInputString(s2) + "\n");
+                }
+            } else {
+                emaildialogue.getBCC().setText("\n");
             }
-            emaildialogue.getSubject().setText(formatInputString(pd.getSubject()));
-            emaildialogue.getTo().setText(pd.getTo());
-            emaildialogue.getAttachments().setText(pd.getAttachments());
-            emaildialogue.getSentDate().setText(pd.getSentDate());
-         
+            emaildialogue.getSubject().setText(formatInputString(pd.mEmail.getSubject()));
+
+            for (String s2 : pd.mEmail.getTo()) {
+                emaildialogue.getTo().setText(formatInputString(s2) + "\n");
+            }
+
+            for (String s2 : pd.mEmail.getAttachments()) {
+                emaildialogue.getAttachments().setText(formatInputString(s2) + "\n");
+            }
+
+            emaildialogue.getSentDate().setText(pd.mEmail.getSentDate());
+
         }
     }
 
@@ -434,7 +400,12 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         private OnlineEmailMessage current;
     }
 
-    public void ConnectPop3(String UserName, String Password) throws NoSuchProviderException, MessagingException {
+    public boolean ConnectPop3(String UserName, String Password) 
+    {
+        
+        this.Username = UserName;
+        this.Password = Password;
+        
         Properties props = System.getProperties();
         String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
         props.setProperty("mail.pop3.socketFactory.class", SSL_FACTORY);
@@ -443,26 +414,60 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         props.setProperty("mail.pop3.socketFactory.port", "995");
 
         Session session = Session.getDefaultInstance(props, null);
-        store = session.getStore("pop3");
-        store.connect("pop3.live.com", 995, UserName, Password);
-        this.Username = UserName;
-        this.Password = Password;
+        try {
+            store = session.getStore("pop3");
+        } catch (NoSuchProviderException ex) {
+            
+            JOptionPane.showMessageDialog(this.emaildialogue, "Error Connecting to Hotmail", "Bad Such Provider", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+            return false;
+        }
+        try {
+            store.connect("pop3.live.com", 995, UserName, Password);
+        } catch (MessagingException ex1) {
+            Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex1);
+            JOptionPane.showMessageDialog(this.emaildialogue, "Check Username and Password for Hotmail", "Error in Connecting", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         /****************************/
-        session.setDebug(true);
+      //  session.setDebug(true);
+        
+        return true;
+      
     }
 
-    public void ConnectIMAP(String UserName, String Password) throws NoSuchProviderException, MessagingException {
+    public boolean ConnectIMAP(String UserName, String Password) {
+          
+        this.Username = UserName;
+        this.Password = Password;
+
         Properties props = System.getProperties();
         props.setProperty("mail.store.protocol", "imaps");
         props.setProperty("mail.imaps.partialfetch", "false");
         Session session = Session.getDefaultInstance(props, null);
-        store = session.getStore("imaps");
-        store.connect("imap.gmail.com", UserName, Password);
-        this.Username = UserName;
-        this.Password = Password;
+        try {
+            store = session.getStore("imaps");
+        } catch (NoSuchProviderException ex) {
+            JOptionPane.showMessageDialog(this.emaildialogue, "Error Connecting to Gmail", "Bad Such Provider", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+            return false;
+        }
+
+        try {
+            store.connect("imap.gmail.com", UserName, Password);
+        } catch (MessagingException ex1) {
+            Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex1);
+            JOptionPane.showMessageDialog(this.emaildialogue, "Check Username and Password for Gmail", "Error in Connecting", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
 
         /****************************/
-        //session.setDebug(true);
+      //  session.setDebug(true);
+
+        return true;
+
+        
     }
 
     private void ListAllFolders() throws MessagingException {
@@ -474,21 +479,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         }
     }
 
-    String getFormattedString(List<String> list) {
-        StringBuilder result = new StringBuilder();
-        if (list != null) {
-            for (int i = 0; i < list.size(); i++) {
-                result.append(list.get(i));
-                if (i < list.size() - 1) {
-                    result.append(',');
-                }
-            }
-        } else {
-
-            return "";
-        }
-       return result.toString();
-    }
+    
 
     private List<String> getAddress(Message message, Message.RecipientType type)
             throws MessagingException {

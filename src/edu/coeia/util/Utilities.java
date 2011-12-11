@@ -15,6 +15,8 @@ import java.awt.Toolkit ;
 import java.awt.datatransfer.StringSelection ;
 
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List ;
 import java.util.Scanner;
 import java.util.logging.Logger ;
@@ -27,6 +29,53 @@ import java.util.logging.Logger ;
 
 public class Utilities {
 
+    /**
+     * return hexadecimal representation of arrays as uppercase string
+     * @param bytes
+     * @return 
+     */
+    public static String toHex (final byte[] bytes) {
+        assert bytes != null ;
+        
+        StringBuilder hex = new StringBuilder();
+        
+        for (int i=0; i<bytes.length; i++) {
+            int byte1 = bytes[i] & 0xFF;
+            
+            if ( byte1 < 0xF )
+                hex.append("0");
+            
+            hex.append(Integer.toHexString(byte1).toUpperCase());
+        }
+        
+        return hex.toString();
+    }
+    
+   public static List<String> getStringListFromCommaSeparatedString(String input) {
+        List<String> list = Collections.emptyList();
+
+        if (!input.isEmpty()) {
+            String[] toArray = input.split(",");
+            list = Arrays.asList(toArray);
+        }
+        return list;
+    }
+
+   public static String getFormattedString(List<String> list) {
+        StringBuilder result = new StringBuilder();
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                result.append(list.get(i));
+                if (i < list.size() - 1) {
+                    result.append(',');
+                }
+            }
+        } else {
+
+            return "";
+        }
+        return result.toString();
+    }
     /**
      * Highlight the content with yellow color 
      * the content that will be highlighted is the keyword
@@ -152,6 +201,17 @@ public class Utilities {
     }
     
     public static String convertStreamToString(InputStream is) {
-        return new Scanner(is).useDelimiter("\\A").next();
+        String result = "";
+        if (is == null) {
+            return result;
+        }
+
+        Scanner sc = new Scanner(is);
+        try {
+            result = sc.useDelimiter("\\A").next();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return result;
     }
 }
