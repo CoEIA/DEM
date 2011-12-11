@@ -10,6 +10,7 @@ package edu.coeia.hash;
  */
 
 import edu.coeia.util.FileUtil;
+import edu.coeia.util.Utilities;
 import static edu.coeia.util.PreconditionsChecker.* ;
 
 import java.security.MessageDigest ;
@@ -61,7 +62,7 @@ public class HashCalculator {
         }
         
         public String done() {
-            return (toHex(digest.digest()));
+            return (Utilities.toHex(digest.digest()));
         }
     }
     
@@ -78,34 +79,12 @@ public class HashCalculator {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(FileUtil.getFileBytes(path));
-            digestString.append(toHex(md.digest()));
+            digestString.append(Utilities.toHex(md.digest()));
         }
         catch(NoSuchAlgorithmException e) {
             
         }
         
         return digestString.toString();
-    }
-    
-    /**
-     * return hexadecimal representation of arrays as uppercase string
-     * @param bytes
-     * @return 
-     */
-    private static String toHex (final byte[] bytes) {
-        assert bytes != null ;
-        
-        StringBuilder hex = new StringBuilder();
-        
-        for (int i=0; i<bytes.length; i++) {
-            int byte1 = bytes[i] & 0xFF;
-            
-            if ( byte1 < 0xF )
-                hex.append("0");
-            
-            hex.append(Integer.toHexString(byte1).toUpperCase());
-        }
-        
-        return hex.toString();
     }
 }

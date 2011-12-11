@@ -28,6 +28,28 @@ import java.util.logging.Logger ;
 public class Utilities {
 
     /**
+     * return hexadecimal representation of arrays as uppercase string
+     * @param bytes
+     * @return 
+     */
+    public static String toHex (final byte[] bytes) {
+        assert bytes != null ;
+        
+        StringBuilder hex = new StringBuilder();
+        
+        for (int i=0; i<bytes.length; i++) {
+            int byte1 = bytes[i] & 0xFF;
+            
+            if ( byte1 < 0xF )
+                hex.append("0");
+            
+            hex.append(Integer.toHexString(byte1).toUpperCase());
+        }
+        
+        return hex.toString();
+    }
+    
+    /**
      * Highlight the content with yellow color 
      * the content that will be highlighted is the keyword
      * @param content original content
