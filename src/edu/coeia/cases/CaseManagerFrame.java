@@ -296,7 +296,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             return ;
         }
         
-        if ( !caseManager.isContain(caseName)) {
+        if ( !caseManager.isRunningCase(caseName)) {
             removeCase(caseName);
             logger.info("Remove Case : " + caseName);
 
@@ -489,7 +489,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
     private void loadCase (String caseName, boolean startIndex) throws FileNotFoundException, IOException, ClassNotFoundException{
         if ( caseName != null ) {
-            if ( !caseManager.isContain(caseName)) {
+            if ( !caseManager.isRunningCase(caseName)) {
                 Case index = getCase(caseName);
 
                 caseManager.addCase(caseName);

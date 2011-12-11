@@ -588,6 +588,15 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         this.searchTable.requestFocusInWindow();
     }
     
+    void closeLuceneSearch() {
+        try {
+            this.searcher.closeSearcher();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CenterPanel;
     private javax.swing.JPanel LeftPanel;

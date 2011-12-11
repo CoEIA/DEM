@@ -39,6 +39,10 @@ public class CaseSearchPanel extends javax.swing.JPanel {
         this.advancedSearchPanel.setQueryTextFeildFocusable();
     }
 
+    public void closeSearcher() {
+        this.advancedSearchPanel.closeLuceneSearch();
+    }
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
