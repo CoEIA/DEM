@@ -72,16 +72,31 @@ public class FileUtil {
      * @param destination the location of the file to be saved
      * @throws NullPointerException if the stream, filename and destination contain null data
      */
-    public static void saveObject(InputStream stream, String filename, String destination) throws IOException {
+    public static void saveObject(InputStream stream, String filename, String destination) {
         filename = checkNull("filename can't be null", filename);
         destination = checkNull("destination string can't be null", destination);
         
         filename = checkNotEmptyString("filename must have value", filename);
         destination = checkNotEmptyString("destination must have a value", destination);
         
+        String filePath = destination + "\\" + filename;
+        saveObject(stream, filePath);
+    }
+    
+    /**
+     * Save the bytes in the stream to the specified location
+     * 
+     * This method will save the stream content to destination path
+     * 
+     * @param stream contain the stream for the file to be written
+     * @param destination the target destination
+     */
+    public static void saveObject(InputStream stream, String destination) {
+        destination = checkNull("destination string can't be null", destination);
+        destination = checkNotEmptyString("destination must have a value", destination);
+        
         try {
-            String filePath = destination + "\\" + filename;
-            File file = new File(filePath);
+            File file = new File(destination);
 
             OutputStream outputStream = new FileOutputStream(file);
 
@@ -98,6 +113,7 @@ public class FileUtil {
         catch (IOException e) {
         }
     }
+        
     
     /**
      * execute command line utility and read the output stream from it

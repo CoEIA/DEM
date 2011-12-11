@@ -18,11 +18,16 @@ import edu.coeia.tags.Tag;
 import edu.coeia.tags.TagsDialog;
 
 import edu.coeia.tags.TagsManager;
+import edu.coeia.util.FileUtil;
+import edu.coeia.util.Utilities;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List; 
 
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 import org.apache.lucene.document.Document;
@@ -219,7 +224,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_tagButtonActionPerformed
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
-        // TODO add your handling code here:
+        exportDocument(this.currentDocument);
     }//GEN-LAST:event_exportButtonActionPerformed
 
     private void tagDocument(final Document document) {
@@ -248,6 +253,21 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         if ( tag !=  null ) {
             this.tagManger.addTag(tag);
             ((CaseFrame)this.parent).refreshTagsList();
+        }
+    }
+    
+    private void exportDocument(final Document document) {
+        if ( isFileDocument(document) ) {
+            String filePath = document.get(IndexingConstant.FILE_NAME);
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(this.parent);
+            if ( result == JFileChooser.APPROVE_OPTION ) {
+                File file = fileChooser.getSelectedFile();
+                try {
+                    FileUtil.saveObject(new FileInputStream(filePath), file.getAbsolutePath());
+                }
+                catch(Exception e) { e.printStackTrace(); }
+            }
         }
     }
     
