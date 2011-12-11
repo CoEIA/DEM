@@ -9,14 +9,12 @@
  * Created on Dec 10, 2011, 9:08:19 AM
  */
 package edu.coeia.main;
- 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
@@ -27,16 +25,16 @@ import javax.swing.tree.TreeModel;
  * @author Ahmed
  */
 public class FileSignaturePanel extends javax.swing.JPanel {
-
+    
     protected DefaultTreeModel m_model;
 
     /** Creates new form FileSignaturePanel */
     public FileSignaturePanel() {
-      initComponents();
-
+        initComponents();
+        
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("FOLDERS");
         TreeModel treeModel = new DefaultTreeModel(root, true);
-
+        
         Random seed = new Random();
         Map<String, List<String>> folders = new TreeMap<String, List<String>>();
         for (char c = 'A'; c <= 'G'; c++) {
@@ -46,7 +44,7 @@ public class FileSignaturePanel extends javax.swing.JPanel {
             }
             folders.put(Character.toString(c), children);
         }
-
+        
         for (String folderName : folders.keySet()) {
 
             // Create a node for the folder
@@ -62,10 +60,8 @@ public class FileSignaturePanel extends javax.swing.JPanel {
         }
         
         FolderListTree.setModel(treeModel);
-          
+        
     }
-    
-   
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -165,7 +161,7 @@ public class FileSignaturePanel extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "File Name", "File Ext.", "Signature", "File Type", "File Category"
+                "File Name", "File Extension", "Signature", "File Type", "File Category"
             }
         ));
         jScrollPane2.setViewportView(FileAnalysisTable);
