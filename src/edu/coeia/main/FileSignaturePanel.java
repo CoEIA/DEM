@@ -6,19 +6,61 @@
 /*
  * FileSignaturePanel.java
  *
- * Created on Oct 5, 2011, 11:22:44 AM
+ * Created on Dec 10, 2011, 9:08:19 AM
  */
 package edu.coeia.main;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.TreeMap;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
+import javax.swing.tree.TreeModel;
+
 /**
  *
- * @author wajdyessam
+ * @author Ahmed
  */
 public class FileSignaturePanel extends javax.swing.JPanel {
+    
+    protected DefaultTreeModel m_model;
 
     /** Creates new form FileSignaturePanel */
     public FileSignaturePanel() {
         initComponents();
+        
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("FOLDERS");
+        TreeModel treeModel = new DefaultTreeModel(root, true);
+        
+        Random seed = new Random();
+        Map<String, List<String>> folders = new TreeMap<String, List<String>>();
+        for (char c = 'A'; c <= 'G'; c++) {
+            List<String> children = new ArrayList<String>();
+            for (int i = 0; i < seed.nextInt(3); i++) {
+                children.add(Integer.toString(i));
+            }
+            folders.put(Character.toString(c), children);
+        }
+        
+        for (String folderName : folders.keySet()) {
+
+            // Create a node for the folder
+            DefaultMutableTreeNode folder = new DefaultMutableTreeNode(folderName, true);
+            for (String childName : folders.get(folderName)) {
+                {
+                    // Add child to the folder
+                    MutableTreeNode child = new DefaultMutableTreeNode(childName, false);
+                    folder.add(child);
+                }
+                root.add(folder);
+            }
+        }
+        
+        FolderListTree.setModel(treeModel);
+        
     }
 
     /** This method is called from within the constructor to
@@ -30,17 +72,155 @@ public class FileSignaturePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        SelectFolderPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        FolderListTree = new javax.swing.JTree();
+        jButton1 = new javax.swing.JButton();
+        FileAnalysisPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        FileAnalysisTable = new javax.swing.JTable();
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DEM FileSignature DataBase:"));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "File Extension", "File Signature", "File Type", "File Category"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable2);
+
+        jToggleButton1.setText("Add New Signature");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        SelectFolderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select Folder"));
+
+        jScrollPane1.setViewportView(FolderListTree);
+
+        jButton1.setText("Analyse File Signature");
+
+        javax.swing.GroupLayout SelectFolderPanelLayout = new javax.swing.GroupLayout(SelectFolderPanel);
+        SelectFolderPanel.setLayout(SelectFolderPanelLayout);
+        SelectFolderPanelLayout.setHorizontalGroup(
+            SelectFolderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SelectFolderPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(SelectFolderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        SelectFolderPanelLayout.setVerticalGroup(
+            SelectFolderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SelectFolderPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE))
+        );
+
+        FileAnalysisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("File Analysis "));
+
+        FileAnalysisTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "File Name", "File Extension", "Signature", "File Type", "File Category"
+            }
+        ));
+        jScrollPane2.setViewportView(FileAnalysisTable);
+
+        javax.swing.GroupLayout FileAnalysisPanelLayout = new javax.swing.GroupLayout(FileAnalysisPanel);
+        FileAnalysisPanel.setLayout(FileAnalysisPanelLayout);
+        FileAnalysisPanelLayout.setHorizontalGroup(
+            FileAnalysisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FileAnalysisPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE))
+        );
+        FileAnalysisPanelLayout.setVerticalGroup(
+            FileAnalysisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FileAnalysisPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(SelectFolderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(FileAnalysisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(FileAnalysisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(SelectFolderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel FileAnalysisPanel;
+    private javax.swing.JTable FileAnalysisTable;
+    private javax.swing.JTree FolderListTree;
+    private javax.swing.JPanel SelectFolderPanel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }

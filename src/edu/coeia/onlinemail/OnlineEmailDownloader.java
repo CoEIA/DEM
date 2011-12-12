@@ -166,6 +166,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             }
         });
 
+        emaildialogue.getCancelButton().setEnabled(false);
 
 
     }
@@ -179,7 +180,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         return new EmailIterator(this);
     }
 
-    public void createDB() throws SQLException {
+    private void createDB() throws SQLException {
 
         try {
             this.db = new OnlineEmailDBHandler(this.dbPath);
@@ -202,8 +203,11 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             emailFinished = false;
             return null;
         }
+        
+       
         // 1).  Create Data base 
         createDB();
+        emaildialogue.getCancelButton().setEnabled(true);
         // 2).  Crawel For Each Folder 
         javax.mail.Folder[] folders = store.getDefaultFolder().list("*");
 
@@ -288,10 +292,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         ex.printStackTrace();
                     }
                 }
-
-
             }
-
         }
         emailFinished = true;
         return null;
@@ -337,52 +338,35 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
     @Override
     protected void done() {
 
-        if (emailFinished) {
-
+        if (emailFinished) 
+        { 
             JOptionPane.showMessageDialog(emaildialogue, "Finished Downloading Emails", "Done", JOptionPane.INFORMATION_MESSAGE);
-
             emaildialogue.setVisible(false);
             emaildialogue.getDownloadBar().setIndeterminate(false);
-
-            try {
-                store.close();
-
-                try {
-                    this.db.closeDB();
-                } catch (SQLException e) {
-                    if (e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState())) {
-                        System.out.println("Derby Shutdown normally");
-                    } else {
-                        System.out.println("Derby Did not shutdown normally");
-                        e.printStackTrace();
-                    }
-                }
-            } catch (MessagingException ex) {
-                Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else {
-            try {
-                store.close();
-
-                try {
-                    this.db.closeDB();
-                } catch (SQLException e) {
-                    if (e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState())) {
-                        System.out.println("Derby Shutdown normally");
-                    } else {
-                        System.out.println("Derby Did not shutdown normally");
-                        e.printStackTrace();
-                    }
-                }
-            } catch (MessagingException ex) {
-                Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
-            }
+         } 
+        else
+        {
             JOptionPane.showMessageDialog(emaildialogue, "Cancelled Email Downloading", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
             emaildialogue.setVisible(false);
         }
-
-
+        
+        emaildialogue.getDownloadBar().setIndeterminate(false);
+        
+        try {
+            store.close();
+            try {
+                this.db.closeDB();
+            } catch (SQLException e) {
+                if (e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState())) {
+                    System.out.println("Derby Shutdown normally");
+                } else {
+                    System.out.println("Derby Did not shutdown normally");
+                    e.printStackTrace();
+                }
+            }
+        } catch (MessagingException ex) {
+            Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -406,7 +390,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             emaildialogue.getTo().setText(pd.getTo());
             emaildialogue.getAttachments().setText(pd.getAttachments());
             emaildialogue.getSentDate().setText(pd.getSentDate());
-            emaildialogue.getCreationDate().setText(pd.getCreationDate());
+         
         }
     }
 

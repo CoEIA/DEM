@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
+import javax.swing.JButton;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -41,6 +42,10 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         this.aCase = aCase;
     }
     
+    public JButton getCancelButton()
+    {
+        return this.jButton1;
+    }
     public Case getCase()
     {
         return this.aCase;
@@ -61,10 +66,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
     public JTextField getSentDate() {
         return this.sdate;
     }
-
-    public JTextField getCreationDate() {
-        return this.cdate;
-    }
+ 
 
     public JTextArea getAttachments() {
         return this.attachments;
@@ -95,7 +97,6 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         progresLabelPanel = new javax.swing.JPanel();
         FromjLabel = new javax.swing.JLabel();
         SentDatejLabel = new javax.swing.JLabel();
-        CreateDatejLabel = new javax.swing.JLabel();
         CCjLabel = new javax.swing.JLabel();
         BCCjLabel = new javax.swing.JLabel();
         AttachjLabel = new javax.swing.JLabel();
@@ -107,7 +108,6 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         bcc = new javax.swing.JTextField();
         subject = new javax.swing.JTextField();
         sdate = new javax.swing.JTextField();
-        cdate = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         attachments = new javax.swing.JTextArea();
         DownloadProgressBar = new javax.swing.JProgressBar();
@@ -128,16 +128,13 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         SentDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         SentDatejLabel.setText("Sent Date:");
 
-        CreateDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        CreateDatejLabel.setText("Received Date:");
-
         CCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         CCjLabel.setText("CC:");
 
         BCCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         BCCjLabel.setText("BCC:");
 
-        AttachjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
+        AttachjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         AttachjLabel.setText("Attachment Files:");
 
         TojLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -163,8 +160,6 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
 
         sdate.setEditable(false);
 
-        cdate.setEditable(false);
-
         attachments.setColumns(20);
         attachments.setEditable(false);
         attachments.setRows(5);
@@ -177,23 +172,25 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         progresLabelPanel.setLayout(progresLabelPanelLayout);
         progresLabelPanelLayout.setHorizontalGroup(
             progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, progresLabelPanelLayout.createSequentialGroup()
+            .addGroup(progresLabelPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(AttachjLabel)
-                    .addComponent(CreateDatejLabel)
-                    .addComponent(SentDatejLabel)
-                    .addComponent(SubjectjLabel)
-                    .addComponent(BCCjLabel)
-                    .addComponent(CCjLabel)
-                    .addComponent(TojLabel)
-                    .addComponent(FromjLabel)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
+                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(SentDatejLabel)
+                            .addComponent(SubjectjLabel)
+                            .addComponent(BCCjLabel)
+                            .addComponent(CCjLabel)
+                            .addComponent(TojLabel)
+                            .addComponent(FromjLabel)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
+                        .addComponent(AttachjLabel)
+                        .addGap(40, 40, 40)))
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(DownloadProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
-                    .addComponent(cdate)
+                    .addComponent(DownloadProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sdate)
                     .addComponent(subject)
                     .addComponent(bcc)
@@ -229,15 +226,11 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SentDatejLabel)
                     .addComponent(sdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CreateDatejLabel)
-                    .addComponent(cdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(AttachjLabel)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(DownloadProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -314,7 +307,6 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JLabel AttachjLabel;
     private javax.swing.JLabel BCCjLabel;
     private javax.swing.JLabel CCjLabel;
-    private javax.swing.JLabel CreateDatejLabel;
     private javax.swing.JProgressBar DownloadProgressBar;
     private javax.swing.JLabel FromjLabel;
     private javax.swing.JLabel SentDatejLabel;
@@ -323,7 +315,6 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JTextArea attachments;
     private javax.swing.JTextField bcc;
     private javax.swing.JTextField cc;
-    private javax.swing.JTextField cdate;
     private javax.swing.JTextField from;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

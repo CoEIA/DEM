@@ -188,7 +188,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(searchToggleButton);
 
         headerGroupButton.add(fileSystemToggleButton);
-        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         fileSystemToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/file-manager.png"))); // NOI18N
         fileSystemToggleButton.setText("File System");
         fileSystemToggleButton.setFocusable(false);
