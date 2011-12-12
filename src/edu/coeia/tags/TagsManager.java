@@ -91,17 +91,17 @@ final public class TagsManager {
     }
     
     /**
-     * check if first state tags is different from database state
+     * check if monitor tags is different from database state
      */
     public boolean isTagsDbModified() {
         boolean result = false;
         
-        if ( this.tags.size() != this.firstStatesTags.size() )
+        if ( this.tags.size() != this.tagsCopy.size() )
             return !result ;
         
         for(int i=0; i<this.tags.size(); i++) {
             Tag tag1 = this.tags.get(i);
-            Tag tag2 = this.firstStatesTags.get(i);
+            Tag tag2 = this.tagsCopy.get(i);
             
             if ( ! tag1.equals(tag2) ) {
                 result = true;
@@ -118,7 +118,7 @@ final public class TagsManager {
      */
     private TagsManager(String dbLocation) {
         this.tags = new ArrayList<Tag>();
-        this.firstStatesTags = new ArrayList<Tag>();
+        this.tagsCopy = new ArrayList<Tag>();
         
         try {
             this.tagsDataBase = TagsDBHandler.newInstance(dbLocation);
@@ -132,14 +132,14 @@ final public class TagsManager {
     }
     
     /**
-     * update first states tags
+     * update monitor tags
      * when saving new tags we should update the list
      */
     public void updateMonitorChangingList() {
-        this.firstStatesTags.clear();
-        this.firstStatesTags.addAll(this.getTags());
+        this.tagsCopy.clear();
+        this.tagsCopy.addAll(this.getTags());
     }
     
-    private final List<Tag> tags, firstStatesTags;
+    private final List<Tag> tags, tagsCopy;
     private TagsDBHandler tagsDataBase;
 }
