@@ -7,7 +7,7 @@ import edu.coeia.filesystem.VisualizationPanel;
 import edu.coeia.filesystem.TextCloudPanel;
 import edu.coeia.filesystem.ApplicationHistoryPanel;
 import edu.coeia.cases.Case;
-import edu.coeia.main.FileSignaturePanel;
+import edu.coeia.filesignature.FileSignaturePanel;
 import javax.swing.JFrame;
 
 /*
