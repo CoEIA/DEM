@@ -119,7 +119,7 @@ public enum CaseManager {
         this.listOfOpeningCase.add(caseName);
     }
     
-    public boolean isContain (String caseName) {
+    public boolean isRunningCase (String caseName) {
         return this.listOfOpeningCase.contains(caseName);
     }
     

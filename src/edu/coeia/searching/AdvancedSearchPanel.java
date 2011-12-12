@@ -15,7 +15,7 @@ import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.cases.CaseHistoryHandler;
-import edu.coeia.main.SourceViewerDialog;
+import edu.coeia.viewer.SourceViewerDialog;
 
 import java.awt.event.InputEvent;
 
@@ -586,6 +586,16 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     
     void setSearchTableFocusable() {
         this.searchTable.requestFocusInWindow();
+    }
+    
+    void closeLuceneSearch() {
+        try {
+            if ( this.searcher != null )
+                this.searcher.closeSearcher();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

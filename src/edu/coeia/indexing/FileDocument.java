@@ -10,7 +10,7 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
-import edu.coeia.email.MessageHeader ;
+import edu.coeia.offlinemail.MessageHeader ;
 
 import java.io.File ;
 import java.io.FileNotFoundException ;

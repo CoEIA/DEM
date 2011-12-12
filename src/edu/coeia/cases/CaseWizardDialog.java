@@ -52,7 +52,6 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
     public CaseWizardDialog(java.awt.Frame parent, boolean modal, boolean isFullVersion) {
         super(parent, modal);
         initComponents();
-
        
         UserNameGmailTextField.setEnabled(false);
         PasswordGmailTextField.setEnabled(false);

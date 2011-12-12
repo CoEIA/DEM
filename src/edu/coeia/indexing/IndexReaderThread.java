@@ -10,10 +10,10 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
-import edu.coeia.main.TextCloudPanel;
-import edu.coeia.main.VisualizationPanel;
+import edu.coeia.filesystem.TextCloudPanel;
+import edu.coeia.filesystem.VisualizationPanel;
 import edu.coeia.gutil.InfiniteProgressPanel;
-import edu.coeia.main.PieChartPanel;
+import edu.coeia.charts.PieChartPanel;
 import edu.coeia.util.FileUtil;
 
 import org.apache.lucene.index.IndexReader ;

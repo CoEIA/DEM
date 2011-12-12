@@ -1,15 +1,16 @@
 
 package edu.coeia.main;
 
+import edu.coeia.reports.ReportPanel;
+import edu.coeia.filesystem.FileSystemPanel;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseManagerPanel;
-import edu.coeia.cases.ReportPanel;
 import edu.coeia.util.Utilities;
 import edu.coeia.gutil.GuiUtil ;
 import edu.coeia.chat.ChatPanel;
-import edu.coeia.email.EmailPanel;
+import edu.coeia.offlinemail.EmailPanel;
 import edu.coeia.indexing.IndexingDialog;
-import edu.coeia.image.ImagesViewerPanel;
+import edu.coeia.multimedia.ImagesViewerPanel;
 import edu.coeia.internet.InternetSurfingPanel;
 import edu.coeia.searching.CaseSearchPanel;
 import edu.coeia.util.FileUtil;
@@ -49,7 +50,7 @@ public class CaseFrame extends javax.swing.JFrame {
     
     // to update the panel after direct indexing 
     private CaseManagerPanel caseManagerPanel;
-    private CaseSearchPanel searchPanel ;
+    private CaseSearchPanel caseSearchPanel ;
     
     /** Creates new form OfflineMinningFrame 
      * 
@@ -97,7 +98,7 @@ public class CaseFrame extends javax.swing.JFrame {
         InternetSurfingPanel internetPanel = new InternetSurfingPanel(this.caseObj);
         ChatPanel chatPanel = new ChatPanel(this.caseObj);
         ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.caseObj);
-        searchPanel = new CaseSearchPanel(this.caseObj, this);
+        caseSearchPanel = new CaseSearchPanel(this.caseObj, this);
         caseManagerPanel = new CaseManagerPanel(this);
         ReportPanel reportPanel = new ReportPanel();
         
@@ -106,7 +107,7 @@ public class CaseFrame extends javax.swing.JFrame {
         this.CardPanel.add(internetPanel, "internetSurfingCard");
         this.CardPanel.add(chatPanel, "chatCard");
         this.CardPanel.add(imgPanel, "imagesViewerCard");
-        this.CardPanel.add(searchPanel, "searchCard");
+        this.CardPanel.add(caseSearchPanel, "searchCard");
         this.CardPanel.add(caseManagerPanel, "caseManagerCard");
         this.CardPanel.add(reportPanel, "reportCard");
         
@@ -447,7 +448,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private void searchToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchToggleButtonActionPerformed
        GuiUtil.showPanel("searchCard",CardPanel);
        this.setTitle(APPLICATION_NAME + "Search Window");
-       this.searchPanel.setFocusInAdvancedSearchPanel();
+       this.caseSearchPanel.setFocusInAdvancedSearchPanel();
     }//GEN-LAST:event_searchToggleButtonActionPerformed
 
     private void caseManagerToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caseManagerToggleButtonActionPerformed
@@ -471,15 +472,19 @@ public class CaseFrame extends javax.swing.JFrame {
     
     private void closeCaseFrame() {
         try {
-            if ( caseObj != null ) {
-                String caseName = caseObj.getIndexName() ;
+            if ( this.caseObj != null ) {
+                String caseName = this.caseObj.getIndexName() ;
 
                 if ( !caseName.isEmpty() )
-                    listOfOpeningCase.remove(caseName);
+                    this.listOfOpeningCase.remove(caseName);
             }
 
-            if ( tagsManager !=  null ) {
-                tagsManager.closeManager();
+            if ( this.tagsManager !=  null ) {
+                this.tagsManager.closeManager();
+            }
+            
+            if ( this.caseSearchPanel != null ) {
+                this.caseSearchPanel.closeSearcher();
             }
         }
         catch (Exception e){

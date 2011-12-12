@@ -76,4 +76,12 @@ public class FileUtilTest {
         assertEquals(true, new File("C:\\XX").exists());
     }
     
+    @Test
+    public void getNormalFilExtenstion() {
+//        String fileName = "a.pdf";
+//        assertEquals("pdf", FileUtil.getExtension(fileName));
+//        
+//        fileName = "ahmed\\file\\dir\\asdfsd.doc";
+//        assertEquals("doc", FileUtil.getExtension(fileName));
+    }
 }

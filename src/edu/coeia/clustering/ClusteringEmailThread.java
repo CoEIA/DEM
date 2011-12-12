@@ -16,8 +16,8 @@ import edu.coeia.gutil.InfiniteProgressPanel ;
 import edu.coeia.util.Tuple ;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.cases.Case ;
-import edu.coeia.email.MessageHeader ;
-import edu.coeia.email.EmailReader;
+import edu.coeia.offlinemail.MessageHeader ;
+import edu.coeia.offlinemail.EmailReader;
 
 import java.io.File ;
 import java.io.IOException ;

@@ -128,6 +128,15 @@ final public class TagsManager {
         }
         
         this.tags.addAll(this.tagsDataBase.getTags());
+        this.updateMonitorChangingList();
+    }
+    
+    /**
+     * update first states tags
+     * when saving new tags we should update the list
+     */
+    public void updateMonitorChangingList() {
+        this.firstStatesTags.clear();
         this.firstStatesTags.addAll(this.getTags());
     }
     
