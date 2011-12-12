@@ -10,16 +10,14 @@
  */
 package edu.coeia.main;
 
-import edu.coeia.cases.CaseManagerFrame;
-import edu.coeia.searching.AdvancedSearchPanel;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.searching.LuceneSearcher ;
+import edu.coeia.util.FileUtil;
+import edu.coeia.searching.AdvancedSearchPanel;
 import edu.coeia.tags.Tag;
 import edu.coeia.tags.TagsDialog;
-
 import edu.coeia.tags.TagsManager;
-import edu.coeia.util.FileUtil;
-import edu.coeia.util.Utilities;
+
 import java.awt.BorderLayout;
 import java.awt.Frame;
 
@@ -343,6 +341,11 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         this.viewerPanel.removeAll();
     }
     
+    /*
+     * methods that used by custome panel (document, chat, email)
+     * to get the current document and show it in a proper way 
+     * specific to the type of the viewer
+     */
     LuceneSearcher getLuceneSearch() { return this.searcher ; }
     String getQueryString() { return this.keyword ; }
     String getCurrentId() { return String.valueOf(this.documentsNumber.get(this.currentListIndex));  }

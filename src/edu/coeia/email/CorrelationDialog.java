@@ -11,7 +11,7 @@
 
 package edu.coeia.email;
 
-import edu.coeia.main.BarChartPanel;
+import edu.coeia.charts.BarChartPanel;
 import edu.coeia.util.FilesPath ;
 
 import java.awt.BorderLayout;

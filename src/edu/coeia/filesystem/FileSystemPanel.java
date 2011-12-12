@@ -1,7 +1,13 @@
 
-package edu.coeia.main;
+package edu.coeia.filesystem;
 
+import edu.coeia.filesystem.HashAnalysisPanel;
+import edu.coeia.filesystem.FileBrowsingPanel;
+import edu.coeia.filesystem.VisualizationPanel;
+import edu.coeia.filesystem.TextCloudPanel;
+import edu.coeia.filesystem.ApplicationHistoryPanel;
 import edu.coeia.cases.Case;
+import edu.coeia.main.FileSignaturePanel;
 import javax.swing.JFrame;
 
 /*

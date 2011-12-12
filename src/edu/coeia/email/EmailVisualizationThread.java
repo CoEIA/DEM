@@ -15,7 +15,7 @@ import edu.coeia.email.CorrelationDialog;
 import com.pff.PSTFile;
 import edu.coeia.email.EmailHandler;
 import edu.coeia.gutil.InfiniteProgressPanel;
-import edu.coeia.main.LineChartPanel;
+import edu.coeia.charts.LineChartPanel;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;

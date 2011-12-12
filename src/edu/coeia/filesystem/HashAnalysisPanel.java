@@ -4,20 +4,20 @@
  */
 
 /*
- * FileBrowsingPanel.java
+ * HashAnalysisPanel.java
  *
- * Created on Oct 5, 2011, 11:22:12 AM
+ * Created on Oct 5, 2011, 11:22:57 AM
  */
-package edu.coeia.main;
+package edu.coeia.filesystem;
 
 /**
  *
  * @author wajdyessam
  */
-public class FileBrowsingPanel extends javax.swing.JPanel {
+public class HashAnalysisPanel extends javax.swing.JPanel {
 
-    /** Creates new form FileBrowsingPanel */
-    public FileBrowsingPanel() {
+    /** Creates new form HashAnalysisPanel */
+    public HashAnalysisPanel() {
         initComponents();
     }
 

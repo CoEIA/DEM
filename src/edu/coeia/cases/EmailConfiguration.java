@@ -10,7 +10,8 @@ import java.io.Serializable;
  *
  * @author Ahmed
  */
-public final class EmailConfiguration implements Serializable{
+
+final class EmailConfiguration implements Serializable{
     
     public enum SOURCE {HOTMAIL, GMAIL };
     

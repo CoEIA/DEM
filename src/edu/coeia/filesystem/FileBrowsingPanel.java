@@ -4,20 +4,20 @@
  */
 
 /*
- * ReportPanel.java
+ * FileBrowsingPanel.java
  *
- * Created on Oct 5, 2011, 11:10:41 AM
+ * Created on Oct 5, 2011, 11:22:12 AM
  */
-package edu.coeia.cases;
+package edu.coeia.filesystem;
 
 /**
  *
  * @author wajdyessam
  */
-public class ReportPanel extends javax.swing.JPanel {
+public class FileBrowsingPanel extends javax.swing.JPanel {
 
-    /** Creates new form ReportPanel */
-    public ReportPanel() {
+    /** Creates new form FileBrowsingPanel */
+    public FileBrowsingPanel() {
         initComponents();
     }
 

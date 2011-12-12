@@ -1,9 +1,9 @@
 
 package edu.coeia.main;
 
+import edu.coeia.filesystem.FileSystemPanel;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseManagerPanel;
-import edu.coeia.cases.ReportPanel;
 import edu.coeia.util.Utilities;
 import edu.coeia.gutil.GuiUtil ;
 import edu.coeia.chat.ChatPanel;

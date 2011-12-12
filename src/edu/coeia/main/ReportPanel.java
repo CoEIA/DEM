@@ -4,9 +4,9 @@
  */
 
 /*
- * HashAnalysisPanel.java
+ * ReportPanel.java
  *
- * Created on Oct 5, 2011, 11:22:57 AM
+ * Created on Oct 5, 2011, 11:10:41 AM
  */
 package edu.coeia.main;
 
@@ -14,10 +14,10 @@ package edu.coeia.main;
  *
  * @author wajdyessam
  */
-public class HashAnalysisPanel extends javax.swing.JPanel {
+public class ReportPanel extends javax.swing.JPanel {
 
-    /** Creates new form HashAnalysisPanel */
-    public HashAnalysisPanel() {
+    /** Creates new form ReportPanel */
+    public ReportPanel() {
         initComponents();
     }
 
