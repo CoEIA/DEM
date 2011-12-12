@@ -531,6 +531,9 @@ public final class CaseManagerPanel extends javax.swing.JPanel {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(this, "Case have been saved", 
                     "Saving Case Message", JOptionPane.INFORMATION_MESSAGE);
+            
+            // update current
+            this.tagsManager.updateMonitorChangingList();
         }
     }
     
