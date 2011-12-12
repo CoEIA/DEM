@@ -8,7 +8,7 @@
  *
  * Created on Dec 3, 2011, 2:37:27 PM
  */
-package edu.coeia.main;
+package edu.coeia.viewer;
 
 import java.awt.BorderLayout;
 
@@ -26,7 +26,7 @@ import org.apache.lucene.document.Fieldable;
  *
  * @author wajdyessam
  */
-public class EmailSourceViewerPanel extends javax.swing.JPanel {
+class EmailSourceViewerPanel extends javax.swing.JPanel {
 
     private Document document ;
     private Document parentDocument ;

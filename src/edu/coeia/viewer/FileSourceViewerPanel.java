@@ -8,7 +8,7 @@
  *
  * Created on Nov 28, 2011, 1:48:01 PM
  */
-package edu.coeia.main;
+package edu.coeia.viewer;
 
 import edu.coeia.util.Utilities;
 import edu.coeia.indexing.IndexingConstant;
@@ -27,7 +27,7 @@ import org.apache.lucene.document.Fieldable;
  *
  * @author wajdyessam
  */
-public class FileSourceViewerPanel extends javax.swing.JPanel {
+class FileSourceViewerPanel extends javax.swing.JPanel {
 
     private JWebBrowser fileBrowser = new JWebBrowser();
     private Document document ;

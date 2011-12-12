@@ -8,7 +8,7 @@
  *
  * Created on Nov 30, 2011, 7:42:02 AM
  */
-package edu.coeia.main;
+package edu.coeia.viewer;
 
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant;
@@ -20,7 +20,7 @@ import org.apache.lucene.document.Document;
  *
  * @author wajdyessam
  */
-public class ChatSourceViewerPanel extends javax.swing.JPanel {
+class ChatSourceViewerPanel extends javax.swing.JPanel {
 
     private Document document ;
     private Document parentDocument ;

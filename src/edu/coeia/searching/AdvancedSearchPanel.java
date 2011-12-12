@@ -15,7 +15,7 @@ import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.cases.CaseHistoryHandler;
-import edu.coeia.main.SourceViewerDialog;
+import edu.coeia.viewer.SourceViewerDialog;
 
 import java.awt.event.InputEvent;
 

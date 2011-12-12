@@ -8,9 +8,10 @@
  *
  * Created on Nov 28, 2011, 2:20:54 PM
  */
-package edu.coeia.main;
+package edu.coeia.viewer;
 
 import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.main.CaseFrame;
 import edu.coeia.searching.LuceneSearcher ;
 import edu.coeia.util.FileUtil;
 import edu.coeia.searching.AdvancedSearchPanel;
