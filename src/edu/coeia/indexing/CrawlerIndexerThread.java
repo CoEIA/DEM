@@ -107,13 +107,21 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         if ( path.isDirectory() ) {
             File[] files = path.listFiles();
                
-            for(File file: files) {
-                if ( this.isCancelled() )
-                    throw new CancellationException("Cralwer is Cancelled by stop button");
-                            
-                noOfFilesEnumerated++;
-                doDirectoryCrawling(file);
+            try {
+                for(File file: files) {
+                    if ( this.isCancelled() )
+                        throw new CancellationException("Cralwer is Cancelled by stop button");
+
+                    noOfFilesEnumerated++;
+                    doDirectoryCrawling(file);
+                }
             }
+            // to prevent NullPointerException casued by accessing
+            // folder we have no permission to acess (files array will contain null value)
+            catch(Exception e) { 
+                //TODO: show in logging table that the current folder
+                // cannot be indexed becuase of permission problem
+            }  
             
             if ( this.luceneIndex.indexDir(path) )
                 noOfFilesIndexed++;

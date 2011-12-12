@@ -3,6 +3,7 @@ package edu.coeia.onlinemail;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import edu.coeia.util.FileUtil;
+import edu.coeia.util.Utilities;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.io.File;
 
 import java.util.Collections;
+import javax.rmi.CORBA.Util;
 import static edu.coeia.util.PreconditionsChecker.*;
 
 /**
@@ -58,63 +60,70 @@ public class OnlineEmailDBHandler {
         String select = "SELECT * FROM emails ";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(select);
+        
         List<OnlineEmailMessage> mEmails = new ArrayList<OnlineEmailMessage>();
-        OnlineEmailMessage message = null;
 
         while (resultSet.next()) {
-    
-            String paths = resultSet.getString("PATH");
-            List<String> listPaths = Collections.emptyList();
-            if (!paths.isEmpty()) {
-                String[] arrPaths = paths.split(",");
-                listPaths = Arrays.asList(arrPaths);
-            }
+           System.out.println(resultSet.getString("SUBJECT"));
+            List<String> listPaths = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("PATH"));
+            List<String> bccList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("BCC"));
+            List<String> ccList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("CC"));
+            List<String> toList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("TO_ADDRESS"));
+            InputStream s = resultSet.getAsciiStream("BODY_MESSAGE");
+            String body = Utilities.convertStreamToString(s);
 
-            String bcc = resultSet.getString("BCC");
-            List<String> bccList = Collections.emptyList();
-            if (!bcc.isEmpty()) {
-                String[] bccArray = bcc.split(",");
-                bccList = Arrays.asList(bccArray);
-
-            }
-
-            String cc = resultSet.getString("CC");
-            List<String> ccList = Collections.emptyList();
-
-            if (!cc.isEmpty()) {
-                String[] ccArray = cc.split(",");
-                ccList = Arrays.asList(ccArray);
-            }
-            
-            
-            String to = resultSet.getString("To");
-            List<String> toList = Collections.emptyList();
-
-            if (!to.isEmpty()) {
-                String[] toArray = cc.split(",");
-                toList = Arrays.asList(toArray);
-            }
-            message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"),
+            OnlineEmailMessage  message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"),
                     resultSet.getString("USERNAME"),
                     resultSet.getString("FROM_ADDRESS"),
-                    resultSet.getString("TO_ADDRESS"),
+                    toList,  
                     bccList, 
                     ccList, 
                     resultSet.getString("SUBJECT"),
-                    resultSet.getAsciiStream("BODY_MESSAGE"), 
+                    body, 
                     resultSet.getString("SENT_DATE"),
                     resultSet.getString("CREATED_DATE"), 
                     listPaths, resultSet.getString("Folder_Name"));
-
+            System.out.println("added");
             mEmails.add(message);
         }
+        
         resultSet.close();
         statement.close();
 
         return mEmails;
 
     }
+ 
+    
+    public void inserteEmail(OnlineEmailMessage msg)throws SQLException, UnsupportedEncodingException 
+    {
+        
+         
+        String ccBuilder = Utilities.getFormattedString(msg.getCC());
+        String bccBuilder = Utilities.getFormattedString(msg.getBCC());
+        String toBuilder = Utilities.getFormattedString(msg.getTo());
+        String attachments = Utilities.getFormattedString(msg.getAttachments());
 
+        String s = "insert into emails values(?,?,?,?,?,?,?,?,?,?,?,?)";
+        PreparedStatement psInsert = connection.prepareStatement(s);
+        psInsert.setString(1, msg.getUsername());
+        psInsert.setInt(2, msg.getId());
+        psInsert.setString(3, msg.getFrom());
+        psInsert.setString(4, toBuilder);
+        psInsert.setString(5, msg.getSubject());
+        InputStream is = new ByteArrayInputStream(msg.getBody().getBytes());
+        psInsert.setAsciiStream(6, is);
+        psInsert.setString(7, msg.getReceiveDate());
+        psInsert.setString(8, msg.getSentDate());
+        psInsert.setString(9, ccBuilder);
+        psInsert.setString(10, bccBuilder);
+        psInsert.setString(11, attachments);
+        psInsert.setString(12, msg.getFolderName());
+
+        psInsert.executeUpdate();
+        psInsert.close();
+    }
+    /*
     public void inserteEmail(int id,String Username, String From, String To, String Subject, String Body,
             String Created_Date, String Sent_Date, String CC, String BCC, String Path, String FolderName)
             throws SQLException, UnsupportedEncodingException {
@@ -138,7 +147,7 @@ public class OnlineEmailDBHandler {
         psInsert.executeUpdate();
         psInsert.close();
     }
-
+*/
     public void closeDB() throws SQLException {
         connection.close();
         DriverManager.getConnection("jdbc:derby:;shutdown=true");

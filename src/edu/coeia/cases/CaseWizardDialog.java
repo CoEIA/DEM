@@ -905,10 +905,12 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                         hotmail_dialogue.downloader = new OnlineEmailDownloader(hotmail_dialogue,
                                 currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
                                 currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
-                        hotmail_dialogue.downloader.ConnectPop3(Username, Password);
-                        hotmail_dialogue.downloader.execute();
 
-                        hotmail_dialogue.setVisible(true);
+                        if (hotmail_dialogue.downloader.ConnectPop3(Username, Password)) {
+                            hotmail_dialogue.downloader.execute();
+                            hotmail_dialogue.setVisible(true);
+                           
+                        }
                     } catch (Exception ex) {
                         Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -924,10 +926,11 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                         gmail_dialogue.downloader = new OnlineEmailDownloader(gmail_dialogue,
                                 currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
                                 currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
-                        gmail_dialogue.downloader.ConnectIMAP(Username, Password);
-                        gmail_dialogue.downloader.execute();
 
-                        gmail_dialogue.setVisible(true);
+                        if (gmail_dialogue.downloader.ConnectIMAP(Username, Password)) {
+                            gmail_dialogue.downloader.execute();
+                            gmail_dialogue.setVisible(true);
+                        }
                     } catch (Exception ex) {
                         Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
                     }

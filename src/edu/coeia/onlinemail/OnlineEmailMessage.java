@@ -24,8 +24,8 @@ public final class OnlineEmailMessage {
      * @param receive the date that the message was receiving to destination
      * @return new instance of EmailMessage
      */
-    public static OnlineEmailMessage newInstance(int id, String Username, String from,String to, 
-            List<String> bcc, List<String> cc, String subject, InputStream body,
+    public static OnlineEmailMessage newInstance(int id, String Username, String from, List<String> to, 
+            List<String> bcc, List<String> cc, String subject, String body,
             String sent, String receive, List<String> path,String FolderName) {
 
         return new OnlineEmailMessage(id,Username, from,to, bcc, cc, subject, body, sent, receive, path,FolderName);
@@ -34,9 +34,9 @@ public final class OnlineEmailMessage {
     /**
      * private constructor to construct email message
      */
-    private OnlineEmailMessage(int id,String username, String from,String to, 
+    private OnlineEmailMessage(int id,String username, String from, List<String> to, 
             List<String> bcc, List<String> cc,
-            String subject, InputStream body, String sent, String receive, List<String> path,String FolderName) {
+            String subject, String body, String sent, String receive, List<String> path,String FolderName) {
         
         this.id = id;
         this.username = username;
@@ -79,10 +79,10 @@ public final class OnlineEmailMessage {
         return this.subject;
     }
 
-    public InputStream getBody() {
+    public String getBody() {
         return this.body;
     }
-    public String getTo()
+    public  List<String> getTo()
     {
         return this.to;
     }
@@ -114,9 +114,9 @@ public final class OnlineEmailMessage {
     private final String from;
     private final String username;
     private final String subject;
-    private final InputStream body;
+    private final String body;
     private final List<String> cc;
     private final List<String> bcc;
-    private final List<String> attachments;
-    private final String sentDate, receiveDate,FolderName,to;
+    private final List<String> attachments,to;
+    private final String sentDate, receiveDate,FolderName;
 }
