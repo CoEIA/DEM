@@ -330,31 +330,47 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             emaildialogue.getFrom().setText(formatInputString(pd.mEmail.getFrom()));
 
             List<String> listCC = pd.mEmail.getCC();
-            if (!listCC.isEmpty()) {
+            if (!listCC.isEmpty()) 
+            {
                 for (String s1 : pd.mEmail.getCC()) {
                     emaildialogue.getCC().setText(formatInputString(s1) + "\n");
                 }
-            } else {
+            }
+            else
+            {
                 emaildialogue.getCC().setText("\n");
             }
+            
             List<String> listBcc = pd.mEmail.getBCC();
-            if (!listBcc.isEmpty()) {
+            if (!listBcc.isEmpty()) 
+            {
                 for (String s2 : pd.mEmail.getBCC()) {
                     emaildialogue.getBCC().setText(formatInputString(s2) + "\n");
                 }
-            } else {
+            } 
+            else 
+            {
                 emaildialogue.getBCC().setText("\n");
             }
-            emaildialogue.getSubject().setText(formatInputString(pd.mEmail.getSubject()));
 
-            for (String s2 : pd.mEmail.getTo()) {
-                emaildialogue.getTo().setText(formatInputString(s2) + "\n");
+            List<String> listAttachments = pd.mEmail.getAttachments();
+            if (!listAttachments.isEmpty()) 
+            {
+                for (String s2 : pd.mEmail.getTo()) {
+                    emaildialogue.getTo().setText(formatInputString(s2) + "\n");
+                }
+            } 
+            else 
+            {
+                emaildialogue.getAttachments().setText("\n");
             }
 
             for (String s2 : pd.mEmail.getAttachments()) {
                 emaildialogue.getAttachments().setText(formatInputString(s2) + "\n");
             }
 
+            
+            emaildialogue.getSubject().setText(formatInputString(pd.mEmail.getSubject()));
             emaildialogue.getSentDate().setText(pd.mEmail.getSentDate());
 
         }
