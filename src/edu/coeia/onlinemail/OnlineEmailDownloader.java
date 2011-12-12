@@ -204,7 +204,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         String body = formatInputString(getText(message));
                         
                         // Print Debug Messages 
-                        PrintDebugMessages(sentDate, receiveDate, from, cclist, bcclist, body, subject);
+                        //PrintDebugMessages(sentDate, receiveDate, from, cclist, bcclist, body, subject);
                         // Save Attachment
                         List<String> Paths = getAttachments(message);
                         

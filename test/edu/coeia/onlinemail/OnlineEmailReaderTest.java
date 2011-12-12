@@ -4,6 +4,7 @@
  */
 package edu.coeia.onlinemail;
 
+import edu.coeia.util.Utilities;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -28,14 +29,14 @@ public class OnlineEmailReaderTest {
         List<String> list = new ArrayList<String>();
         list.add("ahmed");
         list.add("mahmad");
-        assertEquals("ahmed,mahmad", reader.getFormattedString(list));
+        assertEquals("ahmed,mahmad", Utilities.getFormattedString(list));
     }
 
     @Test
     @Ignore
     public void getFormattedStringTest1() throws SQLException {
         List<String> list = new ArrayList<String>();
-        assertEquals("", reader.getFormattedString(list));
+        assertEquals("", Utilities.getFormattedString(list));
 
     }
 
@@ -46,7 +47,7 @@ public class OnlineEmailReaderTest {
 
         list.add("ahmed");
 
-        assertEquals("ahmed", reader.getFormattedString(list));
+        assertEquals("ahmed", Utilities.getFormattedString(list));
     }
 
     @Test

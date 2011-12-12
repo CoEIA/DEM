@@ -8,7 +8,7 @@
  *
  * Created on Dec 10, 2011, 9:08:19 AM
  */
-package edu.coeia.main;
+package edu.coeia.filesignature;
 
 import java.util.ArrayList;
 import java.util.List;

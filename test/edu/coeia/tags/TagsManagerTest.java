@@ -73,7 +73,7 @@ public class TagsManagerTest {
         // writes tags
         tm.addTag(Tag.newInstance("testing", new Date(), "this is testing"));
         tm.addTag(Tag.newInstance("another testing", new Date(), "this is another testing"));
-        tm.setTags();
+        tm.saveTags();
         assertEquals(2, tm.getTags().size());
         tm.closeManager();
         
