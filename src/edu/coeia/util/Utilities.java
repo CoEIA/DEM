@@ -217,7 +217,7 @@ public class Utilities {
         try {
             result = sc.useDelimiter("\\A").next();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ex.printStackTrace(); 
         }
         return result;
     }
