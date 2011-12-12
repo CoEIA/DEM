@@ -13,8 +13,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
 
 
 /**
