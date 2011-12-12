@@ -590,7 +590,8 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     
     void closeLuceneSearch() {
         try {
-            this.searcher.closeSearcher();
+            if ( this.searcher != null )
+                this.searcher.closeSearcher();
         }
         catch(Exception e) {
             e.printStackTrace();
