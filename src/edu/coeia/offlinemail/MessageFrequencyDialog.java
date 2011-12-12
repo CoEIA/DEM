@@ -9,7 +9,7 @@
  * Created on Jul 4, 2010, 1:33:06 PM
  */
 
-package edu.coeia.email;
+package edu.coeia.offlinemail;
 
 /**
  *

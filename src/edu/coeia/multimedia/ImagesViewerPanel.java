@@ -1,6 +1,6 @@
 
 
-package edu.coeia.image;
+package edu.coeia.multimedia;
 
 
 import edu.coeia.cases.Case;

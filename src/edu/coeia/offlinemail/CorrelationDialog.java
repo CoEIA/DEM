@@ -9,7 +9,7 @@
  * Created on May 25, 2010, 9:30:26 AM
  */
 
-package edu.coeia.email;
+package edu.coeia.offlinemail;
 
 import edu.coeia.charts.BarChartPanel;
 import edu.coeia.util.FilesPath ;

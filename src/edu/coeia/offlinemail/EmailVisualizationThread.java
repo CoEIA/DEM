@@ -3,17 +3,17 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.email;
+package edu.coeia.offlinemail;
 
 /**
  *
  * @author wajdyessam
  */
 
-import edu.coeia.email.MessageFrequencyDialog;
-import edu.coeia.email.CorrelationDialog;
+import edu.coeia.offlinemail.MessageFrequencyDialog;
+import edu.coeia.offlinemail.CorrelationDialog;
 import com.pff.PSTFile;
-import edu.coeia.email.EmailHandler;
+import edu.coeia.offlinemail.EmailHandler;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.charts.LineChartPanel;
 import java.io.IOException;

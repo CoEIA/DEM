@@ -1,5 +1,5 @@
 
-package edu.coeia.email;
+package edu.coeia.offlinemail;
 
 
 import edu.coeia.gutil.GuiUtil;

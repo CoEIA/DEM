@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.image;
+package edu.coeia.multimedia;
 
 /**
  *

@@ -1,15 +1,16 @@
 
 package edu.coeia.main;
 
+import edu.coeia.reports.ReportPanel;
 import edu.coeia.filesystem.FileSystemPanel;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseManagerPanel;
 import edu.coeia.util.Utilities;
 import edu.coeia.gutil.GuiUtil ;
 import edu.coeia.chat.ChatPanel;
-import edu.coeia.email.EmailPanel;
+import edu.coeia.offlinemail.EmailPanel;
 import edu.coeia.indexing.IndexingDialog;
-import edu.coeia.image.ImagesViewerPanel;
+import edu.coeia.multimedia.ImagesViewerPanel;
 import edu.coeia.internet.InternetSurfingPanel;
 import edu.coeia.searching.CaseSearchPanel;
 import edu.coeia.util.FileUtil;

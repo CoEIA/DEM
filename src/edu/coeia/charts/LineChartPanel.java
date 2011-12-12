@@ -29,7 +29,7 @@ import java.util.Date ;
 import java.util.HashMap ;
 import java.util.Map ;
 
-import edu.coeia.email.Message ;
+import edu.coeia.offlinemail.Message ;
 
 /**
  *

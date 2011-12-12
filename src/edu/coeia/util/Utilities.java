@@ -5,7 +5,7 @@
 
 package edu.coeia.util;
 
-import edu.coeia.email.Message;
+import edu.coeia.offlinemail.Message;
 
 import java.io.File ;
 

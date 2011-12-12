@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.email;
+package edu.coeia.offlinemail;
 
 /**
  *
@@ -20,7 +20,7 @@ package edu.coeia.email;
  * database for ip number from: http://ip-to-country.webhosting.info
 */
 
-import edu.coeia.email.Country;
+import edu.coeia.offlinemail.Country;
 import edu.coeia.util.FilesPath;
 import java.sql.Connection ;
 import java.sql.DriverManager ;

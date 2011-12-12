@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.image;
+package edu.coeia.multimedia;
 
 /**
  *
  * @author wajdyessam
  */
 
-import edu.coeia.image.GPSData;
+import edu.coeia.multimedia.GPSData;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifReader;
