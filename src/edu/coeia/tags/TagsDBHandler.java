@@ -53,7 +53,7 @@ final class TagsDBHandler {
      * Get all Tags from case database
      * @return 
      */
-    List<Tag> getTags() {
+    List<Tag> readTagsFromDataBase() {
         List<Tag> tags = new ArrayList<Tag>();
         
         try {
@@ -78,14 +78,14 @@ final class TagsDBHandler {
      * Remove database records and then add the new tags
      * @param tags 
      */
-    boolean setTags(final List<Tag> tags) {
+    boolean writeTagsToDatabase(final List<Tag> tags) {
         boolean status = false; 
         
         try {
-            this.removeRecords();
+            this.removeTagRecords();
             
             for(Tag tag: tags) {
-                this.insertRecord(tag);
+                this.insertTagRecord(tag);
             }
             
             status = true;
@@ -120,7 +120,7 @@ final class TagsDBHandler {
      * @param tag
      * @throws SQLException 
      */
-     private boolean insertRecord(final Tag tag)
+     private boolean insertTagRecord(final Tag tag)
             throws SQLException {
         
         String s = "INSERT into case_tags values(?,?,?)";
@@ -140,7 +140,7 @@ final class TagsDBHandler {
       * Remove Records from DataBase
       * @throws SQLException 
       */
-    private void removeRecords() throws SQLException{
+    private void removeTagRecords() throws SQLException{
         String command = "DELETE FROM case_tags";
         PreparedStatement update = getConnection().prepareStatement(command);
         update.executeUpdate();

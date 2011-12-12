@@ -527,7 +527,7 @@ public final class CaseManagerPanel extends javax.swing.JPanel {
      * Save case modifications
      */
     public void saveCaseModifications() {
-        if ( this.tagsManager.setTags() ) {
+        if ( this.tagsManager.saveTags() ) {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(this, "Case have been saved", 
                     "Saving Case Message", JOptionPane.INFORMATION_MESSAGE);

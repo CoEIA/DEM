@@ -69,8 +69,8 @@ final public class TagsManager {
     /**
      * write all the current tags to the database
      */
-    public boolean setTags() {
-        return this.tagsDataBase.setTags(this.tags);
+    public boolean saveTags() {
+        return this.tagsDataBase.writeTagsToDatabase(this.tags);
     }
     
     /**
@@ -127,7 +127,7 @@ final public class TagsManager {
             e.printStackTrace();
         }
         
-        this.tags.addAll(this.tagsDataBase.getTags());
+        this.tags.addAll(this.tagsDataBase.readTagsFromDataBase());
         this.updateMonitorChangingList();
     }
     
