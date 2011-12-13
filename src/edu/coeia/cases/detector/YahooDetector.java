@@ -56,6 +56,27 @@ public class YahooDetector implements AutoDetection{
                     }
                 }
             }
+            
+            if ( yahooPaths.isEmpty() ) {
+              for (File file : roots) {
+                    String filePath = file.getAbsolutePath() + "\\" + "Program Files";
+                    File yahooDir = new File(filePath);
+
+                    if (yahooDir.exists()) {
+                        File[] yahooFiles = yahooDir.listFiles();
+
+                        for (File yahooFile : yahooFiles) {
+                            String yahooFolderPath = yahooFile.getAbsolutePath() + "\\Yahoo!\\Messenger\\Profiles";
+
+                            File yahooFolderFile = new File(yahooFolderPath);
+                            if (yahooFolderFile.exists()) {
+                                String ieFilePath = yahooFolderFile.getAbsolutePath();
+                                yahooPaths.add(ieFilePath);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return yahooPaths;

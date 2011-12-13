@@ -1574,6 +1574,7 @@ private void ffViewHTMLReportButtonActionPerformed(java.awt.event.ActionEvent ev
         }
         catch (Exception e){
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Cannot Generate Reports for this profile");
         }
 }//GEN-LAST:event_ffViewHTMLReportButtonActionPerformed
 
@@ -1604,8 +1605,8 @@ private void ffVisualizingVisitedHostButtonActionPerformed(java.awt.event.Action
         }
         catch (Exception e){
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Cannot Visualize this profile");
         }
-        
 }//GEN-LAST:event_ffVisualizingVisitedHostButtonActionPerformed
 
 private void mozillaFilterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mozillaFilterComboBoxActionPerformed

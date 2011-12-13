@@ -231,7 +231,8 @@ private void nextPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
                 return ;
             }
 
-            if (  imageIndex != ImageViewer.getInstance(index).size() ) {
+            ImageViewer viwer = new ImageViewer();
+            if (  imageIndex != viwer.getInstance(index).size() ) {
                 imageIndex += NUMBER_OF_IMAGES_IN_PANEL;
             }
 
@@ -274,7 +275,8 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         
         for(int i=imageIndex; i<imageIndex + (NUMBER_OF_IMAGES_IN_PANEL) ; i++ ) {
             try {
-                String name = ImageViewer.getInstance(index).get(i);
+                ImageViewer viwer = new ImageViewer();
+                String name = viwer.getInstance(index).get(i);
                 File imageFile = new File(name);
                 BufferedImage myPicture = ImageIO.read(imageFile);
                 BufferedImage newPictue = createResizedCopy(myPicture,IMAGE_WIDTH,IMAGE_HEIGHT,false);
@@ -324,7 +326,8 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         int count = 0 ;
         
         try {
-            count = ImageViewer.getInstance(index).size();
+            ImageViewer viwer = new ImageViewer();
+            count = viwer.getInstance(index).size();
         }
         catch (Exception e) {
             logger.log(Level.SEVERE, "Uncaught exception", e);
@@ -428,6 +431,13 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     }    
     
     private void checkImageViewerButtons () {
+        
+        if ( this.totalImagePage <= 1 ) {
+            nextPageButton.setEnabled(false);
+            prePageButton.setEnabled(false);
+            return;
+        }
+        
         if ( currentImagePage == 0 ) {
             nextPageButton.setEnabled(true);
             prePageButton.setEnabled(false);

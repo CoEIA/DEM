@@ -134,8 +134,8 @@ public enum LicenseManager {
      * 
      * determine full version or beta version
      * true  - full version should work using smart card license
-     * false - beta version should be trial version for 30 days
+     * false - beta version should be trial version for 120 days
      */
     private boolean isFullVersion;
-    private static final int TRIAL_LENGTH = 30 ;
+    private static final int TRIAL_LENGTH = 120 ;
 }
