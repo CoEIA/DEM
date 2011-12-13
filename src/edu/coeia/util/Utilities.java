@@ -8,11 +8,15 @@ import edu.coeia.offlinemail.Message;
 
 import java.io.File;
 
+import java.io.IOException;
 import javax.swing.filechooser.FileSystemView;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
@@ -47,6 +51,16 @@ public class Utilities {
         }
 
         return hex.toString();
+    }
+    
+    public static InputStream convertList(List<String> input) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(baos);
+        for (String element : input) {
+            out.writeUTF(element);
+        }
+        InputStream toStream = new ByteArrayInputStream(baos.toByteArray());
+        return toStream;
     }
 
     public static List<String> getStringListFromCommaSeparatedString(String input) {
@@ -217,7 +231,7 @@ public class Utilities {
         try {
             result = sc.useDelimiter("\\A").next();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ex.printStackTrace(); 
         }
         return result;
     }

@@ -1,6 +1,9 @@
 package edu.coeia.onlinemail;
 
+import java.io.DataOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
@@ -64,29 +67,39 @@ public class OnlineEmailDBHandler {
         List<OnlineEmailMessage> mEmails = new ArrayList<OnlineEmailMessage>();
 
         while (resultSet.next()) {
-           System.out.println(resultSet.getString("SUBJECT"));
+            
+            
             List<String> listPaths = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("PATH"));
             List<String> bccList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("BCC"));
             List<String> ccList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("CC"));
-            List<String> toList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("TO_ADDRESS"));
-            InputStream s = resultSet.getAsciiStream("BODY_MESSAGE");
-            String body = Utilities.convertStreamToString(s);
 
-            OnlineEmailMessage  message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"),
+            InputStream subjectStream = resultSet.getAsciiStream("SUBJECT");
+            String subject = Utilities.convertStreamToString(subjectStream);
+            
+            InputStream toStream = resultSet.getAsciiStream("TO_ADDRESS");
+            List<String> toList = Utilities.getStringListFromCommaSeparatedString(Utilities.convertStreamToString(toStream));
+
+            InputStream fromStream = resultSet.getAsciiStream("FROM_ADDRESS");
+            String from = Utilities.convertStreamToString(fromStream);
+
+            InputStream bodyStream = resultSet.getAsciiStream("BODY_MESSAGE");
+            String body = Utilities.convertStreamToString(bodyStream);
+
+            OnlineEmailMessage message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"),
                     resultSet.getString("USERNAME"),
-                    resultSet.getString("FROM_ADDRESS"),
-                    toList,  
-                    bccList, 
-                    ccList, 
-                    resultSet.getString("SUBJECT"),
-                    body, 
+                    from,
+                    toList,
+                    bccList,
+                    ccList,
+                    subject,
+                    body,
                     resultSet.getString("SENT_DATE"),
-                    resultSet.getString("CREATED_DATE"), 
+                    resultSet.getString("CREATED_DATE"),
                     listPaths, resultSet.getString("Folder_Name"));
             System.out.println("added");
             mEmails.add(message);
         }
-        
+
         resultSet.close();
         statement.close();
 
@@ -95,10 +108,8 @@ public class OnlineEmailDBHandler {
     }
  
     
-    public void inserteEmail(OnlineEmailMessage msg)throws SQLException, UnsupportedEncodingException 
+    public void inserteEmail(OnlineEmailMessage msg)throws SQLException, UnsupportedEncodingException, IOException 
     {
-        
-         
         String ccBuilder = Utilities.getFormattedString(msg.getCC());
         String bccBuilder = Utilities.getFormattedString(msg.getBCC());
         String toBuilder = Utilities.getFormattedString(msg.getTo());
@@ -106,13 +117,22 @@ public class OnlineEmailDBHandler {
 
         String s = "insert into emails values(?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement psInsert = connection.prepareStatement(s);
+        
         psInsert.setString(1, msg.getUsername());
         psInsert.setInt(2, msg.getId());
-        psInsert.setString(3, msg.getFrom());
-        psInsert.setString(4, toBuilder);
-        psInsert.setString(5, msg.getSubject());
-        InputStream is = new ByteArrayInputStream(msg.getBody().getBytes());
-        psInsert.setAsciiStream(6, is);
+        
+        InputStream fromStream = new ByteArrayInputStream(msg.getFrom().getBytes());
+        psInsert.setAsciiStream(3,fromStream);
+               
+        InputStream toStream = new ByteArrayInputStream(toBuilder.getBytes());
+        psInsert.setAsciiStream(4, toStream);
+        
+        InputStream subjectStream = new ByteArrayInputStream(msg.getSubject().getBytes());
+        psInsert.setAsciiStream(5, subjectStream);
+        
+        InputStream bodyStream = new ByteArrayInputStream(msg.getBody().getBytes());
+        psInsert.setAsciiStream(6, bodyStream);
+        
         psInsert.setString(7, msg.getReceiveDate());
         psInsert.setString(8, msg.getSentDate());
         psInsert.setString(9, ccBuilder);
@@ -168,16 +188,16 @@ public class OnlineEmailDBHandler {
                 "CREATE TABLE emails ("
                 + "USERNAME VARCHAR(500),"
                 + "EMAILID DECIMAL(20) NOT NULL, "
-                + "FROM_ADDRESS VARCHAR(500), "
-                + "TO_ADDRESS VARCHAR (800),  "
-                + "SUBJECT VARCHAR(500),"
+                + "FROM_ADDRESS CLOB(1 M), "
+                + "TO_ADDRESS CLOB(1 M),"
+                + "SUBJECT CLOB(1 M),"
                 + "BODY_MESSAGE CLOB(10 M),"
                 + "CREATED_DATE VARCHAR(100),"
                 + "SENT_DATE VARCHAR(100),"
-                + "CC VARCHAR(5000),"
-                + "BCC VARCHAR(5000),"
-                + "PATH VARCHAR(5000),"
-                + "FOLDER_NAME VARCHAR(400)"
+                + "CC VARCHAR(10000),"
+                + "BCC VARCHAR(10000),"
+                + "PATH VARCHAR(10000),"
+                + "FOLDER_NAME VARCHAR(500)"
                 + ")";
 
 
