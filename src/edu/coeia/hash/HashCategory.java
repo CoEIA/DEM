@@ -8,11 +8,13 @@ import java.util.List ;
 import java.util.ArrayList ;
 import java.util.Collections;
 
+import java.io.Serializable; 
+
 /**
  *
  * @author wajdyessam
  */
-public class HashCategory {
+final class HashCategory implements Serializable{
 
     public HashCategory (final String hashSetName) {
         this.name = hashSetName ;

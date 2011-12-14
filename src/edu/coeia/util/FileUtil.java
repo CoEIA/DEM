@@ -9,6 +9,7 @@ package edu.coeia.util;
  * @author wajdyessam
  */
 
+import edu.coeia.cases.Case;
 import static edu.coeia.util.PreconditionsChecker.checkNull; 
 import static edu.coeia.util.PreconditionsChecker.checkNotEmptyString;
 
@@ -22,7 +23,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.InputStreamReader ;
 import java.io.FileNotFoundException ;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 import java.util.List ;
@@ -278,5 +282,19 @@ public class FileUtil {
         }
         
         return buffer.toByteArray();
+    }
+    
+    public static <T extends Serializable> void  writeObject (T object, File file) throws IOException {
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+        out.writeObject(object);
+        out.close();
+    }
+
+    public static <T extends Serializable> T readObject (File file) throws IOException,ClassNotFoundException {
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+        T object = (T) in.readObject();
+        in.close();
+
+        return object; 
     }
 }

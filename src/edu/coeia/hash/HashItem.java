@@ -16,7 +16,7 @@ import java.util.Date ;
  * 
  * @author wajdyessam
  */
-public final class HashItem {
+final class HashItem {
     
     /**
      * create new instance of HashItem class

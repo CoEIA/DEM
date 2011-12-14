@@ -38,7 +38,7 @@ public enum CaseManager {
         String name = line.split("-")[0].trim();
         String path = line.split("-")[1].trim();
 
-        Case aIndex = CaseManager.CaseOperation.readCase(new File(path + "\\" + name + ".DAT"));
+        Case aIndex = FileUtil.readObject(new File(path + "\\" + name + ".DAT"));
         return aIndex;
     }
     
@@ -70,41 +70,27 @@ public enum CaseManager {
      * Read And Write Case to File
      */
     public static class CaseOperation {
-        public static void writeCase (Case index, File file) throws IOException {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-            out.writeObject(index);
-            out.close();
-        }
-
-        public static Case readCase (File file) throws IOException,ClassNotFoundException {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-            Case index = (Case) in.readObject();
-            in.close();
-
-            return index; 
-        }
-
-        public static void writeCase (Case index) throws IOException {
+        public static void writeCase (Case caseObject) throws IOException {
             // create index folder
-            File dir = new File( index.getCaseLocation());
+            File dir = new File( caseObject.getCaseLocation());
             dir.mkdir();
 
             // create THE_INDEX that hold index data used by lucene engine
-            File dir2 = new File( index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH );
+            File dir2 = new File( caseObject.getCaseLocation() + "\\" + FilesPath.INDEX_PATH );
             dir2.mkdir();
 
             // create IMAGES that hold case images
-            File imgDir = new File( index.getCaseLocation() + "\\" + FilesPath.IMAGES_PATH);
+            File imgDir = new File( caseObject.getCaseLocation() + "\\" + FilesPath.IMAGES_PATH);
             imgDir.mkdir();
             
             // create index information file & write the index on it
-            String info = index.getCaseLocation() + "\\" + index.getIndexName() + ".DAT" ;
+            String info = caseObject.getCaseLocation() + "\\" + caseObject.getIndexName() + ".DAT" ;
             File infoFile = new File(info);
             infoFile.createNewFile();
-            CaseOperation.writeCase(index, infoFile);
-
+            FileUtil.writeObject(caseObject, infoFile);
+            
             // create log file
-            String log = index.getCaseLocation() + "\\" + index.getIndexName() + ".LOG" ;
+            String log = caseObject.getCaseLocation() + "\\" + caseObject.getIndexName() + ".LOG" ;
             new File(log).createNewFile();
         }
     }
