@@ -5,6 +5,7 @@
 package edu.coeia.hash;
 
 import java.util.Date ;
+import java.io.Serializable; 
 
 /**
  *
@@ -16,7 +17,7 @@ import java.util.Date ;
  * 
  * @author wajdyessam
  */
-final class HashItem {
+public final class HashItem implements Serializable{
     
     /**
      * create new instance of HashItem class

@@ -9,7 +9,6 @@ package edu.coeia.util;
  * @author wajdyessam
  */
 
-import edu.coeia.cases.Case;
 import static edu.coeia.util.PreconditionsChecker.checkNull; 
 import static edu.coeia.util.PreconditionsChecker.checkNotEmptyString;
 
@@ -44,6 +43,35 @@ public class FileUtil {
         throw new AssertionError();
     }
 
+    /**
+     * Generic Method to write any serializable object to file
+     * @param <T> object type, must be implement Serializable interface
+     * @param object the object to be written to the file
+     * @param file the file path
+     * @throws IOException if there are errors in the written process
+     */
+    public static <T extends Serializable> void  writeObject (T object, File file) throws IOException {
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+        out.writeObject(object);
+        out.close();
+    }
+
+    /**
+     * Generic Method to read any serializable object from file
+     * @param <T> the type of object, must be implement serializable interface
+     * @param file the file path
+     * @return the object to be written
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
+    public static <T extends Serializable> T readObject (File file) throws IOException,ClassNotFoundException {
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+        T object = (T) in.readObject();
+        in.close();
+
+        return object; 
+    }
+    
     /**
      * create new folder if folderPath is not exists
      * @param folderPath 
@@ -282,19 +310,5 @@ public class FileUtil {
         }
         
         return buffer.toByteArray();
-    }
-    
-    public static <T extends Serializable> void  writeObject (T object, File file) throws IOException {
-        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-        out.writeObject(object);
-        out.close();
-    }
-
-    public static <T extends Serializable> T readObject (File file) throws IOException,ClassNotFoundException {
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-        T object = (T) in.readObject();
-        in.close();
-
-        return object; 
     }
 }

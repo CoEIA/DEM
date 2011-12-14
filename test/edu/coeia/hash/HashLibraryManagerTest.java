@@ -37,13 +37,17 @@ public class HashLibraryManagerTest {
         
         HashCategory hashCategory = new HashCategory("name");
         hashCategory.addItem(item1);
+        hashCategory.addItem(item2);
+        hashCategory.addItem(item2);
         
-        HashCategory hashCategory2= new HashCategory("name");
+        HashCategory hashCategory2= new HashCategory("test");
         hashCategory2.addItem(item2);
         
         HashLibraryManager hashManager = new HashLibraryManager();
         hashManager.add(hashCategory);
-        hashManager.update(hashCategory2);
+        hashManager.add(hashCategory2);
+        
+        hashManager.saveHashCategory();
     }
     
     @Test

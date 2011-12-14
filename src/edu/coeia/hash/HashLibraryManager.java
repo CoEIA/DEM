@@ -5,6 +5,7 @@
 package edu.coeia.hash;
 
 import edu.coeia.util.FileUtil;
+import java.io.File;
 import java.util.List ;
 import java.util.ArrayList ;
 
@@ -35,8 +36,16 @@ public class HashLibraryManager {
         
     }
     
-    public void saveHashCategory(final HashCategory hashCategory) { 
-       
+    public void saveHashCategory() { 
+       try {
+           for(HashCategory hashCategory: hashCategories) {
+                FileUtil.writeObject(hashCategory, new File("C:\\" + hashCategory.getName() + ".hash"));
+                System.out.println(hashCategory.toString());
+           }
+       }
+       catch(Exception e) {
+           e.printStackTrace();
+       }
     }
     
     private List<HashCategory> hashCategories;

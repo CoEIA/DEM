@@ -14,7 +14,7 @@ import java.io.Serializable;
  *
  * @author wajdyessam
  */
-final class HashCategory implements Serializable{
+public final class HashCategory implements Serializable{
 
     public HashCategory (final String hashSetName) {
         this.name = hashSetName ;
@@ -56,6 +56,19 @@ final class HashCategory implements Serializable{
     @Override
     public int hashCode() {
         return this.getName().hashCode() * 7 ;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(this.getClass().getName()).append("[\n");
+        
+        for(HashItem item: this.items ) {
+            builder.append(item).append("\n");
+        }
+        
+        builder.append("]\n");
+        return builder.toString();
     }
     
     private final String name; 
