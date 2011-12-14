@@ -35,6 +35,27 @@ public class HashCategory {
     public String getName() { return this.name ;}
     public List<HashItem> getItems() { return Collections.unmodifiableList(this.items); }
     
+    
+    @Override
+    public boolean equals(Object object) {
+        if ( this == object )
+            return true;
+        
+        if ( object == null )
+            return false;
+        
+        if ( this.getClass() != object.getClass() )
+            return false;
+        
+        HashCategory hashCategory = (HashCategory) object;
+        return hashCategory.getName().equals(this.getName());
+    }
+    
+    @Override
+    public int hashCode() {
+        return this.getName().hashCode() * 7 ;
+    }
+    
     private final String name; 
     private final List<HashItem> items;
 }
