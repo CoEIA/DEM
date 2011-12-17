@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.hash;
+package edu.coeia.hashanalysis;
 
 import java.util.List ;
 import java.util.ArrayList ;
@@ -16,8 +16,9 @@ import java.io.Serializable;
  */
 public final class HashCategory implements Serializable{
 
-    public HashCategory (final String hashSetName) {
+    public HashCategory (final String hashSetName, final String note) {
         this.name = hashSetName ;
+        this.note = note;
         this.items = new ArrayList<HashItem>();
     }
     
@@ -35,8 +36,8 @@ public final class HashCategory implements Serializable{
     }
     
     public String getName() { return this.name ;}
+    public String getNote() { return this.note ;}
     public List<HashItem> getItems() { return Collections.unmodifiableList(this.items); }
-    
     
     @Override
     public boolean equals(Object object) {
@@ -72,5 +73,7 @@ public final class HashCategory implements Serializable{
     }
     
     private final String name; 
+    private final String note;
+    
     private final List<HashItem> items;
 }

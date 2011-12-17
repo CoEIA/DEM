@@ -4,7 +4,6 @@
  */
 package edu.coeia.gutil;
 
-import edu.coeia.util.Utilities;
 import edu.coeia.internet.FilesFilter ;
 
 import javax.swing.JButton;
@@ -14,6 +13,8 @@ import javax.swing.JTable ;
 import javax.swing.JPanel;
 
 import java.awt.CardLayout ;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *

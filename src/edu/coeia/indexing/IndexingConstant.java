@@ -4,6 +4,8 @@
  */
 package edu.coeia.indexing;
 
+import org.apache.lucene.document.Document;
+
 /**
  *
  * @author wajdyessam
@@ -85,4 +87,21 @@ public class IndexingConstant {
     public static final String ONLINE_EMAIL_SENT_DATE = "ONLINE_EMAIL_SENT_DATE";
     public static final String ONLINE_EMAIL_ATTACHMENT_PATH = "ONLINE_EMAIL_ATTACHMENT_PATH";
     public static final String ONLINE_EMAIL_MESSAGE_ID = "ONLINE_EMAIL_ID";
+    
+    
+        
+    public static boolean isFileDocument(final Document document) {
+        return document.get(IndexingConstant.DOCUMENT)
+                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE));
+    }
+    
+    public static boolean isChatDocument(final Document document) {
+        return document.get(IndexingConstant.DOCUMENT)
+                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT));
+    }
+   
+    public static boolean isEmailDocument(final Document document) {
+        return document.get(IndexingConstant.DOCUMENT)
+                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL));
+    }
 }

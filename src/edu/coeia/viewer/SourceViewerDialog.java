@@ -229,7 +229,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private void tagDocument(final Document document) {
         StringBuilder result = new StringBuilder();
         
-        if ( isFileDocument(document) ) {
+        if ( IndexingConstant.isFileDocument(document) ) {
             String fileName = document.get(IndexingConstant.FILE_TITLE);
             String filePath = document.get(IndexingConstant.FILE_NAME);
             String date = document.get(IndexingConstant.FILE_DATE);
@@ -256,7 +256,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     }
     
     private void exportDocument(final Document document) {
-        if ( isFileDocument(document) ) {
+        if ( IndexingConstant.isFileDocument(document) ) {
             String filePath = document.get(IndexingConstant.FILE_NAME);
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(this.parent);
@@ -288,34 +288,19 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private void showPanelForDocument (Document document) {
         JPanel panel = null;
         
-        if ( isFileDocument(document) ) {
+        if ( IndexingConstant.isFileDocument(document) ) {
             panel = new FileSourceViewerPanel(this);
         }
-        else if ( isChatDocument(document) ) {
+        else if ( IndexingConstant.isChatDocument(document) ) {
             panel = new ChatSourceViewerPanel(this);
         }
-        else if ( isEmailDocument(document) ) {
+        else if ( IndexingConstant.isEmailDocument(document) ) {
             panel = new EmailSourceViewerPanel(this);
         }
         
         this.viewerPanel.setLayout(new BorderLayout());
         this.viewerPanel.add(panel, BorderLayout.CENTER);
         this.viewerPanel.revalidate();
-    }
-    
-    private boolean isFileDocument(final Document document) {
-        return document.get(IndexingConstant.DOCUMENT)
-                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE));
-    }
-    
-    private boolean isChatDocument(final Document document) {
-        return document.get(IndexingConstant.DOCUMENT)
-                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT));
-    }
-   
-    private boolean isEmailDocument(final Document document) {
-        return document.get(IndexingConstant.DOCUMENT)
-                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL));
     }
    
     /**

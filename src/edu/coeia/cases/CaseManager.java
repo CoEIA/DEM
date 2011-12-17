@@ -113,6 +113,7 @@ public enum CaseManager {
         File root = new File(FilesPath.APPLICATION_PATH);
         File cases = new File(FilesPath.CASES_PATH);
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
+        File hashLibraryFile = new File(FilesPath.HASH_LIBRARY_PATH);
         
         if  ( ! root.exists() )
             return true;
@@ -122,6 +123,9 @@ public enum CaseManager {
 
          if  ( ! indexesInfo.exists() )
               return true;
+         
+         if ( !hashLibraryFile.exists())
+                 return true;
          
          return false;
     }
@@ -145,6 +149,7 @@ public enum CaseManager {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
         File tmpFile = new File(FilesPath.TMP_PATH);
         File logFile = new File(FilesPath.APPLICATION_LOG_PATH);
+        File hashLibraryFile = new File(FilesPath.HASH_LIBRARY_PATH);
         
         if  ( ! root.exists() )
             root.mkdir();   // make offline folder in applicationData
@@ -160,6 +165,9 @@ public enum CaseManager {
 
         if ( !logFile.exists() ) 
             logFile.mkdir();
+        
+        if ( !hashLibraryFile.exists() )
+            hashLibraryFile.mkdir();
          
         // craete tmp files
         new File(FilesPath.HIS_TMP).createNewFile();

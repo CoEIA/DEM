@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.hash;
+package edu.coeia.hashanalysis;
 
 import java.util.Date ;
 import java.io.Serializable; 
@@ -64,7 +64,6 @@ public final class HashItem implements Serializable{
     public String getInvestigatorName() { return this.invesitgatorName ;}
     public Date getTime() { return new Date(this.time.getTime()); } // Defense Copy
     public String getHashValue() { return this.hashValue ; }
-    
     
     @Override
     public boolean equals(Object object) {

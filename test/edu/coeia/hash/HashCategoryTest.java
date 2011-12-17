@@ -4,6 +4,8 @@
  */
 package edu.coeia.hash;
 
+import edu.coeia.hashanalysis.HashItem;
+import edu.coeia.hashanalysis.HashCategory;
 import org.junit.Test ;
 import org.junit.Before; 
 import static org.junit.Assert.*;
@@ -21,7 +23,7 @@ public class HashCategoryTest {
         HashItem item1 = HashItem.newInstance("a.doc","C:\\a.doc","test","F:\\test", 
                 "Wajdy", new Date(), "DFWERWEWER");
         
-        HashCategory hashCategory = new HashCategory("name");
+        HashCategory hashCategory = new HashCategory("name","this is simple testing");
         
         assertFalse(hashCategory.isContain(item1));
         assertTrue(hashCategory.addItem(item1));

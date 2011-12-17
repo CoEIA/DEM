@@ -8,6 +8,7 @@ import edu.coeia.cases.CaseManagerPanel;
 import edu.coeia.util.Utilities;
 import edu.coeia.gutil.GuiUtil ;
 import edu.coeia.chat.ChatPanel;
+import edu.coeia.hashanalysis.HashLibraryManagerDialog;
 import edu.coeia.offlinemail.EmailPanel;
 import edu.coeia.indexing.IndexingDialog;
 import edu.coeia.multimedia.ImagesViewerPanel;
@@ -141,6 +142,8 @@ public class CaseFrame extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
+        hashLibraryMenuItem = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         caseIndexingMenuItem = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         windowsMenuItem = new javax.swing.JMenuItem();
@@ -303,6 +306,15 @@ public class CaseFrame extends javax.swing.JFrame {
             }
         });
 
+        hashLibraryMenuItem.setText("Hash Library");
+        hashLibraryMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hashLibraryMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(hashLibraryMenuItem);
+        jMenu1.add(jSeparator3);
+
         caseIndexingMenuItem.setText("Case Indexing");
         caseIndexingMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -460,6 +472,11 @@ public class CaseFrame extends javax.swing.JFrame {
        GuiUtil.showPanel("reportCard",CardPanel);
        this.setTitle(APPLICATION_NAME + "Report Manager Window");
     }//GEN-LAST:event_reportToggleButtonActionPerformed
+
+    private void hashLibraryMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashLibraryMenuItemActionPerformed
+        HashLibraryManagerDialog dailog = new HashLibraryManagerDialog(this, true, this.caseObj);
+        dailog.setVisible(true);
+    }//GEN-LAST:event_hashLibraryMenuItemActionPerformed
     
     public void showIndexDialog(boolean startIndex) {
         IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj, startIndex);
@@ -533,6 +550,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JToggleButton fileSystemToggleButton;
+    private javax.swing.JMenuItem hashLibraryMenuItem;
     private javax.swing.ButtonGroup headerGroupButton;
     private javax.swing.JMenuItem helpMenuItem;
     private javax.swing.JToggleButton imageViewerToggleButton;
@@ -541,6 +559,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem recentMenuItem;
     private javax.swing.JToggleButton reportToggleButton;

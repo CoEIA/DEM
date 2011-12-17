@@ -4,10 +4,14 @@
  */
 package edu.coeia.hash;
 
+import edu.coeia.hashanalysis.HashLibraryManager;
+import edu.coeia.hashanalysis.HashItem;
+import edu.coeia.hashanalysis.HashCategory;
+import java.util.ArrayList;
 import org.junit.Test; 
-import org.junit.Before;
 import static org.junit.Assert.*; 
 import java.util.Date; 
+import java.util.List;
 
 /**
  *
@@ -19,7 +23,7 @@ public class HashLibraryManagerTest {
         HashItem item1 = HashItem.newInstance("a.doc","C:\\a.doc","test","F:\\test", 
             "Wajdy", new Date(), "DFWERWEWER");
         
-        HashCategory hashCategory = new HashCategory("name");
+        HashCategory hashCategory = new HashCategory("name", "notes");
         hashCategory.addItem(item1);
         
         HashLibraryManager hashManager = new HashLibraryManager();
@@ -35,19 +39,22 @@ public class HashLibraryManagerTest {
         HashItem item2 = HashItem.newInstance("b.pdf","", "casename", "casepath", 
                 "ahmed", new Date(), "asdfdsa");
         
-        HashCategory hashCategory = new HashCategory("name");
+        HashCategory hashCategory = new HashCategory("name", "another notes");
         hashCategory.addItem(item1);
-        hashCategory.addItem(item2);
-        hashCategory.addItem(item2);
+        //hashCategory.addItem(item2);
         
-        HashCategory hashCategory2= new HashCategory("test");
-        hashCategory2.addItem(item2);
+//        HashCategory hashCategory2= new HashCategory("test");
+//        hashCategory2.addItem(item2);
         
         HashLibraryManager hashManager = new HashLibraryManager();
         hashManager.add(hashCategory);
-        hashManager.add(hashCategory2);
         
-        hashManager.saveHashCategory();
+        List<HashItem> items = new ArrayList<HashItem>();
+        items.add(item2);
+        
+        hashManager.update(items, "name");
+        
+        //hashManager.add(hashCategory2);
     }
     
     @Test

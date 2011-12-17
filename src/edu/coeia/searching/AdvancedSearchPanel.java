@@ -11,10 +11,12 @@
 package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
-import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.hashanalysis.HashItem;
+import edu.coeia.hashanalysis.HashSetDialog;
+import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.viewer.SourceViewerDialog;
 
 import java.awt.event.InputEvent;
@@ -33,6 +35,10 @@ import java.util.logging.Level;
 import java.util.ArrayList;
 
 import java.util.Collections;
+import java.util.Date;
+import javax.swing.JButton;
+import javax.swing.JPopupMenu;
+import org.apache.lucene.document.Document;
 
 /**
  *
@@ -327,7 +333,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         });
         searchTable.setFillsViewportHeight(true);
         searchTable.setGridColor(new java.awt.Color(255, 255, 255));
-        searchTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        searchTable.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         searchTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 searchTableMouseClicked(evt);
@@ -389,7 +395,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_searchTableMouseClicked
 
     private void searchTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMousePressed
-        //tableMouseEvent(evt);
+        resultTableRightClicked(evt);
     }//GEN-LAST:event_searchTableMousePressed
 
     private void resultSavingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultSavingButtonActionPerformed
@@ -430,14 +436,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private void queryTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryTextFieldActionPerformed
         startSearching();
     }//GEN-LAST:event_queryTextFieldActionPerformed
-
-//    private void tableMouseEvent(java.awt.event.MouseEvent evt) {
-//        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-//            if ( searchTable.isEnabled() )
-//                GuiUtil.showPopup(evt);
-//        }
-//    }
-//    
+    
     void setResultId (List<Integer> ids) {  this.resultId.addAll(Collections.unmodifiableList(ids)); }
     public List<Integer> getIds() { return Collections.unmodifiableList(this.resultId) ; }
     
@@ -487,15 +486,17 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         return builder.build();
     }
     
+    private void resultTableRightClicked(java.awt.event.MouseEvent evt) {
+        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
+            if ( this.searchTable.isEnabled() )
+                this.showHashSetPopup(evt);
+        }
+    }
+    
     private void resultTableClicked(java.awt.event.MouseEvent evt) {
         // set summary panel
         try {
-            if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-                GuiUtil.showPopup(evt);
-                return ;
-            }
-
-            if ( evt.getClickCount() == 2  ) { // Double Click
+            if ( evt.getClickCount() == 2 ) { // Double Click
                 // other click event
                 int row = searchTable.getSelectedRow();
                 if ( row < 0 ) return ; // if not select row
@@ -512,6 +513,56 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+    
+    private void showHashSetPopup (java.awt.event.MouseEvent event) {
+
+        final JTable table = (JTable) event.getSource();
+        JPopupMenu popup = new JPopupMenu();
+        JButton btn = new JButton("Adding to Hash Set");
+        
+        btn.addActionListener( new java.awt.event.ActionListener() {
+            public void actionPerformed (java.awt.event.ActionEvent event) {
+                try {
+                    int[] indexes = table.getSelectedRows();
+                    List<HashItem> hashItems = new ArrayList<HashItem>();
+                    
+                    for(int i: indexes) {
+                        int id = Integer.valueOf(String.valueOf(table.getValueAt(table.convertRowIndexToView(i), 0)));
+                        Document currentDocument = searcher.getDocument(String.valueOf(id));
+                        hashItems.add(getHashItemFromDocument(currentDocument));
+                    }
+                    
+                    // display hash set dialog
+                    HashSetDialog hashSetDialog = new HashSetDialog(parentFrame, true, hashItems);
+                    hashSetDialog.setVisible(true);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        popup.add(btn);
+        table.setComponentPopupMenu(popup);
+    }
+        
+    private HashItem getHashItemFromDocument(final Document document) {
+        HashItem item = null;
+        
+        if ( IndexingConstant.isFileDocument(document) ) {
+            String fileName = document.get(IndexingConstant.FILE_TITLE);
+            String filePath = document.get(IndexingConstant.FILE_NAME);
+
+            String hashValue = "" ;
+            
+            item = HashItem.newInstance(fileName, filePath, this.caseObj.getIndexName(),
+                    this.caseObj.getCaseLocation(), this.caseObj.getInvestigatorName(), 
+                    new Date(), hashValue);
+        }
+                
+        return item;
+    }
+    
     
     private void showAdvancedSearch() {
         AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true);

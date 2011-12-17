@@ -393,7 +393,7 @@
                               <Color blue="ff" green="ff" red="ff" type="rgb"/>
                             </Property>
                             <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
-                              <JTableSelectionModel selectionMode="0"/>
+                              <JTableSelectionModel selectionMode="2"/>
                             </Property>
                           </Properties>
                           <Events>
