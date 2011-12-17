@@ -28,6 +28,7 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
     private Case caseObject; 
     private List<HashCategory> hashCategories ;
     private HashSetItemsPanel hashSetItemsPanel ;
+    private HashLibraryManager hashLibraryManger ;
     
     /** Creates new form HashLibraryManagerDialog */
     public HashLibraryManagerDialog(java.awt.Frame parent, boolean modal, Case aCase) {
@@ -37,8 +38,9 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
         
         this.caseObject = aCase;
         this.hashCategories = new ArrayList<HashCategory>();
+        this.hashLibraryManger = new HashLibraryManager();
         
-        this.displayHashSets();
+        this.initializeHashSet();
         this.disableButtonWhenEmptyHashSet();
     }
 
@@ -145,8 +147,8 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(hashSetsComboBox, 0, 482, Short.MAX_VALUE)
-                .addGap(42, 42, 42)
+                .addComponent(hashSetsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(loadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -170,8 +172,8 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(viewPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
+                        .addComponent(viewPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -182,8 +184,8 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(viewPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE))
+                    .addComponent(viewPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -191,8 +193,7 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
-        int index = this.hashSetsComboBox.getSelectedIndex();
-        HashCategory hashCategory = this.hashCategories.get(index);
+        HashCategory hashCategory = this.getSelectedHashCategory();
         
         this.hashSetItemsPanel = new HashSetItemsPanel(hashCategory.getItems());
         
@@ -210,14 +211,26 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_exportButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        // TODO add your handling code here:
+        HashCategory hashCategory = this.getSelectedHashCategory();
+        this.hashLibraryManger.remove(hashCategory);
+        
+        this.resetItems();
+        this.initializeHashSet();
+        this.disableButtonWhenEmptyHashSet();
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
     
-    private void displayHashSets() {
+    private HashCategory getSelectedHashCategory() {
+        int index = this.hashSetsComboBox.getSelectedIndex();
+        HashCategory hashCategory = this.hashCategories.get(index);
+        
+        return (hashCategory);
+    }
+    
+    private void initializeHashSet() {
         String hashSetLocation = FilesPath.HASH_LIBRARY_PATH;
         List<File> hashSetsLocation = getHashSets(hashSetLocation);
         
@@ -226,6 +239,14 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
             this.hashCategories.add(hashCategory);
             this.hashSetsComboBox.addItem(hashCategory.getName());
         }
+    }
+    
+    private void resetItems() {
+        this.hashCategories.clear();
+        this.hashSetsComboBox.removeAllItems();
+        this.viewPanel.removeAll();
+        this.viewPanel.revalidate();
+        this.disableButtonWhenEmptyHashSet();
     }
     
     private List<File> getHashSets(final String hashLocation) {

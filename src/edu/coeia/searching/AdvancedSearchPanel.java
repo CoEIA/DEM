@@ -14,6 +14,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.hash.HashCalculator;
 import edu.coeia.hashanalysis.HashItem;
 import edu.coeia.hashanalysis.HashSetDialog;
 import edu.coeia.indexing.IndexingConstant;
@@ -553,7 +554,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             String fileName = document.get(IndexingConstant.FILE_TITLE);
             String filePath = document.get(IndexingConstant.FILE_NAME);
 
-            String hashValue = "" ;
+            String hashValue = HashCalculator.calculateFileHash(filePath);
             
             item = HashItem.newInstance(fileName, filePath, this.caseObj.getIndexName(),
                     this.caseObj.getCaseLocation(), this.caseObj.getInvestigatorName(), 

@@ -29,6 +29,22 @@ public class HashLibraryManager {
         return false;
     }
     
+    public boolean remove(final HashCategory hashCategory) {
+        boolean status = false;
+        
+        try {
+            File file = new File(FilesPath.HASH_LIBRARY_PATH + "\\" + hashCategory.getName() +
+                    FilesPath.HASH_SET_EXTENSION );
+            
+            status = file.delete();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return status;
+    }
+    
     public boolean isContain(final HashCategory hashCategory) {
         //return this.hashCategories.contains(hashCategory);
         return false;
