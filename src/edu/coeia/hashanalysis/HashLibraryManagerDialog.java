@@ -14,10 +14,8 @@ import edu.coeia.cases.Case;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -241,10 +239,10 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
     
     private void initializeHashSet() {
         String hashSetLocation = FilesPath.HASH_LIBRARY_PATH;
-        List<File> hashSetsLocation = getHashSets(hashSetLocation);
+        List<File> hashSetsLocation = hashLibraryManger.getHashSets(hashSetLocation);
         
         for(File file: hashSetsLocation) {
-            HashCategory hashCategory = getHashCategory(file);
+            HashCategory hashCategory = hashLibraryManger.getHashCategory(file);
             this.hashCategories.add(hashCategory);
             this.hashSetsComboBox.addItem(hashCategory.getName());
         }
@@ -256,34 +254,6 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
         this.viewPanel.removeAll();
         this.viewPanel.revalidate();
         this.disableButtonWhenEmptyHashSet();
-    }
-    
-    private List<File> getHashSets(final String hashLocation) {
-        List<File> files = new ArrayList<File>();
-        
-        File file = new File(hashLocation);
-        FileFilter fileFilter = new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                return file.isFile() && file.getAbsolutePath().endsWith(FilesPath.HASH_SET_EXTENSION);
-            }
-        };
-        
-        files.addAll(Arrays.asList(file.listFiles(fileFilter)));
-        return files;
-    }
-    
-    private HashCategory getHashCategory(final File file) {
-        HashCategory hashCategory = null;
-        
-        try {
-            hashCategory = FileUtil.readObject(file);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        
-        return hashCategory;
     }
     
     private void disableButtonWhenEmptyHashSet() {

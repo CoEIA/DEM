@@ -7,8 +7,10 @@ package edu.coeia.hashanalysis;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 import java.io.File;
+import java.io.FileFilter;
 import java.util.List ;
 import java.util.ArrayList ;
+import java.util.Arrays;
 
 /**
  *
@@ -79,6 +81,34 @@ public class HashLibraryManager {
        catch(Exception e) {
            e.printStackTrace();
        }
+    }
+    
+    public List<File> getHashSets(final String hashLocation) {
+        List<File> files = new ArrayList<File>();
+        
+        File file = new File(hashLocation);
+        FileFilter fileFilter = new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                return file.isFile() && file.getAbsolutePath().endsWith(FilesPath.HASH_SET_EXTENSION);
+            }
+        };
+        
+        files.addAll(Arrays.asList(file.listFiles(fileFilter)));
+        return files;
+    }
+    
+    public HashCategory getHashCategory(final File file) {
+        HashCategory hashCategory = null;
+        
+        try {
+            hashCategory = FileUtil.readObject(file);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        return hashCategory;
     }
     
     //private List<HashCategory> hashCategories;

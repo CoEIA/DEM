@@ -133,13 +133,20 @@ public class HashSetDialog extends javax.swing.JDialog {
         
         boolean status = newHashSetDialog.getStatus();
         if ( status ) {
-            JOptionPane.showMessageDialog(parent, "Hash Set created..");
+            JOptionPane.showMessageDialog(parent, "Hash Set created Successfully..");
             this.dispose();
         }
     }//GEN-LAST:event_createRadioButtonActionPerformed
 
     private void addingRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addingRadioButtonActionPerformed
-        // TODO add your handling code here:
+        UpdateHashSetDialog updateHashSetDialog = new UpdateHashSetDialog(this.parent, true, this.items);
+        updateHashSetDialog.setVisible(true);
+        
+        boolean status = updateHashSetDialog.getStatus();
+        if ( status ) {
+            JOptionPane.showMessageDialog(parent, "Hash Set Adding Successfully..");
+            this.dispose();
+        }
     }//GEN-LAST:event_addingRadioButtonActionPerformed
 
     
