@@ -56,6 +56,7 @@ public class NewHashSetDialog extends javax.swing.JDialog {
         cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Creating New Hash Set");
 
         hashItemsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Items in Current Hash Set"));
         hashItemsPanel.setLayout(new java.awt.BorderLayout());

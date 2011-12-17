@@ -15,9 +15,12 @@ import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 /**
  *
@@ -29,6 +32,7 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
     private List<HashCategory> hashCategories ;
     private HashSetItemsPanel hashSetItemsPanel ;
     private HashLibraryManager hashLibraryManger ;
+    private JFrame parent; 
     
     /** Creates new form HashLibraryManagerDialog */
     public HashLibraryManagerDialog(java.awt.Frame parent, boolean modal, Case aCase) {
@@ -36,6 +40,7 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(parent);
         
+        this.parent = (JFrame) parent ;
         this.caseObject = aCase;
         this.hashCategories = new ArrayList<HashCategory>();
         this.hashLibraryManger = new HashLibraryManager();
@@ -203,11 +208,15 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_loadButtonActionPerformed
 
     private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
-        // TODO add your handling code here:
+        importHashSet();
+        
+        this.resetItems();
+        this.initializeHashSet();
+        this.disableButtonWhenEmptyHashSet();
     }//GEN-LAST:event_importButtonActionPerformed
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
-        // TODO add your handling code here:
+        exportHashSet(this.getSelectedHashCategory());
     }//GEN-LAST:event_exportButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
@@ -292,6 +301,53 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
         }
     }
     
+    private void importHashSet() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                return ( f.isFile() && f.getAbsolutePath().endsWith(FilesPath.HASH_SET_EXTENSION) );
+            }
+
+            @Override
+            public String getDescription() {
+                return String.format("DEM HASH SET");
+            }
+        });
+        
+        int result = fileChooser.showOpenDialog(this.parent);
+        if ( result == JFileChooser.APPROVE_OPTION ) {
+            File file = fileChooser.getSelectedFile();
+            
+            try {
+                String filePath = FilesPath.HASH_LIBRARY_PATH + "\\" + file.getName();
+                FileUtil.saveObject(new FileInputStream(file), filePath);
+            }
+            catch(Exception e){ 
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    private void exportHashSet(final HashCategory hashCategory) {
+        String filePath = FilesPath.HASH_LIBRARY_PATH + "\\" + hashCategory.getName() 
+                + FilesPath.HASH_SET_EXTENSION ;
+        
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setSelectedFile(new File(hashCategory.getName() + FilesPath.HASH_SET_EXTENSION));
+        
+        int result = fileChooser.showSaveDialog(this.parent);
+        if ( result == JFileChooser.APPROVE_OPTION ) {
+            File file = fileChooser.getSelectedFile();
+            try {
+                FileUtil.saveObject(new FileInputStream(filePath), file.getAbsolutePath());
+            }
+            catch(Exception e) { 
+                e.printStackTrace(); 
+            }
+        }
+    }
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeButton;
     private javax.swing.JButton exportButton;
