@@ -10,15 +10,48 @@
  */
 package edu.coeia.filesystem;
 
+import edu.coeia.cases.Case;
+import edu.coeia.hashanalysis.HashCategory;
+import edu.coeia.hashanalysis.HashLibraryManager;
+import edu.coeia.main.CaseFrame;
+import edu.coeia.searching.LuceneSearcher;
+import edu.coeia.util.FilesPath;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JPanel;
+
 /**
  *
  * @author wajdyessam
  */
 public class HashAnalysisPanel extends javax.swing.JPanel {
 
+    private HashLibraryManager hashLibraryManager ;
+    private List<HashCategory> hashCategories ;
+    
+    private CaseFrame caseFrame ;
+    private Case aCase ;
+    private LuceneSearcher luceneSearcher ;
+    
     /** Creates new form HashAnalysisPanel */
-    public HashAnalysisPanel() {
+    public HashAnalysisPanel(final JPanel parentPanel) {
         initComponents();
+        
+        this.caseFrame = ((FileSystemPanel)parentPanel).getCaseFrame();
+        this.aCase =  ((FileSystemPanel) parentPanel).getCase();
+        
+        try {
+            this.luceneSearcher = new LuceneSearcher(new File(this.aCase.getCaseLocation()));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        this.hashLibraryManager = new HashLibraryManager();
+        this.hashCategories = new ArrayList<HashCategory>();
+        this.initializeHashSetList();
     }
 
     /** This method is called from within the constructor to
@@ -30,17 +63,204 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        hashLibraryDuplicationPanel = new javax.swing.JPanel();
+        hashSetPanel = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        hashSetJList = new javax.swing.JList();
+        hashAnalysisButton = new javax.swing.JButton();
+        resultPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        matchedFilesPanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        caseDuplicationPanel = new javax.swing.JPanel();
+
+        hashLibraryDuplicationPanel.setLayout(new java.awt.BorderLayout());
+
+        hashSetPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Hash Library"));
+
+        jScrollPane2.setViewportView(hashSetJList);
+
+        hashAnalysisButton.setText("Hash Analysis");
+        hashAnalysisButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hashAnalysisButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout hashSetPanelLayout = new javax.swing.GroupLayout(hashSetPanel);
+        hashSetPanel.setLayout(hashSetPanelLayout);
+        hashSetPanelLayout.setHorizontalGroup(
+            hashSetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(hashAnalysisButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+        );
+        hashSetPanelLayout.setVerticalGroup(
+            hashSetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hashSetPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(hashAnalysisButton))
+        );
+
+        hashLibraryDuplicationPanel.add(hashSetPanel, java.awt.BorderLayout.WEST);
+
+        resultPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Anlaysis Result"));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "File Name", "File path", "Hash Set", "Case Name", "Case Path", "Hash Value", "Investigator Name", "Date"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setFillsViewportHeight(true);
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout resultPanelLayout = new javax.swing.GroupLayout(resultPanel);
+        resultPanel.setLayout(resultPanelLayout);
+        resultPanelLayout.setHorizontalGroup(
+            resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(resultPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        resultPanelLayout.setVerticalGroup(
+            resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+        );
+
+        hashLibraryDuplicationPanel.add(resultPanel, java.awt.BorderLayout.CENTER);
+
+        matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Matched Files in Case"));
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable2.setFillsViewportHeight(true);
+        jScrollPane3.setViewportView(jTable2);
+
+        javax.swing.GroupLayout matchedFilesPanelLayout = new javax.swing.GroupLayout(matchedFilesPanel);
+        matchedFilesPanel.setLayout(matchedFilesPanelLayout);
+        matchedFilesPanelLayout.setHorizontalGroup(
+            matchedFilesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(matchedFilesPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        matchedFilesPanelLayout.setVerticalGroup(
+            matchedFilesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+        );
+
+        hashLibraryDuplicationPanel.add(matchedFilesPanel, java.awt.BorderLayout.PAGE_END);
+
+        jTabbedPane1.addTab("Files Duplication within Hash Library", hashLibraryDuplicationPanel);
+
+        caseDuplicationPanel.setLayout(new java.awt.BorderLayout());
+        jTabbedPane1.addTab("Files Duplication in the same Case", caseDuplicationPanel);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void hashAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashAnalysisButtonActionPerformed
+        Object[] values = this.hashSetJList.getSelectedValues();
+        for(Object obj: values) {
+            String value = String.valueOf(obj);
+            this.startHashAnalysis(value);
+        }
+    }//GEN-LAST:event_hashAnalysisButtonActionPerformed
+
+    private void initializeHashSetList() {
+        String hashSetLocation = FilesPath.HASH_LIBRARY_PATH;
+        List<File> hashSetsLocation = this.hashLibraryManager.getHashSets(hashSetLocation);
+        
+        DefaultListModel model = new DefaultListModel();
+        for(File file: hashSetsLocation) {
+            HashCategory hashCategory = this.hashLibraryManager.getHashCategory(file);
+            this.hashCategories.add(hashCategory);
+            model.addElement(hashCategory.getName());
+        }
+        
+        this.hashSetJList.setModel(model);
+    }
+        
+    private void startHashAnalysis(final String hashSetName) {
+        HashCategory hashCategory = this.getHashCategory(hashSetName);
+        System.out.println("hash: " + hashCategory.toString());
+    }
+    
+    private HashCategory getHashCategory(final String hashSetName) {
+        HashCategory hashCategory = null;
+        
+        for(HashCategory tmp: this.hashCategories ) {
+            if ( tmp.getName().equals(hashSetName) ) {
+                hashCategory = tmp;
+                break;
+            }
+        }
+        
+        return hashCategory;
+    }
+    
+    void closeLuceneSearch() {
+        try {
+            if ( this.luceneSearcher != null )
+                this.luceneSearcher.closeSearcher();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel caseDuplicationPanel;
+    private javax.swing.JButton hashAnalysisButton;
+    private javax.swing.JPanel hashLibraryDuplicationPanel;
+    private javax.swing.JList hashSetJList;
+    private javax.swing.JPanel hashSetPanel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JPanel matchedFilesPanel;
+    private javax.swing.JPanel resultPanel;
     // End of variables declaration//GEN-END:variables
 }

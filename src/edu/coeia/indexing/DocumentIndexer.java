@@ -4,6 +4,7 @@
  */
 package edu.coeia.indexing;
 
+import edu.coeia.hash.HashCalculator;
 import edu.coeia.util.FileUtil;
 
 import java.io.File;
@@ -89,6 +90,7 @@ final class DocumentIndexer extends Indexer {
         doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, HashCalculator.calculateFileHash(this.file.getAbsolutePath()), Field.Store.YES, Field.Index.ANALYZED));
         
         // spefic document fields
         doc.add(new Field(IndexingConstant.FILE_NAME, file.getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));

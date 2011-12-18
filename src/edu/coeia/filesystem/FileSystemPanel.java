@@ -1,13 +1,9 @@
 
 package edu.coeia.filesystem;
 
-import edu.coeia.filesystem.HashAnalysisPanel;
-import edu.coeia.filesystem.FileBrowsingPanel;
-import edu.coeia.filesystem.VisualizationPanel;
-import edu.coeia.filesystem.TextCloudPanel;
-import edu.coeia.filesystem.ApplicationHistoryPanel;
 import edu.coeia.cases.Case;
 import edu.coeia.filesignature.FileSignaturePanel;
+import edu.coeia.main.CaseFrame;
 import javax.swing.JFrame;
 
 /*
@@ -21,16 +17,22 @@ import javax.swing.JFrame;
 
 public class FileSystemPanel extends javax.swing.JPanel {
     
+    private CaseFrame caseFrame ;
+    private Case aCase ;
+    
     /** Creates new form FileSystemPanel */
     public FileSystemPanel(Case aIndex, JFrame parentFrame) {
         initComponents();
 
+        this.caseFrame = (CaseFrame) parentFrame;
+        this.aCase = aIndex ;
+        
         //SearchFileSystemPanel searchPanel = new SearchFileSystemPanel(aIndex, parentFrame);
         FileBrowsingPanel fileBrowsingPanel = new FileBrowsingPanel();
-        TextCloudPanel textCloudPanel = new TextCloudPanel(aIndex, parentFrame, this);
-        VisualizationPanel visualizationPanel = new VisualizationPanel(aIndex, parentFrame, this);
+        TextCloudPanel textCloudPanel = new TextCloudPanel(this.aCase, parentFrame, this);
+        VisualizationPanel visualizationPanel = new VisualizationPanel(this.aCase, parentFrame, this);
         FileSignaturePanel fileSignaturePanel = new FileSignaturePanel();
-        HashAnalysisPanel hashAnalysisPanel = new HashAnalysisPanel();
+        HashAnalysisPanel hashAnalysisPanel = new HashAnalysisPanel(this);
         ApplicationHistoryPanel applicationHistoryPanel = new ApplicationHistoryPanel();
         
         //this.fileSystemTappedPane.add("Searching", searchPanel);
@@ -46,6 +48,9 @@ public class FileSystemPanel extends javax.swing.JPanel {
         fileSystemTappedPane.setSelectedIndex(0);
         //((SearchFileSystemPanel)fileSystemTappedPane.getComponentAt(0)).setSearchKeyword(text);
     }
+    
+    public CaseFrame getCaseFrame() { return this.caseFrame ; }
+    public Case getCase() { return this.aCase ; }
     
     /** This method is called from within the constructor to
      * initialize the form.
