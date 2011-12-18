@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.apache.lucene.document.Document;
 
@@ -226,6 +227,12 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
             String value = String.valueOf(obj);
             this.startHashAnalysis(value);
         }
+        
+        if ( this.matchedResult.isEmpty() ) {
+            JOptionPane.showMessageDialog(null, "There is no duplication with selected hash set(s)",
+                    "cannot find any matched files in this case",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_hashAnalysisButtonActionPerformed
 
     private void analysisResultTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_analysisResultTableMouseClicked
@@ -265,12 +272,13 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         
     private void startHashAnalysis(final String hashSetName) {
         HashCategory hashCategory = this.getHashCategory(hashSetName);
+        
         for(HashItem item: hashCategory.getItems()) {
             String hashValue = item.getHashValue();
             List<Document> documents = searchFor(hashValue);
             
             if ( !documents.isEmpty() ) {
-                System.out.println("found matching for hash: " + hashValue);
+                //System.out.println("found matching for hash: " + hashValue);
                 
                 // add data
                 Object[] data = {
@@ -292,7 +300,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
                 this.matchedResult.add(result);
             }
             else {
-                System.out.println("cannot find matchign for: " + hashValue);
+                //System.out.println("cannot find matchign for: " + hashValue);
             }
         }
     }
