@@ -428,7 +428,9 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         props.setProperty("mail.pop3.socketFactory.fallback", "false");
         props.setProperty("mail.pop3.port", "995");
         props.setProperty("mail.pop3.socketFactory.port", "995");
-
+        props.setProperty("mail.pop3.connectiontimeout", "10000");
+        props.setProperty("mail.pop3.timeout", "10000");
+        
         Session session = Session.getDefaultInstance(props, null);
         try {
             store = session.getStore("pop3");
@@ -442,7 +444,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             store.connect("pop3.live.com", 995, UserName, Password);
         } catch (MessagingException ex1) {
             Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex1);
-            JOptionPane.showMessageDialog(this.emaildialogue, "Check Username and Password for Hotmail", "Error in Connecting", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this.emaildialogue, "Check Username or Password or Connection is lost", "Error in Connecting", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -461,6 +463,9 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         Properties props = System.getProperties();
         props.setProperty("mail.store.protocol", "imaps");
         props.setProperty("mail.imaps.partialfetch", "false");
+        props.setProperty("mail.pop3.connectiontimeout", "10000");
+        props.setProperty("mail.pop3.timeout", "10000");
+        
         Session session = Session.getDefaultInstance(props, null);
         try {
             store = session.getStore("imaps");
@@ -474,7 +479,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             store.connect("imap.gmail.com", UserName, Password);
         } catch (MessagingException ex1) {
             Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex1);
-            JOptionPane.showMessageDialog(this.emaildialogue, "Check Username and Password for Gmail", "Error in Connecting", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this.emaildialogue, "Check Username or Password or Connection is lost", "Error in Connecting", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 

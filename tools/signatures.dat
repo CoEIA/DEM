@@ -1,0 +1,399 @@
+JPEG2000 image files,00 00 00 0C 6A 50 20 20,Hex,N/A,JP2,Picture
+3GPP multimedia files,00 00 00 14 66 74 79 70,Hex,N/A,3GP,Multimedia
+3GPP2 multimedia files,00 00 00 20 66 74 79 70,Hex,N/A,3GP,Multimedia
+MPEG-4 video files,00 00 00 18 66 74 79 70,Hex,N/A,3GP5,Multimedia
+Apple audio and video files,00 00 00 20 66 74 79 70 4D 34 41,Hex,N/A,M4A,Multimedia
+Windows icon|printer spool file,00 00 01 00,Hex,N/A,ICO|SPL,Windows
+MPEG video file,00 00 01 B3,Hex,N/A,MPG,Multimedia
+DVD video file,00 00 01 BA,Hex,N/A,MPG|VOB,Multimedia
+Windows cursor,00 00 02 00,Hex,N/A,CUR,Windows
+QuattroPro spreadsheet,00 00 02 00,Hex,N/A,WB2,Spreadsheet
+Lotus 1-2-3 (v1),00 00 02 00 06 04 06 00,Hex,N/A,WK1,Spreadsheet
+Lotus 1-2-3 (v3),00 00 1A 00 00 10 04 00,Hex,N/A,WK3,Spreadsheet
+Lotus 1-2-3 (v4|v5),00 00 1A 00 02 10 04 00,Hex,N/A,WK4|WK5,Spreadsheet
+Lotus 1-2-3 (v9),00 00 1A 00 05 10 04,Hex,N/A,123,Spreadsheet
+Quark Express (Intel),00 00 49 49 58 50 52,Hex,N/A,QXD,Presentation
+Quark Express (Motorola),00 00 4D 4D 58 50 52,Hex,N/A,QXD,Presentation
+Microsoft Money file,00 01 00 00 4D 53 49 53 41 4D 20 44 61 74 61 62 61 73 65,Hex,N/A,MNY,Miscellaneous
+Microsoft Access 2007,00 01 00 00 53 74 61 6E 64 61 72 64 20 41 43 45 20 44 42,Hex,N/A,ACCDB,Database
+Microsoft Access,00 01 00 00 53 74 61 6E 64 61 72 64 20 4A 65 74 20 44 42,Hex,N/A,MDB,Database
+Palm Address Book Archive,00 01 42 41,Hex,N/A,ABA,Mobile
+Palm DateBook Archive,00 01 42 44,Hex,N/A,DBA,Mobile
+Netscape Navigator (v4) database,00 06 15 61 00 00 00 02 00 00 04 D2 00 00 10 00,Hex,N/A,DB,Network
+FLIC animation,00 11,Hex,N/A,FLI,Miscellaneous
+BIOS details in RAM,00 14 00 00 01 02,Hex,N/A,(none),Windows
+Netscape Communicator (v4) mail folder,00 1E 84 90 00 00 00 00,Hex,N/A,SNM,Email
+SQL Data Base,01 0F 00 00,Hex,N/A,MDF,Database
+Novell LANalyzer capture file, 01 10,Hex,N/A,TR1,Network
+Silicon Graphics RGB Bitmap,01 DA 01 01 00 03,Hex,N/A,RGB,Picture
+Micrografx vector graphic file,01 FF 02 04 03 02,Hex,N/A,DRW,Picture
+Digital Speech Standard file,02 64 73 73,Hex,N/A,DSS,Multimedia
+MapInfo Native Data Format,03,Hex,N/A,DAT,Miscellaneous
+dBASE III file,03,Hex,N/A,DB3,Database
+Quicken price history,03 00 00 00,Hex,N/A,QPH,Miscellaneous
+Approach index file,03 00 00 00 41 50 50 52,Hex,N/A,ADX,Database
+dBASE IV file,04,Hex,N/A,DB4,Database
+INFO2 Windows recycle bin_1,04 00 00 00,Hex,N/A,(none),Windows
+INFO2 Windows recycle bin_2,05 00 00 00,Hex,N/A,(none),Windows
+Generic drawing programs,07,Hex,N/A,DRW,Presentation
+SkinCrafter skin,07 53 4B 46,Hex,N/A,SKF,Miscellaneous
+DesignTools 2D Design file,07 64 74 32 64 64 74 64,Hex,N/A,DTD,Miscellaneous
+dBASE IV or dBFast configuration file,08,Hex,N/A,DB,Database
+ZSOFT Paintbrush file_1,0A 02 01 01,Hex,N/A,PCX,Presentation
+ZSOFT Paintbrush file_2,0A 03 01 01,Hex,N/A,PCX,Presentation
+ZSOFT Paintbrush file_3,0A 05 01 01,Hex,N/A,PCX,Presentation
+Monochrome Picture TIFF bitmap,0C ED,Hex,N/A,MP,Picture
+DeskMate Document,0D 44 4F 43,Hex,N/A,DOC,Word processing suite
+Nero CD compilation,0E 4E 65 72 6F 49 53 4F,Hex,N/A,NRI,Miscellaneous
+DeskMate Worksheet,0E 57 4B 53,Hex,N/A,WKS,Word processing suite
+Windows prefetch file,11 00 00 00 53 43 43 41,Hex,N/A,PF,Windows
+Lotus Notes database template,1A 00 00,Hex,N/A,NTF,Spreadsheet
+Lotus Notes database,1A 00 00 04 00 00,Hex,N/A,NSF,Spreadsheet
+LH archive (old vers.|type 1),1A 02,Hex,N/A,ARC,Compressed archive
+LH archive (old vers.|type 2),1A 03,Hex,N/A,ARC,Compressed archive
+LH archive (old vers.|type 3),1A 04,Hex,N/A,ARC,Compressed archive
+LH archive (old vers.|type 4),1A 08,Hex,N/A,ARC,Compressed archive
+LH archive (old vers.|type 5),1A 09,Hex,N/A,ARC,Compressed archive
+Compressed archive file,1A 0B,Hex,N/A,PAK,Compressed archive
+WinPharoah capture file,1A 35 01 00,Hex,N/A,ETH,Network
+Matroska stream file,1A 45 DF A3 93 42 82 88,Hex,N/A,MKV,Multimedia
+Runtime Software disk image,1A 52 54 53 20 43 4F 4D,Hex,N/A,DAT,Miscellaneous
+WordStar Version 5.0|6.0 document,1D 7D,Hex,N/A,WS,Word processing suite
+GZIP archive file,1F 8B 08,Hex,N/A,GZ,Compressed archive
+Compressed tape archive_1,1F 9D 90,Hex,N/A,TAR.Z,Compressed archive
+Compressed tape archive_2,1F A0,Hex,N/A,TAR.Z,Compressed archive
+AIN Compressed Archive,21 12,Hex,N/A,AIN,Compressed archive
+Unix archiver (ar)|MS Program Library Common Object File Format (COFF),21 3C 61 72 63 68 3E 0A,Hex,N/A,LIB,Compressed archive
+Cerius2 file,23 20,Hex,N/A,MSI,Miscellaneous
+VMware 4 Virtual Disk description,23 20 44 69 73 6B 20 44,Hex,N/A,VMDK,Miscellaneous
+MS Developer Studio project file,23 20 4D 69 63 72 6F 73,Hex,N/A,DSP,Programming
+Adaptive Multi-Rate ACELP Codec (GSM),23 21 41 4D 52,Hex,N/A,AMR,Multimedia
+Radiance High Dynamic Range image file,23 3F 52 41 44 49 41 4E,Hex,N/A,HDR,Picture
+SPSS Data file,24 46 4C 32 40 28 23 29,Hex,N/A,SAV,Miscellaneous
+Encapsulated PostScript file,25 21 50 53 2D 41 64 6F,Hex,N/A,EPS,Word processing suite
+PDF file,25 50 44 46,Hex,N/A,PDF|FDF,Word processing suite
+BinHex 4 Compressed Archive,28 54 68 69 73 20 66 69,Hex,N/A,HQX,Compressed archive
+Symantec Wise Installer log, 2A 2A 2A 20 20 49 6E 73,Hex,N/A,LOG,Miscellaneous
+RealPlayer video file (V11+),2E 52 45 43,Hex,N/A,IVR,Multimedia
+RealMedia streaming media,2E 52 4D 46,Hex,N/A,RM|RMVB,Multimedia
+RealAudio file,2E 52 4D 46 00 00 00 12,Hex,N/A,RA,Multimedia
+RealAudio streaming media,2E 72 61 FD 00,Hex,N/A,RA,Multimedia
+NeXT|Sun Microsystems audio file,2E 73 6E 64,Hex,N/A,AU,Multimedia
+MS security catalog file,30,Hex,N/A,CAT,Windows
+Windows Event Viewer file,30 00 00 00 4C 66 4C 65,Hex,N/A,EVT,Windows
+Windows Media Audio|Video File,30 26 B2 75 8E 66 CF 11,Hex,N/A,ASF|WMA|WMV,Multimedia
+National Transfer Format Map,30 31 4F 52 44 4E 41 4E,Hex,N/A,NTF,Miscellaneous
+cpio archive,30 37 30 37 30,Hex,N/A,(none),Compressed archive
+MS Write file_1,31 BE,Hex,N/A,WRI,Word processing suite
+MS Write file_2,32 BE,Hex,N/A,WRI,Word processing suite
+Tcpdump capture file,34 CD B2 A1,Hex,N/A,(none),Network
+7-Zip compressed file,37 7A BC AF 27 1C,Hex,N/A,7Z,Compressed archive
+zisofs compressed file,37 E4 53 96 C9 DB D6 07,Hex,N/A,(none),Compressed archive
+Photoshop image,38 42 50 53,Hex,N/A,PSD,Picture
+Surfplan kite project file,3A 56 45 52 53 49 4F 4E,Hex,N/A,SLE,Miscellaneous
+Advanced Stream Redirector,3C,Hex,N/A,ASX,Multimedia
+BizTalk XML-Data Reduced Schema,3C,Hex,N/A,XDR,Miscellaneous
+AOL HTML mail,3C 21 64 6F 63 74 79 70,Hex,N/A,DCI,Email
+Windows Visual Stylesheet,3C 3F 78 6D 6C 20 76 65 72 73 69 6F 6E 3D,Hex,N/A,MANIFEST,Programming
+User Interface Language,3C 3F 78 6D 6C 20 76 65 72 73 69 6F 6E 3D 22 31 2E 30 22 3F 3E,Hex,N/A,XML,Miscellaneous
+MMC Snap-in Control file,3C 3F 78 6D 6C 20 76 65 72 73 69 6F 6E 3D 22 31 2E 30 22 3F 3E 0D 0A 3C 4D 4D 43 5F 43 6F 6E 73 6F 6C 65 46 69 6C 65 20 43 6F 6E 73 6F 6C 65 56 65 72 73 69 6F 6E 3D 22,Hex,N/A,MSC,Windows
+Adobe FrameMaker,3C 4D 61 6B 65 72 46 69,Hex,N/A,FM|MIF,Presentation
+Windows Help file_2,3F 5F 03 00,Hex,N/A,GID|HLP,Windows
+Generic AutoCAD drawing,41 43 31 30,Hex,N/A,DWG,Presentation
+Steganos virtual secure drive,41 43 76,Hex,N/A,SLE,Miscellaneous
+AOL parameter|info files,41 43 53 44,Hex,N/A,(none),Network
+Harvard Graphics symbol graphic,41 4D 59 4F,Hex,N/A,SYW,Presentation
+AOL config files,41 4F 4C,Hex,N/A,ABI|ABY|BAG|IDX|IND|PFC,Network
+AOL and AIM buddy list,41 4F 4C 20 46 65 65 64,Hex,N/A,BAG,Network
+AOL address book,41 4F 4C 44 42,Hex,N/A,ABY,Network
+AOL user configuration,41 4F 4C 44 42,Hex,N/A,IDX,Network
+AOL client preferences|settings file,41 4F 4C 49 44 58,Hex,N/A,IND,Network
+AOL address book index,41 4F 4C 49 4E 44 45 58,Hex,N/A,ABI,Network
+AOL personal file cabinet,41 4F 4C 56 4D 31 30 30,Hex,N/A,ORG|PFC,Network
+AVG6 Integrity database,41 56 47 36 5F 49 6E 74,Hex,N/A,DAT,Database
+FreeArc compressed file,41 72 43 01,Hex,N/A,ARC,Compressed archive
+vCard,42 45 47 49 4E 3A 56 43,Hex,N/A,VCF,Miscellaneous
+Speedtouch router firmware,42 4C 49 32 32 33 51,Hex,N/A,BIN,Network
+Bitmap image,42 4D,Hex,N/A,BMP|DIB,Picture
+Palmpilot resource file,42 4F 4F 4B 4D 4F 42 49,Hex,N/A,PRC,Mobile
+bzip2 compressed archive,42 5A 68,Hex,N/A,BZ2|TAR.BZ2|TBZ2|TB2,Compressed archive
+RagTime document,43 23 2B 44 A4 43 4D A5,Hex,N/A,RTD,Word processing suite
+WordPerfect dictionary,43 42 46 49 4C 45,Hex,N/A,CBD,Word processing suite
+ISO-9660 CD Disc Image,43 44 30 30 31,Hex,N/A,ISO,Miscellaneous
+Corel Binary metafile,43 4D 58 31,Hex,N/A,CLB,Miscellaneous
+COM+ Catalog,43 4F 4D 2B,Hex,N/A,CLB,Miscellaneous
+VMware 3 Virtual Disk,43 4F 57 44,Hex,N/A,VMDK,Miscellaneous
+Corel Photopaint file_1,43 50 54 37 46 49 4C 45,Hex,N/A,CPT,Presentation
+Corel Photopaint file_2,43 50 54 46 49 4C 45,Hex,N/A,CPT,Presentation
+Win9x registry hive,43 52 45 47,Hex,N/A,DAT,Windows
+Crush compressed archive,43 52 55 53 48 20 76,Hex,N/A,CRU,Compressed archive
+Shockwave Flash file,43 57 53,Hex,N/A,SWF,Multimedia
+WhereIsIt Catalog,43 61 74 61 6C 6F 67 20,Hex,N/A,CTF,Miscellaneous
+IE History file,43 6C 69 65 6E 74 20 55,Hex,N/A,DAT,Network
+Palm Zire photo database,44 42 46 48,Hex,N/A,DB,Mobile
+Amiga DiskMasher compressed archive,44 4D 53 21,Hex,N/A,DMS,Compressed archive
+Amiga disk file,44 4F 53,Hex,N/A,ADF,Miscellaneous
+DVR-Studio stream file,44 56 44,Hex,N/A,DVR,Multimedia
+DVD info file,44 56 44,Hex,N/A,IFO,Multimedia
+Elite Plus Commander game file,45 4C 49 54 45 20 43 6F,Hex,N/A,CDR,Miscellaneous
+VideoVCD|VCDImager file,45 4E 54 52 59 56 43 44,Hex,N/A,VCD,Miscellaneous
+EasyRecovery Saved State file,45 52 46 53 53 41 56 45,Hex,N/A,DAT,Miscellaneous
+MS Document Imaging file,45 50,Hex,N/A,MDI,Word processing suite
+Expert Witness Compression Format,45 56 46 09 0D 0A FF 00,Hex,N/A,E01,Miscellaneous
+Windows Vista event log,45 6C 66 46 69 6C 65 00,Hex,N/A,EVTX,Windows
+QuickBooks backup,45 86 00 00 06 00,Hex,N/A,QBB,Miscellaneous
+MS Fax Cover Sheet,46 41 58 43 4F 56 45 52,Hex,N/A,CPE,Miscellaneous
+Flash video file,46 4C 56,Hex,N/A,FLV,Multimedia
+Audio Interchange File,46 4F 52 4D 00,Hex,N/A,AIFF,Multimedia
+Shockwave Flash player,46 57 53,Hex,N/A,SWF,Multimedia
+Generic e-mail_2,46 72 6F 6D,Hex,N/A,EML,Email
+GIF file,47 49 46 38,Hex,N/A,GIF,Picture
+GIMP pattern file,47 50 41 54,Hex,N/A,PAT,Picture
+Show Partner graphics file,47 58 32,Hex,N/A,GX2,Picture
+Harvard Graphics presentation file,48 48 47 42 31,Hex,N/A,SH3,Presentation
+TIFF file_1,49 20 49,Hex,N/A,TIF|TIFF,Picture
+MP3 audio file,49 44 33,Hex,N/A,MP3,Multimedia
+Sprint Music Store audio,49 44 33 03 00 00 00,Hex,N/A,KOZ,Multimedia
+Canon RAW file,49 49 1A 00 00 00 48 45,Hex,N/A,CRW,Picture
+TIFF file_2,49 49 2A 00,Hex,N/A,TIF|TIFF,Picture
+Install Shield compressed file,49 53 63 28,Hex,N/A,CAB|HDR,Compressed archive
+MS Reader eBook,49 54 4F 4C 49 54 4C 53,Hex,N/A,LIT,Miscellaneous
+MS Compiled HTML Help File,49 54 53 46,Hex,N/A,CHI|CHM,Windows
+Inno Setup Uninstall Log,49 6E 6E 6F 20 53 65 74,Hex,N/A,DAT,Miscellaneous
+JARCS compressed archive,4A 41 52 43 53 00,Hex,N/A,JAR,Compressed archive
+AOL ART file_1,4A 47 03 0E,Hex,N/A,JG,Picture
+AOL ART file_2,4A 47 04 0E,Hex,N/A,JG,Picture
+VMware 4 Virtual Disk,4B 44 4D,Hex,N/A,VMDK,Miscellaneous
+KGB archive,4B 47 42 5F 61 72 63 68,Hex,N/A,KGB,Compressed archive
+Win9x printer spool file,4B 49 00 00,Hex,N/A,SHD,Windows
+KWAJ (compressed) file,4B 57 41 4A 88 F0 27 D1,Hex,N/A,(none),Compressed archive
+Windows shortcut file,4C 00 00 00 01 14 02 00,Hex,N/A,LNK,Windows
+MS COFF relocatable object code,4C 01,Hex,N/A,OBJ,Windows
+Windows help file_3,4C 4E 02 00,Hex,N/A,GID|HLP,Windows
+Logical File Evidence Format,4C 56 46 09 0D 0A FF 00,Hex,N/A,E01,Miscellaneous
+Merriam-Webster Pocket Dictionary,4D 2D 57 20 50 6F 63 6B,Hex,N/A,PDB,Miscellaneous
+Mozilla archive,4D 41 52 31 00,Hex,N/A,MAR,Network
+Microsoft|MSN MARC archive,4D 41 52 43,Hex,N/A,MAR,Compressed archive
+MAr compressed archive,4D 41 72 30 00,Hex,N/A,MAR,Compressed archive
+Windows dump file,4D 44 4D 50 93 A7,Hex,N/A,DMP|HDMP,Windows
+Milestones project management file,4D 49 4C 45 53,Hex,N/A,MLS,Miscellaneous
+Skype localization data file,4D 4C 53 57,Hex,N/A,MLS,Network
+TIFF file_3,4D 4D 00 2A,Hex,N/A,TIF|TIFF,Picture
+TIFF file_4,4D 4D 00 2B,Hex,N/A,TIF|TIFF,Picture
+Yamaha Synthetic music Mobile Application Format,4D 4D 4D 44 00 00,Hex,N/A,MMF,Multimedia
+VMware BIOS state file,4D 52 56 4E,Hex,N/A,NVRAM,Miscellaneous
+Microsoft cabinet file,4D 53 43 46,Hex,N/A,CAB,Windows
+Powerpoint Packaged Presentation,4D 53 43 46,Hex,N/A,PPZ,Presentation
+MS Access Snapshot Viewer file,4D 53 43 46,Hex,N/A,SNP,Database
+OLE|SPSS|Visual C++ library file,4D 53 46 54 02 00 01 00,Hex,N/A,TLB,Programming
+Sony Compressed Voice File,4D 53 5F 56 4F 49 43 45,Hex,N/A,CDR|DVF|MSV,Multimedia
+MIDI sound file,4D 54 68 64,Hex,N/A,MID|MIDI,Multimedia
+CD Stomper Pro label file,4D 56,Hex,N/A,DSN,Miscellaneous
+Milestones project management file_1,4D 56 32 31 34,Hex,N/A,MLS,Miscellaneous
+Milestones project management file_2,4D 56 32 43,Hex,N/A,MLS,Miscellaneous
+Windows|DOS executable file,4D 5A,Hex,N/A,COM|DLL|DRV|EXE|PIF|QTS|QTX|SYS,Windows
+MS audio compression manager driver,4D 5A,Hex,N/A,ACM,Multimedia
+Library cache file,4D 5A,Hex,N/A,AX,Windows
+Control panel application,4D 5A,Hex,N/A,CPL,Windows
+Font file,4D 5A,Hex,N/A,FON,Windows
+ActiveX|OLE Custom Control,4D 5A,Hex,N/A,OCX,Windows
+OLE object library,4D 5A,Hex,N/A,OLB,Windows
+Screen saver,4D 5A,Hex,N/A,SCR,Windows
+VisualBASIC application,4D 5A,Hex,N/A,VBX,Programming
+Windows virtual device drivers,4D 5A,Hex,N/A,VXD|386,Windows
+Acrobat plug-in,4D 5A 90 00 03 00 00 00,Hex,N/A,API,Word processing suite
+DirectShow filter,4D 5A 90 00 03 00 00 00,Hex,N/A,AX,Miscellaneous
+Audition graphic filter,4D 5A 90 00 03 00 00 00,Hex,N/A,FLT,Miscellaneous
+ZoneAlam data file,4D 5A 90 00 03 00 00 00 04 00 00 00 FF FF,Hex,N/A,ZAP,Miscellaneous
+MS C++ debugging symbols file,4D 69 63 72 6F 73 6F 66 74 20 43 2F 43 2B 2B 20,Hex,N/A,PDB,Programming
+Visual Studio .NET file,4D 69 63 72 6F 73 6F 66 74 20 56 69 73 75 61 6C,Hex,N/A,SLN,Programming
+TomTom traffic data,4E 41 56 54 52 41 46 46,Hex,N/A,DAT,Mobile
+MS Windows journal,4E 42 2A 00,Hex,N/A,JNT|JTP,Windows
+NES Sound file,4E 45 53 4D 1A 01,Hex,N/A,NSF,Multimedia
+National Imagery Transmission Format file,4E 49 54 46 30,Hex,N/A,NTF,Picture
+Agent newsreader character map,4E 61 6D 65 3A 20,Hex,N/A,COD,Miscellaneous
+Psion Series 3 Database,4F 50 4C 44 61 74 61 62,Hex,N/A,DBF,Database
+Ogg Vorbis Codec compressed file,4F 67 67 53 00 02 00 00,Hex,N/A,OGA|OGG|OGV|OGX,Multimedia
+Visio|DisplayWrite 4 text file,4F 7B,Hex,N/A,DW4,Presentation
+Quicken QuickFinder Information File,50 00 00 00 20 00 00 00,Hex,N/A,IDX,Miscellaneous
+Portable Graymap Graphic,50 35 0A,Hex,N/A,PGM,Picture
+Quake archive file,50 41 43 4B,Hex,N/A,PAK,Compressed archive
+Windows memory dump,50 41 47 45 44 55,Hex,N/A,DMP,Windows
+PAX password protected bitmap,50 41 58,Hex,N/A,PAX,Picture
+PestPatrol data|scan strings,50 45 53 54,Hex,N/A,DAT,Miscellaneous
+PGP disk image,50 47 50 64 4D 41 49 4E,Hex,N/A,PGD,Compressed archive
+ChromaGraph Graphics Card Bitmap,50 49 43 54 00 08,Hex,N/A,IMG,Picture
+PKZIP archive_1,50 4B 03 04,Hex,N/A,ZIP,Compressed archive
+MacOS X Dashboard Widget,50 4B 03 04,Hex,N/A,ZIP,MacOS
+MS Office Open XML Format Document,50 4B 03 04,Hex,N/A,DOCX|PPTX|XLSX,Word processing suite
+Java archive_1,50 4B 03 04,Hex,N/A,JAR,Programming
+KWord document,50 4B 03 04,Hex,N/A,KWD,Word processing suite
+OpenDocument template,50 4B 03 04,Hex,N/A,ODT|ODP|OTT,Word processing suite
+OpenOffice documents,50 4B 03 04,Hex,N/A,SXC|SXD|SXI|SXW,Word processing suite
+StarOffice spreadsheet,50 4B 03 04,Hex,N/A,SXC,Spreadsheet
+Windows Media compressed skin file,50 4B 03 04,Hex,N/A,WMZ,Windows
+Mozilla Browser Archive,50 4B 03 04,Hex,N/A,XPI,Network
+XML paper specification file,50 4B 03 04,Hex,N/A,XPS,Word processing suite
+eXact Packager Models,50 4B 03 04,Hex,N/A,XPT,Miscellaneous
+ZLock Pro encrypted ZIP,50 4B 03 04 14 00 01 00,Hex,N/A,ZIP,Compressed archive
+MS Office 2007 documents,50 4B 03 04 14 00 06 00,Hex,N/A,DOCX|PPTX|XLSX,Word processing suite
+Java archive_2,50 4B 03 04 14 00 08 00,Hex,N/A,JAR,Programming
+PKZIP archive_2,50 4B 05 06,Hex,N/A,ZIP,Compressed archive
+PKZIP archive_3,50 4B 07 08,Hex,N/A,ZIP,Compressed archive
+Windows Program Manager group file,50 4D 43 43,Hex,N/A,GRP,Windows
+Norton Disk Doctor undo file,50 4E 43 49 55 4E 44 4F,Hex,N/A,DAT,Miscellaneous
+Qcow Disk Image,51 46 49,Hex,N/A,QEMU,Miscellaneous
+Quicken data file,51 57 20 56 65 72 2E 20,Hex,N/A,ABD|QSD,Miscellaneous
+Shareaza (P2P) thumbnail,52 41 5A 41 54 44 42 31,Hex,N/A,DAT,Network
+WinNT Registry|Registry Undo files,52 45 47 45 44 49 54,Hex,N/A,REG|SUD,Windows
+Antenna data file,52 45 56 4E 55 4D 3A 2C,Hex,N/A,AD,Miscellaneous
+Windows animated cursor,52 49 46 46,Hex,N/A,ANI,Windows
+Corel Presentation Exchange metadata,52 49 46 46,Hex,N/A,CMX,Presentation
+CorelDraw document,52 49 46 46,Hex,N/A,CDR,Presentation
+Video CD MPEG movie,52 49 46 46,Hex,N/A,DAT,Multimedia
+Micrografx Designer graphic,52 49 46 46,Hex,N/A,DS4,Picture
+4X Movie video,52 49 46 46,Hex,N/A,4XM,Multimedia
+Resource Interchange File Format,52 49 46 46,Hex,N/A,AVI|CDA|QCP|RMI|WAV,Multimedia
+WinNT Netmon capture file,52 54 53 53,Hex,N/A,CAP,Network
+WinRAR compressed archive,52 61 72 21 1A 07 00,Hex,N/A,RAR,Compressed archive
+Generic e-mail_1,52 65 74 75 72 6E 2D 50,Hex,N/A,EML,Email
+Underground Audio,53 43 48 6C,Hex,N/A,AST,Multimedia
+Img Software Bitmap,53 43 4D 49,Hex,N/A,IMG,Picture
+Harvard Graphics presentation,53 48 4F 57,Hex,N/A,SHW,Presentation
+Sietronics CPI XRD document,53 49 45 54 52 4F 4E 49,Hex,N/A,CPI,Miscellaneous
+StuffIt archive,53 49 54 21 00,Hex,N/A,SIT,Compressed archive
+SmartDraw Drawing file,53 4D 41 52 54 44 52 57,Hex,N/A,SDR,Presentation
+SQLite database file,53 51 4C 69 74 65 20 66 6F 72 6D 61 74 20 33 00,Hex,N/A,DB,Database
+DB2 conversion file,53 51 4C 4F 43 4F 4E 56,Hex,N/A,CNV,Database
+QBASIC SZDD file,53 5A 20 88 F0 27 33 D1,Hex,N/A,(none),Compressed archive
+SZDD file format,53 5A 44 44 88 F0 27 33,Hex,N/A,(none),Compressed archive
+StuffIt compressed archive,53 74 75 66 66 49 74 20,Hex,N/A,SIT,Compressed archive
+SuperCalc worksheet,53 75 70 65 72 43 61 6C,Hex,N/A,CAL,Spreadsheet
+GNU Info Reader file,54 68 69 73 20 69 73 20,Hex,N/A,INFO,Programming
+Unicode extensions,55 43 45 58,Hex,N/A,UCE,Windows
+UFA compressed archive,55 46 41 C6 D2 C1,Hex,N/A,UFA,Compressed archive
+UFO Capture map file,55 46 4F 4F 72 62 69 74,Hex,N/A,DAT,Miscellaneous
+Visual C PreCompiled header,56 43 50 43 48 30,Hex,N/A,PCH,Programming
+Visual Basic User-defined Control file,56 45 52 53 49 4F 4E 20,Hex,N/A,CTL,Programming
+MapInfo Interchange Format file,56 65 72 73 69 6F 6E 20,Hex,N/A,MIF,Miscellaneous
+Walkman MP3 file,57 4D 4D 50,Hex,N/A,DAT,Multimedia
+WordStar for Windows file,57 53 32 30 30 30,Hex,N/A,WS2,Word processing suite
+Lotus WordPro file,57 6F 72 64 50 72 6F,Hex,N/A,LWP,Word processing suite
+Exchange e-mail,58 2D,Hex,N/A,EML,Email
+Packet sniffer files,58 43 50 00,Hex,N/A,CAP,Network
+XPCOM libraries,58 50 43 4F 4D 0A 54 79,Hex,N/A,XPT,Programming
+MS Publisher,58 54,Hex,N/A,BDR,Word processing suite
+ZOO compressed archive,5A 4F 4F 20,Hex,N/A,ZOO,Compressed archive
+MS Exchange configuration file,5B 47 65 6E 65 72 61 6C,Hex,N/A,ECF,Email
+Visual C++ Workbench Info File,5B 4D 53 56 43,Hex,N/A,VCW,Programming
+Dial-up networking file,5B 50 68 6F 6E 65 5D,Hex,N/A,DUN,Network
+Lotus AMI Pro document_1,5B 56 45 52 5D,Hex,N/A,SAM,Word processing suite
+Microsoft Code Page Translation file,5B 57 69 6E 64 6F 77 73,Hex,N/A,CPX,Windows
+Flight Simulator Aircraft Configuration,5B 66 6C 74 73 69 6D 2E,Hex,N/A,CFG,Miscellaneous
+Lotus AMI Pro document_2,5B 76 65 72 5D,Hex,N/A,SAM,Word processing suite
+Jar archive,5F 27 A8 89,Hex,N/A,JAR,Miscellaneous
+EnCase case file,5F 43 41 53 45 5F,Hex,N/A,CAS|CBK,Miscellaneous
+Compressed archive file,60 EA,Hex,N/A,ARJ,Compressed archive
+UUencoded file,62 65 67 69 6E,Hex,N/A,(none),Compressed archive
+Binary property list (plist),62 70 6C 69 73 74,Hex,N/A,(none),Miscellaneous
+Virtual PC HD image,63 6F 6E 65 63 74 69 78,Hex,N/A,VHD,Miscellaneous
+Photoshop Custom Shape,63 75 73 68 00 00 00 02,Hex,N/A,CSH,Miscellaneous
+Intel PROset|Wireless Profile,64 00 00 00,Hex,N/A,P10,Network
+Dalvik (Android) executable file,64 65 78 0A 30 30 39 00,Hex,N/A,dex,Mobile
+MS Visual Studio workspace file,64 73 77 66 69 6C 65,Hex,N/A,DSW,Programming
+Audacity audio file,64 6E 73 2E,Hex,N/A,AU,Multimedia
+WinNT printer spool file,66 49 00 00,Hex,N/A,SHD,Windows
+Free Lossless Audio Codec file,66 4C 61 43 00 00 00 22,Hex,N/A,FLAC,Multimedia
+Win2000|XP printer spool file,67 49 00 00,Hex,N/A,SHD,Windows
+Win Server 2003 printer spool file,68 49 00 00,Hex,N/A,SHD,Windows
+Skype user data file,6C 33 33 6C,Hex,N/A,DBB,Network
+SMS text (SIM),6F 3C,Hex,N/A,(none),Mobile
+WinNT registry file,72 65 67 66,Hex,N/A,DAT,Windows
+Sonic Foundry Acid Music File,72 69 66 66,Hex,N/A,AC,Multimedia
+RealMedia metafile,72 74 73 70 3A 2F 2F,Hex,N/A,RAM,Multimedia
+Allegro Generic Packfile (compressed),73 6C 68 21,Hex,N/A,DAT,Miscellaneous
+Allegro Generic Packfile (uncompressed),73 6C 68 2E,Hex,N/A,DAT,Miscellaneous
+PalmOS SuperMemo,73 6D 5F,Hex,N/A,PDB,Mobile
+CALS raster bitmap,73 72 63 64 6F 63 69 64,Hex,N/A,CAL,Picture
+PowerBASIC Debugger Symbols,73 7A 65 7A,Hex,N/A,PDB,Programming
+Qimage filter,76 32 30 30 33 2E 31 30,Hex,N/A,FLT,Miscellaneous
+MacOS X image file,78,Hex,N/A,DMG,MacOS
+ZoomBrowser Image Index,7A 62 65 78,Hex,N/A,INFO,Miscellaneous
+Windows application log,7B 0D 0A 6F 20,Hex,N/A,LGC|LGD,Windows
+MS WinMobile personal note,7B 5C 70 77 69,Hex,N/A,PWI,Mobile
+RTF file,7B 5C 72 74 66 31,Hex,N/A,RTF,Word processing suite
+Corel Paint Shop Pro image,7E 42 4B 00,Hex,N/A,PSP,Presentation
+ELF executable,7F 45 4C 46,Hex,N/A,(none),Windows
+Relocatable object code,80,Hex,N/A,OBJ,Windows
+Dreamcast audio,80 00 00 20 03 12 04,Hex,N/A,ADX,Multimedia
+Outlook Express address book (Win95),81 32 84 C1 85 05 D0 11,Hex,N/A,WAB,Email
+WordPerfect text,81 CD AB,Hex,N/A,WPF,Word processing suite
+PNG image,89 50 4E 47 0D 0A 1A 0A,Hex,N/A,PNG,Picture
+MS Answer Wizard,8A 01 09 00 00 00 E1 08,Hex,N/A,AW,Windows
+Hamarsoft compressed archive,91 33 48 46,Hex,N/A,HAP,Compressed archive
+PGP secret keyring_1,95 00,Hex,N/A,SKR,Miscellaneous
+PGP secret keyring_2,95 01,Hex,N/A,SKR,Miscellaneous
+GPG public keyring,99,Hex,N/A,GPG,Miscellaneous
+PGP public keyring,99 01,Hex,N/A,PKR,Miscellaneous
+Outlook address file,9C CB CB 8D 13 75 D2 11,Hex,N/A,WAB,Email
+tcpdump (libpcap) capture file,A1 B2 C3 D4,Hex,N/A,(none),Network
+Extended tcpdump (libpcap) capture file,A1 B2 CD 34,Hex,N/A,(none),Network
+Access Data FTK evidence,A9 0D 00 00 00 00 00 00,Hex,N/A,DAT,Miscellaneous
+Quicken data,AC 9E BD 8F 00 00,Hex,N/A,QDF,Miscellaneous
+Java serialization data,AC ED,Hex,N/A,(none),Programming
+BGBlitz position database file,AC ED 00 05 73 72 00 12,Hex,N/A,PDB,Miscellaneous
+Win95 password file,B0 4D 46 43,Hex,N/A,PWL,Windows
+PCX bitmap,B1 68 DE 3A,Hex,N/A,DCX,Presentation
+Acronis True Image,B4 6E 68 44,Hex,N/A,TIB,Miscellaneous
+Windows calendar,B5 A2 B0 B3 B3 B0 A5 B5,Hex,N/A,CAL,Windows
+MS Write file_3,BE 00 00 00 AB,Hex,N/A,WRI,Word processing suite
+MS Agent Character file,C3 AB CD AB,Hex,N/A,ACS,Windows
+Adobe encapsulated PostScript,C5 D0 D3 C6,Hex,N/A,EPS,Word processing suite
+Jeppesen FliteLog file,C8 00 79 00,Hex,N/A,LBK,Miscellaneous
+Java bytecode,CA FE BA BE,Hex,N/A,CLASS,Programming
+NAV quarantined virus file,CD 20 AA AA 02 00 00 00,Hex,N/A,(none),Miscellaneous
+Perfect Office document,CF 11 E0 A1 B1 1A E1 00,Hex,N/A,DOC,Word processing suite
+Outlook Express e-mail folder,CF AD 12 FE,Hex,N/A,DBX,Email
+Microsoft Office document,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,DOC|DOT|PPS|PPT|XLA|XLS|WIZ,Word processing suite
+CaseWare Working Papers,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,AC_,Miscellaneous
+Access project file,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,ADP,Database
+Lotus|IBM Approach 97 file,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,APR,Database
+MSWorks database file,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,DB,Database
+Microsoft Common Console Document,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,MSC,Windows
+Microsoft Installer package,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,MSI,Windows
+Minitab data file,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,MTW,Miscellaneous
+Developer Studio File Options file,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,OPT,Programming
+MS Publisher file,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,PUB,Word processing suite
+Revit Project file,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,RVT,Miscellaneous
+Visual Studio Solution User Options file,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,SOU,Programming
+SPSS output file,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,SPO,Miscellaneous
+Visio file,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,VSD,Miscellaneous
+MSWorks text document,D0 CF 11 E0 A1 B1 1A E1,Hex,N/A,WPS,Word processing suite
+WinPharoah filter file,D2 0A 00 00,Hex,N/A,FTR,Network
+AOL history|typed URL files,D4 2A,Hex,N/A,ARL|AUT,Network
+WinDump (winpcap) capture file,D4 C3 B2 A1,Hex,N/A,(none),Network
+Windows graphics metafile,D7 CD C6 9A,Hex,N/A,WMF,Windows
+Word 2.0 file,DB A5 2D 00,Hex,N/A,DOC,Word processing
+Corel color palette,DC DC,Hex,N/A,CPL,Presentation
+eFax file,DC FE,Hex,N/A,EFX,Miscellaneous
+Amiga icon,E3 10 00 01 00 00 00 00,Hex,N/A,INFO,Miscellaneous
+Win98 password file,E3 82 85 96,Hex,N/A,PWL,Windows
+MS OneNote note,E4 52 5C 7B 8C D8 A7 4D,Hex,N/A,ONE,Miscellaneous
+Windows executable file_1,E8,Hex,N/A,COM|SYS,Windows
+Windows executable file_2,E9,Hex,N/A,COM|SYS,Windows
+Windows executable file_3,EB,Hex,N/A,COM|SYS,Windows
+GEM Raster file,EB 3C 90 2A,Hex,N/A,IMG,Picture
+RedHat Package Manager,ED AB EE DB,Hex,N/A,RPM,Compressed archive
+UTF8 file,EF BB BF,Hex,N/A,(none),Windows
+Symantex Ghost image file,FE EF,Hex,N/A,GHO|GHS,Compressed archive
+UTF-16|UCS-2 file,FE FF,Hex,N/A,(NONE),Windows
+Windows executable,FF FF FF,Hex,N/A,SYS,Windows
+Works for Windows spreadsheet,FF 00 02 00 04 04 05 54,Hex,N/A,WKS,Spreadsheet
+Windows international code page,FF 46 4F 4E 54,Hex,N/A,CPI,Windows
+Keyboard driver file,FF 4B 45 59 42 20 20 20,Hex,N/A,SYS,Windows
+WordPerfect text and graphics,FF 57 50 43,Hex,N/A,WP|WPD|WPG|WPP|WP5|WP6,Word processing suite
+JPEG|EXIF|SPIFF images,FF D8 FF E0,Hex,N/A,JFIF|JPE|JPEG|JPG,Pictures
+Windows Registry file,FF FE,Hex,N/A,REG,Windows
+UTF-32|UCS-4 file,FF FE 00 00,Hex,N/A,(NONE),Windows
+MSinfo file,FF FE 23 00 6C 00 69 00,Hex,N/A,MOF,Windows
+DOS system driver,FF FF FF FF,Hex,N/A,SYS,Windows
