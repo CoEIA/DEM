@@ -166,6 +166,14 @@ public class LuceneSearcher {
         results = searcher.search(query, 10);
         return results.totalHits;
     }
+    
+    public int searchForHash(final String hashValue) throws Exception {        
+        Term term = new Term(IndexingConstant.DOCUMENT_HASH, hashValue);
+        Query query = new TermQuery(term);
+        
+        results = searcher.search(query, 100);
+        return results.totalHits;
+    }
 
     public Document getDocHits (int index) throws Exception{
         ScoreDoc[] hits = results.scoreDocs;

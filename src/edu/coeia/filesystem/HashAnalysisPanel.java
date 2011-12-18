@@ -11,8 +11,11 @@
 package edu.coeia.filesystem;
 
 import edu.coeia.cases.Case;
+import edu.coeia.gutil.JTableUtil;
 import edu.coeia.hashanalysis.HashCategory;
+import edu.coeia.hashanalysis.HashItem;
 import edu.coeia.hashanalysis.HashLibraryManager;
+import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.searching.LuceneSearcher;
 import edu.coeia.util.FilesPath;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
+import org.apache.lucene.document.Document;
 
 /**
  *
@@ -30,6 +34,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
     private HashLibraryManager hashLibraryManager ;
     private List<HashCategory> hashCategories ;
+    private List<MatchingResult> matchedResult; 
     
     private CaseFrame caseFrame ;
     private Case aCase ;
@@ -42,15 +47,10 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         this.caseFrame = ((FileSystemPanel)parentPanel).getCaseFrame();
         this.aCase =  ((FileSystemPanel) parentPanel).getCase();
         
-        try {
-            this.luceneSearcher = new LuceneSearcher(new File(this.aCase.getCaseLocation()));
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        
         this.hashLibraryManager = new HashLibraryManager();
         this.hashCategories = new ArrayList<HashCategory>();
+        this.matchedResult = new ArrayList<MatchingResult>();
+        
         this.initializeHashSetList();
     }
 
@@ -71,10 +71,10 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         hashAnalysisButton = new javax.swing.JButton();
         resultPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        analysisResultTable = new javax.swing.JTable();
         matchedFilesPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        matchedTable = new javax.swing.JTable();
         caseDuplicationPanel = new javax.swing.JPanel();
 
         hashLibraryDuplicationPanel.setLayout(new java.awt.BorderLayout());
@@ -109,7 +109,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
         resultPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Anlaysis Result"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        analysisResultTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -132,8 +132,13 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setFillsViewportHeight(true);
-        jScrollPane1.setViewportView(jTable1);
+        analysisResultTable.setFillsViewportHeight(true);
+        analysisResultTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                analysisResultTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(analysisResultTable);
 
         javax.swing.GroupLayout resultPanelLayout = new javax.swing.GroupLayout(resultPanel);
         resultPanel.setLayout(resultPanelLayout);
@@ -153,16 +158,31 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
         matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Matched Files in Case"));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        matchedTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "File Name", "File Path", "Date", "Hash Value"
             }
-        ));
-        jTable2.setFillsViewportHeight(true);
-        jScrollPane3.setViewportView(jTable2);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        matchedTable.setFillsViewportHeight(true);
+        jScrollPane3.setViewportView(matchedTable);
 
         javax.swing.GroupLayout matchedFilesPanelLayout = new javax.swing.GroupLayout(matchedFilesPanel);
         matchedFilesPanel.setLayout(matchedFilesPanelLayout);
@@ -199,12 +219,35 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void hashAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashAnalysisButtonActionPerformed
+        resetGUIComponent();
+        
         Object[] values = this.hashSetJList.getSelectedValues();
         for(Object obj: values) {
             String value = String.valueOf(obj);
             this.startHashAnalysis(value);
         }
     }//GEN-LAST:event_hashAnalysisButtonActionPerformed
+
+    private void analysisResultTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_analysisResultTableMouseClicked
+        
+        JTableUtil.removeAllRows(this.matchedTable);
+        
+        int row = this.analysisResultTable.getSelectedRow();
+        if ( row < 0 ) return ;
+        
+        MatchingResult result = this.matchedResult.get(row);
+        for(Document document: result.matchingDocuments) {
+            if ( IndexingConstant.isFileDocument(document) ) {
+                String fileName = document.get(IndexingConstant.FILE_TITLE);
+                String filePath = document.get(IndexingConstant.FILE_NAME);
+                String date = document.get(IndexingConstant.FILE_DATE);
+                String hash = document.get(IndexingConstant.DOCUMENT_HASH);
+                
+                Object[] data = {fileName, filePath, date, hash};
+                JTableUtil.addRowToJTable(this.matchedTable, data);
+            }
+        }
+    }//GEN-LAST:event_analysisResultTableMouseClicked
 
     private void initializeHashSetList() {
         String hashSetLocation = FilesPath.HASH_LIBRARY_PATH;
@@ -222,7 +265,66 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         
     private void startHashAnalysis(final String hashSetName) {
         HashCategory hashCategory = this.getHashCategory(hashSetName);
-        System.out.println("hash: " + hashCategory.toString());
+        for(HashItem item: hashCategory.getItems()) {
+            String hashValue = item.getHashValue();
+            List<Document> documents = searchFor(hashValue);
+            
+            if ( !documents.isEmpty() ) {
+                System.out.println("found matching for hash: " + hashValue);
+                
+                // add data
+                Object[] data = {
+                    item.getFileName(), item.getFilePath(), 
+                    hashSetName, item.getCaseName(), item.getCasePath(), 
+                    item.getHashValue(), item.getInvestigatorName(), item.getTime()
+                };
+                
+                JTableUtil.addRowToJTable(this.analysisResultTable, data);
+                
+                // build result object
+                // so we can extract the duplicated files in case
+                MatchingResult result = new MatchingResult();
+                result.matchingDocuments.addAll(documents);
+                result.hashItem = item;
+                result.hashCategory = hashCategory; 
+                
+                // add to result list
+                this.matchedResult.add(result);
+            }
+            else {
+                System.out.println("cannot find matchign for: " + hashValue);
+            }
+        }
+    }
+    
+    private class MatchingResult {
+        HashCategory hashCategory;
+        HashItem hashItem;
+        List<Document> matchingDocuments = new ArrayList<Document>();
+    }
+    
+    private List<Document> searchFor(final String hashValue) {
+        List<Document> documents = new ArrayList<Document>();
+        
+        try {
+            this.luceneSearcher = new LuceneSearcher(new File(this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH));
+            
+            int hits = this.luceneSearcher.searchForHash(hashValue);
+            
+            for(int i=0; i<hits; i++) {
+                Document document = this.luceneSearcher.getDocHits(i);
+                documents.add(document);
+            }
+            
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            this.closeLuceneSearch();
+        }
+        
+        return documents;
     }
     
     private HashCategory getHashCategory(final String hashSetName) {
@@ -238,7 +340,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         return hashCategory;
     }
     
-    void closeLuceneSearch() {
+    private void closeLuceneSearch() {
         try {
             if ( this.luceneSearcher != null )
                 this.luceneSearcher.closeSearcher();
@@ -248,7 +350,15 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         }
     }
     
+    
+    private void resetGUIComponent() {
+        JTableUtil.removeAllRows(this.analysisResultTable);
+        JTableUtil.removeAllRows(this.matchedTable);
+        this.matchedResult.clear();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable analysisResultTable;
     private javax.swing.JPanel caseDuplicationPanel;
     private javax.swing.JButton hashAnalysisButton;
     private javax.swing.JPanel hashLibraryDuplicationPanel;
@@ -258,9 +368,8 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JPanel matchedFilesPanel;
+    private javax.swing.JTable matchedTable;
     private javax.swing.JPanel resultPanel;
     // End of variables declaration//GEN-END:variables
 }
