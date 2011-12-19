@@ -10,13 +10,15 @@
  */
 package edu.coeia.hashanalysis;
 
-import edu.coeia.cases.Case;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
+
 import java.io.File;
 import java.io.FileInputStream;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
@@ -26,25 +28,20 @@ import javax.swing.JFrame;
  */
 public class HashLibraryManagerDialog extends javax.swing.JDialog {
 
-    private Case caseObject; 
     private List<HashCategory> hashCategories ;
+    
     private HashSetItemsPanel hashSetItemsPanel ;
-    private HashLibraryManager hashLibraryManger ;
     private JFrame parent; 
     
     /** Creates new form HashLibraryManagerDialog */
-    public HashLibraryManagerDialog(java.awt.Frame parent, boolean modal, Case aCase) {
+    public HashLibraryManagerDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
         this.setLocationRelativeTo(parent);
-        
         this.parent = (JFrame) parent ;
-        this.caseObject = aCase;
         this.hashCategories = new ArrayList<HashCategory>();
-        this.hashLibraryManger = new HashLibraryManager();
-        
-        this.initializeHashSet();
-        this.disableButtonWhenEmptyHashSet();
+        this.checkButtonAndInitialize();
     }
 
     /** This method is called from within the constructor to
@@ -199,31 +196,34 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
         HashCategory hashCategory = this.getSelectedHashCategory();
         
         this.hashSetItemsPanel = new HashSetItemsPanel(hashCategory.getItems());
-        
         this.viewPanel.removeAll();
         this.viewPanel.add(this.hashSetItemsPanel);
         this.viewPanel.revalidate();
     }//GEN-LAST:event_loadButtonActionPerformed
 
     private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
-        importHashSet();
-        
-        this.resetItems();
-        this.initializeHashSet();
-        this.disableButtonWhenEmptyHashSet();
+        try { 
+            this.importHashCategory();
+            this.checkButtonAndInitialize();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_importButtonActionPerformed
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
-        exportHashSet(this.getSelectedHashCategory());
+        try {
+            exportHashCategory(this.getSelectedHashCategory());
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_exportButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         HashCategory hashCategory = this.getSelectedHashCategory();
-        this.hashLibraryManger.remove(hashCategory);
-        
-        this.resetItems();
-        this.initializeHashSet();
-        this.disableButtonWhenEmptyHashSet();
+        HashLibraryManager.removeHashCategory(hashCategory);
+        this.checkButtonAndInitialize();
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
@@ -237,26 +237,32 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
         return (hashCategory);
     }
     
-    private void initializeHashSet() {
-        String hashSetLocation = FilesPath.HASH_LIBRARY_PATH;
-        List<File> hashSetsLocation = hashLibraryManger.getHashSets(hashSetLocation);
-        
-        for(File file: hashSetsLocation) {
-            HashCategory hashCategory = hashLibraryManger.getHashCategory(file);
-            this.hashCategories.add(hashCategory);
-            this.hashSetsComboBox.addItem(hashCategory.getName());
+    private void checkButtonAndInitialize() {
+        try {
+            this.resetItems();
+            this.initializingHashCategoriesComboBox();
+            this.checkGUIEelemntsToDisable();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
         }
     }
-    
+        
     private void resetItems() {
         this.hashCategories.clear();
         this.hashSetsComboBox.removeAllItems();
         this.viewPanel.removeAll();
         this.viewPanel.revalidate();
-        this.disableButtonWhenEmptyHashSet();
+    }
+        
+    private void initializingHashCategoriesComboBox() throws Exception {
+        for(HashCategory hashCategory: HashLibraryManager.getHashCategories()) {
+            this.hashCategories.add(hashCategory);
+            this.hashSetsComboBox.addItem(hashCategory.getName());
+        }
     }
     
-    private void disableButtonWhenEmptyHashSet() {
+    private void checkGUIEelemntsToDisable() {
         if (this.hashCategories.isEmpty() ) {
             this.hashSetsComboBox.setEnabled(false);
             this.loadButton.setEnabled(false);
@@ -271,37 +277,21 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
         }
     }
     
-    private void importHashSet() {
+    private void importHashCategory() throws Exception {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileFilter() {
-            @Override
-            public boolean accept(File f) {
-                return ( f.isFile() && f.getAbsolutePath().endsWith(FilesPath.HASH_SET_EXTENSION) );
-            }
-
-            @Override
-            public String getDescription() {
-                return String.format("DEM HASH SET");
-            }
-        });
+        fileChooser.addChoosableFileFilter(HashLibraryManager.SWING_HASH_EXTENSION_FILTER);
         
         int result = fileChooser.showOpenDialog(this.parent);
         if ( result == JFileChooser.APPROVE_OPTION ) {
             File file = fileChooser.getSelectedFile();
             
-            try {
-                String filePath = FilesPath.HASH_LIBRARY_PATH + "\\" + file.getName();
-                FileUtil.saveObject(new FileInputStream(file), filePath);
-            }
-            catch(Exception e){ 
-                e.printStackTrace();
-            }
+            String filePath = FilesPath.HASH_LIBRARY_PATH + "\\" + file.getName();
+            FileUtil.saveObject(new FileInputStream(file), filePath);
         }
     }
     
-    private void exportHashSet(final HashCategory hashCategory) {
-        String filePath = FilesPath.HASH_LIBRARY_PATH + "\\" + hashCategory.getName() 
-                + FilesPath.HASH_SET_EXTENSION ;
+    private void exportHashCategory(final HashCategory hashCategory) throws Exception {
+        String filePath = HashLibraryManager.getPathForHashCategory(hashCategory.getName());
         
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setSelectedFile(new File(hashCategory.getName() + FilesPath.HASH_SET_EXTENSION));
@@ -309,15 +299,10 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
         int result = fileChooser.showSaveDialog(this.parent);
         if ( result == JFileChooser.APPROVE_OPTION ) {
             File file = fileChooser.getSelectedFile();
-            try {
-                FileUtil.saveObject(new FileInputStream(filePath), file.getAbsolutePath());
-            }
-            catch(Exception e) { 
-                e.printStackTrace(); 
-            }
+            FileUtil.saveObject(new FileInputStream(filePath), file.getAbsolutePath());
         }
     }
-        
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeButton;
     private javax.swing.JButton exportButton;

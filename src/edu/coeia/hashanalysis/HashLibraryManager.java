@@ -6,110 +6,157 @@ package edu.coeia.hashanalysis;
 
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
+
 import java.io.File;
 import java.io.FileFilter;
+
 import java.util.List ;
 import java.util.ArrayList ;
-import java.util.Arrays;
 
 /**
- *
+ * Hash Library Manager is collection of static methods
+ * that work on specific task related to the hash library folder
+ * 
  * @author wajdyessam
  */
-public class HashLibraryManager {
-    
-    public HashLibraryManager(){ 
-        //this.hashCategories = new ArrayList<HashCategory>();
-    }
-    
-    public boolean add(final HashCategory hashCategory) {
-        if ( ! this.isContain(hashCategory) ) {
-            this.saveHashCategory(hashCategory);
+public final class HashLibraryManager {
+   
+    /**
+     * adding the hash category if its new to hash library 
+     * 
+     * @param hashCategory the hash category to be written
+     * @return false when there it existing ( same file name exist in the hash library)
+     * @throws Exception 
+     */
+    public static boolean addHashCategory(final HashCategory hashCategory) 
+    throws Exception {
+        
+        if ( !isContain(hashCategory) ) {
+            writeHashCategory(hashCategory);
             return true;
         }
         
         return false;
     }
     
-    public boolean remove(final HashCategory hashCategory) {
-        boolean status = false;
+    /**
+     * Remove the hash category from the hash library folder
+     * @param hashCategory the hash category to be deleting
+     * @return true if deleting done, false otherwise
+     */
+    public static boolean removeHashCategory(final HashCategory hashCategory) {
+        File file = new File(getPathForHashCategory(hashCategory.getName()));
         
-        try {
-            File file = new File(FilesPath.HASH_LIBRARY_PATH + "\\" + hashCategory.getName() +
-                    FilesPath.HASH_SET_EXTENSION );
-            
-            status = file.delete();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        
+        boolean status = file.delete();
         return status;
     }
     
-    public boolean isContain(final HashCategory hashCategory) {
-        //return this.hashCategories.contains(hashCategory);
-        return false;
+    /**
+     * check if the hash library folder contain this hash category
+     * @param hashCategory the hash category under test
+     * @return true if existing, false otherwise
+     */
+    public static boolean isContain(final HashCategory hashCategory) {
+        File file = new File(getPathForHashCategory(hashCategory.getName()));
+        return file.exists();
     }
     
-    public void update(final List<HashItem> items, final String categoryName) {
-        try {
-           File file = new File( FilesPath.HASH_LIBRARY_PATH + "\\" + categoryName + 
-                   FilesPath.HASH_SET_EXTENSION);
-                       
-            HashCategory hashCategory = FileUtil.readObject(file);
-            for(HashItem item: items) {
-                if ( ! hashCategory.isContain(item) ) {
-                    hashCategory.addItem(item);
-                }
+    /**
+     * update the current hash category with new hash items collections
+     * @param items the collections if items to update the file
+     * @param categoryName the name of the target hash category
+     * @throws Exception 
+     */
+    public static void update(final List<HashItem> items, final String categoryName)
+    throws Exception {
+        
+        File file = new File(getPathForHashCategory(categoryName));
+        HashCategory hashCategory = readHashCategory(file);
+        
+        for(HashItem item: items) {
+            if ( ! hashCategory.isContain(item) ) {
+                hashCategory.addItem(item);
             }
-            
-            FileUtil.writeObject(hashCategory, file);
         }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+
+        writeHashCategory(hashCategory);
     }
     
-    private void saveHashCategory(HashCategory hashCategory) { 
-       try {
-           File file = new File( FilesPath.HASH_LIBRARY_PATH + "\\" + hashCategory.getName() + 
-                   FilesPath.HASH_SET_EXTENSION);
-           
-           FileUtil.writeObject(hashCategory,file);
-       }
-       catch(Exception e) {
-           e.printStackTrace();
-       }
-    }
-    
-    public List<File> getHashSets(final String hashLocation) {
-        List<File> files = new ArrayList<File>();
+    /**
+     * get the hash categories under hash library folder
+     * the folder name is predefined 
+     * @return the list of file in this folder 
+     */
+    public static List<HashCategory> getHashCategories() throws Exception {
+        String hashLocation = FilesPath.HASH_LIBRARY_PATH ;
         
-        File file = new File(hashLocation);
-        FileFilter fileFilter = new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                return file.isFile() && file.getAbsolutePath().endsWith(FilesPath.HASH_SET_EXTENSION);
-            }
-        };
+        List<File> files = FileUtil.getFilesInDirectory(hashLocation, hashExtensionFilter);
+        List<HashCategory> categories = new ArrayList<HashCategory>();
         
-        files.addAll(Arrays.asList(file.listFiles(fileFilter)));
-        return files;
-    }
-    
-    public HashCategory getHashCategory(final File file) {
-        HashCategory hashCategory = null;
-        
-        try {
-            hashCategory = FileUtil.readObject(file);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
+        for(File file: files) {
+            HashCategory hashCategory = HashLibraryManager.readHashCategory(file);
+            categories.add(hashCategory);
         }
         
+        return categories;
+    }
+    
+    /**
+     * get the path for this hash category in the hash library 
+     * @param categoryName
+     * @return full path of hash category location
+     */
+    public static String getPathForHashCategory(final String categoryName) {
+        return FilesPath.HASH_LIBRARY_PATH + "\\" + categoryName + 
+               FilesPath.HASH_SET_EXTENSION;
+    }
+    
+    /**
+     * write hash category into file 
+     * @param hashCategory
+     * @throws Exception 
+     */
+    private static void writeHashCategory(HashCategory hashCategory) throws Exception { 
+       File file = new File(getPathForHashCategory(hashCategory.getName()));
+       FileUtil.writeObject(hashCategory,file);
+    }
+    
+    /**
+     * read the file as hash category object
+     * @param file the file path to be read
+     * @return HashCategory for that file
+     * @throws Exception 
+     */
+    public static HashCategory readHashCategory(final File file) throws Exception {
+        HashCategory hashCategory = FileUtil.readObject(file);
         return hashCategory;
     }
     
-    //private List<HashCategory> hashCategories;
+    /**
+     * this is filter to accept any files with extension .HASH_SET
+     */
+    private final static FileFilter hashExtensionFilter = new FileFilter() {
+        @Override
+        public boolean accept(File file) {
+            return file.isFile() && file.getAbsolutePath().endsWith(FilesPath.HASH_SET_EXTENSION);
+        }
+    };
+    
+    /**
+     * this is swing filter to accept files with extension .HASH_SET
+     */
+    public final static javax.swing.filechooser.FileFilter SWING_HASH_EXTENSION_FILTER = 
+        new javax.swing.filechooser.FileFilter() {
+            
+        @Override
+        public boolean accept(File f) {
+            return ( f.isFile() && f.getAbsolutePath().endsWith(FilesPath.HASH_SET_EXTENSION) );
+        }
+
+        @Override
+        public String getDescription() {
+            return String.format("DEM HASH SET");
+        }
+    };
+    
 }

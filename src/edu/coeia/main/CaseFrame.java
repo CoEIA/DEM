@@ -474,7 +474,7 @@ public class CaseFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_reportToggleButtonActionPerformed
 
     private void hashLibraryMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashLibraryMenuItemActionPerformed
-        HashLibraryManagerDialog dailog = new HashLibraryManagerDialog(this, true, this.caseObj);
+        HashLibraryManagerDialog dailog = new HashLibraryManagerDialog(this, true);
         dailog.setVisible(true);
     }//GEN-LAST:event_hashLibraryMenuItemActionPerformed
     

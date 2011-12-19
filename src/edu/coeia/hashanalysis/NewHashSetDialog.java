@@ -166,18 +166,21 @@ public class NewHashSetDialog extends javax.swing.JDialog {
          * alert the user to enter the new name
          * and then add this hash set
          */
-        HashLibraryManager hashManager = new HashLibraryManager();
-        if ( hashManager.isContain(hashCategory) ) { 
+        if ( HashLibraryManager.isContain(hashCategory) ) { 
             JOptionPane.showMessageDialog(rootPane, "please use another name of this hash set",
                     "Hash Set Name is already used", JOptionPane.INFORMATION_MESSAGE);
             
             this.status = false;
         }
         else {
-            hashManager.add(hashCategory);
-            
-            this.status = true;
-            this.dispose();
+            try {
+                HashLibraryManager.addHashCategory(hashCategory);
+                this.status = true;
+                this.dispose();
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_addButtonActionPerformed
 

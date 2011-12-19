@@ -10,30 +10,26 @@
  */
 package edu.coeia.filesystem;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.hashanalysis.HashCategory;
 import edu.coeia.hashanalysis.HashItem;
 import edu.coeia.hashanalysis.HashLibraryManager;
 import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.main.CaseFrame;
 import edu.coeia.searching.LuceneSearcher;
 import edu.coeia.util.FilesPath;
 
 import java.io.File;
 
-
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import java.util.Map;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 
 import org.apache.lucene.index.IndexReader ;
 import org.apache.lucene.store.Directory ;
@@ -41,33 +37,35 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.document.Document ;
 import org.apache.lucene.document.Field;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 /**
  *
  * @author wajdyessam
  */
 public class HashAnalysisPanel extends javax.swing.JPanel {
 
-    private HashLibraryManager hashLibraryManager ;
-    private List<HashCategory> hashCategories ;
-    private List<MatchingResult> matchedResult; 
-    
-    private CaseFrame caseFrame ;
-    private Case aCase ;
-    private LuceneSearcher luceneSearcher ;
-    private Multimap<String, Document> maps = ArrayListMultimap.create();
+    private final Case aCase ;
+    private final List<HashCategory> hashCategories ;   // contain all categories
+    private final List<MatchingResult> hashLibraryDuplicationResult;   // contain the result of hash library duplication anaylsis
+    private final Multimap<String, Document> caseDuplicationsMap;      // contain the result of case duplication analysis
     
     /** Creates new form HashAnalysisPanel */
     public HashAnalysisPanel(final JPanel parentPanel) {
         initComponents();
         
-        this.caseFrame = ((FileSystemPanel)parentPanel).getCaseFrame();
         this.aCase =  ((FileSystemPanel) parentPanel).getCase();
-        
-        this.hashLibraryManager = new HashLibraryManager();
         this.hashCategories = new ArrayList<HashCategory>();
-        this.matchedResult = new ArrayList<MatchingResult>();
+        this.hashLibraryDuplicationResult = new ArrayList<MatchingResult>();
+        this.caseDuplicationsMap = ArrayListMultimap.create(); 
         
-        this.initializeHashSetList();
+        try {
+            this.initializingHashCategoriesJList();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /** This method is called from within the constructor to
@@ -345,29 +343,17 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void hashAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashAnalysisButtonActionPerformed
-        resetGUIComponent();
-        
-        Object[] values = this.hashSetJList.getSelectedValues();
-        for(Object obj: values) {
-            String value = String.valueOf(obj);
-            this.startHashAnalysis(value);
-        }
-        
-        if ( this.matchedResult.isEmpty() ) {
-            JOptionPane.showMessageDialog(null, "There is no duplication with selected hash set(s)",
-                    "cannot find any matched files in this case",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
+        this.resetHashLibraryDuplicationElements();
+        this.doHashLibraryDuplicationAnalysis();
     }//GEN-LAST:event_hashAnalysisButtonActionPerformed
 
     private void analysisResultTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_analysisResultTableMouseClicked
-        
+        int row = this.analysisResultTable.getSelectedRow();
+        if ( row < 0 ) return;
+                
         JTableUtil.removeAllRows(this.matchedTable);
         
-        int row = this.analysisResultTable.getSelectedRow();
-        if ( row < 0 ) return ;
-        
-        MatchingResult result = this.matchedResult.get(row);
+        MatchingResult result = this.hashLibraryDuplicationResult.get(row);
         for(Document document: result.matchingDocuments) {
             if ( IndexingConstant.isFileDocument(document) ) {
                 String fileName = document.get(IndexingConstant.FILE_TITLE);
@@ -383,7 +369,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
     private void findDuplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findDuplicationButtonActionPerformed
         this.resetCaseDuplicationElements();
-        this.findDuplicationInCurrentCase();
+        this.doCaseDuplicationAnalysis();
     }//GEN-LAST:event_findDuplicationButtonActionPerformed
 
     private void caseDuplicationTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_caseDuplicationTableMouseClicked
@@ -393,7 +379,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         JTableUtil.removeAllRows(this.caseDuplicationResultTable);
         
         String key = String.valueOf(this.caseDuplicationTable.getValueAt(row, 0));
-        Collection<Document> documents = this.maps.get(key);
+        Collection<Document> documents = this.caseDuplicationsMap.get(key);
         for(Document document: documents) {
             if ( IndexingConstant.isFileDocument(document) ) {
                 String fileName = document.get(IndexingConstant.FILE_TITLE);
@@ -407,77 +393,30 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_caseDuplicationTableMouseClicked
 
-    private void findDuplicationInCurrentCase() {
-        try {
-            this.findDuplication();
+    private void doHashLibraryDuplicationAnalysis() {
+        Object[] values = this.hashSetJList.getSelectedValues();
+        for(Object value: values) {
+            String hashCategoryName = String.valueOf(value);
+            List<MatchingResult> results = this.startHashAnalysis(hashCategoryName);
+            this.hashLibraryDuplicationResult.addAll(results);
         }
-        catch(Exception e){
-            e.printStackTrace();
+        
+        if ( this.hashLibraryDuplicationResult.isEmpty() ) {
+            JOptionPane.showMessageDialog(null, "There is no duplication with selected hash set(s)",
+                    "cannot find any matched files in this case",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
-    public void findDuplication() throws Exception {
-        String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        
-        for (int i=0; i<indexReader.maxDoc(); i++) {
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(IndexingConstant.DOCUMENT_HASH);
-                if ( field != null && field.stringValue() != null) {
-                   String documentHash = field.stringValue();
-                   this.maps.put(documentHash, document);
-                }
-            }
-        }
-        indexReader.close();
-        
-        Map<String, Collection<Document>> m = this.maps.asMap();
-        
-        boolean isFoundDuplication = false; 
-        
-        for(Map.Entry<String, Collection<Document>> mapEntry: m.entrySet()){
-            String key = mapEntry.getKey();
-            Collection<Document> documents = mapEntry.getValue();
-            
-            if ( documents.size() > 1 ) { // find duplication  
-                isFoundDuplication = true;
-                Object[] data = {key, documents.size()};
-                JTableUtil.addRowToJTable(this.caseDuplicationTable, data);
-            }
-        }
-        
-        if ( !isFoundDuplication ) {
-            JOptionPane.showMessageDialog(null, "There is no duplication in this case");
-        }
-    }
-        
-    private void initializeHashSetList() {
-        String hashSetLocation = FilesPath.HASH_LIBRARY_PATH;
-        List<File> hashSetsLocation = this.hashLibraryManager.getHashSets(hashSetLocation);
-        
-        DefaultListModel model = new DefaultListModel();
-        for(File file: hashSetsLocation) {
-            HashCategory hashCategory = this.hashLibraryManager.getHashCategory(file);
-            this.hashCategories.add(hashCategory);
-            model.addElement(hashCategory.getName());
-        }
-        
-        this.hashSetJList.setModel(model);
-    }
-        
-    private void startHashAnalysis(final String hashSetName) {
+    private List<MatchingResult> startHashAnalysis(final String hashSetName) {
         HashCategory hashCategory = this.getHashCategory(hashSetName);
+        List<MatchingResult> matchedDuplications = new ArrayList<MatchingResult>();
         
         for(HashItem item: hashCategory.getItems()) {
             String hashValue = item.getHashValue();
             List<Document> documents = searchFor(hashValue);
             
             if ( !documents.isEmpty() ) {
-                //System.out.println("found matching for hash: " + hashValue);
-                
-                // add data
                 Object[] data = {
                     item.getFileName(), item.getFilePath(), 
                     hashSetName, item.getCaseName(), item.getCasePath(), 
@@ -486,23 +425,21 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
                 
                 JTableUtil.addRowToJTable(this.analysisResultTable, data);
                 
-                // build result object
-                // so we can extract the duplicated files in case
-                MatchingResult result = new MatchingResult();
-                result.matchingDocuments.addAll(documents);
-                result.hashItem = item;
-                result.hashCategory = hashCategory; 
-                
-                // add to result list
-                this.matchedResult.add(result);
-            }
-            else {
-                //System.out.println("cannot find matchign for: " + hashValue);
+                MatchingResult result = new MatchingResult(hashCategory, item, documents);
+                matchedDuplications.add(result);
             }
         }
+        
+        return matchedDuplications;
     }
     
     private class MatchingResult {
+        MatchingResult (HashCategory hashCategory, HashItem item, List<Document> docs) {
+            this.hashCategory = hashCategory ;
+            this.hashItem = item;
+            this.matchingDocuments.addAll(Collections.unmodifiableList(docs));
+        }
+        
         HashCategory hashCategory;
         HashItem hashItem;
         List<Document> matchingDocuments = new ArrayList<Document>();
@@ -510,14 +447,14 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
     
     private List<Document> searchFor(final String hashValue) {
         List<Document> documents = new ArrayList<Document>();
+        LuceneSearcher luceneSearcher = null;
         
         try {
-            this.luceneSearcher = new LuceneSearcher(new File(this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH));
-            
-            int hits = this.luceneSearcher.searchForHash(hashValue);
+            luceneSearcher = new LuceneSearcher(new File(this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH));
+            int hits = luceneSearcher.searchForHash(hashValue);
             
             for(int i=0; i<hits; i++) {
-                Document document = this.luceneSearcher.getDocHits(i);
+                Document document = luceneSearcher.getDocHits(i);
                 documents.add(document);
             }
             
@@ -526,7 +463,13 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
             e.printStackTrace();
         }
         finally {
-            this.closeLuceneSearch();
+             try {
+                 if ( luceneSearcher != null )
+                    luceneSearcher.closeSearcher();
+             }
+             catch(Exception e) {
+                 e.printStackTrace();
+             }
         }
         
         return documents;
@@ -545,25 +488,78 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         return hashCategory;
     }
     
-    private void closeLuceneSearch() {
+    // implements case dupliction code
+    
+    private void doCaseDuplicationAnalysis() {
         try {
-            if ( this.luceneSearcher != null )
-                this.luceneSearcher.closeSearcher();
+            boolean isFoundDuplication = this.findCaseDuplication();
+            
+            if ( !isFoundDuplication ) {
+                JOptionPane.showMessageDialog(null, "There is no duplication in this case");
+            }
         }
-        catch(Exception e) {
+        catch(Exception e){
             e.printStackTrace();
         }
     }
     
+    public boolean findCaseDuplication() throws Exception {
+        this.fillCaseDuplicationMap();  // read from index and fill the duplication map
+        
+        boolean isFoundDuplication = false; 
+        Map<String, Collection<Document>> m = this.caseDuplicationsMap.asMap();
+        
+        for(Map.Entry<String, Collection<Document>> mapEntry: m.entrySet()){
+            String key = mapEntry.getKey();
+            Collection<Document> documents = mapEntry.getValue();
+            
+            if ( documents.size() > 1 ) { // find duplication  
+                isFoundDuplication = true;
+                Object[] data = {key, documents.size()};
+                JTableUtil.addRowToJTable(this.caseDuplicationTable, data);
+            }
+        }
+        
+        return isFoundDuplication;
+    }
+        
+    private void fillCaseDuplicationMap() throws Exception {
+        String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
+        Directory dir = FSDirectory.open(new File(indexDir));
+        IndexReader indexReader = IndexReader.open(dir);
+        
+        for (int i=0; i<indexReader.maxDoc(); i++) {
+            Document document = indexReader.document(i);
+            if ( document != null ) {
+                Field field = document.getField(IndexingConstant.DOCUMENT_HASH);
+                if ( field != null && field.stringValue() != null) {
+                   String documentHash = field.stringValue();
+                   this.caseDuplicationsMap.put(documentHash, document);
+                }
+            }
+        }
+        indexReader.close();
+    }
     
-    private void resetGUIComponent() {
+    private void initializingHashCategoriesJList() throws Exception{
+        DefaultListModel model = new DefaultListModel();
+        
+        for(HashCategory hashCategory: HashLibraryManager.getHashCategories()) {
+            this.hashCategories.add(hashCategory);
+            model.addElement(hashCategory.getName());
+        }
+        
+        this.hashSetJList.setModel(model);
+    }
+        
+    private void resetHashLibraryDuplicationElements() {
         JTableUtil.removeAllRows(this.analysisResultTable);
         JTableUtil.removeAllRows(this.matchedTable);
-        this.matchedResult.clear();
+        this.hashLibraryDuplicationResult.clear();
     }
     
     private void resetCaseDuplicationElements() {
-        this.maps.clear();
+        this.caseDuplicationsMap.clear();
         JTableUtil.removeAllRows(this.caseDuplicationResultTable);
         JTableUtil.removeAllRows(this.caseDuplicationTable);
     }

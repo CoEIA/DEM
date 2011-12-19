@@ -19,21 +19,19 @@ import java.util.List;
  */
 public class HashLibraryManagerTest {
     @Test
-    public void testCrateNewHashSet() {
+    public void testCrateNewHashSet() throws Exception{
         HashItem item1 = HashItem.newInstance("a.doc","C:\\a.doc","test","F:\\test", 
             "Wajdy", new Date(), "DFWERWEWER");
         
         HashCategory hashCategory = new HashCategory("name", "notes");
         hashCategory.addItem(item1);
         
-        HashLibraryManager hashManager = new HashLibraryManager();
-        
-        assertFalse(hashManager.isContain(hashCategory));
-        assertTrue(hashManager.add(hashCategory));
+        assertFalse(HashLibraryManager.isContain(hashCategory));
+        assertTrue(HashLibraryManager.addHashCategory(hashCategory));
     }
     
     @Test
-    public void testUpdateExistingHashSet() {
+    public void testUpdateExistingHashSet() throws Exception {
         HashItem item1 = HashItem.newInstance("a.doc","C:\\a.doc","test","F:\\test", 
             "Wajdy", new Date(), "DFWERWEWER");
         HashItem item2 = HashItem.newInstance("b.pdf","", "casename", "casepath", 
@@ -41,20 +39,13 @@ public class HashLibraryManagerTest {
         
         HashCategory hashCategory = new HashCategory("name", "another notes");
         hashCategory.addItem(item1);
-        //hashCategory.addItem(item2);
         
-//        HashCategory hashCategory2= new HashCategory("test");
-//        hashCategory2.addItem(item2);
-        
-        HashLibraryManager hashManager = new HashLibraryManager();
-        hashManager.add(hashCategory);
+        HashLibraryManager.addHashCategory(hashCategory);
         
         List<HashItem> items = new ArrayList<HashItem>();
         items.add(item2);
         
-        hashManager.update(items, "name");
-        
-        //hashManager.add(hashCategory2);
+        HashLibraryManager.update(items, "name");
     }
     
     @Test

@@ -414,7 +414,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         // set application title and default location when startup
         this.setLocation( width / 4, height / 4);
         this.setTitle("Digital Evidence Miner: Case Manager Window");
-
+        
         // add close event
         this.addWindowListener( new WindowAdapter() {
             @Override

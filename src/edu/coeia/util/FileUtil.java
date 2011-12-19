@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.BufferedReader ;
 import java.io.ByteArrayOutputStream;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.InputStreamReader ;
 import java.io.FileNotFoundException ;
@@ -30,6 +31,7 @@ import java.io.UnsupportedEncodingException;
 
 import java.util.List ;
 import java.util.ArrayList ;
+import java.util.Arrays;
 import java.util.Scanner ;
 /*
  * Noninstantiable utility class
@@ -310,5 +312,20 @@ public class FileUtil {
         }
         
         return buffer.toByteArray();
+    }
+    
+    /**
+     * get all the files in directory after applying the file filter
+     * @param directory the directory we want all the files inside it
+     * @param fileFilter the filter to be applied
+     * @return list of all Files inside directory
+     */
+    public static List<File> getFilesInDirectory(final String directory, final FileFilter fileFilter) {
+        List<File> files = new ArrayList<File>();
+        
+        File file = new File(directory);
+        files.addAll(Arrays.asList(file.listFiles(fileFilter)));
+        
+        return files;
     }
 }

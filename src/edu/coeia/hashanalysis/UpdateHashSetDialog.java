@@ -24,7 +24,6 @@ public class UpdateHashSetDialog extends javax.swing.JDialog {
     private boolean status = false; // if adding correctly or not
     private List<HashItem> items; 
     private List<HashCategory> hashCategories ;
-    private HashLibraryManager hashLibraryManager ;
     private HashSetItemsPanel hashSetItemsPanel ;
     
     /** Creates new form UpdateHashSetDialog */
@@ -35,13 +34,17 @@ public class UpdateHashSetDialog extends javax.swing.JDialog {
         this.setLocationRelativeTo(parent);
         
         this.items = hashItems;
-        this.hashLibraryManager = new HashLibraryManager();
         this.hashSetItemsPanel = new HashSetItemsPanel(hashItems);
         this.hashItemsPanel.add(this.hashSetItemsPanel);
         this.hashItemsPanel.revalidate();
         this.hashCategories = new ArrayList<HashCategory>();
         
-        this.initializeHashSet();
+        try {
+            this.initializeHashCategoriesComboBox();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     /** This method is called from within the constructor to
@@ -162,9 +165,15 @@ public class UpdateHashSetDialog extends javax.swing.JDialog {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
        HashCategory hashCategory = this.getSelectedHashCategory();
-       this.hashLibraryManager.update(this.items, hashCategory.getName());
-       this.status = true;
-       this.dispose();
+       try {
+            HashLibraryManager.update(this.items, hashCategory.getName());
+            this.status = true;
+            this.dispose();       
+       }
+       catch(Exception e) {
+           e.printStackTrace();
+       }
+
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -191,12 +200,8 @@ public class UpdateHashSetDialog extends javax.swing.JDialog {
         return (hashCategory);
     }
         
-    private void initializeHashSet() {
-        String hashSetLocation = FilesPath.HASH_LIBRARY_PATH;
-        List<File> hashSetsLocation = hashLibraryManager.getHashSets(hashSetLocation);
-        
-        for(File file: hashSetsLocation) {
-            HashCategory hashCategory = hashLibraryManager.getHashCategory(file);
+    private void initializeHashCategoriesComboBox() throws Exception{
+        for(HashCategory hashCategory: HashLibraryManager.getHashCategories()) {
             this.hashCategories.add(hashCategory);
             this.hashSetComboBox.addItem(hashCategory.getName());
         }
