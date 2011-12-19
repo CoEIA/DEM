@@ -10,6 +10,8 @@
  */
 package edu.coeia.filesystem;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.hashanalysis.HashCategory;
@@ -19,13 +21,25 @@ import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.searching.LuceneSearcher;
 import edu.coeia.util.FilesPath;
+
 import java.io.File;
+
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import org.apache.lucene.document.Document;
+
+
+import org.apache.lucene.index.IndexReader ;
+import org.apache.lucene.store.Directory ;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.document.Document ;
+import org.apache.lucene.document.Field;
 
 /**
  *
@@ -40,6 +54,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
     private CaseFrame caseFrame ;
     private Case aCase ;
     private LuceneSearcher luceneSearcher ;
+    private Multimap<String, Document> maps = ArrayListMultimap.create();
     
     /** Creates new form HashAnalysisPanel */
     public HashAnalysisPanel(final JPanel parentPanel) {
@@ -77,6 +92,13 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         matchedTable = new javax.swing.JTable();
         caseDuplicationPanel = new javax.swing.JPanel();
+        resultPanel1 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        caseDuplicationTable = new javax.swing.JTable();
+        findDuplicationButton = new javax.swing.JButton();
+        matchedFilesPanel1 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        caseDuplicationResultTable = new javax.swing.JTable();
 
         hashLibraryDuplicationPanel.setLayout(new java.awt.BorderLayout());
 
@@ -203,6 +225,109 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         jTabbedPane1.addTab("Files Duplication within Hash Library", hashLibraryDuplicationPanel);
 
         caseDuplicationPanel.setLayout(new java.awt.BorderLayout());
+
+        resultPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Anlaysis Result"));
+
+        caseDuplicationTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Hash Value", "Number of Duplication"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        caseDuplicationTable.setFillsViewportHeight(true);
+        caseDuplicationTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                caseDuplicationTableMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(caseDuplicationTable);
+
+        findDuplicationButton.setText("Find Duplication");
+        findDuplicationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findDuplicationButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout resultPanel1Layout = new javax.swing.GroupLayout(resultPanel1);
+        resultPanel1.setLayout(resultPanel1Layout);
+        resultPanel1Layout.setHorizontalGroup(
+            resultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, resultPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(findDuplicationButton))
+        );
+        resultPanel1Layout.setVerticalGroup(
+            resultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(resultPanel1Layout.createSequentialGroup()
+                .addComponent(findDuplicationButton)
+                .addContainerGap(132, Short.MAX_VALUE))
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+        );
+
+        caseDuplicationPanel.add(resultPanel1, java.awt.BorderLayout.CENTER);
+
+        matchedFilesPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Matched Files in Case"));
+
+        caseDuplicationResultTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "File Name", "File Path", "Date", "Hash Value"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        caseDuplicationResultTable.setFillsViewportHeight(true);
+        jScrollPane6.setViewportView(caseDuplicationResultTable);
+
+        javax.swing.GroupLayout matchedFilesPanel1Layout = new javax.swing.GroupLayout(matchedFilesPanel1);
+        matchedFilesPanel1.setLayout(matchedFilesPanel1Layout);
+        matchedFilesPanel1Layout.setHorizontalGroup(
+            matchedFilesPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(matchedFilesPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        matchedFilesPanel1Layout.setVerticalGroup(
+            matchedFilesPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+        );
+
+        caseDuplicationPanel.add(matchedFilesPanel1, java.awt.BorderLayout.PAGE_END);
+
         jTabbedPane1.addTab("Files Duplication in the same Case", caseDuplicationPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -256,6 +381,78 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_analysisResultTableMouseClicked
 
+    private void findDuplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findDuplicationButtonActionPerformed
+        this.resetCaseDuplicationElements();
+        this.findDuplicationInCurrentCase();
+    }//GEN-LAST:event_findDuplicationButtonActionPerformed
+
+    private void caseDuplicationTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_caseDuplicationTableMouseClicked
+        int row = this.caseDuplicationTable.getSelectedRow();
+        if ( row < 0 ) return ;
+        
+        JTableUtil.removeAllRows(this.caseDuplicationResultTable);
+        
+        String key = String.valueOf(this.caseDuplicationTable.getValueAt(row, 0));
+        Collection<Document> documents = this.maps.get(key);
+        for(Document document: documents) {
+            if ( IndexingConstant.isFileDocument(document) ) {
+                String fileName = document.get(IndexingConstant.FILE_TITLE);
+                String filePath = document.get(IndexingConstant.FILE_NAME);
+                String date = document.get(IndexingConstant.FILE_DATE);
+                String hash = document.get(IndexingConstant.DOCUMENT_HASH);
+                
+                Object[] data = {fileName, filePath, date, hash};
+                JTableUtil.addRowToJTable(this.caseDuplicationResultTable, data);
+            }
+        }
+    }//GEN-LAST:event_caseDuplicationTableMouseClicked
+
+    private void findDuplicationInCurrentCase() {
+        try {
+            this.findDuplication();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void findDuplication() throws Exception {
+        String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
+        Directory dir = FSDirectory.open(new File(indexDir));
+        IndexReader indexReader = IndexReader.open(dir);
+        
+        for (int i=0; i<indexReader.maxDoc(); i++) {
+            Document document = indexReader.document(i);
+            if ( document != null ) {
+                Field field = document.getField(IndexingConstant.DOCUMENT_HASH);
+                if ( field != null && field.stringValue() != null) {
+                   String documentHash = field.stringValue();
+                   this.maps.put(documentHash, document);
+                }
+            }
+        }
+        indexReader.close();
+        
+        Map<String, Collection<Document>> m = this.maps.asMap();
+        
+        boolean isFoundDuplication = false; 
+        
+        for(Map.Entry<String, Collection<Document>> mapEntry: m.entrySet()){
+            String key = mapEntry.getKey();
+            Collection<Document> documents = mapEntry.getValue();
+            
+            if ( documents.size() > 1 ) { // find duplication  
+                isFoundDuplication = true;
+                Object[] data = {key, documents.size()};
+                JTableUtil.addRowToJTable(this.caseDuplicationTable, data);
+            }
+        }
+        
+        if ( !isFoundDuplication ) {
+            JOptionPane.showMessageDialog(null, "There is no duplication in this case");
+        }
+    }
+        
     private void initializeHashSetList() {
         String hashSetLocation = FilesPath.HASH_LIBRARY_PATH;
         List<File> hashSetsLocation = this.hashLibraryManager.getHashSets(hashSetLocation);
@@ -365,9 +562,18 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         this.matchedResult.clear();
     }
     
+    private void resetCaseDuplicationElements() {
+        this.maps.clear();
+        JTableUtil.removeAllRows(this.caseDuplicationResultTable);
+        JTableUtil.removeAllRows(this.caseDuplicationTable);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable analysisResultTable;
     private javax.swing.JPanel caseDuplicationPanel;
+    private javax.swing.JTable caseDuplicationResultTable;
+    private javax.swing.JTable caseDuplicationTable;
+    private javax.swing.JButton findDuplicationButton;
     private javax.swing.JButton hashAnalysisButton;
     private javax.swing.JPanel hashLibraryDuplicationPanel;
     private javax.swing.JList hashSetJList;
@@ -375,9 +581,13 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel matchedFilesPanel;
+    private javax.swing.JPanel matchedFilesPanel1;
     private javax.swing.JTable matchedTable;
     private javax.swing.JPanel resultPanel;
+    private javax.swing.JPanel resultPanel1;
     // End of variables declaration//GEN-END:variables
 }

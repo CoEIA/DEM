@@ -237,10 +237,10 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             String mime = document.get(IndexingConstant.FILE_MIME);
             
             result.append("File: ").append(fileName).append("\n")
-                    .append("Location: ").append(filePath).append("\n")
-                    .append("Modification Time: ").append(date).append("\n")
-                    .append("Extension: ").append(mime).append("\n")
-                    .append("Contain: ").append(embedded).append(" Document(s)").append("\n");
+                .append("Location: ").append(filePath).append("\n")
+                .append("Modification Time: ").append(date).append("\n")
+                .append("Extension: ").append(mime).append("\n")
+                .append("Contain: ").append(embedded).append(" Document(s)").append("\n");
         }
         
         TagsDialog tagDialog = new TagsDialog(this.parent, true);

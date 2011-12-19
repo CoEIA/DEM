@@ -38,23 +38,25 @@ import javax.swing.JPanel;
 public class IndexReaderThread extends SwingWorker<String, Integer> {
     public enum IndexItem { TAGS, VISUALIZATION, IMAGES};
 
-    InfiniteProgressPanel panel ;
-    JPanel resultPanel;
+    private InfiniteProgressPanel panel ;
+    private JPanel resultPanel;
     
-    boolean status;
-    IndexItem type;
+    private boolean status;
+    private IndexItem type;
     
     private String indexDir, indexName;
     private Directory dir ;
     private IndexReader indexReader ;
 
-    HashMap<String, Integer> tags;
-    HashMap<String, Double> exts;
-    List<String> images;
+    private HashMap<String, Integer> tags;
+    private HashMap<String, Double> exts;
+    private List<String> images;
 
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
 
-    public IndexReaderThread (InfiniteProgressPanel i, String location, String name, IndexItem type, JPanel frame) throws IOException {
+    public IndexReaderThread (InfiniteProgressPanel i, String location, String name,
+            IndexItem type, JPanel frame) throws IOException {
+        
         this.panel = i;
         this.status = true;
         this.type = type;
@@ -93,7 +95,7 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
         
         return "" ;
     }
-
+    
     // get terms and frequncy for all terms in docuemnts
     public HashMap<String,Integer> getAllTermFreqFromBody ()  throws IOException {
         HashMap<String,Integer> map = new HashMap<String,Integer>();
