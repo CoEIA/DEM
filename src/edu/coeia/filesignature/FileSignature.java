@@ -28,16 +28,14 @@ public class FileSignature {
     private String[] Extension;
     private String Type;
     private FileSignatureDBHandler db;
+    public String KnownSignature;
 
     public FileSignature() {
-        
-        
-        
     }
 
     public boolean CreateDataBaseSignatures(String dbPath) throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
         db = new FileSignatureDBHandler(dbPath);
-        
+
         if (db != null) {
             return true;
         } else {
@@ -68,8 +66,8 @@ public class FileSignature {
     public String getType() {
         return this.Type;
     }
-    
-    String getFormattedExtension(String [] input) {
+
+    String getFormattedExtension(String[] input) {
         StringBuilder result = new StringBuilder();
         if (input != null) {
             for (int i = 0; i < input.length; i++) {
@@ -82,7 +80,7 @@ public class FileSignature {
 
             return "";
         }
-       return result.toString();
+        return result.toString();
     }
 
     public String toString() {
@@ -130,47 +128,96 @@ public class FileSignature {
         return b;
     }
 
-    // Get the extension of the file and search for matached signature based on
-    // on the extension
-    public static boolean matchBadSignature(File file, FileSignature db) throws FileNotFoundException, IOException {
-
+    public static boolean verifyExtenstion(File file, FileSignature db) {
         String extension = getExtension(file);
 
-        // ext  == sign in database 
         for (String ext : db.getExtension()) {
+
             if (extension.equalsIgnoreCase(ext)) {
-
-                String dbSignature = db.getSignature();
-
-                boolean result = matchesSignature(dbSignature.getBytes(), file);
-
-                if (result) {
-                    System.out.println("Bad File Signature");
-                    return true;
-                } else {
-                    System.out.println("Unknown File Format");
-                    return false;
-                }
+                return true;
             }
-
         }
 
         return false;
     }
 
+    // Get the extension of the file and search for matached signature based on
+    // on the extension
+    public static boolean matchBadSignature(File file, FileSignature fs) throws FileNotFoundException, IOException {
+
+        // First Case, Extension in DB Table, but Signature is different
+        // ext  == sign in database 
+        boolean res = false;
+        res = verifyExtenstion(file, fs);
+        boolean b = true;
+
+        boolean result = matchesSignature(fs.getSignature().getBytes(), file);
+        if (result == true && res == true) {
+            System.out.println("Match File");
+            b = true;
+
+        } else {
+            b = false;
+        }
+
+
+        return b;
+    }
+
+    public static boolean matchAliasSignature(File file, FileSignature db) throws FileNotFoundException, IOException {
+
+        String extension = getExtension(file);
+
+        boolean result = matchBadSignature(file, db);
+
+        for (String ext : db.getExtension()) {
+
+            if ((!extension.equalsIgnoreCase(ext)) && result == true) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean isknownFile(File file, FileSignature db) throws FileNotFoundException, IOException {
+
+        boolean b = true;
+        if (searchSignature(file, db).isEmpty()) {
+            b = false;
+        } else {
+            b = true;
+        }
+
+        return b;
+    }
+
     // Get Signature of the file and search for it in the database
-    public static boolean searchSignature(File file, FileSignature db) throws FileNotFoundException, IOException {
+    public static List<String> searchSignature(File file, FileSignature db) throws FileNotFoundException, IOException {
 
-        boolean result = matchesSignature(db.getSignature().getBytes(), file);
+        byte[] buffer = new byte[MAX_SIGNATURE_SIZE];
+        InputStream in = new FileInputStream(file);
+        int n = in.read(buffer, 0, MAX_SIGNATURE_SIZE);
+        String hex = toHex(buffer);
+        StringBuilder sb = new StringBuilder();
+        List<String> knownSignatures = new ArrayList<String>();
+        boolean b = true;
 
-        return result;
+        if (hex.startsWith(db.getSignature())) {
+
+            sb.append(db.getType());
+            sb.append("  ");
+            knownSignatures.add(sb.toString());
+
+        }
+
+        return knownSignatures;
     }
 
     private static String getExtension(File f) {
         if (!f.exists() || f.isDirectory()) {
             return null;
         }
-
         int index = f.getAbsolutePath().lastIndexOf(".");
 
         if ((index < 0) && (index >= f.toString().length())) {
@@ -188,7 +235,7 @@ public class FileSignature {
         List<FileSignature> files = new ArrayList<FileSignature>();
         try {
 
-            br = new BufferedReader(new FileReader("signatures.txt"));
+            br = new BufferedReader(new FileReader("tools\\Signatures.dat"));
             String line = null;
 
             while ((line = br.readLine()) != null) {
