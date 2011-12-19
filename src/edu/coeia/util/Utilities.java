@@ -20,8 +20,10 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -78,6 +80,23 @@ public class Utilities {
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 result.append(list.get(i));
+                if (i < list.size() - 1) {
+                    result.append(',');
+                }
+            }
+        } else {
+
+            return "";
+        }
+        return result.toString();
+    }
+    
+    public static String getFormattedStringHash(Set<String> list) {
+        StringBuilder result = new StringBuilder();
+        if (list != null) {
+            Object [] arr = list.toArray();
+             for (int i = 0; i < list.size(); i++) {
+                result.append(arr[i]);
                 if (i < list.size() - 1) {
                     result.append(',');
                 }

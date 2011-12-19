@@ -16,7 +16,10 @@ import edu.coeia.util.Utilities;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.TreeModelListener;
@@ -30,52 +33,32 @@ import org.apache.mahout.math.Arrays;
  *
  * @author Ahmed
  */
-public class FileSignaturePanel extends javax.swing.JPanel   {
-    
+public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
+
     protected DefaultTreeModel m_model;
     private FileSignature instance;
     private FileTreeModel model;
-    private File          node;
-    private List<FileSignature> listFiles; 
+    private File node;
+    private List<FileSignature> listFiles;
+
+    public FileSignaturePanel() {
+    }
+
     /** Creates new form FileSignaturePanel */
     public FileSignaturePanel(Case aCase) {
-        
         initComponents();
- 
-         instance = new FileSignature();
-         List<String> caseLocation = aCase.getEvidenceSourceLocation();
-        
-        
+        instance = new FileSignature();
+        List<String> caseLocation = aCase.getEvidenceSourceLocation();
         try {
             fillDataBaseTable();
         } catch (IOException ex) {
             Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-                 
         model = new FileTreeModel(new File(caseLocation.get(0)));
- 
         FolderListTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         FolderListTree.setModel(model);
-     
-
-    }
-       
-        
-    
-    public void iterateFolders(File folder) {
-
-        String[] children = folder.list();
-        if (children == null) {
-            System.out.println("does not exist or is not a directory");
-        } else {
-            for (int i = 0; i < children.length; i++) {
-                String filename = children[i];
-            }
-
-        }
     }
 
-    
     private void fillDataBaseTable() throws IOException {
         listFiles = instance.ParseFile();
         for (FileSignature fs : listFiles) {
@@ -84,41 +67,90 @@ public class FileSignaturePanel extends javax.swing.JPanel   {
         }
     }
 
-    private void FillSignatureTable(FileSignature fs, String FileName, String Status) {
-        Object[] arr = {FileName, Arrays.toString(fs.getExtension()), Status, fs.getSignature(), fs.getType(), fs.getID()};
+    private void FillSignatureTable(Object[] arr) {
         JTableUtil.addRowToJTable(FileAnalysisTable, arr);
     }
-
+    
     private void FillTableUnknownFile(String FileName, String Status) {
         Object[] arr = {FileName, Status};
         JTableUtil.addRowToJTable(FileAnalysisTable, arr);
     }
 
-     
-    /**
-     * The methods in this class allow the JTree component to traverse
-     * the file system tree, and display the files and directories.
-     **/
+    public class FolderTraversar {
+
+        private String indent = "";
+        private File originalFileObject;
+        private File fileObject;
+
+        public FolderTraversar(File fileObject) {
+            this.originalFileObject = fileObject;
+            this.fileObject = fileObject;
+        }
+
+        public void traverse() {
+            recursiveTraversal(fileObject);
+        }
+
+        public void recursiveTraversal(File fileObject) {
+
+        if (fileObject.isDirectory()) {
+            indent = getIndent(fileObject);
+            System.out.println(indent + fileObject.getName());
+            try {
+                File allFiles[] = fileObject.listFiles();
+                for (File aFile : allFiles) {
+                    recursiveTraversal(aFile);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else if (fileObject.isFile()) {
+            System.out.println(indent + "  " + fileObject.getName());
+            TestFileAnalysis(fileObject);
+        }
+        }
+
+        private String getIndent(File fileObject) {
+            String original = originalFileObject.getAbsolutePath();
+            String fileStr = fileObject.getAbsolutePath();
+            String subString =
+                    fileStr.substring(original.length(), fileStr.length());
+
+            String indent = "";
+            for (int index = 0; index < subString.length(); index++) {
+                char aChar = subString.charAt(index);
+                if (aChar == File.separatorChar) {
+                    indent = indent + "  ";
+                }
+            }
+            return indent;
+        }
+    }
+
+/**
+ * The methods in this class allow the JTree component to traverse
+ * the file system tree, and display the files and directories.
+ **/
     class FileTreeModel implements TreeModel {
-        // We specify the root directory when we create the model.
+    // We specify the root directory when we create the model.
 
         protected File root;
-        
+
         public FileTreeModel(File root) {
             this.root = root;
         }
 
-        // The model knows how to return the root object of the tree
+    // The model knows how to return the root object of the tree
         public Object getRoot() {
             return root;
         }
 
-        // Tell JTree whether an object in the tree is a leaf or not
+    // Tell JTree whether an object in the tree is a leaf or not
         public boolean isLeaf(Object node) {
             return ((File) node).isFile();
         }
 
-        // Tell JTree how many children a node has
+    // Tell JTree how many children a node has
         public int getChildCount(Object parent) {
             String[] children = ((File) parent).list();
             if (children == null) {
@@ -127,45 +159,45 @@ public class FileSignaturePanel extends javax.swing.JPanel   {
             return children.length;
         }
 
-        // Fetch any numbered child of a node for the JTree.
-        // Our model returns File objects for all nodes in the tree.  The
-        // JTree displays these by calling the File.toString() method.
-        public Object getChild(Object parent, int index) {
-            String[] children = ((File) parent).list();
-            if ((children == null) || (index >= children.length)) {
-                return null;
-            }
-            return new File((File) parent, children[index]);
+    // Fetch any numbered child of a node for the JTree.
+    // Our model returns File objects for all nodes in the tree.  The
+    // JTree displays these by calling the File.toString() method.
+    public Object getChild(Object parent, int index) {
+        String[] children = ((File) parent).list();
+        if ((children == null) || (index >= children.length)) {
+            return null;
         }
+        return new File((File) parent, children[index]);
+    }
 
-        // Figure out a child's position in its parent node.
-        public int getIndexOfChild(Object parent, Object child) {
-            String[] children = ((File) parent).list();
-            if (children == null) {
-                return -1;
-            }
-            String childname = ((File) child).getName();
-            for (int i = 0; i < children.length; i++) {
-                if (childname.equals(children[i])) {
-                    return i;
-                }
-            }
+    // Figure out a child's position in its parent node.
+    public int getIndexOfChild(Object parent, Object child) {
+        String[] children = ((File) parent).list();
+        if (children == null) {
             return -1;
         }
-
-        // This method is only invoked by the JTree for editable trees.  
-        // This TreeModel does not allow editing, so we do not implement 
-        // this method.  The JTree editable property is false by default.
-        public void valueForPathChanged(TreePath path, Object newvalue) {
+        String childname = ((File) child).getName();
+        for (int i = 0; i < children.length; i++) {
+            if (childname.equals(children[i])) {
+                return i;
+            }
         }
+        return -1;
+    }
 
-        // Since this is not an editable tree model, we never fire any events,
-        // so we don't actually have to keep track of interested listeners.
-        public void addTreeModelListener(TreeModelListener l) {
-        }
+    // This method is only invoked by the JTree for editable trees.  
+    // This TreeModel does not allow editing, so we do not implement 
+    // this method.  The JTree editable property is false by default.
+    public void valueForPathChanged(TreePath path, Object newvalue) {
+    }
 
-        public void removeTreeModelListener(TreeModelListener l) {
-        }
+    // Since this is not an editable tree model, we never fire any events,
+    // so we don't actually have to keep track of interested listeners.
+    public void addTreeModelListener(TreeModelListener l) {
+    }
+
+    public void removeTreeModelListener(TreeModelListener l) {
+    }
     }
 
     /** This method is called from within the constructor to
@@ -267,11 +299,11 @@ public class FileSignaturePanel extends javax.swing.JPanel   {
 
             },
             new String [] {
-                "File Name", "Status", "File Extension", "Signature", "File Type", "File Category"
+                "File Name", "Status", "Signature", "File Extensions"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -323,63 +355,97 @@ public class FileSignaturePanel extends javax.swing.JPanel   {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// TODO add your handling code here:
-    boolean isDirectory = node.isDirectory();
+  private void TestFileAnalysis(File file) {
     boolean matched = false;
-    boolean unKnown     = true;
-  
-    if (isDirectory) {
-    } else {
-        try {
-            for (FileSignature fs : listFiles) {
-                if (FileSignature.matchBadSignature(node, fs)) {
-                    //    JOptionPane.showMessageDialog(this, "Matched File ", "Verified", JOptionPane.ERROR_MESSAGE);
-                    FillSignatureTable(fs, node.getName(), "Matched File");
-                    matched = true;
+    boolean unKnown = true;
+    Object[] status_matched = new Object[4];
+    Object[] status_aliased = new Object[4];
+    Set<String> signatureList = new HashSet<String>();
+    List<String> extensionsList = new ArrayList<String>();
+    if (file == null) {
+        return;
+    }
+    try {
+        for (FileSignature fs : listFiles) {
+            if (FileSignature.matchBadSignature(file, fs)) {
+                status_matched = FormatTable(file, "Matched File", fs, signatureList,extensionsList);
+                matched = true;
+                unKnown = false;
+            }
+            if (FileSignature.matchAliasSignature(file, fs) && !matched) {
+                if (FileSignature.isknownFile(file, fs)) {
+                    status_aliased = FormatTable(file, "Aliased File and it is Known", fs, signatureList,extensionsList);
                     unKnown = false;
-                    break;
+                    matched = false;
                 }
-                if (FileSignature.matchAliasSignature(node, fs)) {
-
-                    if (FileSignature.isknownFile(node, fs)) {
-
-                        FillSignatureTable(fs, node.getName(), " Alias file and it is a Known File");
-                        unKnown = false;
-                        matched = false;
-                        
-                    }
-                }
-              
             }
-            if ( unKnown && !matched) {
-                FillTableUnknownFile(node.getName(), "Unknown");
-            }
-            
+        } // End For 
+
+        // Check All States
+        if (unKnown && !matched) {
+            FillTableUnknownFile(file.getName(), "Unknown");
         }
-        catch (FileNotFoundException ex) {
-            Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
+        if (!unKnown && !matched) {
+            FillSignatureTable(status_aliased);
+        }
+        if (!unKnown && matched) {
+            FillSignatureTable(status_matched);
         }
 
+    } catch (FileNotFoundException ex) {
+        Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+        Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
+    }
 
 
     }
-   
-               
+
+private Object[] FormatTable(File file, String message, FileSignature fs, Set<String> SignatureList, List<String> Exenstions) {
+
+    Object[] status_msg = new Object[4];
+
+    status_msg[0] = file.getName();
+    status_msg[1] = message;
+    
+    SignatureList.add(fs.getSignature());
+    String formatedSignatures = Utilities.getFormattedStringHash(SignatureList);
+    status_msg[2] = formatedSignatures;
+
+    Exenstions.add(Arrays.toString(fs.getExtension()));
+    String formatedExtensions = Utilities.getFormattedString(Exenstions);
+    status_msg[3] = formatedExtensions;
+
+    return status_msg;
+    }
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+// TODO add your handling code here:
+    boolean isDirectory = node.isDirectory();
+    JTableUtil.removeAllRows(FileAnalysisTable);
+    Thread newThrd = new Thread(this);
+    if (isDirectory) {
+        newThrd.start();
+    } else {
+        TestFileAnalysis(node);
+    }
+
 }//GEN-LAST:event_jButton1ActionPerformed
 
+    public void run() {
+        System.out.println("MyThread starting.");
+        FolderTraversar ft = new FolderTraversar(node);
+        ft.traverse();
+        System.out.println("MyThread terminating.");
+    }
 private void FolderListTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_FolderListTreeValueChanged
- // TODO add your handling code here:
-        node = (File) evt.getPath().getLastPathComponent();
+    // TODO add your handling code here:
+    node = (File) evt.getPath().getLastPathComponent();
+    if (node == null) {
+        return;
+    }
 
-        if (node == null) {
-            return;
-        }
-    
+
 }//GEN-LAST:event_FolderListTreeValueChanged
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FileAnalysisPanel;
     private javax.swing.JTable FileAnalysisTable;
