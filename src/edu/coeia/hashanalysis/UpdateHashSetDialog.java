@@ -10,8 +10,6 @@
  */
 package edu.coeia.hashanalysis;
 
-import edu.coeia.util.FilesPath;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +20,11 @@ import java.util.List;
 public class UpdateHashSetDialog extends javax.swing.JDialog {
     
     private boolean status = false; // if adding correctly or not
-    private List<HashItem> items; 
-    private List<HashCategory> hashCategories ;
-    private HashSetItemsPanel hashSetItemsPanel ;
+    private HashSetItemsPanel hashSetItemsPanel ; 
     
+    private final List<HashItem> items; 
+    private final List<HashCategory> hashCategories ;
+
     /** Creates new form UpdateHashSetDialog */
     public UpdateHashSetDialog(java.awt.Frame parent, boolean modal, List<HashItem> hashItems) {
         super(parent, modal);

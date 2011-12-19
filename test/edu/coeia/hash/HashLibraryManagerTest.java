@@ -26,7 +26,7 @@ public class HashLibraryManagerTest {
         HashCategory hashCategory = new HashCategory("name", "notes");
         hashCategory.addItem(item1);
         
-        assertFalse(HashLibraryManager.isContain(hashCategory));
+        assertFalse(HashLibraryManager.isHashLibraryContain(hashCategory));
         assertTrue(HashLibraryManager.addHashCategory(hashCategory));
     }
     

@@ -31,12 +31,12 @@ public final class HashLibraryManager {
     public static boolean addHashCategory(final HashCategory hashCategory) 
     throws Exception {
         
-        if ( !isContain(hashCategory) ) {
-            writeHashCategory(hashCategory);
-            return true;
+        if (isHashLibraryContain(hashCategory) ) {
+            return false;
         }
         
-        return false;
+        writeHashCategory(hashCategory);
+        return true;
     }
     
     /**
@@ -56,7 +56,7 @@ public final class HashLibraryManager {
      * @param hashCategory the hash category under test
      * @return true if existing, false otherwise
      */
-    public static boolean isContain(final HashCategory hashCategory) {
+    public static boolean isHashLibraryContain(final HashCategory hashCategory) {
         File file = new File(getPathForHashCategory(hashCategory.getName()));
         return file.exists();
     }

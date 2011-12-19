@@ -258,6 +258,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
         SelectFolderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select Folder"));
 
+        FolderListTree.setShowsRootHandles(true);
         FolderListTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
                 FolderListTreeValueChanged(evt);
