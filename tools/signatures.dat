@@ -95,7 +95,7 @@ Advanced Stream Redirector,3C,Hex,N/A,ASX,Multimedia
 BizTalk XML-Data Reduced Schema,3C,Hex,N/A,XDR,Miscellaneous
 AOL HTML mail,3C 21 64 6F 63 74 79 70,Hex,N/A,DCI,Email
 Windows Visual Stylesheet,3C 3F 78 6D 6C 20 76 65 72 73 69 6F 6E 3D,Hex,N/A,MANIFEST,Programming
-User Interface Language,3C 3F 78 6D 6C 20 76 65 72 73 69 6F 6E 3D 22 31 2E 30 22 3F 3E,Hex,N/A,XML,Miscellaneous
+User Interface Language,3C 3F 78 6D 6C 20 76 65 72 73 69 6F 6E 3D,Hex,N/A,XML,Miscellaneous
 MMC Snap-in Control file,3C 3F 78 6D 6C 20 76 65 72 73 69 6F 6E 3D 22 31 2E 30 22 3F 3E 0D 0A 3C 4D 4D 43 5F 43 6F 6E 73 6F 6C 65 46 69 6C 65 20 43 6F 6E 73 6F 6C 65 56 65 72 73 69 6F 6E 3D 22,Hex,N/A,MSC,Windows
 Adobe FrameMaker,3C 4D 61 6B 65 72 46 69,Hex,N/A,FM|MIF,Presentation
 Windows Help file_2,3F 5F 03 00,Hex,N/A,GID|HLP,Windows

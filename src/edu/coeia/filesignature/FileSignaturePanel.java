@@ -363,7 +363,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     Set<String> signatureList = new HashSet<String>();
     List<String> extensionsList = new ArrayList<String>();
     if (file == null) {
-        return;
+        return;                             
     }
     try {
         for (FileSignature fs : listFiles) {

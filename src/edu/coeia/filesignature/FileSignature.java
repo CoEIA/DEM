@@ -4,6 +4,8 @@
  */
 package edu.coeia.filesignature;
 
+import edu.coeia.util.FileUtil;
+import edu.coeia.util.Utilities;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,20 +29,9 @@ public class FileSignature {
     private String Signature;
     private String[] Extension;
     private String Type;
-    private FileSignatureDBHandler db;
     public String KnownSignature;
 
     public FileSignature() {
-    }
-
-    public boolean CreateDataBaseSignatures(String dbPath) throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
-        db = new FileSignatureDBHandler(dbPath);
-
-        if (db != null) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public FileSignature(String Id, String Signature, String[] Extension, String Type) {
@@ -67,44 +58,13 @@ public class FileSignature {
         return this.Type;
     }
 
-    String getFormattedExtension(String[] input) {
-        StringBuilder result = new StringBuilder();
-        if (input != null) {
-            for (int i = 0; i < input.length; i++) {
-                result.append(input[i]);
-                if (i < input.length - 1) {
-                    result.append(',');
-                }
-            }
-        } else {
-
-            return "";
-        }
-        return result.toString();
-    }
+   
 
     public String toString() {
 
         return Id + "\n" + Signature + "\n" + Extension + "\n" + Type + "\n";
     }
 
-    private static String toHex(final byte[] bytes) {
-        assert bytes != null;
-
-        StringBuilder hex = new StringBuilder();
-
-        for (int i = 0; i < bytes.length; i++) {
-            int byte1 = bytes[i] & 0xFF;
-
-            if (byte1 < 0xF) {
-                hex.append("0");
-            }
-
-            hex.append(Integer.toHexString(byte1).toUpperCase());
-        }
-
-        return hex.toString();
-    }
 
     public static boolean matchesSignature(byte[] signature, File file) throws FileNotFoundException, IOException {
 
@@ -115,11 +75,11 @@ public class FileSignature {
         if (n < signature.length) {
             return false;
         }
-        String hex = toHex(buffer);
+        String hex = Utilities.toHex(buffer);
 
         boolean b = false;
         String signstring = new String(signature);
-        if (hex.contains(signstring)) {
+        if (hex.startsWith(signstring)) {
             b = true;
         } else {
             b = false;
@@ -129,7 +89,7 @@ public class FileSignature {
     }
 
     public static boolean verifyExtenstion(File file, FileSignature db) {
-        String extension = getExtension(file);
+        String extension =  FileUtil.getExtension(file);
 
         for (String ext : db.getExtension()) {
 
@@ -166,7 +126,8 @@ public class FileSignature {
 
     public static boolean matchAliasSignature(File file, FileSignature db) throws FileNotFoundException, IOException {
 
-        String extension = getExtension(file);
+        String extension = FileUtil.getExtension(file);
+        
 
         boolean result = matchBadSignature(file, db);
 
@@ -198,7 +159,7 @@ public class FileSignature {
         byte[] buffer = new byte[MAX_SIGNATURE_SIZE];
         InputStream in = new FileInputStream(file);
         int n = in.read(buffer, 0, MAX_SIGNATURE_SIZE);
-        String hex = toHex(buffer);
+        String hex = Utilities.toHex(buffer);
         StringBuilder sb = new StringBuilder();
         List<String> knownSignatures = new ArrayList<String>();
         boolean b = true;
@@ -214,20 +175,7 @@ public class FileSignature {
         return knownSignatures;
     }
 
-    private static String getExtension(File f) {
-        if (!f.exists() || f.isDirectory()) {
-            return null;
-        }
-        int index = f.getAbsolutePath().lastIndexOf(".");
-
-        if ((index < 0) && (index >= f.toString().length())) {
-            return null;
-        }
-
-        String ext = f.getAbsolutePath().substring(index + 1);
-
-        return (ext);
-    }
+    
 
     public List<FileSignature> ParseFile() throws IOException {
 
