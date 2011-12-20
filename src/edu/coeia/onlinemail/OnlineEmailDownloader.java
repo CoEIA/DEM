@@ -160,8 +160,8 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         List<String> to = getAddress(message, Message.RecipientType.TO);
                         // Get from, subject, and body
                         String from = getFrom(message);
-                        String subject = Utilities.formatInputString(message.getSubject());
-                        String body = Utilities.formatInputString(getText(message));
+                        String subject = Utilities.getEmptyStringWhenNullString(message.getSubject());
+                        String body = Utilities.getEmptyStringWhenNullString(getText(message));
                         // Print Debug Messages 
                         Utilities.PrintDebugMessages(sentDate, receiveDate, from, cclist, bcclist, body, subject);
                         // Save Attachment
@@ -252,12 +252,12 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
         for (ProgressData pd : chunks) {
 
-            emaildialogue.getFrom().setText(Utilities.formatInputString(pd.mEmail.getFrom()));
+            emaildialogue.getFrom().setText(Utilities.getEmptyStringWhenNullString(pd.mEmail.getFrom()));
 
             List<String> listCC = pd.mEmail.getCC();
             if (!listCC.isEmpty()) {
                 for (String s1 : pd.mEmail.getCC()) {
-                    emaildialogue.getCC().setText(Utilities.formatInputString(s1) + "\n");
+                    emaildialogue.getCC().setText(Utilities.getEmptyStringWhenNullString(s1) + "\n");
                 }
             } else {
                 emaildialogue.getCC().setText("\n");
@@ -266,7 +266,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             List<String> listBcc = pd.mEmail.getBCC();
             if (!listBcc.isEmpty()) {
                 for (String s2 : pd.mEmail.getBCC()) {
-                    emaildialogue.getBCC().setText(Utilities.formatInputString(s2) + "\n");
+                    emaildialogue.getBCC().setText(Utilities.getEmptyStringWhenNullString(s2) + "\n");
                 }
             } else {
                 emaildialogue.getBCC().setText("\n");
@@ -275,18 +275,18 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             List<String> listAttachments = pd.mEmail.getAttachments();
             if (!listAttachments.isEmpty()) {
                 for (String s2 : pd.mEmail.getTo()) {
-                    emaildialogue.getTo().setText(Utilities.formatInputString(s2) + "\n");
+                    emaildialogue.getTo().setText(Utilities.getEmptyStringWhenNullString(s2) + "\n");
                 }
             } else {
                 emaildialogue.getAttachments().setText("\n");
             }
 
             for (String s2 : pd.mEmail.getAttachments()) {
-                emaildialogue.getAttachments().setText(Utilities.formatInputString(s2) + "\n");
+                emaildialogue.getAttachments().setText(Utilities.getEmptyStringWhenNullString(s2) + "\n");
             }
 
 
-            emaildialogue.getSubject().setText(Utilities.formatInputString(pd.mEmail.getSubject()));
+            emaildialogue.getSubject().setText(Utilities.getEmptyStringWhenNullString(pd.mEmail.getSubject()));
             emaildialogue.getSentDate().setText(pd.mEmail.getSentDate());
 
         }

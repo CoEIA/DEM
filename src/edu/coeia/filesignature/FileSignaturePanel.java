@@ -354,11 +354,11 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         status_msg[1] = message;
 
         SignatureList.add(fs.getSignature());
-        String formatedSignatures = Utilities.getFormattedStringHash(SignatureList);
+        String formatedSignatures = Utilities.getCommaSeparatedStringFromCollection(SignatureList);
         status_msg[2] = formatedSignatures;
 
         Exenstions.add(Arrays.toString(fs.getExtension()));
-        String formatedExtensions = Utilities.getFormattedString(Exenstions);
+        String formatedExtensions = Utilities.getCommaSeparatedStringFromCollection(Exenstions);
         status_msg[3] = formatedExtensions;
 
         return status_msg;

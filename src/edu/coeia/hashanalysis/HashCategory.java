@@ -19,7 +19,7 @@ import java.io.Serializable;
  * 
  * @author wajdyessam
  */
-public final class HashCategory implements Serializable{
+final class HashCategory implements Serializable{
 
     public HashCategory (final String hashSetName, final String note) {
         this.name = hashSetName ;

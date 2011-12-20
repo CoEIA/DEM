@@ -19,7 +19,7 @@ import java.util.ArrayList ;
  * 
  * @author wajdyessam
  */
-public final class HashLibraryManager {
+final class HashLibraryManager {
    
     /**
      * adding the hash category if its new to hash library 

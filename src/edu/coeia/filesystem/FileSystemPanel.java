@@ -1,6 +1,7 @@
 
 package edu.coeia.filesystem;
 
+import edu.coeia.hashanalysis.HashAnalysisPanel;
 import edu.coeia.cases.Case;
 import edu.coeia.filesignature.FileSignaturePanel;
 import edu.coeia.main.CaseFrame;

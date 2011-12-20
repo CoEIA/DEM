@@ -8,13 +8,10 @@
  *
  * Created on Oct 5, 2011, 11:22:57 AM
  */
-package edu.coeia.filesystem;
+package edu.coeia.hashanalysis;
 
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.hashanalysis.HashCategory;
-import edu.coeia.hashanalysis.HashItem;
-import edu.coeia.hashanalysis.HashLibraryManager;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.searching.LuceneSearcher;
 import edu.coeia.util.FilesPath;
@@ -39,6 +36,7 @@ import org.apache.lucene.document.Field;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.coeia.filesystem.FileSystemPanel;
 
 /**
  *

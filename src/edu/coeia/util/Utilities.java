@@ -6,25 +6,25 @@ package edu.coeia.util;
 
 import edu.coeia.offlinemail.Message;
 
-import java.io.File;
 
-import java.io.IOException;
 import javax.swing.filechooser.FileSystemView;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
+
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -56,7 +56,7 @@ public class Utilities {
         return hex.toString();
     }
 
-    public static String formatInputString(String input) {
+    public static String getEmptyStringWhenNullString(String input) {
         String result = "";
         if (input != null) {
             result = input;
@@ -64,7 +64,7 @@ public class Utilities {
         return result;
     }
 
-    public static InputStream convertList(List<String> input) throws IOException {
+    public static InputStream convertListToInputStream(List<String> input) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(baos);
         for (String element : input) {
@@ -83,37 +83,22 @@ public class Utilities {
         }
         return list;
     }
-
-    public static String getFormattedString(List<String> list) {
+    
+    public static String getCommaSeparatedStringFromCollection(Collection<String> collections) {
         StringBuilder result = new StringBuilder();
-        if (list != null) {
-            for (int i = 0; i < list.size(); i++) {
-                result.append(list.get(i));
-                if (i < list.size() - 1) {
+        
+        if ( collections != null) {
+           Object[] array = collections.toArray();
+           
+           for (int i = 0; i < array.length; i++) {
+                result.append(array[i]);
+                
+                if (i < array.length - 1) {
                     result.append(',');
                 }
             }
-        } else {
-
-            return "";
         }
-        return result.toString();
-    }
-
-    public static String getFormattedStringHash(Set<String> list) {
-        StringBuilder result = new StringBuilder();
-        if (list != null) {
-            Object[] arr = list.toArray();
-            for (int i = 0; i < list.size(); i++) {
-                result.append(arr[i]);
-                if (i < list.size() - 1) {
-                    result.append(',');
-                }
-            }
-        } else {
-
-            return "";
-        }
+        
         return result.toString();
     }
 

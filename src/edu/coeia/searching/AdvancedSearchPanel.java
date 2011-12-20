@@ -27,6 +27,8 @@ import javax.swing.JTable;
 import javax.swing.JOptionPane ;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JPopupMenu;
 
 import java.io.File ;
 
@@ -34,12 +36,9 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.Date;
-import java.util.Map;
-import javax.swing.JButton;
-import javax.swing.JPopupMenu;
+
 import org.apache.lucene.document.Document;
 
 /**

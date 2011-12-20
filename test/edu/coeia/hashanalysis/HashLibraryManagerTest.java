@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.hash;
+package edu.coeia.hashanalysis;
 
 import edu.coeia.hashanalysis.HashLibraryManager;
 import edu.coeia.hashanalysis.HashItem;
