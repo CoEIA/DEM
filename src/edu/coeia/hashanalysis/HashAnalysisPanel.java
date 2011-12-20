@@ -15,6 +15,7 @@ import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.searching.LuceneSearcher;
 import edu.coeia.util.FilesPath;
+import edu.coeia.filesystem.FileSystemPanel;
 
 import java.io.File;
 
@@ -36,7 +37,6 @@ import org.apache.lucene.document.Field;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import edu.coeia.filesystem.FileSystemPanel;
 
 /**
  *

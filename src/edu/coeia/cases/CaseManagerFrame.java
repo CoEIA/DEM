@@ -11,17 +11,13 @@ import edu.coeia.util.FileUtil;
 /* import sun classes */
 import javax.swing.UIManager ;
 import javax.swing.SwingUtilities ;
-import javax.swing.table.DefaultTableModel ;
 import javax.swing.JOptionPane ;
 
 import java.io.IOException ;
 import java.io.File ;
-import java.io.FileWriter ;
-import java.io.PrintWriter ;
 import java.io.FileNotFoundException ;
 
 import java.util.List ;
-import java.util.ArrayList; 
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -38,6 +34,7 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+import edu.coeia.util.DEMLogger;
 
 /*
  * CaseManagerFrame the main entry point to DEM
@@ -71,7 +68,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     public CaseManagerFrame() {
         initComponents(); // put swing components
         initJFrame();    // set size and location and title
-        logging();      // write log
+        DEMLogger.logging(logger);      // write log
         checkBetaLicense(); // check for expiration if beta license
         readCases();     // read cases into table
     }
@@ -233,6 +230,45 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadCaseButtonActionPerformed
+        this.loadCaseAction();
+    }//GEN-LAST:event_loadCaseButtonActionPerformed
+
+    private void newCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCaseButtonActionPerformed
+        try {
+            this.createNewCaseAction();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_newCaseButtonActionPerformed
+
+    private void removeCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeCaseButtonActionPerformed
+        this.removeCaseAction();
+    }//GEN-LAST:event_removeCaseButtonActionPerformed
+
+    private void recentCaseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recentCaseTableMouseClicked
+        if ( evt.getClickCount() == 2 ) { // double click
+            this.caseTableDoubleClickedAction();
+        }
+    }//GEN-LAST:event_recentCaseTableMouseClicked
+
+    private void checkLicenseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkLicenseButtonActionPerformed
+        this.checkLicenseAction();
+    }//GEN-LAST:event_checkLicenseButtonActionPerformed
+
+    private void checkLicenseAction() {
+        if ( licenseManager.isFullVersion() ) { // show smart card inserting/usage dialog
+            SmartCardDialog scd = new SmartCardDialog(this, true, true);
+            scd.setVisible(true);
+        }
+        else {
+            int diff = licenseManager.getRemainingDays();
+            JOptionPane.showMessageDialog(this, "Remaining days: " + diff, "Trial Version",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    private void loadCaseAction() {
         try {
             logger.info("Load Case Entring");
             String indexName = getSelectedCase();
@@ -248,42 +284,24 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "please select the case you want to open",
                     "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_loadCaseButtonActionPerformed
-
-    private void newCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newCaseButtonActionPerformed
+    }
+    
+    private void caseTableDoubleClickedAction() {
         try {
-            logger.info("Create New Case Entring");
-  
-            CaseWizardDialog indexWizard = null;
-            indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, licenseManager.isFullVersion());
-            indexWizard.setVisible(true);
-            
-            Case aCase = indexWizard.getCurrentCase();
-            if ( aCase == null) {
-                logger.info("Create New Case Cancled");
-                return ;
-            }
-            
-            logger.info("Create New Case Don Successfully");
-            writeCaseToInfoFile(aCase); // update indexes info file with new index
-            
-            readCases(); // update recent table with this new information
-            
-            if ( indexWizard.checkDirectIndex()) {
-                try {
-                    loadCase(aCase.getIndexName(), true);
-                }
-                catch(Exception e){
-                    logger.severe("Cannot Index the case directly after create it");
-                }
-            }
+            String caseName = getSelectedCase();
+            loadCase(caseName, false);
         }
+        catch (NullPointerException e) { }
         catch (IOException e){
+            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
+                JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_newCaseButtonActionPerformed
-
-    private void removeCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeCaseButtonActionPerformed
-        
+        catch (ClassNotFoundException e){
+        }
+    }
+    
+    private void removeCaseAction() {
+                
         String caseName = null; 
         
         try {
@@ -306,79 +324,34 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "This case is already opening, close it first to remove it",
                     "Please close the openining Case", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_removeCaseButtonActionPerformed
+    }
+    
+    private void createNewCaseAction() throws Exception{
+        logger.info("Create New Case Entring");
 
-    private void recentCaseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recentCaseTableMouseClicked
-        if ( evt.getClickCount() == 2 ) { // double click
+        CaseWizardDialog indexWizard = null;
+        indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, licenseManager.isFullVersion());
+        indexWizard.setVisible(true);
+
+        Case aCase = indexWizard.getCurrentCase();
+        if ( aCase == null) {
+            logger.info("Create New Case Cancled");
+            return ;
+        }
+
+        logger.info("Create New Case Don Successfully");
+        CaseManager.writeCaseToInfoFile(aCase); // update indexes info file with new index
+
+        readCases(); // update recent table with this new information
+
+        if ( indexWizard.checkDirectIndex()) {
             try {
-                String caseName = getSelectedCase();
-                loadCase(caseName, false);
+                loadCase(aCase.getIndexName(), true);
             }
-            catch (NullPointerException e) { }
-            catch (IOException e){
-                JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
-                    JOptionPane.ERROR_MESSAGE);
-            }
-            catch (ClassNotFoundException e){
+            catch(Exception e){
+                logger.severe("Cannot Index the case directly after create it");
             }
         }
-    }//GEN-LAST:event_recentCaseTableMouseClicked
-
-    private void checkLicenseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkLicenseButtonActionPerformed
-        if ( licenseManager.isFullVersion() ) { // show smart card inserting/usage dialog
-            SmartCardDialog scd = new SmartCardDialog(this, true, true);
-            scd.setVisible(true);
-        }
-        else {
-            int diff = licenseManager.getRemainingDays();
-            JOptionPane.showMessageDialog(this, "Remaining days: " + diff, "Trial Version",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
-    }//GEN-LAST:event_checkLicenseButtonActionPerformed
-
-    /**
-     * logging
-     * open new log or write to existed one
-     * Set Application Logging (Console and File)
-     */
-    private void logging() {
-        try {
-            class CustomeFormatter extends Formatter{
-                 @Override
-                 public String format(LogRecord record){
-                     StringBuilder row = new StringBuilder();
-                     String level = record.getLevel().getName();
-                     String className = record.getSourceClassName();
-                     String methodName = record.getSourceMethodName();
-                     String message = record.getMessage();
-                     String time = DateUtil.formatDateTime(new Date(record.getMillis()));
-                     
-                     row.append("[");
-                     row.append(level);
-                     row.append("] ");
-                     row.append(className).append(".").append(methodName);
-                     row.append(" ").append(time).append(" Message (").append(message).append(" )\n");
-                     
-                     return row.toString();
-                 }
-            }
-            
-            LogManager.getLogManager().reset();
-            
-            ConsoleHandler consoleHandler = new ConsoleHandler();    
-            
-            String fileName = FilesPath.APPLICATION_LOG_PATH + "\\" + String.format("DEM_%s.log", DateUtil.formatDateForLogFileName(new Date()));
-            FileHandler fileHandler = new FileHandler(fileName, true);
-            
-            consoleHandler.setFormatter(new CustomeFormatter());
-            fileHandler.setFormatter(new CustomeFormatter());
-            
-            logger.addHandler(fileHandler);
-            logger.addHandler(consoleHandler);
-            
-            logger.log(Level.INFO, "DEM Main Frame");
-        }
-        catch (Exception e ) {}
     }
     
     /**
@@ -471,9 +444,13 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      * Add index information to recent table (used when update recent)
      */
     private void insertIntoCaseTable (Case index) {
-        DefaultTableModel model = (DefaultTableModel) recentCaseTable.getModel();
-        model.addRow( new Object[] {index.getIndexName(), index.getInvestigatorName(), DateUtil.formatDateTime(index.getCreateTime()), index.getDescription(),
-            });
+        Object[] object = {
+            index.getIndexName(), index.getInvestigatorName(), 
+            DateUtil.formatDateTime(index.getCreateTime()), index.getDescription(),
+        };
+        
+        JTableUtil.addRowToJTable(this.recentCaseTable, object);
+        
     }
     
     private String getSelectedCase () {
@@ -490,7 +467,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     private void loadCase (String caseName, boolean startIndex) throws FileNotFoundException, IOException, ClassNotFoundException{
         if ( caseName != null ) {
             if ( !caseManager.isRunningCase(caseName)) {
-                Case index = getCase(caseName);
+                Case index = CaseManager.getCaseFromCaseName(caseName);
 
                 caseManager.addCase(caseName);
 
@@ -512,65 +489,19 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     
     private void removeCase (String caseName) {
         try {
-            Case aCase = getCase(caseName);
-            File file = new File( aCase.getCaseLocation() );
+            Case aCase = CaseManager.getCaseFromCaseName(caseName);
+            boolean status = CaseManager.removeCase(aCase);
             
-            if ( FileUtil.removeDirectory(file) ) {
-                List<String> indexPtr = FileUtil.getFileContentInArrayList(new File(FilesPath.INDEXES_INFO) );
-                List<String> newIndexPtr = new ArrayList<String>();
-                
-                for (String line: indexPtr) {
-                    String name = line.split("-")[0].trim();
-                    String path = line.split("-")[1].trim();
-
-                    if ( name.equals(aCase.getIndexName()) && path.equals(aCase.getCaseLocation()))
-                        continue ;
-
-                    newIndexPtr.add(line);
-                }
-
-                // write new index information to file
-                FileUtil.writeToFile(newIndexPtr, FilesPath.INDEXES_INFO);
-                
-                // remove case history from preferences
-                CaseHistoryHandler.remove(aCase.getIndexName());
-            }
-            else {
-                System.out.println("error in removing file: " + file.getAbsolutePath());
+            if ( !status)  {
+                System.out.println("error in removing file: " + caseName);
             }
         }
-        catch (IOException e) {
+        catch (Exception e) {
             JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
                 JOptionPane.ERROR_MESSAGE);
         }
-        catch (ClassNotFoundException e){
-        }
-    }
-    
-    // add entry to indexes info file
-    private void writeCaseToInfoFile (Case index) throws IOException {
-        PrintWriter writer = new PrintWriter(new FileWriter(new File(FilesPath.INDEXES_INFO), true));
-        writer.println(index.getIndexName() + " - " + index.getCaseLocation());
-        writer.close();
     }
 
-    /*
-     * Get index path from index name 
-     * @return IndexInformation 
-     */
-    private Case getCase (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
-        File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        List<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
-
-        for(String path: indexesInfoContent) {
-            Case index = CaseManager.getCase(path);
-
-            if ( index.getIndexName().equals(indexName))
-                return index ;
-        }
-
-        return null ;
-    }
     
     /**
     * @param args the command line arguments

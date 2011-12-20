@@ -4,30 +4,51 @@ import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath ;
 
 import java.io.File ;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException ;
 
-
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.ArrayList ;
 
 /**
- *
+ * Case Manager is singleton class that hold functionality related to other cases management
+ * 
+ * it prevent the case to be opened again, by holding list of all opening case
+ * and update this list as the case opening/closing
+ * 
+ * 
  * @author wajdyessam
  */
-public enum CaseManager {
+enum CaseManager {
     
+    /*
+     * Single manager for all cases running in application
+     */
     Manager;
     
+    private List<String> listOfOpeningCase ;
+        
     private CaseManager() {
         this.listOfOpeningCase = new ArrayList<String>();  
         
-        if ( ! isCaseFolderExist() || isCaseHaveMissingFiles()) {
+        if ( !isCaseFolderExist() || isCaseHaveMissingFiles()) {
             try {
                 createApplicationFolders();
             }
             catch(IOException e){
+                e.printStackTrace();
             }
         }
+    }
+    
+        
+    // add entry to indexes info file
+    public static void writeCaseToInfoFile (Case index) throws IOException {
+        PrintWriter writer = new PrintWriter(new FileWriter(new File(FilesPath.INDEXES_INFO), true));
+        writer.println(index.getIndexName() + " - " + index.getCaseLocation());
+        writer.close();
     }
     
     public static Case getCase(String line) throws IOException, ClassNotFoundException {
@@ -36,6 +57,24 @@ public enum CaseManager {
 
         Case aIndex = FileUtil.readObject(new File(path + "\\" + name + ".DAT"));
         return aIndex;
+    }
+    
+    /*
+     * Get index path from index name 
+     * @return IndexInformation 
+     */
+    public static Case getCaseFromCaseName (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
+        File indexesInfo = new File(FilesPath.INDEXES_INFO);
+        List<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
+
+        for(String path: indexesInfoContent) {
+            Case index = CaseManager.getCase(path);
+
+            if ( index.getIndexName().equals(indexName))
+                return index ;
+        }
+
+        return null ;
     }
     
     /*
@@ -59,6 +98,35 @@ public enum CaseManager {
         catch (ClassNotFoundException e) { }
 
         return false;
+    }
+    
+    public static boolean removeCase(final Case aCase) throws Exception {
+        boolean status = false; 
+        
+        File file = new File( aCase.getCaseLocation() );
+
+        if ( FileUtil.removeDirectory(file) ) {
+            List<String> indexPtr = FileUtil.getFileContentInArrayList(new File(FilesPath.INDEXES_INFO) );
+            List<String> newIndexPtr = new ArrayList<String>();
+
+            for (String line: indexPtr) {
+                String name = line.split("-")[0].trim();
+                String path = line.split("-")[1].trim();
+
+                if ( name.equals(aCase.getIndexName()) && path.equals(aCase.getCaseLocation()))
+                    continue ;
+
+                newIndexPtr.add(line);
+            }
+
+            // write new index information to file
+            FileUtil.writeToFile(newIndexPtr, FilesPath.INDEXES_INFO);
+
+            // remove case history from preferences
+            CaseHistoryHandler.remove(aCase.getIndexName());
+        }
+        
+        return status;
     }
     
     /*
@@ -107,27 +175,29 @@ public enum CaseManager {
     
     /**
      * Check if their is missing files in the case
-     * @return true if their is missing files, false otherwise
+     * @return true if their is missing files, false when all essential files exists
      */
     private boolean isCaseHaveMissingFiles() {
+        boolean status = true;
+        
         File root = new File(FilesPath.APPLICATION_PATH);
         File cases = new File(FilesPath.CASES_PATH);
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
         File hashLibraryFile = new File(FilesPath.HASH_LIBRARY_PATH);
         
-        if  ( ! root.exists() )
-            return true;
+        if (root.exists())
+            status = false;
         
-         if  ( ! cases.exists() )
-              return true;
+        if (cases.exists())
+            status = false;
 
-         if  ( ! indexesInfo.exists() )
-              return true;
+        if (indexesInfo.exists())
+            status = false;
          
-         if ( !hashLibraryFile.exists())
-                 return true;
+        if (hashLibraryFile.exists())
+            status = false;
          
-         return false;
+         return status;
     }
     
     /**
@@ -174,6 +244,4 @@ public enum CaseManager {
         new File(FilesPath.PASS_TMP).createNewFile();
         new File(FilesPath.CORRE_FILE).createNewFile();
     }
-    
-    private List<String> listOfOpeningCase ;
 }
