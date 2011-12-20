@@ -4,7 +4,7 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
 import edu.coeia.cases.EmailConfiguration.SOURCE;
 import edu.coeia.util.FilesPath;
-import edu.coeia.util.FilesFilter;
+import edu.coeia.util.GUIFileFilter;
 import edu.coeia.onlinemail.EmailDownloaderDialog;
 
 import edu.coeia.onlinemail.OnlineEmailDownloader;
@@ -797,7 +797,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void openDialog(FilesFilter filter, DefaultListModel model, JList list) {
+    private void openDialog(GUIFileFilter filter, DefaultListModel model, JList list) {
         fileChooser.setFileFilter(filter);
 
         int result = fileChooser.showOpenDialog(CaseWizardDialog.this);

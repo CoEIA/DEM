@@ -12,7 +12,7 @@
 package edu.coeia.searching;
 
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.FilesFilter;
+import edu.coeia.util.GUIFileFilter;
 
 import javax.swing.event.DocumentEvent ;
 import javax.swing.event.DocumentListener ;
@@ -40,7 +40,7 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
         setLocationRelativeTo(parent);
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new FilesFilter("Text Files (*.txt)", "txt"));
+        fileChooser.setFileFilter(new GUIFileFilter("Text Files (*.txt)", "txt"));
         
         // add document change listener
         andTextField.getDocument().addDocumentListener( new TextInputListener());

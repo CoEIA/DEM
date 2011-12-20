@@ -5,7 +5,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
-import edu.coeia.util.FilesFilter ;
+import edu.coeia.util.GUIFileFilter ;
 import edu.coeia.util.Tuple ;
 import edu.coeia.util.DateUtil;
 
@@ -70,7 +70,7 @@ public class ChatPanel extends javax.swing.JPanel {
         // configure file chooser to select files (txt)
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new FilesFilter("Text Files (*.txt)", "txt"));
+        fileChooser.setFileFilter(new GUIFileFilter("Text Files (*.txt)", "txt"));
         
         // set msn & yahoo & skype data to thier combobox
 //        for (String yahooPath: index.getYahooPath())

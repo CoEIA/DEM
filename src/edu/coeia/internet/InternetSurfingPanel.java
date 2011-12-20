@@ -7,7 +7,7 @@
 package edu.coeia.internet;
 
 
-import edu.coeia.util.FilesFilter;
+import edu.coeia.util.GUIFileFilter;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
@@ -73,7 +73,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         // configure file chooser to select files (txt)
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new FilesFilter("Text Files (*.txt)", "txt"));
+        fileChooser.setFileFilter(new GUIFileFilter("Text Files (*.txt)", "txt"));
         
         mozillaSearchField.getDocument().addDocumentListener(new MozillaInputListener());
         IESearchField.getDocument().addDocumentListener(new IEInputListener());        
@@ -1949,7 +1949,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
         btn.addActionListener( new java.awt.event.ActionListener() {
             public void actionPerformed (java.awt.event.ActionEvent event) {
                 try {
-                    FilesFilter ffFilter = new FilesFilter("Comma Seperated Value","CSV");
+                    GUIFileFilter ffFilter = new GUIFileFilter("Comma Seperated Value","CSV");
                     fileChooser.setFileFilter(ffFilter);
 
                     int result = fileChooser.showSaveDialog(null);
@@ -2287,7 +2287,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
         btn.addActionListener( new java.awt.event.ActionListener() {
             public void actionPerformed (java.awt.event.ActionEvent event) {
                 try {
-                    FilesFilter ffFilter = new FilesFilter("Comma Seperated Value","CSV");
+                    GUIFileFilter ffFilter = new GUIFileFilter("Comma Seperated Value","CSV");
                     fileChooser.setFileFilter(ffFilter);
 
                     int result = fileChooser.showSaveDialog(null);
