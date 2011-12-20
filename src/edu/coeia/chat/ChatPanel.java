@@ -5,7 +5,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
-import edu.coeia.internet.FilesFilter ;
+import edu.coeia.util.FilesFilter ;
 import edu.coeia.util.Tuple ;
 import edu.coeia.util.DateUtil;
 

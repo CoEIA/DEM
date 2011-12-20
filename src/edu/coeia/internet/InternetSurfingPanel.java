@@ -7,6 +7,7 @@
 package edu.coeia.internet;
 
 
+import edu.coeia.util.FilesFilter;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;

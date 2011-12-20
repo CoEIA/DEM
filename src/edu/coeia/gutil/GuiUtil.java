@@ -4,7 +4,7 @@
  */
 package edu.coeia.gutil;
 
-import edu.coeia.internet.FilesFilter ;
+import edu.coeia.util.FilesFilter ;
 
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;

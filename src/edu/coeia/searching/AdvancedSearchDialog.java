@@ -12,7 +12,7 @@
 package edu.coeia.searching;
 
 import edu.coeia.util.FileUtil;
-import edu.coeia.internet.FilesFilter;
+import edu.coeia.util.FilesFilter;
 
 import javax.swing.event.DocumentEvent ;
 import javax.swing.event.DocumentListener ;

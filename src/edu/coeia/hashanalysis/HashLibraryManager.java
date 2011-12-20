@@ -5,6 +5,7 @@
 package edu.coeia.hashanalysis;
 
 import edu.coeia.util.FileUtil;
+import edu.coeia.util.FilesFilter;
 import edu.coeia.util.FilesPath;
 
 import java.io.File;
@@ -145,18 +146,6 @@ final class HashLibraryManager {
     /**
      * this is swing filter to accept files with extension .HASH_SET
      */
-    public final static javax.swing.filechooser.FileFilter SWING_HASH_EXTENSION_FILTER = 
-        new javax.swing.filechooser.FileFilter() {
-            
-        @Override
-        public boolean accept(File f) {
-            return ( f.isFile() && f.getAbsolutePath().endsWith(FilesPath.HASH_SET_EXTENSION) );
-        }
-
-        @Override
-        public String getDescription() {
-            return String.format("DEM HASH SET");
-        }
-    };
-    
+    public final static FilesFilter SWING_HASH_EXTENSION_FILTER = new FilesFilter("DEM HASH SET", 
+            FilesPath.HASH_SET_EXTENSION);
 }

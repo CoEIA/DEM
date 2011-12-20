@@ -18,14 +18,8 @@ import java.io.File ;
 import java.io.FileNotFoundException ;
 
 import java.util.List ;
-import java.util.Date;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
-import java.util.logging.Formatter;
-import java.util.logging.LogRecord;
 
 import java.awt.Toolkit ;
 import java.awt.Dimension ;
@@ -274,15 +268,13 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             String indexName = getSelectedCase();
             loadCase(indexName, false);
         }
-        catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
-                JOptionPane.ERROR_MESSAGE);
-        }
-        catch (ClassNotFoundException e){
-        }
         catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to open",
                     "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -291,17 +283,13 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             String caseName = getSelectedCase();
             loadCase(caseName, false);
         }
-        catch (NullPointerException e) { }
-        catch (IOException e){
+        catch (Exception e){
             JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
                 JOptionPane.ERROR_MESSAGE);
-        }
-        catch (ClassNotFoundException e){
         }
     }
     
     private void removeCaseAction() {
-                
         String caseName = null; 
         
         try {
@@ -412,13 +400,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         try {
             updateCasesTable(); // read cases into case JTable 
             
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }

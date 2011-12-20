@@ -4,7 +4,7 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
 import edu.coeia.cases.EmailConfiguration.SOURCE;
 import edu.coeia.util.FilesPath;
-import edu.coeia.internet.FilesFilter;
+import edu.coeia.util.FilesFilter;
 import edu.coeia.onlinemail.EmailDownloaderDialog;
 
 import edu.coeia.onlinemail.OnlineEmailDownloader;
