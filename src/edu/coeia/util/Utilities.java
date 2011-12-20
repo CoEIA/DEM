@@ -20,6 +20,7 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
@@ -54,7 +55,15 @@ public class Utilities {
 
         return hex.toString();
     }
-    
+
+    public static String formatInputString(String input) {
+        String result = "";
+        if (input != null) {
+            result = input;
+        }
+        return result;
+    }
+
     public static InputStream convertList(List<String> input) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(baos);
@@ -90,12 +99,12 @@ public class Utilities {
         }
         return result.toString();
     }
-    
+
     public static String getFormattedStringHash(Set<String> list) {
         StringBuilder result = new StringBuilder();
         if (list != null) {
-            Object [] arr = list.toArray();
-             for (int i = 0; i < list.size(); i++) {
+            Object[] arr = list.toArray();
+            for (int i = 0; i < list.size(); i++) {
                 result.append(arr[i]);
                 if (i < list.size() - 1) {
                     result.append(',');
@@ -250,8 +259,34 @@ public class Utilities {
         try {
             result = sc.useDelimiter("\\A").next();
         } catch (Exception ex) {
-            ex.printStackTrace(); 
+            ex.printStackTrace();
         }
         return result;
+    }
+
+    public static Date checkDate(Date date) {
+        if (date == null) {
+            return new Date();
+        }
+        return date;
+    }
+
+    public static void PrintDebugMessages(Date sentDate, Date receiveDate, String from,
+            List<String> ccList, List<String> bccList, String body, String Subject) {
+
+        System.out.println("SentDate : " + sentDate);
+        System.out.println("ReceiveDate : " + receiveDate);
+        System.out.println("------------From------\n" + from);
+        System.out.println();
+        for (String d : ccList) {
+            System.out.println("------------CC------\n" + d);
+        }
+        for (String s : bccList) {
+            System.out.println("------------BCC------\n" + s);
+        }
+        System.out.println("------------Subject------\n" + Subject);
+        System.out.println("------------Body------\n" + body);
+
+
     }
 }

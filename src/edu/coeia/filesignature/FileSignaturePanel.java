@@ -60,7 +60,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     }
 
     private void fillDataBaseTable() throws IOException {
-        listFiles = instance.ParseFile();
+        listFiles = FileSignatureParser.ParseFile();
         for (FileSignature fs : listFiles) {
             Object[] arr = {Arrays.toString(fs.getExtension()), fs.getSignature(), fs.getType(), fs.getID()};
             JTableUtil.addRowToJTable(SignatureTableDB, arr);
@@ -70,7 +70,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     private void FillSignatureTable(Object[] arr) {
         JTableUtil.addRowToJTable(FileAnalysisTable, arr);
     }
-    
+
     private void FillTableUnknownFile(String FileName, String Status) {
         Object[] arr = {FileName, Status};
         JTableUtil.addRowToJTable(FileAnalysisTable, arr);
@@ -93,21 +93,21 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
         public void recursiveTraversal(File fileObject) {
 
-        if (fileObject.isDirectory()) {
-            indent = getIndent(fileObject);
-            System.out.println(indent + fileObject.getName());
-            try {
-                File allFiles[] = fileObject.listFiles();
-                for (File aFile : allFiles) {
-                    recursiveTraversal(aFile);
+            if (fileObject.isDirectory()) {
+                indent = getIndent(fileObject);
+                System.out.println(indent + fileObject.getName());
+                try {
+                    File allFiles[] = fileObject.listFiles();
+                    for (File aFile : allFiles) {
+                        recursiveTraversal(aFile);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } else if (fileObject.isFile()) {
+                System.out.println(indent + "  " + fileObject.getName());
+                TestFileAnalysis(fileObject);
             }
-        } else if (fileObject.isFile()) {
-            System.out.println(indent + "  " + fileObject.getName());
-            TestFileAnalysis(fileObject);
-        }
         }
 
         private String getIndent(File fileObject) {
@@ -127,12 +127,12 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         }
     }
 
-/**
- * The methods in this class allow the JTree component to traverse
- * the file system tree, and display the files and directories.
- **/
+    /**
+     * The methods in this class allow the JTree component to traverse
+     * the file system tree, and display the files and directories.
+     **/
     class FileTreeModel implements TreeModel {
-    // We specify the root directory when we create the model.
+        // We specify the root directory when we create the model.
 
         protected File root;
 
@@ -140,17 +140,17 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
             this.root = root;
         }
 
-    // The model knows how to return the root object of the tree
+        // The model knows how to return the root object of the tree
         public Object getRoot() {
             return root;
         }
 
-    // Tell JTree whether an object in the tree is a leaf or not
+        // Tell JTree whether an object in the tree is a leaf or not
         public boolean isLeaf(Object node) {
             return ((File) node).isFile();
         }
 
-    // Tell JTree how many children a node has
+        // Tell JTree how many children a node has
         public int getChildCount(Object parent) {
             String[] children = ((File) parent).list();
             if (children == null) {
@@ -159,45 +159,45 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
             return children.length;
         }
 
-    // Fetch any numbered child of a node for the JTree.
-    // Our model returns File objects for all nodes in the tree.  The
-    // JTree displays these by calling the File.toString() method.
-    public Object getChild(Object parent, int index) {
-        String[] children = ((File) parent).list();
-        if ((children == null) || (index >= children.length)) {
-            return null;
+        // Fetch any numbered child of a node for the JTree.
+        // Our model returns File objects for all nodes in the tree.  The
+        // JTree displays these by calling the File.toString() method.
+        public Object getChild(Object parent, int index) {
+            String[] children = ((File) parent).list();
+            if ((children == null) || (index >= children.length)) {
+                return null;
+            }
+            return new File((File) parent, children[index]);
         }
-        return new File((File) parent, children[index]);
-    }
 
-    // Figure out a child's position in its parent node.
-    public int getIndexOfChild(Object parent, Object child) {
-        String[] children = ((File) parent).list();
-        if (children == null) {
+        // Figure out a child's position in its parent node.
+        public int getIndexOfChild(Object parent, Object child) {
+            String[] children = ((File) parent).list();
+            if (children == null) {
+                return -1;
+            }
+            String childname = ((File) child).getName();
+            for (int i = 0; i < children.length; i++) {
+                if (childname.equals(children[i])) {
+                    return i;
+                }
+            }
             return -1;
         }
-        String childname = ((File) child).getName();
-        for (int i = 0; i < children.length; i++) {
-            if (childname.equals(children[i])) {
-                return i;
-            }
+
+        // This method is only invoked by the JTree for editable trees.  
+        // This TreeModel does not allow editing, so we do not implement 
+        // this method.  The JTree editable property is false by default.
+        public void valueForPathChanged(TreePath path, Object newvalue) {
         }
-        return -1;
-    }
 
-    // This method is only invoked by the JTree for editable trees.  
-    // This TreeModel does not allow editing, so we do not implement 
-    // this method.  The JTree editable property is false by default.
-    public void valueForPathChanged(TreePath path, Object newvalue) {
-    }
+        // Since this is not an editable tree model, we never fire any events,
+        // so we don't actually have to keep track of interested listeners.
+        public void addTreeModelListener(TreeModelListener l) {
+        }
 
-    // Since this is not an editable tree model, we never fire any events,
-    // so we don't actually have to keep track of interested listeners.
-    public void addTreeModelListener(TreeModelListener l) {
-    }
-
-    public void removeTreeModelListener(TreeModelListener l) {
-    }
+        public void removeTreeModelListener(TreeModelListener l) {
+        }
     }
 
     /** This method is called from within the constructor to
@@ -209,18 +209,46 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        SignatureTableDB = new javax.swing.JTable();
-        SelectFolderPanel = new javax.swing.JPanel();
+        treePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         FolderListTree = new javax.swing.JTree();
         jButton1 = new javax.swing.JButton();
-        FileAnalysisPanel = new javax.swing.JPanel();
+        tablePanel = new javax.swing.JPanel();
+        databasePanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        SignatureTableDB = new javax.swing.JTable();
+        resultPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         FileAnalysisTable = new javax.swing.JTable();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DEM FileSignature DataBase:"));
+        setLayout(new java.awt.BorderLayout());
+
+        treePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select Folder"));
+        treePanel.setLayout(new java.awt.BorderLayout());
+
+        FolderListTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                FolderListTreeValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(FolderListTree);
+
+        treePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jButton1.setText("Analyse File Signature");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        treePanel.add(jButton1, java.awt.BorderLayout.SOUTH);
+
+        add(treePanel, java.awt.BorderLayout.WEST);
+
+        tablePanel.setLayout(new java.awt.BorderLayout());
+
+        databasePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("DEM FileSignature DataBase:"));
+        databasePanel.setLayout(new java.awt.BorderLayout());
 
         SignatureTableDB.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -240,60 +268,12 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         });
         jScrollPane3.setViewportView(SignatureTableDB);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 864, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        databasePanel.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
-        SelectFolderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select Folder"));
+        tablePanel.add(databasePanel, java.awt.BorderLayout.CENTER);
 
-        FolderListTree.setShowsRootHandles(true);
-        FolderListTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-                FolderListTreeValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(FolderListTree);
-
-        jButton1.setText("Analyse File Signature");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout SelectFolderPanelLayout = new javax.swing.GroupLayout(SelectFolderPanel);
-        SelectFolderPanel.setLayout(SelectFolderPanelLayout);
-        SelectFolderPanelLayout.setHorizontalGroup(
-            SelectFolderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SelectFolderPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(SelectFolderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        SelectFolderPanelLayout.setVerticalGroup(
-            SelectFolderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SelectFolderPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        FileAnalysisPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("File Analysis "));
+        resultPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("File Analysis "));
+        resultPanel.setLayout(new java.awt.BorderLayout());
 
         FileAnalysisTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -313,111 +293,75 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         });
         jScrollPane2.setViewportView(FileAnalysisTable);
 
-        javax.swing.GroupLayout FileAnalysisPanelLayout = new javax.swing.GroupLayout(FileAnalysisPanel);
-        FileAnalysisPanel.setLayout(FileAnalysisPanelLayout);
-        FileAnalysisPanelLayout.setHorizontalGroup(
-            FileAnalysisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(FileAnalysisPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 874, Short.MAX_VALUE))
-        );
-        FileAnalysisPanelLayout.setVerticalGroup(
-            FileAnalysisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(FileAnalysisPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        resultPanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(SelectFolderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(FileAnalysisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SelectFolderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(FileAnalysisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
+        tablePanel.add(resultPanel, java.awt.BorderLayout.NORTH);
+
+        add(tablePanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-  private void TestFileAnalysis(File file) {
-    boolean matched = false;
-    boolean unKnown = true;
-    Object[] status_matched = new Object[4];
-    Object[] status_aliased = new Object[4];
-    Set<String> signatureList = new HashSet<String>();
-    List<String> extensionsList = new ArrayList<String>();
-    if (file == null) {
-        return;
-    }
-    try {
-        for (FileSignature fs : listFiles) {
-            if (FileSignature.matchBadSignature(file, fs)) {
-                status_matched = FormatTable(file, "Matched File", fs, signatureList,extensionsList);
-                matched = true;
-                unKnown = false;
-            }
-            if (FileSignature.matchAliasSignature(file, fs) && !matched) {
-                if (FileSignature.isknownFile(file, fs)) {
-                    status_aliased = FormatTable(file, "Aliased File and it is Known", fs, signatureList,extensionsList);
+    private void TestFileAnalysis(File file) {
+        boolean matched = false;
+        boolean unKnown = true;
+        Object[] status_matched = new Object[4];
+        Object[] status_aliased = new Object[4];
+        Set<String> signatureList = new HashSet<String>();
+        List<String> extensionsList = new ArrayList<String>();
+        if (file == null) {
+            return;
+        }
+        try {
+            for (FileSignature fs : listFiles) {
+                if (FileSignatureAnalysis.matchBadSignature(file, fs)) {
+                    status_matched = FormatTable(file, "Matched File", fs, signatureList, extensionsList);
+                    matched = true;
                     unKnown = false;
-                    matched = false;
                 }
+                if (FileSignatureAnalysis.matchAliasSignature(file, fs) && !matched) {
+                    if (FileSignatureAnalysis.isknownFile(file, fs)) {
+                        status_aliased = FormatTable(file, "Aliased File and it is Known", fs, signatureList, extensionsList);
+                        unKnown = false;
+                        matched = false;
+                    }
+                }
+            } // End For 
+
+            // Check All States
+            if (unKnown && !matched) {
+                FillTableUnknownFile(file.getName(), "Unknown");
             }
-        } // End For 
+            if (!unKnown && !matched) {
+                FillSignatureTable(status_aliased);
+            }
+            if (!unKnown && matched) {
+                FillSignatureTable(status_matched);
+            }
 
-        // Check All States
-        if (unKnown && !matched) {
-            FillTableUnknownFile(file.getName(), "Unknown");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (!unKnown && !matched) {
-            FillSignatureTable(status_aliased);
-        }
-        if (!unKnown && matched) {
-            FillSignatureTable(status_matched);
-        }
-
-    } catch (FileNotFoundException ex) {
-        Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (IOException ex) {
-        Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
-    }
 
 
     }
 
-private Object[] FormatTable(File file, String message, FileSignature fs, Set<String> SignatureList, List<String> Exenstions) {
+    private Object[] FormatTable(File file, String message, FileSignature fs, Set<String> SignatureList, List<String> Exenstions) {
 
-    Object[] status_msg = new Object[4];
+        Object[] status_msg = new Object[4];
 
-    status_msg[0] = file.getName();
-    status_msg[1] = message;
-    
-    SignatureList.add(fs.getSignature());
-    String formatedSignatures = Utilities.getFormattedStringHash(SignatureList);
-    status_msg[2] = formatedSignatures;
+        status_msg[0] = file.getName();
+        status_msg[1] = message;
 
-    Exenstions.add(Arrays.toString(fs.getExtension()));
-    String formatedExtensions = Utilities.getFormattedString(Exenstions);
-    status_msg[3] = formatedExtensions;
+        SignatureList.add(fs.getSignature());
+        String formatedSignatures = Utilities.getFormattedStringHash(SignatureList);
+        status_msg[2] = formatedSignatures;
 
-    return status_msg;
+        Exenstions.add(Arrays.toString(fs.getExtension()));
+        String formatedExtensions = Utilities.getFormattedString(Exenstions);
+        status_msg[3] = formatedExtensions;
+
+        return status_msg;
     }
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
@@ -448,15 +392,16 @@ private void FolderListTreeValueChanged(javax.swing.event.TreeSelectionEvent evt
 
 }//GEN-LAST:event_FolderListTreeValueChanged
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel FileAnalysisPanel;
     private javax.swing.JTable FileAnalysisTable;
     private javax.swing.JTree FolderListTree;
-    private javax.swing.JPanel SelectFolderPanel;
     private javax.swing.JTable SignatureTableDB;
+    private javax.swing.JPanel databasePanel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPanel resultPanel;
+    private javax.swing.JPanel tablePanel;
+    private javax.swing.JPanel treePanel;
     // End of variables declaration//GEN-END:variables
 }
