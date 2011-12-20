@@ -37,6 +37,7 @@ import java.util.ArrayList;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import org.apache.lucene.document.Document;
@@ -92,6 +93,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         advancedSearchLabelButton = new javax.swing.JLabel();
         startSearchingButton = new javax.swing.JButton();
         clearLabelButton = new javax.swing.JLabel();
+        investigateButton = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         searchProgressBard = new javax.swing.JProgressBar();
         resultSavingButton = new javax.swing.JButton();
@@ -167,7 +169,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
                         .addGap(21, 21, 21)
                         .addComponent(chatContentCheckBox))
                     .addComponent(chatCheckBox))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         searchScopePanelLayout.setVerticalGroup(
             searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,7 +203,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         });
 
         advancedSearchLabelButton.setForeground(new java.awt.Color(0, 51, 255));
-        advancedSearchLabelButton.setText("Advanced Search");
+        advancedSearchLabelButton.setText("Advanced Search..");
         advancedSearchLabelButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 advancedSearchLabelButtonMouseClicked(evt);
@@ -223,6 +225,14 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             }
         });
 
+        investigateButton.setForeground(new java.awt.Color(0, 0, 255));
+        investigateButton.setText("Investigate..");
+        investigateButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                investigateButtonMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
         headerPanelLayout.setHorizontalGroup(
@@ -230,13 +240,14 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             .addGroup(headerPanelLayout.createSequentialGroup()
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(headerPanelLayout.createSequentialGroup()
-                        .addComponent(queryTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                        .addComponent(queryTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(startSearchingButton))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                        .addContainerGap(75, Short.MAX_VALUE)
                         .addComponent(advancedSearchLabelButton)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(investigateButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                         .addComponent(clearLabelButton)))
                 .addContainerGap())
         );
@@ -248,8 +259,9 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
                     .addComponent(startSearchingButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clearLabelButton)
                     .addComponent(advancedSearchLabelButton)
-                    .addComponent(clearLabelButton)))
+                    .addComponent(investigateButton)))
         );
 
         resultSavingButton.setText("Save Results");
@@ -287,17 +299,17 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LeftPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchScopePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(searchScopePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         LeftPanelLayout.setVerticalGroup(
             LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LeftPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(searchScopePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -349,7 +361,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         jPanel22.setLayout(jPanel22Layout);
         jPanel22Layout.setHorizontalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
         );
         jPanel22Layout.setVerticalGroup(
             jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -364,7 +376,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resultPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
+                .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
                 .addContainerGap())
         );
         resultPanelLayout.setVerticalGroup(
@@ -437,6 +449,21 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private void queryTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryTextFieldActionPerformed
         startSearching();
     }//GEN-LAST:event_queryTextFieldActionPerformed
+
+    private void investigateButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_investigateButtonMouseClicked
+       investigateCase();
+    }//GEN-LAST:event_investigateButtonMouseClicked
+    
+    private void investigateCase() {
+        InvestigateDialog investigateDialog = new InvestigateDialog(this.parentFrame, true, this);
+        investigateDialog.setVisible(true);
+    }
+    
+//    public void setTags(Map<String, Integer> maps) {
+//        if ( investigateDialog != null ) {
+//            investigateDialog.setTags(maps);
+//        }
+//    }
     
     void setResultId (List<Integer> ids) {  this.resultId.addAll(Collections.unmodifiableList(ids)); }
     public List<Integer> getIds() { return Collections.unmodifiableList(this.resultId) ; }
@@ -448,13 +475,18 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     JTable getSearchTable() { return this.searchTable ; }
     List<String> getSupportedExtension () { return new ArrayList<String>(); }
     
+    public void setQueryText(final String queryText) { 
+        this.queryTextField.setText(queryText);
+    }
+    
     public String getQueryText() {
         String queryString = queryTextField.getText().trim();
         return queryString ;
     }
     
     public LuceneSearcher getLuceneSearcher() { return this.searcher ;}
-        
+    public Case getCase() { return this.caseObj ; }
+    
     SearchScope getSearchScope() {
         SearchScope.Builder builder = new SearchScope.Builder();
         
@@ -564,7 +596,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         return item;
     }
     
-    
     private void showAdvancedSearch() {
         AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true);
         asd.setVisible(true);
@@ -664,6 +695,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private javax.swing.JCheckBox fileSystemContentCheckBox;
     private javax.swing.JCheckBox fileSystemMetadataCheckBox;
     private javax.swing.JPanel headerPanel;
+    private javax.swing.JLabel investigateButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JScrollPane jScrollPane1;

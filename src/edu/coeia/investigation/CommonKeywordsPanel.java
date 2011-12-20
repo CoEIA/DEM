@@ -4,27 +4,22 @@
  */
 
 /*
- * TextCloudPanel.java
+ * CommonKeywordsPanel.java
  *
- * Created on Oct 5, 2011, 11:22:23 AM
+ * Created on Dec 20, 2011, 10:57:19 AM
  */
-package edu.coeia.filesystem;
-
-/**
- *
- * @author wajdyessam
- */
+package edu.coeia.investigation;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseHistoryHandler;
-import edu.coeia.indexing.IndexReaderThread ;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.gutil.WrapLayout;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.util.Utilities;
+import edu.coeia.searching.AdvancedSearchPanel;
 import edu.coeia.util.FilesPath;
 
+import java.awt.Frame;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -39,7 +34,6 @@ import javax.swing.JFrame;
 import java.io.IOException;
 
 import java.util.List;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -48,29 +42,31 @@ import java.util.logging.Level;
 
 import org.mcavallo.opencloud.Cloud;
 import org.mcavallo.opencloud.Tag;
-
-public class TextCloudPanel extends javax.swing.JPanel {
+/**
+ *
+ * @author wajdyessam
+ */
+public class CommonKeywordsPanel extends javax.swing.JPanel {
 
     private Case caseObj;
     private JFrame parentFrame;
-    private FileSystemPanel parentPanel;
+    private AdvancedSearchPanel parentPanel;
     private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
-    /** Creates new form TextCloudPanel */
-    public TextCloudPanel(Case aIndex, JFrame aParentFrame, FileSystemPanel aParentPanel) {
+    /** Creates new form CommonKeywordsPanel */
+    public CommonKeywordsPanel(Frame parent, AdvancedSearchPanel panel) {
         initComponents();
-        
-        this.caseObj = aIndex;
-        this.parentFrame = aParentFrame;
-        this.parentPanel = aParentPanel;
+
+        this.parentPanel = panel;
+        this.caseObj = this.parentPanel.getCase();
+        this.parentFrame = (JFrame) parent;
 
         JTableUtil.setTableAlignmentValue(cloudsTable, 1);
-        //add a native web browser
+
         tagsPanel.setLayout(new WrapLayout());
-
         cloudsFilterTextField.getDocument().addDocumentListener(new CloudsInputListener());
-
-        disableNotIndexedComponent();
+        
+        this.disableNotIndexedComponent();
     }
 
     /** This method is called from within the constructor to
@@ -82,6 +78,7 @@ public class TextCloudPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        commonKeywordPanel = new javax.swing.JPanel();
         textCloudsPanel = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         tagSelectButton = new javax.swing.JButton();
@@ -92,7 +89,7 @@ public class TextCloudPanel extends javax.swing.JPanel {
         jLabel37 = new javax.swing.JLabel();
         tagsDisplayComboBox = new javax.swing.JComboBox();
         jPanel16 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
         jScrollPane10 = new javax.swing.JScrollPane();
         tagsPanel = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
@@ -106,7 +103,7 @@ public class TextCloudPanel extends javax.swing.JPanel {
 
         jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Tags Cloud", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        tagSelectButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        tagSelectButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         tagSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/textCloud.png"))); // NOI18N
         tagSelectButton.setText("Generate Text Clouds");
         tagSelectButton.addActionListener(new java.awt.event.ActionListener() {
@@ -192,7 +189,7 @@ public class TextCloudPanel extends javax.swing.JPanel {
 
         jScrollPane10.setViewportView(tagsPanel);
 
-        jTabbedPane1.addTab("Tags Cloud", jScrollPane10);
+        jTabbedPane2.addTab("Tags Cloud", jScrollPane10);
 
         jScrollPane22.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -243,18 +240,18 @@ public class TextCloudPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                    .addComponent(jScrollPane22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addComponent(jLabel33)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cloudsFilterTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)))
+                        .addComponent(cloudsFilterTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
@@ -262,65 +259,86 @@ public class TextCloudPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Words Frequency", jPanel19);
+        jTabbedPane2.addTab("Words Frequency", jPanel19);
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 666, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         textCloudsPanel.add(jPanel16, java.awt.BorderLayout.CENTER);
 
+        javax.swing.GroupLayout commonKeywordPanelLayout = new javax.swing.GroupLayout(commonKeywordPanel);
+        commonKeywordPanel.setLayout(commonKeywordPanelLayout);
+        commonKeywordPanelLayout.setHorizontalGroup(
+            commonKeywordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 712, Short.MAX_VALUE)
+            .addGap(0, 712, Short.MAX_VALUE)
+            .addGroup(commonKeywordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(commonKeywordPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(textCloudsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        commonKeywordPanelLayout.setVerticalGroup(
+            commonKeywordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 538, Short.MAX_VALUE)
+            .addGap(0, 538, Short.MAX_VALUE)
+            .addGroup(commonKeywordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, commonKeywordPanelLayout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(textCloudsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 786, Short.MAX_VALUE)
+            .addGap(0, 712, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 47, Short.MAX_VALUE)
-                    .addComponent(textCloudsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 47, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(commonKeywordPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 559, Short.MAX_VALUE)
+            .addGap(0, 538, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 77, Short.MAX_VALUE)
-                    .addComponent(textCloudsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 77, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(commonKeywordPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void tagSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagSelectButtonActionPerformed
-
-        generateTextCloud();     }//GEN-LAST:event_tagSelectButtonActionPerformed
+        generateTextCloud(); 
+    }//GEN-LAST:event_tagSelectButtonActionPerformed
 
     private void tagsExcludeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagsExcludeTextFieldActionPerformed
 
-        // TODO add your handling code here:}//GEN-LAST:event_tagsExcludeTextFieldActionPerformed
-    }
-    
-        private void cloudsTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cloudsTableMousePressed
+    }//GEN-LAST:event_tagsExcludeTextFieldActionPerformed
 
-        showPopUp(evt);     }//GEN-LAST:event_cloudsTableMousePressed
+    private void cloudsTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cloudsTableMousePressed
+        showPopUp(evt);
+    }//GEN-LAST:event_cloudsTableMousePressed
 
     private void cloudsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cloudsTableMouseReleased
+        showPopUp(evt);
+    }//GEN-LAST:event_cloudsTableMouseReleased
 
-        showPopUp(evt);     }//GEN-LAST:event_cloudsTableMouseReleased
-
-    
     
     private void showPopUp(java.awt.event.MouseEvent evt) {
         if ((evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0) {
@@ -352,7 +370,8 @@ public class TextCloudPanel extends javax.swing.JPanel {
             String indexPath = caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
             String indexName = caseObj.getIndexName();
 
-            IndexReaderThread thread = new IndexReaderThread(i, indexPath, indexName, IndexReaderThread.IndexItem.TAGS, this);
+            IndexReaderThread thread = new IndexReaderThread(i, indexPath, indexName, 
+                    IndexReaderThread.IndexItem.TAGS, this);
             thread.execute();
 
             tagsPanel.repaint();
@@ -367,7 +386,7 @@ public class TextCloudPanel extends javax.swing.JPanel {
         }
     }
     
-    public void setTags(HashMap<String, Integer> tagsMap) {
+    public void setTags(Map<String, Integer> tagsMap) {
         int excludeNumber = Integer.parseInt(tagsExcludeTextField.getText().trim());
         int tagsNumber = Integer.parseInt(tagsNumberTextField.getText().trim());
 
@@ -445,7 +464,7 @@ public class TextCloudPanel extends javax.swing.JPanel {
                 }
 
                 public void doSearch(String text) {
-                    parentPanel.showSearchWithKeyword(text);
+                    parentPanel.setQueryText(text);
                 }
             });
 
@@ -483,10 +502,11 @@ public class TextCloudPanel extends javax.swing.JPanel {
 //            cloudsTable.setEnabled(false);
 //        }
     }
-        
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cloudsFilterTextField;
     private javax.swing.JTable cloudsTable;
+    private javax.swing.JPanel commonKeywordPanel;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel36;
@@ -496,7 +516,7 @@ public class TextCloudPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel19;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane22;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JButton tagSelectButton;
     private javax.swing.JComboBox tagsDisplayComboBox;
     private javax.swing.JTextField tagsExcludeTextField;

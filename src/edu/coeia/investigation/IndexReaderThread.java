@@ -3,17 +3,18 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.indexing;
+package edu.coeia.investigation;
 
 /**
  *
  * @author wajdyessam
  */
 
-import edu.coeia.filesystem.TextCloudPanel;
-import edu.coeia.filesystem.VisualizationPanel;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.charts.PieChartPanel;
+import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.investigation.CommonKeywordsPanel;
+import edu.coeia.investigation.ExtensionFrequencyPanel;
 import edu.coeia.util.FileUtil;
 
 import org.apache.lucene.index.IndexReader ;
@@ -198,13 +199,13 @@ public class IndexReaderThread extends SwingWorker<String, Integer> {
         // render result
         if ( this.type == IndexItem.TAGS) {
             //TODO: set in panel 
-            ( (TextCloudPanel) this.resultPanel).setTags(tags);
+            ( (CommonKeywordsPanel) this.resultPanel).setTags(tags);
         }
         else if ( this.type == IndexItem.VISUALIZATION) {
             try {
                 JPanel chartPanel = PieChartPanel.getPieChartPanel(exts, "Extension Frequency for: " + indexName);
                 //TODO:set in panel
-                ( (VisualizationPanel) this.resultPanel).setIndexVisualizationPanel(chartPanel);
+                ( (ExtensionFrequencyPanel) this.resultPanel).setIndexVisualizationPanel(chartPanel);
             } catch (IOException ex) {
                 Logger.getLogger(IndexReaderThread.class.getName()).log(Level.SEVERE, null, ex);
             }
