@@ -69,7 +69,7 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
 
         indexVisualizationButtonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Visualization", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        indexVisulizingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        indexVisulizingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         indexVisulizingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/chart_pie.png"))); // NOI18N
         indexVisulizingButton.setText("Index Visualization");
         indexVisulizingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +85,7 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
             .addGroup(indexVisualizationButtonPanelLayout.createSequentialGroup()
                 .addGap(232, 232, 232)
                 .addComponent(indexVisulizingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(248, Short.MAX_VALUE))
+                .addContainerGap(196, Short.MAX_VALUE))
         );
         indexVisualizationButtonPanelLayout.setVerticalGroup(
             indexVisualizationButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

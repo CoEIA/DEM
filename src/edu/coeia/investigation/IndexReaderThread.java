@@ -13,8 +13,6 @@ package edu.coeia.investigation;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.charts.PieChartPanel;
 import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.investigation.CommonKeywordsPanel;
-import edu.coeia.investigation.ExtensionFrequencyPanel;
 import edu.coeia.util.FileUtil;
 
 import org.apache.lucene.index.IndexReader ;
@@ -36,7 +34,7 @@ import java.util.logging.Logger;
 import javax.swing.SwingWorker ;
 import javax.swing.JPanel;
 
-public class IndexReaderThread extends SwingWorker<String, Integer> {
+class IndexReaderThread extends SwingWorker<String, Integer> {
     public enum IndexItem { TAGS, VISUALIZATION, IMAGES};
 
     private InfiniteProgressPanel panel ;

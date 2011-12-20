@@ -52,6 +52,12 @@ public class CaseFrame extends javax.swing.JFrame {
     // to update the panel after direct indexing 
     private CaseManagerPanel caseManagerPanel;
     private CaseSearchPanel caseSearchPanel ;
+    private FileSystemPanel fileSystemPanel;
+    private EmailPanel emailPanel;
+    private InternetSurfingPanel internetPanel;
+    private ChatPanel chatPanel;
+    private ImagesViewerPanel imgPanel;
+    private ReportPanel reportPanel;
     
     /** Creates new form OfflineMinningFrame 
      * 
@@ -90,32 +96,30 @@ public class CaseFrame extends javax.swing.JFrame {
                 closeCaseFrame();
             }
         });
-
-        // Get Tags Manager for this Case
         
         // add gui panels
-        FileSystemPanel fileSystemPanel = new FileSystemPanel(this.caseObj, this);
-        EmailPanel emailPanel = new EmailPanel(this.caseObj, this);
-        InternetSurfingPanel internetPanel = new InternetSurfingPanel(this.caseObj);
-        ChatPanel chatPanel = new ChatPanel(this.caseObj);
-        ImagesViewerPanel imgPanel = new ImagesViewerPanel(this.caseObj);
-        caseSearchPanel = new CaseSearchPanel(this.caseObj, this);
-        caseManagerPanel = new CaseManagerPanel(this);
-        ReportPanel reportPanel = new ReportPanel();
+        this.fileSystemPanel = new FileSystemPanel(this.caseObj, this);
+        this.emailPanel = new EmailPanel(this.caseObj, this);
+        this.internetPanel = new InternetSurfingPanel(this.caseObj);
+        this.chatPanel = new ChatPanel(this.caseObj);
+        this.imgPanel = new ImagesViewerPanel(this.caseObj);
+        this.caseSearchPanel = new CaseSearchPanel(this.caseObj, this);
+        this.caseManagerPanel = new CaseManagerPanel(this);
+        this.reportPanel = new ReportPanel();
         
-        this.CardPanel.add(fileSystemPanel, "fileSystemCard");
-        this.CardPanel.add(emailPanel, "emailCard");
-        this.CardPanel.add(internetPanel, "internetSurfingCard");
-        this.CardPanel.add(chatPanel, "chatCard");
-        this.CardPanel.add(imgPanel, "imagesViewerCard");
-        this.CardPanel.add(caseSearchPanel, "searchCard");
-        this.CardPanel.add(caseManagerPanel, "caseManagerCard");
-        this.CardPanel.add(reportPanel, "reportCard");
+        this.CardPanel.add(this.fileSystemPanel, "fileSystemCard");
+        this.CardPanel.add(this.emailPanel, "emailCard");
+        this.CardPanel.add(this.internetPanel, "internetSurfingCard");
+        this.CardPanel.add(this.chatPanel, "chatCard");
+        this.CardPanel.add(this.imgPanel, "imagesViewerCard");
+        this.CardPanel.add(this.caseSearchPanel, "searchCard");
+        this.CardPanel.add(this.caseManagerPanel, "caseManagerCard");
+        this.CardPanel.add(this.reportPanel, "reportCard");
         
-        searchToggleButtonActionPerformed(null);
+        this.searchToggleButtonActionPerformed(null);
+        this.setTitle(APPLICATION_NAME + "Case Manager Window");
         
-       GuiUtil.showPanel("caseManagerCard",CardPanel);
-       this.setTitle(APPLICATION_NAME + "Case Manager Window");
+        GuiUtil.showPanel("caseManagerCard",CardPanel);
     }
     
     /** This method is called from within the constructor to
