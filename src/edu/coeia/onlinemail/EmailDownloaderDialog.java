@@ -12,7 +12,6 @@ package edu.coeia.onlinemail;
 
 import edu.coeia.cases.Case;
 
-import edu.coeia.onlinemail.OnlineEmailDownloader;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.mail.MessagingException;
@@ -54,6 +53,10 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
     public JTextField getFrom() {
         return this.from;
     }
+//    
+//    public void setFrom(final String from) {
+//        this.from.setText(from);
+//    }
 
     public JTextField getBCC() {
         return this.bcc;

@@ -36,9 +36,8 @@ import org.apache.mahout.math.Arrays;
 public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
     protected DefaultTreeModel m_model;
-    private FileSignature instance;
     private FileTreeModel model;
-    private File node;
+    private File selectedFile;
     private List<FileSignature> listFiles;
 
     public FileSignaturePanel() {
@@ -47,7 +46,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     /** Creates new form FileSignaturePanel */
     public FileSignaturePanel(Case aCase) {
         initComponents();
-        instance = new FileSignature();
+       
         List<String> caseLocation = aCase.getEvidenceSourceLocation();
         try {
             fillDataBaseTable();
@@ -280,11 +279,11 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
             },
             new String [] {
-                "File Name", "Status", "Signature", "File Extensions"
+                "File Name", "File Signature", "Status", "Suspected Signatures", "File Extensions"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -303,8 +302,8 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     private void TestFileAnalysis(File file) {
         boolean matched = false;
         boolean unKnown = true;
-        Object[] status_matched = new Object[4];
-        Object[] status_aliased = new Object[4];
+        Object[] status_matched = new Object[5];
+        Object[] status_aliased = new Object[5];
         Set<String> signatureList = new HashSet<String>();
         List<String> extensionsList = new ArrayList<String>();
         if (file == null) {
@@ -342,50 +341,48 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
+ 
     }
 
-    private Object[] FormatTable(File file, String message, FileSignature fs, Set<String> SignatureList, List<String> Exenstions) {
+    private Object[] FormatTable(File file, String message, FileSignature fs, Set<String> SignatureList, List<String> Exenstions) throws IOException {
 
-        Object[] status_msg = new Object[4];
-
+        Object[] status_msg = new Object[5];
         status_msg[0] = file.getName();
-        status_msg[1] = message;
-
+        status_msg[1] = FileSignatureAnalysis.getFileSignature(file);
+        status_msg[2] = message;
         SignatureList.add(fs.getSignature());
         String formatedSignatures = Utilities.getFormattedStringHash(SignatureList);
-        status_msg[2] = formatedSignatures;
-
+        status_msg[3] = formatedSignatures;
         Exenstions.add(Arrays.toString(fs.getExtension()));
         String formatedExtensions = Utilities.getFormattedString(Exenstions);
-        status_msg[3] = formatedExtensions;
+        status_msg[4] = formatedExtensions;
 
         return status_msg;
     }
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-    boolean isDirectory = node.isDirectory();
+    if( selectedFile == null ) return;
+    boolean isDirectory = selectedFile.isDirectory();
     JTableUtil.removeAllRows(FileAnalysisTable);
     Thread newThrd = new Thread(this);
     if (isDirectory) {
         newThrd.start();
     } else {
-        TestFileAnalysis(node);
+        TestFileAnalysis(selectedFile);
     }
 
 }//GEN-LAST:event_jButton1ActionPerformed
 
     public void run() {
         System.out.println("MyThread starting.");
-        FolderTraversar ft = new FolderTraversar(node);
+        FolderTraversar ft = new FolderTraversar(selectedFile);
         ft.traverse();
         System.out.println("MyThread terminating.");
     }
 private void FolderListTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_FolderListTreeValueChanged
     // TODO add your handling code here:
-    node = (File) evt.getPath().getLastPathComponent();
-    if (node == null) {
+    selectedFile = (File) evt.getPath().getLastPathComponent();
+    if (selectedFile == null) {
         return;
     }
 

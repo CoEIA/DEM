@@ -20,9 +20,15 @@ import java.util.List;
  */
 public class FileSignatureAnalysis {
 
-    private static final int BUFFER_SIZE = 4096;
     private static final int MAX_SIGNATURE_SIZE = 8;
 
+    public static String getFileSignature(File file) throws FileNotFoundException, IOException {
+        byte[] buffer = new byte[15];
+        InputStream in = new FileInputStream(file);
+        int n = in.read(buffer, 0, 15);
+        String hex = Utilities.toHex(buffer);
+        return hex;
+    }
     public static boolean matchesSignature(byte[] signature, File file) throws FileNotFoundException, IOException {
 
         byte[] buffer = new byte[signature.length];

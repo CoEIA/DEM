@@ -32,7 +32,9 @@ import javax.mail.BodyPart;
 import javax.mail.FolderClosedException;
 import javax.mail.internet.MimeUtility;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.SwingWorker;
+import javax.swing.text.JTextComponent;
 
 class ProgressData {
 
@@ -244,54 +246,34 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
     @Override
     protected void process(List<ProgressData> chunks) {
-
         if (isCancelled()) {
             emailFinished = false;
             return;
         }
 
         for (ProgressData pd : chunks) {
-
             emaildialogue.getFrom().setText(Utilities.formatInputString(pd.mEmail.getFrom()));
-
-            List<String> listCC = pd.mEmail.getCC();
-            if (!listCC.isEmpty()) {
-                for (String s1 : pd.mEmail.getCC()) {
-                    emaildialogue.getCC().setText(Utilities.formatInputString(s1) + "\n");
-                }
-            } else {
-                emaildialogue.getCC().setText("\n");
-            }
-
-            List<String> listBcc = pd.mEmail.getBCC();
-            if (!listBcc.isEmpty()) {
-                for (String s2 : pd.mEmail.getBCC()) {
-                    emaildialogue.getBCC().setText(Utilities.formatInputString(s2) + "\n");
-                }
-            } else {
-                emaildialogue.getBCC().setText("\n");
-            }
-
-            List<String> listAttachments = pd.mEmail.getAttachments();
-            if (!listAttachments.isEmpty()) {
-                for (String s2 : pd.mEmail.getTo()) {
-                    emaildialogue.getTo().setText(Utilities.formatInputString(s2) + "\n");
-                }
-            } else {
-                emaildialogue.getAttachments().setText("\n");
-            }
-
-            for (String s2 : pd.mEmail.getAttachments()) {
-                emaildialogue.getAttachments().setText(Utilities.formatInputString(s2) + "\n");
-            }
-
-
             emaildialogue.getSubject().setText(Utilities.formatInputString(pd.mEmail.getSubject()));
             emaildialogue.getSentDate().setText(pd.mEmail.getSentDate());
-
+            
+            this.setEmailDialogElementsText(emaildialogue.getCC(), pd.mEmail.getCC());
+            this.setEmailDialogElementsText(emaildialogue.getBCC(), pd.mEmail.getBCC());
+            this.setEmailDialogElementsText(emaildialogue.getAttachments(), pd.mEmail.getAttachments());
         }
     }
 
+    private void setEmailDialogElementsText(JTextComponent field, List<String> texts) {
+        StringBuilder buffer = new StringBuilder();
+        
+        if ( !texts.isEmpty() ) {
+            for (String text : texts) {
+                buffer.append(Utilities.formatInputString(text)).append("\n");
+            }
+        }
+        
+        field.setText(buffer.toString());
+    }
+    
     public boolean ConnectPop3(String UserName, String Password) {
 
         this.Username = UserName;
