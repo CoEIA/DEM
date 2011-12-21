@@ -25,21 +25,30 @@ import javax.swing.JFrame;
  */
 public class CaseSearchPanel extends javax.swing.JPanel {
 
-    private AdvancedSearchPanel advancedSearchPanel ;
+    private AdvancedSearchPanel advancedSearchPanel;
     private ConnectedSearchPanel connectedSearchPanel;
-    private List<SearchOption> searchOptions = new ArrayList<SearchOption>();
+    
+    private JFrame parentFrame; 
+    private Case currentCase ;
+    
+    private List<SearchHistory> searchOptions = new ArrayList<SearchHistory>();
     
     /** Creates new form CaseSearchPanel */
     public CaseSearchPanel(Case aCase, JFrame parentFrame) {
         initComponents();
         
-        // make tap panel
-        this.advancedSearchPanel = new AdvancedSearchPanel(aCase, parentFrame, this);
-        this.connectedSearchPanel = new ConnectedSearchPanel(aCase, parentFrame, this);
+        this.currentCase = aCase ;
+        this.parentFrame = parentFrame;
         
+        // add tapped pane
+        this.advancedSearchPanel = new AdvancedSearchPanel(this);
+        this.connectedSearchPanel = new ConnectedSearchPanel(aCase, parentFrame, this);
         this.caseSearchTappedPane.add("Advanced Search", advancedSearchPanel);
         this.caseSearchTappedPane.add("Connected Search", connectedSearchPanel);
     }
+    
+    public Case getCurrentCase() { return this.currentCase; }
+    public JFrame getParentJFrame() { return this.parentFrame ; }
     
     public void setFocusInAdvancedSearchPanel () {
         this.advancedSearchPanel.setQueryTextFeildFocusable();
@@ -49,17 +58,17 @@ public class CaseSearchPanel extends javax.swing.JPanel {
         this.advancedSearchPanel.closeLuceneSearch();
     }
     
-    void addSearchOption(final SearchOption option) {
+    void addSearchOption(final SearchHistory option) {
         this.searchOptions.add(option);
         this.connectedSearchPanel.updateSavedSearchTable();
     }
     
-    List<SearchOption> getSearchOptions() {
+    List<SearchHistory> getSearchOptions() {
         return Collections.unmodifiableList(this.searchOptions);
     }
     
-    static class SearchOption {
-        public SearchOption(final String query, final String time, final SearchScope scope, 
+    static class SearchHistory {
+        public SearchHistory(final String query, final String time, final SearchScope scope, 
                 final List<Item> docs) {
             
             this.query = query ;

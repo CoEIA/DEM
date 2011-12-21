@@ -14,7 +14,6 @@ import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.searching.LuceneSearcher ;
 import edu.coeia.util.FileUtil;
-import edu.coeia.searching.AdvancedSearchPanel;
 import edu.coeia.tags.Tag;
 import edu.coeia.tags.TagsDialog;
 import edu.coeia.tags.TagsManager;
@@ -24,6 +23,8 @@ import java.awt.Frame;
 
 import java.io.File;
 import java.io.FileInputStream;
+
+import java.util.ArrayList;
 import java.util.List; 
 
 import javax.swing.JFileChooser;
@@ -37,7 +38,6 @@ import org.apache.lucene.document.Document;
  */
 public class SourceViewerDialog extends javax.swing.JDialog {
     private String keyword ;
-    private AdvancedSearchPanel advancedSearchPanel ;
     private LuceneSearcher searcher ;
     private Document currentDocument ;
     private Frame parent ;
@@ -46,7 +46,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     /**
      * Lucene Document ID number list and the current id opened now
      */
-    private List<Integer> documentsNumber;
+    private List<Integer> documentsNumber = new ArrayList<Integer>();
     
     /*
      * the current index of the document list
@@ -54,18 +54,17 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private int currentListIndex ;
     
     /** Creates new form SourceViewerDialog */
-    public SourceViewerDialog(java.awt.Frame parent, boolean modal, AdvancedSearchPanel panel) {
+    public SourceViewerDialog(java.awt.Frame parent, boolean modal, SearchViewer searchViewer) {
         super(parent, modal);
         initComponents();
         
         this.setLocationRelativeTo(parent);
         this.parent = parent ;
         this.tagManger = ((CaseFrame) parent).getTagsManager();
-        this.advancedSearchPanel = panel;
-        this.keyword = this.advancedSearchPanel.getQueryText();
-        this.searcher = this.advancedSearchPanel.getLuceneSearcher();
-        this.documentsNumber = this.advancedSearchPanel.getIds();
-        this.currentListIndex = this.documentsNumber.indexOf(this.advancedSearchPanel.getCurrentId());
+        this.keyword = searchViewer.getKeyword();
+        this.searcher = searchViewer.getLuceneSearcher();
+        this.documentsNumber.addAll(searchViewer.getDocumentIds());
+        this.currentListIndex = this.documentsNumber.indexOf(searchViewer.getCurrentDocument());
         this.showDocumentWithIndex(this.currentListIndex);
     }
 

@@ -42,7 +42,7 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
     }
 
     void updateSavedSearchTable() {
-        List<CaseSearchPanel.SearchOption> options = this.parentPanel.getSearchOptions();
+        List<CaseSearchPanel.SearchHistory> options = this.parentPanel.getSearchOptions();
         JTableUtil.removeAllRows(this.savedSearchTable);
         this.resetOptionsLabel();
         
@@ -76,11 +76,6 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         dateTextField = new javax.swing.JTextField();
         CenterPanel = new javax.swing.JPanel();
-        resultPanel = new javax.swing.JPanel();
-        jTabbedPane4 = new javax.swing.JTabbedPane();
-        jPanel22 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        searchTable = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -226,42 +221,6 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
         add(LeftPanel, java.awt.BorderLayout.WEST);
 
         CenterPanel.setLayout(new java.awt.BorderLayout());
-
-        searchTable.setFillsViewportHeight(true);
-        searchTable.setGridColor(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(searchTable);
-
-        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
-        jPanel22.setLayout(jPanel22Layout);
-        jPanel22Layout.setHorizontalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
-        );
-        jPanel22Layout.setVerticalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
-        );
-
-        jTabbedPane4.addTab("Search Result", jPanel22);
-
-        javax.swing.GroupLayout resultPanelLayout = new javax.swing.GroupLayout(resultPanel);
-        resultPanel.setLayout(resultPanelLayout);
-        resultPanelLayout.setHorizontalGroup(
-            resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(resultPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        resultPanelLayout.setVerticalGroup(
-            resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(resultPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane4))
-        );
-
-        CenterPanel.add(resultPanel, java.awt.BorderLayout.CENTER);
-
         add(CenterPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -270,7 +229,7 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
         if ( row < 0 )
             return;
         
-        CaseSearchPanel.SearchOption option = this.parentPanel.getSearchOptions().get(row);
+        CaseSearchPanel.SearchHistory option = this.parentPanel.getSearchOptions().get(row);
         fillOptionsLabel(option);
     }//GEN-LAST:event_savedSearchTableMouseClicked
 
@@ -279,7 +238,7 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
         Set<Item> items = new HashSet<Item>();
         
         for(int index: indexs) {
-            CaseSearchPanel.SearchOption option = this.parentPanel.getSearchOptions().get(index);
+            CaseSearchPanel.SearchHistory option = this.parentPanel.getSearchOptions().get(index);
             
             for(Item item: option.documents) {
                 items.add(item);
@@ -305,7 +264,7 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
         return indexOfSelectedRows;
     }
     
-    private void fillOptionsLabel(final CaseSearchPanel.SearchOption option) {
+    private void fillOptionsLabel(final CaseSearchPanel.SearchHistory option) {
         this.searchNameTextField.setText(option.query);
         this.scopeTextField.setText(option.scope.toString());
         this.dateTextField.setText(option.time);
@@ -330,15 +289,10 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel22;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTextField noOfItemsTextField;
-    private javax.swing.JPanel resultPanel;
     private javax.swing.JTable savedSearchTable;
     private javax.swing.JTextField scopeTextField;
     private javax.swing.JTextField searchNameTextField;
-    private javax.swing.JTable searchTable;
     // End of variables declaration//GEN-END:variables
 }
