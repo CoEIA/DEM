@@ -58,9 +58,7 @@ public class IndexingConstant {
     public static final String FILE_TITLE = "FILE_TITLE" ;
     public static final String FILE_CONTENT = "FILE_CONTENT" ;
     public static final String FILE_DATE = "FILE_DATE" ;
-    public static final String FILE_CONTAINER = "FILE_CONTAINER" ;
     public static final String FILE_MIME = "FILE_MIME" ;
-    public static final String FILE_HASH = "FILE_HASH" ;
     
     /**
      * constants for chat sessions

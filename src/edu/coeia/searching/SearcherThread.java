@@ -10,14 +10,10 @@ package edu.coeia.searching;
  * @author wajdyessam
  */
 
-import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant ;
-import edu.coeia.util.DateUtil;
 
 import javax.swing.SwingWorker ;
 import javax.swing.table.DefaultTableModel ;
-
-import java.io.File ;
 
 import java.util.Date ;
 import java.util.List ;

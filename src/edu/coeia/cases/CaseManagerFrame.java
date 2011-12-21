@@ -7,6 +7,7 @@ import edu.coeia.main.SmartCardDialog;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
+import edu.coeia.util.DEMLogger;
 
 /* import sun classes */
 import javax.swing.UIManager ;
@@ -28,7 +29,6 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-import edu.coeia.util.DEMLogger;
 
 /*
  * CaseManagerFrame the main entry point to DEM
