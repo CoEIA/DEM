@@ -49,7 +49,6 @@ class ProgressData {
 /**
  * Email Reader - Read a Gmail Email using Java Mail API
  * and Store all the message in List for processing
- * @auther Wajdy Essam
  * @version 1.0 18-7-2011
  */
 public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
