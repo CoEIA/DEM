@@ -124,6 +124,8 @@ enum CaseManager {
 
             // remove case history from preferences
             CaseHistoryHandler.remove(aCase.getIndexName());
+            
+            status = true;
         }
         
         return status;

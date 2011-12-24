@@ -11,6 +11,7 @@ package edu.coeia.searching;
  *
  */
 
+import edu.coeia.cases.Case;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.util.FilesPath ;
 
@@ -41,8 +42,10 @@ public class LuceneSearcher {
     protected IndexSearcher searcher ;
     protected TopDocs results ;
     
-    public LuceneSearcher (File indexDir ) throws Exception {
-        fsDir = FSDirectory.open(indexDir);
+    public LuceneSearcher (final Case currentCase) throws Exception {
+        File caseLocation = new File (currentCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
+        
+        fsDir = FSDirectory.open(caseLocation);
         indexReader = IndexReader.open(fsDir, true);
         searcher = new IndexSearcher(indexReader);
     }

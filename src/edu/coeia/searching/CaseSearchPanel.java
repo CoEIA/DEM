@@ -25,7 +25,7 @@ import javax.swing.JFrame;
  */
 public class CaseSearchPanel extends javax.swing.JPanel {
 
-    private AdvancedSearchPanel advancedSearchPanel;
+    private AdvancedSearchPanel  advancedSearchPanel;
     private ConnectedSearchPanel connectedSearchPanel;
     
     private JFrame parentFrame; 

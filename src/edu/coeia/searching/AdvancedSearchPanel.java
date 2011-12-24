@@ -25,8 +25,6 @@ import javax.swing.JOptionPane ;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import java.io.File ;
-
 import java.util.List; 
 import java.util.logging.Logger;
 import java.util.ArrayList;
@@ -40,7 +38,6 @@ import org.apache.lucene.document.Document;
  */
 public class AdvancedSearchPanel extends javax.swing.JPanel {
     private Case caseObj;
-    private File caseLocation ;
     private LuceneSearcher searcher ;
     private JFrame parentFrame ;
     private CaseSearchPanel parentPanel ;
@@ -60,9 +57,8 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         this.parentFrame = this.parentPanel.getParentJFrame();
         
         this.resultId = new ArrayList<Integer>();
-        this.caseLocation = new File (caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
         
-        this.searchResultPanel = new SearchResultPanel(this);
+        this.searchResultPanel = new SearchResultPanel(parentFrame);
         this.CenterPanel.removeAll();
         this.CenterPanel.add(this.searchResultPanel);
         this.CenterPanel.revalidate();
@@ -405,26 +401,24 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     void setResultId (List<Integer> ids) { 
         this.resultId.clear();
         this.resultId.addAll(Collections.unmodifiableList(ids)); 
+        this.setResultTableIds(ids);
     }
-    
-    public JFrame getParentFrame() { return this.parentFrame ; }
-    
     public List<Integer> getIds() { return Collections.unmodifiableList(this.resultId) ; }
+        
+    public JFrame getParentFrame() { return this.parentFrame ; }
     
     public void setCurrentId (int id) { this.currentId = id ; }
     public int getCurrentId() { return this.currentId ; }
     
     JProgressBar getSearchProgressBar () { return this.searchProgressBard ; }
     JTable getSearchTable() { return this.searchResultPanel.getSearchTable(); }
-    List<String> getSupportedExtension () { return new ArrayList<String>(); }
     
     public void setQueryText(final String queryText) { 
         this.queryTextField.setText(queryText);
     }
     
     public String getQueryText() {
-        String queryString = queryTextField.getText().trim();
-        return queryString ;
+        return queryTextField.getText().trim() ;
     }
     
     public LuceneSearcher getLuceneSearcher() { return this.searcher ;}
@@ -480,8 +474,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         try {
             if ( this.searcher == null ) {
-                this.searcher = new LuceneSearcher(this.caseLocation);
-                this.searchResultPanel.setLuceneSearcher(this.searcher);
+                this.searcher = new LuceneSearcher(this.caseObj);
             }
         }
         catch (Exception e) {
@@ -544,6 +537,14 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         catch(Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    void setResultTableText(final String text) {
+        this.searchResultPanel.setQueryText(text);
+    }
+    
+    void setResultTableIds(final List<Integer> ids) {
+        this.searchResultPanel.setResultIds(ids);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

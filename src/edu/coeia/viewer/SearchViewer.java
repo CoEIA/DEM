@@ -4,8 +4,6 @@
  */
 package edu.coeia.viewer;
 
-import edu.coeia.searching.LuceneSearcher;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,23 +14,18 @@ import java.util.List;
  */
 public class SearchViewer {
     
-    public SearchViewer(final String keyword, final LuceneSearcher searcher, 
-            final int document, final List<Integer> ids) {
-        
+    public SearchViewer(final String keyword,final int documentId, final List<Integer> ids) {
         this.keyword = keyword;
-        this.luceneSearcher = searcher;
-        this.currentDocument = document;
+        this.documentId = documentId;
         this.documentsIdNumbers = new ArrayList<Integer>();
         this.documentsIdNumbers.addAll(Collections.unmodifiableList(ids));
     }
     
     public String getKeyword() { return this.keyword ; }
-    public LuceneSearcher getLuceneSearcher() { return this.luceneSearcher; }
-    public int getCurrentDocument() { return this.currentDocument; }
+    public int getDocumentId() { return this.documentId; }
     public List<Integer> getDocumentIds() { return Collections.unmodifiableList(this.documentsIdNumbers); }
     
     private final String keyword;
-    private final LuceneSearcher luceneSearcher ;
-    private final int currentDocument; 
+    private final int documentId; 
     private final List<Integer> documentsIdNumbers;
 }

@@ -42,9 +42,9 @@ public abstract class Item {
         return 7 * this.getDocumentId();
     }
     
-    protected int getDocumentId() { return this.documentId; }
-    protected int getDocumentParentId () { return this.documentParentId ; }
-    protected String getDocumentHash() { return this.documentHash ; }
+    public int getDocumentId() { return this.documentId; }
+    public int getDocumentParentId () { return this.documentParentId ; }
+    public String getDocumentHash() { return this.documentHash ; }
     
     protected int documentId ;
     protected int documentParentId;

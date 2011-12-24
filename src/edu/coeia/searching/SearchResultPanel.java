@@ -17,6 +17,7 @@ import edu.coeia.hash.HashCalculator;
 import edu.coeia.hashanalysis.HashItem;
 import edu.coeia.hashanalysis.HashSetDialog;
 import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.main.CaseFrame;
 import edu.coeia.viewer.SearchViewer;
 import edu.coeia.viewer.SourceViewerDialog;
 
@@ -26,12 +27,12 @@ import javax.swing.JTable;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
-import javax.swing.JPanel;
 
 import java.util.List; 
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 import org.apache.lucene.document.Document;
@@ -46,17 +47,16 @@ public class SearchResultPanel extends javax.swing.JPanel {
     
     private JFrame parentFrame; 
     private Case caseObj;
-    private LuceneSearcher searcher ;
-    private AdvancedSearchPanel parentPanel;
-     
+    
+    private String keyword ;
+    private List<Integer> documentIds = new ArrayList<Integer>();
+    
     /** Creates new form SearchResultPanel */
-    public SearchResultPanel(JPanel parentPanel) {
+    public SearchResultPanel(JFrame parentFrame) {
         initComponents();
-        
-        this.parentPanel = (AdvancedSearchPanel) parentPanel;
-        this.parentFrame = this.parentPanel.getParentFrame();
-        this.caseObj = this.parentPanel.getCase();
-        this.searcher = this.parentPanel.getLuceneSearcher();
+
+        this.parentFrame = parentFrame;
+        this.caseObj  = ((CaseFrame) this.parentFrame).getCase();
     }
 
     /** This method is called from within the constructor to
@@ -140,10 +140,6 @@ public class SearchResultPanel extends javax.swing.JPanel {
         return this.searchTable ;
     }
     
-    public void setLuceneSearcher(final LuceneSearcher searcher) {
-        this.searcher = searcher; 
-    }
-    
     private void resultTableRightClicked(java.awt.event.MouseEvent evt) {
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( this.searchTable.isEnabled() )
@@ -161,10 +157,10 @@ public class SearchResultPanel extends javax.swing.JPanel {
                 
                 String fileId = String.valueOf(searchTable.getValueAt(row, 0));
                 int currentId = Integer.parseInt(fileId);
-                this.parentPanel.setCurrentId(currentId);
+                //this.parentPanel.setCurrentId(currentId);
                 
-                SearchViewer searchViewer = new SearchViewer(this.parentPanel.getQueryText(), this.searcher, 
-                        this.parentPanel.getCurrentId(), this.parentPanel.getIds());
+                SearchViewer searchViewer = new SearchViewer(this.keyword,
+                        currentId, this.documentIds);
                 
                 SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true, searchViewer);
                 panel.setVisible(true);
@@ -185,6 +181,8 @@ public class SearchResultPanel extends javax.swing.JPanel {
         btn.addActionListener( new java.awt.event.ActionListener() {
             public void actionPerformed (java.awt.event.ActionEvent event) {
                 try {
+                    LuceneSearcher searcher = new LuceneSearcher(caseObj);
+                    
                     int[] indexes = table.getSelectedRows();
                     List<HashItem> hashItems = new ArrayList<HashItem>();
                     
@@ -197,6 +195,8 @@ public class SearchResultPanel extends javax.swing.JPanel {
                     // display hash set dialog
                     HashSetDialog hashSetDialog = new HashSetDialog(parentFrame, true, hashItems);
                     hashSetDialog.setVisible(true);
+                    
+                    searcher.closeSearcher();
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -223,6 +223,15 @@ public class SearchResultPanel extends javax.swing.JPanel {
         }
                 
         return item;
+    }
+    
+    void setQueryText(final String query) {
+        this.keyword = query;
+    }
+    
+    void setResultIds(final List<Integer> ids) {
+        this.documentIds.clear();
+        this.documentIds.addAll(Collections.unmodifiableList(ids));
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

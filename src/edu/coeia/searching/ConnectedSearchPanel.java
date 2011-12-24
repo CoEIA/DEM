@@ -12,6 +12,7 @@ package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
+import edu.coeia.items.FileItem;
 import edu.coeia.items.Item;
 
 import java.util.ArrayList;
@@ -27,18 +28,21 @@ import javax.swing.JPanel;
  * @author wajdyessam
  */
 public class ConnectedSearchPanel extends javax.swing.JPanel {
-
-    private Case caseObj;
     private JFrame parentFrame ;
     private CaseSearchPanel parentPanel ;
+    private SearchResultPanel searchResultPanel;
     
     /** Creates new form ConnectedSearchPanel */
     public ConnectedSearchPanel(Case aIndex, JFrame aParentFrame, JPanel parentPanel) {
         initComponents();
         
         this.parentPanel = (CaseSearchPanel) parentPanel;
-        this.caseObj = aIndex;
         this.parentFrame = aParentFrame;
+        
+        this.searchResultPanel = new SearchResultPanel(parentFrame);
+        this.CenterPanel.removeAll();
+        this.CenterPanel.add(this.searchResultPanel);
+        this.CenterPanel.revalidate();
     }
 
     void updateSavedSearchTable() {
@@ -234,6 +238,8 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_savedSearchTableMouseClicked
 
     private void connectedSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectedSearchButtonActionPerformed
+        JTableUtil.removeAllRows(this.searchResultPanel.getSearchTable());
+        
         List<Integer> indexs = this.getSavedSearchSelectedRowIndexes();
         Set<Item> items = new HashSet<Item>();
         
@@ -245,7 +251,22 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
             }
         }
         
-        System.out.println("add items: " + items.size());
+        List<Integer> ids = new ArrayList<Integer>();
+        for(Item item: items) {
+           FileItem fileItem = (FileItem) item;
+           
+           Object[] data = {
+               fileItem.getDocumentId(), fileItem.getFileTitle(),fileItem.getFileDate(),
+               "FILE", fileItem.getFileName()
+           };
+           
+           JTableUtil.addRowToJTable(this.searchResultPanel.getSearchTable(), data);
+           ids.add(fileItem.getDocumentId());
+        }
+        
+        // set keywords and documentids
+        this.searchResultPanel.setQueryText(items.toString());
+        this.searchResultPanel.setResultIds(ids);
     }//GEN-LAST:event_connectedSearchButtonActionPerformed
 
     private List<Integer> getSavedSearchSelectedRowIndexes() {

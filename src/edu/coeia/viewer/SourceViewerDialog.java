@@ -10,6 +10,7 @@
  */
 package edu.coeia.viewer;
 
+import edu.coeia.cases.Case;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.searching.LuceneSearcher ;
@@ -21,6 +22,8 @@ import edu.coeia.tags.TagsManager;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 
@@ -42,6 +45,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private Document currentDocument ;
     private Frame parent ;
     private TagsManager tagManger  ;
+    private Case caseObj ;
     
     /**
      * Lucene Document ID number list and the current id opened now
@@ -58,13 +62,33 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        this.setLocationRelativeTo(parent);
+        this.setLocationRelativeTo(this.parent);
         this.parent = parent ;
-        this.tagManger = ((CaseFrame) parent).getTagsManager();
+        this.tagManger = ((CaseFrame) this.parent).getTagsManager();
+        this.caseObj  = ((CaseFrame) this.parent).getCase();
         this.keyword = searchViewer.getKeyword();
-        this.searcher = searchViewer.getLuceneSearcher();
+        
+        try {
+            this.searcher = new LuceneSearcher(caseObj);
+            
+            this.addWindowListener(new WindowAdapter() { 
+                @Override
+                public void windowClosing(WindowEvent event) {
+                    try {
+                        searcher.closeSearcher();
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
         this.documentsNumber.addAll(searchViewer.getDocumentIds());
-        this.currentListIndex = this.documentsNumber.indexOf(searchViewer.getCurrentDocument());
+        this.currentListIndex = this.documentsNumber.indexOf(searchViewer.getDocumentId());
         this.showDocumentWithIndex(this.currentListIndex);
     }
 

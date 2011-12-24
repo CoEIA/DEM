@@ -448,7 +448,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         LuceneSearcher luceneSearcher = null;
         
         try {
-            luceneSearcher = new LuceneSearcher(new File(this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH));
+            luceneSearcher = new LuceneSearcher(this.aCase);
             int hits = luceneSearcher.searchForHash(hashValue);
             
             for(int i=0; i<hits; i++) {

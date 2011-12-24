@@ -124,6 +124,8 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         }
         
         panel.setResultId(ids);
+        panel.setResultTableText(queryString);
         panel.setSearchTableFocusable();
+        //panel.closeLuceneSearch();
     }
 }
