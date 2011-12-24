@@ -58,6 +58,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         model = new FileTreeModel(new File(caseLocation.get(0)));
         FolderListTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         FolderListTree.setModel(model);
+        JTableUtil.sortTable(FileAnalysisTable,2);
     }
 
     private void fillDataBaseTable() throws IOException {
@@ -309,7 +310,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         Object[] status_matched = new Object[5];
         Object[] status_aliased = new Object[5];
         Object[] status_bad = new Object[5];
-        Object[] status_unkown = new Object[5];
+        
         Set<String> signatureList = new HashSet<String>();
         List<String> extensionsList = new ArrayList<String>();
         if (file == null) {
@@ -366,7 +367,9 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
+        
+        stopRequested = true;
+
     }
 
     private Object[] FormatTable(File file, String message, FileSignature fs, Set<String> SignatureList, List<String> Exenstions) throws IOException {
@@ -392,12 +395,12 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     boolean isDirectory = selectedFile.isDirectory();
     JTableUtil.removeAllRows(FileAnalysisTable);
     Thread newThrd = new Thread(this);
+
     if (isDirectory) {
         newThrd.start();
     } else {
-         // Stop the thread
-        stopRequested = true; 
         TestFileAnalysis(selectedFile);
+        stopRequested = false;
     }
    
 
@@ -405,13 +408,17 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_jButton1ActionPerformed
 
     public void run() {
-     System.out.println("MyThread starting.");
-            FolderTraversar ft = new FolderTraversar(selectedFile);
-            ft.traverse();
-            System.out.println("MyThread terminating.");
-       
-    }
+        
+        if(!stopRequested){
+        System.out.println("MyThread starting.");
+        FolderTraversar ft = new FolderTraversar(selectedFile);
+        ft.traverse();
+        System.out.println("MyThread terminating.");
+        }
+      JOptionPane.showMessageDialog(this, "Finished Analyzing", "Finished", JOptionPane.INFORMATION_MESSAGE);
 
+    }
+        
             
 private void FolderListTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_FolderListTreeValueChanged
     // TODO add your handling code here:
