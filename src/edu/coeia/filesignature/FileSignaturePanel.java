@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
@@ -39,6 +40,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     private FileTreeModel model;
     private File selectedFile;
     private List<FileSignature> listFiles;
+    private volatile boolean stopRequested = false;
 
     public FileSignaturePanel() {
     }
@@ -46,7 +48,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     /** Creates new form FileSignaturePanel */
     public FileSignaturePanel(Case aCase) {
         initComponents();
-       
+
         List<String> caseLocation = aCase.getEvidenceSourceLocation();
         try {
             fillDataBaseTable();
@@ -301,9 +303,13 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
     private void TestFileAnalysis(File file) {
         boolean matched = false;
-        boolean unKnown = true;
+        boolean unKnown = false;
+        boolean bad = false;
+        boolean aliased = false;
         Object[] status_matched = new Object[5];
         Object[] status_aliased = new Object[5];
+        Object[] status_bad = new Object[5];
+        Object[] status_unkown = new Object[5];
         Set<String> signatureList = new HashSet<String>();
         List<String> extensionsList = new ArrayList<String>();
         if (file == null) {
@@ -311,37 +317,56 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         }
         try {
             for (FileSignature fs : listFiles) {
-                if (FileSignatureAnalysis.matchBadSignature(file, fs)) {
+
+                // ext of the file is in the database and signature is found in database
+                if (FileSignatureAnalysis.isMatchedSignature(file, fs)) {
                     status_matched = FormatTable(file, "Matched File", fs, signatureList, extensionsList);
                     matched = true;
-                    unKnown = false;
+
                 }
+
+                if (FileSignatureAnalysis.isBadSignature(file, fs)) {
+                    bad = true; // bad signature ext not in database, signature not in database
+                    status_bad = FormatTable(file, "Bad Signature", fs, signatureList, extensionsList);
+
+                }
+                // Alias : extension is different, but signature is there in database
                 if (FileSignatureAnalysis.matchAliasSignature(file, fs) && !matched) {
                     if (FileSignatureAnalysis.isknownFile(file, fs)) {
                         status_aliased = FormatTable(file, "Aliased File and it is Known", fs, signatureList, extensionsList);
-                        unKnown = false;
-                        matched = false;
+                        aliased = true;
+
                     }
                 }
+
+                if (FileSignatureAnalysis.isUnknown(file, fs) && !matched && !bad && !aliased) {
+                    unKnown = true;
+                }
+
             } // End For 
 
             // Check All States
-            if (unKnown && !matched) {
+
+            if (unKnown && !matched && !aliased && !bad) {
                 FillTableUnknownFile(file.getName(), "Unknown");
             }
-            if (!unKnown && !matched) {
+            if (!matched && !bad && aliased) {
                 FillSignatureTable(status_aliased);
             }
-            if (!unKnown && matched) {
+            if (!matched && !aliased && bad) {
+                FillSignatureTable(status_bad);
+            }
+            if (matched && !aliased) {
                 FillSignatureTable(status_matched);
             }
+
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
- 
+      
     }
 
     private Object[] FormatTable(File file, String message, FileSignature fs, Set<String> SignatureList, List<String> Exenstions) throws IOException {
@@ -361,24 +386,33 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     }
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-    if( selectedFile == null ) return;
+    if (selectedFile == null) {
+        return;
+    }
     boolean isDirectory = selectedFile.isDirectory();
     JTableUtil.removeAllRows(FileAnalysisTable);
     Thread newThrd = new Thread(this);
     if (isDirectory) {
         newThrd.start();
     } else {
+         // Stop the thread
+        stopRequested = true; 
         TestFileAnalysis(selectedFile);
     }
+   
+
 
 }//GEN-LAST:event_jButton1ActionPerformed
 
     public void run() {
-        System.out.println("MyThread starting.");
-        FolderTraversar ft = new FolderTraversar(selectedFile);
-        ft.traverse();
-        System.out.println("MyThread terminating.");
+     System.out.println("MyThread starting.");
+            FolderTraversar ft = new FolderTraversar(selectedFile);
+            ft.traverse();
+            System.out.println("MyThread terminating.");
+       
     }
+
+            
 private void FolderListTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_FolderListTreeValueChanged
     // TODO add your handling code here:
     selectedFile = (File) evt.getPath().getLastPathComponent();

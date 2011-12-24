@@ -63,7 +63,7 @@ public class FileSignatureAnalysis {
 
     // Get the extension of the file and search for matached signature based on
     // on the extension
-    public static boolean matchBadSignature(File file, FileSignature fs) throws FileNotFoundException, IOException {
+    public static boolean isMatchedSignature(File file, FileSignature fs) throws FileNotFoundException, IOException {
         // First Case, Extension in DB Table, but Signature is different
         // ext  == sign in database 
         boolean res = false;
@@ -78,15 +78,50 @@ public class FileSignatureAnalysis {
         } else {
             b = false;
         }
+       return b;
+    }
+    
+    // Get the extension of the file and search for matached signature based on
+    // on the extension
+    public static boolean isBadSignature(File file, FileSignature fs) throws FileNotFoundException, IOException {
+        // First Case, Extension in DB Table, but Signature is different
+        // ext  == sign in database 
+        boolean res = false;
+        res = verifyExtenstion(file, fs);
+        boolean b = true;
 
+        boolean result = matchesSignature(fs.getSignature().getBytes(), file);
+        if (result == false && res == true) {
+            System.out.println("Bad Signature");
+            b = true;
 
-        return b;
+        } else {
+            b = false;
+        }
+       return b;
+    }
+    public static boolean isUnknown(File file, FileSignature fs) throws FileNotFoundException, IOException {
+        // First Case, Extension in DB Table, but Signature is different
+        // ext  == sign in database 
+        boolean res = false;
+        res = verifyExtenstion(file, fs);
+        boolean b = false;
+
+        boolean result = matchesSignature(fs.getSignature().getBytes(), file);
+        if (result == false && res == false) {
+            System.out.println("Unknown");
+            b = true;
+
+        } else {
+            b = false;
+        }
+       return b;
     }
 
     public static boolean matchAliasSignature(File file, FileSignature db) throws FileNotFoundException, IOException {
 
         String extension = FileUtil.getExtension(file);
-        boolean result = matchBadSignature(file, db);
+        boolean result = isMatchedSignature(file, db);
         for (String ext : db.getExtension()) {
             if ((!extension.equalsIgnoreCase(ext)) && result == true) {
                 return false;
