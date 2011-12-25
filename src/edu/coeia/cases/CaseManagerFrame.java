@@ -8,11 +8,13 @@ import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.DEMLogger;
+import edu.coeia.util.ZipUtil;
 
 /* import sun classes */
 import javax.swing.UIManager ;
 import javax.swing.SwingUtilities ;
 import javax.swing.JOptionPane ;
+import javax.swing.SwingWorker;
 
 import java.io.IOException ;
 import java.io.File ;
@@ -85,6 +87,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         loadCaseButton = new javax.swing.JButton();
         removeCaseButton = new javax.swing.JButton();
         checkLicenseButton = new javax.swing.JButton();
+        importCaseButton = new javax.swing.JButton();
+        exportCaseButton = new javax.swing.JButton();
         jToolBar1 = new javax.swing.JToolBar();
         jLabel2 = new javax.swing.JLabel();
 
@@ -147,7 +151,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         }
     });
 
-    removeCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+    removeCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
     removeCaseButton.setText("Remove Selected Case");
     removeCaseButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,11 +159,27 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         }
     });
 
-    checkLicenseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+    checkLicenseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
     checkLicenseButton.setText("Check License");
     checkLicenseButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             checkLicenseButtonActionPerformed(evt);
+        }
+    });
+
+    importCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+    importCaseButton.setText("Import Existing Case");
+    importCaseButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            importCaseButtonActionPerformed(evt);
+        }
+    });
+
+    exportCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+    exportCaseButton.setText("Export Selected Case");
+    exportCaseButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            exportCaseButtonActionPerformed(evt);
         }
     });
 
@@ -170,11 +190,18 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         .addGroup(caseManagerButtonsPanelLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(caseManagerButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(checkLicenseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                .addComponent(newCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                .addComponent(loadCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(removeCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
-            .addContainerGap())
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caseManagerButtonsPanelLayout.createSequentialGroup()
+                    .addGroup(caseManagerButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(newCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                        .addComponent(loadCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(removeCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
+                    .addContainerGap())
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caseManagerButtonsPanelLayout.createSequentialGroup()
+                    .addGroup(caseManagerButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(checkLicenseButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                        .addComponent(exportCaseButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                        .addComponent(importCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
+                    .addContainerGap())))
     );
     caseManagerButtonsPanelLayout.setVerticalGroup(
         caseManagerButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,6 +211,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             .addComponent(loadCaseButton)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(removeCaseButton)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(importCaseButton)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(exportCaseButton)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(checkLicenseButton)
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -250,6 +281,14 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         this.checkLicenseAction();
     }//GEN-LAST:event_checkLicenseButtonActionPerformed
 
+    private void importCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importCaseButtonActionPerformed
+        this.importCaseAction();
+    }//GEN-LAST:event_importCaseButtonActionPerformed
+
+    private void exportCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportCaseButtonActionPerformed
+        this.exportCaseAction();
+    }//GEN-LAST:event_exportCaseButtonActionPerformed
+
     private void checkLicenseAction() {
         if ( licenseManager.isFullVersion() ) { // show smart card inserting/usage dialog
             SmartCardDialog scd = new SmartCardDialog(this, true, true);
@@ -259,6 +298,58 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             int diff = licenseManager.getRemainingDays();
             JOptionPane.showMessageDialog(this, "Remaining days: " + diff, "Trial Version",
                     JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    
+    private void importCaseAction(){
+        try {
+            //        new SwingWorker<Void, String>() {
+            //            @Override
+            //            protected Void doInBackground() throws Exception {
+            //                ZipInputStream zInputStream = new ZipInputStream(new FileInputStream(
+            //                        "C:\\test.zip"));
+            //                ZipEntry zipEntry;
+            //                
+            //                while( (zipEntry = zInputStream.getNextEntry())  != null ) {
+            //                    publish(zipEntry.getName());
+            //                    zInputStream.closeEntry();
+            //                }
+            //                
+            //                zInputStream.close();
+            //                return null;
+            //            }
+            //            
+            //            @Override
+            //            protected void process(List<String> names) {
+            //                for(String name: names) {
+            //                    System.out.println(name);
+            //                }
+            //            }
+            //        }.execute();
+                    
+                    ZipUtil zipper = new ZipUtil();
+                    zipper.decompress("C:\\df.zip", "C:\\df");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private void exportCaseAction() { 
+        try {
+            logger.info("Load Case Entring");
+            String indexName = getSelectedCase();
+            Case aCase = CaseManager.getCaseFromCaseName(indexName);
+            String caseName = "C:\\" + indexName + ".DEM_CASE";
+            
+            ZipUtil zipper = new ZipUtil();
+            zipper.compress(aCase.getCaseLocation(), caseName);
+        }
+        catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "please select the case you want to open",
+                    "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
         }
     }
     
@@ -508,6 +599,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     private javax.swing.JPanel caseManagerButtonsPanel;
     private javax.swing.JPanel caseManagerDataPanel;
     private javax.swing.JButton checkLicenseButton;
+    private javax.swing.JButton exportCaseButton;
+    private javax.swing.JButton importCaseButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
