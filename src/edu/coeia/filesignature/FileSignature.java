@@ -14,7 +14,6 @@ public class FileSignature {
     private String Signature;
     private String[] Extension;
     private String Type;
-    public String KnownSignature;
 
     public FileSignature() {
     }

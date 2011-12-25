@@ -5,7 +5,7 @@ package edu.coeia.offlinemail;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
-import edu.coeia.internet.FilesFilter ;
+import edu.coeia.util.GUIFileFilter ;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.util.DateUtil;
@@ -91,7 +91,7 @@ public class EmailPanel extends javax.swing.JPanel {
         // configure file chooser to select files (txt)
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new FilesFilter("Text Files (*.txt)", "txt"));
+        fileChooser.setFileFilter(new GUIFileFilter("Text Files (*.txt)", "txt"));
         
         // add a native web browser
         webBrowser.setBarsVisible(false);

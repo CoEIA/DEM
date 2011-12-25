@@ -19,14 +19,19 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.BufferedReader ;
 import java.io.ByteArrayOutputStream;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.InputStreamReader ;
 import java.io.FileNotFoundException ;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
 import java.util.List ;
 import java.util.ArrayList ;
+import java.util.Arrays;
 import java.util.Scanner ;
 /*
  * Noninstantiable utility class
@@ -40,6 +45,35 @@ public class FileUtil {
         throw new AssertionError();
     }
 
+    /**
+     * Generic Method to write any serializable object to file
+     * @param <T> object type, must be implement Serializable interface
+     * @param object the object to be written to the file
+     * @param file the file path
+     * @throws IOException if there are errors in the written process
+     */
+    public static <T extends Serializable> void  writeObject (T object, File file) throws IOException {
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+        out.writeObject(object);
+        out.close();
+    }
+
+    /**
+     * Generic Method to read any serializable object from file
+     * @param <T> the type of object, must be implement serializable interface
+     * @param file the file path
+     * @return the object to be written
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
+    public static <T extends Serializable> T readObject (File file) throws IOException,ClassNotFoundException {
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+        T object = (T) in.readObject();
+        in.close();
+
+        return object; 
+    }
+    
     /**
      * create new folder if folderPath is not exists
      * @param folderPath 
@@ -278,5 +312,20 @@ public class FileUtil {
         }
         
         return buffer.toByteArray();
+    }
+    
+    /**
+     * get all the files in directory after applying the file filter
+     * @param directory the directory we want all the files inside it
+     * @param fileFilter the filter to be applied
+     * @return list of all Files inside directory
+     */
+    public static List<File> getFilesInDirectory(final String directory, final FileFilter fileFilter) {
+        List<File> files = new ArrayList<File>();
+        
+        File file = new File(directory);
+        files.addAll(Arrays.asList(file.listFiles(fileFilter)));
+        
+        return files;
     }
 }

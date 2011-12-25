@@ -110,10 +110,10 @@ public class OnlineEmailDBHandler {
     
     public void inserteEmail(OnlineEmailMessage msg)throws SQLException, UnsupportedEncodingException, IOException 
     {
-        String ccBuilder = Utilities.getFormattedString(msg.getCC());
-        String bccBuilder = Utilities.getFormattedString(msg.getBCC());
-        String toBuilder = Utilities.getFormattedString(msg.getTo());
-        String attachments = Utilities.getFormattedString(msg.getAttachments());
+        String ccBuilder = Utilities.getCommaSeparatedStringFromCollection(msg.getCC());
+        String bccBuilder = Utilities.getCommaSeparatedStringFromCollection(msg.getBCC());
+        String toBuilder = Utilities.getCommaSeparatedStringFromCollection(msg.getTo());
+        String attachments = Utilities.getCommaSeparatedStringFromCollection(msg.getAttachments());
 
         String s = "insert into emails values(?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement psInsert = connection.prepareStatement(s);

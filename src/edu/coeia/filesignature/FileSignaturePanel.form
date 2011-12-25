@@ -45,6 +45,9 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
             <Component class="javax.swing.JTree" name="FolderListTree">
+              <Properties>
+                <Property name="showsRootHandles" type="boolean" value="true"/>
+              </Properties>
               <Events>
                 <EventHandler event="valueChanged" listener="javax.swing.event.TreeSelectionListener" parameters="javax.swing.event.TreeSelectionEvent" handler="FolderListTreeValueChanged"/>
               </Events>

@@ -11,28 +11,26 @@
 package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
-import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.FilesPath ;
-import edu.coeia.gutil.JTableUtil;
 import edu.coeia.cases.CaseHistoryHandler;
-import edu.coeia.viewer.SourceViewerDialog;
-
-import java.awt.event.InputEvent;
+import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.items.FileItem;
+import edu.coeia.items.Item;
+import edu.coeia.searching.CaseSearchPanel.SearchHistory;
+import edu.coeia.util.DateUtil;
 
 import javax.swing.JProgressBar;
 import javax.swing.JTable;
 import javax.swing.JOptionPane ;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JFrame;
-
-import java.io.File ;
+import javax.swing.JPanel;
 
 import java.util.List; 
 import java.util.logging.Logger;
-import java.util.logging.Level;
 import java.util.ArrayList;
-
 import java.util.Collections;
+
+import org.apache.lucene.document.Document;
 
 /**
  *
@@ -40,25 +38,32 @@ import java.util.Collections;
  */
 public class AdvancedSearchPanel extends javax.swing.JPanel {
     private Case caseObj;
-    private File caseLocation ;
     private LuceneSearcher searcher ;
     private JFrame parentFrame ;
+    private CaseSearchPanel parentPanel ;
+    private SearchResultPanel searchResultPanel ;
+    
     private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
     
     private List<Integer> resultId ;
     private int currentId = 0; 
     
     /** Creates new form AdvancedSearchPanel */
-    public AdvancedSearchPanel(Case aIndex, JFrame aParentFrame) {
+    public AdvancedSearchPanel(JPanel parentPanel) {
         initComponents();
         
-        this.caseObj = aIndex;
-        this.parentFrame = aParentFrame;
-        this.resultId = new ArrayList<Integer>();
-        this.caseLocation = new File (caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
+        this.parentPanel = (CaseSearchPanel) parentPanel;
+        this.caseObj = this.parentPanel.getCurrentCase();
+        this.parentFrame = this.parentPanel.getParentJFrame();
         
-        JTableUtil.packColumns(searchTable, 0);
-        disableNotIndexedComponent();
+        this.resultId = new ArrayList<Integer>();
+        
+        this.searchResultPanel = new SearchResultPanel(parentFrame);
+        this.CenterPanel.removeAll();
+        this.CenterPanel.add(this.searchResultPanel);
+        this.CenterPanel.revalidate();
+        
+        this.disableNotIndexedComponent();
     }
 
     /** This method is called from within the constructor to
@@ -85,15 +90,11 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         advancedSearchLabelButton = new javax.swing.JLabel();
         startSearchingButton = new javax.swing.JButton();
         clearLabelButton = new javax.swing.JLabel();
+        investigateButton = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         searchProgressBard = new javax.swing.JProgressBar();
         resultSavingButton = new javax.swing.JButton();
         CenterPanel = new javax.swing.JPanel();
-        resultPanel = new javax.swing.JPanel();
-        jTabbedPane4 = new javax.swing.JTabbedPane();
-        jPanel22 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        searchTable = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -160,7 +161,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
                         .addGap(21, 21, 21)
                         .addComponent(chatContentCheckBox))
                     .addComponent(chatCheckBox))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         searchScopePanelLayout.setVerticalGroup(
             searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,7 +195,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         });
 
         advancedSearchLabelButton.setForeground(new java.awt.Color(0, 51, 255));
-        advancedSearchLabelButton.setText("Advanced Search");
+        advancedSearchLabelButton.setText("Advanced Search..");
         advancedSearchLabelButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 advancedSearchLabelButtonMouseClicked(evt);
@@ -216,6 +217,14 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             }
         });
 
+        investigateButton.setForeground(new java.awt.Color(0, 0, 255));
+        investigateButton.setText("Investigate..");
+        investigateButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                investigateButtonMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
         headerPanelLayout.setHorizontalGroup(
@@ -223,13 +232,14 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             .addGroup(headerPanelLayout.createSequentialGroup()
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(headerPanelLayout.createSequentialGroup()
-                        .addComponent(queryTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                        .addComponent(queryTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(startSearchingButton))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                        .addContainerGap(75, Short.MAX_VALUE)
                         .addComponent(advancedSearchLabelButton)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(investigateButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                         .addComponent(clearLabelButton)))
                 .addContainerGap())
         );
@@ -241,9 +251,12 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
                     .addComponent(startSearchingButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clearLabelButton)
                     .addComponent(advancedSearchLabelButton)
-                    .addComponent(clearLabelButton)))
+                    .addComponent(investigateButton)))
         );
+
+        jPanel1.add(searchProgressBard);
 
         resultSavingButton.setText("Save Results");
         resultSavingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -251,28 +264,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
                 resultSavingButtonActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(76, Short.MAX_VALUE)
-                .addComponent(resultSavingButton)
-                .addGap(57, 57, 57))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(searchProgressBard, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(searchProgressBard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(resultSavingButton)
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
+        jPanel1.add(resultSavingButton);
 
         javax.swing.GroupLayout LeftPanelLayout = new javax.swing.GroupLayout(LeftPanel);
         LeftPanel.setLayout(LeftPanelLayout);
@@ -280,95 +272,27 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LeftPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchScopePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGroup(LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(headerPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(searchScopePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         LeftPanelLayout.setVerticalGroup(
             LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LeftPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(searchScopePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(38, 38, 38))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         add(LeftPanel, java.awt.BorderLayout.WEST);
 
         CenterPanel.setLayout(new java.awt.BorderLayout());
-
-        searchTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Name", "Last Modification", "Type", "Path/Title"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        searchTable.setFillsViewportHeight(true);
-        searchTable.setGridColor(new java.awt.Color(255, 255, 255));
-        searchTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        searchTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                searchTableMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                searchTableMousePressed(evt);
-            }
-        });
-        jScrollPane1.setViewportView(searchTable);
-
-        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
-        jPanel22.setLayout(jPanel22Layout);
-        jPanel22Layout.setHorizontalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 646, Short.MAX_VALUE)
-        );
-        jPanel22Layout.setVerticalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
-        );
-
-        jTabbedPane4.addTab("Search Result", jPanel22);
-
-        javax.swing.GroupLayout resultPanelLayout = new javax.swing.GroupLayout(resultPanel);
-        resultPanel.setLayout(resultPanelLayout);
-        resultPanelLayout.setHorizontalGroup(
-            resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(resultPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        resultPanelLayout.setVerticalGroup(
-            resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(resultPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE))
-        );
-
-        CenterPanel.add(resultPanel, java.awt.BorderLayout.CENTER);
-
         add(CenterPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -384,16 +308,21 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         showAdvancedSearch();
     }//GEN-LAST:event_advancedSearchLabelButtonMouseClicked
 
-    private void searchTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMouseClicked
-        resultTableClicked(evt);
-    }//GEN-LAST:event_searchTableMouseClicked
-
-    private void searchTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchTableMousePressed
-        //tableMouseEvent(evt);
-    }//GEN-LAST:event_searchTableMousePressed
-
     private void resultSavingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultSavingButtonActionPerformed
-        // TODO add your handling code here:
+        String query = this.getQueryText();
+        SearchScope scope = this.getSearchScope();
+        String time = DateUtil.getCurrentDate();
+        
+        //TODO: make better checker for is searching done or not
+        if ( query.isEmpty() ) {
+            JOptionPane.showMessageDialog(this.parentPanel, "Please do search then try to save the result");
+            return;
+        }
+        
+        SearchHistory option = new SearchHistory(query, time, scope, this.getDocuments());
+        this.parentPanel.addSearchOption(option);
+        
+        JOptionPane.showMessageDialog(this.parentPanel, "Search Result is Saved Succesfully");
     }//GEN-LAST:event_resultSavingButtonActionPerformed
 
     private void fileSystemCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemCheckBoxActionPerformed
@@ -431,30 +360,70 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         startSearching();
     }//GEN-LAST:event_queryTextFieldActionPerformed
 
-//    private void tableMouseEvent(java.awt.event.MouseEvent evt) {
-//        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-//            if ( searchTable.isEnabled() )
-//                GuiUtil.showPopup(evt);
-//        }
-//    }
-//    
-    void setResultId (List<Integer> ids) {  this.resultId.addAll(Collections.unmodifiableList(ids)); }
+    private void investigateButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_investigateButtonMouseClicked
+       investigateCase();
+    }//GEN-LAST:event_investigateButtonMouseClicked
+    
+    private void investigateCase() {
+        InvestigateDialog investigateDialog = new InvestigateDialog(this.parentFrame, true, this);
+        investigateDialog.setVisible(true);
+    }
+    
+    private List<Item> getDocuments() {
+        List<Item> items = new ArrayList<Item>();
+        
+        for(Integer id: this.resultId) {
+            Document currentDocument = searcher.getDocument(String.valueOf(id));
+            Item fileItem = getFileItemFromDocument(currentDocument);
+            items.add(fileItem);
+        }
+        
+        return items;
+    }
+    
+    private FileItem getFileItemFromDocument(final Document document) {
+        int fileId = Integer.valueOf(document.get(IndexingConstant.DOCUMENT_ID));
+        int parentId = Integer.valueOf(document.get(IndexingConstant.DOCUMENT_PARENT_ID));
+        String hash = document.get(IndexingConstant.DOCUMENT_HASH);
+        
+        String fileContent = document.get(IndexingConstant.FILE_CONTENT);
+        String fileMime = document.get(IndexingConstant.FILE_MIME);
+        String fileDate = document.get(IndexingConstant.FILE_DATE);
+        String fileTitle = document.get(IndexingConstant.FILE_TITLE);
+        String fileName = document.get(IndexingConstant.FILE_NAME);
+        
+        FileItem fileItem = new FileItem(fileId, parentId, hash,
+                fileName, fileTitle, fileContent, fileDate, fileMime);
+        
+        return fileItem;
+    }
+    
+    void setResultId (List<Integer> ids) { 
+        this.resultId.clear();
+        this.resultId.addAll(Collections.unmodifiableList(ids)); 
+        this.setResultTableIds(ids);
+    }
     public List<Integer> getIds() { return Collections.unmodifiableList(this.resultId) ; }
+        
+    public JFrame getParentFrame() { return this.parentFrame ; }
     
     public void setCurrentId (int id) { this.currentId = id ; }
     public int getCurrentId() { return this.currentId ; }
     
     JProgressBar getSearchProgressBar () { return this.searchProgressBard ; }
-    JTable getSearchTable() { return this.searchTable ; }
-    List<String> getSupportedExtension () { return new ArrayList<String>(); }
+    JTable getSearchTable() { return this.searchResultPanel.getSearchTable(); }
+    
+    public void setQueryText(final String queryText) { 
+        this.queryTextField.setText(queryText);
+    }
     
     public String getQueryText() {
-        String queryString = queryTextField.getText().trim();
-        return queryString ;
+        return queryTextField.getText().trim() ;
     }
     
     public LuceneSearcher getLuceneSearcher() { return this.searcher ;}
-        
+    public Case getCase() { return this.caseObj ; }
+    
     SearchScope getSearchScope() {
         SearchScope.Builder builder = new SearchScope.Builder();
         
@@ -487,32 +456,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         return builder.build();
     }
     
-    private void resultTableClicked(java.awt.event.MouseEvent evt) {
-        // set summary panel
-        try {
-            if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-                GuiUtil.showPopup(evt);
-                return ;
-            }
-
-            if ( evt.getClickCount() == 2  ) { // Double Click
-                // other click event
-                int row = searchTable.getSelectedRow();
-                if ( row < 0 ) return ; // if not select row
-                
-                String fileId = String.valueOf(searchTable.getValueAt(row, 0));
-                this.currentId = Integer.parseInt(fileId);
-                
-                SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true, this);
-                panel.setVisible(true);
-            }
-        }
-        catch (Exception e ){
-            logger.log(Level.SEVERE, "Uncaught exception", e);
-            e.printStackTrace();
-        }
-    }
-    
     private void showAdvancedSearch() {
         AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true);
         asd.setVisible(true);
@@ -530,8 +473,9 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         removeSearchField(false,false);
 
         try {
-            if ( this.searcher == null )
-                this.searcher = new LuceneSearcher(this.caseLocation);
+            if ( this.searcher == null ) {
+                this.searcher = new LuceneSearcher(this.caseObj);
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -549,7 +493,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             return  ;
         }
 
-        JTableUtil.packColumns(searchTable, 2);
         searchProgressBard.setIndeterminate(true);
         
         SearcherThread sThread = new SearcherThread(this);
@@ -558,10 +501,8 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     
     private void removeSearchField (boolean all, boolean restCheckBox) {
         searchProgressBard.setIndeterminate(false); 
-
-        ( (DefaultTableModel) searchTable.getModel() ).getDataVector().removeAllElements();
-        ( (DefaultTableModel) searchTable.getModel() ).fireTableDataChanged();
-
+        this.searchResultPanel.clearSearchTable();
+        
         if ( all ) {
             queryTextField.setText("");
         }
@@ -585,7 +526,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }
     
     void setSearchTableFocusable() {
-        this.searchTable.requestFocusInWindow();
+        this.searchResultPanel.setSearchTableFocusable();
     }
     
     void closeLuceneSearch() {
@@ -596,6 +537,14 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         catch(Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    void setResultTableText(final String text) {
+        this.searchResultPanel.setQueryText(text);
+    }
+    
+    void setResultTableIds(final List<Integer> ids) {
+        this.searchResultPanel.setResultIds(ids);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -612,16 +561,12 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private javax.swing.JCheckBox fileSystemContentCheckBox;
     private javax.swing.JCheckBox fileSystemMetadataCheckBox;
     private javax.swing.JPanel headerPanel;
+    private javax.swing.JLabel investigateButton;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel22;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane4;
     private javax.swing.JTextField queryTextField;
-    private javax.swing.JPanel resultPanel;
     private javax.swing.JButton resultSavingButton;
     private javax.swing.JProgressBar searchProgressBard;
     private javax.swing.JPanel searchScopePanel;
-    private javax.swing.JTable searchTable;
     private javax.swing.JButton startSearchingButton;
     // End of variables declaration//GEN-END:variables
 }

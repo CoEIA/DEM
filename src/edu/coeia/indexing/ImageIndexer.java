@@ -9,9 +9,8 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+import edu.coeia.hash.HashCalculator;
 import java.io.File ;
-import java.io.FileNotFoundException ;
-import java.io.IOException;
 
 import java.util.Map;
 
@@ -85,6 +84,7 @@ final class ImageIndexer extends Indexer{
         doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, HashCalculator.calculateFileHash(this.file.getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specfic document fields
         doc.add(new Field(IndexingConstant.FILE_NAME, file.getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));

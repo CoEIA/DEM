@@ -29,14 +29,14 @@ public class OnlineEmailReaderTest {
         List<String> list = new ArrayList<String>();
         list.add("ahmed");
         list.add("mahmad");
-        assertEquals("ahmed,mahmad", Utilities.getFormattedString(list));
+        assertEquals("ahmed,mahmad", Utilities.getCommaSeparatedStringFromCollection(list));
     }
 
     @Test
     @Ignore
     public void getFormattedStringTest1() throws SQLException {
         List<String> list = new ArrayList<String>();
-        assertEquals("", Utilities.getFormattedString(list));
+        assertEquals("", Utilities.getCommaSeparatedStringFromCollection(list));
 
     }
 
@@ -47,7 +47,7 @@ public class OnlineEmailReaderTest {
 
         list.add("ahmed");
 
-        assertEquals("ahmed", Utilities.getFormattedString(list));
+        assertEquals("ahmed", Utilities.getCommaSeparatedStringFromCollection(list));
     }
 
     @Test

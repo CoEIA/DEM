@@ -4,25 +4,23 @@
  */
 
 /*
- * VisualizationPanel.java
+ * ExtensionFrequencyPanel.java
  *
- * Created on Oct 5, 2011, 11:22:33 AM
+ * Created on Dec 20, 2011, 11:09:22 AM
  */
-package edu.coeia.filesystem;
+package edu.coeia.investigation;
 
-/**
- *
- * @author wajdyessam
- */
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseHistoryHandler;
-import edu.coeia.indexing.IndexReaderThread ;
+import edu.coeia.filesystem.FileSystemPanel;
 import edu.coeia.gutil.InfiniteProgressPanel;
+import edu.coeia.searching.AdvancedSearchPanel;
 import edu.coeia.util.FilesPath;
 
 import java.awt.BorderLayout;
 
+import java.awt.Frame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
@@ -32,20 +30,24 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-public class VisualizationPanel extends javax.swing.JPanel {
+/**
+ *
+ * @author wajdyessam
+ */
+public class ExtensionFrequencyPanel extends javax.swing.JPanel {
 
     private Case caseObj;
     private JFrame parentFrame;
-    private FileSystemPanel parentPanel;
+    private AdvancedSearchPanel parentPanel;
     private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
-    /** Creates new form VisualizationPanel */
-    public VisualizationPanel(Case aIndex, JFrame aParentFrame, FileSystemPanel aParentPanel) {
+    /** Creates new form ExtensionFrequencyPanel */
+    public ExtensionFrequencyPanel(Frame parent, AdvancedSearchPanel panel) {
         initComponents();
         
-        this.caseObj = aIndex;
-        this.parentFrame = aParentFrame;
-        this.parentPanel = aParentPanel;
+        this.caseObj = panel.getCase();
+        this.parentFrame = (JFrame) parent;
+        this.parentPanel = panel;
 
         disableNotIndexedComponent();
     }
@@ -59,13 +61,11 @@ public class VisualizationPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        indexVisualizingPanel = new javax.swing.JPanel();
         indexVisualizationButtonPanel = new javax.swing.JPanel();
         indexVisulizingButton = new javax.swing.JButton();
         indexVisualizingPiePanel = new javax.swing.JPanel();
 
-        indexVisualizingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        indexVisualizingPanel.setLayout(new java.awt.BorderLayout());
+        setLayout(new java.awt.BorderLayout());
 
         indexVisualizationButtonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Visualization", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -85,7 +85,7 @@ public class VisualizationPanel extends javax.swing.JPanel {
             .addGroup(indexVisualizationButtonPanelLayout.createSequentialGroup()
                 .addGap(232, 232, 232)
                 .addComponent(indexVisulizingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(248, Short.MAX_VALUE))
+                .addContainerGap(196, Short.MAX_VALUE))
         );
         indexVisualizationButtonPanelLayout.setVerticalGroup(
             indexVisualizationButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,38 +94,17 @@ public class VisualizationPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        indexVisualizingPanel.add(indexVisualizationButtonPanel, java.awt.BorderLayout.NORTH);
+        add(indexVisualizationButtonPanel, java.awt.BorderLayout.NORTH);
 
         indexVisualizingPiePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Visualizing File Extension in Index", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         indexVisualizingPiePanel.setLayout(new java.awt.BorderLayout());
-        indexVisualizingPanel.add(indexVisualizingPiePanel, java.awt.BorderLayout.CENTER);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 759, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 33, Short.MAX_VALUE)
-                    .addComponent(indexVisualizingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 34, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 558, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 76, Short.MAX_VALUE)
-                    .addComponent(indexVisualizingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 77, Short.MAX_VALUE)))
-        );
+        add(indexVisualizingPiePanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void indexVisulizingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_indexVisulizingButtonActionPerformed
-        generateVisualization();
+        this.generateVisualization();
     }//GEN-LAST:event_indexVisulizingButtonActionPerformed
-
+    
     public void setIndexVisualizationPanel(JPanel panel) {
         indexVisualizingPiePanel.add(panel, BorderLayout.CENTER);
         indexVisualizingPiePanel.validate();
@@ -166,7 +145,6 @@ public class VisualizationPanel extends javax.swing.JPanel {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel indexVisualizationButtonPanel;
-    private javax.swing.JPanel indexVisualizingPanel;
     private javax.swing.JPanel indexVisualizingPiePanel;
     private javax.swing.JButton indexVisulizingButton;
     // End of variables declaration//GEN-END:variables

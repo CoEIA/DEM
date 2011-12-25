@@ -32,6 +32,10 @@ public class FilesPath {
     // the path for tmp files used in project
     public final static String TMP_PATH = APPLICATION_PATH + "\\" + "TMP" ;
     
+    // the path for hash library 
+    public final static String HASH_LIBRARY_PATH = APPLICATION_PATH + "\\" + "HASH_LIBRARY" ;
+    public final static String HASH_SET_EXTENSION = ".HASH_SET";
+    
     // path for storing case images
     public final static String IMAGES_PATH = "IMAGES" ;
     

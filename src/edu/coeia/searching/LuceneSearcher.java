@@ -11,6 +11,7 @@ package edu.coeia.searching;
  *
  */
 
+import edu.coeia.cases.Case;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.util.FilesPath ;
 
@@ -41,8 +42,10 @@ public class LuceneSearcher {
     protected IndexSearcher searcher ;
     protected TopDocs results ;
     
-    public LuceneSearcher (File indexDir ) throws Exception {
-        fsDir = FSDirectory.open(indexDir);
+    public LuceneSearcher (final Case currentCase) throws Exception {
+        File caseLocation = new File (currentCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
+        
+        fsDir = FSDirectory.open(caseLocation);
         indexReader = IndexReader.open(fsDir, true);
         searcher = new IndexSearcher(indexReader);
     }
@@ -164,6 +167,14 @@ public class LuceneSearcher {
         Query query = new TermQuery(term);
         
         results = searcher.search(query, 10);
+        return results.totalHits;
+    }
+    
+    public int searchForHash(final String hashValue) throws Exception {        
+        Term term = new Term(IndexingConstant.DOCUMENT_HASH, hashValue);
+        Query query = new TermQuery(term);
+        
+        results = searcher.search(query, 100);
         return results.totalHits;
     }
 

@@ -4,8 +4,7 @@
  */
 package edu.coeia.gutil;
 
-import edu.coeia.util.Utilities;
-import edu.coeia.internet.FilesFilter ;
+import edu.coeia.util.GUIFileFilter ;
 
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
@@ -14,6 +13,8 @@ import javax.swing.JTable ;
 import javax.swing.JPanel;
 
 import java.awt.CardLayout ;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -30,7 +31,7 @@ public class GuiUtil {
     public static void showPopup (java.awt.event.MouseEvent event) {
         final JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new FilesFilter("Text Files (*.txt)", "txt"));
+        fileChooser.setFileFilter(new GUIFileFilter("Text Files (*.txt)", "txt"));
     
         final JTable table = (JTable) event.getSource();
         JPopupMenu popup = new JPopupMenu();
@@ -39,7 +40,7 @@ public class GuiUtil {
         btn.addActionListener( new java.awt.event.ActionListener() {
             public void actionPerformed (java.awt.event.ActionEvent event) {
                 try {
-                    FilesFilter ffFilter = new FilesFilter("Comma Seperated Value","CSV");
+                    GUIFileFilter ffFilter = new GUIFileFilter("Comma Seperated Value","CSV");
                     fileChooser.setFileFilter(ffFilter);
 
                     int result = fileChooser.showSaveDialog(null);

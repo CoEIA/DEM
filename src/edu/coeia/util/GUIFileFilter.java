@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.internet;
+package edu.coeia.util;
 
 /**
  *
@@ -13,12 +13,12 @@ package edu.coeia.internet;
 import java.io.File ;
 import javax.swing.filechooser.FileFilter;
 
-public class FilesFilter extends FileFilter {
+public class GUIFileFilter extends FileFilter {
 
     private String[] ext;
     private String desc ;
 
-    public FilesFilter (String desc, String ... ext ) {
+    public GUIFileFilter (String desc, String ... ext ) {
         this.ext = ext ;
         this.desc = desc ;
     }

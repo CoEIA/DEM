@@ -49,7 +49,6 @@ class ProgressData {
 /**
  * Email Reader - Read a Gmail Email using Java Mail API
  * and Store all the message in List for processing
- * @auther Wajdy Essam
  * @version 1.0 18-7-2011
  */
 public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
@@ -162,8 +161,8 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         List<String> to = getAddress(message, Message.RecipientType.TO);
                         // Get from, subject, and body
                         String from = getFrom(message);
-                        String subject = Utilities.formatInputString(message.getSubject());
-                        String body = Utilities.formatInputString(getText(message));
+                        String subject = Utilities.getEmptyStringWhenNullString(message.getSubject());
+                        String body = Utilities.getEmptyStringWhenNullString(getText(message));
                         // Print Debug Messages 
                         Utilities.PrintDebugMessages(sentDate, receiveDate, from, cclist, bcclist, body, subject);
                         // Save Attachment
@@ -252,8 +251,8 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         }
 
         for (ProgressData pd : chunks) {
-            emaildialogue.getFrom().setText(Utilities.formatInputString(pd.mEmail.getFrom()));
-            emaildialogue.getSubject().setText(Utilities.formatInputString(pd.mEmail.getSubject()));
+            emaildialogue.getFrom().setText(Utilities.getEmptyStringWhenNullString(pd.mEmail.getFrom()));
+            emaildialogue.getSubject().setText(Utilities.getEmptyStringWhenNullString(pd.mEmail.getSubject()));
             emaildialogue.getSentDate().setText(pd.mEmail.getSentDate());
             
             this.setEmailDialogElementsText(emaildialogue.getCC(), pd.mEmail.getCC());
@@ -267,7 +266,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         
         if ( !texts.isEmpty() ) {
             for (String text : texts) {
-                buffer.append(Utilities.formatInputString(text)).append("\n");
+                buffer.append(Utilities.getEmptyStringWhenNullString(text)).append("\n");
             }
         }
         

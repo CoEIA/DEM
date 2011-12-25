@@ -10,11 +10,11 @@
  */
 package edu.coeia.viewer;
 
+import edu.coeia.cases.Case;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.searching.LuceneSearcher ;
 import edu.coeia.util.FileUtil;
-import edu.coeia.searching.AdvancedSearchPanel;
 import edu.coeia.tags.Tag;
 import edu.coeia.tags.TagsDialog;
 import edu.coeia.tags.TagsManager;
@@ -22,8 +22,12 @@ import edu.coeia.tags.TagsManager;
 import java.awt.BorderLayout;
 import java.awt.Frame;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
+
+import java.util.ArrayList;
 import java.util.List; 
 
 import javax.swing.JFileChooser;
@@ -37,16 +41,16 @@ import org.apache.lucene.document.Document;
  */
 public class SourceViewerDialog extends javax.swing.JDialog {
     private String keyword ;
-    private AdvancedSearchPanel advancedSearchPanel ;
     private LuceneSearcher searcher ;
     private Document currentDocument ;
     private Frame parent ;
     private TagsManager tagManger  ;
+    private Case caseObj ;
     
     /**
      * Lucene Document ID number list and the current id opened now
      */
-    private List<Integer> documentsNumber;
+    private List<Integer> documentsNumber = new ArrayList<Integer>();
     
     /*
      * the current index of the document list
@@ -54,18 +58,37 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private int currentListIndex ;
     
     /** Creates new form SourceViewerDialog */
-    public SourceViewerDialog(java.awt.Frame parent, boolean modal, AdvancedSearchPanel panel) {
+    public SourceViewerDialog(java.awt.Frame parent, boolean modal, SearchViewer searchViewer) {
         super(parent, modal);
         initComponents();
         
-        this.setLocationRelativeTo(parent);
+        this.setLocationRelativeTo(this.parent);
         this.parent = parent ;
-        this.tagManger = ((CaseFrame) parent).getTagsManager();
-        this.advancedSearchPanel = panel;
-        this.keyword = this.advancedSearchPanel.getQueryText();
-        this.searcher = this.advancedSearchPanel.getLuceneSearcher();
-        this.documentsNumber = this.advancedSearchPanel.getIds();
-        this.currentListIndex = this.documentsNumber.indexOf(this.advancedSearchPanel.getCurrentId());
+        this.tagManger = ((CaseFrame) this.parent).getTagsManager();
+        this.caseObj  = ((CaseFrame) this.parent).getCase();
+        this.keyword = searchViewer.getKeyword();
+        
+        try {
+            this.searcher = new LuceneSearcher(caseObj);
+            
+            this.addWindowListener(new WindowAdapter() { 
+                @Override
+                public void windowClosing(WindowEvent event) {
+                    try {
+                        searcher.closeSearcher();
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        this.documentsNumber.addAll(searchViewer.getDocumentIds());
+        this.currentListIndex = this.documentsNumber.indexOf(searchViewer.getDocumentId());
         this.showDocumentWithIndex(this.currentListIndex);
     }
 
@@ -229,7 +252,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private void tagDocument(final Document document) {
         StringBuilder result = new StringBuilder();
         
-        if ( isFileDocument(document) ) {
+        if ( IndexingConstant.isFileDocument(document) ) {
             String fileName = document.get(IndexingConstant.FILE_TITLE);
             String filePath = document.get(IndexingConstant.FILE_NAME);
             String date = document.get(IndexingConstant.FILE_DATE);
@@ -237,10 +260,10 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             String mime = document.get(IndexingConstant.FILE_MIME);
             
             result.append("File: ").append(fileName).append("\n")
-                    .append("Location: ").append(filePath).append("\n")
-                    .append("Modification Time: ").append(date).append("\n")
-                    .append("Extension: ").append(mime).append("\n")
-                    .append("Contain: ").append(embedded).append(" Document(s)").append("\n");
+                .append("Location: ").append(filePath).append("\n")
+                .append("Modification Time: ").append(date).append("\n")
+                .append("Extension: ").append(mime).append("\n")
+                .append("Contain: ").append(embedded).append(" Document(s)").append("\n");
         }
         
         TagsDialog tagDialog = new TagsDialog(this.parent, true);
@@ -256,7 +279,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     }
     
     private void exportDocument(final Document document) {
-        if ( isFileDocument(document) ) {
+        if ( IndexingConstant.isFileDocument(document) ) {
             String filePath = document.get(IndexingConstant.FILE_NAME);
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(this.parent);
@@ -288,34 +311,19 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private void showPanelForDocument (Document document) {
         JPanel panel = null;
         
-        if ( isFileDocument(document) ) {
+        if ( IndexingConstant.isFileDocument(document) ) {
             panel = new FileSourceViewerPanel(this);
         }
-        else if ( isChatDocument(document) ) {
+        else if ( IndexingConstant.isChatDocument(document) ) {
             panel = new ChatSourceViewerPanel(this);
         }
-        else if ( isEmailDocument(document) ) {
+        else if ( IndexingConstant.isEmailDocument(document) ) {
             panel = new EmailSourceViewerPanel(this);
         }
         
         this.viewerPanel.setLayout(new BorderLayout());
         this.viewerPanel.add(panel, BorderLayout.CENTER);
         this.viewerPanel.revalidate();
-    }
-    
-    private boolean isFileDocument(final Document document) {
-        return document.get(IndexingConstant.DOCUMENT)
-                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE));
-    }
-    
-    private boolean isChatDocument(final Document document) {
-        return document.get(IndexingConstant.DOCUMENT)
-                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT));
-    }
-   
-    private boolean isEmailDocument(final Document document) {
-        return document.get(IndexingConstant.DOCUMENT)
-                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL));
     }
    
     /**
