@@ -36,6 +36,9 @@ public class FilesPath {
     public final static String HASH_LIBRARY_PATH = APPLICATION_PATH + "\\" + "HASH_LIBRARY" ;
     public final static String HASH_SET_EXTENSION = ".HASH_SET";
     
+    // extension for DEM case
+    public final static String DEM_CASE_EXTENSION = ".DEM_CASE";
+    
     // path for storing case images
     public final static String IMAGES_PATH = "IMAGES" ;
     

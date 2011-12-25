@@ -14,7 +14,7 @@ import edu.coeia.util.ZipUtil;
 import javax.swing.UIManager ;
 import javax.swing.SwingUtilities ;
 import javax.swing.JOptionPane ;
-import javax.swing.SwingWorker;
+import javax.swing.JFileChooser;
 
 import java.io.IOException ;
 import java.io.File ;
@@ -31,6 +31,9 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+import edu.coeia.util.GUIFileFilter;
+import java.io.FileInputStream;
+import javax.swing.SwingWorker;
 
 /*
  * CaseManagerFrame the main entry point to DEM
@@ -135,7 +138,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
     caseManagerButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Case Operations", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-    newCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+    newCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
     newCaseButton.setText("Create New Case");
     newCaseButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,7 +146,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         }
     });
 
-    loadCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+    loadCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
     loadCaseButton.setText("Activiate Selected Case");
     loadCaseButton.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,7 +226,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     jToolBar1.setFloatable(false);
     jToolBar1.setRollover(true);
 
-    jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24));
+    jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
     jLabel2.setForeground(new java.awt.Color(153, 153, 153));
     jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/caseManager.jpg"))); // NOI18N
     jToolBar1.add(jLabel2);
@@ -303,32 +306,33 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     
     private void importCaseAction(){
         try {
-            //        new SwingWorker<Void, String>() {
-            //            @Override
-            //            protected Void doInBackground() throws Exception {
-            //                ZipInputStream zInputStream = new ZipInputStream(new FileInputStream(
-            //                        "C:\\test.zip"));
-            //                ZipEntry zipEntry;
-            //                
-            //                while( (zipEntry = zInputStream.getNextEntry())  != null ) {
-            //                    publish(zipEntry.getName());
-            //                    zInputStream.closeEntry();
-            //                }
-            //                
-            //                zInputStream.close();
-            //                return null;
-            //            }
-            //            
-            //            @Override
-            //            protected void process(List<String> names) {
-            //                for(String name: names) {
-            //                    System.out.println(name);
-            //                }
-            //            }
-            //        }.execute();
-                    
-                    ZipUtil zipper = new ZipUtil();
-                    zipper.decompress("C:\\df.zip", "C:\\df");
+  
+            final GUIFileFilter SWING_DEM_FILTER = new GUIFileFilter("DEM CASE", 
+                FilesPath.DEM_CASE_EXTENSION);
+    
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(SWING_DEM_FILTER);
+            
+            int result = fileChooser.showOpenDialog(this);
+            if ( result == JFileChooser.APPROVE_OPTION ) {
+                final File file = fileChooser.getSelectedFile();
+                
+                new SwingWorker<Void, String>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        ZipUtil zipper = new ZipUtil();
+                        String fileNameWithOutExt = file.getName().toString().replaceFirst("[.][^.]+$", "");
+                        String path = "C:\\" + fileNameWithOutExt;
+                        zipper.decompress(file.getAbsolutePath(), path);
+                        
+                        return null;
+                    }
+
+                    @Override
+                    protected void process(List<String> names) {
+                    }
+                }.execute();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -339,10 +343,18 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             logger.info("Load Case Entring");
             String indexName = getSelectedCase();
             Case aCase = CaseManager.getCaseFromCaseName(indexName);
-            String caseName = "C:\\" + indexName + ".DEM_CASE";
             
-            ZipUtil zipper = new ZipUtil();
-            zipper.compress(aCase.getCaseLocation(), caseName);
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setSelectedFile(new File(indexName + FilesPath.DEM_CASE_EXTENSION) );
+
+            int result = fileChooser.showSaveDialog(this);
+            if ( result == JFileChooser.APPROVE_OPTION ) {
+                File file = fileChooser.getSelectedFile();
+                String caseName = file.getAbsolutePath();
+                
+                ZipUtil zipper = new ZipUtil();
+                zipper.compress(aCase.getCaseLocation(), caseName);
+            }
         }
         catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to open",

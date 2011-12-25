@@ -30,31 +30,6 @@ public class ZipUtil {
         
     }
     
-    public void zipFilesInPath(final String zipFileName, final String filePath) throws IOException {
-        final int BUFFER = 2048;
-        final FileOutputStream dest = new FileOutputStream(zipFileName);
-        final ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
-        try {
-            byte[] data = new byte[BUFFER];
-            final File folder = new File(filePath);
-            final List< String> files = Arrays.asList(folder.list());
-            for (String file : files) {
-                final FileInputStream fi = new FileInputStream(filePath + File.separator + file);
-                final BufferedInputStream origin = new BufferedInputStream(fi, BUFFER);
-                out.putNextEntry(new ZipEntry(file));
-                int count;
-                while ((count = origin.read(data, 0, BUFFER)) != -1) {
-                    out.write(data, 0, count);
-                }
-                origin.close();
-                fi.close();
-            }
-        } finally {
-            out.close();
-            dest.close();
-        }
-    }
-     
     public void compress(final String srcFolder, final String dest) throws Exception {
         this.compressFolder(srcFolder, dest);
     }

@@ -298,7 +298,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        UserNameHotmailTextField.setText("masregyptian@hotmail.com");
+        UserNameHotmailTextField.setText(" ");
 
         GmailCheckBox.setText("Gmail");
         GmailCheckBox.addActionListener(new java.awt.event.ActionListener() {
@@ -316,7 +316,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         PasswordGmailTextField.setText("s2v123456789");
 
-        PasswordHotmailTextField.setText("windows98");
+        PasswordHotmailTextField.setText(" ");
 
         javax.swing.GroupLayout CaseWizardA1Layout = new javax.swing.GroupLayout(CaseWizardA1);
         CaseWizardA1.setLayout(CaseWizardA1Layout);

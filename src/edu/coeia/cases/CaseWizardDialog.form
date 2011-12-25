@@ -404,7 +404,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="UserNameHotmailTextField">
               <Properties>
-                <Property name="text" type="java.lang.String" value="masregyptian@hotmail.com"/>
+                <Property name="text" type="java.lang.String" value=" "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="GmailCheckBox">
@@ -430,7 +430,7 @@
             </Component>
             <Component class="javax.swing.JPasswordField" name="PasswordHotmailTextField">
               <Properties>
-                <Property name="text" type="java.lang.String" value="windows98"/>
+                <Property name="text" type="java.lang.String" value=" "/>
               </Properties>
             </Component>
           </SubComponents>
