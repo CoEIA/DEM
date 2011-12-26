@@ -685,7 +685,7 @@ public class EmailPanel extends javax.swing.JPanel {
 
 private void emailSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailSearchButtonActionPerformed
 
-        if ( CaseHistoryHandler.get(this.index.getIndexName()).getIsCaseIndexed() == false ) {
+        if ( CaseHistoryHandler.get(this.index.getCaseName()).getIsCaseIndexed() == false ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                 "Case is not indexed",JOptionPane.ERROR_MESSAGE );
             return ;

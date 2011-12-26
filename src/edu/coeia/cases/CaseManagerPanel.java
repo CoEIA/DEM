@@ -660,7 +660,7 @@ public final class CaseManagerPanel extends javax.swing.JPanel {
      * display case information in the related panel
      */
     public void displayCaseInformationPanel() {
-        this.caseNameTextField.setText(this.aCase.getIndexName());
+        this.caseNameTextField.setText(this.aCase.getCaseName());
         this.createdDateTextField.setText(DateUtil.formatDate(this.aCase.getCreateTime()));
         this.createdByTextField.setText(this.aCase.getInvestigatorName());
         this.casePathTextField.setText(this.aCase.getCaseLocation());
@@ -678,7 +678,7 @@ public final class CaseManagerPanel extends javax.swing.JPanel {
      * this information will be changed after each indexing
      */
     public void displayMutableCaseInformationPanel() {
-        CaseHistoryHandler.CaseHistory history = CaseHistoryHandler.get(this.aCase.getIndexName());
+        CaseHistoryHandler.CaseHistory history = CaseHistoryHandler.get(this.aCase.getCaseName());
         
         this.lastModifiedTextField.setText(history.getLastModified());
         this.indexedTextField.setText(String.valueOf(history.getIsCaseIndexed()));

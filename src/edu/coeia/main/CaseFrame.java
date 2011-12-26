@@ -66,7 +66,7 @@ public class CaseFrame extends javax.swing.JFrame {
      */
     public CaseFrame(Case aCase, List<String> list) {
         initComponents();
-        logger.info("OfflineMining Frame Constructor, Open Case: " + aCase.getIndexName());
+        logger.info("OfflineMining Frame Constructor, Open Case: " + aCase.getCaseName());
         
         /*
          * set frame resizable and set frame title
@@ -494,7 +494,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private void closeCaseFrame() {
         try {
             if ( this.caseObj != null ) {
-                String caseName = this.caseObj.getIndexName() ;
+                String caseName = this.caseObj.getCaseName() ;
 
                 if ( !caseName.isEmpty() )
                     this.listOfOpeningCase.remove(caseName);

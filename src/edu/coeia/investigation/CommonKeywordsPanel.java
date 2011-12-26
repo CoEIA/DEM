@@ -313,7 +313,7 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
         
     private void generateTextCloud() {
         try {
-            if (CaseHistoryHandler.get(this.caseObj.getIndexName()).getIsCaseIndexed() == false ) {
+            if (CaseHistoryHandler.get(this.caseObj.getCaseName()).getIsCaseIndexed() == false ) {
                 JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                         "Case is not indexed", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -331,7 +331,7 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
             i.start();
 
             String indexPath = caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
-            String indexName = caseObj.getIndexName();
+            String indexName = caseObj.getCaseName();
 
             IndexReaderThread thread = new IndexReaderThread(i, indexPath, indexName, 
                     IndexReaderThread.IndexItem.TAGS, this);

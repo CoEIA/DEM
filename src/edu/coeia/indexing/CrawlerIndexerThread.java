@@ -121,6 +121,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             catch(Exception e) { 
                 //TODO: show in logging table that the current folder
                 // cannot be indexed becuase of permission problem
+                e.printStackTrace();
             }  
             
             if ( this.luceneIndex.indexDir(path) )
@@ -204,7 +205,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             // save case history & close the index
             if ( indexStatus ) {
                 CaseHistoryHandler.CaseHistory history = CaseHistoryHandler.CaseHistory.newInstance(
-                        this.aCase.getIndexName(), new Date().toString(), true, this.itemsCount, 
+                        this.aCase.getCaseName(), new Date().toString(), true, this.itemsCount, 
                         this.caseSize);
 
                 CaseHistoryHandler.set(history);

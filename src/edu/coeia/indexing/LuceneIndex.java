@@ -86,6 +86,7 @@ final class LuceneIndex {
         }
         catch(UnsupportedOperationException e){
             //System.out.println(e.getMessage());
+            //e.printStackTrace();
         }
         
         return false;

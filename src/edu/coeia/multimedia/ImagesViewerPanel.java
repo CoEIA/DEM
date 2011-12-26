@@ -203,7 +203,7 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
 
 private void showImagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showImagesButtonActionPerformed
         try {
-            if ( CaseHistoryHandler.get(this.index.getIndexName()).getIsCaseIndexed() == false ) {
+            if ( CaseHistoryHandler.get(this.index.getCaseName()).getIsCaseIndexed() == false ) {
                 JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
                 return ;
@@ -222,7 +222,7 @@ private void showImagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//
 
 private void nextPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextPageButtonActionPerformed
         try {
-            if ( CaseHistoryHandler.get(this.index.getIndexName()).getIsCaseIndexed() == false  ) {
+            if ( CaseHistoryHandler.get(this.index.getCaseName()).getIsCaseIndexed() == false  ) {
                 JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
                 return ;
@@ -245,7 +245,7 @@ private void nextPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
 
 private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prePageButtonActionPerformed
         try {
-            if ( CaseHistoryHandler.get(this.index.getIndexName()).getIsCaseIndexed() == false ) {
+            if ( CaseHistoryHandler.get(this.index.getCaseName()).getIsCaseIndexed() == false ) {
                 JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
                 return ;

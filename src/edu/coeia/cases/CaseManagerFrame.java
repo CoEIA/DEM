@@ -9,12 +9,14 @@ import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.DEMLogger;
 import edu.coeia.util.ZipUtil;
+import edu.coeia.util.GUIFileFilter;
 
 /* import sun classes */
 import javax.swing.UIManager ;
 import javax.swing.SwingUtilities ;
 import javax.swing.JOptionPane ;
 import javax.swing.JFileChooser;
+import javax.swing.SwingWorker;
 
 import java.io.IOException ;
 import java.io.File ;
@@ -31,9 +33,6 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-import edu.coeia.util.GUIFileFilter;
-import java.io.FileInputStream;
-import javax.swing.SwingWorker;
 
 /*
  * CaseManagerFrame the main entry point to DEM
@@ -306,7 +305,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     
     private void importCaseAction(){
         try {
-  
             final GUIFileFilter SWING_DEM_FILTER = new GUIFileFilter("DEM CASE", 
                 FilesPath.DEM_CASE_EXTENSION);
     
@@ -322,8 +320,27 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                     protected Void doInBackground() throws Exception {
                         ZipUtil zipper = new ZipUtil();
                         String fileNameWithOutExt = file.getName().toString().replaceFirst("[.][^.]+$", "");
-                        String path = "C:\\" + fileNameWithOutExt;
-                        zipper.decompress(file.getAbsolutePath(), path);
+                        String destPath = caseManager.getCasesPath() + File.separator + fileNameWithOutExt;
+                        zipper.decompress(file.getAbsolutePath(), destPath);
+                        
+                        File filePath = new File(destPath).listFiles()[0];
+                        String path = filePath.listFiles()[0].getAbsolutePath();
+                        
+                        String line = fileNameWithOutExt + " - " + path;
+                        Case index = CaseManager.getCase(line);
+                        
+                        index.setCaseLocation(path);
+                        
+                        // create index information file & write the index on it
+                        String info = index.getCaseLocation() + "\\" + index.getCaseName() + ".DAT" ;
+                        File infoFile = new File(info);
+                        infoFile.createNewFile();
+
+                        FileUtil.writeObject(index, infoFile);
+            
+                        CaseManager.writeCaseToInfoFile(index);
+                        CaseHistoryHandler.importCaseHistory("C:\\a.pref");
+                        readCases(); 
                         
                         return null;
                     }
@@ -351,6 +368,9 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             if ( result == JFileChooser.APPROVE_OPTION ) {
                 File file = fileChooser.getSelectedFile();
                 String caseName = file.getAbsolutePath();
+                
+                String prefLocation = aCase.getCaseLocation() + "\\" + "CASE.pref";
+                CaseHistoryHandler.exportToFile(aCase.getCaseName(), prefLocation);
                 
                 ZipUtil zipper = new ZipUtil();
                 zipper.compress(aCase.getCaseLocation(), caseName);
@@ -437,7 +457,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
         if ( indexWizard.checkDirectIndex()) {
             try {
-                loadCase(aCase.getIndexName(), true);
+                loadCase(aCase.getCaseName(), true);
             }
             catch(Exception e){
                 logger.severe("Cannot Index the case directly after create it");
@@ -518,7 +538,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
 
         // clear value on table before adding new values
         JTableUtil.removeAllRows(recentCaseTable);
-
+        
         for(String path: casesPath) {
             Case index = CaseManager.getCase(path);
             insertIntoCaseTable(index);
@@ -530,7 +550,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private void insertIntoCaseTable (Case index) {
         Object[] object = {
-            index.getIndexName(), index.getInvestigatorName(), 
+            index.getCaseName(), index.getInvestigatorName(), 
             DateUtil.formatDateTime(index.getCreateTime()), index.getDescription(),
         };
         
@@ -560,7 +580,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 mainFrame.setLocationRelativeTo(this);
                 mainFrame.setVisible(true);
                 
-                if ( ! CaseHistoryHandler.get(index.getIndexName()).getIsCaseIndexed() ) {
+                if ( ! CaseHistoryHandler.get(index.getCaseName()).getIsCaseIndexed() ) {
                     logger.info("show direct indexing panel");
                     mainFrame.showIndexDialog(startIndex);
                 }

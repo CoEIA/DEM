@@ -19,12 +19,13 @@ import java.util.Collections;
 public final class Case implements Serializable {
 
     // Requaired paramters for case
-    private final String caseName;
-    private final String caseLocation;
     private final String investigatorName;
     private final String description;
     private final Date createTime;
-    private final String evidenceSourceLocation;
+    
+    private String caseName;
+    private String caseLocation;
+    private String evidenceSourceLocation;
     
     // Optional Paramaters for case
 
@@ -219,7 +220,7 @@ public final class Case implements Serializable {
         return Collections.unmodifiableList(this.emailConfig);
     }
 
-    public String getIndexName() {
+    public String getCaseName() {
         return this.caseName;
     }
 
@@ -256,5 +257,18 @@ public final class Case implements Serializable {
     
     public boolean getCheckEmbedded() {
         return isIndexEmbedded;
+    }
+    
+    // resetting case information
+    public void setCaseName(final String name) {
+        this.caseName = name;
+    }
+    
+    public void setCaseLocation(final String location) {
+        this.caseLocation = location;
+    }
+    
+    public void setEveidenceSourceLocation(final String location) {
+        this.evidenceSourceLocation = location;
     }
 }

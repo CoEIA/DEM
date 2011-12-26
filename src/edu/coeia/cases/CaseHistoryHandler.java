@@ -16,6 +16,8 @@ package edu.coeia.cases;
  * @author wajdyessam
  */
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.prefs.Preferences ;
 
 import java.util.prefs.BackingStoreException;
@@ -81,6 +83,24 @@ public final class CaseHistoryHandler {
         );
 
         return history;
+    }
+    
+    public static void exportToFile(final String caseName, final String filePath) throws Exception{
+        checkNull("case name must be not null", caseName);
+        checkNotEmptyString("case name must have value", caseName);
+        
+        Preferences root = Preferences.userRoot();
+        Preferences node = root.node(CaseHistoryHandler.DEM_CASES_NODES_PATH + caseName) ;
+        
+        FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+        node.exportSubtree(fileOutputStream);
+        fileOutputStream.close();
+    }
+    
+    public static void importCaseHistory(final String fileName) throws Exception {
+        FileInputStream fileInputStream = new FileInputStream(fileName);
+        Preferences.importPreferences(fileInputStream);
+        fileInputStream.close();
     }
     
     /**

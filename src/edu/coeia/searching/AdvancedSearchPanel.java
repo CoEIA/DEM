@@ -481,7 +481,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             e.printStackTrace();
         }
                 
-        if ( CaseHistoryHandler.get(this.caseObj.getIndexName()).getIsCaseIndexed() == false ) {
+        if ( CaseHistoryHandler.get(this.caseObj.getCaseName()).getIsCaseIndexed() == false ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
             return ;

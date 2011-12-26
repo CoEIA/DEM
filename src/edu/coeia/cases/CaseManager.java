@@ -47,7 +47,7 @@ enum CaseManager {
     // add entry to indexes info file
     public static void writeCaseToInfoFile (Case index) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(new File(FilesPath.INDEXES_INFO), true));
-        writer.println(index.getIndexName() + " - " + index.getCaseLocation());
+        writer.println(index.getCaseName() + " - " + index.getCaseLocation());
         writer.close();
     }
     
@@ -70,7 +70,7 @@ enum CaseManager {
         for(String path: indexesInfoContent) {
             Case index = CaseManager.getCase(path);
 
-            if ( index.getIndexName().equals(indexName))
+            if ( index.getCaseName().equals(indexName))
                 return index ;
         }
 
@@ -89,7 +89,7 @@ enum CaseManager {
             for (String path : casesInfoContent) {
                 Case aCase = CaseManager.getCase(path);
 
-                if (aCase.getIndexName().equalsIgnoreCase(caseName)) {
+                if (aCase.getCaseName().equalsIgnoreCase(caseName)) {
                     return true;
                 }
             }
@@ -113,7 +113,7 @@ enum CaseManager {
                 String name = line.split("-")[0].trim();
                 String path = line.split("-")[1].trim();
 
-                if ( name.equals(aCase.getIndexName()) && path.equals(aCase.getCaseLocation()))
+                if ( name.equals(aCase.getCaseName()) && path.equals(aCase.getCaseLocation()))
                     continue ;
 
                 newIndexPtr.add(line);
@@ -123,7 +123,7 @@ enum CaseManager {
             FileUtil.writeToFile(newIndexPtr, FilesPath.INDEXES_INFO);
 
             // remove case history from preferences
-            CaseHistoryHandler.remove(aCase.getIndexName());
+            CaseHistoryHandler.remove(aCase.getCaseName());
             
             status = true;
         }
@@ -150,13 +150,14 @@ enum CaseManager {
             imgDir.mkdir();
             
             // create index information file & write the index on it
-            String info = caseObject.getCaseLocation() + "\\" + caseObject.getIndexName() + ".DAT" ;
+            String info = caseObject.getCaseLocation() + "\\" + caseObject.getCaseName() + ".DAT" ;
             File infoFile = new File(info);
             infoFile.createNewFile();
+            
             FileUtil.writeObject(caseObject, infoFile);
             
             // create log file
-            String log = caseObject.getCaseLocation() + "\\" + caseObject.getIndexName() + ".LOG" ;
+            String log = caseObject.getCaseLocation() + "\\" + caseObject.getCaseName() + ".LOG" ;
             new File(log).createNewFile();
         }
     }
@@ -211,6 +212,10 @@ enum CaseManager {
         return ( root.exists() );
     }
 
+    public String getCasesPath() {
+        return FilesPath.CASES_PATH;
+    }
+    
     /**
      * Create All the folder required to store cases
      * @throws IOException 

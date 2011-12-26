@@ -217,7 +217,7 @@ public class SearchResultPanel extends javax.swing.JPanel {
 
             String hashValue = HashCalculator.calculateFileHash(filePath);
             
-            item = HashItem.newInstance(fileName, filePath, this.caseObj.getIndexName(),
+            item = HashItem.newInstance(fileName, filePath, this.caseObj.getCaseName(),
                     this.caseObj.getCaseLocation(), this.caseObj.getInvestigatorName(), 
                     new Date(), hashValue);
         }
