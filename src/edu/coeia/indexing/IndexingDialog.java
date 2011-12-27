@@ -40,7 +40,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         
         this.aCase = aCase;
         
-        // set start and end button)
+        // set start and end button
         resettingButtons(true);
         
         // close thread if the thread running and user close the window
@@ -56,8 +56,14 @@ public final class IndexingDialog extends javax.swing.JDialog {
             }
         });
         
+        // if user select start indexing when finish case creation
+        // then start indexing direct
         if ( startIndexNow ) {
-            startIndexerThread();
+            try {
+                startIndexerThread();
+            } catch (IOException ex) {
+                Logger.getLogger(IndexingDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -377,7 +383,11 @@ public final class IndexingDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startIndexButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startIndexButtonActionPerformed
-        startIndexerThread();
+        try {
+            startIndexerThread();
+        } catch (IOException ex) {
+            Logger.getLogger(IndexingDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_startIndexButtonActionPerformed
 
     private void stopIndexingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopIndexingButtonActionPerformed
@@ -388,7 +398,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_stopIndexingButtonActionPerformed
 
-    private void startIndexerThread () {
+    private void startIndexerThread () throws IOException{
         resettingButtons(false);
         JTableUtil.removeAllRows(indexTable);
         
@@ -413,22 +423,34 @@ public final class IndexingDialog extends javax.swing.JDialog {
         stopIndexingButton.setEnabled(!state);
     }
    
-    public Case getCase() { return this.aCase ; }
-    public JTable getLoggingTable () { return this.indexTable; }
-    public JProgressBar getProgressBar() { return this.progressBar ; }
+    Case getCase() { return this.aCase ; }
+    JTable getLoggingTable () { return this.indexTable; }
+    JProgressBar getProgressBar() { return this.progressBar ; }
     
-    public void setTimeLabel(final String time) { this.timeLbl.setText(time); }
-    public void setCurrentFile(final String fileName) { this.currentFileLbl.setText(fileName); }
-    public void setFileSize(final String size) { this.sizeOfFileLbl.setText(size); }
-    public void setFileExtension(final String ext) { this.fileExtensionLbl.setText(ext) ; }
-    public void setNumberOfFiles(final String no) { this.numberOfFilesLbl.setText(no); }
-    public void setNumberOfFilesError(final String no) { this.numberOfErrorFilesLbl.setText(no); }
-    public void setLastIndexTime(final String time) { this.indexDateLbl.setText(time); }
-    public void setprogressBar(final int value) { this.progressBar.setValue(value); }
-    public void setBigSizeLabel(final String text) { this.bigSizeMsgLbl.setText(text); }
-    public void setProgressIndetermined(final boolean status) { this.progressBar.setIndeterminate(status); }
-    public void setStartButtonStatus(final boolean status) { this.startIndexButton.setEnabled(status); }
-    public void setStopButtonStatus(final boolean status) { this.stopIndexingButton.setEnabled(status); }
+    void setTimeLabel(final String time) { this.timeLbl.setText(time); }
+    void setCurrentFile(final String fileName) { this.currentFileLbl.setText(fileName); }
+    void setFileSize(final String size) { this.sizeOfFileLbl.setText(size); }
+    void setFileExtension(final String ext) { this.fileExtensionLbl.setText(ext) ; }
+    void setNumberOfFiles(final String no) { this.numberOfFilesLbl.setText(no); }
+    void setNumberOfFilesError(final String no) { this.numberOfErrorFilesLbl.setText(no); }
+    void setLastIndexTime(final String time) { this.indexDateLbl.setText(time); }
+    void setprogressBar(final int value) { this.progressBar.setValue(value); }
+    void setBigSizeLabel(final String text) { this.bigSizeMsgLbl.setText(text); }
+    void setProgressIndetermined(final boolean status) { this.progressBar.setIndeterminate(status); }
+    void setStartButtonStatus(final boolean status) { this.startIndexButton.setEnabled(status); }
+    void setStopButtonStatus(final boolean status) { this.stopIndexingButton.setEnabled(status); }
+    
+    void clearFields() {
+        this.setBigSizeLabel("");
+        this.setFileExtension("");
+        this.setCurrentFile("");
+        this.setFileSize("");
+        this.setprogressBar(0);
+        this.getProgressBar().setStringPainted(false);
+        this.setProgressIndetermined(false);
+        this.setStartButtonStatus(true);
+        this.setStopButtonStatus(false);
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel InfinatePanel;

@@ -34,94 +34,92 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
-
-    private long totalTimeOfIndexingProcess = 0 ;
-    private long itemsCount, caseSize ;
+    private long sizeOfFilesInEvidenceFolder ;
+    private long numberOfFilesInEvidenceFolder;
     
-    private int noOfFilesEnumerated = 0, noOfFilesIndexed=0;
-    private int noOfFilesCannotIndexing = 0;
+    private long numberOfFilesIndexed;
+    private long numberOfFilesCannotIndexed;
 
     private boolean indexStatus = false;
     
-    private LuceneIndex luceneIndex ;
-    
     private final Case aCase ;
+    private final LuceneIndex luceneIndex ;
     private final IndexingDialog parentDialog ;
-    
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
 
-    public CrawlerIndexerThread (IndexingDialog parentDialog) {
+    public CrawlerIndexerThread (IndexingDialog parentDialog) throws IOException{
         this.aCase = parentDialog.getCase();
         this.parentDialog = parentDialog;
-     
-        try {
-            luceneIndex = LuceneIndex.newInstance(this.aCase);
-            logger.log(Level.INFO, "Create Lucene Indexer Instance");
-        } catch (IOException ex) {
-           logger.log(Level.SEVERE, "Uncaught exception", ex);
-        }
-        
+        this.luceneIndex = LuceneIndex.newInstance(this.aCase);
         this.parentDialog.setNumberOfFilesError("0");
         this.parentDialog.setProgressIndetermined(true);
+        
+        logger.log(Level.INFO, "Create Lucene Indexer Instance");
     }
     
     @Override
     public String doInBackground() {
         long start = new Date().getTime();
-         
-        startCrawling();
-        
+        this.indexStatus = startCrawling();
         long end = new Date().getTime();
-        totalTimeOfIndexingProcess = end-start ;
-
-        indexStatus = true ;  
-        itemsCount = this.noOfFilesIndexed ;
-        
+        long totalTimeOfIndexingProcess = end-start ;
         return String.valueOf(totalTimeOfIndexingProcess);
     }
     
-    private void startCrawling () {
+    /**
+     * crawling case sources and index each of them
+     * 
+     * @return ture if indexing without problem
+     */
+    private boolean startCrawling () {
+        boolean status = false; 
+        
         try {
             // crawle and index source directories
             for ( String dirName : aCase.getEvidenceSourceLocation() ) {
-                if ( this.isCancelled() )
-                    throw new CancellationException("Cralwer is Cancelled by stop button");
-
-                logger.log(Level.INFO, "Start Index File: {0}", dirName);
-
-                File directory = new File(dirName);
-                doDirectoryCrawling(directory);
+                this.checkForThreadCancelling();
+                doDirectoryCrawling(new File(dirName));
             }
 
             // crawl and index emails
-            if ( aCase.getEmailConfig().size() > 0 ) {
-                File dbPath = new File(this.aCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB );
-                EmailIndexer emailIndexer = new EmailIndexer(luceneIndex, dbPath, "", new OfficeImageExtractor());
-                System.out.println("Status: " + emailIndexer.doIndexing());
+            if ( !aCase.getEmailConfig().isEmpty()) {
+               doEmailCrawling();
             }
+            
+            status = true;
         }
         catch(Exception e){
-           logger.log(Level.SEVERE, "Uncaught exception", e);
+           logger.log(Level.SEVERE, "Stopping Indexing Process", e);
         }
+        
+        return status;
     }
     
     private void doDirectoryCrawling(File path) {
-        if ( this.isCancelled() )
-            throw new CancellationException("Cralwer is Cancelled by stop button");
-                   
-        logger.log(Level.INFO, "Indexing: " + path.getAbsolutePath());
+        this.checkForThreadCancelling();
+        logger.log(Level.INFO, "Indexing File: :" + path.getAbsolutePath());
         
         if ( path.isDirectory() ) {
             File[] files = path.listFiles();
                
             try {
                 for(File file: files) {
-                    if ( this.isCancelled() ) {
-                        return ;
-                    }
+                    this.checkForThreadCancelling();
 
-                    noOfFilesEnumerated++;
-                    doDirectoryCrawling(file);
+                    if ( file.isDirectory() ) {
+                        if ( this.luceneIndex.indexDir(path) )
+                            numberOfFilesIndexed++;
+                        
+                        doDirectoryCrawling(file);
+                    }
+                    else if ( file.isFile() && file.canRead()) {
+                        boolean status = doFileCrawling(file);
+                        
+                        if (status) {
+                            numberOfFilesInEvidenceFolder++;
+                            logger.log(Level.INFO, "File Indexing Successfully: " + file.getAbsolutePath());
+                        }
+                    }
                 }
             }
             // to prevent NullPointerException casued by accessing
@@ -131,36 +129,42 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                 // cannot be indexed becuase of permission problem
                 //e.printStackTrace();
                 logger.log(Level.SEVERE, "Uncaught exception", e);
-            }  
-            
-            if ( this.luceneIndex.indexDir(path) )
-                noOfFilesIndexed++;
+            }
         }
-        else {
-            long size = path.length();
-            caseSize += size; 
-            
-            // if file size more than 3 MB then show size message to indicate that indexing will take some time
-            String msg = size > 3145728 ? "This file will take some minutes to index, please wait..." : " " ;
-            
-            // publish file progress (update labels)
-            publish(new ProgressIndexData( noOfFilesEnumerated,noOfFilesIndexed, 
-                    path.getAbsolutePath(), "" , ProgressIndexData.TYPE.LABEL , msg));
+    }
+    
+    private boolean doFileCrawling(final File path) {
+        long size = path.length();
+        
+        // if file size more than 3 MB then show size message to indicate that indexing will take some time
+        String msg = size > 3145728 ? "This file will take some minutes to index, please wait..." : " " ;
 
-            boolean status = false;
-            
-            try {
-                status = this.luceneIndex.indexFile(path);
-                noOfFilesIndexed++;
-            }
-            catch (UnsupportedOperationException e) {
-              publish(new ProgressIndexData( noOfFilesEnumerated,noOfFilesIndexed,
-                    path.getAbsolutePath(), e.getMessage() , ProgressIndexData.TYPE.TABEL , msg));
-              logger.log(Level.SEVERE, "Uncaught exception", e);
-            }
-            
-            ++noOfFilesEnumerated ;
+        this.sizeOfFilesInEvidenceFolder += size; 
+        
+        // publish file progress (update labels)
+        publish(new ProgressIndexData( numberOfFilesInEvidenceFolder,numberOfFilesIndexed, 
+                path.getAbsolutePath(), "" , ProgressIndexData.TYPE.LABEL , msg));
+
+        boolean status = false;
+
+        try {
+            status = this.luceneIndex.indexFile(path);
+            numberOfFilesIndexed++;
         }
+        catch (UnsupportedOperationException e) {
+          publish(new ProgressIndexData( numberOfFilesInEvidenceFolder,numberOfFilesIndexed,
+                path.getAbsolutePath(), e.getMessage() , ProgressIndexData.TYPE.TABEL , msg));
+          logger.log(Level.SEVERE, "Uncaught exception", e);
+        }
+        
+        return status;
+    }
+    
+    private void doEmailCrawling() {
+        File dbPath = new File(this.aCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB );
+        logger.log(Level.INFO, "Email Indexing in Folder: " +  dbPath);
+        EmailIndexer emailIndexer = new EmailIndexer(this.luceneIndex, dbPath, "", new OfficeImageExtractor());
+        logger.log(Level.INFO, "Email Indexing Status: " +  emailIndexer.doIndexing());
     }
     
     @Override
@@ -173,9 +177,9 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                 ((DefaultTableModel)this.parentDialog.getLoggingTable().getModel()).addRow(new Object[] { FileUtil.getExtension(pd.getPath())
                     , pd.getPath(), pd.getStatus()});
 
-                noOfFilesCannotIndexing++;
-                this.parentDialog.setNumberOfFilesError(String.valueOf(this.noOfFilesCannotIndexing));
-                this.parentDialog.setprogressBar(pd.getProgressCount());
+                numberOfFilesCannotIndexed++;
+                this.parentDialog.setNumberOfFilesError(String.valueOf(this.numberOfFilesCannotIndexed));
+                //this.parentDialog.setprogressBar(pd.getProgressCount());
             }
             else {
                 this.parentDialog.setCurrentFile(pd.getPath());
@@ -183,13 +187,14 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                 this.parentDialog.setNumberOfFiles(String.valueOf(pd.getIndexCount()));
                 this.parentDialog.setFileExtension(FileUtil.getExtension(pd.getPath()));
                 this.parentDialog.setBigSizeLabel(pd.getSizeMsg());
-                this.parentDialog.setprogressBar(pd.getProgressCount());
-                this.parentDialog.setprogressBar(pd.getIndexCount());
+                //this.parentDialog.setprogressBar(pd.getProgressCount());
+                //this.parentDialog.setprogressBar(pd.getIndexCount());
             }
         }
 
        int indexNum = chunks.size()-1 ;
-       JTableUtil.scrollToVisible(this.parentDialog.getLoggingTable(),(chunks.get(indexNum)).getProgressCount(),0);
+//       JTableUtil.scrollToVisible(this.parentDialog.getLoggingTable(),
+//               (chunks.get(indexNum)).getProgressCount(),0);
     }
 
     @Override
@@ -215,8 +220,8 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             // save case history & close the index
             if ( indexStatus ) {
                 CaseHistoryHandler.CaseHistory history = CaseHistoryHandler.CaseHistory.newInstance(
-                        this.aCase.getCaseName(), new Date().toString(), true, this.itemsCount, 
-                        this.caseSize);
+                        this.aCase.getCaseName(), new Date().toString(), true, this.numberOfFilesIndexed, 
+                        this.sizeOfFilesInEvidenceFolder);
 
                 CaseHistoryHandler.set(history);
             }
@@ -242,15 +247,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
     }
 
     public void clearFields() {
-        this.parentDialog.setBigSizeLabel("");
-        this.parentDialog.setFileExtension("");
-        this.parentDialog.setCurrentFile("");
-        this.parentDialog.setFileSize("");
-        this.parentDialog.setprogressBar(0);
-        this.parentDialog.getProgressBar().setStringPainted(false);
-        this.parentDialog.setProgressIndetermined(false);
-        this.parentDialog.setStartButtonStatus(true);
-        this.parentDialog.setStopButtonStatus(false);
+        this.parentDialog.clearFields();
     }
     
     public void stopIndexingThread() throws IOException {
@@ -261,17 +258,22 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         luceneIndex.closeIndex();
     }
     
+    private void checkForThreadCancelling() throws CancellationException{
+        if ( this.isCancelled() )
+            throw new CancellationException("Cralwer is Cancelled by stop button");
+    }
+    
     static final class ProgressIndexData {
-        private enum TYPE {LABEL, TABEL}
+        enum TYPE {LABEL, TABEL}
         
-        private final String path;
-        private final int progressCount ;
-        private final int indexCount ;
-        private final String status ;
-        private final TYPE type ;
-        private final String sizeMsg ;
+        final String path;
+        final long progressCount ;
+        final long indexCount ;
+        final String status ;
+        final TYPE type ;
+        final String sizeMsg ;
 
-        public ProgressIndexData (int progressCount, int indexCount, String p,
+        public ProgressIndexData (long progressCount, long indexCount, String p,
                 String status, TYPE type, String sm) {
             this.progressCount = progressCount;
             this.path = p ;
@@ -282,10 +284,10 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         }
 
         public String getPath ()        { return this.path   ; }
-        public int getProgressCount ()  { return this.progressCount  ; }
+        public long getProgressCount ()  { return this.progressCount  ; }
         public String getStatus()       { return this.status ; }
         public TYPE getType ()           { return this.type   ; }
-        public int getIndexCount()      { return this.indexCount ;}
+        public long getIndexCount()      { return this.indexCount ;}
         public String getSizeMsg()      { return this.sizeMsg; }
     }
 }
