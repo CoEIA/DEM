@@ -138,31 +138,7 @@ public class OnlineEmailDBHandler {
         psInsert.executeUpdate();
         psInsert.close();
     }
-    /*
-    public void inserteEmail(int id,String Username, String From, String To, String Subject, String Body,
-            String Created_Date, String Sent_Date, String CC, String BCC, String Path, String FolderName)
-            throws SQLException, UnsupportedEncodingException {
 
-        String s = "insert into emails values(?,?,?,?,?,?,?,?,?,?,?,?)";
-        PreparedStatement psInsert = connection.prepareStatement(s);
-        psInsert.setString(1, Username);
-        psInsert.setInt(2, id);
-        psInsert.setString(3, From);
-        psInsert.setString(4, To);
-        psInsert.setString(5, Subject);
-        InputStream is = new ByteArrayInputStream(Body.getBytes());
-        psInsert.setAsciiStream(6, is);
-        psInsert.setString(7, Created_Date);
-        psInsert.setString(8, Sent_Date);
-        psInsert.setString(9, CC);
-        psInsert.setString(10, BCC);
-        psInsert.setString(11, Path);
-        psInsert.setString(12, FolderName);
-
-        psInsert.executeUpdate();
-        psInsert.close();
-    }
-*/
     public void closeDB() throws SQLException {
         connection.close();
         DriverManager.getConnection("jdbc:derby:;shutdown=true");
@@ -200,18 +176,7 @@ public class OnlineEmailDBHandler {
         statement_.close();
     }
 
-    public static boolean isDBExists(String Path) {
-        File file = new File(Path);
-        boolean isDB = false;
-
-        if (file.exists()) {
-            if (file.isDirectory()) {
-                isDB = true;
-            }
-        }
-
-        return isDB;
-    }
+ 
     private String DB_URL;
     private static String DB_NAME = "jdbc:derby:";
     private static String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";

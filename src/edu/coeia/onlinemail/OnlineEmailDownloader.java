@@ -128,17 +128,10 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         // 2).  Crawel For Each Folder 
         javax.mail.Folder[] folders = store.getDefaultFolder().list("*");
         for (javax.mail.Folder folder : folders) {
-            if ((folder.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
-                try {
-                    //System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
-                    folder.open(Folder.READ_ONLY);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            } else if (javax.mail.Folder.HOLDS_FOLDERS != 0) {
+
+            if (!isFolderHoldMessages(folder)) {
                 continue;
             }
-
             // 3).  Get All Messages For Each Folder
             Message[] messages = folder.getMessages();
             if (messages != null) {
@@ -200,7 +193,24 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         return null;
     }
 
-   
+    private boolean isFolderHoldMessages(Folder folder) throws MessagingException {
+
+        boolean b = false;
+        try {
+            if ((folder.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
+
+                System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
+                folder.open(Folder.READ_ONLY);
+                b = true;
+            } else if (javax.mail.Folder.HOLDS_FOLDERS != 0) {
+                b = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return b;
+
+    }
     private String getFrom(Message message) throws MessagingException {
         String result = "";
         Address[] addresses = message.getFrom();
