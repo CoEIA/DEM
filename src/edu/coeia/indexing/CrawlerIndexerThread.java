@@ -81,22 +81,27 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
     }
     
     private void startCrawling () {
-        // crawle and index source directories
-        for ( String dirName : aCase.getEvidenceSourceLocation() ) {
-            if ( this.isCancelled() )
-                throw new CancellationException("Cralwer is Cancelled by stop button");
-                  
-            logger.log(Level.INFO, "Start Index File: " + dirName);
-            
-            File directory = new File(dirName);
-            doDirectoryCrawling(directory);
+        try {
+            // crawle and index source directories
+            for ( String dirName : aCase.getEvidenceSourceLocation() ) {
+                if ( this.isCancelled() )
+                    throw new CancellationException("Cralwer is Cancelled by stop button");
+
+                logger.log(Level.INFO, "Start Index File: " + dirName);
+
+                File directory = new File(dirName);
+                doDirectoryCrawling(directory);
+            }
+
+            // crawl and index emails
+            if ( aCase.getEmailConfig().size() > 0 ) {
+                File dbPath = new File(this.aCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB );
+                EmailIndexer emailIndexer = new EmailIndexer(luceneIndex, dbPath, "", new OfficeImageExtractor());
+                System.out.println("Status: " + emailIndexer.doIndexing());
+            }
         }
-        
-        // crawl and index emails
-        if ( aCase.getEmailConfig().size() > 0 ) {
-            File dbPath = new File(this.aCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB );
-            EmailIndexer emailIndexer = new EmailIndexer(luceneIndex, dbPath, "", new OfficeImageExtractor());
-            System.out.println("Status: " + emailIndexer.doIndexing());
+        catch(Exception e){
+            //e.printStackTrace();
         }
     }
     
@@ -109,8 +114,10 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                
             try {
                 for(File file: files) {
-                    if ( this.isCancelled() )
-                        throw new CancellationException("Cralwer is Cancelled by stop button");
+                    if ( this.isCancelled() ) {
+                        //throw new CancellationException("Cralwer is Cancelled by stop button");
+                        return ;
+                    }
 
                     noOfFilesEnumerated++;
                     doDirectoryCrawling(file);
