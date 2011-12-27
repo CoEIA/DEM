@@ -1,14 +1,11 @@
 package edu.coeia.onlinemail;
 
-import java.io.DataOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.util.List;
@@ -19,8 +16,6 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.io.File;
 
-import java.util.Collections;
-import javax.rmi.CORBA.Util;
 import static edu.coeia.util.PreconditionsChecker.*;
 
 /**

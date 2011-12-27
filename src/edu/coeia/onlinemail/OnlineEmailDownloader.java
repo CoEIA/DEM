@@ -284,8 +284,8 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         props.setProperty("mail.pop3.socketFactory.fallback", "false");
         props.setProperty("mail.pop3.port", "995");
         props.setProperty("mail.pop3.socketFactory.port", "995");
-        props.setProperty("mail.pop3.connectiontimeout", "100000");
-        props.setProperty("mail.pop3.timeout", "100000");
+        props.setProperty("mail.pop3.connectiontimeout", "10000");
+        props.setProperty("mail.pop3.timeout", "10000");
 
         Session session = Session.getDefaultInstance(props, null);
         try {
@@ -316,8 +316,8 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         Properties props = System.getProperties();
         props.setProperty("mail.store.protocol", "imaps");
         props.setProperty("mail.imaps.partialfetch", "false");
-        props.setProperty("mail.pop3.connectiontimeout", "100000");
-        props.setProperty("mail.pop3.timeout", "100000");
+        props.setProperty("mail.pop3.connectiontimeout", "10000");
+        props.setProperty("mail.pop3.timeout", "10000");
 
         Session session = Session.getDefaultInstance(props, null);
         try {

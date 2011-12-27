@@ -11,9 +11,9 @@ import java.io.Serializable;
  * @author Ahmed
  */
 
-final class EmailConfiguration implements Serializable{
+public class EmailConfiguration implements Serializable{
     
-    public enum SOURCE {HOTMAIL, GMAIL };
+    public enum SOURCE {HOTMAIL, GMAIL, Yahoo };
     
     private final String userName;
     private final String password;

@@ -323,6 +323,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
                 if (FileSignatureAnalysis.isMatchedSignature(file, fs)) {
                     status_matched = FormatTable(file, "Matched File", fs, signatureList, extensionsList);
                     matched = true;
+                    break;
 
                 }
 

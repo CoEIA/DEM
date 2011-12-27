@@ -24,7 +24,7 @@ public final class Case implements Serializable {
     private final String investigatorName;
     private final String description;
     private final Date createTime;
-    private final String evidenceSourceLocation;
+    private final List<String> evidenceSourceLocation;
     
     // Optional Paramaters for case
 
@@ -85,10 +85,9 @@ public final class Case implements Serializable {
         private final String caseLocation;
         private final String investigatorName;
         private final String description;
-        private final String caseSource;
         private final Date createTime;
         private final List<EmailConfiguration> emailInfo;
-        
+        private final List<String> caseSource;
         // optional Params
         private boolean isIndexingCaseAfterFinishing = false;
         private boolean isHash = false;
@@ -110,7 +109,7 @@ public final class Case implements Serializable {
         //private int dataIndexedCount, dataIndexedSize ;
 
         public Builder(String indexName, String indexLocation, String investigatorName,
-                String description, String caseSource, Date createTime, long caseSize) {
+                String description, List<String> caseSource, Date createTime, long caseSize) {
             this.caseName = indexName;
             this.caseLocation = indexLocation;
             this.investigatorName = investigatorName;
@@ -237,8 +236,10 @@ public final class Case implements Serializable {
 
     public List<String> getEvidenceSourceLocation() {
         List<String> list = new ArrayList<String>();
-        list.add(evidenceSourceLocation);
-        
+        for(String s : evidenceSourceLocation)
+        {
+        list.add(s);
+        }
         return list;
     }
 
