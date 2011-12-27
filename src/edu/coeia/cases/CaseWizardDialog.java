@@ -828,6 +828,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 break;
 
             case 2:
+                CaseSources.clear();
                 back();
                 break;
             case 3:
@@ -876,9 +877,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         // set direct indexing the case after creating
         this.indexTheCase = YesIndexRadioButton.isSelected() ;
-        
-        AddFromModelToList(sourcesListModel, CaseSources);
-
+       
         // Build Case
         currentCase = new Case.Builder(caseNameTextField.getText().trim(),
                 caseLocationTextField.getText().trim(),
@@ -1080,7 +1079,8 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
     private boolean checkWizardSecondPanel() {
      
-        if (CaseSources == null || CaseSources.isEmpty()) {
+         AddFromModelToList(sourcesListModel, CaseSources);
+        if (CaseSources.isEmpty()) {
             showErrorMessage("You must choose a Case Source", "Empty Source");
             return false;
         }
