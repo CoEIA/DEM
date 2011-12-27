@@ -53,6 +53,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     /**
      * Case Manager Object
      * will create cases folder if no folder exists or some files in this folder are missing
+     * the folder is [Case_forensics, CASES, TMP, HashLibrary, INDEXES.txt] 
      * and handle the list of all opening case to prevent opening the same case more than one time
      */
     private static final CaseManager caseManager = CaseManager.Manager ;
@@ -442,8 +443,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     private void createNewCaseAction() throws Exception{
         logger.info("Create New Case Entring");
 
-        CaseWizardDialog indexWizard = null;
-        indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, licenseManager.isFullVersion());
+        CaseWizardDialog indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, 
+                licenseManager.isFullVersion());
         indexWizard.setVisible(true);
 
         Case aCase = indexWizard.getCurrentCase();

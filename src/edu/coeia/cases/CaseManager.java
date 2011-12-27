@@ -246,7 +246,7 @@ enum CaseManager {
         if ( !hashLibraryFile.exists() )
             hashLibraryFile.mkdir();
          
-        // craete tmp files
+        // create tmp files
         new File(FilesPath.HIS_TMP).createNewFile();
         new File(FilesPath.PASS_TMP).createNewFile();
         new File(FilesPath.CORRE_FILE).createNewFile();

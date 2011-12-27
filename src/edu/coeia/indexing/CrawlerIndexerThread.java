@@ -87,7 +87,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                 if ( this.isCancelled() )
                     throw new CancellationException("Cralwer is Cancelled by stop button");
 
-                logger.log(Level.INFO, "Start Index File: " + dirName);
+                logger.log(Level.INFO, "Start Index File: {0}", dirName);
 
                 File directory = new File(dirName);
                 doDirectoryCrawling(directory);
@@ -101,21 +101,22 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             }
         }
         catch(Exception e){
-            //e.printStackTrace();
+           logger.log(Level.SEVERE, "Uncaught exception", e);
         }
     }
     
     private void doDirectoryCrawling(File path) {
         if ( this.isCancelled() )
             throw new CancellationException("Cralwer is Cancelled by stop button");
-                    
+                   
+        logger.log(Level.INFO, "Indexing: " + path.getAbsolutePath());
+        
         if ( path.isDirectory() ) {
             File[] files = path.listFiles();
                
             try {
                 for(File file: files) {
                     if ( this.isCancelled() ) {
-                        //throw new CancellationException("Cralwer is Cancelled by stop button");
                         return ;
                     }
 
@@ -128,7 +129,8 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             catch(Exception e) { 
                 //TODO: show in logging table that the current folder
                 // cannot be indexed becuase of permission problem
-                e.printStackTrace();
+                //e.printStackTrace();
+                logger.log(Level.SEVERE, "Uncaught exception", e);
             }  
             
             if ( this.luceneIndex.indexDir(path) )
@@ -154,6 +156,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             catch (UnsupportedOperationException e) {
               publish(new ProgressIndexData( noOfFilesEnumerated,noOfFilesIndexed,
                     path.getAbsolutePath(), e.getMessage() , ProgressIndexData.TYPE.TABEL , msg));
+              logger.log(Level.SEVERE, "Uncaught exception", e);
             }
             
             ++noOfFilesEnumerated ;
@@ -226,6 +229,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         }
         catch(ExecutionException e) {
             e.printStackTrace();
+             Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, e);
         }
         finally {
             try {

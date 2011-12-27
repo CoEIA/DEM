@@ -80,15 +80,17 @@ final class LuceneIndex {
     }
     
     boolean indexDir(File dir){
+        boolean status = false;
+        
         try {
             Indexer indexType = IndexerFactory.getFolderIndexer(this, dir);
-            return indexType.doIndexing();
+            status = indexType.doIndexing();
         }
         catch(UnsupportedOperationException e){
             //System.out.println(e.getMessage());
             //e.printStackTrace();
         }
         
-        return false;
+        return status;
     }
 }
