@@ -4,6 +4,7 @@
  */
 package edu.coeia.indexing;
 
+import edu.coeia.extractors.ImageExtractor;
 import com.pff.PSTException;
 import edu.coeia.onlinemail.OnlineEmailDBHandler;
 import java.io.File;
@@ -16,18 +17,13 @@ import org.apache.lucene.index.CorruptIndexException;
 import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.util.FilesPath;
 
-import edu.coeia.util.Utilities;
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.Scanner;
-
 import org.apache.tika.exception.TikaException;
 
 /**
  *
  * @author Ahmed
  */
-final class EmailIndexer extends Indexer {
+public final class EmailIndexer extends Indexer {
 
     public EmailIndexer(LuceneIndex luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor) {
@@ -39,7 +35,7 @@ final class EmailIndexer extends Indexer {
         boolean status = false;
 
         try {
-            OnlineEmailDBHandler db = new OnlineEmailDBHandler(file.getAbsolutePath());
+            OnlineEmailDBHandler db = new OnlineEmailDBHandler(this.getFile().getAbsolutePath());
             List<OnlineEmailMessage> AllMsgs = db.getAllMessages();
 
             for (OnlineEmailMessage msg : AllMsgs) {
@@ -49,14 +45,14 @@ final class EmailIndexer extends Indexer {
                     Document doc = getDocument(msg);
 
                     if (doc != null) {
-                        this.luceneIndex.getWriter().addDocument(doc);    // index file
-                        id++;
+                        this.getLuceneIndex().getWriter().addDocument(doc);    // index file
+                        this.increaseId();
 
                         for (String sAttachments : msg.getAttachments()) {
                             System.out.println("Attachment: " + sAttachments);
 
-                            File attachmentPath = new File(this.caseLocation + "\\" + FilesPath.ATTACHMENTS + "\\" + sAttachments);
-                            luceneIndex.indexFile(attachmentPath, id);
+                            File attachmentPath = new File(this.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS + "\\" + sAttachments);
+                            this.getLuceneIndex().indexFile(attachmentPath, this.getId());
                         }
                     } else {
                         System.out.println("Fail Parsing: " + msg.getSubject());
@@ -78,7 +74,7 @@ final class EmailIndexer extends Indexer {
         Document doc = new Document();
 
         // generic document fields
-        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(id), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL), Field.Store.YES, Field.Index.NOT_ANALYZED));
 
         // specific document fields

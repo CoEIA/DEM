@@ -9,9 +9,12 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+import edu.coeia.extractors.ImageExtractor;
+import edu.coeia.extractors.TikaObjectExtractor;
+
 import java.io.File ;
 
-final class ArchiveIndexer extends Indexer {
+public final class ArchiveIndexer extends Indexer {
     
     private int parentId ;
     
@@ -36,17 +39,17 @@ final class ArchiveIndexer extends Indexer {
         boolean status = false ;
         
         try {
-            String folderName = this.tmpLocation;
+            String folderName = this.getTmpLocation();
 
             // extract all the archive content in temp folder
             TikaObjectExtractor.EmbeddedObjectHandler handler = TikaObjectExtractor.getExtractor(
-                    this.file.getAbsolutePath(), folderName,
+                    this.getFile().getAbsolutePath(), folderName,
                     TikaObjectExtractor.OBJECT_TYPE.ARCHIVE).extract();
 
             if ( handler != null ) {
                 for(TikaObjectExtractor.ObjectLocation location: handler.getLocations()) {
                     System.out.println("Extract: " + location.oldFilePath + " TO: " + location.newFilePath);
-                    luceneIndex.indexFile(new File(location.newFilePath), parentId);
+                    this.getLuceneIndex().indexFile(new File(location.newFilePath), parentId);
                 }
             }
 

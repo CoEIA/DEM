@@ -22,7 +22,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.FSDirectory ;
 import org.apache.lucene.util.Version ;
 
-final class LuceneIndex {
+public final class LuceneIndex {
 
     private final IndexWriter writer ;
     private final Case caseObject; 
@@ -65,11 +65,11 @@ final class LuceneIndex {
 	writer.close();
     }
     
-    boolean indexFile(File file) throws UnsupportedOperationException{
+    public boolean indexFile(File file) throws UnsupportedOperationException{
         return indexFile(file, 0);
     }
     
-    boolean indexFile(File file, int parentId) { 
+    public boolean indexFile(File file, int parentId) { 
         try {
             Indexer indexType = IndexerFactory.getIndexer(this, file, parentId);
             return indexType.doIndexing();
@@ -79,7 +79,7 @@ final class LuceneIndex {
         }
     }
     
-    boolean indexDir(File dir){
+    public boolean indexDir(File dir){
         boolean status = false;
         
         try {

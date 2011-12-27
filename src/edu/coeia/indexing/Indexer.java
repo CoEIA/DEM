@@ -4,19 +4,22 @@
  */
 package edu.coeia.indexing;
 
+import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.util.FilesPath;
-import org.apache.tika.metadata.Metadata;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import java.io.File ;
+
+import org.apache.tika.metadata.Metadata;
 
 /**
  * Abstract Class for defining Index object
  * @author wajdyessam
  */
 
-abstract class Indexer {
+public abstract class Indexer {
     
     public Indexer(LuceneIndex luceneIndex, File file, String mimeType, ImageExtractor imageExtractor) {
         this.file = file ;
@@ -43,16 +46,17 @@ abstract class Indexer {
     
     public abstract boolean doIndexing();
     
-    protected File file ;
-    protected String mimeType ;
-    protected boolean imageCache ;
-    protected String imagesLocation ;
-    protected String tmpLocation ;
-    protected String caseLocation;
+    public File getFile() { return this.file ; }
+    public String getMimeType() { return this.mimeType ;}
+    public boolean isImageCache() { return this.imageCache; }
+    public String getImagesLocation() { return this.imagesLocation ;}
+    public String getTmpLocation() { return this.tmpLocation ; }
+    public String getCaseLocation() { return this.caseLocation; }
+    public LuceneIndex getLuceneIndex() { return this.luceneIndex; }
+    public ImageExtractor getImageExtractor() { return this.imageExtractor; }
     
-    protected static int id = 1;
-    protected ImageExtractor imageExtractor;
-    protected LuceneIndex luceneIndex ;
+    public int getId() { return id ; }
+    public void increaseId() { id++; }
     
     protected static final Set<String> indexedMetadataFields = new HashSet<String>();
     static {
@@ -63,4 +67,15 @@ abstract class Indexer {
         indexedMetadataFields.add(Metadata.DESCRIPTION);
         indexedMetadataFields.add(Metadata.SUBJECT);
     }
+    
+    private static int id = 1;
+    
+    private final File file ;
+    private final String mimeType ;
+    private final boolean imageCache ;
+    private final String imagesLocation ;
+    private final String tmpLocation ;
+    private final String caseLocation;
+    private final ImageExtractor imageExtractor;
+    private final LuceneIndex luceneIndex ;
 }

@@ -4,6 +4,8 @@
  */
 package edu.coeia.indexing;
 
+import edu.coeia.extractors.TikaExtractor;
+import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.hash.HashCalculator;
 import edu.coeia.util.FileUtil;
 
@@ -52,26 +54,26 @@ final class DocumentIndexer extends Indexer {
         boolean status = false ;
         
         try {
-            TikaExtractor extractor = TikaExtractor.getExtractor(this.file, this.mimeType);
+            TikaExtractor extractor = TikaExtractor.getExtractor(this.getFile(), this.getMimeType());
             
             String bodyText = extractor.getContent();
             Map<String, String> metadata = extractor.getMetadata();
             
             Document doc = getDocument(bodyText, metadata); // add parentid and parent metadata here
-            int objectId = id;
+            int objectId = this.getId();
             
             if (doc != null) {
-                this.luceneIndex.getWriter().addDocument(doc);    // index file
-                this.id++;                       // increase the id counter if file indexed successfully
+                this.getLuceneIndex().getWriter().addDocument(doc);    // index file
+                this.increaseId();                       // increase the id counter if file indexed successfully
                 
             } else {
-                System.out.println("Fail Parsing: " + file.getAbsolutePath());
+                System.out.println("Fail Parsing: " + this.getFile().getAbsolutePath());
                 return false;
             }
                     
             // cache images with id as parent id
-            if ( imageCache ) {
-                imageExtractor.extractImages(this, file, objectId);
+            if ( this.isImageCache() ) {
+                this.getImageExtractor().extractImages(this, this.getFile(), objectId);
             }
             
             status = true;
@@ -87,17 +89,17 @@ final class DocumentIndexer extends Indexer {
         Document doc = new Document();
         
         // genric document fields
-        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, HashCalculator.calculateFileHash(this.file.getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, HashCalculator.calculateFileHash(this.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // spefic document fields
-        doc.add(new Field(IndexingConstant.FILE_NAME, file.getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.FILE_TITLE, file.getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(file.lastModified(), DateTools.Resolution.MINUTE),Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.FILE_NAME, this.getFile().getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.FILE_TITLE, this.getFile().getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(this.getFile().lastModified(), DateTools.Resolution.MINUTE),Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_CONTENT, content, Field.Store.YES, Field.Index.ANALYZED));
-        doc.add(new Field(IndexingConstant.FILE_MIME, FileUtil.getExtension(this.file), Field.Store.YES, Field.Index.NOT_ANALYZED) );
+        doc.add(new Field(IndexingConstant.FILE_MIME, FileUtil.getExtension(this.getFile()), Field.Store.YES, Field.Index.NOT_ANALYZED) );
         
         for(Map.Entry<String, String> entry: metadata.entrySet()) {
             String name =  entry.getKey();

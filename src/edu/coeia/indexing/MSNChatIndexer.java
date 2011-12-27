@@ -9,6 +9,7 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.chat.MSNMessageReader;
 import static edu.coeia.chat.MSNMessageReader.* ;
 
@@ -18,7 +19,7 @@ import java.util.List ;
 
 import org.apache.lucene.document.Document;
 
-final class MSNIndexer extends Indexer{
+public final class MSNChatIndexer extends Indexer{
     
     /**
      *  chat type
@@ -36,13 +37,13 @@ final class MSNIndexer extends Indexer{
      * @param imageExtractor
      * @return YahooChatIndexer
      */
-    public static MSNIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType, 
+    public static MSNChatIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor) {
             
-        return new MSNIndexer(luceneIndex, file, mimeType, imageExtractor, 0);
+        return new MSNChatIndexer(luceneIndex, file, mimeType, imageExtractor, 0);
     }
     
-    private MSNIndexer (LuceneIndex luceneIndex, File file, String mimeType,
+    private MSNChatIndexer (LuceneIndex luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor,int parentId) {
         
         super(luceneIndex, file, mimeType, imageExtractor);
@@ -52,7 +53,7 @@ final class MSNIndexer extends Indexer{
     public boolean doIndexing() {
         
         try {
-           List<MSNChatSession> sessions = MSNMessageReader.getAllMSNChatSession(this.file.getAbsolutePath());
+           List<MSNChatSession> sessions = MSNMessageReader.getAllMSNChatSession(this.getFile().getAbsolutePath());
 
             for(MSNChatSession session: sessions) {
                 for(MSNConversation conversation: session.conversations) {
@@ -63,11 +64,11 @@ final class MSNIndexer extends Indexer{
                         //int objectId = id;
 
                         if (doc != null) {
-                            this.luceneIndex.getWriter().addDocument(doc);    // index file
+                            this.getLuceneIndex().getWriter().addDocument(doc);    // index file
                             //this.id++;                       // increase the id counter if file indexed successfully
 
                         } else {
-                            System.out.println("Fail Parsing: " + file.getAbsolutePath());
+                            System.out.println("Fail Parsing: " + this.getFile().getAbsolutePath());
                             return false;
                         }
             

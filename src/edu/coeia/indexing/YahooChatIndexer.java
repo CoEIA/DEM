@@ -9,6 +9,7 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.chat.YahooMessage;
 import edu.coeia.chat.YahooMessageDecoder;
 import edu.coeia.chat.YahooMessageReader;
@@ -73,27 +74,27 @@ public final class YahooChatIndexer extends Indexer{
         
         try {
             YahooMessageReader reader = new YahooMessageReader();
-            List<YahooChatSession> sessions = reader.getAllYahooChatSession(this.file.getAbsolutePath());
+            List<YahooChatSession> sessions = reader.getAllYahooChatSession(this.getFile().getAbsolutePath());
             
-            id++;
+            this.increaseId();
             
             // then index the chat seesions in this file
             for(YahooChatSession session: sessions) {
                 for(YahooConversation conversation: session.conversations) {
                     // index the .DAT file first
                     String datPath = conversation.path ;
-                    this.parentId = id;
-                    luceneIndex.indexFile(new File(datPath), parentId);
+                    this.parentId = this.getId();
+                    this.getLuceneIndex().indexFile(new File(datPath), parentId);
                 
                     for(YahooMessage msg: conversation.messages) {
                         Document doc = getDocument(msg,  session.userName, session.otherName , conversation.path); // add parentid and parent metadata here
                        
                         if (doc != null) {
-                            this.luceneIndex.getWriter().addDocument(doc);    // index file
-                            this.id++;                       // increase the id counter if file indexed successfully
+                            this.getLuceneIndex().getWriter().addDocument(doc);    // index file
+                            this.increaseId();                       // increase the id counter if file indexed successfully
 
                         } else {
-                            System.out.println("Fail Parsing: " + file.getAbsolutePath());
+                            System.out.println("Fail Parsing: " + this.getFile().getAbsolutePath());
                             return false;
                         }
             
@@ -136,7 +137,7 @@ public final class YahooChatIndexer extends Indexer{
         
         // genric lucene fileds
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.id), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specific lucene fileds

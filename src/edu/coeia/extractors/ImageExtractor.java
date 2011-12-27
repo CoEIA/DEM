@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.indexing;
+package edu.coeia.extractors;
 
 /**
  * Image Extractor
@@ -10,8 +10,9 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+import edu.coeia.indexing.Indexer;
 import java.io.File ;
 
-interface ImageExtractor {
+public interface ImageExtractor {
     public void extractImages (Indexer indexer, File file,int parentId);
 }

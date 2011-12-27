@@ -1,4 +1,4 @@
-package edu.coeia.indexing ;
+package edu.coeia.extractors ;
 
 /**
  *
@@ -23,7 +23,7 @@ import org.apache.tika.mime.MediaType;
 import java.io.File ;
 import java.io.InputStream;
 
-class TikaObjectExtractor {
+public class TikaObjectExtractor {
     private String filename ;
     private String destination;
     
@@ -48,7 +48,7 @@ class TikaObjectExtractor {
         this.type = type ;
     }
     
-    EmbeddedObjectHandler extract () {
+    public EmbeddedObjectHandler extract () {
         EmbeddedObjectHandler handler = null;
         
         try {
@@ -89,12 +89,12 @@ class TikaObjectExtractor {
     /*
      * Object Location hold information about the file extracted from object
      */
-    static class ObjectLocation {
-        final String fileName ;
-        final String type;
-        final String extension ;
-        final String oldFilePath ;
-        final String newFilePath ;
+    public static class ObjectLocation {
+        public final String fileName ;
+        public final String type;
+        public final String extension ;
+        public final String oldFilePath ;
+        public final String newFilePath ;
         
         public ObjectLocation(String fn, String t, String oldF, String newF, String ext) {
             this.fileName = fn;
@@ -111,7 +111,7 @@ class TikaObjectExtractor {
         }
     }
     
-    static class EmbeddedObjectHandler implements EmbeddedResourceHandler {
+    public static class EmbeddedObjectHandler implements EmbeddedResourceHandler {
         private String destination ;
         private List<ObjectLocation> locations = new ArrayList<ObjectLocation>();
         private OBJECT_TYPE type; 

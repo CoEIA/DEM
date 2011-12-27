@@ -10,6 +10,7 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+import edu.coeia.extractors.OfficeImageExtractor;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseHistoryHandler;
 import edu.coeia.gutil.JTableUtil;
@@ -20,7 +21,6 @@ import edu.coeia.util.FilesPath;
 import edu.coeia.util.SizeUtil;
 
 import javax.swing.SwingWorker ;
-import javax.swing.table.DefaultTableModel ;
 import javax.swing.JOptionPane;
 
 import java.io.File ;
@@ -174,12 +174,10 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                 
         for (ProgressIndexData pd : chunks) {
             if ( pd.getType() == ProgressIndexData.TYPE.TABEL ) {
-                ((DefaultTableModel)this.parentDialog.getLoggingTable().getModel()).addRow(new Object[] { FileUtil.getExtension(pd.getPath())
-                    , pd.getPath(), pd.getStatus()});
-
-                numberOfFilesCannotIndexed++;
+                Object[] data = { FileUtil.getExtension(pd.getPath()), pd.getPath(), pd.getStatus()};
+                JTableUtil.addRowToJTable(this.parentDialog.getLoggingTable(), data);
+                this.numberOfFilesCannotIndexed++;
                 this.parentDialog.setNumberOfFilesError(String.valueOf(this.numberOfFilesCannotIndexed));
-                //this.parentDialog.setprogressBar(pd.getProgressCount());
             }
             else {
                 this.parentDialog.setCurrentFile(pd.getPath());
@@ -187,14 +185,8 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                 this.parentDialog.setNumberOfFiles(String.valueOf(pd.getIndexCount()));
                 this.parentDialog.setFileExtension(FileUtil.getExtension(pd.getPath()));
                 this.parentDialog.setBigSizeLabel(pd.getSizeMsg());
-                //this.parentDialog.setprogressBar(pd.getProgressCount());
-                //this.parentDialog.setprogressBar(pd.getIndexCount());
             }
         }
-
-       int indexNum = chunks.size()-1 ;
-//       JTableUtil.scrollToVisible(this.parentDialog.getLoggingTable(),
-//               (chunks.get(indexNum)).getProgressCount(),0);
     }
 
     @Override

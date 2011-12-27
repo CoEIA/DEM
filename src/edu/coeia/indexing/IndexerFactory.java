@@ -9,13 +9,17 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+import edu.coeia.extractors.PDFImageExtractor;
+import edu.coeia.extractors.OfficeImageExtractor;
+import edu.coeia.extractors.NoneImageExtractor;
+import edu.coeia.extractors.ExternalImageExtractor;
 import edu.coeia.util.FileUtil;
 import java.io.File ;
 import java.io.IOException; 
 
 import org.apache.tika.Tika;
 
-final class IndexerFactory {
+public final class IndexerFactory {
     
     /**
      * Get Indexer for Simple, Container, Images Document Files
@@ -96,7 +100,7 @@ final class IndexerFactory {
     }
     
     private static Indexer indexHotmailDir(LuceneIndex luceneIndex, File path) {
-        return MSNIndexer.newInstance(luceneIndex, path, FileUtil.getExtension(path), new NoneImageExtractor());
+        return MSNChatIndexer.newInstance(luceneIndex, path, FileUtil.getExtension(path), new NoneImageExtractor());
     }
     
     /**

@@ -2,13 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.indexing;
+package edu.coeia.extractors;
 
 /**
  *
  * @author wajdyessam
  */
 
+import edu.coeia.indexing.CaseBaseSource;
 import org.junit.Test ;
 import org.junit.Before; 
 import static org.junit.Assert.* ;
