@@ -327,19 +327,21 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                         String path = filePath.listFiles()[0].getAbsolutePath();
                         
                         String line = fileNameWithOutExt + " - " + path;
-                        Case index = CaseManager.getCase(line);
+                        Case aCase = CaseManager.getCase(line);
                         
-                        index.setCaseLocation(path);
+                        aCase.setCaseLocation(path);
                         
                         // create index information file & write the index on it
-                        String info = index.getCaseLocation() + "\\" + index.getCaseName() + ".DAT" ;
+                        String info = aCase.getCaseLocation() + "\\" + aCase.getCaseName() + ".DAT" ;
                         File infoFile = new File(info);
                         infoFile.createNewFile();
 
-                        FileUtil.writeObject(index, infoFile);
+                        FileUtil.writeObject(aCase, infoFile);
             
-                        CaseManager.writeCaseToInfoFile(index);
-                        CaseHistoryHandler.importCaseHistory("C:\\a.pref");
+                        CaseManager.writeCaseToInfoFile(aCase);
+                        
+                        String prefLocation = aCase.getCaseLocation() + "\\" + "CASE.pref";
+                        CaseHistoryHandler.importCaseHistory(prefLocation);
                         readCases(); 
                         
                         return null;
