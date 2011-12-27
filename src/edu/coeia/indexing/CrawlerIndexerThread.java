@@ -99,14 +99,14 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         this.checkForThreadCancelling();
         logger.log(Level.INFO, "Indexing File: :" + path.getAbsolutePath());
         
-        if ( path.isDirectory() ) {
+        if ( path.isDirectory() && path.canRead() ) {
             File[] files = path.listFiles();
                
             try {
                 for(File file: files) {
                     this.checkForThreadCancelling();
 
-                    if ( file.isDirectory() ) {
+                    if ( file.isDirectory() && file.canRead()) {
                         if ( this.luceneIndex.indexDir(path) )
                             numberOfFilesIndexed++;
                         

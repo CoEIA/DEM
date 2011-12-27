@@ -19,7 +19,7 @@ import java.util.List ;
 
 import org.apache.lucene.document.Document;
 
-public final class MSNChatIndexer extends Indexer{
+final class MSNChatIndexer extends Indexer{
     
     /**
      *  chat type

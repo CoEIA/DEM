@@ -21,7 +21,7 @@ import org.apache.lucene.document.Document ;
 import org.apache.lucene.document.Field ;
 
 
-public final class ImageIndexer extends Indexer{
+final class ImageIndexer extends Indexer{
     
     private int parentId ;
     

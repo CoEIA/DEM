@@ -23,7 +23,7 @@ import org.apache.tika.exception.TikaException;
  *
  * @author Ahmed
  */
-public final class EmailIndexer extends Indexer {
+final class EmailIndexer extends Indexer {
 
     public EmailIndexer(LuceneIndex luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor) {

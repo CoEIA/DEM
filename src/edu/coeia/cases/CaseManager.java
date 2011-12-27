@@ -136,8 +136,9 @@ enum CaseManager {
      * Read And Write Case to File
      */
     public static class CaseOperation {
+        
         public static void writeCase (Case caseObject) throws IOException {
-            // create index folder
+            // create main folder
             File dir = new File( caseObject.getCaseLocation());
             dir.mkdir();
 
@@ -153,12 +154,15 @@ enum CaseManager {
             String info = caseObject.getCaseLocation() + "\\" + caseObject.getCaseName() + ".DAT" ;
             File infoFile = new File(info);
             infoFile.createNewFile();
-            
             FileUtil.writeObject(caseObject, infoFile);
             
             // create log file
             String log = caseObject.getCaseLocation() + "\\" + caseObject.getCaseName() + ".LOG" ;
             new File(log).createNewFile();
+            
+            // create tmp files for archives extractions
+            File tmpFile = new File(caseObject.getCaseLocation() + "\\" + FilesPath.CASE_TMP);
+            tmpFile.mkdir();
         }
     }
     

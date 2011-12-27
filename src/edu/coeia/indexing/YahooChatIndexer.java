@@ -25,7 +25,7 @@ import java.util.List ;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
-public final class YahooChatIndexer extends Indexer{
+final class YahooChatIndexer extends Indexer{
     
     /**
      *  chat type

@@ -19,7 +19,7 @@ import java.io.IOException;
 
 import org.apache.tika.Tika;
 
-public final class IndexerFactory {
+final class IndexerFactory {
     
     /**
      * Get Indexer for Simple, Container, Images Document Files

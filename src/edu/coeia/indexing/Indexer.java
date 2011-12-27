@@ -27,21 +27,9 @@ public abstract class Indexer {
         this.imageCache = luceneIndex.getCase().getCacheImages();
         this.imageExtractor = imageExtractor;
         this.caseLocation = luceneIndex.getCase().getCaseLocation();
-        this.imagesLocation = caseLocation + "\\" + FilesPath.IMAGES_PATH;
-        this.tmpLocation = caseLocation + "\\" + FilesPath.CASE_TMP;
+        this.imagesLocation = this.caseLocation + "\\" + FilesPath.IMAGES_PATH;
+        this.tmpLocation = this.caseLocation + "\\" + FilesPath.CASE_TMP;
         this.luceneIndex = luceneIndex ;
-        
-        createCaseDataFolders(); // used when indexer called by archiveIndexer
-    }
-    
-    private void createCaseDataFolders() {
-        File tmpImageFile = new File(this.imagesLocation);
-        if ( ! tmpImageFile.exists() )
-            tmpImageFile.mkdir();
-        
-        File tmpFile = new File(this.tmpLocation);
-        if ( !tmpFile.exists() )
-            tmpFile.mkdir();
     }
     
     public abstract boolean doIndexing();
