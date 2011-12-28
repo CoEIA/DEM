@@ -354,8 +354,8 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         MatchingResult result = this.hashLibraryDuplicationResult.get(row);
         for(Document document: result.matchingDocuments) {
             if ( IndexingConstant.isFileDocument(document) ) {
-                String fileName = document.get(IndexingConstant.FILE_TITLE);
-                String filePath = document.get(IndexingConstant.FILE_NAME);
+                String fileName = document.get(IndexingConstant.FILE_NAME);
+                String filePath = document.get(IndexingConstant.FILE_PATH);
                 String date = document.get(IndexingConstant.FILE_DATE);
                 String hash = document.get(IndexingConstant.DOCUMENT_HASH);
                 
@@ -380,8 +380,8 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         Collection<Document> documents = this.caseDuplicationsMap.get(key);
         for(Document document: documents) {
             if ( IndexingConstant.isFileDocument(document) ) {
-                String fileName = document.get(IndexingConstant.FILE_TITLE);
-                String filePath = document.get(IndexingConstant.FILE_NAME);
+                String fileName = document.get(IndexingConstant.FILE_NAME);
+                String filePath = document.get(IndexingConstant.FILE_PATH);
                 String date = document.get(IndexingConstant.FILE_DATE);
                 String hash = document.get(IndexingConstant.DOCUMENT_HASH);
                 

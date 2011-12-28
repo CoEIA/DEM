@@ -253,8 +253,8 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         StringBuilder result = new StringBuilder();
         
         if ( IndexingConstant.isFileDocument(document) ) {
-            String fileName = document.get(IndexingConstant.FILE_TITLE);
-            String filePath = document.get(IndexingConstant.FILE_NAME);
+            String fileName = document.get(IndexingConstant.FILE_NAME);
+            String filePath = document.get(IndexingConstant.FILE_PATH);
             String date = document.get(IndexingConstant.FILE_DATE);
             String embedded = document.get(IndexingConstant.DOCUMENT_PARENT_ID);
             String mime = document.get(IndexingConstant.FILE_MIME);
@@ -280,7 +280,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     
     private void exportDocument(final Document document) {
         if ( IndexingConstant.isFileDocument(document) ) {
-            String filePath = document.get(IndexingConstant.FILE_NAME);
+            String filePath = document.get(IndexingConstant.FILE_PATH);
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(this.parent);
             if ( result == JFileChooser.APPROVE_OPTION ) {

@@ -8,20 +8,20 @@ package edu.coeia.extractors ;
 import edu.coeia.util.FileUtil;
 
 import java.io.IOException;
+import java.io.File ;
+import java.io.InputStream;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.tika.extractor.ContainerExtractor;
 import org.apache.tika.extractor.ParserContainerExtractor;
 import org.apache.tika.extractor.EmbeddedResourceHandler;
 import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.mime.MediaType;
-
-import java.io.File ;
-import java.io.InputStream;
 
 public class TikaObjectExtractor {
     private String filename ;
@@ -64,22 +64,23 @@ public class TikaObjectExtractor {
     
     private EmbeddedObjectHandler process(String filename, ContainerExtractor extractor) throws Exception {
         TikaInputStream stream = getTikaInputStream(filename);
+        EmbeddedObjectHandler handler = null;
         
         try {
             // Process it
-            EmbeddedObjectHandler handler = new EmbeddedObjectHandler(this.destination, this.type);
+            handler = new EmbeddedObjectHandler(this.destination, this.type);
             
             if( type == OBJECT_TYPE.CONTAINER) { // recursive extractor to get all items inside document
                 extractor.extract(stream, extractor, handler);
             } else if ( type == OBJECT_TYPE.ARCHIVE ) { // extract all object inside document
                 extractor.extract(stream, null, handler);
             }
-
-            // handler will contain all information about the extracted object and they path
-            return handler;
         } finally {
             stream.close();
         }
+        
+        // handler will contain all information about the extracted object and they path
+        return handler;
     }
     
     private TikaInputStream getTikaInputStream(String filename) throws Exception {

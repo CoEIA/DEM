@@ -222,8 +222,8 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
     private void displayDocumentInformation () {        
         try {
             // show file properities
-            String fileName = this.document.get(IndexingConstant.FILE_TITLE);
-            String filePath = this.document.get(IndexingConstant.FILE_NAME);
+            String fileName = this.document.get(IndexingConstant.FILE_NAME);
+            String filePath = this.document.get(IndexingConstant.FILE_PATH);
             String date = this.document.get(IndexingConstant.FILE_DATE);
             String embedded = this.document.get(IndexingConstant.DOCUMENT_PARENT_ID);
             String mime = this.document.get(IndexingConstant.FILE_MIME);

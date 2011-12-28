@@ -50,7 +50,6 @@ final class DocumentIndexer extends Indexer {
     
     @Override
     public boolean doIndexing() {
-
         boolean status = false ;
         
         try {
@@ -64,19 +63,15 @@ final class DocumentIndexer extends Indexer {
             
             if (doc != null) {
                 this.getLuceneIndex().getWriter().addDocument(doc);    // index file
-                this.increaseId();                       // increase the id counter if file indexed successfully
+                this.increaseId();      // increase the id counter if file indexed successfully
                 
-            } else {
-                System.out.println("Fail Parsing: " + this.getFile().getAbsolutePath());
-                return false;
+                // cache images with id as parent id
+                if ( this.isImageCache() ) {
+                    this.getImageExtractor().extractImages(this, this.getFile(), objectId);
+                }
+
+                status = true;
             }
-                    
-            // cache images with id as parent id
-            if ( this.isImageCache() ) {
-                this.getImageExtractor().extractImages(this, this.getFile(), objectId);
-            }
-            
-            status = true;
         }
         catch(Exception e){
             throw new UnsupportedOperationException(e.getMessage());
@@ -88,27 +83,25 @@ final class DocumentIndexer extends Indexer {
     private Document getDocument(String content, Map<String, String> metadata) {
         Document doc = new Document();
         
-        // genric document fields
+        // generic document fields
         doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_HASH, HashCalculator.calculateFileHash(this.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
-        // spefic document fields
-        doc.add(new Field(IndexingConstant.FILE_NAME, this.getFile().getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.FILE_TITLE, this.getFile().getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
+        // specific document fields
+        doc.add(new Field(IndexingConstant.FILE_PATH, this.getFile().getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.FILE_NAME, this.getFile().getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(this.getFile().lastModified(), DateTools.Resolution.MINUTE),Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_CONTENT, content, Field.Store.YES, Field.Index.ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_MIME, FileUtil.getExtension(this.getFile()), Field.Store.YES, Field.Index.NOT_ANALYZED) );
         
+        // unkown metadata extracted by Tika
         for(Map.Entry<String, String> entry: metadata.entrySet()) {
             String name =  entry.getKey();
             String value = entry.getValue();
-            
-            if (indexedMetadataFields.contains(name))
-                doc.add(new Field(name, value,Field.Store.YES, Field.Index.NOT_ANALYZED));
-            else 
-                doc.add(new Field(name, value, Field.Store.YES, Field.Index.NOT_ANALYZED)); 
+
+            doc.add(new Field(name, value, Field.Store.YES, Field.Index.ANALYZED)); 
         }
         
         return doc;

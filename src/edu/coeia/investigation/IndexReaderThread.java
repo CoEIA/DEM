@@ -145,7 +145,7 @@ class IndexReaderThread extends SwingWorker<String, Integer> {
         try {
             for (int i=0 ; i<indexReader.numDocs(); i++) {
                 Document doc = indexReader.document(i);
-                String file = doc.get(IndexingConstant.FILE_NAME);
+                String file = doc.get(IndexingConstant.FILE_PATH);
 
                 if ( file == null )
                     continue ;

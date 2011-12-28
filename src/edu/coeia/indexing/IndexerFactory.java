@@ -14,6 +14,7 @@ import edu.coeia.extractors.OfficeImageExtractor;
 import edu.coeia.extractors.NoneImageExtractor;
 import edu.coeia.extractors.ExternalImageExtractor;
 import edu.coeia.util.FileUtil;
+
 import java.io.File ;
 import java.io.IOException; 
 
@@ -62,7 +63,6 @@ final class IndexerFactory {
             // Unkown file Format
             else
                 indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
-                        
         }
         catch(IOException e){
             e.printStackTrace();

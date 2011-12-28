@@ -75,8 +75,8 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE))) {
             String fileId = pd.getDocument().get(IndexingConstant.DOCUMENT_ID);
             String fileDate = pd.getDocument().get(IndexingConstant.FILE_DATE);
-            String fileTitle = pd.getDocument().get(IndexingConstant.FILE_TITLE);
-            String fileName = pd.getDocument().get(IndexingConstant.FILE_NAME);
+            String fileTitle = pd.getDocument().get(IndexingConstant.FILE_NAME);
+            String fileName = pd.getDocument().get(IndexingConstant.FILE_PATH);
 
             ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
                 fileId, fileTitle, new Date(Long.valueOf(fileDate)) , type, fileName

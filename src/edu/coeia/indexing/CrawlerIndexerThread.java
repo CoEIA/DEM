@@ -97,7 +97,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
     
     private void doDirectoryCrawling(File path) {
         this.checkForThreadCancelling();
-        logger.log(Level.INFO, "Indexing File: :" + path.getAbsolutePath());
+        logger.log(Level.INFO, "Indexing File: " + path.getAbsolutePath());
         
         if ( path.isDirectory() && path.canRead() ) {
             File[] files = path.listFiles();
@@ -149,7 +149,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
 
         try {
             status = this.luceneIndex.indexFile(path);
-            numberOfFilesIndexed++;
+            this.numberOfFilesIndexed++;
         }
         catch (UnsupportedOperationException e) {
           publish(new ProgressIndexData( numberOfFilesInEvidenceFolder,numberOfFilesIndexed,
@@ -247,7 +247,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
     }
     
     private void closeIndex () throws IOException {
-        luceneIndex.closeIndex();
+        this.luceneIndex.closeIndex();
     }
     
     private void checkForThreadCancelling() throws CancellationException{

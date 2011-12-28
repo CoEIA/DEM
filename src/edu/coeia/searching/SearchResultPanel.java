@@ -212,8 +212,8 @@ public class SearchResultPanel extends javax.swing.JPanel {
         HashItem item = null;
         
         if ( IndexingConstant.isFileDocument(document) ) {
-            String fileName = document.get(IndexingConstant.FILE_TITLE);
-            String filePath = document.get(IndexingConstant.FILE_NAME);
+            String fileName = document.get(IndexingConstant.FILE_NAME);
+            String filePath = document.get(IndexingConstant.FILE_PATH);
 
             String hashValue = HashCalculator.calculateFileHash(filePath);
             

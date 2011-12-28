@@ -7,12 +7,7 @@ package edu.coeia.indexing;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.util.FilesPath;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import java.io.File ;
-
-import org.apache.tika.metadata.Metadata;
 
 /**
  * Abstract Class for defining Index object
@@ -45,16 +40,6 @@ public abstract class Indexer {
     
     public int getId() { return id ; }
     public void increaseId() { id++; }
-    
-    protected static final Set<String> indexedMetadataFields = new HashSet<String>();
-    static {
-        indexedMetadataFields.add(Metadata.TITLE);
-        indexedMetadataFields.add(Metadata.AUTHOR);
-        indexedMetadataFields.add(Metadata.COMMENTS);
-        indexedMetadataFields.add(Metadata.KEYWORDS);
-        indexedMetadataFields.add(Metadata.DESCRIPTION);
-        indexedMetadataFields.add(Metadata.SUBJECT);
-    }
     
     private static int id = 1;
     

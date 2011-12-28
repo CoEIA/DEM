@@ -64,7 +64,7 @@ final class MSNChatIndexer extends Indexer{
                         //int objectId = id;
 
                         if (doc != null) {
-                            this.getLuceneIndex().getWriter().addDocument(doc);    // index file
+                            //this.getLuceneIndex().getWriter().addDocument(doc);    // index file
                             //this.id++;                       // increase the id counter if file indexed successfully
 
                         } else {

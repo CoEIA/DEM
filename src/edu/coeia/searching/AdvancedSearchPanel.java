@@ -389,8 +389,8 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         String fileContent = document.get(IndexingConstant.FILE_CONTENT);
         String fileMime = document.get(IndexingConstant.FILE_MIME);
         String fileDate = document.get(IndexingConstant.FILE_DATE);
-        String fileTitle = document.get(IndexingConstant.FILE_TITLE);
-        String fileName = document.get(IndexingConstant.FILE_NAME);
+        String fileTitle = document.get(IndexingConstant.FILE_NAME);
+        String fileName = document.get(IndexingConstant.FILE_PATH);
         
         FileItem fileItem = new FileItem(fileId, parentId, hash,
                 fileName, fileTitle, fileContent, fileDate, fileMime);

@@ -54,8 +54,8 @@ public class IndexingConstant {
     /**
      * constants for all files and images
      */
+    public static final String FILE_PATH = "FILE_PATH" ;
     public static final String FILE_NAME = "FILE_NAME" ;
-    public static final String FILE_TITLE = "FILE_TITLE" ;
     public static final String FILE_CONTENT = "FILE_CONTENT" ;
     public static final String FILE_DATE = "FILE_DATE" ;
     public static final String FILE_MIME = "FILE_MIME" ;
