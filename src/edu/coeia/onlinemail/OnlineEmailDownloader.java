@@ -128,10 +128,13 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         // 2).  Crawel For Each Folder 
         javax.mail.Folder[] folders = store.getDefaultFolder().list("*");
         for (javax.mail.Folder folder : folders) {
-
-            if (!isFolderHoldMessages(folder)) {
-                continue;
+           
+            if(!isFolderHoldMessages(folder))
+            {
+              continue;
             }
+            
+
             // 3).  Get All Messages For Each Folder
             Message[] messages = folder.getMessages();
             if (messages != null) {
@@ -264,7 +267,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             emaildialogue.getFrom().setText(Utilities.getEmptyStringWhenNullString(pd.mEmail.getFrom()));
             emaildialogue.getSubject().setText(Utilities.getEmptyStringWhenNullString(pd.mEmail.getSubject()));
             emaildialogue.getSentDate().setText(pd.mEmail.getSentDate());
-            
+            this.setEmailDialogElementsText(emaildialogue.getTo(),pd.mEmail.getTo());
             this.setEmailDialogElementsText(emaildialogue.getCC(), pd.mEmail.getCC());
             this.setEmailDialogElementsText(emaildialogue.getBCC(), pd.mEmail.getBCC());
             this.setEmailDialogElementsText(emaildialogue.getAttachments(), pd.mEmail.getAttachments());
