@@ -128,16 +128,12 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         // 2).  Crawel For Each Folder 
         javax.mail.Folder[] folders = store.getDefaultFolder().list("*");
         for (javax.mail.Folder folder : folders) {
-            if ((folder.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
-                try {
-                    //System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
-                    folder.open(Folder.READ_ONLY);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            } else if (javax.mail.Folder.HOLDS_FOLDERS != 0) {
-                continue;
+           
+            if(!isFolderHoldMessages(folder))
+            {
+              continue;
             }
+            
 
             // 3).  Get All Messages For Each Folder
             Message[] messages = folder.getMessages();
@@ -200,7 +196,24 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         return null;
     }
 
-   
+    private boolean isFolderHoldMessages(Folder folder) throws MessagingException {
+
+        boolean b = false;
+        try {
+            if ((folder.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
+
+                System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
+                folder.open(Folder.READ_ONLY);
+                b = true;
+            } else if (javax.mail.Folder.HOLDS_FOLDERS != 0) {
+                b = false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return b;
+
+    }
     private String getFrom(Message message) throws MessagingException {
         String result = "";
         Address[] addresses = message.getFrom();
@@ -254,7 +267,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             emaildialogue.getFrom().setText(Utilities.getEmptyStringWhenNullString(pd.mEmail.getFrom()));
             emaildialogue.getSubject().setText(Utilities.getEmptyStringWhenNullString(pd.mEmail.getSubject()));
             emaildialogue.getSentDate().setText(pd.mEmail.getSentDate());
-            
+            this.setEmailDialogElementsText(emaildialogue.getTo(),pd.mEmail.getTo());
             this.setEmailDialogElementsText(emaildialogue.getCC(), pd.mEmail.getCC());
             this.setEmailDialogElementsText(emaildialogue.getBCC(), pd.mEmail.getBCC());
             this.setEmailDialogElementsText(emaildialogue.getAttachments(), pd.mEmail.getAttachments());
@@ -284,8 +297,8 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         props.setProperty("mail.pop3.socketFactory.fallback", "false");
         props.setProperty("mail.pop3.port", "995");
         props.setProperty("mail.pop3.socketFactory.port", "995");
-        props.setProperty("mail.pop3.connectiontimeout", "100000");
-        props.setProperty("mail.pop3.timeout", "100000");
+        props.setProperty("mail.pop3.connectiontimeout", "10000");
+        props.setProperty("mail.pop3.timeout", "10000");
 
         Session session = Session.getDefaultInstance(props, null);
         try {
@@ -316,8 +329,8 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         Properties props = System.getProperties();
         props.setProperty("mail.store.protocol", "imaps");
         props.setProperty("mail.imaps.partialfetch", "false");
-        props.setProperty("mail.pop3.connectiontimeout", "100000");
-        props.setProperty("mail.pop3.timeout", "100000");
+        props.setProperty("mail.pop3.connectiontimeout", "10000");
+        props.setProperty("mail.pop3.timeout", "10000");
 
         Session session = Session.getDefaultInstance(props, null);
         try {
