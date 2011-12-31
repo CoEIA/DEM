@@ -109,7 +109,7 @@ public class FileSignatureAnalysis {
 
         boolean result = matchesSignature(fs.getSignature().getBytes(), file);
         if (result == false && res == false) {
-            System.out.println("Unknown");
+           // System.out.println("Unknown");
             b = true;
 
         } else {

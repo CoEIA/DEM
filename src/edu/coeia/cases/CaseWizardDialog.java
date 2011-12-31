@@ -223,7 +223,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         indexInfoPanel.setMaximumSize(new java.awt.Dimension(608, 361));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Case Name:");
 
         caseNameTextField.setText(" ");
@@ -234,7 +234,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         caseLocationTextField.setEditable(false);
         caseLocationTextField.setText(" ");
 
-        browseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        browseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         browseButton.setText("Browse...");
         browseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -251,7 +251,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         jLabel4.setText("Description:");
 
         descriptionTextArea.setColumns(20);
-        descriptionTextArea.setFont(new java.awt.Font("Courier New", 1, 18));
+        descriptionTextArea.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
         descriptionTextArea.setRows(5);
         jScrollPane1.setViewportView(descriptionTextArea);
 
@@ -260,50 +260,47 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         indexInfoPanelLayout.setHorizontalGroup(
             indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(indexInfoPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(caseNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, indexInfoPanelLayout.createSequentialGroup()
-                        .addComponent(caseLocationTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(browseButton))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
-                    .addComponent(investigatorTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(caseNameTextField)
+                    .addComponent(caseLocationTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(investigatorTextField)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(browseButton))
         );
         indexInfoPanelLayout.setVerticalGroup(
             indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexInfoPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, indexInfoPanelLayout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(caseNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                     .addComponent(caseLocationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(browseButton)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(browseButton))
                 .addGap(18, 18, 18)
                 .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                     .addComponent(jLabel3)
                     .addComponent(investigatorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                    .addComponent(jLabel4))
-                .addContainerGap(122, Short.MAX_VALUE))
+                    .addComponent(jLabel4)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         indexWizardPanel.add(indexInfoPanel, "indexInfoPanel");
         indexInfoPanel.getAccessibleContext().setAccessibleName("");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("What type of evidence (Data Source) you want to add:"));
 
@@ -335,31 +332,31 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel9)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(removeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addDriverButton, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(addDriverButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(removeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                        .addContainerGap())
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(addDriverButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(removeButton))
-                            .addComponent(jLabel9))
-                        .addGap(98, 98, 98))))
+                            .addComponent(jLabel9)
+                            .addComponent(addDriverButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(removeButton)))
+                .addContainerGap())
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Would you like to import online e-mail accounts:"));
@@ -401,13 +398,12 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -417,7 +413,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(11, 11, 11)
                         .addComponent(jButton2)))
                 .addContainerGap())
         );
@@ -427,23 +423,24 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         CaseWizardA1Layout.setHorizontalGroup(
             CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CaseWizardA1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap(39, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addGap(502, 502, 502))
+            .addGroup(CaseWizardA1Layout.createSequentialGroup()
+                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(26, 26, 26))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         CaseWizardA1Layout.setVerticalGroup(
             CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CaseWizardA1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(CaseWizardA1Layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(133, 133, 133))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel10)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         indexWizardPanel.add(CaseWizardA1, "CaseWizardA1");
@@ -454,19 +451,19 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         NoIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         NoIndexRadioButton.setText("No");
 
-        DetectClusterCaseRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        DetectClusterCaseRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         DetectClusterCaseRadioButton.setSelected(true);
         DetectClusterCaseRadioButton.setText("Detect and cluster duplicated files within case files.");
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel15.setText("Would you like to index the case:");
 
         YesNoIndexButtonGroup.add(YesIndexRadioButton);
-        YesIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        YesIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         YesIndexRadioButton.setSelected(true);
         YesIndexRadioButton.setText("Yes (Recommended)");
 
-        DetectClusterLibraryRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        DetectClusterLibraryRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         DetectClusterLibraryRadioButton.setSelected(true);
         DetectClusterLibraryRadioButton.setText("Detect and cluster duplicated files compared with DEM Hash Library");
         DetectClusterLibraryRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -484,7 +481,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel14.setText(" Evidence (Data Source) should be indexed to be searchable and pefrom all functions.");
 
         YesNoMD5HashButtonGroup.add(YesMD5RadioButton);
@@ -497,8 +494,8 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel16.setText("Would you like to calculate MD5 Hashe Values for the case so you can perform \"Hash Analysis\".");
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel16.setText("Would you like to calculate MD5 Hashe Values for the case so you can do \"Hash Analysis\".");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel17.setText("Options:");
@@ -510,6 +507,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
                     .addComponent(DetectClusterLibraryRadioButton)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -519,12 +517,11 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(NoMD5RadioButton)
                             .addComponent(NoIndexRadioButton)))
-                    .addComponent(jLabel16)
                     .addComponent(jLabel15)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17)
                     .addComponent(DetectClusterCaseRadioButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -552,7 +549,20 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addGap(30, 30, 30))
         );
 
-        CaseWizardA2.add(jPanel3);
+        javax.swing.GroupLayout CaseWizardA2Layout = new javax.swing.GroupLayout(CaseWizardA2);
+        CaseWizardA2.setLayout(CaseWizardA2Layout);
+        CaseWizardA2Layout.setHorizontalGroup(
+            CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CaseWizardA2Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+        CaseWizardA2Layout.setVerticalGroup(
+            CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CaseWizardA2Layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         indexWizardPanel.add(CaseWizardA2, "CaseWizardA2");
 
@@ -649,27 +659,21 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout CaseWizardA3Layout = new javax.swing.GroupLayout(CaseWizardA3);
         CaseWizardA3.setLayout(CaseWizardA3Layout);
         CaseWizardA3Layout.setHorizontalGroup(
             CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CaseWizardA3Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         CaseWizardA3Layout.setVerticalGroup(
             CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CaseWizardA3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         indexWizardPanel.add(CaseWizardA3, "CaseWizardA3");
@@ -677,7 +681,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         indexFooterPanel.setMaximumSize(new java.awt.Dimension(608, 63));
         indexFooterPanel.setPreferredSize(new java.awt.Dimension(608, 63));
 
-        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         finishButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/finish.png"))); // NOI18N
         finishButton.setText("Finish");
         finishButton.addActionListener(new java.awt.event.ActionListener() {
@@ -704,7 +708,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        cancelButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        cancelButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -719,32 +723,30 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             indexFooterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(indexFooterPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                .addGap(113, 113, 113)
+                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(71, 71, 71)
                 .addComponent(cancelButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(finishButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         indexFooterPanelLayout.setVerticalGroup(
             indexFooterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(indexFooterPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(indexFooterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(indexFooterPanelLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(indexFooterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(309, 309, 309))
                     .addGroup(indexFooterPanelLayout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(cancelButton)))
-                .addGap(309, 309, 309))
-            .addGroup(indexFooterPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(finishButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(indexFooterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cancelButton)
+                            .addComponent(finishButton))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jSeparator1.setMaximumSize(new java.awt.Dimension(0, 2));
@@ -759,11 +761,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(indexWizardPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(indexFooterPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel5)))
+                            .addComponent(indexWizardPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(indexFooterPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel5))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -792,22 +792,6 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             caseLocationTextField.setText(PATH + "\\" + word);
         }
     }
-
-    private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
-        JDirectoryDialog directoryDialog = new JDirectoryDialog();
-        directoryDialog.show(CaseWizardDialog.this);
-        String path = directoryDialog.getSelectedDirectory();
-
-        if (path != null) {
-            PATH = path;
-
-            if (caseNameTextField.getText().trim().isEmpty()) {
-                caseLocationTextField.setText(path);
-            } else {
-                caseLocationTextField.setText(path + "\\" + caseNameTextField.getText().trim());
-            }
-        }
-    }//GEN-LAST:event_browseButtonActionPerformed
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         switch (currentIndex) {
@@ -948,57 +932,7 @@ private void ExcludeSystemFilesCheckBoxActionPerformed(java.awt.event.ActionEven
 
     }
 
-
 }//GEN-LAST:event_ExcludeSystemFilesCheckBoxActionPerformed
-
-private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectClusterLibraryRadioButtonActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_DetectClusterLibraryRadioButtonActionPerformed
-
-private void NoMD5RadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NoMD5RadioButtonActionPerformed
-// TODO add your handling code here:
-    if (NoMD5RadioButton.isSelected()) {
-        DetectClusterCaseRadioButton.setEnabled(false);
-        DetectClusterLibraryRadioButton.setEnabled(false);
-    }
-    
-     
-}//GEN-LAST:event_NoMD5RadioButtonActionPerformed
-
-private void YesMD5RadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YesMD5RadioButtonActionPerformed
-// TODO add your handling code here:
-     if (YesMD5RadioButton.isSelected()) {
-        DetectClusterCaseRadioButton.setEnabled(true);
-        DetectClusterLibraryRadioButton.setEnabled(true);
-    }
-}//GEN-LAST:event_YesMD5RadioButtonActionPerformed
-
-private void addDriverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDriverButtonActionPerformed
-// TODO add your handling code here:
-
-
-    JDirectoryDialog directoryDialog = new JDirectoryDialog();
-    directoryDialog.show(CaseWizardDialog.this);
-    String path = directoryDialog.getSelectedDirectory();
-    if (path == null) {
-        return;
-    }
-    addToList(path, sourcesListModel, sourcesJList);
-    //CaseSources = path;
-
-}//GEN-LAST:event_addDriverButtonActionPerformed
-
-private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-// TODO add your handling code here:
-    
-    String Path = (String)sourcesJList.getSelectedValue();
-    removeFromList(Path, sourcesListModel, sourcesJList);
-    
-}//GEN-LAST:event_removeButtonActionPerformed
-
-private void sourcesJListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_sourcesJListValueChanged
-// TODO add your handling code here:
-}//GEN-LAST:event_sourcesJListValueChanged
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
@@ -1007,8 +941,11 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     dialogue.setVisible(true);
 
     if (!dialogue.getUserName().isEmpty() || !dialogue.getPassword().isEmpty() || !dialogue.getPassword().isEmpty()) {
-        Object[] arr = {dialogue.getUserName(), dialogue.getPassword(), dialogue.getProvider().name()};
-        JTableUtil.addRowToJTable(EmailTable, arr);
+
+        if (!dialogue.cancelClicked) {
+            Object[] arr = {dialogue.getUserName(), dialogue.getPassword(), dialogue.getProvider().name()};
+            JTableUtil.addRowToJTable(EmailTable, arr);
+        }
     }
    
 }//GEN-LAST:event_jButton1ActionPerformed
@@ -1024,8 +961,71 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     for (int i = 0; i < numRows; i++) {
         model.removeRow(EmailTable.getSelectedRow());
     }
-
 }//GEN-LAST:event_jButton2ActionPerformed
+
+private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+// TODO add your handling code here:
+    
+    String Path = (String)sourcesJList.getSelectedValue();
+    removeFromList(Path, sourcesListModel, sourcesJList);
+    
+}//GEN-LAST:event_removeButtonActionPerformed
+
+private void sourcesJListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_sourcesJListValueChanged
+// TODO add your handling code here:
+}//GEN-LAST:event_sourcesJListValueChanged
+
+private void addDriverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDriverButtonActionPerformed
+// TODO add your handling code here:
+
+
+    JDirectoryDialog directoryDialog = new JDirectoryDialog();
+    directoryDialog.show(CaseWizardDialog.this);
+    String path = directoryDialog.getSelectedDirectory();
+    if (path == null) {
+        return;
+    }
+    addToList(path, sourcesListModel, sourcesJList);
+    //CaseSources = path;
+}//GEN-LAST:event_addDriverButtonActionPerformed
+
+private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
+        JDirectoryDialog directoryDialog = new JDirectoryDialog();
+        directoryDialog.show(CaseWizardDialog.this);
+        String path = directoryDialog.getSelectedDirectory();
+
+        if (path != null) {
+            PATH = path;
+
+            if (caseNameTextField.getText().trim().isEmpty()) {
+                caseLocationTextField.setText(path);
+            } else {
+                caseLocationTextField.setText(path + "\\" + caseNameTextField.getText().trim());
+            }
+        }
+}//GEN-LAST:event_browseButtonActionPerformed
+
+private void YesMD5RadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YesMD5RadioButtonActionPerformed
+// TODO add your handling code here:
+     if (YesMD5RadioButton.isSelected()) {
+        DetectClusterCaseRadioButton.setEnabled(true);
+        DetectClusterLibraryRadioButton.setEnabled(true);
+    }
+}//GEN-LAST:event_YesMD5RadioButtonActionPerformed
+
+private void NoMD5RadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NoMD5RadioButtonActionPerformed
+// TODO add your handling code here:
+    if (NoMD5RadioButton.isSelected()) {
+        DetectClusterCaseRadioButton.setEnabled(false);
+        DetectClusterLibraryRadioButton.setEnabled(false);
+    }
+    
+     
+}//GEN-LAST:event_NoMD5RadioButtonActionPerformed
+
+private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectClusterLibraryRadioButtonActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_DetectClusterLibraryRadioButtonActionPerformed
 
     public boolean checkDirectIndex() {
         return indexTheCase;
@@ -1197,8 +1197,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         JOptionPane.showMessageDialog(this, msg, "Object Not Found", JOptionPane.ERROR_MESSAGE);
     }
 
-    private void showErrorMessage(String msg, String title) {        JOptionPane.showMessageDialog(CaseWizardDialog.this, msg, title, JOptionPane.ERROR_MESSAGE);
-
+    private void showErrorMessage(String msg, String title) {       
         JOptionPane.showMessageDialog(CaseWizardDialog.this, msg, title, JOptionPane.ERROR_MESSAGE);
     }
 
