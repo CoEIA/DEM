@@ -58,7 +58,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         model = new FileTreeModel(new File(caseLocation.get(0)));
         FolderListTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         FolderListTree.setModel(model);
-        JTableUtil.sortTable(FileAnalysisTable,2);
+        JTableUtil.sortTable(FileAnalysisTable, 2);
     }
 
     private void fillDataBaseTable() throws IOException {
@@ -214,7 +214,9 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         treePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         FolderListTree = new javax.swing.JTree();
-        jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        AnalyzeButton = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         tablePanel = new javax.swing.JPanel();
         databasePanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -228,6 +230,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         treePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select Folder"));
         treePanel.setLayout(new java.awt.BorderLayout());
 
+        FolderListTree.setShowsRootHandles(true);
         FolderListTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
                 FolderListTreeValueChanged(evt);
@@ -237,13 +240,25 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
         treePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jButton1.setText("Analyse File Signature");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        AnalyzeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/dem-icon.png"))); // NOI18N
+        AnalyzeButton.setText("Analyse File Signature");
+        AnalyzeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                AnalyzeButtonActionPerformed(evt);
             }
         });
-        treePanel.add(jButton1, java.awt.BorderLayout.SOUTH);
+        jPanel1.add(AnalyzeButton);
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
+        jButton2.setText("Stop");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2);
+
+        treePanel.add(jPanel1, java.awt.BorderLayout.SOUTH);
 
         add(treePanel, java.awt.BorderLayout.WEST);
 
@@ -310,42 +325,46 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         Object[] status_matched = new Object[5];
         Object[] status_aliased = new Object[5];
         Object[] status_bad = new Object[5];
-        
+
         Set<String> signatureList = new HashSet<String>();
         List<String> extensionsList = new ArrayList<String>();
         if (file == null) {
             return;
         }
         try {
-            for (FileSignature fs : listFiles) {
+            if (!stopRequested) {
+                for (FileSignature fs : listFiles) {
 
-                // ext of the file is in the database and signature is found in database
-                if (FileSignatureAnalysis.isMatchedSignature(file, fs)) {
-                    status_matched = FormatTable(file, "Matched File", fs, signatureList, extensionsList);
-                    matched = true;
 
-                }
-
-                if (FileSignatureAnalysis.isBadSignature(file, fs)) {
-                    bad = true; // bad signature ext not in database, signature not in database
-                    status_bad = FormatTable(file, "Bad Signature", fs, signatureList, extensionsList);
-
-                }
-                // Alias : extension is different, but signature is there in database
-                if (FileSignatureAnalysis.matchAliasSignature(file, fs) && !matched) {
-                    if (FileSignatureAnalysis.isknownFile(file, fs)) {
-                        status_aliased = FormatTable(file, "Aliased File and it is Known", fs, signatureList, extensionsList);
-                        aliased = true;
+                    // ext of the file is in the database and signature is found in database
+                    if (FileSignatureAnalysis.isMatchedSignature(file, fs)) {
+                        status_matched = FormatTable(file, "Matched File", fs, signatureList, extensionsList);
+                        matched = true;
+                        break;
 
                     }
-                }
 
-                if (FileSignatureAnalysis.isUnknown(file, fs) && !matched && !bad && !aliased) {
-                    unKnown = true;
-                }
+                    if (FileSignatureAnalysis.isBadSignature(file, fs)) {
+                        bad = true; // bad signature ext not in database, signature not in database
+                        status_bad = FormatTable(file, "Bad Signature", fs, signatureList, extensionsList);
 
-            } // End For 
+                    }
+                    // Alias : extension is different, but signature is there in database
+                    if (FileSignatureAnalysis.matchAliasSignature(file, fs) && !matched) {
+                        if (FileSignatureAnalysis.isknownFile(file, fs)) {
+                            status_aliased = FormatTable(file, "Aliased File and it is Known", fs, signatureList, extensionsList);
+                            aliased = true;
 
+                        }
+                    }
+
+                    if (FileSignatureAnalysis.isUnknown(file, fs) && !matched && !bad && !aliased) {
+                        unKnown = true;
+                    }
+
+                } // End For 
+
+            }
             // Check All States
 
             if (unKnown && !matched && !aliased && !bad) {
@@ -367,8 +386,6 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(FileSignaturePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        stopRequested = true;
 
     }
 
@@ -388,7 +405,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
         return status_msg;
     }
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+private void AnalyzeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnalyzeButtonActionPerformed
 // TODO add your handling code here:
     if (selectedFile == null) {
         return;
@@ -396,31 +413,19 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     boolean isDirectory = selectedFile.isDirectory();
     JTableUtil.removeAllRows(FileAnalysisTable);
     Thread newThrd = new Thread(this);
-
+    stopRequested = false;
     if (isDirectory) {
         newThrd.start();
+
     } else {
         TestFileAnalysis(selectedFile);
-        stopRequested = false;
+        stopRequested = true;
     }
-   
 
 
-}//GEN-LAST:event_jButton1ActionPerformed
 
-    public void run() {
-        
-        if(!stopRequested){
-        System.out.println("MyThread starting.");
-        FolderTraversar ft = new FolderTraversar(selectedFile);
-        ft.traverse();
-        System.out.println("MyThread terminating.");
-        }
-      JOptionPane.showMessageDialog(this, "Finished Analyzing", "Finished", JOptionPane.INFORMATION_MESSAGE);
+}//GEN-LAST:event_AnalyzeButtonActionPerformed
 
-    }
-        
-            
 private void FolderListTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_FolderListTreeValueChanged
     // TODO add your handling code here:
     selectedFile = (File) evt.getPath().getLastPathComponent();
@@ -428,14 +433,36 @@ private void FolderListTreeValueChanged(javax.swing.event.TreeSelectionEvent evt
         return;
     }
 
-
 }//GEN-LAST:event_FolderListTreeValueChanged
+
+private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+// TODO add your handling code here:
+
+    stopRequested = true;
+}//GEN-LAST:event_jButton2ActionPerformed
+
+    public void run() {
+        FolderTraversar ft = new FolderTraversar(selectedFile);
+        AnalyzeButton.setEnabled(false);
+        while (!stopRequested) {
+            System.out.println("MyThread starting.");
+
+            ft.traverse();
+            System.out.println("MyThread terminating.");
+            JOptionPane.showMessageDialog(this, "Finished Analyzing", "Finished", JOptionPane.INFORMATION_MESSAGE);
+            AnalyzeButton.setEnabled(true);
+            return;
+        }
+
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AnalyzeButton;
     private javax.swing.JTable FileAnalysisTable;
     private javax.swing.JTree FolderListTree;
     private javax.swing.JTable SignatureTableDB;
     private javax.swing.JPanel databasePanel;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

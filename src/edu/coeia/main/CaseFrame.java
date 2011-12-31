@@ -5,6 +5,8 @@ import edu.coeia.reports.ReportPanel;
 import edu.coeia.filesystem.FileSystemPanel;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseManagerPanel;
+import edu.coeia.cases.EmailConfiguration;
+import edu.coeia.cases.EmailConfiguration.SOURCE;
 import edu.coeia.util.Utilities;
 import edu.coeia.gutil.GuiUtil ;
 import edu.coeia.chat.ChatPanel;
@@ -13,6 +15,8 @@ import edu.coeia.offlinemail.EmailPanel;
 import edu.coeia.indexing.IndexingDialog;
 import edu.coeia.multimedia.ImagesViewerPanel;
 import edu.coeia.internet.InternetSurfingPanel;
+import edu.coeia.onlinemail.EmailDownloaderDialog;
+import edu.coeia.onlinemail.OnlineEmailDownloader;
 import edu.coeia.searching.CaseSearchPanel;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
@@ -22,6 +26,9 @@ import java.awt.Toolkit ;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import java.sql.SQLException;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
 import javax.swing.JOptionPane;
 
 import java.io.IOException ;
@@ -149,6 +156,7 @@ public class CaseFrame extends javax.swing.JFrame {
         hashLibraryMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         caseIndexingMenuItem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         toolsMenu = new javax.swing.JMenu();
         windowsMenuItem = new javax.swing.JMenuItem();
         recentMenuItem = new javax.swing.JMenuItem();
@@ -327,6 +335,14 @@ public class CaseFrame extends javax.swing.JFrame {
         });
         jMenu1.add(caseIndexingMenuItem);
 
+        jMenuItem1.setText("ReDownload Email");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
         jMenuBar1.add(jMenu1);
 
         toolsMenu.setText("Tools");
@@ -481,7 +497,59 @@ public class CaseFrame extends javax.swing.JFrame {
         HashLibraryManagerDialog dailog = new HashLibraryManagerDialog(this, true);
         dailog.setVisible(true);
     }//GEN-LAST:event_hashLibraryMenuItemActionPerformed
+
+private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+    List<EmailConfiguration> emailInfos = caseObj.getEmailConfig();
+ 
+    if (emailInfos.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "There is no Email Information", "No Email in Case", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
     
+    FileUtil.removeDirectory(caseObj.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
+    for (EmailConfiguration s : emailInfos) {
+        try {
+            downloadEmail(caseObj, s);
+        } catch (SQLException ex) {
+            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchProviderException ex) {
+            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+
+}//GEN-LAST:event_jMenuItem1ActionPerformed
+   
+    public void downloadEmail(Case currentCase, EmailConfiguration config) throws SQLException, NoSuchProviderException, MessagingException, IOException, Exception {
+
+        EmailDownloaderDialog dialogue = new EmailDownloaderDialog(this, true, currentCase);
+        dialogue.downloader = new OnlineEmailDownloader(dialogue,
+                currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
+                currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
+        // if hotmail
+        if (config.getSource() == SOURCE.HOTMAIL) {
+            if (dialogue.downloader.ConnectPop3(config.getUserName(), config.getPassword())) {
+                dialogue.downloader.execute();
+                dialogue.setVisible(true);
+            }
+        }
+        if (config.getSource() == SOURCE.GMAIL ) {
+            if (dialogue.downloader.ConnectIMAP(config.getUserName(), config.getPassword())) {
+                dialogue.downloader.execute();
+                dialogue.setVisible(true);
+            }
+
+        }
+
+    }
     public void showIndexDialog(boolean startIndex) {
         IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj, startIndex);
         indexPanel.setLocationRelativeTo(this);
@@ -561,6 +629,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private javax.swing.JToggleButton internetSurfingToggleButton;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;

@@ -3,12 +3,14 @@ package edu.coeia.cases;
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
 import edu.coeia.cases.EmailConfiguration.SOURCE;
+import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.GUIFileFilter;
 import edu.coeia.onlinemail.EmailDownloaderDialog;
 
 import edu.coeia.onlinemail.OnlineEmailDownloader;
 
+import java.awt.Component;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -21,11 +23,21 @@ import java.util.ArrayList;
 import java.io.File;
 import java.awt.CardLayout;
 
+import java.awt.Color;
 import java.util.Date;
-import javax.swing.JFrame;
+import java.util.Locale;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JPasswordField;
+import javax.swing.JTable;
+import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
+        
 /*
  * IndexWizard.java
  *
@@ -34,37 +46,69 @@ import javax.swing.event.DocumentListener;
  * Created on Jul 13, 2010, 2:00:51 PM
  * 
  */
+class PasswordCellRenderer extends JPasswordField
+            implements TableCellRenderer {
+
+        public PasswordCellRenderer() {
+            super();
+
+            // This displays astericks in fields since it is a password.
+            // It does not affect the actual value of the cell.
+            this.setText("filler123");
+
+        }
+
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+         
+      return this;
+   }
+
+    
+}
+        
 public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
+
+    
+     
 
     private Case currentCase;
     private String PATH = FilesPath.CASES_PATH;
-    private String CaseSource;
+    private ArrayList<String> CaseSources;
+    DefaultListModel sourcesListModel;
     
     private JFileChooser fileChooser;
     boolean indexTheCase = false;   // index the case after create it
+    java.awt.Frame _parent;
     /*
      * Wizard CardLayout - Panels Names
      */
     private String[] cardsName = {"indexInfoPanel", "CaseWizardA1", "CaseWizardA2", "CaseWizardA3"};
     private int currentIndex = 0;
 
+   
+
     /** Creates new form IndexWizard */
     public CaseWizardDialog(java.awt.Frame parent, boolean modal, boolean isFullVersion) {
         super(parent, modal);
         initComponents();
        
-        UserNameGmailTextField.setEnabled(false);
-        PasswordGmailTextField.setEnabled(false);
-        UserNameHotmailTextField.setEnabled(false);
-        PasswordHotmailTextField.setEnabled(false);
+        this._parent = parent;
         ProgramFilesRadioButton.setVisible(false);
         WindowsFilesRadioButton.setVisible(false);
-
-        // show first card indexInfoPanel and disable back button and finish button
-        showPanel(cardsName[0], indexWizardPanel);
         backButton.setEnabled(false);
         finishButton.setEnabled(false);
-
+        
+        CaseSources = new ArrayList<String>();
+        sourcesListModel = new DefaultListModel();
+        
+        // Set Password 
+        JPasswordField password = new JPasswordField();
+        password.setBorder( new LineBorder(Color.BLACK) );
+        TableCellRenderer editor = new DefaultTableCellRenderer();
+        EmailTable.getColumnModel().getColumn(1).setCellRenderer(new PasswordCellRenderer());
+        
+        // show first card indexInfoPanel and disable back button and finish button
+        showPanel(cardsName[0], indexWizardPanel);
         setLocationRelativeTo(parent);
 
         // add listener for index name text feild
@@ -98,6 +142,8 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         DataSourceButtonGroup = new javax.swing.ButtonGroup();
         YesNoIndexButtonGroup = new javax.swing.ButtonGroup();
         YesNoMD5HashButtonGroup = new javax.swing.ButtonGroup();
+        jDialog1 = new javax.swing.JDialog();
+        jLabel5 = new javax.swing.JLabel();
         indexWizardPanel = new javax.swing.JPanel();
         indexInfoPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -111,25 +157,22 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         jScrollPane1 = new javax.swing.JScrollPane();
         descriptionTextArea = new javax.swing.JTextArea();
         CaseWizardA1 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        LocalDriveRadioButton = new javax.swing.JRadioButton();
-        LocalFolderRadioButton = new javax.swing.JRadioButton();
-        EncaseImageRadioButton = new javax.swing.JRadioButton();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        UserNameGmailTextField = new javax.swing.JTextField();
-        UserNameHotmailTextField = new javax.swing.JTextField();
-        GmailCheckBox = new javax.swing.JCheckBox();
-        HotmailCheckBox = new javax.swing.JCheckBox();
-        PasswordGmailTextField = new javax.swing.JPasswordField();
-        PasswordHotmailTextField = new javax.swing.JPasswordField();
+        jPanel4 = new javax.swing.JPanel();
+        addDriverButton = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        sourcesJList = new javax.swing.JList();
+        removeButton = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        EmailTable = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         CaseWizardA2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         NoIndexRadioButton = new javax.swing.JRadioButton();
         DetectClusterCaseRadioButton = new javax.swing.JCheckBox();
-        ExportRadioButton = new javax.swing.JCheckBox();
         jLabel15 = new javax.swing.JLabel();
         YesIndexRadioButton = new javax.swing.JRadioButton();
         DetectClusterLibraryRadioButton = new javax.swing.JCheckBox();
@@ -155,13 +198,24 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         backButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        indexHeaderPanel = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Digital Evidence Miner: Create Index Wizard");
         setResizable(false);
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/DEMMainLogo.jpg"))); // NOI18N
 
         indexWizardPanel.setMaximumSize(new java.awt.Dimension(608, 361));
         indexWizardPanel.setPreferredSize(new java.awt.Dimension(608, 361));
@@ -243,139 +297,164 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                     .addComponent(jLabel4))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
 
         indexWizardPanel.add(indexInfoPanel, "indexInfoPanel");
         indexInfoPanel.getAccessibleContext().setAccessibleName("");
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel9.setText("What type of evidence (Data Source) you want to add:");
-
-        DataSourceButtonGroup.add(LocalDriveRadioButton);
-        LocalDriveRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        LocalDriveRadioButton.setText("Local Drive");
-        LocalDriveRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LocalDriveRadioButtonActionPerformed(evt);
-            }
-        });
-
-        DataSourceButtonGroup.add(LocalFolderRadioButton);
-        LocalFolderRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        LocalFolderRadioButton.setText("Local Folder");
-        LocalFolderRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LocalFolderRadioButtonActionPerformed(evt);
-            }
-        });
-
-        DataSourceButtonGroup.add(EncaseImageRadioButton);
-        EncaseImageRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        EncaseImageRadioButton.setText("Encase Image");
-        EncaseImageRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EncaseImageRadioButtonActionPerformed(evt);
-            }
-        });
-
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel10.setText("Would you like to import online e-mail accounts:");
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel11.setText("Username");
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("What type of evidence (Data Source) you want to add:"));
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel12.setText("Password");
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel13.setText("Provider");
-
-        UserNameGmailTextField.setText("S2v2012@gmail.com");
-        UserNameGmailTextField.addActionListener(new java.awt.event.ActionListener() {
+        addDriverButton.setText("Add Source");
+        addDriverButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UserNameGmailTextFieldActionPerformed(evt);
+                addDriverButtonActionPerformed(evt);
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11));
+
+        sourcesJList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        sourcesJList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                sourcesJListValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(sourcesJList);
+
+        removeButton.setText("Remove Selected Source");
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel9)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(removeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addDriverButton, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(addDriverButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(removeButton))
+                            .addComponent(jLabel9))
+                        .addGap(98, 98, 98))))
+        );
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Would you like to import online e-mail accounts:"));
+
+        EmailTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Username", "Password", "Provider"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(EmailTable);
+
+<<<<<<< HEAD
         UserNameHotmailTextField.setText(" ");
 
         GmailCheckBox.setText("Gmail");
         GmailCheckBox.addActionListener(new java.awt.event.ActionListener() {
+=======
+        jButton2.setText("Remove Email");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+>>>>>>> tmp
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GmailCheckBoxActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
-        HotmailCheckBox.setText("Hotmail");
-        HotmailCheckBox.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Add Email");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HotmailCheckBoxActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
+<<<<<<< HEAD
         PasswordGmailTextField.setText("s2v123456789");
+=======
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)))
+                .addContainerGap())
+        );
+>>>>>>> tmp
 
         javax.swing.GroupLayout CaseWizardA1Layout = new javax.swing.GroupLayout(CaseWizardA1);
         CaseWizardA1.setLayout(CaseWizardA1Layout);
         CaseWizardA1Layout.setHorizontalGroup(
             CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CaseWizardA1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CaseWizardA1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addGroup(CaseWizardA1Layout.createSequentialGroup()
-                        .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(LocalFolderRadioButton)
-                            .addComponent(LocalDriveRadioButton)
-                            .addComponent(EncaseImageRadioButton)
-                            .addGroup(CaseWizardA1Layout.createSequentialGroup()
-                                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel12))
-                                .addGap(39, 39, 39)
-                                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(GmailCheckBox)
-                                    .addComponent(UserNameGmailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                                    .addComponent(PasswordGmailTextField)))
-                            .addComponent(jLabel10))
-                        .addGap(61, 61, 61)
-                        .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(HotmailCheckBox)
-                            .addComponent(PasswordHotmailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-                            .addComponent(UserNameHotmailTextField))))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(26, 26, 26))
         );
         CaseWizardA1Layout.setVerticalGroup(
             CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(CaseWizardA1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CaseWizardA1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel9)
-                .addGap(28, 28, 28)
-                .addComponent(LocalDriveRadioButton)
-                .addGap(18, 18, 18)
-                .addComponent(LocalFolderRadioButton)
-                .addGap(18, 18, 18)
-                .addComponent(EncaseImageRadioButton)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel10)
-                .addGap(30, 30, 30)
-                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(GmailCheckBox)
-                    .addComponent(HotmailCheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(UserNameGmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(UserNameHotmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(PasswordGmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PasswordHotmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36))
+                .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(133, 133, 133))
         );
 
         indexWizardPanel.add(CaseWizardA1, "CaseWizardA1");
@@ -390,10 +469,6 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         DetectClusterCaseRadioButton.setSelected(true);
         DetectClusterCaseRadioButton.setText("Detect and cluster duplicated files within case files.");
 
-        ExportRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        ExportRadioButton.setSelected(true);
-        ExportRadioButton.setText("Export copy of hashes to DEM Hash Library.");
-
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel15.setText("Would you like to index the case:");
 
@@ -403,6 +478,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         YesIndexRadioButton.setText("Yes (Recommended)");
 
         DetectClusterLibraryRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        DetectClusterLibraryRadioButton.setSelected(true);
         DetectClusterLibraryRadioButton.setText("Detect and cluster duplicated files compared with DEM Hash Library");
         DetectClusterLibraryRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -413,6 +489,11 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         YesNoMD5HashButtonGroup.add(NoMD5RadioButton);
         NoMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         NoMD5RadioButton.setText("No");
+        NoMD5RadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NoMD5RadioButtonActionPerformed(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel14.setText(" Evidence (Data Source) should be indexed to be searchable and pefrom all functions.");
@@ -421,6 +502,11 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         YesMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         YesMD5RadioButton.setSelected(true);
         YesMD5RadioButton.setText("Yes");
+        YesMD5RadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                YesMD5RadioButtonActionPerformed(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel16.setText("Would you like to calculate MD5 Hashe Values for the case so you can perform \"Hash Analysis\".");
@@ -436,8 +522,6 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(DetectClusterLibraryRadioButton)
-                    .addComponent(DetectClusterCaseRadioButton)
-                    .addComponent(ExportRadioButton)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(YesIndexRadioButton)
@@ -449,7 +533,8 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                     .addComponent(jLabel16)
                     .addComponent(jLabel15)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17))
+                    .addComponent(jLabel17)
+                    .addComponent(DetectClusterCaseRadioButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -472,12 +557,10 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addGap(29, 29, 29)
                 .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ExportRadioButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(DetectClusterCaseRadioButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(DetectClusterLibraryRadioButton)
-                .addContainerGap())
+                .addGap(30, 30, 30))
         );
 
         CaseWizardA2.add(jPanel3);
@@ -580,7 +663,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout CaseWizardA3Layout = new javax.swing.GroupLayout(CaseWizardA3);
@@ -590,7 +673,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(CaseWizardA3Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         CaseWizardA3Layout.setVerticalGroup(
             CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -647,9 +730,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             indexFooterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(indexFooterPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
                 .addGap(113, 113, 113)
                 .addComponent(cancelButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -667,31 +750,12 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                             .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(indexFooterPanelLayout.createSequentialGroup()
                         .addGap(11, 11, 11)
-                        .addComponent(cancelButton))
-                    .addGroup(indexFooterPanelLayout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(finishButton)))
+                        .addComponent(cancelButton)))
                 .addGap(309, 309, 309))
-        );
-
-        indexHeaderPanel.setBackground(new java.awt.Color(51, 51, 51));
-        indexHeaderPanel.setMaximumSize(new java.awt.Dimension(628, 76));
-        indexHeaderPanel.setPreferredSize(new java.awt.Dimension(628, 76));
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24));
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/2 copy.jpg"))); // NOI18N
-        jLabel5.setText(" ");
-
-        javax.swing.GroupLayout indexHeaderPanelLayout = new javax.swing.GroupLayout(indexHeaderPanel);
-        indexHeaderPanel.setLayout(indexHeaderPanelLayout);
-        indexHeaderPanelLayout.setHorizontalGroup(
-            indexHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 721, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        indexHeaderPanelLayout.setVerticalGroup(
-            indexHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+            .addGroup(indexFooterPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(finishButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jSeparator1.setMaximumSize(new java.awt.Dimension(0, 2));
@@ -702,19 +766,21 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(indexFooterPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(indexWizardPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(indexHeaderPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE))
+                            .addComponent(indexWizardPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(indexFooterPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel5)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(indexHeaderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(indexWizardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -782,6 +848,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 break;
 
             case 2:
+                CaseSources.clear();
                 back();
                 break;
             case 3:
@@ -821,126 +888,65 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
 
         List<EmailConfiguration> emailInfos = new ArrayList<EmailConfiguration>();
-
-        // get email data if user add emails
-        if (this.GmailCheckBox.isSelected()) {
-            String user = this.UserNameGmailTextField.getText().trim();
-            String pass = this.PasswordGmailTextField.getText().trim();
-            EmailConfiguration.SOURCE source = EmailConfiguration.SOURCE.GMAIL;
-
-            // check input
-            // TODO: check inputs when selecting radio button in email page
-            // and show message
-            if (user.isEmpty() || pass.isEmpty()) {
-                return;
-            }
-
-            EmailConfiguration config = EmailConfiguration.newInstance(user, pass, source);
-            emailInfos.add(config);
-        }
-
-
-        if (this.HotmailCheckBox.isSelected()) {
-            String user = this.UserNameHotmailTextField.getText().trim();
-            String pass = this.PasswordHotmailTextField.getText().trim();
-            EmailConfiguration.SOURCE source = EmailConfiguration.SOURCE.HOTMAIL;
-
-            // check input
-            // TODO: check inputs when selecting radio button in email page
-            // and show message
-            if (user.isEmpty() || pass.isEmpty()) {
-                return;
-            }
-
-            EmailConfiguration config = EmailConfiguration.newInstance(user, pass, source);
-            emailInfos.add(config);
+        Object[][] data = getEmailTableData();
+        for (int c = 0; c < EmailTable.getRowCount(); c++) {
+            emailInfos.add(EmailConfiguration.newInstance(String.valueOf(data[c][0]), String.valueOf(data[c][1]), EmailConfiguration.SOURCE.valueOf(String.valueOf(data[c][2]))));
         }
 
         this.setVisible(false);
 
         // set direct indexing the case after creating
         this.indexTheCase = YesIndexRadioButton.isSelected() ;
-        
+       
         // Build Case
         currentCase = new Case.Builder(caseNameTextField.getText().trim(),
                 caseLocationTextField.getText().trim(),
                 investigatorTextField.getText().trim(),
                 descriptionTextArea.getText().trim(),
-                CaseSource, new Date(), 0).
-                isCacheImages(CacheImageCheckBox.isSelected())
-                .isClusterWithCase(DetectClusterCaseRadioButton.isSelected())
-                .isClusterWithLibrary(DetectClusterLibraryRadioButton.isSelected())
-                .isExcludeFileSystems(ExcludeSystemFilesCheckBox.isSelected())
-                .isExportLibrary(ExportRadioButton.isSelected())
-                .isHash(YesMD5RadioButton.isSelected())
-                .isIndex(YesIndexRadioButton.isSelected())
-                .isIndexArchive(IndexZipCheckBox.isSelected())
-                .isIndexEmbedded(IndexEmbeddedFilesCheckBox.isSelected())
-                .isIndexChatSessions(IndexChatCheckBox.isSelected())
-                .isDetectBrowserSessiond(DetectBrowserCheckBox.isSelected())
-                .createEmailConfig(emailInfos).build();
+                CaseSources, new Date(), 0).isCacheImages(CacheImageCheckBox.isSelected()).isClusterWithCase(DetectClusterCaseRadioButton.isSelected()).isClusterWithLibrary(DetectClusterLibraryRadioButton.isSelected()).isExcludeFileSystems(ExcludeSystemFilesCheckBox.isSelected()).isHash(YesMD5RadioButton.isSelected()).isIndex(YesIndexRadioButton.isSelected()).isIndexArchive(IndexZipCheckBox.isSelected()).isIndexEmbedded(IndexEmbeddedFilesCheckBox.isSelected()).isIndexChatSessions(IndexChatCheckBox.isSelected()).isDetectBrowserSessiond(DetectBrowserCheckBox.isSelected()).createEmailConfig(emailInfos).build();
 
-        boolean caseStatus = createCase(currentCase);
-
-        if (!caseStatus) {
+        if (!createCase(currentCase)) {     
             showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
         }
 
-        if (GmailCheckBox.isSelected() || HotmailCheckBox.isSelected()) {
+        for (EmailConfiguration s : emailInfos) {
+            try {
+                downloadEmail(currentCase, s);
+            } catch (Exception ex) {
+                Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-            JFrame frame = new JFrame();
-
-            for (EmailConfiguration s : emailInfos) {
-
-                if (s.getSource() == SOURCE.HOTMAIL) {
-
-                    EmailDownloaderDialog hotmail_dialogue = null;
-                    String Username = s.getUserName();
-                    String Password = s.getPassword();
-                    try {
-                        hotmail_dialogue = new EmailDownloaderDialog(frame, true, currentCase);
-
-                        hotmail_dialogue.downloader = new OnlineEmailDownloader(hotmail_dialogue,
-                                currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
-                                currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
-
-                        if (hotmail_dialogue.downloader.ConnectPop3(Username, Password)) {
-                            hotmail_dialogue.downloader.execute();
-                            hotmail_dialogue.setVisible(true);
-                           
-                        }
-                    } catch (Exception ex) {
-                        Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } // End IF Hotmail
-
-              if (s.getSource() == SOURCE.GMAIL) {
-                    EmailDownloaderDialog gmail_dialogue = null;
-                    String Username = s.getUserName();
-                    String Password = s.getPassword();
-                    try {
-                        gmail_dialogue = new EmailDownloaderDialog(frame, true, currentCase);
-
-                        gmail_dialogue.downloader = new OnlineEmailDownloader(gmail_dialogue,
-                                currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
-                                currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
-
-                        if (gmail_dialogue.downloader.ConnectIMAP(Username, Password)) {
-                            gmail_dialogue.downloader.execute();
-                            gmail_dialogue.setVisible(true);
-                        }
-                    } catch (Exception ex) {
-                        Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                } // End IF Gmail
-
-            } // End For Each Email Config
-        } // End if Emails are Selected 
+        } // End For Each Email Config
 
 
     }//GEN-LAST:event_finishButtonActionPerformed
 
+    public Object[][] getEmailTableData() {
+        return JTableUtil.getTableData(EmailTable);
+    }
+
+    public void downloadEmail(Case currentCase, EmailConfiguration config) throws Exception {
+
+        EmailDownloaderDialog dialogue = new EmailDownloaderDialog(_parent, true, currentCase);
+        dialogue.downloader = new OnlineEmailDownloader(dialogue,
+                currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
+                currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
+        // if hotmail
+        if (config.getSource() == SOURCE.HOTMAIL || config.getSource() == SOURCE.Yahoo) {
+            if (dialogue.downloader.ConnectPop3(config.getUserName(), config.getPassword())) {
+                dialogue.downloader.execute();
+                dialogue.setVisible(true);
+            }
+        }
+        if (config.getSource() == SOURCE.GMAIL) {
+            if (dialogue.downloader.ConnectIMAP(config.getUserName(), config.getPassword())) {
+                dialogue.downloader.execute();
+                dialogue.setVisible(true);
+            }
+
+        }
+
+    }
 private void ExcludeSystemFilesCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcludeSystemFilesCheckBoxActionPerformed
 // TODO add your handling code here:
     if (!ProgramFilesRadioButton.isVisible() && !WindowsFilesRadioButton.isVisible()) {
@@ -956,7 +962,31 @@ private void ExcludeSystemFilesCheckBoxActionPerformed(java.awt.event.ActionEven
 
 }//GEN-LAST:event_ExcludeSystemFilesCheckBoxActionPerformed
 
-private void LocalDriveRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LocalDriveRadioButtonActionPerformed
+private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectClusterLibraryRadioButtonActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_DetectClusterLibraryRadioButtonActionPerformed
+
+private void NoMD5RadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NoMD5RadioButtonActionPerformed
+// TODO add your handling code here:
+    if (NoMD5RadioButton.isSelected()) {
+        DetectClusterCaseRadioButton.setEnabled(false);
+        DetectClusterLibraryRadioButton.setEnabled(false);
+    }
+    
+     
+}//GEN-LAST:event_NoMD5RadioButtonActionPerformed
+
+private void YesMD5RadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YesMD5RadioButtonActionPerformed
+// TODO add your handling code here:
+     if (YesMD5RadioButton.isSelected()) {
+        DetectClusterCaseRadioButton.setEnabled(true);
+        DetectClusterLibraryRadioButton.setEnabled(true);
+    }
+}//GEN-LAST:event_YesMD5RadioButtonActionPerformed
+
+private void addDriverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDriverButtonActionPerformed
+// TODO add your handling code here:
+
 
     JDirectoryDialog directoryDialog = new JDirectoryDialog();
     directoryDialog.show(CaseWizardDialog.this);
@@ -964,66 +994,49 @@ private void LocalDriveRadioButtonActionPerformed(java.awt.event.ActionEvent evt
     if (path == null) {
         return;
     }
-    CaseSource = path;
+    addToList(path, sourcesListModel, sourcesJList);
+    //CaseSources = path;
 
+}//GEN-LAST:event_addDriverButtonActionPerformed
 
-}//GEN-LAST:event_LocalDriveRadioButtonActionPerformed
-
-private void LocalFolderRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LocalFolderRadioButtonActionPerformed
+private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
 // TODO add your handling code here:
+    
+    String Path = (String)sourcesJList.getSelectedValue();
+    removeFromList(Path, sourcesListModel, sourcesJList);
+    
+}//GEN-LAST:event_removeButtonActionPerformed
 
-    final JFileChooser fc = new JFileChooser();
-    fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-    int returnVal = fc.showOpenDialog(this);
+private void sourcesJListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_sourcesJListValueChanged
+// TODO add your handling code here:
+}//GEN-LAST:event_sourcesJListValueChanged
 
-    if (returnVal == JFileChooser.APPROVE_OPTION) {
-        File file = fc.getSelectedFile();
-        CaseSource = file.getPath();
-    } else {
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+// TODO add your handling code here:
+    NewEmailDialogue dialogue = new NewEmailDialogue(_parent, true);
+    dialogue.setLocationRelativeTo(this);
+    dialogue.setVisible(true);
+
+    if (!dialogue.getUserName().isEmpty() || !dialogue.getPassword().isEmpty() || !dialogue.getPassword().isEmpty()) {
+        Object[] arr = {dialogue.getUserName(), dialogue.getPassword(), dialogue.getProvider().name()};
+        JTableUtil.addRowToJTable(EmailTable, arr);
     }
-}//GEN-LAST:event_LocalFolderRadioButtonActionPerformed
+   
+}//GEN-LAST:event_jButton1ActionPerformed
 
-private void EncaseImageRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EncaseImageRadioButtonActionPerformed
+private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 // TODO add your handling code here:
-}//GEN-LAST:event_EncaseImageRadioButtonActionPerformed
-
-private void GmailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GmailCheckBoxActionPerformed
-// TODO add your handling code here:
-
-    if (GmailCheckBox.isSelected()) {
-
-        UserNameGmailTextField.setEnabled(true);
-        PasswordGmailTextField.setEnabled(true);
-
-    } else {
-
-        UserNameGmailTextField.setEnabled(false);
-        PasswordGmailTextField.setEnabled(false);
+    int row = EmailTable.getSelectedRow();
+    if (row < 0) {
+        return;
     }
-}//GEN-LAST:event_GmailCheckBoxActionPerformed
-
-private void HotmailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HotmailCheckBoxActionPerformed
-// TODO add your handling code here:
-    if (HotmailCheckBox.isSelected()) {
-
-        UserNameHotmailTextField.setEnabled(true);
-        PasswordHotmailTextField.setEnabled(true);
-
-    } else {
-
-        UserNameHotmailTextField.setEnabled(false);
-        PasswordHotmailTextField.setEnabled(false);
+    DefaultTableModel model = (DefaultTableModel) EmailTable.getModel();
+    int numRows = EmailTable.getSelectedRows().length;
+    for (int i = 0; i < numRows; i++) {
+        model.removeRow(EmailTable.getSelectedRow());
     }
 
-}//GEN-LAST:event_HotmailCheckBoxActionPerformed
-
-private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectClusterLibraryRadioButtonActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_DetectClusterLibraryRadioButtonActionPerformed
-
-private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserNameGmailTextFieldActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_UserNameGmailTextFieldActionPerformed
+}//GEN-LAST:event_jButton2ActionPerformed
 
     public boolean checkDirectIndex() {
         return indexTheCase;
@@ -1042,22 +1055,7 @@ private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent ev
         return false;
     }
     
-    /**
-     * Create folders to store email and attachments in this case
-     */
-    private void createEmailFolders(final String path) {
-
-        File attachments = new File(path + "\\" + FilesPath.ATTACHMENTS);
-        File emailDB = new File(path + "\\" + FilesPath.EMAIL_DB);
-        
-        if ( !attachments.exists() )
-            attachments.mkdir();
-
-        if ( !emailDB.exists())
-            emailDB.mkdir();
-    }
-    
-
+   
     /*
      * Check The IndexPanelInfo Before Go to the Next Panel
      * Check caseName if empty or is its existed
@@ -1100,40 +1098,13 @@ private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent ev
     }
 
     private boolean checkWizardSecondPanel() {
-        String caseSource = CaseSource;
-
-        if (caseSource == null || caseSource.isEmpty()) {
+     
+         AddFromModelToList(sourcesListModel, CaseSources);
+        if (CaseSources.isEmpty()) {
             showErrorMessage("You must choose a Case Source", "Empty Source");
             return false;
         }
-
-        if (GmailCheckBox.isSelected()) {
-
-            if (UserNameGmailTextField.getText().trim().isEmpty()) {
-                showErrorMessage("Username of Gmail is Empty ", "Please Write UserName");
-                return false;
-            }
-
-            if (PasswordGmailTextField.getPassword().length <= 0) {
-
-                showErrorMessage("Password is of Gmail Empty ", "Please Write Password");
-                return false;
-
-            }
-
-        } else if (HotmailCheckBox.isSelected()) {
-            if (UserNameHotmailTextField.getText().trim().isEmpty()) {
-                showErrorMessage("Username of Hotmail is Empty ", "Please Write UserName");
-                return false;
-            }
-
-            if (PasswordHotmailTextField.getPassword().length <= 0) {
-
-                showErrorMessage("Password is of Hotmail Empty ", "Please Write Password");
-                return false;
-            }
-
-        }
+ 
         return (true);
     }
 
@@ -1237,7 +1208,8 @@ private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent ev
         JOptionPane.showMessageDialog(this, msg, "Object Not Found", JOptionPane.ERROR_MESSAGE);
     }
 
-    private void showErrorMessage(String msg, String title) {
+    private void showErrorMessage(String msg, String title) {        JOptionPane.showMessageDialog(CaseWizardDialog.this, msg, title, JOptionPane.ERROR_MESSAGE);
+
         JOptionPane.showMessageDialog(CaseWizardDialog.this, msg, title, JOptionPane.ERROR_MESSAGE);
     }
 
@@ -1313,28 +1285,20 @@ private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent ev
     private javax.swing.JCheckBox DetectBrowserCheckBox;
     private javax.swing.JCheckBox DetectClusterCaseRadioButton;
     private javax.swing.JCheckBox DetectClusterLibraryRadioButton;
-    private javax.swing.JRadioButton EncaseImageRadioButton;
+    private javax.swing.JTable EmailTable;
     private javax.swing.JCheckBox ExcludeSystemFilesCheckBox;
-    private javax.swing.JCheckBox ExportRadioButton;
-    private javax.swing.JCheckBox GmailCheckBox;
-    private javax.swing.JCheckBox HotmailCheckBox;
     private javax.swing.JCheckBox IndexChatCheckBox;
     private javax.swing.JCheckBox IndexEmbeddedFilesCheckBox;
     private javax.swing.JCheckBox IndexZipCheckBox;
-    private javax.swing.JRadioButton LocalDriveRadioButton;
-    private javax.swing.JRadioButton LocalFolderRadioButton;
     private javax.swing.JRadioButton NoIndexRadioButton;
     private javax.swing.JRadioButton NoMD5RadioButton;
-    private javax.swing.JPasswordField PasswordGmailTextField;
-    private javax.swing.JPasswordField PasswordHotmailTextField;
     private javax.swing.JRadioButton ProgramFilesRadioButton;
-    private javax.swing.JTextField UserNameGmailTextField;
-    private javax.swing.JTextField UserNameHotmailTextField;
     private javax.swing.JRadioButton WindowsFilesRadioButton;
     private javax.swing.JRadioButton YesIndexRadioButton;
     private javax.swing.JRadioButton YesMD5RadioButton;
     private javax.swing.ButtonGroup YesNoIndexButtonGroup;
     private javax.swing.ButtonGroup YesNoMD5HashButtonGroup;
+    private javax.swing.JButton addDriverButton;
     private javax.swing.JButton backButton;
     private javax.swing.JButton browseButton;
     private javax.swing.JButton cancelButton;
@@ -1343,15 +1307,14 @@ private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent ev
     private javax.swing.JTextArea descriptionTextArea;
     private javax.swing.JButton finishButton;
     private javax.swing.JPanel indexFooterPanel;
-    private javax.swing.JPanel indexHeaderPanel;
     private javax.swing.JPanel indexInfoPanel;
     private javax.swing.JPanel indexWizardPanel;
     private javax.swing.JTextField investigatorTextField;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -1365,8 +1328,14 @@ private void UserNameGmailTextFieldActionPerformed(java.awt.event.ActionEvent ev
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton nextButton;
+    private javax.swing.JButton removeButton;
+    private javax.swing.JList sourcesJList;
     // End of variables declaration//GEN-END:variables
 }
