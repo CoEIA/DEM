@@ -29,7 +29,7 @@ import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-public class TikaExtractor {
+public final class TikaExtractor {
     
     /*
      * Extract Text Content and Metadata From Any Documents
@@ -75,7 +75,6 @@ public class TikaExtractor {
 
             parser.parse(inputStream, contentHandler, metadata, parseContext);
             
-
             // save content
             this.content = stringWriter.toString();
 

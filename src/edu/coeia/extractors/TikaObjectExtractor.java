@@ -56,7 +56,7 @@ public class TikaObjectExtractor {
             handler =  process(filename, extractor);
         }
         catch(Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         
         return handler ;
