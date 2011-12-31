@@ -297,7 +297,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                     .addComponent(jLabel4))
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         indexWizardPanel.add(indexInfoPanel, "indexInfoPanel");
@@ -382,15 +382,8 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         });
         jScrollPane3.setViewportView(EmailTable);
 
-<<<<<<< HEAD
-        UserNameHotmailTextField.setText(" ");
-
-        GmailCheckBox.setText("Gmail");
-        GmailCheckBox.addActionListener(new java.awt.event.ActionListener() {
-=======
         jButton2.setText("Remove Email");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
->>>>>>> tmp
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
@@ -403,9 +396,6 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-<<<<<<< HEAD
-        PasswordGmailTextField.setText("s2v123456789");
-=======
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -431,7 +421,6 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                         .addComponent(jButton2)))
                 .addContainerGap())
         );
->>>>>>> tmp
 
         javax.swing.GroupLayout CaseWizardA1Layout = new javax.swing.GroupLayout(CaseWizardA1);
         CaseWizardA1.setLayout(CaseWizardA1Layout);
@@ -662,7 +651,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(124, Short.MAX_VALUE))
         );
 
@@ -673,7 +662,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(CaseWizardA3Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         CaseWizardA3Layout.setVerticalGroup(
             CaseWizardA3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -755,7 +744,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(indexFooterPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(finishButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(309, Short.MAX_VALUE))
         );
 
         jSeparator1.setMaximumSize(new java.awt.Dimension(0, 2));
@@ -786,7 +775,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 

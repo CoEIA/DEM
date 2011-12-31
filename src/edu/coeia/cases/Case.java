@@ -22,14 +22,10 @@ public final class Case implements Serializable {
     private final String investigatorName;
     private final String description;
     private final Date createTime;
-<<<<<<< HEAD
-    
+
     private String caseName;
     private String caseLocation;
-    private String evidenceSourceLocation;
-=======
     private final List<String> evidenceSourceLocation;
->>>>>>> tmp
     
     // Optional Paramaters for case
 
@@ -274,6 +270,6 @@ public final class Case implements Serializable {
     }
     
     public void setEveidenceSourceLocation(final String location) {
-        this.evidenceSourceLocation = location;
+        this.evidenceSourceLocation.add(location);
     }
 }

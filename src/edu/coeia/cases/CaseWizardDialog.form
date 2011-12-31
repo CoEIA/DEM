@@ -74,15 +74,9 @@
               <Component id="indexWizardPanel" min="-2" pref="361" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jSeparator1" pref="1" max="32767" attributes="0"/>
-<<<<<<< HEAD
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="indexFooterPanel" min="-2" pref="63" max="-2" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-=======
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="indexFooterPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
->>>>>>> tmp
           </Group>
       </Group>
     </DimensionLayout>
@@ -172,7 +166,7 @@
                           <Component id="jScrollPane1" pref="213" max="32767" attributes="0"/>
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="122" max="32767" attributes="0"/>
+                      <EmptySpace pref="67" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -406,47 +400,6 @@
                     <TitledBorder title="Would you like to import online e-mail accounts:"/>
                   </Border>
                 </Property>
-<<<<<<< HEAD
-                <Property name="text" type="java.lang.String" value="Provider"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="UserNameGmailTextField">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="S2v2012@gmail.com"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="UserNameGmailTextFieldActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JTextField" name="UserNameHotmailTextField">
-              <Properties>
-                <Property name="text" type="java.lang.String" value=" "/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="GmailCheckBox">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Gmail"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GmailCheckBoxActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="HotmailCheckBox">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Hotmail"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="HotmailCheckBoxActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JPasswordField" name="PasswordGmailTextField">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="s2v123456789"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JPasswordField" name="PasswordHotmailTextField">
-            </Component>
-=======
               </Properties>
 
               <Layout>
@@ -542,7 +495,6 @@
                 </Component>
               </SubComponents>
             </Container>
->>>>>>> tmp
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="CaseWizardA2">
@@ -744,7 +696,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="48" max="32767" attributes="0"/>
+                      <EmptySpace pref="44" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -775,13 +727,8 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-<<<<<<< HEAD
                           <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="24" max="32767" attributes="0"/>
-=======
-                          <Component id="jPanel1" min="-2" pref="340" max="-2" attributes="0"/>
                           <EmptySpace pref="124" max="32767" attributes="0"/>
->>>>>>> tmp
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -977,7 +924,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="finishButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="309" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
