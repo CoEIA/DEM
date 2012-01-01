@@ -219,7 +219,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         indexInfoPanel.setMaximumSize(new java.awt.Dimension(608, 361));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel1.setText("Case Name:");
 
         caseNameTextField.setText(" ");
@@ -262,18 +262,20 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(caseNameTextField)
-                    .addComponent(caseLocationTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(investigatorTextField)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(browseButton))
+                .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(indexInfoPanelLayout.createSequentialGroup()
+                        .addComponent(caseLocationTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(browseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(caseNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                    .addComponent(investigatorTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE))
+                .addContainerGap())
         );
         indexInfoPanelLayout.setVerticalGroup(
             indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, indexInfoPanelLayout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
+            .addGroup(indexInfoPanelLayout.createSequentialGroup()
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(caseNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -289,14 +291,14 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addGap(18, 18, 18)
                 .addGroup(indexInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         indexWizardPanel.add(indexInfoPanel, "indexInfoPanel");
         indexInfoPanel.getAccessibleContext().setAccessibleName("");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11));
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("What type of evidence (Data Source) you want to add:"));
 
@@ -328,32 +330,28 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel9)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(addDriverButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
-                        .addGap(23, 23, 23)))
-                .addContainerGap(1, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(addDriverButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(removeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addComponent(addDriverButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeButton)))
-                .addContainerGap())
+                        .addComponent(removeButton)
+                        .addContainerGap(100, Short.MAX_VALUE))))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Would you like to import online e-mail accounts:"));
@@ -396,24 +394,24 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE))
-                .addGap(22, 22, 22))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)))
-                .addContainerGap())
+                .addGap(20, 20, 20))
         );
 
         javax.swing.GroupLayout CaseWizardA1Layout = new javax.swing.GroupLayout(CaseWizardA1);
@@ -426,17 +424,17 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addGap(569, 569, 569))
             .addGroup(CaseWizardA1Layout.createSequentialGroup()
                 .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, 0, 522, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         CaseWizardA1Layout.setVerticalGroup(
             CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CaseWizardA1Layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel10)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -449,19 +447,19 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         NoIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         NoIndexRadioButton.setText("No");
 
-        DetectClusterCaseRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        DetectClusterCaseRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         DetectClusterCaseRadioButton.setSelected(true);
         DetectClusterCaseRadioButton.setText("Detect and cluster duplicated files within case files.");
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel15.setText("Would you like to index the case:");
 
         YesNoIndexButtonGroup.add(YesIndexRadioButton);
-        YesIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        YesIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         YesIndexRadioButton.setSelected(true);
         YesIndexRadioButton.setText("Yes (Recommended)");
 
-        DetectClusterLibraryRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        DetectClusterLibraryRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         DetectClusterLibraryRadioButton.setSelected(true);
         DetectClusterLibraryRadioButton.setText("Detect and cluster duplicated files compared with DEM Hash Library");
         DetectClusterLibraryRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -479,7 +477,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel14.setText(" Evidence (Data Source) should be indexed to be searchable and pefrom all functions.");
 
         YesNoMD5HashButtonGroup.add(YesMD5RadioButton);
@@ -492,7 +490,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel16.setText("Would you like to calculate MD5 Hashe Values for the case so you can do \"Hash Analysis\".");
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -505,7 +503,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 504, Short.MAX_VALUE)
                     .addComponent(DetectClusterLibraryRadioButton)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -544,7 +542,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addComponent(DetectClusterCaseRadioButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(DetectClusterLibraryRadioButton)
-                .addGap(30, 30, 30))
+                .addGap(50, 50, 50))
         );
 
         javax.swing.GroupLayout CaseWizardA2Layout = new javax.swing.GroupLayout(CaseWizardA2);
@@ -557,8 +555,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         );
         CaseWizardA2Layout.setVerticalGroup(
             CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CaseWizardA2Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(CaseWizardA2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -679,7 +678,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         indexFooterPanel.setMaximumSize(new java.awt.Dimension(608, 63));
         indexFooterPanel.setPreferredSize(new java.awt.Dimension(608, 63));
 
-        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        finishButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         finishButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/finish.png"))); // NOI18N
         finishButton.setText("Finish");
         finishButton.addActionListener(new java.awt.event.ActionListener() {
@@ -706,7 +705,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        cancelButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        cancelButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -773,7 +772,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 

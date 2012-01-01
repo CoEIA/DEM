@@ -78,8 +78,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         fileChooser.setFileFilter(new GUIFileFilter("Text Files (*.txt)", "txt"));
         
         mozillaSearchField.getDocument().addDocumentListener(new MozillaInputListener());
-        IESearchField.getDocument().addDocumentListener(new IEInputListener());        
-        summaryTextField.getDocument().addDocumentListener(new SummaryInputListener());          
+        IESearchField.getDocument().addDocumentListener(new IEInputListener());                  
         
         // set ff & IE data to thier combobox
 //        for (String ffPath: index.getFFPath() )
@@ -89,8 +88,6 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
 //            ieComboBox.addItem(iePath);      
         
         disableNotIndexedComponent();
-                
-        JTableUtil.setTableAlignmentValue(summaryTable, 1);
     }
 
     /** This method is called from within the constructor to
@@ -103,15 +100,6 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         internetSurfingTappedPane = new javax.swing.JTabbedPane();
-        summaryInternetPanel = new javax.swing.JPanel();
-        jPanel18 = new javax.swing.JPanel();
-        summaryInternetButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        summaryTextField = new javax.swing.JTextField();
-        jLabel30 = new javax.swing.JLabel();
-        jPanel21 = new javax.swing.JPanel();
-        jScrollPane11 = new javax.swing.JScrollPane();
-        summaryTable = new javax.swing.JTable();
         mozillaPanel = new javax.swing.JPanel();
         mozillaButtonsPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -200,1042 +188,869 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        summaryInternetPanel.setPreferredSize(new java.awt.Dimension(853, 796));
-        summaryInternetPanel.setLayout(new java.awt.BorderLayout());
+        mozillaPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel18.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Summary Browsing  History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        mozillaButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Browser Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        mozillaButtonsPanel.setPreferredSize(new java.awt.Dimension(200, 459));
 
-        summaryInternetButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        summaryInternetButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/history.png"))); // NOI18N
-        summaryInternetButton.setText(" History Summary");
-        summaryInternetButton.addActionListener(new java.awt.event.ActionListener() {
+        jToolBar2.setFloatable(false);
+        jToolBar2.setOrientation(javax.swing.JToolBar.VERTICAL);
+        jToolBar2.setRollover(true);
+
+        ffSummaryButtton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/view_text.png"))); // NOI18N
+        ffSummaryButtton.setText("Summary");
+        ffSummaryButtton.setEnabled(false);
+        ffSummaryButtton.setPreferredSize(new java.awt.Dimension(55, 55));
+        ffSummaryButtton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                summaryInternetButtonActionPerformed(evt);
+                ffSummaryButttonActionPerformed(evt);
             }
         });
+        jToolBar2.add(ffSummaryButtton);
+        jToolBar2.add(jSeparator2);
 
-        javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
-        jPanel18.setLayout(jPanel18Layout);
-        jPanel18Layout.setHorizontalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                .addContainerGap(652, Short.MAX_VALUE)
-                .addComponent(summaryInternetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(334, 334, 334))
+        webHistoryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
+        webHistoryButton.setText("Web History");
+        webHistoryButton.setEnabled(false);
+        webHistoryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                webHistoryButtonActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(webHistoryButton);
+
+        bookmarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/bookmarks.png"))); // NOI18N
+        bookmarButton.setText("Bookmark");
+        bookmarButton.setEnabled(false);
+        bookmarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bookmarButtonActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(bookmarButton);
+
+        cookiesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/autostart.png"))); // NOI18N
+        cookiesButton.setText("Cookies");
+        cookiesButton.setEnabled(false);
+        cookiesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cookiesButtonActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(cookiesButton);
+
+        downloadButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/download.png"))); // NOI18N
+        downloadButton.setText("Download");
+        downloadButton.setEnabled(false);
+        downloadButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                downloadButtonActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(downloadButton);
+
+        logginsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/lists.png"))); // NOI18N
+        logginsButton.setText("Loggins");
+        logginsButton.setEnabled(false);
+        logginsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logginsButtonActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(logginsButton);
+
+        jScrollPane1.setViewportView(jToolBar2);
+
+        javax.swing.GroupLayout mozillaButtonsPanelLayout = new javax.swing.GroupLayout(mozillaButtonsPanel);
+        mozillaButtonsPanel.setLayout(mozillaButtonsPanelLayout);
+        mozillaButtonsPanelLayout.setHorizontalGroup(
+            mozillaButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
         );
-        jPanel18Layout.setVerticalGroup(
-            jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel18Layout.createSequentialGroup()
-                .addComponent(summaryInternetButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        mozillaButtonsPanelLayout.setVerticalGroup(
+            mozillaButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
         );
 
-        summaryInternetPanel.add(jPanel18, java.awt.BorderLayout.NORTH);
+        mozillaPanel.add(mozillaButtonsPanel, java.awt.BorderLayout.WEST);
 
-        summaryTextField.setText(" ");
+        mozillaResultPanel.setLayout(new java.awt.CardLayout());
 
-        jLabel30.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel30.setForeground(new java.awt.Color(0, 70, 213));
-        jLabel30.setText("Filter Table:");
+        webHistoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Web History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel30)
-                .addGap(10, 10, 10)
-                .addComponent(summaryTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 1098, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(summaryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel30))
-                .addContainerGap())
-        );
-
-        summaryInternetPanel.add(jPanel1, java.awt.BorderLayout.SOUTH);
-
-        jPanel21.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Summary Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-        jPanel21.setPreferredSize(new java.awt.Dimension(853, 100));
-
-        summaryTable.setAutoCreateRowSorter(true);
-        summaryTable.setFont(new java.awt.Font("Tahoma", 1, 11));
-        summaryTable.setModel(new javax.swing.table.DefaultTableModel(
+        webHistoryTable.setAutoCreateRowSorter(true);
+        webHistoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
             },
             new String [] {
-                "Web Site","Number of Visits","Date of last Visit"
+                "Date","Url","Title","Visit Count","Typed"
             }
         ){
             public Class<?> getColumnClass( int index) {
                 switch (index) {
                     case 0:
-                    case 2:
-                    return String.class;
-
                     case 1:
+                    case 2:
+                    return Object.class;
+
+                    case 3:
+                    return Integer.class;
+
+                    case 4:
                     return Integer.class;
                 }
 
                 return Object.class;
             }
-        }
-    );
-    summaryTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            summaryTableMousePressed(evt);
-        }
-        public void mouseReleased(java.awt.event.MouseEvent evt) {
-            summaryTableMouseReleased(evt);
-        }
-    });
-    jScrollPane11.setViewportView(summaryTable);
-
-    javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
-    jPanel21.setLayout(jPanel21Layout);
-    jPanel21Layout.setHorizontalGroup(
-        jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1182, Short.MAX_VALUE)
-    );
-    jPanel21Layout.setVerticalGroup(
-        jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
-    );
-
-    summaryInternetPanel.add(jPanel21, java.awt.BorderLayout.CENTER);
-
-    internetSurfingTappedPane.addTab("Summary Browsing Information", summaryInternetPanel);
-
-    mozillaPanel.setLayout(new java.awt.BorderLayout());
-
-    mozillaButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Browser Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-    mozillaButtonsPanel.setPreferredSize(new java.awt.Dimension(200, 459));
-
-    jToolBar2.setFloatable(false);
-    jToolBar2.setOrientation(javax.swing.JToolBar.VERTICAL);
-    jToolBar2.setRollover(true);
-
-    ffSummaryButtton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/view_text.png"))); // NOI18N
-    ffSummaryButtton.setText("Summary");
-    ffSummaryButtton.setEnabled(false);
-    ffSummaryButtton.setPreferredSize(new java.awt.Dimension(55, 55));
-    ffSummaryButtton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ffSummaryButttonActionPerformed(evt);
-        }
-    });
-    jToolBar2.add(ffSummaryButtton);
-    jToolBar2.add(jSeparator2);
-
-    webHistoryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
-    webHistoryButton.setText("Web History");
-    webHistoryButton.setEnabled(false);
-    webHistoryButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            webHistoryButtonActionPerformed(evt);
-        }
-    });
-    jToolBar2.add(webHistoryButton);
-
-    bookmarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/bookmarks.png"))); // NOI18N
-    bookmarButton.setText("Bookmark");
-    bookmarButton.setEnabled(false);
-    bookmarButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            bookmarButtonActionPerformed(evt);
-        }
-    });
-    jToolBar2.add(bookmarButton);
-
-    cookiesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/autostart.png"))); // NOI18N
-    cookiesButton.setText("Cookies");
-    cookiesButton.setEnabled(false);
-    cookiesButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            cookiesButtonActionPerformed(evt);
-        }
-    });
-    jToolBar2.add(cookiesButton);
-
-    downloadButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/download.png"))); // NOI18N
-    downloadButton.setText("Download");
-    downloadButton.setEnabled(false);
-    downloadButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            downloadButtonActionPerformed(evt);
-        }
-    });
-    jToolBar2.add(downloadButton);
-
-    logginsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/lists.png"))); // NOI18N
-    logginsButton.setText("Loggins");
-    logginsButton.setEnabled(false);
-    logginsButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            logginsButtonActionPerformed(evt);
-        }
-    });
-    jToolBar2.add(logginsButton);
-
-    jScrollPane1.setViewportView(jToolBar2);
-
-    javax.swing.GroupLayout mozillaButtonsPanelLayout = new javax.swing.GroupLayout(mozillaButtonsPanel);
-    mozillaButtonsPanel.setLayout(mozillaButtonsPanelLayout);
-    mozillaButtonsPanelLayout.setHorizontalGroup(
-        mozillaButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-    );
-    mozillaButtonsPanelLayout.setVerticalGroup(
-        mozillaButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
-    );
-
-    mozillaPanel.add(mozillaButtonsPanel, java.awt.BorderLayout.WEST);
-
-    mozillaResultPanel.setLayout(new java.awt.CardLayout());
-
-    webHistoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Web History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-    webHistoryTable.setAutoCreateRowSorter(true);
-    webHistoryTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
-            "Date","Url","Title","Visit Count","Typed"
-        }
-    ){
-        public Class<?> getColumnClass( int index) {
-            switch (index) {
-                case 0:
-                case 1:
-                case 2:
-                return Object.class;
-
-                case 3:
-                return Integer.class;
-
-                case 4:
-                return Integer.class;
+        });
+        webHistoryTable.setFillsViewportHeight(true);
+        webHistoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                webHistoryTableMousePressed(evt);
             }
-
-            return Object.class;
-        }
-    });
-    webHistoryTable.setFillsViewportHeight(true);
-    webHistoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            webHistoryTableMousePressed(evt);
-        }
-        public void mouseReleased(java.awt.event.MouseEvent evt) {
-            webHistoryTableMouseReleased(evt);
-        }
-    });
-    webHistoryScrollPane.setViewportView(webHistoryTable);
-
-    javax.swing.GroupLayout webHistoryPanelLayout = new javax.swing.GroupLayout(webHistoryPanel);
-    webHistoryPanel.setLayout(webHistoryPanelLayout);
-    webHistoryPanelLayout.setHorizontalGroup(
-        webHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(webHistoryPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(webHistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-    webHistoryPanelLayout.setVerticalGroup(
-        webHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(webHistoryPanelLayout.createSequentialGroup()
-            .addComponent(webHistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-
-    mozillaResultPanel.add(webHistoryPanel, "webHistoryCard");
-
-    bookmarkHistory.setBorder(javax.swing.BorderFactory.createTitledBorder("Bookmark"));
-
-    bookmarkTable.setAutoCreateRowSorter(true);
-    bookmarkTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
-            "TITLE","URL","DATE ADDED"
-        }
-    ));
-    bookmarkTable.setFillsViewportHeight(true);
-    bookmarkTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            bookmarkTableMousePressed(evt);
-        }
-        public void mouseReleased(java.awt.event.MouseEvent evt) {
-            bookmarkTableMouseReleased(evt);
-        }
-    });
-    bookmarkScrollPane.setViewportView(bookmarkTable);
-
-    javax.swing.GroupLayout bookmarkHistoryLayout = new javax.swing.GroupLayout(bookmarkHistory);
-    bookmarkHistory.setLayout(bookmarkHistoryLayout);
-    bookmarkHistoryLayout.setHorizontalGroup(
-        bookmarkHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(bookmarkHistoryLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(bookmarkScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-    bookmarkHistoryLayout.setVerticalGroup(
-        bookmarkHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(bookmarkHistoryLayout.createSequentialGroup()
-            .addComponent(bookmarkScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-
-    mozillaResultPanel.add(bookmarkHistory, "bookmarkCard");
-
-    cookiesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cookies"));
-
-    cookiesTable.setAutoCreateRowSorter(true);
-    cookiesTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
-            "HOST","PATH","NAME","VALUE","LAST ACCESS TIME","EXPIRY",
-            "IS SECURE","IS HTTP ONLY"
-        }
-    ));
-    cookiesTable.setFillsViewportHeight(true);
-    cookiesTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            cookiesTableMousePressed(evt);
-        }
-        public void mouseReleased(java.awt.event.MouseEvent evt) {
-            cookiesTableMouseReleased(evt);
-        }
-    });
-    cookiesScrollPane.setViewportView(cookiesTable);
-
-    javax.swing.GroupLayout cookiesPanelLayout = new javax.swing.GroupLayout(cookiesPanel);
-    cookiesPanel.setLayout(cookiesPanelLayout);
-    cookiesPanelLayout.setHorizontalGroup(
-        cookiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(cookiesPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(cookiesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-    cookiesPanelLayout.setVerticalGroup(
-        cookiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(cookiesPanelLayout.createSequentialGroup()
-            .addComponent(cookiesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-
-    mozillaResultPanel.add(cookiesPanel, "cookiesCard");
-
-    downloadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Download"));
-
-    downloadTable.setAutoCreateRowSorter(true);
-    downloadTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
-            "NAME","SOURCE","TARGET","START TIME","END TIME"
-        }
-    ));
-    downloadTable.setFillsViewportHeight(true);
-    downloadTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            downloadTableMousePressed(evt);
-        }
-        public void mouseReleased(java.awt.event.MouseEvent evt) {
-            downloadTableMouseReleased(evt);
-        }
-    });
-    downloadScrollPane.setViewportView(downloadTable);
-
-    javax.swing.GroupLayout downloadPanelLayout = new javax.swing.GroupLayout(downloadPanel);
-    downloadPanel.setLayout(downloadPanelLayout);
-    downloadPanelLayout.setHorizontalGroup(
-        downloadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(downloadPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(downloadScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-    downloadPanelLayout.setVerticalGroup(
-        downloadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(downloadPanelLayout.createSequentialGroup()
-            .addComponent(downloadScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-
-    mozillaResultPanel.add(downloadPanel, "downloadCard");
-
-    logginsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Loggins"));
-
-    logginsTable.setAutoCreateRowSorter(true);
-    logginsTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
-            "HOST NAME","USERNAME FIELD",
-            "PASSWORD FIELD","ENCRYPTED USERNAME","ENCRYPTED PASSWORD"
-        }
-    ));
-    logginsTable.setFillsViewportHeight(true);
-    logginsTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            logginsTableMousePressed(evt);
-        }
-        public void mouseReleased(java.awt.event.MouseEvent evt) {
-            logginsTableMouseReleased(evt);
-        }
-    });
-    logginsScrollPane.setViewportView(logginsTable);
-
-    javax.swing.GroupLayout logginsPanelLayout = new javax.swing.GroupLayout(logginsPanel);
-    logginsPanel.setLayout(logginsPanelLayout);
-    logginsPanelLayout.setHorizontalGroup(
-        logginsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(logginsPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(logginsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-    logginsPanelLayout.setVerticalGroup(
-        logginsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(logginsPanelLayout.createSequentialGroup()
-            .addComponent(logginsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-
-    mozillaResultPanel.add(logginsPanel, "logginsCard");
-
-    topHostTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
-            "Host Name", "Total Visit Count"
-        }
-    ));
-    jScrollPane24.setViewportView(topHostTable);
-
-    javax.swing.GroupLayout topHostPanelLayout = new javax.swing.GroupLayout(topHostPanel);
-    topHostPanel.setLayout(topHostPanelLayout);
-    topHostPanelLayout.setHorizontalGroup(
-        topHostPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane24, javax.swing.GroupLayout.DEFAULT_SIZE, 969, Short.MAX_VALUE)
-    );
-    topHostPanelLayout.setVerticalGroup(
-        topHostPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane24, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
-    );
-
-    ffSumarryTappnedPane.addTab("Top 20 Visitied Host", topHostPanel);
-
-    topURLTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
-            "URL","Title","Visit Count"
-        }
-    ));
-    jScrollPane25.setViewportView(topURLTable);
-
-    javax.swing.GroupLayout topURLPanelLayout = new javax.swing.GroupLayout(topURLPanel);
-    topURLPanel.setLayout(topURLPanelLayout);
-    topURLPanelLayout.setHorizontalGroup(
-        topURLPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane25, javax.swing.GroupLayout.DEFAULT_SIZE, 969, Short.MAX_VALUE)
-    );
-    topURLPanelLayout.setVerticalGroup(
-        topURLPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane25, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
-    );
-
-    ffSumarryTappnedPane.addTab("Top 20 Visited url", topURLPanel);
-
-    searchEngineTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
-            "URL","Date"
-        }
-    ));
-    jScrollPane26.setViewportView(searchEngineTable);
-
-    javax.swing.GroupLayout searchEnginePanelLayout = new javax.swing.GroupLayout(searchEnginePanel);
-    searchEnginePanel.setLayout(searchEnginePanelLayout);
-    searchEnginePanelLayout.setHorizontalGroup(
-        searchEnginePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane26, javax.swing.GroupLayout.DEFAULT_SIZE, 969, Short.MAX_VALUE)
-    );
-    searchEnginePanelLayout.setVerticalGroup(
-        searchEnginePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane26, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
-    );
-
-    ffSumarryTappnedPane.addTab("Searching on search engine", searchEnginePanel);
-
-    javax.swing.GroupLayout ffSummaryDataPanelLayout = new javax.swing.GroupLayout(ffSummaryDataPanel);
-    ffSummaryDataPanel.setLayout(ffSummaryDataPanelLayout);
-    ffSummaryDataPanelLayout.setHorizontalGroup(
-        ffSummaryDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(ffSumarryTappnedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 974, Short.MAX_VALUE)
-    );
-    ffSummaryDataPanelLayout.setVerticalGroup(
-        ffSummaryDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(ffSumarryTappnedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
-    );
-
-    ffSummaryButtonsPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-    ffViewHTMLReportButton.setText("View HTML Report");
-    ffViewHTMLReportButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ffViewHTMLReportButtonActionPerformed(evt);
-        }
-    });
-
-    ffVisualizingVisitedHostButton.setText("Visualizing Visited Host");
-    ffVisualizingVisitedHostButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ffVisualizingVisitedHostButtonActionPerformed(evt);
-        }
-    });
-
-    javax.swing.GroupLayout ffSummaryButtonsPanelLayout = new javax.swing.GroupLayout(ffSummaryButtonsPanel);
-    ffSummaryButtonsPanel.setLayout(ffSummaryButtonsPanelLayout);
-    ffSummaryButtonsPanelLayout.setHorizontalGroup(
-        ffSummaryButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(ffSummaryButtonsPanelLayout.createSequentialGroup()
-            .addGap(113, 113, 113)
-            .addComponent(ffViewHTMLReportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 455, Short.MAX_VALUE)
-            .addComponent(ffVisualizingVisitedHostButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(113, 113, 113))
-    );
-    ffSummaryButtonsPanelLayout.setVerticalGroup(
-        ffSummaryButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(ffSummaryButtonsPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(ffSummaryButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(ffViewHTMLReportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(ffVisualizingVisitedHostButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(15, Short.MAX_VALUE))
-    );
-
-    javax.swing.GroupLayout ffSummaryPanelLayout = new javax.swing.GroupLayout(ffSummaryPanel);
-    ffSummaryPanel.setLayout(ffSummaryPanelLayout);
-    ffSummaryPanelLayout.setHorizontalGroup(
-        ffSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ffSummaryPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(ffSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addComponent(ffSummaryButtonsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ffSummaryDataPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addContainerGap())
-    );
-    ffSummaryPanelLayout.setVerticalGroup(
-        ffSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ffSummaryPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(ffSummaryDataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGap(18, 18, 18)
-            .addComponent(ffSummaryButtonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap())
-    );
-
-    mozillaResultPanel.add(ffSummaryPanel, "ffSummaryCard");
-
-    mozillaPanel.add(mozillaResultPanel, java.awt.BorderLayout.CENTER);
-
-    mozillaSearchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Searching and Sorting", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-    mozillaSearchPanel.setPreferredSize(new java.awt.Dimension(1194, 92));
-
-    jLabel15.setText("Search String:");
-
-    mozillaSearchField.setText(" ");
-
-    jLabel16.setText("URL Filter:");
-
-    mozillaFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
-        "Filter By Date",
-        "Filrer By URL Name"
-    }));
-    mozillaFilterComboBox.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            mozillaFilterComboBoxActionPerformed(evt);
-        }
-    });
-
-    javax.swing.GroupLayout mozillaSearchPanelLayout = new javax.swing.GroupLayout(mozillaSearchPanel);
-    mozillaSearchPanel.setLayout(mozillaSearchPanelLayout);
-    mozillaSearchPanelLayout.setHorizontalGroup(
-        mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(mozillaSearchPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addComponent(jLabel16)
-                .addComponent(jLabel15))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(mozillaFilterComboBox, 0, 1084, Short.MAX_VALUE)
-                .addComponent(mozillaSearchField, javax.swing.GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE))
-            .addContainerGap())
-    );
-    mozillaSearchPanelLayout.setVerticalGroup(
-        mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(mozillaSearchPanelLayout.createSequentialGroup()
-            .addGroup(mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel15)
-                .addComponent(mozillaSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel16)
-                .addComponent(mozillaFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(18, Short.MAX_VALUE))
-    );
-
-    mozillaPanel.add(mozillaSearchPanel, java.awt.BorderLayout.SOUTH);
-
-    mozillaLoadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-    mozillaLoadPanel.setLayout(new java.awt.BorderLayout());
-
-    jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11));
-    jLabel3.setForeground(new java.awt.Color(0, 70, 213));
-    jLabel3.setText("Select FireFox File From Index:");
-    mozillaLoadPanel.add(jLabel3, java.awt.BorderLayout.WEST);
-
-    ffComboBox.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            ffComboBoxActionPerformed(evt);
-        }
-    });
-    mozillaLoadPanel.add(ffComboBox, java.awt.BorderLayout.CENTER);
-
-    loadFFButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-    loadFFButton.setText("Load Profile");
-    loadFFButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            loadFFButtonActionPerformed(evt);
-        }
-    });
-    mozillaLoadPanel.add(loadFFButton, java.awt.BorderLayout.EAST);
-
-    mozillaPanel.add(mozillaLoadPanel, java.awt.BorderLayout.NORTH);
-
-    internetSurfingTappedPane.addTab("Mozilla FireFox Browser", mozillaPanel);
-
-    IEPanel.setPreferredSize(new java.awt.Dimension(853, 796));
-    IEPanel.setLayout(new java.awt.BorderLayout());
-
-    IEButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Browser Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-    IEButtonsPanel.setPreferredSize(new java.awt.Dimension(200, 459));
-
-    jToolBar3.setFloatable(false);
-    jToolBar3.setOrientation(javax.swing.JToolBar.VERTICAL);
-    jToolBar3.setRollover(true);
-
-    webHistoryButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
-    webHistoryButton1.setText("Web History");
-    webHistoryButton1.setEnabled(false);
-    webHistoryButton1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            webHistoryButton1ActionPerformed(evt);
-        }
-    });
-    jToolBar3.add(webHistoryButton1);
-
-    bookmarButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/bookmarks.png"))); // NOI18N
-    bookmarButton1.setText("Bookmark");
-    bookmarButton1.setEnabled(false);
-    bookmarButton1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            bookmarButton1ActionPerformed(evt);
-        }
-    });
-    jToolBar3.add(bookmarButton1);
-
-    cookiesButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/autostart.png"))); // NOI18N
-    cookiesButton1.setText("Cookies");
-    cookiesButton1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            cookiesButton1ActionPerformed(evt);
-        }
-    });
-    jToolBar3.add(cookiesButton1);
-
-    cacheButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/download.png"))); // NOI18N
-    cacheButton.setText("Cache");
-    cacheButton.setEnabled(false);
-    cacheButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            cacheButtonActionPerformed(evt);
-        }
-    });
-    jToolBar3.add(cacheButton);
-
-    logginsButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/lists.png"))); // NOI18N
-    logginsButton1.setText("Loggins");
-    logginsButton1.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            logginsButton1ActionPerformed(evt);
-        }
-    });
-    jToolBar3.add(logginsButton1);
-
-    jScrollPane2.setViewportView(jToolBar3);
-
-    javax.swing.GroupLayout IEButtonsPanelLayout = new javax.swing.GroupLayout(IEButtonsPanel);
-    IEButtonsPanel.setLayout(IEButtonsPanelLayout);
-    IEButtonsPanelLayout.setHorizontalGroup(
-        IEButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, IEButtonsPanelLayout.createSequentialGroup()
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-    );
-    IEButtonsPanelLayout.setVerticalGroup(
-        IEButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
-    );
-
-    IEPanel.add(IEButtonsPanel, java.awt.BorderLayout.WEST);
-
-    IESearchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Searching and Sorting", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-    jLabel17.setText("Search String:");
-
-    IESearchField.setText(" ");
-
-    jLabel18.setText("URL Filter:");
-
-    IEFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
-        "Filter By Date",
-        "Filrer By URL Name"
-    }));
-    IEFilterComboBox.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            IEFilterComboBoxActionPerformed(evt);
-        }
-    });
-
-    javax.swing.GroupLayout IESearchPanelLayout = new javax.swing.GroupLayout(IESearchPanel);
-    IESearchPanel.setLayout(IESearchPanelLayout);
-    IESearchPanelLayout.setHorizontalGroup(
-        IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(IESearchPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addGroup(IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addComponent(jLabel18)
-                .addComponent(jLabel17))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(IEFilterComboBox, 0, 1084, Short.MAX_VALUE)
-                .addComponent(IESearchField, javax.swing.GroupLayout.DEFAULT_SIZE, 1084, Short.MAX_VALUE))
-            .addContainerGap())
-    );
-    IESearchPanelLayout.setVerticalGroup(
-        IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(IESearchPanelLayout.createSequentialGroup()
-            .addGroup(IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel17)
-                .addComponent(IESearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel18)
-                .addComponent(IEFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-    );
-
-    IEPanel.add(IESearchPanel, java.awt.BorderLayout.SOUTH);
-
-    IEResultPanel.setLayout(new java.awt.CardLayout());
-
-    IEWebHistoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Web History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-    IEWebHistoryTable.setAutoCreateRowSorter(true);
-    IEWebHistoryTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-
-        },
-        new String [] {
-            "URL","TITLE","HITS","MODIFIED DATE","EXPIRATION DATE",
-            "USER NAME"
-        }
-    ));
-    IEWebHistoryTable.setFillsViewportHeight(true);
-    IEWebHistoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            IEWebHistoryTableMousePressed(evt);
-        }
-        public void mouseReleased(java.awt.event.MouseEvent evt) {
-            IEWebHistoryTableMouseReleased(evt);
-        }
-    });
-    jScrollPane5.setViewportView(IEWebHistoryTable);
-
-    javax.swing.GroupLayout IEWebHistoryPanelLayout = new javax.swing.GroupLayout(IEWebHistoryPanel);
-    IEWebHistoryPanel.setLayout(IEWebHistoryPanelLayout);
-    IEWebHistoryPanelLayout.setHorizontalGroup(
-        IEWebHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(IEWebHistoryPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-    IEWebHistoryPanelLayout.setVerticalGroup(
-        IEWebHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
-    );
-
-    IEResultPanel.add(IEWebHistoryPanel, "IEWebHisrotyCard");
-
-    IEBookmarkPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Bookmark"));
-
-    IEBookmarkTable.setAutoCreateRowSorter(true);
-    IEBookmarkTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] { } ,
-        new String [] {
-            "FILE NAME"
-        }
-    ));
-    IEBookmarkTable.setFillsViewportHeight(true);
-    IEBookmarkTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            IEBookmarkTableMousePressed(evt);
-        }
-        public void mouseReleased(java.awt.event.MouseEvent evt) {
-            IEBookmarkTableMouseReleased(evt);
-        }
-    });
-    jScrollPane6.setViewportView(IEBookmarkTable);
-
-    javax.swing.GroupLayout IEBookmarkPanelLayout = new javax.swing.GroupLayout(IEBookmarkPanel);
-    IEBookmarkPanel.setLayout(IEBookmarkPanelLayout);
-    IEBookmarkPanelLayout.setHorizontalGroup(
-        IEBookmarkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(IEBookmarkPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-    IEBookmarkPanelLayout.setVerticalGroup(
-        IEBookmarkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(IEBookmarkPanelLayout.createSequentialGroup()
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-
-    IEResultPanel.add(IEBookmarkPanel, "IEBookmarkCard");
-
-    IECookiesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cookies"));
-
-    IECookiesTable.setAutoCreateRowSorter(true);
-    IECookiesTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
-            "DATE","SITE","FILE"
-        }
-    ));
-    IECookiesTable.setFillsViewportHeight(true);
-    IECookiesTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            IECookiesTableMousePressed(evt);
-        }
-        public void mouseReleased(java.awt.event.MouseEvent evt) {
-            IECookiesTableMouseReleased(evt);
-        }
-    });
-    jScrollPane4.setViewportView(IECookiesTable);
-
-    javax.swing.GroupLayout IECookiesPanelLayout = new javax.swing.GroupLayout(IECookiesPanel);
-    IECookiesPanel.setLayout(IECookiesPanelLayout);
-    IECookiesPanelLayout.setHorizontalGroup(
-        IECookiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(IECookiesPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-    IECookiesPanelLayout.setVerticalGroup(
-        IECookiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(IECookiesPanelLayout.createSequentialGroup()
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-
-    IEResultPanel.add(IECookiesPanel, "IECookiesCard");
-
-    IECachePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cache"));
-
-    IECacheTable.setAutoCreateRowSorter(true);
-    IECacheTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
-            "DATE","URL","FILE"
-        }
-    ));
-    IECacheTable.setFillsViewportHeight(true);
-    IECacheTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            IECacheTableMousePressed(evt);
-        }
-        public void mouseReleased(java.awt.event.MouseEvent evt) {
-            IECacheTableMouseReleased(evt);
-        }
-    });
-    jScrollPane3.setViewportView(IECacheTable);
-
-    javax.swing.GroupLayout IECachePanelLayout = new javax.swing.GroupLayout(IECachePanel);
-    IECachePanel.setLayout(IECachePanelLayout);
-    IECachePanelLayout.setHorizontalGroup(
-        IECachePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(IECachePanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-    IECachePanelLayout.setVerticalGroup(
-        IECachePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(IECachePanelLayout.createSequentialGroup()
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-
-    IEResultPanel.add(IECachePanel, "IECacheCard");
-
-    IELogginsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Loggins"));
-
-    IELogginsTable.setAutoCreateRowSorter(true);
-    IELogginsTable.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-        },
-        new String [] {
-            "Entry Name","TYPE","STORED IN","USERNAME","PASSWORD"
-        }
-    ));
-    IELogginsTable.setFillsViewportHeight(true);
-    IELogginsTable.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mousePressed(java.awt.event.MouseEvent evt) {
-            IELogginsTableMousePressed(evt);
-        }
-        public void mouseReleased(java.awt.event.MouseEvent evt) {
-            IELogginsTableMouseReleased(evt);
-        }
-    });
-    jScrollPane7.setViewportView(IELogginsTable);
-
-    javax.swing.GroupLayout IELogginsPanelLayout = new javax.swing.GroupLayout(IELogginsPanel);
-    IELogginsPanel.setLayout(IELogginsPanelLayout);
-    IELogginsPanelLayout.setHorizontalGroup(
-        IELogginsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(IELogginsPanelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-    IELogginsPanelLayout.setVerticalGroup(
-        IELogginsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(IELogginsPanelLayout.createSequentialGroup()
-            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
-            .addContainerGap())
-    );
-
-    IEResultPanel.add(IELogginsPanel, "IELogginsCard");
-
-    IEPanel.add(IEResultPanel, java.awt.BorderLayout.CENTER);
-
-    IELoadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-    IELoadPanel.setLayout(new java.awt.BorderLayout());
-
-    jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
-    jLabel4.setForeground(new java.awt.Color(0, 70, 213));
-    jLabel4.setText("Select IE File From Index:");
-    IELoadPanel.add(jLabel4, java.awt.BorderLayout.WEST);
-    IELoadPanel.add(ieComboBox, java.awt.BorderLayout.CENTER);
-
-    loadIEButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-    loadIEButton.setText("Load Profile");
-    loadIEButton.addActionListener(new java.awt.event.ActionListener() {
-        public void actionPerformed(java.awt.event.ActionEvent evt) {
-            loadIEButtonActionPerformed(evt);
-        }
-    });
-    IELoadPanel.add(loadIEButton, java.awt.BorderLayout.EAST);
-
-    IEPanel.add(IELoadPanel, java.awt.BorderLayout.NORTH);
-
-    internetSurfingTappedPane.addTab("Microsoft Internet Explorer Broswer", IEPanel);
-
-    add(internetSurfingTappedPane, java.awt.BorderLayout.CENTER);
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                webHistoryTableMouseReleased(evt);
+            }
+        });
+        webHistoryScrollPane.setViewportView(webHistoryTable);
+
+        javax.swing.GroupLayout webHistoryPanelLayout = new javax.swing.GroupLayout(webHistoryPanel);
+        webHistoryPanel.setLayout(webHistoryPanelLayout);
+        webHistoryPanelLayout.setHorizontalGroup(
+            webHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(webHistoryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(webHistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        webHistoryPanelLayout.setVerticalGroup(
+            webHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(webHistoryPanelLayout.createSequentialGroup()
+                .addComponent(webHistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        mozillaResultPanel.add(webHistoryPanel, "webHistoryCard");
+
+        bookmarkHistory.setBorder(javax.swing.BorderFactory.createTitledBorder("Bookmark"));
+
+        bookmarkTable.setAutoCreateRowSorter(true);
+        bookmarkTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "TITLE","URL","DATE ADDED"
+            }
+        ));
+        bookmarkTable.setFillsViewportHeight(true);
+        bookmarkTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bookmarkTableMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                bookmarkTableMouseReleased(evt);
+            }
+        });
+        bookmarkScrollPane.setViewportView(bookmarkTable);
+
+        javax.swing.GroupLayout bookmarkHistoryLayout = new javax.swing.GroupLayout(bookmarkHistory);
+        bookmarkHistory.setLayout(bookmarkHistoryLayout);
+        bookmarkHistoryLayout.setHorizontalGroup(
+            bookmarkHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bookmarkHistoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(bookmarkScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        bookmarkHistoryLayout.setVerticalGroup(
+            bookmarkHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bookmarkHistoryLayout.createSequentialGroup()
+                .addComponent(bookmarkScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        mozillaResultPanel.add(bookmarkHistory, "bookmarkCard");
+
+        cookiesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cookies"));
+
+        cookiesTable.setAutoCreateRowSorter(true);
+        cookiesTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "HOST","PATH","NAME","VALUE","LAST ACCESS TIME","EXPIRY",
+                "IS SECURE","IS HTTP ONLY"
+            }
+        ));
+        cookiesTable.setFillsViewportHeight(true);
+        cookiesTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                cookiesTableMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                cookiesTableMouseReleased(evt);
+            }
+        });
+        cookiesScrollPane.setViewportView(cookiesTable);
+
+        javax.swing.GroupLayout cookiesPanelLayout = new javax.swing.GroupLayout(cookiesPanel);
+        cookiesPanel.setLayout(cookiesPanelLayout);
+        cookiesPanelLayout.setHorizontalGroup(
+            cookiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cookiesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cookiesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        cookiesPanelLayout.setVerticalGroup(
+            cookiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cookiesPanelLayout.createSequentialGroup()
+                .addComponent(cookiesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        mozillaResultPanel.add(cookiesPanel, "cookiesCard");
+
+        downloadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Download"));
+
+        downloadTable.setAutoCreateRowSorter(true);
+        downloadTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "NAME","SOURCE","TARGET","START TIME","END TIME"
+            }
+        ));
+        downloadTable.setFillsViewportHeight(true);
+        downloadTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                downloadTableMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                downloadTableMouseReleased(evt);
+            }
+        });
+        downloadScrollPane.setViewportView(downloadTable);
+
+        javax.swing.GroupLayout downloadPanelLayout = new javax.swing.GroupLayout(downloadPanel);
+        downloadPanel.setLayout(downloadPanelLayout);
+        downloadPanelLayout.setHorizontalGroup(
+            downloadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(downloadPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(downloadScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        downloadPanelLayout.setVerticalGroup(
+            downloadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(downloadPanelLayout.createSequentialGroup()
+                .addComponent(downloadScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        mozillaResultPanel.add(downloadPanel, "downloadCard");
+
+        logginsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Loggins"));
+
+        logginsTable.setAutoCreateRowSorter(true);
+        logginsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "HOST NAME","USERNAME FIELD",
+                "PASSWORD FIELD","ENCRYPTED USERNAME","ENCRYPTED PASSWORD"
+            }
+        ));
+        logginsTable.setFillsViewportHeight(true);
+        logginsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                logginsTableMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                logginsTableMouseReleased(evt);
+            }
+        });
+        logginsScrollPane.setViewportView(logginsTable);
+
+        javax.swing.GroupLayout logginsPanelLayout = new javax.swing.GroupLayout(logginsPanel);
+        logginsPanel.setLayout(logginsPanelLayout);
+        logginsPanelLayout.setHorizontalGroup(
+            logginsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(logginsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(logginsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        logginsPanelLayout.setVerticalGroup(
+            logginsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(logginsPanelLayout.createSequentialGroup()
+                .addComponent(logginsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        mozillaResultPanel.add(logginsPanel, "logginsCard");
+
+        topHostTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "Host Name", "Total Visit Count"
+            }
+        ));
+        jScrollPane24.setViewportView(topHostTable);
+
+        javax.swing.GroupLayout topHostPanelLayout = new javax.swing.GroupLayout(topHostPanel);
+        topHostPanel.setLayout(topHostPanelLayout);
+        topHostPanelLayout.setHorizontalGroup(
+            topHostPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane24, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+        );
+        topHostPanelLayout.setVerticalGroup(
+            topHostPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane24, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+        );
+
+        ffSumarryTappnedPane.addTab("Top 20 Visitied Host", topHostPanel);
+
+        topURLTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "URL","Title","Visit Count"
+            }
+        ));
+        jScrollPane25.setViewportView(topURLTable);
+
+        javax.swing.GroupLayout topURLPanelLayout = new javax.swing.GroupLayout(topURLPanel);
+        topURLPanel.setLayout(topURLPanelLayout);
+        topURLPanelLayout.setHorizontalGroup(
+            topURLPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane25, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+        );
+        topURLPanelLayout.setVerticalGroup(
+            topURLPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane25, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+        );
+
+        ffSumarryTappnedPane.addTab("Top 20 Visited url", topURLPanel);
+
+        searchEngineTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "URL","Date"
+            }
+        ));
+        jScrollPane26.setViewportView(searchEngineTable);
+
+        javax.swing.GroupLayout searchEnginePanelLayout = new javax.swing.GroupLayout(searchEnginePanel);
+        searchEnginePanel.setLayout(searchEnginePanelLayout);
+        searchEnginePanelLayout.setHorizontalGroup(
+            searchEnginePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane26, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+        );
+        searchEnginePanelLayout.setVerticalGroup(
+            searchEnginePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane26, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+        );
+
+        ffSumarryTappnedPane.addTab("Searching on search engine", searchEnginePanel);
+
+        javax.swing.GroupLayout ffSummaryDataPanelLayout = new javax.swing.GroupLayout(ffSummaryDataPanel);
+        ffSummaryDataPanel.setLayout(ffSummaryDataPanelLayout);
+        ffSummaryDataPanelLayout.setHorizontalGroup(
+            ffSummaryDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(ffSumarryTappnedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+        );
+        ffSummaryDataPanelLayout.setVerticalGroup(
+            ffSummaryDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(ffSumarryTappnedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+        );
+
+        ffSummaryButtonsPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        ffViewHTMLReportButton.setText("View HTML Report");
+        ffViewHTMLReportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ffViewHTMLReportButtonActionPerformed(evt);
+            }
+        });
+
+        ffVisualizingVisitedHostButton.setText("Visualizing Visited Host");
+        ffVisualizingVisitedHostButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ffVisualizingVisitedHostButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ffSummaryButtonsPanelLayout = new javax.swing.GroupLayout(ffSummaryButtonsPanel);
+        ffSummaryButtonsPanel.setLayout(ffSummaryButtonsPanelLayout);
+        ffSummaryButtonsPanelLayout.setHorizontalGroup(
+            ffSummaryButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ffSummaryButtonsPanelLayout.createSequentialGroup()
+                .addGap(113, 113, 113)
+                .addComponent(ffViewHTMLReportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(ffVisualizingVisitedHostButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(113, 113, 113))
+        );
+        ffSummaryButtonsPanelLayout.setVerticalGroup(
+            ffSummaryButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ffSummaryButtonsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ffSummaryButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ffViewHTMLReportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ffVisualizingVisitedHostButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout ffSummaryPanelLayout = new javax.swing.GroupLayout(ffSummaryPanel);
+        ffSummaryPanel.setLayout(ffSummaryPanelLayout);
+        ffSummaryPanelLayout.setHorizontalGroup(
+            ffSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ffSummaryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ffSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(ffSummaryButtonsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ffSummaryDataPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        ffSummaryPanelLayout.setVerticalGroup(
+            ffSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ffSummaryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(ffSummaryDataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(ffSummaryButtonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        mozillaResultPanel.add(ffSummaryPanel, "ffSummaryCard");
+
+        mozillaPanel.add(mozillaResultPanel, java.awt.BorderLayout.CENTER);
+
+        mozillaSearchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Searching and Sorting", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        mozillaSearchPanel.setPreferredSize(new java.awt.Dimension(1194, 92));
+
+        jLabel15.setText("Search String:");
+
+        mozillaSearchField.setText(" ");
+
+        jLabel16.setText("URL Filter:");
+
+        mozillaFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
+            "Filter By Date",
+            "Filrer By URL Name"
+        }));
+        mozillaFilterComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mozillaFilterComboBoxActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout mozillaSearchPanelLayout = new javax.swing.GroupLayout(mozillaSearchPanel);
+        mozillaSearchPanel.setLayout(mozillaSearchPanelLayout);
+        mozillaSearchPanelLayout.setHorizontalGroup(
+            mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mozillaSearchPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mozillaFilterComboBox, 0, 643, Short.MAX_VALUE)
+                    .addComponent(mozillaSearchField, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        mozillaSearchPanelLayout.setVerticalGroup(
+            mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mozillaSearchPanelLayout.createSequentialGroup()
+                .addGroup(mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(mozillaSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(mozillaFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        mozillaPanel.add(mozillaSearchPanel, java.awt.BorderLayout.SOUTH);
+
+        mozillaLoadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        mozillaLoadPanel.setLayout(new java.awt.BorderLayout());
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel3.setForeground(new java.awt.Color(0, 70, 213));
+        jLabel3.setText("Select FireFox File From Index:");
+        mozillaLoadPanel.add(jLabel3, java.awt.BorderLayout.WEST);
+
+        ffComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ffComboBoxActionPerformed(evt);
+            }
+        });
+        mozillaLoadPanel.add(ffComboBox, java.awt.BorderLayout.CENTER);
+
+        loadFFButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        loadFFButton.setText("Load Profile");
+        loadFFButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadFFButtonActionPerformed(evt);
+            }
+        });
+        mozillaLoadPanel.add(loadFFButton, java.awt.BorderLayout.EAST);
+
+        mozillaPanel.add(mozillaLoadPanel, java.awt.BorderLayout.NORTH);
+
+        internetSurfingTappedPane.addTab("Mozilla FireFox Browser", mozillaPanel);
+
+        IEPanel.setPreferredSize(new java.awt.Dimension(853, 796));
+        IEPanel.setLayout(new java.awt.BorderLayout());
+
+        IEButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Browser Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        IEButtonsPanel.setPreferredSize(new java.awt.Dimension(200, 459));
+
+        jToolBar3.setFloatable(false);
+        jToolBar3.setOrientation(javax.swing.JToolBar.VERTICAL);
+        jToolBar3.setRollover(true);
+
+        webHistoryButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
+        webHistoryButton1.setText("Web History");
+        webHistoryButton1.setEnabled(false);
+        webHistoryButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                webHistoryButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(webHistoryButton1);
+
+        bookmarButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/bookmarks.png"))); // NOI18N
+        bookmarButton1.setText("Bookmark");
+        bookmarButton1.setEnabled(false);
+        bookmarButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bookmarButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(bookmarButton1);
+
+        cookiesButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/autostart.png"))); // NOI18N
+        cookiesButton1.setText("Cookies");
+        cookiesButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cookiesButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(cookiesButton1);
+
+        cacheButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/download.png"))); // NOI18N
+        cacheButton.setText("Cache");
+        cacheButton.setEnabled(false);
+        cacheButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cacheButtonActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(cacheButton);
+
+        logginsButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/lists.png"))); // NOI18N
+        logginsButton1.setText("Loggins");
+        logginsButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logginsButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(logginsButton1);
+
+        jScrollPane2.setViewportView(jToolBar3);
+
+        javax.swing.GroupLayout IEButtonsPanelLayout = new javax.swing.GroupLayout(IEButtonsPanel);
+        IEButtonsPanel.setLayout(IEButtonsPanelLayout);
+        IEButtonsPanelLayout.setHorizontalGroup(
+            IEButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, IEButtonsPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        IEButtonsPanelLayout.setVerticalGroup(
+            IEButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+        );
+
+        IEPanel.add(IEButtonsPanel, java.awt.BorderLayout.WEST);
+
+        IESearchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Searching and Sorting", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        jLabel17.setText("Search String:");
+
+        IESearchField.setText(" ");
+
+        jLabel18.setText("URL Filter:");
+
+        IEFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
+            "Filter By Date",
+            "Filrer By URL Name"
+        }));
+        IEFilterComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IEFilterComboBoxActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout IESearchPanelLayout = new javax.swing.GroupLayout(IESearchPanel);
+        IESearchPanel.setLayout(IESearchPanelLayout);
+        IESearchPanelLayout.setHorizontalGroup(
+            IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IESearchPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(IEFilterComboBox, 0, 643, Short.MAX_VALUE)
+                    .addComponent(IESearchField, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        IESearchPanelLayout.setVerticalGroup(
+            IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IESearchPanelLayout.createSequentialGroup()
+                .addGroup(IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(IESearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(IEFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        IEPanel.add(IESearchPanel, java.awt.BorderLayout.SOUTH);
+
+        IEResultPanel.setLayout(new java.awt.CardLayout());
+
+        IEWebHistoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Web History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+
+        IEWebHistoryTable.setAutoCreateRowSorter(true);
+        IEWebHistoryTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "URL","TITLE","HITS","MODIFIED DATE","EXPIRATION DATE",
+                "USER NAME"
+            }
+        ));
+        IEWebHistoryTable.setFillsViewportHeight(true);
+        IEWebHistoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                IEWebHistoryTableMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                IEWebHistoryTableMouseReleased(evt);
+            }
+        });
+        jScrollPane5.setViewportView(IEWebHistoryTable);
+
+        javax.swing.GroupLayout IEWebHistoryPanelLayout = new javax.swing.GroupLayout(IEWebHistoryPanel);
+        IEWebHistoryPanel.setLayout(IEWebHistoryPanelLayout);
+        IEWebHistoryPanelLayout.setHorizontalGroup(
+            IEWebHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IEWebHistoryPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        IEWebHistoryPanelLayout.setVerticalGroup(
+            IEWebHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+        );
+
+        IEResultPanel.add(IEWebHistoryPanel, "IEWebHisrotyCard");
+
+        IEBookmarkPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Bookmark"));
+
+        IEBookmarkTable.setAutoCreateRowSorter(true);
+        IEBookmarkTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] { } ,
+            new String [] {
+                "FILE NAME"
+            }
+        ));
+        IEBookmarkTable.setFillsViewportHeight(true);
+        IEBookmarkTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                IEBookmarkTableMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                IEBookmarkTableMouseReleased(evt);
+            }
+        });
+        jScrollPane6.setViewportView(IEBookmarkTable);
+
+        javax.swing.GroupLayout IEBookmarkPanelLayout = new javax.swing.GroupLayout(IEBookmarkPanel);
+        IEBookmarkPanel.setLayout(IEBookmarkPanelLayout);
+        IEBookmarkPanelLayout.setHorizontalGroup(
+            IEBookmarkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IEBookmarkPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        IEBookmarkPanelLayout.setVerticalGroup(
+            IEBookmarkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IEBookmarkPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        IEResultPanel.add(IEBookmarkPanel, "IEBookmarkCard");
+
+        IECookiesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cookies"));
+
+        IECookiesTable.setAutoCreateRowSorter(true);
+        IECookiesTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "DATE","SITE","FILE"
+            }
+        ));
+        IECookiesTable.setFillsViewportHeight(true);
+        IECookiesTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                IECookiesTableMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                IECookiesTableMouseReleased(evt);
+            }
+        });
+        jScrollPane4.setViewportView(IECookiesTable);
+
+        javax.swing.GroupLayout IECookiesPanelLayout = new javax.swing.GroupLayout(IECookiesPanel);
+        IECookiesPanel.setLayout(IECookiesPanelLayout);
+        IECookiesPanelLayout.setHorizontalGroup(
+            IECookiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IECookiesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        IECookiesPanelLayout.setVerticalGroup(
+            IECookiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IECookiesPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        IEResultPanel.add(IECookiesPanel, "IECookiesCard");
+
+        IECachePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cache"));
+
+        IECacheTable.setAutoCreateRowSorter(true);
+        IECacheTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "DATE","URL","FILE"
+            }
+        ));
+        IECacheTable.setFillsViewportHeight(true);
+        IECacheTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                IECacheTableMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                IECacheTableMouseReleased(evt);
+            }
+        });
+        jScrollPane3.setViewportView(IECacheTable);
+
+        javax.swing.GroupLayout IECachePanelLayout = new javax.swing.GroupLayout(IECachePanel);
+        IECachePanel.setLayout(IECachePanelLayout);
+        IECachePanelLayout.setHorizontalGroup(
+            IECachePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IECachePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        IECachePanelLayout.setVerticalGroup(
+            IECachePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IECachePanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        IEResultPanel.add(IECachePanel, "IECacheCard");
+
+        IELogginsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Loggins"));
+
+        IELogginsTable.setAutoCreateRowSorter(true);
+        IELogginsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "Entry Name","TYPE","STORED IN","USERNAME","PASSWORD"
+            }
+        ));
+        IELogginsTable.setFillsViewportHeight(true);
+        IELogginsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                IELogginsTableMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                IELogginsTableMouseReleased(evt);
+            }
+        });
+        jScrollPane7.setViewportView(IELogginsTable);
+
+        javax.swing.GroupLayout IELogginsPanelLayout = new javax.swing.GroupLayout(IELogginsPanel);
+        IELogginsPanel.setLayout(IELogginsPanelLayout);
+        IELogginsPanelLayout.setHorizontalGroup(
+            IELogginsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IELogginsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        IELogginsPanelLayout.setVerticalGroup(
+            IELogginsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IELogginsPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        IEResultPanel.add(IELogginsPanel, "IELogginsCard");
+
+        IEPanel.add(IEResultPanel, java.awt.BorderLayout.CENTER);
+
+        IELoadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        IELoadPanel.setLayout(new java.awt.BorderLayout());
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel4.setForeground(new java.awt.Color(0, 70, 213));
+        jLabel4.setText("Select IE File From Index:");
+        IELoadPanel.add(jLabel4, java.awt.BorderLayout.WEST);
+        IELoadPanel.add(ieComboBox, java.awt.BorderLayout.CENTER);
+
+        loadIEButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        loadIEButton.setText("Load Profile");
+        loadIEButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadIEButtonActionPerformed(evt);
+            }
+        });
+        IELoadPanel.add(loadIEButton, java.awt.BorderLayout.EAST);
+
+        IEPanel.add(IELoadPanel, java.awt.BorderLayout.NORTH);
+
+        internetSurfingTappedPane.addTab("Microsoft Internet Explorer Broswer", IEPanel);
+
+        add(internetSurfingTappedPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
-private void summaryInternetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summaryInternetButtonActionPerformed
-//        ArrayList<InternetSummaryDate> result = new ArrayList<InternetSummaryDate>();
-//        String resultString = "" ;
-//
-//        List<String> ffPath = index.getFFPath();
-//        if ( ffPath.isEmpty() )
-//            resultString += "FireFox is not Selected when create case\n" ;
-//
-//        for (String path: ffPath) {
-//            try {
-//                result.addAll(getFFSummary(path));
-//            }
-//            catch (Exception e) {
-//                logger.log(Level.SEVERE, "Uncaught exception", e);
-//            }
-//        }
-//
-//         List<String> iePath = index.getIePath();
-//        if ( iePath.isEmpty() )
-//            resultString += "IE is not Selected when create case" ;
-//        
-//        for (String path: iePath ) {
-//            try {
-//                result.addAll(getIESummary(path));
-//            } catch (IOException ex) {
-//                logger.log(Level.SEVERE, "Uncaught exception", ex);
-//            } catch (InterruptedException ex) {
-//                logger.log(Level.SEVERE, "Uncaught exception", ex);
-//            }
-//        }
-//
-//        if ( result.isEmpty() ) {
-//            JOptionPane.showMessageDialog(this,resultString,"Their is no data to display",
-//                    JOptionPane.ERROR_MESSAGE);
-//            return ;
-//        }
-//
-//        if ( summaryTable.getModel().getRowCount() > 0 )
-//            JTableUtil.removeAllRows(summaryTable);
-//        
-//        for (InternetSummaryDate data: result) {
-//            ((DefaultTableModel)summaryTable.getModel()).addRow( new Object[] {
-//                data.getURL(), data.getNumberOfVisit(), data.getDate()
-//            } );
-//        }
-}//GEN-LAST:event_summaryInternetButtonActionPerformed
-
-private void summaryTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_summaryTableMousePressed
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( summaryTable.isEnabled() )
-                showPopupWithLunch(evt);
-        }
-}//GEN-LAST:event_summaryTableMousePressed
-
-private void summaryTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_summaryTableMouseReleased
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( summaryTable.isEnabled() )
-                showPopupWithLunch(evt);
-        }
-}//GEN-LAST:event_summaryTableMouseReleased
 
 private void ffSummaryButttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ffSummaryButttonActionPerformed
         GuiUtil.showPanel("ffSummaryCard",mozillaResultPanel);
@@ -2271,17 +2086,6 @@ private void ffComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             ( (DefaultTableModel) IELogginsTable.getModel() ).addRow(object);
         }
     }
-
-    private class SummaryInputListener implements DocumentListener {
-        public void changedUpdate   (DocumentEvent e) { filterSummaryTable(); }
-        public void removeUpdate    (DocumentEvent e) { filterSummaryTable(); }
-        public void insertUpdate    (DocumentEvent e) { filterSummaryTable(); }
-    }
-
-    public void filterSummaryTable () {
-        String text = summaryTextField.getText().trim();
-        JTableUtil.filterTable(summaryTable, text);
-    }
     
     private class MozillaInputListener implements DocumentListener {
         public void changedUpdate(DocumentEvent e){filterMozillaTables();}
@@ -2504,13 +2308,8 @@ private void ffComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel21;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane24;
     private javax.swing.JScrollPane jScrollPane25;
@@ -2539,10 +2338,6 @@ private void ffComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JPanel mozillaSearchPanel;
     private javax.swing.JPanel searchEnginePanel;
     private javax.swing.JTable searchEngineTable;
-    private javax.swing.JButton summaryInternetButton;
-    private javax.swing.JPanel summaryInternetPanel;
-    private javax.swing.JTable summaryTable;
-    private javax.swing.JTextField summaryTextField;
     private javax.swing.JPanel topHostPanel;
     private javax.swing.JTable topHostTable;
     private javax.swing.JPanel topURLPanel;
