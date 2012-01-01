@@ -14,12 +14,14 @@ import edu.coeia.tags.TagsDialog;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.tags.TagsManager;
 import edu.coeia.tags.Tag ;
-
 import edu.coeia.hash.HashVerifier;
+import edu.coeia.util.DateUtil;
+
 import java.awt.Toolkit;
+
 import java.util.List ;
+
 import javax.swing.JOptionPane;
-import org.apache.commons.httpclient.util.DateUtil;
 
 /**
  *

@@ -42,7 +42,6 @@ enum CaseManager {
             }
         }
     }
-    
         
     // add entry to indexes info file
     public static void writeCaseToInfoFile (Case index) throws IOException {
