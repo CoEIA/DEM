@@ -230,6 +230,8 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         treePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select Folder"));
         treePanel.setLayout(new java.awt.BorderLayout());
 
+        jScrollPane1.setAutoscrolls(true);
+
         FolderListTree.setShowsRootHandles(true);
         FolderListTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
@@ -241,7 +243,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         treePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         AnalyzeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/dem-icon.png"))); // NOI18N
-        AnalyzeButton.setText("Analyse File Signature");
+        AnalyzeButton.setText("Analyse");
         AnalyzeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AnalyzeButtonActionPerformed(evt);
