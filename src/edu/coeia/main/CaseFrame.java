@@ -217,7 +217,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(fileSystemToggleButton);
 
         headerGroupButton.add(emailToggleButton);
-        emailToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        emailToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         emailToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/email.png"))); // NOI18N
         emailToggleButton.setText("Online and Offline Email");
         emailToggleButton.setEnabled(false);
@@ -232,10 +232,9 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(emailToggleButton);
 
         headerGroupButton.add(internetSurfingToggleButton);
-        internetSurfingToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        internetSurfingToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         internetSurfingToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/webButton.png"))); // NOI18N
         internetSurfingToggleButton.setText("Internet Browsing");
-        internetSurfingToggleButton.setEnabled(false);
         internetSurfingToggleButton.setFocusable(false);
         internetSurfingToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         internetSurfingToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);

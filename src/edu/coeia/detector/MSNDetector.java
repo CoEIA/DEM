@@ -25,5 +25,9 @@ public class MSNDetector implements AutoDetection {
     public List<String> getFilesInCurrentSystem() {
         return null;
     }
+
+    public List<String> getFilesInPathInternet(List<String> path) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

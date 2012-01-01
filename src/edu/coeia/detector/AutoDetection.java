@@ -18,5 +18,6 @@ import java.util.List ;
 
 public interface AutoDetection {
     public List<String> getFilesInCurrentSystem();
+    public List<String> getFilesInPathInternet(List<String> path);
     public List<String> getFilesInPath(String path);
 }

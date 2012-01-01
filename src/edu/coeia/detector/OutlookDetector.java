@@ -89,4 +89,8 @@ public class OutlookDetector implements AutoDetection {
 
         return pstPaths;
     }
+
+    public List<String> getFilesInPathInternet(List<String> path) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
