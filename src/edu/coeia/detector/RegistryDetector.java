@@ -63,4 +63,8 @@ public class RegistryDetector implements AutoDetection {
 
         return msnPath;
     }
+
+    public List<String> getFilesInPathInternet(List<String> path) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

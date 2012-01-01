@@ -67,4 +67,8 @@ public class YahooDetector implements AutoDetection{
 
         return yahooPaths;
     }
+
+    public List<String> getFilesInPathInternet(List<String> path) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
