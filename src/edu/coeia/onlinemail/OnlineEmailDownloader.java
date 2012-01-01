@@ -32,7 +32,6 @@ import javax.mail.BodyPart;
 import javax.mail.FolderClosedException;
 import javax.mail.internet.MimeUtility;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.text.JTextComponent;
 

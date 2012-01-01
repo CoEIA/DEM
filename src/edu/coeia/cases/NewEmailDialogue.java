@@ -12,6 +12,7 @@ package edu.coeia.cases;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,10 +21,12 @@ import javax.swing.JOptionPane;
  */
 public class NewEmailDialogue extends javax.swing.JDialog {
 
+    public boolean cancelClicked = false;
     /** Creates new form NewEmailDialogue */
     public NewEmailDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
     }
 
     /** This method is called from within the constructor to
@@ -47,6 +50,7 @@ public class NewEmailDialogue extends javax.swing.JDialog {
         PasswordTextField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Add New Email");
 
         ProviderGroupButton.add(GmailRadioButton);
         GmailRadioButton.setText("Gmail");
@@ -128,7 +132,6 @@ public class NewEmailDialogue extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
 private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKButtonActionPerformed
 // TODO add your handling code here:
 
@@ -137,6 +140,7 @@ private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     if (UsernameTextField.getText().isEmpty()) {
         JOptionPane.showMessageDialog(this, " Please Write Username", "Error", JOptionPane.ERROR_MESSAGE);
         visible = true;
+        return;
     }
     //Set the email pattern string
     Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
@@ -147,55 +151,54 @@ private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     if (!matchFound) {
         JOptionPane.showMessageDialog(this, " Please Write A Valid Email Address", "Error", JOptionPane.ERROR_MESSAGE);
         visible = true;
+        return;
+
     }
 
     if (PasswordTextField.getText().isEmpty()) {
         JOptionPane.showMessageDialog(this, " Please Write Password", "Error", JOptionPane.ERROR_MESSAGE);
         visible = true;
+        return;
     }
 
     if (!GmailRadioButton.isSelected() && !HotmailRadioButton.isSelected() && !YahooRadioButton.isSelected()) {
         JOptionPane.showMessageDialog(this, " Please Choose an Email Provider", "Error", JOptionPane.ERROR_MESSAGE);
         visible = true;
+        return;
     }
+    cancelClicked = false;
     this.setVisible(visible);
 }//GEN-LAST:event_OKButtonActionPerformed
 
 private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
 // TODO add your handling code here:
+    cancelClicked = true; 
     this.setVisible(false);
 }//GEN-LAST:event_CancelButtonActionPerformed
 
-public String getUserName()
-{
-    return UsernameTextField.getText().toString().trim();
-}
+    public String getUserName() {
+        return UsernameTextField.getText().toString().trim();
+    }
 
-public String getPassword()
-{
-    return PasswordTextField.getText().toString().trim();
-}
-public EmailConfiguration.SOURCE getProvider()
-{
-    EmailConfiguration.SOURCE provider = null;
-    if (GmailRadioButton.isSelected())
-    {
-       provider = EmailConfiguration.SOURCE.GMAIL;
+    public String getPassword() {
+        return PasswordTextField.getText().toString().trim();
     }
-    else if (YahooRadioButton.isSelected())
-    {
-       provider = EmailConfiguration.SOURCE.Yahoo;
+
+    public EmailConfiguration.SOURCE getProvider() {
+        EmailConfiguration.SOURCE provider = null;
+        if (GmailRadioButton.isSelected()) {
+            provider = EmailConfiguration.SOURCE.GMAIL;
+        } else if (YahooRadioButton.isSelected()) {
+            provider = EmailConfiguration.SOURCE.Yahoo;
+        } else if (HotmailRadioButton.isSelected()) {
+            provider = EmailConfiguration.SOURCE.HOTMAIL;
+        }
+        return provider;
     }
-    else if (HotmailRadioButton.isSelected())
+    public JButton getCancelButton()
     {
-       provider = EmailConfiguration.SOURCE.HOTMAIL;
+        return CancelButton;
     }
-    return provider;
-}
-  
-    
-  
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CancelButton;
     private javax.swing.JRadioButton GmailRadioButton;
