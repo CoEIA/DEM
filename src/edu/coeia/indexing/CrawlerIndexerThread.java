@@ -75,15 +75,18 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         boolean status = false; 
         
         try {
+            // write evidence location information on index
+            this.writeEvidenceLocation(this.aCase.getEvidenceSourceLocation());
+            
             // crawle and index source directories
-            for ( String dirName : aCase.getEvidenceSourceLocation() ) {
+            for ( String dirName : this.aCase.getEvidenceSourceLocation() ) {
                 this.checkForThreadCancelling();
-                doDirectoryCrawling(new File(dirName));
+                this.doDirectoryCrawling(new File(dirName));
             }
 
             // crawl and index emails
             if ( !aCase.getEmailConfig().isEmpty()) {
-               doEmailCrawling();
+               this.doEmailCrawling();
             }
             
             status = true;
@@ -93,6 +96,10 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         }
         
         return status;
+    }
+    
+    private void writeEvidenceLocation(final List<String> paths) throws IOException{
+        this.luceneIndex.writeEvidenceLocation(paths);
     }
     
     private void doDirectoryCrawling(File path) {

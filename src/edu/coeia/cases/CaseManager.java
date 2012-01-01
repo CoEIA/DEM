@@ -165,7 +165,6 @@ enum CaseManager {
         }
     }
     
-    
     // TODO: remove this, it break encapsulation!!!
     public List<String> getList () {
         return this.listOfOpeningCase ;

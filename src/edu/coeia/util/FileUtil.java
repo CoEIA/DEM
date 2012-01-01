@@ -196,6 +196,15 @@ public class FileUtil {
         return dirPath.delete() ;
     }
 
+    /**
+     * remove file from system
+     * @param filePath the path to the selected file
+     * @return true if removed successfully
+     */
+    public static boolean removeFile(final String filePath) {
+        return new File(filePath).delete();
+    }
+    
     public static void writeToFile (List<String> data, String fileName) 
         throws FileNotFoundException, UnsupportedEncodingException {
         

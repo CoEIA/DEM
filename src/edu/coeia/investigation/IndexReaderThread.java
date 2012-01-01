@@ -198,6 +198,7 @@ class IndexReaderThread extends SwingWorker<String, Integer> {
         if ( this.type == IndexItem.TAGS) {
             //TODO: set in panel 
             ( (CommonKeywordsPanel) this.resultPanel).setTags(tags);
+            
         }
         else if ( this.type == IndexItem.VISUALIZATION) {
             try {

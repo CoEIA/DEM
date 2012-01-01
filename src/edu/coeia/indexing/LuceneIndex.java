@@ -17,7 +17,12 @@ import edu.coeia.util.FilesPath;
 import java.io.File;
 import java.io.IOException;
 
+import java.util.List;
+
 import org.apache.lucene.analysis.StopAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.FSDirectory ;
 import org.apache.lucene.util.Version ;
@@ -35,7 +40,6 @@ public final class LuceneIndex {
         return new LuceneIndex(aCase);
     }
     
-    // add index to exists index folder if boolean value is false
     private LuceneIndex (Case aCase) throws IOException {
         File indexDir = new File(aCase.getCaseLocation() + "\\" +  FilesPath.INDEX_PATH);
         
@@ -43,15 +47,27 @@ public final class LuceneIndex {
             throw new IOException("not found indexing folder");
         }
 
-	caseObject = aCase; 
+	this.caseObject = aCase; 
       
         // using stop analyzer
-        writer = new IndexWriter(FSDirectory.open(indexDir), new StopAnalyzer(Version.LUCENE_20, new File(FilesPath.STOP_WORD_FILE)),
-                true, IndexWriter.MaxFieldLength.UNLIMITED);
+        this.writer = new IndexWriter(FSDirectory.open(indexDir), new StopAnalyzer(Version.LUCENE_20, 
+                    new File(FilesPath.STOP_WORD_FILE)),
+                    true, IndexWriter.MaxFieldLength.UNLIMITED);
 
-	writer.setUseCompoundFile(false);
+	this.writer.setUseCompoundFile(false);
     }
 
+    void writeEvidenceLocation(final List<String> paths) throws CorruptIndexException,
+            IOException {
+        Document document = new Document();
+        
+        for (String path: paths)
+            document.add( new Field(IndexingConstant.EVIDENCE_PATH, path, 
+                    Field.Store.YES, Field.Index.NO));
+        
+        this.writer.addDocument(document);
+    }
+    
     Case getCase () { return this.caseObject ; }
     IndexWriter getWriter () { return this.writer ; }
     

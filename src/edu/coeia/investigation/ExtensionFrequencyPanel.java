@@ -67,36 +67,21 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        indexVisualizationButtonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Visualization", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        indexVisualizationButtonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Files Extensions Chart", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        indexVisulizingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        indexVisulizingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         indexVisulizingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/chart_pie.png"))); // NOI18N
-        indexVisulizingButton.setText("Index Visualization");
+        indexVisulizingButton.setText("Display File's Extensions Chart");
         indexVisulizingButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 indexVisulizingButtonActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout indexVisualizationButtonPanelLayout = new javax.swing.GroupLayout(indexVisualizationButtonPanel);
-        indexVisualizationButtonPanel.setLayout(indexVisualizationButtonPanelLayout);
-        indexVisualizationButtonPanelLayout.setHorizontalGroup(
-            indexVisualizationButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexVisualizationButtonPanelLayout.createSequentialGroup()
-                .addGap(232, 232, 232)
-                .addComponent(indexVisulizingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(196, Short.MAX_VALUE))
-        );
-        indexVisualizationButtonPanelLayout.setVerticalGroup(
-            indexVisualizationButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(indexVisualizationButtonPanelLayout.createSequentialGroup()
-                .addComponent(indexVisulizingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        indexVisualizationButtonPanel.add(indexVisulizingButton);
 
         add(indexVisualizationButtonPanel, java.awt.BorderLayout.NORTH);
 
-        indexVisualizingPiePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Visualizing File Extension in Index", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        indexVisualizingPiePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Statistical Chart", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         indexVisualizingPiePanel.setLayout(new java.awt.BorderLayout());
         add(indexVisualizingPiePanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents

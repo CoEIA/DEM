@@ -44,6 +44,12 @@ public class IndexingConstant {
     }
     
     /**
+     * constant for evidence path document
+     * we used it to know if the evidence is changed or not
+     */
+    public static final String EVIDENCE_PATH = "EVIDENCE_PATH";
+    
+    /**
      * Constant for any Document in Lucene index
      */
     public static final String DOCUMENT = "DOCUMENT" ;          // type of this document
