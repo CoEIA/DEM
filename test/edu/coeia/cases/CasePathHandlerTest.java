@@ -71,7 +71,6 @@ public class CasePathHandlerTest {
         String expected =  String.format(CasePathHandler.prefix, 0) + File.separator + filePath.getName();
         assertEquals(expected, pathHandler.getRelativePath(filePath));
     }
-    
         
     @Test
     public void testConvertingFullPathToRelativePath2() {
