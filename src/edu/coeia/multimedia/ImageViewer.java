@@ -20,10 +20,10 @@ import java.io.IOException ;
 public class ImageViewer {
     private static List<String> imagesPath ;
 
-    public static List<String> getInstance(Case index) throws IOException {
+    public static List<String> getInstance(Case index) throws IOException, Exception {
         if ( imagesPath == null ) {
             ImageReader ir = new ImageReader(index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
-            imagesPath = ir.getImagesPath();
+            imagesPath = ir.getImages();
             ir.close();
         }
 
