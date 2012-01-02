@@ -11,6 +11,7 @@ package edu.coeia.multimedia;
  *
  */
 
+import edu.coeia.indexing.IndexingConstant;
 import org.apache.lucene.index.IndexReader ;
 import org.apache.lucene.store.Directory ;
 import org.apache.lucene.store.FSDirectory;
@@ -23,6 +24,8 @@ import java.io.File ;
 import java.util.List ;
 import java.util.ArrayList ;
 import java.util.logging.Logger;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 
 public class ImageReader {
     private String indexDir ;
@@ -38,25 +41,26 @@ public class ImageReader {
         
         logger.info("ImageReader Constructor");
     }
-    
-    public List<String> getImagesPath () throws IOException {
-        List<String> aList = new ArrayList<String>();
+     public List<String> getImages() throws Exception {
+       List<String> aList = new ArrayList<String>();
 
-        TermEnum te = indexReader.terms(new Term("mime","") );
-        while ( te.next() ) {
-            Term currentTerm = te.term();
-
-            if ( ! currentTerm.field().equals("mime"))
-                continue ;
-
-            String termText = currentTerm.text();
-            aList.add(termText);
+        for (int i=0; i<indexReader.maxDoc(); i++) {
+            Document document = indexReader.document(i);
+            if ( document != null ) {
+                Field field = document.getField(IndexingConstant.FILE_MIME);
+                if ( field != null && field.stringValue() != null) {
+                  String documentExtension = field.stringValue();
+                  if(documentExtension.equals("jpg"))
+                  {
+                      String path  = document.get(IndexingConstant.FILE_NAME);
+                      aList.add(path);
+                  }
+                }
+            }
         }
-
-        te.close();
-        return (aList);
+         return (aList);
     }
-
+  
     public void close () throws IOException {
         indexReader.close();
     }
