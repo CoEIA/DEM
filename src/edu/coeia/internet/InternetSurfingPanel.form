@@ -1128,6 +1128,7 @@
                               <Image iconType="3" name="/edu/coeia/main/resources/autostart.png"/>
                             </Property>
                             <Property name="text" type="java.lang.String" value="Cookies"/>
+                            <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cookiesButton1ActionPerformed"/>
@@ -1151,6 +1152,7 @@
                               <Image iconType="3" name="/edu/coeia/main/resources/lists.png"/>
                             </Property>
                             <Property name="text" type="java.lang.String" value="Loggins"/>
+                            <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logginsButton1ActionPerformed"/>

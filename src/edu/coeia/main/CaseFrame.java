@@ -261,10 +261,9 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(chatToggleButton);
 
         headerGroupButton.add(imageViewerToggleButton);
-        imageViewerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        imageViewerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         imageViewerToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/kview.png"))); // NOI18N
         imageViewerToggleButton.setText("Multimedia Viewer");
-        imageViewerToggleButton.setEnabled(false);
         imageViewerToggleButton.setFocusable(false);
         imageViewerToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         imageViewerToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);

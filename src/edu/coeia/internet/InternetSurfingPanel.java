@@ -862,6 +862,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
 
     cookiesButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/autostart.png"))); // NOI18N
     cookiesButton1.setText("Cookies");
+    cookiesButton1.setEnabled(false);
     cookiesButton1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             cookiesButton1ActionPerformed(evt);
@@ -881,6 +882,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
 
     logginsButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/lists.png"))); // NOI18N
     logginsButton1.setText("Loggins");
+    logginsButton1.setEnabled(false);
     logginsButton1.addActionListener(new java.awt.event.ActionListener() {
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             logginsButton1ActionPerformed(evt);
