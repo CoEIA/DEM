@@ -58,7 +58,7 @@ public class ImageReader {
                 }
             }
         }
-         return (aList);
+         return (aList);  
     }
   
     public void close () throws IOException {
