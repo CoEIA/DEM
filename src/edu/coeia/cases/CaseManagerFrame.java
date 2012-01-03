@@ -33,6 +33,7 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+import javax.swing.JDialog;
 
 /*
  * CaseManagerFrame the main entry point to DEM
@@ -575,21 +576,30 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     private void loadCase (String caseName, boolean startIndex) throws FileNotFoundException, IOException, ClassNotFoundException{
         if ( caseName != null ) {
             if ( !caseManager.isRunningCase(caseName)) {
-                Case index = CaseManager.getCaseFromCaseName(caseName);
+                Case aCase = CaseManager.getCaseFromCaseName(caseName);
 
                 // check here for case evience chnaging
                 // and update the file before opening the case
+                boolean caseSourceIsUptoDate = true;
                 
+                if ( isCaseHaveChangedSource(aCase) )  {
+                    caseSourceIsUptoDate = askForNewCaseSource(aCase);
+                }
                 
-                caseManager.addCase(caseName);
+                if ( caseSourceIsUptoDate ) {
+                    caseManager.addCase(caseName);
 
-                CaseFrame mainFrame = new CaseFrame(index, caseManager.getList());
-                mainFrame.setLocationRelativeTo(this);
-                mainFrame.setVisible(true);
-                
-                if ( ! CaseHistoryHandler.get(index.getCaseName()).getIsCaseIndexed() ) {
-                    logger.info("show direct indexing panel");
-                    mainFrame.showIndexDialog(startIndex);
+                    CaseFrame mainFrame = new CaseFrame(aCase, caseManager.getList());
+                    mainFrame.setLocationRelativeTo(this);
+                    mainFrame.setVisible(true);
+
+                    if ( ! CaseHistoryHandler.get(aCase.getCaseName()).getIsCaseIndexed() ) {
+                        logger.info("show direct indexing panel");
+                        mainFrame.showIndexDialog(startIndex);
+                    }
+                }
+                else {
+                    System.out.println("case folder in changed, and you should privde the correct path");
                 }
             }
             else {
@@ -597,6 +607,18 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                         "Already Openining Case", JOptionPane.INFORMATION_MESSAGE);
             }
         }
+    }
+    
+    private boolean isCaseHaveChangedSource(final Case aCase) throws IOException {
+        return !CasePathHandler.newInstance(aCase.getCaseLocation()).getChangedEntries().isEmpty();
+    }
+    
+    private boolean askForNewCaseSource(final Case aCase) throws IOException {
+        System.out.println("please insert the new source");
+        UpdatingCaseEvidenceSourceDialog dialog = new UpdatingCaseEvidenceSourceDialog(this, true, aCase);
+        dialog.setVisible(true);
+        
+        return dialog.getResult();
     }
     
     private void removeCase (String caseName) {
