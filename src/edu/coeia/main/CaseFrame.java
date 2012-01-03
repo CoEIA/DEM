@@ -175,7 +175,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
 
         headerGroupButton.add(caseManagerToggleButton);
-        caseManagerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        caseManagerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         caseManagerToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274612774_kservices.png"))); // NOI18N
         caseManagerToggleButton.setText("Case Manager");
         caseManagerToggleButton.setFocusable(false);
@@ -189,7 +189,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(caseManagerToggleButton);
 
         headerGroupButton.add(searchToggleButton);
-        searchToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        searchToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         searchToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/Copy of search.png"))); // NOI18N
         searchToggleButton.setText("Case Search");
         searchToggleButton.setFocusable(false);
@@ -203,7 +203,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(searchToggleButton);
 
         headerGroupButton.add(fileSystemToggleButton);
-        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         fileSystemToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/file-manager.png"))); // NOI18N
         fileSystemToggleButton.setText("File System");
         fileSystemToggleButton.setFocusable(false);
@@ -220,7 +220,6 @@ public class CaseFrame extends javax.swing.JFrame {
         emailToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         emailToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325574974_message-already-read.png"))); // NOI18N
         emailToggleButton.setText("Online and Offline Email");
-        emailToggleButton.setEnabled(false);
         emailToggleButton.setFocusable(false);
         emailToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         emailToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -249,7 +248,6 @@ public class CaseFrame extends javax.swing.JFrame {
         chatToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         chatToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325574948_amsn.png"))); // NOI18N
         chatToggleButton.setText("Instant Chat  IM");
-        chatToggleButton.setEnabled(false);
         chatToggleButton.setFocusable(false);
         chatToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         chatToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -275,10 +273,9 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(imageViewerToggleButton);
 
         headerGroupButton.add(reportToggleButton);
-        reportToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        reportToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         reportToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274614668_filesave.png"))); // NOI18N
         reportToggleButton.setText("Report");
-        reportToggleButton.setEnabled(false);
         reportToggleButton.setFocusable(false);
         reportToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         reportToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);

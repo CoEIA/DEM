@@ -244,7 +244,6 @@
               <Image iconType="3" name="/edu/coeia/main/resources/1325574974_message-already-read.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Online and Offline Email"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
@@ -285,7 +284,6 @@
               <Image iconType="3" name="/edu/coeia/main/resources/1325574948_amsn.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Instant Chat  IM"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
@@ -326,7 +324,6 @@
               <Image iconType="3" name="/edu/coeia/main/resources/1274614668_filesave.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Report"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
