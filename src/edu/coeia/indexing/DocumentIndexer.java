@@ -9,6 +9,7 @@ import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.hash.HashCalculator;
 import edu.coeia.util.FileUtil;
 
+import edu.coeia.util.Utilities;
 import java.io.File;
 
 import java.util.Map;
@@ -98,8 +99,8 @@ final class DocumentIndexer extends Indexer {
         
         // unkown metadata extracted by Tika
         for(Map.Entry<String, String> entry: metadata.entrySet()) {
-            String name =  entry.getKey();
-            String value = entry.getValue();
+            String name =  Utilities.getEmptyStringWhenNullString(entry.getKey());
+            String value = Utilities.getEmptyStringWhenNullString(entry.getValue());
 
             doc.add(new Field(name, value, Field.Store.YES, Field.Index.ANALYZED)); 
         }
