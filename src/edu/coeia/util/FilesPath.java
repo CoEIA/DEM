@@ -45,6 +45,9 @@ public class FilesPath {
     // path for storing case tmp folder
     public final static String CASE_TMP = "TMP" ;
     
+    // path for storing case configuaration
+    public final static String CASE_CONFIG = "config.dat";
+    
     // path for storing case Tags
     public final static String CASE_TAGS = "Tags" ;
     

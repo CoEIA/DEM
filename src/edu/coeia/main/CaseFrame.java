@@ -218,7 +218,7 @@ public class CaseFrame extends javax.swing.JFrame {
 
         headerGroupButton.add(emailToggleButton);
         emailToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        emailToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/email.png"))); // NOI18N
+        emailToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325574974_message-already-read.png"))); // NOI18N
         emailToggleButton.setText("Online and Offline Email");
         emailToggleButton.setEnabled(false);
         emailToggleButton.setFocusable(false);
@@ -233,7 +233,7 @@ public class CaseFrame extends javax.swing.JFrame {
 
         headerGroupButton.add(internetSurfingToggleButton);
         internetSurfingToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        internetSurfingToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/webButton.png"))); // NOI18N
+        internetSurfingToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
         internetSurfingToggleButton.setText("Internet Browsing");
         internetSurfingToggleButton.setFocusable(false);
         internetSurfingToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -246,8 +246,8 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(internetSurfingToggleButton);
 
         headerGroupButton.add(chatToggleButton);
-        chatToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        chatToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/Chat.png"))); // NOI18N
+        chatToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        chatToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325574948_amsn.png"))); // NOI18N
         chatToggleButton.setText("Instant Chat  IM");
         chatToggleButton.setEnabled(false);
         chatToggleButton.setFocusable(false);
@@ -262,7 +262,7 @@ public class CaseFrame extends javax.swing.JFrame {
 
         headerGroupButton.add(imageViewerToggleButton);
         imageViewerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        imageViewerToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/kview.png"))); // NOI18N
+        imageViewerToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325574870_iPhoto.png"))); // NOI18N
         imageViewerToggleButton.setText("Multimedia Viewer");
         imageViewerToggleButton.setFocusable(false);
         imageViewerToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

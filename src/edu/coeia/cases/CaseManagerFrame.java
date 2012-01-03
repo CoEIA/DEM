@@ -577,6 +577,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             if ( !caseManager.isRunningCase(caseName)) {
                 Case index = CaseManager.getCaseFromCaseName(caseName);
 
+                // check here for case evience chnaging
+                // and update the file before opening the case
+                
+                
                 caseManager.addCase(caseName);
 
                 CaseFrame mainFrame = new CaseFrame(index, caseManager.getList());

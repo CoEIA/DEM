@@ -4,6 +4,7 @@
  */
 package edu.coeia.indexing;
 
+import edu.coeia.cases.CasePathHandler;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.util.FilesPath;
 
@@ -25,6 +26,15 @@ public abstract class Indexer {
         this.imagesLocation = this.caseLocation + "\\" + FilesPath.IMAGES_PATH;
         this.tmpLocation = this.caseLocation + "\\" + FilesPath.CASE_TMP;
         this.luceneIndex = luceneIndex ;
+        this.pathHandler = CasePathHandler.newInstance(this.caseLocation);
+        
+        // read the mapping from file
+        try {
+            this.pathHandler.readConfiguration();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public abstract boolean doIndexing();
@@ -37,6 +47,7 @@ public abstract class Indexer {
     public String getCaseLocation() { return this.caseLocation; }
     public LuceneIndex getLuceneIndex() { return this.luceneIndex; }
     public ImageExtractor getImageExtractor() { return this.imageExtractor; }
+    public CasePathHandler getPathHandler() { return this.pathHandler; }
     
     public int getId() { return id ; }
     public void increaseId() { id++; }
@@ -51,4 +62,5 @@ public abstract class Indexer {
     private final String caseLocation;
     private final ImageExtractor imageExtractor;
     private final LuceneIndex luceneIndex ;
+    private final CasePathHandler pathHandler;
 }
