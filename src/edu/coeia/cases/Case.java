@@ -12,9 +12,9 @@ package edu.coeia.cases;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Collections;
 
 import java.io.Serializable;
-import java.util.Collections;
 
 public final class Case implements Serializable {
 

@@ -17,6 +17,7 @@ import org.junit.Before ;
 
 import java.io.File;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 
 public class CasePathHandlerTest {
     @Test
@@ -66,6 +67,9 @@ public class CasePathHandlerTest {
         
     @Test
     public void testUpdatingCaseConfigurationFile() {
-        
+        String path = "C:\\data";
+        File file = new File(path);
+        System.out.println("size: " + file.length());
+        System.out.println("size2: " + FileUtils.sizeOfDirectory(file));
     }
 }

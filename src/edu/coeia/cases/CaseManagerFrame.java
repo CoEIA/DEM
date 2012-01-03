@@ -33,7 +33,6 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-import javax.swing.JDialog;
 
 /*
  * CaseManagerFrame the main entry point to DEM

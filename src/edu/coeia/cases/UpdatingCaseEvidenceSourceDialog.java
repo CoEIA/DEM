@@ -10,14 +10,17 @@
  */
 package edu.coeia.cases;
 
-import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 import edu.coeia.gutil.JListUtil;
+
 import java.io.IOException;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
+import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 /**
  *
  * @author wajdyessam
