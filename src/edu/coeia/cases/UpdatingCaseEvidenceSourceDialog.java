@@ -25,11 +25,11 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
  *
  * @author wajdyessam
  */
-public class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog {
+final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog {
 
-    private Case aCase; 
+    private final Case aCase; 
     private boolean result = false;
-    private DefaultListModel sourcesListModel;
+    private final DefaultListModel sourcesListModel;
     
     /** Creates new form UpdatingCaseEvidenceSourceDialog */
     public UpdatingCaseEvidenceSourceDialog(java.awt.Frame parent, boolean modal, final Case aCase) 
@@ -38,7 +38,7 @@ public class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        setLocationRelativeTo(parent);
+        this.setLocationRelativeTo(parent);
         this.aCase = aCase;
         this.sourcesListModel = new DefaultListModel();
         this.fillListWithNotFoundedSources();
@@ -169,6 +169,12 @@ public class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog {
             CasePathHandler pathHandler = CasePathHandler.newInstance(aCase.getCaseLocation());
             pathHandler.updateFullPath(entry);
             
+            // update case object
+            aCase.removeEvidenceSourceLocation(oldPath);
+            aCase.addEvidenceSourceLocation(newPath);
+            CaseManager.updateCase(aCase);
+            
+            // update gui list
             this.fillListWithNotFoundedSources();
         } catch (IOException ex) {
             Logger.getLogger(UpdatingCaseEvidenceSourceDialog.class.getName()).log(Level.SEVERE, null, ex);

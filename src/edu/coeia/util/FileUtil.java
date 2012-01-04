@@ -33,10 +33,11 @@ import java.util.List ;
 import java.util.ArrayList ;
 import java.util.Arrays;
 import java.util.Scanner ;
+
 /*
  * Noninstantiable utility class
  */
-public class FileUtil {
+public final class FileUtil {
     
     /*
      * Suppress default constructor for noninstantiability

@@ -43,6 +43,16 @@ enum CaseManager {
         }
     }
         
+    public static void updateCase(final Case aCase) throws IOException {
+       // create index information file & write the index on it
+        String info = aCase.getCaseLocation() + "\\" + aCase.getCaseName() + ".DAT" ;
+        File infoFile = new File(info);
+        infoFile.createNewFile();
+        
+        FileUtil.writeObject(aCase, infoFile);
+        CaseManager.writeCaseToInfoFile(aCase);
+    }
+    
     // add entry to indexes info file
     public static void writeCaseToInfoFile (Case index) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(new File(FilesPath.INDEXES_INFO), true));

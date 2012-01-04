@@ -269,7 +269,11 @@ public final class Case implements Serializable {
         this.caseLocation = location;
     }
     
-    public void setEveidenceSourceLocation(final String location) {
+    public void addEvidenceSourceLocation(final String location) {
         this.evidenceSourceLocation.add(location);
+    }
+    
+    public void removeEvidenceSourceLocation(final String location) {
+        this.evidenceSourceLocation.remove(location);
     }
 }

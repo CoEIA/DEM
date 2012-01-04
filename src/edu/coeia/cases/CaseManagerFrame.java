@@ -329,17 +329,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                         
                         String line = fileNameWithOutExt + " - " + path;
                         Case aCase = CaseManager.getCase(line);
-                        
                         aCase.setCaseLocation(path);
-                        
-                        // create index information file & write the index on it
-                        String info = aCase.getCaseLocation() + "\\" + aCase.getCaseName() + ".DAT" ;
-                        File infoFile = new File(info);
-                        infoFile.createNewFile();
-
-                        FileUtil.writeObject(aCase, infoFile);
-            
-                        CaseManager.writeCaseToInfoFile(aCase);
+                        CaseManager.updateCase(aCase);
                         
                         String prefLocation = aCase.getCaseLocation() + "\\" + "CASE.pref";
                         CaseHistoryHandler.importCaseHistory(prefLocation);
@@ -586,6 +577,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 }
                 
                 if ( caseSourceIsUptoDate ) {
+                    // update the source location
+                    
                     caseManager.addCase(caseName);
 
                     CaseFrame mainFrame = new CaseFrame(aCase, caseManager.getList());
@@ -613,7 +606,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     }
     
     private boolean askForNewCaseSource(final Case aCase) throws IOException {
-        System.out.println("please insert the new source");
         UpdatingCaseEvidenceSourceDialog dialog = new UpdatingCaseEvidenceSourceDialog(this, true, aCase);
         dialog.setVisible(true);
         
@@ -648,7 +640,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             }
         });
     }
-    
     
     private static final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
     //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel";

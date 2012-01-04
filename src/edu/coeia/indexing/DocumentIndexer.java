@@ -8,8 +8,8 @@ import edu.coeia.extractors.TikaExtractor;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.hash.HashCalculator;
 import edu.coeia.util.FileUtil;
-
 import edu.coeia.util.Utilities;
+
 import java.io.File;
 
 import java.util.Map;
