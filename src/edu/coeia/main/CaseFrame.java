@@ -27,8 +27,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import java.sql.SQLException;
+
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
+
 import javax.swing.JOptionPane;
 
 import java.io.IOException ;
@@ -560,21 +562,11 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     for (EmailConfiguration s : emailInfos) {
         try {
             downloadEmail(caseObj, s);
-        } catch (SQLException ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchProviderException ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MessagingException ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) {
             Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-
-
 }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void windowsStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_windowsStyleRadioButtonActionPerformed
@@ -637,8 +629,8 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             }
 
         }
-
     }
+    
     public void showIndexDialog(boolean startIndex) {
         IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj, startIndex);
         indexPanel.setLocationRelativeTo(this);

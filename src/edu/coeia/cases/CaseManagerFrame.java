@@ -10,6 +10,7 @@ import edu.coeia.util.FileUtil;
 import edu.coeia.util.DEMLogger;
 import edu.coeia.util.ZipUtil;
 import edu.coeia.util.GUIFileFilter;
+import edu.coeia.gutil.GuiUtil;
 
 /* import sun classes */
 import javax.swing.JOptionPane ;
@@ -31,7 +32,6 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-import edu.coeia.gutil.GuiUtil;
 
 /*
  * CaseManagerFrame the main entry point to DEM
@@ -633,9 +633,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     }
     
     private static final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
-    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel";
-    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";
-    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel caseManagerButtonsPanel;
