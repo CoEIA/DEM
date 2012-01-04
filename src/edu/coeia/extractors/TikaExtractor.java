@@ -17,6 +17,8 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.tika.detect.DefaultDetector;
 import org.apache.tika.detect.Detector;
 import org.apache.tika.exception.TikaException;
@@ -48,7 +50,13 @@ public final class TikaExtractor {
     }
     
     public String getContent() {
-        return this.content;
+        String tmp = this.content.toString();
+        try {
+            this.content.close();
+        } catch (IOException ex) {
+            Logger.getLogger(TikaExtractor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tmp;
     }
     
     public Map<String, String> getMetadata() {
@@ -76,8 +84,7 @@ public final class TikaExtractor {
             parser.parse(inputStream, contentHandler, metadata, parseContext);
             
             // save content
-            this.content = stringWriter.toString();
-
+            this.content = stringWriter;
             stringWriter.close();
 
             // save metadata
@@ -93,6 +100,6 @@ public final class TikaExtractor {
     private File file ;
     private String mimeType ;
     
-    private String content ;
+    private StringWriter content ;
     private Map<String, String> metadataMap = new HashMap<String, String>();
 }

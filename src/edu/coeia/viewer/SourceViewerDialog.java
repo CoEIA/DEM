@@ -283,7 +283,11 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             if ( result == JFileChooser.APPROVE_OPTION ) {
                 File file = fileChooser.getSelectedFile();
                 try {
-                    FileUtil.saveObject(new FileInputStream(filePath), file.getAbsolutePath());
+                    CasePathHandler pathHandler = CasePathHandler.newInstance(this.caseObj.getCaseLocation());
+                    pathHandler.readConfiguration();
+                    String fullPath = pathHandler.getFullPath(filePath);
+                    
+                    FileUtil.saveObject(new FileInputStream(fullPath), file.getAbsolutePath());
                 }
                 catch(Exception e) { e.printStackTrace(); }
             }

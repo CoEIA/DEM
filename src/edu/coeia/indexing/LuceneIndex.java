@@ -85,10 +85,17 @@ public final class LuceneIndex {
         return indexFile(file, 0);
     }
     
-    public boolean indexFile(File file, int parentId) { 
+    public boolean indexFile(File file, int parentId) throws UnsupportedOperationException{ 
         try {
             Indexer indexType = IndexerFactory.getIndexer(this, file, parentId);
+            
+            if ( indexType == null )
+                return false;
+            
             return indexType.doIndexing();
+        }
+        catch(NullPointerException e) {
+            throw new UnsupportedOperationException(e.getMessage());
         }
         catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException(e.getMessage());

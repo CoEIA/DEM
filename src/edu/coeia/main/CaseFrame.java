@@ -39,7 +39,6 @@ import java.io.IOException ;
 import java.util.List; 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 
 /*
  * OfflineMinningFrame.java
@@ -509,7 +508,6 @@ public class CaseFrame extends javax.swing.JFrame {
     private void chatToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatToggleButtonActionPerformed
         GuiUtil.showPanel("chatCard",CardPanel);
         this.setTitle(APPLICATION_NAME + "Instance Chat Search Window");
-       
     }//GEN-LAST:event_chatToggleButtonActionPerformed
 
     private void imageViewerToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageViewerToggleButtonActionPerformed

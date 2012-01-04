@@ -64,12 +64,22 @@ public class CasePathHandlerTest {
         assertEquals(3, pathHandler.getChangedEntries().size());
         FileUtil.removeFile(casePath + File.separator + FilesPath.CASE_CONFIG);
     }
-        
+    
     @Test
-    public void testUpdatingCaseConfigurationFile() {
-        String path = "C:\\data";
-        File file = new File(path);
-        System.out.println("size: " + file.length());
-        System.out.println("size2: " + FileUtils.sizeOfDirectory(file));
+    public void testConvertigFromFullPathToRelativePath() {
+        String casePath = "C:\\out";
+        CasePathHandler pathHandler = CasePathHandler.newInstance(casePath);
+        pathHandler.add(new File(casePath));
+        String path = "C:\\out\\4318.txt";
+        assertEquals("@PATH_0@\\4318.txt", pathHandler.getRelativePath(path));
+    }
+    
+    @Test
+    public void testConvertingFromNestedFullPathToRelativePath() {
+        String casePath = "C:\\out";
+        CasePathHandler pathHandler = CasePathHandler.newInstance(casePath);
+        pathHandler.add(new File(casePath));
+        String path = "C:\\out\\2 Factor Authentication Task\\Finished_100120_Wajdy_Authentications in Online Banking_R.docx";
+        assertEquals("@PATH_0@\\2 Factor Authentication Task\\Finished_100120_Wajdy_Authentications in Online Banking_R.docx", pathHandler.getRelativePath(path));
     }
 }
