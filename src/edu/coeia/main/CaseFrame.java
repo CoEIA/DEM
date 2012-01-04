@@ -15,6 +15,7 @@ import edu.coeia.offlinemail.EmailPanel;
 import edu.coeia.indexing.IndexingDialog;
 import edu.coeia.multimedia.ImagesViewerPanel;
 import edu.coeia.internet.InternetSurfingPanel;
+import edu.coeia.multimedia.MultimediaPanel;
 import edu.coeia.onlinemail.EmailDownloaderDialog;
 import edu.coeia.onlinemail.OnlineEmailDownloader;
 import edu.coeia.searching.CaseSearchPanel;
@@ -65,13 +66,14 @@ public class CaseFrame extends javax.swing.JFrame {
     private ChatPanel chatPanel;
     private ImagesViewerPanel imgPanel;
     private ReportPanel reportPanel;
+    private MultimediaPanel multimediaPanel;
     
     /** Creates new form OfflineMinningFrame 
      * 
      * @param aCase case opened in CaseManager
      * @param list a list of all openings case
      */
-    public CaseFrame(Case aCase, List<String> list) {
+    public CaseFrame(Case aCase, List<String> list) throws IOException, Exception {
         initComponents();
         logger.info("OfflineMining Frame Constructor, Open Case: " + aCase.getCaseName());
         
@@ -110,6 +112,7 @@ public class CaseFrame extends javax.swing.JFrame {
         this.internetPanel = new InternetSurfingPanel(this.caseObj);
         this.chatPanel = new ChatPanel(this.caseObj);
         this.imgPanel = new ImagesViewerPanel(this.caseObj);
+        this.multimediaPanel = new MultimediaPanel(this.caseObj);
         this.caseSearchPanel = new CaseSearchPanel(this.caseObj, this);
         this.caseManagerPanel = new CaseManagerPanel(this);
         this.reportPanel = new ReportPanel();
@@ -119,6 +122,7 @@ public class CaseFrame extends javax.swing.JFrame {
         this.CardPanel.add(this.internetPanel, "internetSurfingCard");
         this.CardPanel.add(this.chatPanel, "chatCard");
         this.CardPanel.add(this.imgPanel, "imagesViewerCard");
+        this.CardPanel.add(this.multimediaPanel, "MultimediaViewer");
         this.CardPanel.add(this.caseSearchPanel, "searchCard");
         this.CardPanel.add(this.caseManagerPanel, "caseManagerCard");
         this.CardPanel.add(this.reportPanel, "reportCard");
@@ -452,11 +456,12 @@ public class CaseFrame extends javax.swing.JFrame {
     private void chatToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatToggleButtonActionPerformed
         GuiUtil.showPanel("chatCard",CardPanel);
         this.setTitle(APPLICATION_NAME + "Instance Chat Search Window");
+       
     }//GEN-LAST:event_chatToggleButtonActionPerformed
 
     private void imageViewerToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageViewerToggleButtonActionPerformed
-         GuiUtil.showPanel("imagesViewerCard", CardPanel);
-         this.setTitle(APPLICATION_NAME + "Image Viewer Window");
+         GuiUtil.showPanel("MultimediaViewer", CardPanel);
+         this.setTitle(APPLICATION_NAME + "Multimedeia Viewer Window");
     }//GEN-LAST:event_imageViewerToggleButtonActionPerformed
 
     private void viewLogMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewLogMenuItemActionPerformed

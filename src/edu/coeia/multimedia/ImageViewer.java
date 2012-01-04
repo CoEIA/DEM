@@ -22,8 +22,8 @@ public class ImageViewer {
 
     public static List<String> getInstance(Case index) throws IOException, Exception {
         if ( imagesPath == null ) {
-            ImageReader ir = new ImageReader(index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
-            imagesPath = ir.getImages();
+            MultimediaReader ir = new MultimediaReader(index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
+            imagesPath = ir.getListPathsFromIndex(MultimediaReader.Operations.Images);
             ir.close();
         }
 
