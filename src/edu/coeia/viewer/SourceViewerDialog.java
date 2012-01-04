@@ -277,6 +277,8 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         if ( IndexingConstant.isFileDocument(document) ) {
             String filePath = document.get(IndexingConstant.FILE_PATH);
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setSelectedFile(new File(filePath));
+            
             int result = fileChooser.showSaveDialog(this.parent);
             if ( result == JFileChooser.APPROVE_OPTION ) {
                 File file = fileChooser.getSelectedFile();
