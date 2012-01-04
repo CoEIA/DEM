@@ -76,9 +76,6 @@
             <Menu class="javax.swing.JMenu" name="styleMenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Application Style"/>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="1"/>
-                </Property>
               </Properties>
               <SubComponents>
                 <MenuItem class="javax.swing.JRadioButtonMenuItem" name="windowsStyleRadioButton">

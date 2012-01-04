@@ -75,7 +75,7 @@ public class CaseFrame extends javax.swing.JFrame {
      * @param aCase case opened in CaseManager
      * @param list a list of all openings case
      */
-    public CaseFrame(Case aCase, List<String> list) throws IOException, Exception {
+    public CaseFrame(Case aCase, List<String> list) throws IOException {
         initComponents();
         logger.info("OfflineMining Frame Constructor, Open Case: " + aCase.getCaseName());
         
@@ -306,7 +306,7 @@ public class CaseFrame extends javax.swing.JFrame {
         getContentPane().add(CardPanel, java.awt.BorderLayout.CENTER);
 
         fileMenu.setText("File");
-        fileMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        fileMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         exitMenuItem.setText(" Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -357,7 +357,6 @@ public class CaseFrame extends javax.swing.JFrame {
         viewMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         styleMenu.setText("Application Style");
-        styleMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         styleRadioGroup.add(windowsStyleRadioButton);
         windowsStyleRadioButton.setSelected(true);
@@ -401,7 +400,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jMenuBar1.add(viewMenu);
 
         toolsMenu.setText("Tools");
-        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         windowsMenuItem.setText("Windows Information");
         windowsMenuItem.addActionListener(new java.awt.event.ActionListener() {

@@ -564,12 +564,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 boolean caseSourceIsUptoDate = true;
                 
                 if ( isCaseHaveChangedSource(aCase) )  {
-                    caseSourceIsUptoDate = askForNewCaseSource(aCase);
+                    caseSourceIsUptoDate = askAndUpdateNewCaseSource(aCase);
                 }
                 
-                if ( caseSourceIsUptoDate ) {
-                    // update the source location
-                    
+                if ( caseSourceIsUptoDate ) {                    
                     caseManager.addCase(caseName);
 
                     CaseFrame mainFrame = new CaseFrame(aCase, caseManager.getList());
@@ -596,7 +594,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         return !CasePathHandler.newInstance(aCase.getCaseLocation()).getChangedEntries().isEmpty();
     }
     
-    private boolean askForNewCaseSource(final Case aCase) throws IOException {
+    private boolean askAndUpdateNewCaseSource(final Case aCase) throws IOException {
         UpdatingCaseEvidenceSourceDialog dialog = new UpdatingCaseEvidenceSourceDialog(this, true, aCase);
         dialog.setVisible(true);
         
