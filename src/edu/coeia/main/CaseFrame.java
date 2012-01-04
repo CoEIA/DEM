@@ -39,6 +39,7 @@ import java.io.IOException ;
 import java.util.List; 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 
 /*
  * OfflineMinningFrame.java
@@ -75,7 +76,7 @@ public class CaseFrame extends javax.swing.JFrame {
      * @param aCase case opened in CaseManager
      * @param list a list of all openings case
      */
-    public CaseFrame(Case aCase, List<String> list) throws IOException {
+    public CaseFrame(Case aCase, List<String> list) {
         initComponents();
         logger.info("OfflineMining Frame Constructor, Open Case: " + aCase.getCaseName());
         

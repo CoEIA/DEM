@@ -391,6 +391,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         catch (Exception e) {
             JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
                 JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
     
@@ -454,6 +455,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             }
             catch(Exception e){
                 logger.severe("Cannot Index the case directly after create it");
+                e.printStackTrace();
             }
         }
     }

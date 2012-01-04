@@ -27,7 +27,7 @@ public class AudioViewerPanel extends javax.swing.JPanel {
     List<String> audioPaths;
     private Case aCase;
     /** Creates new form AudioViewerPanel */
-    public AudioViewerPanel(Case aCase ) throws IOException {
+    public AudioViewerPanel(Case aCase ) {
         initComponents();
         this.aCase = aCase;
 
