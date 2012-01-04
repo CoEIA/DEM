@@ -8,6 +8,7 @@ import edu.coeia.extractors.TikaExtractor;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.hash.HashCalculator;
 import edu.coeia.util.FileUtil;
+import edu.coeia.util.Utilities;
 
 import java.io.File;
 
@@ -90,7 +91,7 @@ final class DocumentIndexer extends Indexer {
         doc.add(new Field(IndexingConstant.DOCUMENT_HASH, HashCalculator.calculateFileHash(this.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specific document fields
-        doc.add(new Field(IndexingConstant.FILE_PATH, this.getFile().getPath(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.FILE_PATH, this.getPathHandler().getRelativePath(this.getFile().getPath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_NAME, this.getFile().getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(this.getFile().lastModified(), DateTools.Resolution.MINUTE),Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.FILE_CONTENT, content, Field.Store.YES, Field.Index.ANALYZED));
@@ -98,8 +99,8 @@ final class DocumentIndexer extends Indexer {
         
         // unkown metadata extracted by Tika
         for(Map.Entry<String, String> entry: metadata.entrySet()) {
-            String name =  entry.getKey();
-            String value = entry.getValue();
+            String name =  Utilities.getEmptyStringWhenNullString(entry.getKey());
+            String value = Utilities.getEmptyStringWhenNullString(entry.getValue());
 
             doc.add(new Field(name, value, Field.Store.YES, Field.Index.ANALYZED)); 
         }

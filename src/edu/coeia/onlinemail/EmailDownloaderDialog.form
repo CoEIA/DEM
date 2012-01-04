@@ -103,7 +103,7 @@
                           <Component id="to" alignment="0" max="32767" attributes="1"/>
                           <Component id="from" alignment="0" pref="466" max="32767" attributes="1"/>
                       </Group>
-                      <EmptySpace pref="39" max="32767" attributes="0"/>
+                      <EmptySpace pref="35" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

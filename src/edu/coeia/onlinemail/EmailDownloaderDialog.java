@@ -12,6 +12,7 @@ package edu.coeia.onlinemail;
 
 import edu.coeia.cases.Case;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.mail.MessagingException;
@@ -30,7 +31,9 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
     public OnlineEmailDownloader downloader;
     private Case aCase ;   
 
+    
     public EmailDownloaderDialog() throws NoSuchProviderException, MessagingException, IOException, SQLException {
+
     }
 
     public EmailDownloaderDialog(java.awt.Frame parent, boolean modal, Case aCase) throws SQLException, NoSuchProviderException, MessagingException, IOException, Exception {

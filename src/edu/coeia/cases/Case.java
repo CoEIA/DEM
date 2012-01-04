@@ -12,9 +12,9 @@ package edu.coeia.cases;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Collections;
 
 import java.io.Serializable;
-import java.util.Collections;
 
 public final class Case implements Serializable {
 
@@ -269,7 +269,11 @@ public final class Case implements Serializable {
         this.caseLocation = location;
     }
     
-    public void setEveidenceSourceLocation(final String location) {
+    public void addEvidenceSourceLocation(final String location) {
         this.evidenceSourceLocation.add(location);
+    }
+    
+    public void removeEvidenceSourceLocation(final String location) {
+        this.evidenceSourceLocation.remove(location);
     }
 }
