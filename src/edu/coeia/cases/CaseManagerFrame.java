@@ -554,7 +554,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         return indexName; 
     }
 
-    private void loadCase (String caseName, boolean startIndex) throws FileNotFoundException, IOException, ClassNotFoundException{
+    private void loadCase (String caseName, boolean startIndex) throws FileNotFoundException, IOException, ClassNotFoundException, Exception{
         if ( caseName != null ) {
             if ( !caseManager.isRunningCase(caseName)) {
                 Case aCase = CaseManager.getCaseFromCaseName(caseName);

@@ -11,6 +11,8 @@ package edu.coeia.multimedia;
  *
  */
 
+import edu.coeia.cases.Case;
+import edu.coeia.cases.CasePathHandler;
 import edu.coeia.indexing.IndexingConstant;
 import org.apache.lucene.index.IndexReader ;
 import org.apache.lucene.store.Directory ;
@@ -32,7 +34,7 @@ public class MultimediaReader {
     private String indexDir ;
     private Directory dir ;
     private IndexReader indexReader ;
-    enum Operations { Images, Audio, Video };
+    enum Operations { Images, Audio, Archieve,Video };
     
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
 
@@ -43,7 +45,7 @@ public class MultimediaReader {
         
         logger.info("ImageReader Constructor");
     }
-    public List<String> getListPathsFromIndex(Operations or) throws Exception {
+    public List<String> getListPathsFromIndex(Operations or, Case aCase) throws Exception {
         List<String> aList = new ArrayList<String>();
 
         for (int i = 0; i < indexReader.maxDoc(); i++) {
@@ -55,12 +57,39 @@ public class MultimediaReader {
                     if (or == Operations.Images) {
                         if (isImage(documentExtension)) {
                             String path = document.get(IndexingConstant.FILE_PATH);
-                            aList.add(path);
+                            CasePathHandler handler = CasePathHandler.newInstance(aCase.getCaseLocation());
+                            handler.readConfiguration();
+                            String fullpath = handler.getFullPath(path);
+                            aList.add(fullpath);
                         }
                     } else if (or == Operations.Audio) {
                         if (isAudio(documentExtension)) {
                             String path = document.get(IndexingConstant.FILE_PATH);
-                            aList.add(path);
+                            CasePathHandler handler = CasePathHandler.newInstance(aCase.getCaseLocation());
+                            handler.readConfiguration();
+                            String fullpath = handler.getFullPath(path);
+                            aList.add(fullpath);
+
+                        }
+                    }
+                     else if (or == Operations.Archieve) {
+                        if (isArchieve(documentExtension)) {
+                            String path = document.get(IndexingConstant.FILE_PATH);
+                            CasePathHandler handler = CasePathHandler.newInstance(aCase.getCaseLocation());
+                            handler.readConfiguration();
+                            String fullpath = handler.getFullPath(path);
+                            aList.add(fullpath);
+
+                        }
+                    }
+                    
+                     else if (or == Operations.Video) {
+                        if (isVideo(documentExtension)) {
+                            String path = document.get(IndexingConstant.FILE_PATH);
+                            CasePathHandler handler = CasePathHandler.newInstance(aCase.getCaseLocation());
+                            handler.readConfiguration();
+                            String fullpath = handler.getFullPath(path);
+                            aList.add(fullpath);
 
                         }
                     }
@@ -72,7 +101,7 @@ public class MultimediaReader {
     }
 
     private boolean isImage(String extension) {
-        String[] extensions = {"jpg", "bmp", "gif", "tif", "png"};
+        String[] extensions = {"jpg", "bmp", "gif", "tif", "png","psd"};
         boolean b  = false;
         for (int i = 0; i<extensions.length; i++)
         {
@@ -90,6 +119,38 @@ public class MultimediaReader {
     {
     
         String[] extensions = {"mp3", "rm", "ra", "wav", "3gp","amr","ogg","wma","raw","m4p","flac"};
+        
+        boolean b = false;
+        for (int i = 0; i < extensions.length; i++) {
+            if (extension.equals(extensions[i])) {
+                b = true;
+                break;
+            }
+
+        }
+        return b;
+
+    }
+    private boolean isArchieve(String extension)
+    {
+    
+        String[] extensions = {"rar", "zip", "7z"};
+        
+        boolean b = false;
+        for (int i = 0; i < extensions.length; i++) {
+            if (extension.equals(extensions[i])) {
+                b = true;
+                break;
+            }
+
+        }
+        return b;
+
+    }
+     private boolean isVideo(String extension)
+    {
+    
+        String[] extensions = {"avi", "mp4", "asf","mpeg","3gp"};
         
         boolean b = false;
         for (int i = 0; i < extensions.length; i++) {

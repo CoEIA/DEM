@@ -23,7 +23,7 @@ public class ImageViewer {
     public static List<String> getInstance(Case index) throws IOException, Exception {
         if ( imagesPath == null ) {
             MultimediaReader ir = new MultimediaReader(index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
-            imagesPath = ir.getListPathsFromIndex(MultimediaReader.Operations.Images);
+            imagesPath = ir.getListPathsFromIndex(MultimediaReader.Operations.Images,index);
             ir.close();
         }
 
