@@ -13,8 +13,9 @@ import javax.swing.JTable ;
 import javax.swing.JPanel;
 
 import java.awt.CardLayout ;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  *
@@ -26,6 +27,14 @@ public class GuiUtil {
     public static void showPanel (String panelName, JPanel name) {
         CardLayout card = (CardLayout) name.getLayout();
         card.show(name, panelName);
+    }
+    
+    /*
+     * Change the look and Feel
+     */
+    public static void changeLookAndFeel (final String lookName, JFrame frame ) throws Exception  {
+        UIManager.setLookAndFeel(lookName);
+        SwingUtilities.updateComponentTreeUI(frame);
     }
     
     public static void showPopup (java.awt.event.MouseEvent event) {

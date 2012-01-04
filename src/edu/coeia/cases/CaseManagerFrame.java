@@ -12,8 +12,6 @@ import edu.coeia.util.ZipUtil;
 import edu.coeia.util.GUIFileFilter;
 
 /* import sun classes */
-import javax.swing.UIManager ;
-import javax.swing.SwingUtilities ;
 import javax.swing.JOptionPane ;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
@@ -33,6 +31,7 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+import edu.coeia.gutil.GuiUtil;
 
 /*
  * CaseManagerFrame the main entry point to DEM
@@ -478,7 +477,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private void initJFrame() {
         try { 
-            changeLookAndFeel(lookAndFeelName);  // set look and feel to windows look 
+             GuiUtil.changeLookAndFeel(lookAndFeelName, this);  // set look and feel to windows look 
         }
         catch (Exception e){
         }
@@ -502,14 +501,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         });
     }
     
-    /*
-     * Change the look and Feel
-     */
-    private void changeLookAndFeel ( String lookName ) throws Exception  {
-        UIManager.setLookAndFeel(lookName);
-        SwingUtilities.updateComponentTreeUI(this);
-    }
-
     /*
      * Read cases from files and update recent table
      */
