@@ -1,16 +1,16 @@
 package edu.coeia.cases;
 
 /* import internal classes */
-import edu.coeia.util.FilesPath ;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.main.SmartCardDialog;
 import edu.coeia.gutil.JTableUtil;
+import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.DateUtil;
+import edu.coeia.util.FilesPath ;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.DEMLogger;
 import edu.coeia.util.ZipUtil;
 import edu.coeia.util.GUIFileFilter;
-import edu.coeia.gutil.GuiUtil;
 
 /* import sun classes */
 import javax.swing.JOptionPane ;
