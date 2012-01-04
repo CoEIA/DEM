@@ -28,6 +28,8 @@ public class MultimediaPanel extends javax.swing.JPanel {
         this.aCase = index;
         this.jTabbedPane1.addTab("Image Viewer", new ImagesViewerPanel(aCase));
         this.jTabbedPane1.addTab("Audio Viewer", new AudioViewerPanel(aCase ));
+        this.jTabbedPane1.addTab("Archieve Viewer", new ArchieveViewerPanel(aCase ));
+        this.jTabbedPane1.addTab("Video Viewer", new VideoViewerPanel(aCase ));
        
       
     }
@@ -54,17 +56,11 @@ public class MultimediaPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 747, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

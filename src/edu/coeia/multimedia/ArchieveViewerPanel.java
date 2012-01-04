@@ -4,9 +4,9 @@
  */
 
 /*
- * AudioViewerPanel.java
+ * ArchieveViewerPanel.java
  *
- * Created on Jan 3, 2012, 9:17:50 AM
+ * Created on Jan 4, 2012, 9:45:11 AM
  */
 package edu.coeia.multimedia;
 
@@ -22,19 +22,15 @@ import java.util.logging.Logger;
  *
  * @author Ahmed
  */
-public class AudioViewerPanel extends javax.swing.JPanel {
-
-    List<String> audioPaths;
+public class ArchieveViewerPanel extends javax.swing.JPanel {
     private Case aCase;
-    /** Creates new form AudioViewerPanel */
-    public AudioViewerPanel(Case aCase ) {
+    private List<String> archievePaths;
+    /** Creates new form ArchieveViewerPanel */
+    public ArchieveViewerPanel(Case aCase) {
         initComponents();
         this.aCase = aCase;
-
     }
-    public Case getCase() { return this.aCase;}
-  
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -46,16 +42,12 @@ public class AudioViewerPanel extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        audioTable = new javax.swing.JTable();
+        ArchieveTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
-        setLayout(new java.awt.BorderLayout());
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Archieve Viewer "));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Audio Viewer"));
-        jPanel1.setMinimumSize(new java.awt.Dimension(100, 100));
-        jPanel1.setPreferredSize(new java.awt.Dimension(762, 494));
-
-        audioTable.setModel(new javax.swing.table.DefaultTableModel(
+        ArchieveTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -71,13 +63,10 @@ public class AudioViewerPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        audioTable.setPreferredSize(new java.awt.Dimension(762, 494));
-        jScrollPane1.setViewportView(audioTable);
+        ArchieveTable.setPreferredSize(new java.awt.Dimension(762, 494));
+        jScrollPane1.setViewportView(ArchieveTable);
 
-        jButton1.setText("Show Audio Files");
-        jButton1.setMaximumSize(new java.awt.Dimension(127, 23));
-        jButton1.setMinimumSize(new java.awt.Dimension(127, 23));
-        jButton1.setPreferredSize(new java.awt.Dimension(127, 23));
+        jButton1.setText("Show Archieve Files");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -88,46 +77,56 @@ public class AudioViewerPanel extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(266, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(247, 247, 247))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 733, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(252, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(228, 228, 228))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
-                .addGap(7, 7, 7)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
                 .addContainerGap())
         );
 
-        add(jPanel1, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-      try {
+    try {
         MultimediaReader ir = new MultimediaReader(aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
-        audioPaths = ir.getListPathsFromIndex(MultimediaReader.Operations.Audio,getCase());
+        archievePaths = ir.getListPathsFromIndex(MultimediaReader.Operations.Archieve, this.aCase);
         fillDataBaseTable();
         ir.close();
-        
+
     } catch (Exception ex) {
         Logger.getLogger(AudioViewerPanel.class.getName()).log(Level.SEVERE, null, ex);
     }
 }//GEN-LAST:event_jButton1ActionPerformed
-
   private void fillDataBaseTable() throws IOException {
         
-        for (String s : audioPaths) {
+        for (String s : archievePaths) {
             Object[] arr = {s};
-            JTableUtil.addRowToJTable(audioTable, arr);
+            JTableUtil.addRowToJTable(ArchieveTable, arr);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable audioTable;
+    private javax.swing.JTable ArchieveTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
