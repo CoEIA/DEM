@@ -55,10 +55,19 @@ class ProgressData {
 public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
 
     private EmailDownloaderDialog emaildialogue;
-    private boolean emailFinished;
+    private boolean emailFinished,m_bPause;
     private String dbPath;
     private String Username;
     private String Password;
+    private ResumeState objResume;
+   
+    
+    
+    /**
+     * Logger Object
+     */
+    private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
+    
 
     /**
      * static factory that read all message from user account and store it in list
@@ -81,6 +90,10 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         this.attachmentsPath = attachmentsPath;
         this.emaildialogue = dialogue;
         this.dbPath = dbPath;
+        this.m_bPause = false;
+        
+        objResume = new ResumeState();
+        if(true) objResume.Activate();
         
         System.setProperty("mail.mime.address.strict", "false");
         System.setProperty("mail.mimi.decodefilename", "true");
@@ -112,7 +125,15 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void pauseDownloading()
+    {
+        this.m_bPause = true;
+        logger.info("paused has been pressed");
+    }
 
+    
+            
     @Override
     protected Void doInBackground() throws Exception, MessagingException, IOException, SQLException {
 
@@ -126,23 +147,57 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         // 1).  Create Data base 
         createDB();
         emaildialogue.getCancelButton().setEnabled(true);
+        emaildialogue.getPauseButton().setEnabled(true);
 
         // 2).  Crawel For Each Folder 
         javax.mail.Folder[] folders = store.getDefaultFolder().list("*");
-        for (javax.mail.Folder folder : folders) {
-           
-            if(!isFolderHoldMessages(folder))
-            {
-              continue;
-            }
+                
+        for (javax.mail.Folder folder : folders) 
+        {
+            Message[] messages;
             
-
+            if(!isFolderHoldMessages(folder)) continue;
+            
+            if(objResume.isActive() && (objResume.getFoundState()==false))
+            {
+                if(objResume.getFolderName().compareToIgnoreCase(folder.getFullName())!=0) continue;
+                else 
+                {
+                    objResume.setFoundState(true);
+                    
+                    long iMsgId = (long)Integer.parseInt(objResume.getMessageId());
+                    Message[] mCurrentMessages = folder.getMessages();
+                    long lLastMsgId = (((UIDFolder) folder).getUID(mCurrentMessages[mCurrentMessages.length-1]));                 
+                    
+                    if (folder instanceof com.sun.mail.pop3.POP3Folder)
+                        messages=((com.sun.mail.pop3.POP3Folder)folder).getMessages((int)iMsgId,(int)lLastMsgId);
+                    else    
+                        messages= ((com.sun.mail.imap.IMAPFolder)folder).getMessagesByUID(iMsgId,lLastMsgId);
+                }
+            }
+            else                       
+                messages = folder.getMessages();
+          
             // 3).  Get All Messages For Each Folder
-            Message[] messages = folder.getMessages();
-            if (messages != null) {
+
+            if (messages != null)
+            {
 
                 // 4). For Each Message dump the message and download attachment
-                for (Message message : messages) {
+                for (Message message : messages) 
+                {
+                    
+                    String str = String.valueOf(((UIDFolder) folder).getUID(message));
+                    
+                    com.sun.mail.imap.IMAPFolder pf =  (com.sun.mail.imap.IMAPFolder) folder;
+               
+                    long strUid = (pf.getUID(message));
+                    logger.info(""+strUid+" "+folder.getFullName());    
+                    //messages.toString();
+                    if(this.m_bPause) {
+                        
+                    }
+                        
                     if (isCancelled()) {
                         emailFinished = false;
                         return null;
@@ -297,6 +352,11 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         }
         
         field.setText(buffer.toString());
+    }
+    
+    public void pauseDownloading(boolean vbtrue)
+    {
+        
     }
     
     public boolean ConnectPop3(String UserName, String Password) {
