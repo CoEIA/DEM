@@ -561,7 +561,8 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         return;
     }
     
-    FileUtil.removeDirectory(caseObj.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
+    //FileUtil.removeDirectory(caseObj.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
+    
     for (EmailConfiguration s : emailInfos) {
         try {
             downloadEmail(caseObj, s);

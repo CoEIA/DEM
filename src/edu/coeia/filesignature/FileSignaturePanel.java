@@ -339,46 +339,46 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
 
                     // ext of the file is in the database and signature is found in database
-                    if (FileSignatureAnalysis.isMatchedSignature(file, fs)) {
+                    if (FileSignatureAnalysis.isMatchedSignature(file, fs)&& !bad&&!aliased&&!unKnown) {
                         status_matched = FormatTable(file, "Matched File", fs, signatureList, extensionsList);
                         matched = true;
                         break;
 
                     }
 
-                    if (FileSignatureAnalysis.isBadSignature(file, fs)) {
+                    else if (FileSignatureAnalysis.isBadSignature(file, fs)&&!unKnown&&!aliased&&!matched) {
                         bad = true; // bad signature ext not in database, signature not in database
                         status_bad = FormatTable(file, "Bad Signature", fs, signatureList, extensionsList);
+                        break;
 
                     }
                     // Alias : extension is different, but signature is there in database
-                    if (FileSignatureAnalysis.matchAliasSignature(file, fs) && !matched) {
-                        if (FileSignatureAnalysis.isknownFile(file, fs)) {
+                    else if (FileSignatureAnalysis.matchAliasSignature(file, fs)&&!matched&&!unKnown&&!bad){
+                            if (FileSignatureAnalysis.isknownFile(file, fs)) {
+                        
                             status_aliased = FormatTable(file, "Aliased File and it is Known", fs, signatureList, extensionsList);
                             aliased = true;
-
+                           
                         }
                     }
-
-                    if (FileSignatureAnalysis.isUnknown(file, fs) && !matched && !bad && !aliased) {
-                        unKnown = true;
-                    }
-
+                    
+                     
+                            
                 } // End For 
 
             }
             // Check All States
 
-            if (unKnown && !matched && !aliased && !bad) {
+            if (!bad && !matched && !aliased ) {
                 FillTableUnknownFile(file.getName(), "Unknown");
             }
-            if (!matched && !bad && aliased) {
+            if (!unKnown&&!matched && !bad && aliased) {
                 FillSignatureTable(status_aliased);
             }
-            if (!matched && !aliased && bad) {
+            if (!unKnown&&!matched && !aliased && bad) {
                 FillSignatureTable(status_bad);
             }
-            if (matched && !aliased) {
+            if (!unKnown&&!bad&&!aliased&&matched ) {
                 FillSignatureTable(status_matched);
             }
 

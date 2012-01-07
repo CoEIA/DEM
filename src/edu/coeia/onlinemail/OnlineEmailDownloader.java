@@ -305,6 +305,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                     
                     
                     if(this.m_bPause) {
+
                         
                         String strMsgId;
                         if (folder instanceof com.sun.mail.pop3.POP3Folder)
@@ -320,6 +321,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                        this.writeResumeStatus(objResume);
                        this.cancel(true);
                        folder.close(true);
+
                     }
                         
                     if (isCancelled()) 
