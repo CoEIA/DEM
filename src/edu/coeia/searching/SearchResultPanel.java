@@ -47,11 +47,13 @@ public class SearchResultPanel extends javax.swing.JPanel {
 
     private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
     
-    private JFrame parentFrame; 
-    private Case caseObj;
-    
     private String keyword ;
-    private List<Integer> documentIds = new ArrayList<Integer>();
+    
+    private final JFrame parentFrame; 
+    private final Case caseObj;
+    
+    private final List<Integer> documentIds = new ArrayList<Integer>();
+    private final CasePathHandler pathHandler;
     
     /** Creates new form SearchResultPanel */
     public SearchResultPanel(JFrame parentFrame) {
@@ -59,6 +61,13 @@ public class SearchResultPanel extends javax.swing.JPanel {
 
         this.parentFrame = parentFrame;
         this.caseObj  = ((CaseFrame) this.parentFrame).getCase();
+        this.pathHandler = CasePathHandler.newInstance(this.caseObj.getCaseLocation());
+        
+        try {
+            pathHandler.readConfiguration();
+        } catch (IOException ex) {
+            Logger.getLogger(SearchResultPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /** This method is called from within the constructor to
@@ -216,11 +225,7 @@ public class SearchResultPanel extends javax.swing.JPanel {
         if ( IndexingConstant.isFileDocument(document) ) {
             String fileName = document.get(IndexingConstant.FILE_NAME);
             String relativePath = document.get(IndexingConstant.FILE_PATH);
-
-            CasePathHandler pathHandler = CasePathHandler.newInstance(this.caseObj.getCaseLocation());
-            pathHandler.readConfiguration();
             String fullPath = pathHandler.getFullPath(relativePath);
-            
             String hashValue = HashCalculator.calculateFileHash(fullPath);
             
             item = HashItem.newInstance(fileName, fullPath, this.caseObj.getCaseName(),
