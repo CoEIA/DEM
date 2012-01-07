@@ -47,7 +47,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
     private final Case aCase ;
     private final List<HashCategory> hashCategories ;   // contain all categories
     private final List<MatchingResult> hashLibraryDuplicationResult;   // contain the result of hash library duplication anaylsis
-    private final Multimap<String, Document> caseDuplicationsMap;      // contain the result of case duplication analysis
+    private final Multimap<String, String> caseDuplicationsMap;      // contain the result of case duplication analysis
     
     /** Creates new form HashAnalysisPanel */
     public HashAnalysisPanel(final JPanel parentPanel) {
@@ -377,17 +377,20 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         JTableUtil.removeAllRows(this.caseDuplicationResultTable);
         
         String key = String.valueOf(this.caseDuplicationTable.getValueAt(row, 0));
-        Collection<Document> documents = this.caseDuplicationsMap.get(key);
-        for(Document document: documents) {
-            if ( IndexingConstant.isFileDocument(document) ) {
-                String fileName = document.get(IndexingConstant.FILE_NAME);
-                String filePath = document.get(IndexingConstant.FILE_PATH);
-                String date = document.get(IndexingConstant.FILE_DATE);
-                String hash = document.get(IndexingConstant.DOCUMENT_HASH);
-                
-                Object[] data = {fileName, filePath, date, hash};
-                JTableUtil.addRowToJTable(this.caseDuplicationResultTable, data);
-            }
+        Collection<String> documentsId = this.caseDuplicationsMap.get(key);
+        for(String document: documentsId) {
+//            if ( IndexingConstant.isFileDocument(document) ) {
+//                String fileName = document.get(IndexingConstant.FILE_NAME);
+//                String filePath = document.get(IndexingConstant.FILE_PATH);
+//                String date = document.get(IndexingConstant.FILE_DATE);
+//                String hash = document.get(IndexingConstant.DOCUMENT_HASH);
+//                
+//                Object[] data = {fileName, filePath, date, hash};
+//                JTableUtil.addRowToJTable(this.caseDuplicationResultTable, data);
+//            }
+            
+            Object[] data = {document, key, "", ""};
+            JTableUtil.addRowToJTable(this.caseDuplicationResultTable, data);
         }
     }//GEN-LAST:event_caseDuplicationTableMouseClicked
 
@@ -505,17 +508,19 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         this.fillCaseDuplicationMap();  // read from index and fill the duplication map
         
         boolean isFoundDuplication = false; 
-        Map<String, Collection<Document>> m = this.caseDuplicationsMap.asMap();
+        Map<String, Collection<String>> m = this.caseDuplicationsMap.asMap();
         
-        for(Map.Entry<String, Collection<Document>> mapEntry: m.entrySet()){
+        for(Map.Entry<String, Collection<String>> mapEntry: m.entrySet()){
             String key = mapEntry.getKey();
-            Collection<Document> documents = mapEntry.getValue();
+            Collection<String> documents = mapEntry.getValue();
             
             if ( documents.size() > 1 ) { // find duplication  
                 isFoundDuplication = true;
                 Object[] data = {key, documents.size()};
                 JTableUtil.addRowToJTable(this.caseDuplicationTable, data);
             }
+            
+            documents = null;
         }
         
         return isFoundDuplication;
@@ -532,7 +537,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
                 Field field = document.getField(IndexingConstant.DOCUMENT_HASH);
                 if ( field != null && field.stringValue() != null) {
                    String documentHash = field.stringValue();
-                   this.caseDuplicationsMap.put(documentHash, document);
+                   this.caseDuplicationsMap.put(documentHash, document.get(IndexingConstant.DOCUMENT_ID));
                 }
             }
         }
