@@ -28,7 +28,7 @@ import javax.swing.JTextField;
  */
 public class EmailDownloaderDialog extends javax.swing.JDialog {
 
-    public OnlineEmailDownloader downloader;
+    public OnlineEmailDownloader m_ObjDownloader;
     private Case aCase ;   
 
     
@@ -48,6 +48,12 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
     {
         return this.jButton1;
     }
+    
+    public JButton getPauseButton()
+    {
+        return this.jBtn_Pause;
+    }
+    
     public Case getCase()
     {
         return this.aCase;
@@ -120,12 +126,13 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jBtn_Pause = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Email Downloading ");
         setResizable(false);
 
-        progressEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email Downloading", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        progressEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email Downloading", 0, 0, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         progressEmail.setLayout(new java.awt.BorderLayout());
 
         FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -140,7 +147,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         BCCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         BCCjLabel.setText("BCC:");
 
-        AttachjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        AttachjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         AttachjLabel.setText("Attachment Files:");
 
         TojLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -245,7 +252,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
 
         progressEmail.add(progresLabelPanel, java.awt.BorderLayout.PAGE_START);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         jButton1.setText("Cancel");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -254,21 +261,36 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
             }
         });
 
+        jBtn_Pause.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBtn_Pause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/mail.png"))); // NOI18N
+        jBtn_Pause.setText("Resume");
+        jBtn_Pause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtn_PauseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(255, 255, 255)
+                .addGap(145, 145, 145)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(291, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtn_Pause, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(266, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBtn_Pause, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)))
         );
+
+        jBtn_Pause.getAccessibleContext().setAccessibleName("Resume");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -302,13 +324,23 @@ private void fromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:ev
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-    if (downloader!= null) {
-        downloader.cancel(true);
+    if (m_ObjDownloader!= null) {
+        m_ObjDownloader.cancel(true);
        
     }
    
 
 }//GEN-LAST:event_jButton1ActionPerformed
+
+private void jBtn_PauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtn_PauseActionPerformed
+// TODO add your handling code here:
+    
+    if (m_ObjDownloader!= null) {
+        m_ObjDownloader.pauseDownloading();
+       
+    }
+}//GEN-LAST:event_jBtn_PauseActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AttachjLabel;
     private javax.swing.JLabel BCCjLabel;
@@ -322,6 +354,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JTextField bcc;
     private javax.swing.JTextField cc;
     private javax.swing.JTextField from;
+    private javax.swing.JButton jBtn_Pause;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
