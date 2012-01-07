@@ -132,7 +132,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         setTitle("Email Downloading ");
         setResizable(false);
 
-        progressEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email Downloading", 0, 0, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        progressEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email Downloading", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         progressEmail.setLayout(new java.awt.BorderLayout());
 
         FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -196,7 +196,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
                             .addComponent(CCjLabel)
                             .addComponent(TojLabel)
                             .addComponent(FromjLabel)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(progresLabelPanelLayout.createSequentialGroup()
                         .addComponent(AttachjLabel)
@@ -210,7 +210,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
                     .addComponent(cc)
                     .addComponent(to)
                     .addComponent(from, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         progresLabelPanelLayout.setVerticalGroup(
             progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,7 +252,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
 
         progressEmail.add(progresLabelPanel, java.awt.BorderLayout.PAGE_START);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         jButton1.setText("Cancel");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

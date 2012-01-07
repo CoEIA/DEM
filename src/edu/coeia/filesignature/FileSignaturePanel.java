@@ -41,6 +41,8 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     private File selectedFile;
     private List<FileSignature> listFiles;
     private volatile boolean stopRequested = false;
+    private Thread newThrd;
+    private FolderTraversar ft;
 
     public FileSignaturePanel() {
     }
@@ -83,7 +85,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         private String indent = "";
         private File originalFileObject;
         private File fileObject;
-
+        private boolean stop = false;
         public FolderTraversar(File fileObject) {
             this.originalFileObject = fileObject;
             this.fileObject = fileObject;
@@ -92,10 +94,14 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         public void traverse() {
             recursiveTraversal(fileObject);
         }
+        public void stop(){
+            stop = true;
+        }
+        
 
         public void recursiveTraversal(File fileObject) {
 
-            if (fileObject.isDirectory()) {
+            if (fileObject.isDirectory() &&!stop) {
                 indent = getIndent(fileObject);
                 System.out.println(indent + fileObject.getName());
                 try {
@@ -414,7 +420,7 @@ private void AnalyzeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     }
     boolean isDirectory = selectedFile.isDirectory();
     JTableUtil.removeAllRows(FileAnalysisTable);
-    Thread newThrd = new Thread(this);
+    newThrd = new Thread(this);
     stopRequested = false;
     if (isDirectory) {
         newThrd.start();
@@ -441,20 +447,22 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 // TODO add your handling code here:
 
     stopRequested = true;
+    ft.stop();
+
+    System.out.println("MyThread terminating.");
+    JOptionPane.showMessageDialog(this, "Finished Analyzing", "Finished", JOptionPane.INFORMATION_MESSAGE);
+    AnalyzeButton.setEnabled(true);
+
 }//GEN-LAST:event_jButton2ActionPerformed
 
     public void run() {
-        FolderTraversar ft = new FolderTraversar(selectedFile);
+        ft = new FolderTraversar(selectedFile);
         AnalyzeButton.setEnabled(false);
-        while (!stopRequested) {
-            System.out.println("MyThread starting.");
+        System.out.println("MyThread starting.");
 
-            ft.traverse();
-            System.out.println("MyThread terminating.");
-            JOptionPane.showMessageDialog(this, "Finished Analyzing", "Finished", JOptionPane.INFORMATION_MESSAGE);
-            AnalyzeButton.setEnabled(true);
-            return;
-        }
+        ft.traverse();
+
+
 
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
