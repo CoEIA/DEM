@@ -4,11 +4,13 @@
  */
 package edu.coeia.onlinemail;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Farhan
  */
-public class ResumeState {
+public class ResumeState implements Serializable{
     
     private String strFolderName;
     private String strMessageId;
@@ -19,8 +21,8 @@ public class ResumeState {
     {
         bActivate = bFoundState = false;
         //debuging purpose
-        strFolderName="INBOX";
-        strMessageId="4";
+   //     strFolderName="INBOX";
+   //     strMessageId="4";
     }
     
     public String getFolderName()
@@ -32,6 +34,17 @@ public class ResumeState {
     {
         return strMessageId;
     }
+    
+    public void setFolderName(String vstrFolderName)
+    {
+        strFolderName = vstrFolderName;
+    }
+    
+    public void setMessageId(String vstrMsgId)
+    {
+        strMessageId = vstrMsgId;
+    }
+    
     
     public void Activate()
     {
@@ -56,5 +69,13 @@ public class ResumeState {
     public boolean getFoundState()
     {
         return bFoundState;
+    }
+    
+    public void resetState()
+    {
+        bActivate = bFoundState = false;
+        //debuging purpose
+        strFolderName="";
+        strMessageId="";
     }
 }

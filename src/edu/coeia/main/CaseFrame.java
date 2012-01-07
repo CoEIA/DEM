@@ -617,7 +617,10 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         EmailDownloaderDialog dialogue = new EmailDownloaderDialog(this, true, currentCase);
         dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue,
                 currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
-                currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
+                currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB,
+                currentCase.getCaseLocation() + "\\TMP\\" 
+                );
+        
         // if hotmail
         if (config.getSource() == SOURCE.HOTMAIL) {
             if (dialogue.m_ObjDownloader.ConnectPop3(config.getUserName(), config.getPassword())) {
