@@ -51,14 +51,17 @@ public class FileSignatureAnalysis {
 
     public static boolean verifyExtenstion(File file, FileSignature db) {
         String extension = FileUtil.getExtension(file);
+        boolean b = false;
         for (String ext : db.getExtension()) {
 
             if (extension.equalsIgnoreCase(ext)) {
-                return true;
+               
+                b = true;
+                break;
             }
         }
 
-        return false;
+        return b;
     }
 
     // Get the extension of the file and search for matached signature based on
@@ -103,18 +106,19 @@ public class FileSignatureAnalysis {
     public static boolean isUnknown(File file, FileSignature fs) throws FileNotFoundException, IOException {
         // First Case, Extension in DB Table, but Signature is different
         // ext  == sign in database 
-        boolean res = false;
-        res = verifyExtenstion(file, fs);
-        boolean b = false;
-
-        boolean result = matchesSignature(fs.getSignature().getBytes(), file);
-        if (result == false && res == false) {
-           // System.out.println("Unknown");
-            b = true;
-
-        } else {
-            b = false;
+        String extension = FileUtil.getExtension(file);
+        boolean result = isknownFile(file, fs);
+        boolean b = true;
+        for (String ext : fs.getExtension()) {
+            if ((!extension.equalsIgnoreCase(ext)) && result == false) {
+                b = false;
+            }
+            else {
+                b = true;
+            }
         }
+  
+        
        return b;
     }
 

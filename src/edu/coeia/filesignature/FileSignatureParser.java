@@ -32,8 +32,7 @@ public class FileSignatureParser {
                 String[] values = line.split(",N/A");
                 String[] firstPart = values[0].split(",");
                 String[] secondPart = values[1].split(",");
-                String[] extensionPart = null;
-                extensionPart = secondPart[1].split("\\|");
+                String[] extensionPart = secondPart[1].split("\\|");
 
                 FileSignature fs = new FileSignature(firstPart[0], firstPart[1].replaceAll("\\ ", ""), extensionPart, secondPart[2]);
                 files.add(fs);
