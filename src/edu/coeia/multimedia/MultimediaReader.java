@@ -17,15 +17,12 @@ import edu.coeia.indexing.IndexingConstant;
 import org.apache.lucene.index.IndexReader ;
 import org.apache.lucene.store.Directory ;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.index.TermEnum ;
-import org.apache.lucene.index.Term ;
 
 import java.io.IOException ;
 import java.io.File ;
 
 import java.util.List ;
 import java.util.ArrayList ;
-import java.util.Arrays;
 import java.util.logging.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
