@@ -260,7 +260,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
 
         jBtn_Pause.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtn_Pause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/mail.png"))); // NOI18N
-        jBtn_Pause.setText("Resume");
+        jBtn_Pause.setText("Pause");
         jBtn_Pause.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtn_PauseActionPerformed(evt);

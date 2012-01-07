@@ -324,7 +324,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/edu/coeia/main/resources/mail.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Resume"/>
+            <Property name="text" type="java.lang.String" value="Pause"/>
           </Properties>
           <AccessibilityProperties>
             <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Resume"/>
