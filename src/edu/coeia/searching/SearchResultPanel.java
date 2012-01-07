@@ -11,6 +11,7 @@
 package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CasePathHandler;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.hash.HashCalculator;
@@ -23,6 +24,7 @@ import edu.coeia.viewer.SourceViewerDialog;
 
 import java.awt.event.InputEvent;
 
+import java.io.IOException;
 import javax.swing.JTable;
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -102,7 +104,7 @@ public class SearchResultPanel extends javax.swing.JPanel {
         });
         searchTable.setFillsViewportHeight(true);
         searchTable.setGridColor(new java.awt.Color(255, 255, 255));
-        searchTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        searchTable.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         searchTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 searchTableMouseClicked(evt);
@@ -208,16 +210,20 @@ public class SearchResultPanel extends javax.swing.JPanel {
         table.setComponentPopupMenu(popup);
     }
         
-    private HashItem getHashItemFromDocument(final Document document) {
+    private HashItem getHashItemFromDocument(final Document document) throws IOException {
         HashItem item = null;
         
         if ( IndexingConstant.isFileDocument(document) ) {
             String fileName = document.get(IndexingConstant.FILE_NAME);
-            String filePath = document.get(IndexingConstant.FILE_PATH);
+            String relativePath = document.get(IndexingConstant.FILE_PATH);
 
-            String hashValue = HashCalculator.calculateFileHash(filePath);
+            CasePathHandler pathHandler = CasePathHandler.newInstance(this.caseObj.getCaseLocation());
+            pathHandler.readConfiguration();
+            String fullPath = pathHandler.getFullPath(relativePath);
             
-            item = HashItem.newInstance(fileName, filePath, this.caseObj.getCaseName(),
+            String hashValue = HashCalculator.calculateFileHash(fullPath);
+            
+            item = HashItem.newInstance(fileName, fullPath, this.caseObj.getCaseName(),
                     this.caseObj.getCaseLocation(), this.caseObj.getInvestigatorName(), 
                     new Date(), hashValue);
         }

@@ -206,9 +206,9 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         
                         // if pop3
                         if (folder instanceof com.sun.mail.pop3.POP3Folder) {
-                            com.sun.mail.pop3.POP3Folder pf =
+                            com.sun.mail.pop3.POP3Folder pf2 =
                                     (com.sun.mail.pop3.POP3Folder) folder;
-                            UID = (pf.getUID(message));
+                            UID = (pf2.getUID(message));
                         } else {
                             UID = String.valueOf(((UIDFolder) folder).getUID(message));
 
