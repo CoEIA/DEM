@@ -54,15 +54,16 @@ final class IndexerFactory {
             // if found archive files and user select to index archive files
             // else consider them as normal file
             else if (isArchiveFile(mime) && luceneIndex.getCase().getCheckCompressed())
-                indexer = ArchiveIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
+                return null;
+                //indexer = ArchiveIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
              
             // images type
             else if ( isImage(mime) )
                 indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new ExternalImageExtractor(), parentId); 
             
             // Unkown file Format
-            else
-                indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
+            //else
+                //indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
         }
         catch(IOException e){
             e.printStackTrace();
@@ -141,7 +142,8 @@ final class IndexerFactory {
     
     private static boolean isArchiveFile(final String mime) {
         return mime.equalsIgnoreCase("application/zip") ||
-          mime.equalsIgnoreCase("application/x-rar-compressed") ;
+          mime.equalsIgnoreCase("application/x-rar-compressed") ||
+          mime.equalsIgnoreCase("application/x-bzip2");
     }
     
     private static boolean isImage(final String mime) {

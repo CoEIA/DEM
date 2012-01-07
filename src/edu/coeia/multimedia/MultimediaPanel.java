@@ -23,7 +23,7 @@ public class MultimediaPanel extends javax.swing.JPanel {
     private Case aCase;
 
     /** Creates new form MultimediaPanel */
-    public MultimediaPanel(Case index) throws IOException, Exception {
+    public MultimediaPanel(Case index) {
         initComponents();
         this.aCase = index;
         this.jTabbedPane1.addTab("Image Viewer", new ImagesViewerPanel(aCase));

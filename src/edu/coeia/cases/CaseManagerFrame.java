@@ -1,11 +1,12 @@
 package edu.coeia.cases;
 
 /* import internal classes */
-import edu.coeia.util.FilesPath ;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.main.SmartCardDialog;
 import edu.coeia.gutil.JTableUtil;
+import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.DateUtil;
+import edu.coeia.util.FilesPath ;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.DEMLogger;
 import edu.coeia.util.ZipUtil;
@@ -31,7 +32,6 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-import edu.coeia.gutil.GuiUtil;
 
 /*
  * CaseManagerFrame the main entry point to DEM
@@ -391,6 +391,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         catch (Exception e) {
             JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
                 JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
     
@@ -454,6 +455,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             }
             catch(Exception e){
                 logger.severe("Cannot Index the case directly after create it");
+                e.printStackTrace();
             }
         }
     }
@@ -564,12 +566,10 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                 boolean caseSourceIsUptoDate = true;
                 
                 if ( isCaseHaveChangedSource(aCase) )  {
-                    caseSourceIsUptoDate = askForNewCaseSource(aCase);
+                    caseSourceIsUptoDate = askAndUpdateNewCaseSource(aCase);
                 }
                 
-                if ( caseSourceIsUptoDate ) {
-                    // update the source location
-                    
+                if ( caseSourceIsUptoDate ) {                    
                     caseManager.addCase(caseName);
 
                     CaseFrame mainFrame = new CaseFrame(aCase, caseManager.getList());
@@ -596,7 +596,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         return !CasePathHandler.newInstance(aCase.getCaseLocation()).getChangedEntries().isEmpty();
     }
     
-    private boolean askForNewCaseSource(final Case aCase) throws IOException {
+    private boolean askAndUpdateNewCaseSource(final Case aCase) throws IOException {
         UpdatingCaseEvidenceSourceDialog dialog = new UpdatingCaseEvidenceSourceDialog(this, true, aCase);
         dialog.setVisible(true);
         
@@ -633,9 +633,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     }
     
     private static final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
-    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel";
-    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";
-    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel caseManagerButtonsPanel;

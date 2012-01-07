@@ -151,7 +151,7 @@ public class CasePathHandler {
             if ( fullPath.contains(entry.absolutePath)) {
                 relativePath.append(String.format(RELATIVE_PATH_PREFIX, i));
                 relativePath.append(File.separator);
-                relativePath.append(file.getName());
+                relativePath.append(fullPath.replace(entry.absolutePath + "\\", ""));
                 break;
             }
         }

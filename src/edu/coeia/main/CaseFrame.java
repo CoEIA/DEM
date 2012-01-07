@@ -28,8 +28,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import java.sql.SQLException;
+
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
+
 import javax.swing.JOptionPane;
 
 import java.io.IOException ;
@@ -73,7 +75,7 @@ public class CaseFrame extends javax.swing.JFrame {
      * @param aCase case opened in CaseManager
      * @param list a list of all openings case
      */
-    public CaseFrame(Case aCase, List<String> list) throws IOException, Exception {
+    public CaseFrame(Case aCase, List<String> list) {
         initComponents();
         logger.info("OfflineMining Frame Constructor, Open Case: " + aCase.getCaseName());
         
@@ -304,7 +306,7 @@ public class CaseFrame extends javax.swing.JFrame {
         getContentPane().add(CardPanel, java.awt.BorderLayout.CENTER);
 
         fileMenu.setText("File");
-        fileMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        fileMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         exitMenuItem.setText(" Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -355,7 +357,6 @@ public class CaseFrame extends javax.swing.JFrame {
         viewMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         styleMenu.setText("Application Style");
-        styleMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         styleRadioGroup.add(windowsStyleRadioButton);
         windowsStyleRadioButton.setSelected(true);
@@ -399,7 +400,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jMenuBar1.add(viewMenu);
 
         toolsMenu.setText("Tools");
-        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         windowsMenuItem.setText("Windows Information");
         windowsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -507,7 +508,6 @@ public class CaseFrame extends javax.swing.JFrame {
     private void chatToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatToggleButtonActionPerformed
         GuiUtil.showPanel("chatCard",CardPanel);
         this.setTitle(APPLICATION_NAME + "Instance Chat Search Window");
-       
     }//GEN-LAST:event_chatToggleButtonActionPerformed
 
     private void imageViewerToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageViewerToggleButtonActionPerformed
@@ -565,21 +565,11 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     for (EmailConfiguration s : emailInfos) {
         try {
             downloadEmail(caseObj, s);
-        } catch (SQLException ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchProviderException ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MessagingException ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) {
             Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-
-
 }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void windowsStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_windowsStyleRadioButtonActionPerformed
@@ -642,8 +632,8 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             }
 
         }
-
     }
+    
     public void showIndexDialog(boolean startIndex) {
         IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj, startIndex);
         indexPanel.setLocationRelativeTo(this);
