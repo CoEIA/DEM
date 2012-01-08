@@ -64,7 +64,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
     private String Username;
     private String Password;
     private ResumeState objResume;
-    private Case mCase;
+   
     
     
     /**
@@ -72,11 +72,6 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
      */
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
-
-    public void setCaseObject(Case vCase)
-    {
-        mCase = vCase;
-    }
     /**
      * static factory that read all message from user account and store it in list
      * @param username the name of the account
