@@ -326,7 +326,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 // TODO add your handling code here:
     if (m_ObjDownloader!= null) {
         m_ObjDownloader.cancel(true);
-       
+        this.setVisible(false);
     }
    
 
@@ -335,7 +335,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 private void jBtn_PauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtn_PauseActionPerformed
 // TODO add your handling code here:
     
-    if (m_ObjDownloader!= null) {
+    if (m_ObjDownloader != null) {
         m_ObjDownloader.pauseDownloading();
        
     }

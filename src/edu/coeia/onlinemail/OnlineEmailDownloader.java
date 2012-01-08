@@ -1,7 +1,10 @@
 package edu.coeia.onlinemail;
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.EmailConfiguration;
+import edu.coeia.cases.EmailConfiguration.SOURCE;
 import edu.coeia.util.FileUtil;
+import edu.coeia.util.FilesPath;
 import edu.coeia.util.Utilities;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -31,7 +34,6 @@ import javax.mail.NoSuchProviderException;
 import javax.mail.MessagingException;
 import javax.mail.Address;
 import javax.mail.BodyPart;
-import javax.mail.FetchProfile;
 import javax.mail.FolderClosedException;
 import javax.mail.UIDFolder;
 import javax.mail.internet.MimeUtility;
@@ -141,29 +143,49 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         this.m_bPause = true;
         logger.info("paused has been pressed");
         
-        try
-        {
+        try {
             ResumeState resTmp = readResumeStatus();
-            if(resTmp!=null) 
-            {
+            if (resTmp != null) {
                 objResume = resTmp;
-                if(objResume.isActive())
-                {
+                if (objResume.isActive()) {
                     String strIsResume = emaildialogue.getPauseButton().getText();
                     if (strIsResume.compareTo("Resume") == 0) {
                         emaildialogue.getPauseButton().setText("Pause");
-                        
-                                
-                        
+                        List<EmailConfiguration> emailInfos = emaildialogue.getCase().getEmailConfig();
+                        for (EmailConfiguration s : emailInfos) {
+                            downloadEmail(emaildialogue.getCase(), s, emaildialogue);
+                        }
                     }
                 }
             }
-        }
-         catch (Exception ex) {
+        } 
+        catch (Exception ex) {
             ex.printStackTrace();
-         }
+        }
     }
 
+
+    
+    public void downloadEmail(Case currentCase, EmailConfiguration config, EmailDownloaderDialog dialogue) throws Exception {
+
+        // if hotmail
+        if (config.getSource() == SOURCE.HOTMAIL || config.getSource() == SOURCE.Yahoo) {
+             
+            dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
+            dialogue.m_ObjDownloader.ConnectPop3(Username, Password);
+            dialogue.m_ObjDownloader.execute();
+            dialogue.setVisible(true);
+
+        }
+        if (config.getSource() == SOURCE.GMAIL) {
+            dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
+            dialogue.m_ObjDownloader.ConnectIMAP(Username, Password);
+            dialogue.m_ObjDownloader.execute();
+            dialogue.setVisible(true);
+
+        }
+
+    }
     
     /**
      * write resume state into file 
@@ -237,8 +259,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
     protected Void doInBackground() throws Exception, MessagingException, IOException, SQLException {
 
         int count = 0;
-        String UID = "";
-        
+         
         if (isCancelled()) 
         {
             emailFinished = false;

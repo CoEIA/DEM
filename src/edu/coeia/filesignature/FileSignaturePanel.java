@@ -106,9 +106,10 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
                 System.out.println(indent + fileObject.getName());
                 try {
                     File allFiles[] = fileObject.listFiles();
+                    if(!stop){
                     for (File aFile : allFiles) {
                         recursiveTraversal(aFile);
-                    }
+                    }}
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
