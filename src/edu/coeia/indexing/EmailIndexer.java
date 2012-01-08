@@ -16,8 +16,6 @@ import java.io.IOException;
 
 import java.util.List;
 
-import com.pff.PSTException;
-
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
@@ -71,7 +69,7 @@ final class EmailIndexer extends Indexer {
         return status;
     }
 
-    public Document getDocument(OnlineEmailMessage msg) throws CorruptIndexException, IOException, FileNotFoundException, TikaException, PSTException {
+    public Document getDocument(OnlineEmailMessage msg) throws CorruptIndexException, IOException, FileNotFoundException, TikaException {
         Document doc = new Document();
 
         // generic document fields
