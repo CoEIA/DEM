@@ -150,10 +150,11 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                 if(objResume.isActive())
                 {
                     String strIsResume = emaildialogue.getPauseButton().getText();
-                    if(strIsResume.compareTo("Resume")==0)
-                    {
+                    if (strIsResume.compareTo("Resume") == 0) {
                         emaildialogue.getPauseButton().setText("Pause");
-                        execute();
+                        
+                                
+                        
                     }
                 }
             }
