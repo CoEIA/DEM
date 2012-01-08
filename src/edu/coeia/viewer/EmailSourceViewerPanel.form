@@ -13,45 +13,21 @@
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
   </AuxValues>
 
-  <Layout>
-    <DimensionLayout dim="0">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="722" max="32767" attributes="0"/>
-          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="viewPanel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="properitiesPanel" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-          </Group>
-      </Group>
-    </DimensionLayout>
-    <DimensionLayout dim="1">
-      <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="501" max="32767" attributes="0"/>
-          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  <Component id="properitiesPanel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="viewPanel" min="-2" max="-2" attributes="0"/>
-              </Group>
-          </Group>
-      </Group>
-    </DimensionLayout>
-  </Layout>
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="viewPanel">
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+          <BorderConstraints direction="Center"/>
+        </Constraint>
+      </Constraints>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTabbedPane2" pref="692" max="32767" attributes="0"/>
+                  <Component id="jTabbedPane2" pref="702" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -60,7 +36,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTabbedPane2" pref="249" max="32767" attributes="0"/>
+                  <Component id="jTabbedPane2" pref="255" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -134,12 +110,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane28" alignment="0" pref="687" max="32767" attributes="0"/>
+                      <Component id="jScrollPane28" alignment="0" pref="697" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane28" alignment="0" pref="221" max="32767" attributes="0"/>
+                      <Component id="jScrollPane28" alignment="0" pref="227" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -169,6 +145,11 @@
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="properitiesPanel">
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+          <BorderConstraints direction="First"/>
+        </Constraint>
+      </Constraints>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -187,14 +168,14 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="messageTextField" alignment="1" pref="607" max="32767" attributes="0"/>
-                      <Component id="messageDateTextFeild" alignment="1" pref="607" max="32767" attributes="0"/>
-                      <Component id="emailSourceTextField" alignment="1" pref="607" max="32767" attributes="0"/>
-                      <Component id="emailAgentTextField" alignment="1" pref="607" max="32767" attributes="0"/>
-                      <Component id="emailFromTextField" alignment="0" pref="607" max="32767" attributes="0"/>
-                      <Component id="emailToTextField" alignment="0" pref="607" max="32767" attributes="0"/>
-                      <Component id="ccTextField" alignment="0" pref="607" max="32767" attributes="0"/>
-                      <Component id="bccTextField" alignment="0" pref="607" max="32767" attributes="0"/>
+                      <Component id="messageTextField" alignment="1" pref="628" max="32767" attributes="0"/>
+                      <Component id="messageDateTextFeild" alignment="1" pref="628" max="32767" attributes="0"/>
+                      <Component id="emailSourceTextField" alignment="1" pref="628" max="32767" attributes="0"/>
+                      <Component id="emailAgentTextField" alignment="1" pref="628" max="32767" attributes="0"/>
+                      <Component id="emailFromTextField" alignment="0" pref="628" max="32767" attributes="0"/>
+                      <Component id="emailToTextField" alignment="0" pref="628" max="32767" attributes="0"/>
+                      <Component id="ccTextField" alignment="0" pref="628" max="32767" attributes="0"/>
+                      <Component id="bccTextField" alignment="0" pref="628" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
