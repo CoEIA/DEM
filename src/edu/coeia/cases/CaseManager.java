@@ -200,6 +200,10 @@ enum CaseManager {
             // create tmp files for archives extractions
             File tmpFile = new File(caseObject.getCaseLocation() + "\\" + FilesPath.CASE_TMP);
             tmpFile.mkdir();
+            
+            // create folder for offline email attachment
+            File outlookAttachment = new File(caseObject.getCaseLocation() + File.separator + FilesPath.OFFLINE_EMAIL_ATTACHMENTS);
+            outlookAttachment.mkdir();
         }
     }
     

@@ -115,7 +115,7 @@ public class EmailReader {
         try {
             if ( folder.getContentCount() > 0) {
                 try {
-                    for (int i=0 ; i<folder.getEmailCount() ; i++) {
+                    for (int i=0 ; i<folder.getContentCount() ; i++) {
                         folder.moveChildCursorTo(i);
 
                         PSTMessage msg = (PSTMessage) folder.getNextChild();
@@ -127,7 +127,7 @@ public class EmailReader {
                             time = submitTime.toString();
 
                         MessageHeader mh = new MessageHeader(msg.getDescriptorNode().descriptorIdentifier, msg.getSubject(), 
-                                msg.getSentRepresentingName(),  msg.displayTo(), time, msg.hasAttachments());
+                                msg.getSentRepresentingName(),  msg.getDisplayTo(), time, msg.hasAttachments());
 
                         mh.setLocation(name);
                         headers.add(mh);

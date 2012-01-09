@@ -39,9 +39,8 @@ final class IndexerFactory {
             
             // if its outlook file, then call offline email indexer
             if ( isOutlookFile(mime, file.getAbsolutePath()) ) {
-                System.out.println("found outlook: " + file.getAbsolutePath());
+                indexer = OutlookIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor());
             }
-            
             
             // if found office file and user select extract images, then do it
             // else it will indexed without images extractors

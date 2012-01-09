@@ -63,6 +63,16 @@ public class Utilities {
         }
         return result;
     }
+    
+    public static String getEmptyStringWhenNullDate(final Date date) {
+        StringBuilder result = new StringBuilder();
+        
+        if ( date == null)
+            return result.toString();
+        
+        result.append(date.toString());
+        return result.toString();
+    }
 
     public static InputStream convertListToInputStream(List<String> input) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
