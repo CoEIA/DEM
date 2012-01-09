@@ -105,7 +105,7 @@ public class LuceneSearcher {
         for(String field: allFileds) {
             if ( !field.startsWith("FILE_") && // not file system fields
                  !field.startsWith("CHAT_") && // not chat fields
-                 !field.startsWith("EMAIL_") && // not email fields
+                 !field.startsWith("OFFLINE_EMAIL") && // not email fields
                  !field.startsWith("ONLINE_EMAIL_"))  // not online emial fields
             {
                 // this will file system metadata , extracted by tika library
@@ -121,6 +121,8 @@ public class LuceneSearcher {
         Collection<String> fields = new ArrayList<String>();
         
         fields.add(IndexingConstant.ONLINE_EMAIL_BODY);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_HTML_CONTENT);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_PLAIN_CONTENT);
         
         return fields;        
     }
@@ -133,11 +135,30 @@ public class LuceneSearcher {
         fields.add(IndexingConstant.ONLINE_EMAIL_CC);
         fields.add(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
         fields.add(IndexingConstant.ONLINE_EMAIL_FROM);
-        //fields.add(IndexingConstant.DOCUMENT_ID);
         fields.add(IndexingConstant.ONLINE_EMAIL_RECIEVED_DATE);
         fields.add(IndexingConstant.ONLINE_EMAIL_SENT_DATE);
         fields.add(IndexingConstant.ONLINE_EMAIL_SUBJECT);
         fields.add(IndexingConstant.ONLINE_EMAIL_TO);
+        
+        fields.add(IndexingConstant.OFFLINE_EMAIL_SUBJECT);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_ADDRESS);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_HEADER);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_SIZE);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_SENT_REPRESENTING_NAME);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_SENDER_ADDRESS_TYPE);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_SENDER_EMAIL_ADDRESS);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_SENDER_NAME);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_RECIEVED_BY_ADDRESS);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_RECIEVED_BY_ADDRESS_TYPE);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_RECIEVED_BY_NAME);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_DISPLAY_TO);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_DISPLAY_CC);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_DISPLAY_BCC);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_HAS_REPLIED);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_HAS_FORWARDED);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_RECIPENT_NAME);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_RECIPENT_ADDRESS);
+        fields.add(IndexingConstant.OFFLINE_EMAIL_RECIPENT_SMPT);
         
         return fields;        
     }

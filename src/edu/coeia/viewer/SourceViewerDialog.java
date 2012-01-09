@@ -321,6 +321,9 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         else if ( IndexingConstant.isEmailDocument(document) ) {
             panel = new EmailSourceViewerPanel(this);
         }
+        else if ( IndexingConstant.isOfflineEmailDocument(document) ) {
+            panel = new OfflineEmailSourceViewerPanel(this);
+        }
         
         this.viewerPanel.setLayout(new BorderLayout());
         this.viewerPanel.add(panel, BorderLayout.CENTER);

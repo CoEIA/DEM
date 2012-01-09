@@ -4,29 +4,24 @@
  */
 
 /*
- * EmailSourceViewerPanel.java
+ * OfflineEmailSourceViewerPanel.java
  *
- * Created on Dec 3, 2011, 2:37:27 PM
+ * Created on Jan 9, 2012, 11:11:37 AM
  */
 package edu.coeia.viewer;
 
-import java.awt.BorderLayout;
-
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
-
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.searching.LuceneSearcher;
-
 import edu.coeia.util.Utilities;
-import java.util.List;
+import java.awt.BorderLayout;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Fieldable;
 
 /**
  *
  * @author wajdyessam
  */
-class EmailSourceViewerPanel extends javax.swing.JPanel {
+public class OfflineEmailSourceViewerPanel extends javax.swing.JPanel {
 
     private Document document ;
     
@@ -37,8 +32,8 @@ class EmailSourceViewerPanel extends javax.swing.JPanel {
     
     private JWebBrowser emailContentBrowser = new JWebBrowser();
     
-    /** Creates new form EmailSourceViewerPanel */
-    public EmailSourceViewerPanel(SourceViewerDialog dialog) {
+    /** Creates new form OfflineEmailSourceViewerPanel */
+    public OfflineEmailSourceViewerPanel(SourceViewerDialog dialog) {
         initComponents();
         
         this.dialog = dialog;
@@ -61,20 +56,23 @@ class EmailSourceViewerPanel extends javax.swing.JPanel {
         
         displayDocumentInformation();
     }
-    
+
     private void displayDocumentInformation () {
         try {
             // show file properities
-            String emailAgent = this.document.get(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
-            String emailSource = this.document.get(IndexingConstant.ONLINE_EMAIL_FROM);
-            String emailDate = this.document.get(IndexingConstant.ONLINE_EMAIL_SENT_DATE);
-            String emailMessage = this.document.get(IndexingConstant.ONLINE_EMAIL_BODY);
-            String emailSubject = this.document.get(IndexingConstant.ONLINE_EMAIL_SUBJECT);
+            String emailAgent = this.document.get(IndexingConstant.OFFLINE_EMAIL_FOLDER_NAME);
+            String emailSource = this.document.get(IndexingConstant.OFFLINE_EMAIL_NAME);
+            String emailDate = this.document.get(IndexingConstant.OFFLINE_EMAIL_CLIENT_SUBMIT_TIME);
+            String emailMessage = this.document.get(IndexingConstant.OFFLINE_EMAIL_HTML_CONTENT);
+            if ( emailMessage.trim().isEmpty() ) 
+                emailMessage = this.document.get(IndexingConstant.OFFLINE_EMAIL_PLAIN_CONTENT);
             
-            String emailTo = this.document.get(IndexingConstant.ONLINE_EMAIL_TO);
-            String emailFrom = this.document.get(IndexingConstant.ONLINE_EMAIL_FROM);
-            String emailCC = this.document.get(IndexingConstant.ONLINE_EMAIL_CC);
-            String emailBCC = this.document.get(IndexingConstant.ONLINE_EMAIL_BCC);
+            String emailSubject = this.document.get(IndexingConstant.OFFLINE_EMAIL_SUBJECT);
+            
+            String emailTo = this.document.get(IndexingConstant.OFFLINE_EMAIL_DISPLAY_TO);
+            String emailFrom = this.document.get(IndexingConstant.OFFLINE_EMAIL_SENT_REPRESENTING_NAME);
+            String emailCC = this.document.get(IndexingConstant.OFFLINE_EMAIL_DISPLAY_CC);
+            String emailBCC = this.document.get(IndexingConstant.OFFLINE_EMAIL_DISPLAY_BCC);
             
             this.emailAgentTextField.setText(emailAgent);
             this.emailSourceTextField.setText(emailSource);
@@ -93,7 +91,7 @@ class EmailSourceViewerPanel extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
+        
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -176,11 +174,11 @@ class EmailSourceViewerPanel extends javax.swing.JPanel {
         emailMetaDataPanel.setLayout(emailMetaDataPanelLayout);
         emailMetaDataPanelLayout.setHorizontalGroup(
             emailMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
         );
         emailMetaDataPanelLayout.setVerticalGroup(
             emailMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
         );
 
         jTabbedPane2.addTab("MetaData", emailMetaDataPanel);
@@ -191,14 +189,14 @@ class EmailSourceViewerPanel extends javax.swing.JPanel {
             viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                 .addContainerGap())
         );
         viewPanelLayout.setVerticalGroup(
             viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -261,14 +259,14 @@ class EmailSourceViewerPanel extends javax.swing.JPanel {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(messageTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(messageDateTextFeild, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(emailSourceTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(emailAgentTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(emailFromTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(emailToTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(ccTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(bccTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE))
+                    .addComponent(messageTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                    .addComponent(messageDateTextFeild, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                    .addComponent(emailSourceTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                    .addComponent(emailAgentTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                    .addComponent(emailFromTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                    .addComponent(emailToTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                    .addComponent(ccTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                    .addComponent(bccTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
                 .addContainerGap())
         );
         properitiesPanelLayout.setVerticalGroup(

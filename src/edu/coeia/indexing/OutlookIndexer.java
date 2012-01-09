@@ -165,12 +165,12 @@ final class OutlookIndexer extends Indexer{
         
         // generic document fields
         doc.add(new Field(DOCUMENT_ID, String.valueOf(this.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(DOCUMENT, getDocumentType(DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(DOCUMENT, getDocumentType(DOCUMENT_TYPE.OFFLINE_EMAIL), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
         //doc.add(new Field(DOCUMENT_HASH, HashCalculator.calculateFileHash(this.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specific document fields
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_PATH, this.getFile().getAbsolutePath()));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_PATH, this.getPathHandler().getRelativePath(this.getFile().getAbsolutePath())));
         doc.add(getNotAnlyzedField(OFFLINE_EMAIL_NAME, this.getFile().getName()));
         doc.add(getNotAnlyzedField(OFFLINE_EMAIL_FOLDER_NAME, folderName));
         

@@ -6,7 +6,6 @@ package edu.coeia.util;
 
 import edu.coeia.offlinemail.Message;
 
-
 import javax.swing.filechooser.FileSystemView;
 
 import java.awt.Toolkit;

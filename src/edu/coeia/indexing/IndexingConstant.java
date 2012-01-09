@@ -147,4 +147,9 @@ public class IndexingConstant {
         return document.get(IndexingConstant.DOCUMENT)
                 .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL));
     }
+    
+    public static boolean isOfflineEmailDocument(final Document document) {
+        return document.get(IndexingConstant.DOCUMENT)
+            .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.OFFLINE_EMAIL));
+    }
 }
