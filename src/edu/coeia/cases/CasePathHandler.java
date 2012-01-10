@@ -151,7 +151,7 @@ public class CasePathHandler {
             if ( fullPath.contains(entry.absolutePath)) {
                 relativePath.append(String.format(RELATIVE_PATH_PREFIX, i));
                 relativePath.append(File.separator);
-                relativePath.append(file.getName());
+                relativePath.append(fullPath.replace(entry.absolutePath + "\\", ""));
                 break;
             }
         }
@@ -189,7 +189,9 @@ public class CasePathHandler {
      * detect and return all the entry that have missing absolute path
      * @return list of not founded entries in configuration file
      */
-    public List<RelativeAndFullPathMapping> getChangedEntries() {
+    public List<RelativeAndFullPathMapping> getChangedEntries() throws IOException {
+        this.readConfiguration();
+        
         List<RelativeAndFullPathMapping> changedEntries = new ArrayList<RelativeAndFullPathMapping>();
         
         for(RelativeAndFullPathMapping entry: this.casePathsMapping) {

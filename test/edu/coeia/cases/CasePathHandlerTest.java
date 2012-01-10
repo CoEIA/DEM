@@ -17,6 +17,7 @@ import org.junit.Before ;
 
 import java.io.File;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 
 public class CasePathHandlerTest {
     @Test
@@ -63,9 +64,33 @@ public class CasePathHandlerTest {
         assertEquals(3, pathHandler.getChangedEntries().size());
         FileUtil.removeFile(casePath + File.separator + FilesPath.CASE_CONFIG);
     }
-        
+    
     @Test
-    public void testUpdatingCaseConfigurationFile() {
+    public void testConvertigFromFullPathToRelativePath() {
+        String casePath = "C:\\out";
+        CasePathHandler pathHandler = CasePathHandler.newInstance(casePath);
+        pathHandler.add(new File(casePath));
+        String path = "C:\\out\\4318.txt";
+        assertEquals("@PATH_0@\\4318.txt", pathHandler.getRelativePath(path));
+    }
+    
+    @Test
+    public void testConvertingFromNestedFullPathToRelativePath() {
+        String casePath = "C:\\out";
+        CasePathHandler pathHandler = CasePathHandler.newInstance(casePath);
+        pathHandler.add(new File(casePath));
+        String path = "C:\\out\\2 Factor Authentication Task\\Finished_100120_Wajdy_Authentications in Online Banking_R.docx";
+        assertEquals("@PATH_0@\\2 Factor Authentication Task\\Finished_100120_Wajdy_Authentications in Online Banking_R.docx", pathHandler.getRelativePath(path));
+    }
+    
+    @Test
+    public void testConvertingFromNestedRelativePathToFullPath() {
+                String casePath = "C:\\out";
+        CasePathHandler pathHandler = CasePathHandler.newInstance(casePath);
+        pathHandler.add(new File(casePath));
+        String expected = "C:\\out\\2 Factor Authentication Task\\Finished_100120_Wajdy_Authentications in Online Banking_R.docx";
+        String relative = "@PATH_0@\\2 Factor Authentication Task\\Finished_100120_Wajdy_Authentications in Online Banking_R.docx";
         
+        assertEquals(expected, pathHandler.getFullPath(relative));
     }
 }

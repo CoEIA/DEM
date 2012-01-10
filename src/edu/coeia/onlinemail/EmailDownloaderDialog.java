@@ -12,6 +12,7 @@ package edu.coeia.onlinemail;
 
 import edu.coeia.cases.Case;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.mail.MessagingException;
@@ -30,7 +31,9 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
     public OnlineEmailDownloader m_ObjDownloader;
     private Case aCase ;   
 
+    
     public EmailDownloaderDialog() throws NoSuchProviderException, MessagingException, IOException, SQLException {
+
     }
 
     public EmailDownloaderDialog(java.awt.Frame parent, boolean modal, Case aCase) throws SQLException, NoSuchProviderException, MessagingException, IOException, Exception {
@@ -129,7 +132,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         setTitle("Email Downloading ");
         setResizable(false);
 
-        progressEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email Downloading", 0, 0, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        progressEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email Downloading", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         progressEmail.setLayout(new java.awt.BorderLayout());
 
         FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -193,7 +196,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
                             .addComponent(CCjLabel)
                             .addComponent(TojLabel)
                             .addComponent(FromjLabel)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(progresLabelPanelLayout.createSequentialGroup()
                         .addComponent(AttachjLabel)
@@ -207,7 +210,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
                     .addComponent(cc)
                     .addComponent(to)
                     .addComponent(from, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         progresLabelPanelLayout.setVerticalGroup(
             progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,7 +252,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
 
         progressEmail.add(progresLabelPanel, java.awt.BorderLayout.PAGE_START);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         jButton1.setText("Cancel");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -323,7 +326,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 // TODO add your handling code here:
     if (m_ObjDownloader!= null) {
         m_ObjDownloader.cancel(true);
-       
+        this.setVisible(false);
     }
    
 
@@ -332,7 +335,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 private void jBtn_PauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtn_PauseActionPerformed
 // TODO add your handling code here:
     
-    if (m_ObjDownloader!= null) {
+    if (m_ObjDownloader != null) {
         m_ObjDownloader.pauseDownloading();
        
     }

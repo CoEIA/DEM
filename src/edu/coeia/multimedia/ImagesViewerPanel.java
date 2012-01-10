@@ -60,7 +60,8 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
     private static final int NUMBER_OF_IMAGES_IN_PANEL = 9;
     
     /** Creates new form ImagesViewerPanel */
-    public ImagesViewerPanel(Case aIndex) {
+    public ImagesViewerPanel(Case aIndex) 
+    {
         initComponents();
         this.index = aIndex;
         disableNotIndexedComponent();

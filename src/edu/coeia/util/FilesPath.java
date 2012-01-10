@@ -53,6 +53,8 @@ public class FilesPath {
     
     // path for storing emails in database and attachments in separate folder
     public final static String ATTACHMENTS = "attachments" ;
+    public final static String OFFLINE_EMAIL_ATTACHMENTS = "OFFLINE_EMAIL_ATTACHMENTS";
+    
     public final static String EMAIL_DB = "emails" ;
     
     // log path

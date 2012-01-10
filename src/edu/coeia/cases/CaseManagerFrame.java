@@ -1,19 +1,18 @@
 package edu.coeia.cases;
 
 /* import internal classes */
-import edu.coeia.util.FilesPath ;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.main.SmartCardDialog;
 import edu.coeia.gutil.JTableUtil;
+import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.DateUtil;
+import edu.coeia.util.FilesPath ;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.DEMLogger;
 import edu.coeia.util.ZipUtil;
 import edu.coeia.util.GUIFileFilter;
 
 /* import sun classes */
-import javax.swing.UIManager ;
-import javax.swing.SwingUtilities ;
 import javax.swing.JOptionPane ;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
@@ -329,17 +328,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                         
                         String line = fileNameWithOutExt + " - " + path;
                         Case aCase = CaseManager.getCase(line);
-                        
                         aCase.setCaseLocation(path);
-                        
-                        // create index information file & write the index on it
-                        String info = aCase.getCaseLocation() + "\\" + aCase.getCaseName() + ".DAT" ;
-                        File infoFile = new File(info);
-                        infoFile.createNewFile();
-
-                        FileUtil.writeObject(aCase, infoFile);
-            
-                        CaseManager.writeCaseToInfoFile(aCase);
+                        CaseManager.updateCase(aCase);
                         
                         String prefLocation = aCase.getCaseLocation() + "\\" + "CASE.pref";
                         CaseHistoryHandler.importCaseHistory(prefLocation);
@@ -401,6 +391,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         catch (Exception e) {
             JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
                 JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
     }
     
@@ -464,6 +455,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
             }
             catch(Exception e){
                 logger.severe("Cannot Index the case directly after create it");
+                e.printStackTrace();
             }
         }
     }
@@ -487,7 +479,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private void initJFrame() {
         try { 
-            changeLookAndFeel(lookAndFeelName);  // set look and feel to windows look 
+             GuiUtil.changeLookAndFeel(lookAndFeelName, this);  // set look and feel to windows look 
         }
         catch (Exception e){
         }
@@ -511,14 +503,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         });
     }
     
-    /*
-     * Change the look and Feel
-     */
-    private void changeLookAndFeel ( String lookName ) throws Exception  {
-        UIManager.setLookAndFeel(lookName);
-        SwingUtilities.updateComponentTreeUI(this);
-    }
-
     /*
      * Read cases from files and update recent table
      */
@@ -572,24 +556,33 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         return indexName; 
     }
 
-    private void loadCase (String caseName, boolean startIndex) throws FileNotFoundException, IOException, ClassNotFoundException{
+    private void loadCase (String caseName, boolean startIndex) throws FileNotFoundException, IOException, ClassNotFoundException, Exception{
         if ( caseName != null ) {
             if ( !caseManager.isRunningCase(caseName)) {
-                Case index = CaseManager.getCaseFromCaseName(caseName);
+                Case aCase = CaseManager.getCaseFromCaseName(caseName);
 
                 // check here for case evience chnaging
                 // and update the file before opening the case
+                boolean caseSourceIsUptoDate = true;
                 
+                if ( isCaseHaveChangedSource(aCase) )  {
+                    caseSourceIsUptoDate = askAndUpdateNewCaseSource(aCase);
+                }
                 
-                caseManager.addCase(caseName);
+                if ( caseSourceIsUptoDate ) {                    
+                    caseManager.addCase(caseName);
 
-                CaseFrame mainFrame = new CaseFrame(index, caseManager.getList());
-                mainFrame.setLocationRelativeTo(this);
-                mainFrame.setVisible(true);
-                
-                if ( ! CaseHistoryHandler.get(index.getCaseName()).getIsCaseIndexed() ) {
-                    logger.info("show direct indexing panel");
-                    mainFrame.showIndexDialog(startIndex);
+                    CaseFrame mainFrame = new CaseFrame(aCase, caseManager.getList());
+                    mainFrame.setLocationRelativeTo(this);
+                    mainFrame.setVisible(true);
+
+                    if ( ! CaseHistoryHandler.get(aCase.getCaseName()).getIsCaseIndexed() ) {
+                        logger.info("show direct indexing panel");
+                        mainFrame.showIndexDialog(startIndex);
+                    }
+                }
+                else {
+                    System.out.println("case folder in changed, and you should privde the correct path");
                 }
             }
             else {
@@ -597,6 +590,17 @@ public class CaseManagerFrame extends javax.swing.JFrame {
                         "Already Openining Case", JOptionPane.INFORMATION_MESSAGE);
             }
         }
+    }
+    
+    private boolean isCaseHaveChangedSource(final Case aCase) throws IOException {
+        return !CasePathHandler.newInstance(aCase.getCaseLocation()).getChangedEntries().isEmpty();
+    }
+    
+    private boolean askAndUpdateNewCaseSource(final Case aCase) throws IOException {
+        UpdatingCaseEvidenceSourceDialog dialog = new UpdatingCaseEvidenceSourceDialog(this, true, aCase);
+        dialog.setVisible(true);
+        
+        return dialog.getResult();
     }
     
     private void removeCase (String caseName) {
@@ -628,11 +632,7 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         });
     }
     
-    
     private static final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
-    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel";
-    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";
-    //private static final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel caseManagerButtonsPanel;

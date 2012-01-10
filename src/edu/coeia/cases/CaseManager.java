@@ -7,8 +7,8 @@ import java.io.File ;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException ;
-
 import java.io.PrintWriter;
+
 import java.util.List;
 import java.util.ArrayList ;
 
@@ -43,6 +43,37 @@ enum CaseManager {
         }
     }
         
+    public static void updateCase(final Case aCase) throws IOException {
+       // create index information file & write the index on it
+        String info = aCase.getCaseLocation() + "\\" + aCase.getCaseName() + ".DAT" ;
+        File infoFile = new File(info);
+        infoFile.createNewFile();
+        FileUtil.writeObject(aCase, infoFile);
+        
+        CaseManager.updateCaseToInfoFile(aCase);
+    }
+    
+    public static void updateCaseToInfoFile(final Case aCase) throws IOException {
+        List<String> indexPtr = FileUtil.getFileContentInArrayList(new File(FilesPath.INDEXES_INFO) );
+        List<String> newIndexPtr = new ArrayList<String>();
+
+        for (String line: indexPtr) {
+            String name = line.split("-")[0].trim();
+            String path = line.split("-")[1].trim();
+
+            if ( name.equals(aCase.getCaseName()) && path.equals(aCase.getCaseLocation()))
+                continue ;
+
+            newIndexPtr.add(line);
+        }
+        
+        String newLine = aCase.getCaseName() + " - " + aCase.getCaseLocation();
+        newIndexPtr.add(newLine);
+
+        // write new index information to file
+        FileUtil.writeToFile(newIndexPtr, FilesPath.INDEXES_INFO);
+    }
+    
     // add entry to indexes info file
     public static void writeCaseToInfoFile (Case index) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(new File(FilesPath.INDEXES_INFO), true));
@@ -169,6 +200,10 @@ enum CaseManager {
             // create tmp files for archives extractions
             File tmpFile = new File(caseObject.getCaseLocation() + "\\" + FilesPath.CASE_TMP);
             tmpFile.mkdir();
+            
+            // create folder for offline email attachment
+            File outlookAttachment = new File(caseObject.getCaseLocation() + File.separator + FilesPath.OFFLINE_EMAIL_ATTACHMENTS);
+            outlookAttachment.mkdir();
         }
     }
     

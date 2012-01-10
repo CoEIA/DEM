@@ -104,7 +104,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
     
     private void doDirectoryCrawling(File path) {
         this.checkForThreadCancelling();
-        logger.log(Level.INFO, "Indexing File: " + path.getAbsolutePath());
+        logger.log(Level.INFO, "Indexing Folder: " + path.getAbsolutePath());
         
         if ( path.isDirectory() && path.canRead() ) {
             File[] files = path.listFiles();
@@ -135,7 +135,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                 //TODO: show in logging table that the current folder
                 // cannot be indexed becuase of permission problem
                 //e.printStackTrace();
-                logger.log(Level.SEVERE, "Uncaught exception", e);
+                Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }
@@ -158,10 +158,10 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             status = this.luceneIndex.indexFile(path);
             this.numberOfFilesIndexed++;
         }
-        catch (UnsupportedOperationException e) {
+        catch (Exception e) {
           publish(new ProgressIndexData( numberOfFilesInEvidenceFolder,numberOfFilesIndexed,
                 path.getAbsolutePath(), e.getMessage() , ProgressIndexData.TYPE.TABEL , msg));
-          logger.log(Level.SEVERE, "Uncaught exception", e);
+          Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, e);
         }
         
         return status;

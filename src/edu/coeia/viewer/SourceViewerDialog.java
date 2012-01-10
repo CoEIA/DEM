@@ -11,6 +11,7 @@
 package edu.coeia.viewer;
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CasePathHandler;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.searching.LuceneSearcher ;
@@ -20,15 +21,19 @@ import edu.coeia.tags.TagsDialog;
 import edu.coeia.tags.TagsManager;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.Frame;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List; 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -102,99 +107,63 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         controlPanel = new javax.swing.JPanel();
-        movePanel = new javax.swing.JPanel();
         previousButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
-        itemsPanel = new javax.swing.JPanel();
         tagButton = new javax.swing.JButton();
         exportButton = new javax.swing.JButton();
+        viewItemButton = new javax.swing.JButton();
         statusPanel = new javax.swing.JPanel();
         viewerPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Previewer Items Dialog");
 
-        movePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Navigation"));
+        controlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Navigation"));
 
-        previousButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/Previous48.png"))); // NOI18N
+        previousButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/back.png"))); // NOI18N
         previousButton.setText("Previous");
         previousButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 previousButtonActionPerformed(evt);
             }
         });
+        controlPanel.add(previousButton);
 
-        nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/next48.png"))); // NOI18N
+        nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/next.png"))); // NOI18N
         nextButton.setText("Next");
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextButtonActionPerformed(evt);
             }
         });
+        controlPanel.add(nextButton);
 
-        javax.swing.GroupLayout movePanelLayout = new javax.swing.GroupLayout(movePanel);
-        movePanel.setLayout(movePanelLayout);
-        movePanelLayout.setHorizontalGroup(
-            movePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(movePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(previousButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(nextButton)
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
-        movePanelLayout.setVerticalGroup(
-            movePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, movePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(movePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(nextButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
-                    .addComponent(previousButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        controlPanel.add(movePanel);
-
-        itemsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Tag and Export"));
-
-        tagButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/tag64.png"))); // NOI18N
+        tagButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325657694_marked_price.png"))); // NOI18N
         tagButton.setText("Tag Item");
         tagButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tagButtonActionPerformed(evt);
             }
         });
+        controlPanel.add(tagButton);
 
-        exportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/export48.png"))); // NOI18N
+        exportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325657666_Export.png"))); // NOI18N
         exportButton.setText("Export Item");
         exportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exportButtonActionPerformed(evt);
             }
         });
+        controlPanel.add(exportButton);
 
-        javax.swing.GroupLayout itemsPanelLayout = new javax.swing.GroupLayout(itemsPanel);
-        itemsPanel.setLayout(itemsPanelLayout);
-        itemsPanelLayout.setHorizontalGroup(
-            itemsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(itemsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tagButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(exportButton)
-                .addContainerGap(22, Short.MAX_VALUE))
-        );
-        itemsPanelLayout.setVerticalGroup(
-            itemsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemsPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(itemsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(exportButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tagButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 62, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        controlPanel.add(itemsPanel);
+        viewItemButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325657843_folderopen1.png"))); // NOI18N
+        viewItemButton.setText("View Item");
+        viewItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewItemButtonActionPerformed(evt);
+            }
+        });
+        controlPanel.add(viewItemButton);
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.NORTH);
 
@@ -204,7 +173,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         statusPanel.setLayout(statusPanelLayout);
         statusPanelLayout.setHorizontalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 723, Short.MAX_VALUE)
+            .addGap(0, 717, Short.MAX_VALUE)
         );
         statusPanelLayout.setVerticalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,11 +188,11 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         viewerPanel.setLayout(viewerPanelLayout);
         viewerPanelLayout.setHorizontalGroup(
             viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 723, Short.MAX_VALUE)
+            .addGap(0, 717, Short.MAX_VALUE)
         );
         viewerPanelLayout.setVerticalGroup(
             viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 512, Short.MAX_VALUE)
+            .addGap(0, 557, Short.MAX_VALUE)
         );
 
         getContentPane().add(viewerPanel, java.awt.BorderLayout.CENTER);
@@ -242,13 +211,39 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_previousButtonActionPerformed
 
     private void tagButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagButtonActionPerformed
-        tagDocument(this.currentDocument);
+        this.tagDocument(this.currentDocument);
     }//GEN-LAST:event_tagButtonActionPerformed
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
-        exportDocument(this.currentDocument);
+        this.exportDocument(this.currentDocument);
     }//GEN-LAST:event_exportButtonActionPerformed
 
+    private void viewItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewItemButtonActionPerformed
+        this.viewDocument(this.currentDocument);
+    }//GEN-LAST:event_viewItemButtonActionPerformed
+
+    private void viewDocument(final Document document) {
+        if ( IndexingConstant.isFileDocument(document) ) {
+            try {
+                String filePath = document.get(IndexingConstant.FILE_PATH);
+                CasePathHandler pathHandler = CasePathHandler.newInstance(this.caseObj.getCaseLocation());
+                pathHandler.readConfiguration();
+                String fullPath = pathHandler.getFullPath(filePath);
+                this.openFile(fullPath);
+            } catch (IOException ex) {
+                Logger.getLogger(SourceViewerDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }  
+    }
+    
+    private void openFile(final String path) throws IOException{
+        File file = new File(path);
+        if ( file.exists() ) {
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(file);
+        }
+    }
+    
     private void tagDocument(final Document document) {
         StringBuilder result = new StringBuilder();
         
@@ -282,11 +277,17 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         if ( IndexingConstant.isFileDocument(document) ) {
             String filePath = document.get(IndexingConstant.FILE_PATH);
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setSelectedFile(new File(filePath));
+            
             int result = fileChooser.showSaveDialog(this.parent);
             if ( result == JFileChooser.APPROVE_OPTION ) {
                 File file = fileChooser.getSelectedFile();
                 try {
-                    FileUtil.saveObject(new FileInputStream(filePath), file.getAbsolutePath());
+                    CasePathHandler pathHandler = CasePathHandler.newInstance(this.caseObj.getCaseLocation());
+                    pathHandler.readConfiguration();
+                    String fullPath = pathHandler.getFullPath(filePath);
+                    
+                    FileUtil.saveObject(new FileInputStream(fullPath), file.getAbsolutePath());
                 }
                 catch(Exception e) { e.printStackTrace(); }
             }
@@ -318,7 +319,10 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             panel = new ChatSourceViewerPanel(this);
         }
         else if ( IndexingConstant.isEmailDocument(document) ) {
-            panel = new EmailSourceViewerPanel(this);
+            panel = new OnlineEmailSourceViewerPanel(this);
+        }
+        else if ( IndexingConstant.isOfflineEmailDocument(document) ) {
+            panel = new OfflineEmailSourceViewerPanel(this);
         }
         
         this.viewerPanel.setLayout(new BorderLayout());
@@ -362,12 +366,11 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;
     private javax.swing.JButton exportButton;
-    private javax.swing.JPanel itemsPanel;
-    private javax.swing.JPanel movePanel;
     private javax.swing.JButton nextButton;
     private javax.swing.JButton previousButton;
     private javax.swing.JPanel statusPanel;
     private javax.swing.JButton tagButton;
+    private javax.swing.JButton viewItemButton;
     private javax.swing.JPanel viewerPanel;
     // End of variables declaration//GEN-END:variables
 }

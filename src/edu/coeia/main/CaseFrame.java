@@ -15,6 +15,8 @@ import edu.coeia.offlinemail.EmailPanel;
 import edu.coeia.indexing.IndexingDialog;
 import edu.coeia.multimedia.ImagesViewerPanel;
 import edu.coeia.internet.InternetSurfingPanel;
+import edu.coeia.multimedia.MultimediaPanel;
+import edu.coeia.offlinemail.EmailBrowsingPanel;
 import edu.coeia.onlinemail.EmailDownloaderDialog;
 import edu.coeia.onlinemail.OnlineEmailDownloader;
 import edu.coeia.searching.CaseSearchPanel;
@@ -27,8 +29,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import java.sql.SQLException;
+
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
+
 import javax.swing.JOptionPane;
 
 import java.io.IOException ;
@@ -60,11 +64,13 @@ public class CaseFrame extends javax.swing.JFrame {
     private CaseManagerPanel caseManagerPanel;
     private CaseSearchPanel caseSearchPanel ;
     private FileSystemPanel fileSystemPanel;
-    private EmailPanel emailPanel;
+    //private EmailPanel emailPanel;
+    private EmailBrowsingPanel emailPanel;
     private InternetSurfingPanel internetPanel;
     private ChatPanel chatPanel;
     private ImagesViewerPanel imgPanel;
     private ReportPanel reportPanel;
+    private MultimediaPanel multimediaPanel;
     
     /** Creates new form OfflineMinningFrame 
      * 
@@ -106,19 +112,22 @@ public class CaseFrame extends javax.swing.JFrame {
         
         // add gui panels
         this.fileSystemPanel = new FileSystemPanel(this.caseObj, this);
-        this.emailPanel = new EmailPanel(this.caseObj, this);
+        //this.emailPanel = new EmailPanel(this.caseObj, this);
+        this.emailPanel = new EmailBrowsingPanel(this.caseObj, this);
         this.internetPanel = new InternetSurfingPanel(this.caseObj);
         this.chatPanel = new ChatPanel(this.caseObj);
         this.imgPanel = new ImagesViewerPanel(this.caseObj);
+        this.multimediaPanel = new MultimediaPanel(this.caseObj);
         this.caseSearchPanel = new CaseSearchPanel(this.caseObj, this);
         this.caseManagerPanel = new CaseManagerPanel(this);
-        this.reportPanel = new ReportPanel();
+        this.reportPanel = new ReportPanel(this.caseObj, this);
         
         this.CardPanel.add(this.fileSystemPanel, "fileSystemCard");
         this.CardPanel.add(this.emailPanel, "emailCard");
         this.CardPanel.add(this.internetPanel, "internetSurfingCard");
         this.CardPanel.add(this.chatPanel, "chatCard");
         this.CardPanel.add(this.imgPanel, "imagesViewerCard");
+        this.CardPanel.add(this.multimediaPanel, "MultimediaViewer");
         this.CardPanel.add(this.caseSearchPanel, "searchCard");
         this.CardPanel.add(this.caseManagerPanel, "caseManagerCard");
         this.CardPanel.add(this.reportPanel, "reportCard");
@@ -139,6 +148,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         headerGroupButton = new javax.swing.ButtonGroup();
+        styleRadioGroup = new javax.swing.ButtonGroup();
         jToolBar1 = new javax.swing.JToolBar();
         caseManagerToggleButton = new javax.swing.JToggleButton();
         searchToggleButton = new javax.swing.JToggleButton();
@@ -157,6 +167,12 @@ public class CaseFrame extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         caseIndexingMenuItem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        viewMenu = new javax.swing.JMenu();
+        styleMenu = new javax.swing.JMenu();
+        windowsStyleRadioButton = new javax.swing.JRadioButtonMenuItem();
+        businessStyleRadioButton = new javax.swing.JRadioButtonMenuItem();
+        dustStyleRadioButton = new javax.swing.JRadioButtonMenuItem();
+        ravenStyleRadioButton = new javax.swing.JRadioButtonMenuItem();
         toolsMenu = new javax.swing.JMenu();
         windowsMenuItem = new javax.swing.JMenuItem();
         recentMenuItem = new javax.swing.JMenuItem();
@@ -175,7 +191,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
 
         headerGroupButton.add(caseManagerToggleButton);
-        caseManagerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        caseManagerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         caseManagerToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274612774_kservices.png"))); // NOI18N
         caseManagerToggleButton.setText("Case Manager");
         caseManagerToggleButton.setFocusable(false);
@@ -189,7 +205,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(caseManagerToggleButton);
 
         headerGroupButton.add(searchToggleButton);
-        searchToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        searchToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         searchToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/Copy of search.png"))); // NOI18N
         searchToggleButton.setText("Case Search");
         searchToggleButton.setFocusable(false);
@@ -203,7 +219,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(searchToggleButton);
 
         headerGroupButton.add(fileSystemToggleButton);
-        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         fileSystemToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/file-manager.png"))); // NOI18N
         fileSystemToggleButton.setText("File System");
         fileSystemToggleButton.setFocusable(false);
@@ -217,7 +233,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(fileSystemToggleButton);
 
         headerGroupButton.add(emailToggleButton);
-        emailToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        emailToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         emailToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325574974_message-already-read.png"))); // NOI18N
         emailToggleButton.setText("Online and Offline Email");
         emailToggleButton.setFocusable(false);
@@ -231,7 +247,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(emailToggleButton);
 
         headerGroupButton.add(internetSurfingToggleButton);
-        internetSurfingToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        internetSurfingToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         internetSurfingToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
         internetSurfingToggleButton.setText("Internet Browsing");
         internetSurfingToggleButton.setFocusable(false);
@@ -245,7 +261,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(internetSurfingToggleButton);
 
         headerGroupButton.add(chatToggleButton);
-        chatToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        chatToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         chatToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325574948_amsn.png"))); // NOI18N
         chatToggleButton.setText("Instant Chat  IM");
         chatToggleButton.setFocusable(false);
@@ -259,7 +275,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(chatToggleButton);
 
         headerGroupButton.add(imageViewerToggleButton);
-        imageViewerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        imageViewerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         imageViewerToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325574870_iPhoto.png"))); // NOI18N
         imageViewerToggleButton.setText("Multimedia Viewer");
         imageViewerToggleButton.setFocusable(false);
@@ -273,7 +289,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jToolBar1.add(imageViewerToggleButton);
 
         headerGroupButton.add(reportToggleButton);
-        reportToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        reportToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         reportToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274614668_filesave.png"))); // NOI18N
         reportToggleButton.setText("Report");
         reportToggleButton.setFocusable(false);
@@ -293,7 +309,7 @@ public class CaseFrame extends javax.swing.JFrame {
         getContentPane().add(CardPanel, java.awt.BorderLayout.CENTER);
 
         fileMenu.setText("File");
-        fileMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        fileMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         exitMenuItem.setText(" Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -306,7 +322,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jMenuBar1.add(fileMenu);
 
         jMenu1.setText("Options");
-        jMenu1.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jMenu1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jMenu1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu1ActionPerformed(evt);
@@ -340,8 +356,54 @@ public class CaseFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        viewMenu.setText("View");
+        viewMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+
+        styleMenu.setText("Application Style");
+
+        styleRadioGroup.add(windowsStyleRadioButton);
+        windowsStyleRadioButton.setSelected(true);
+        windowsStyleRadioButton.setText("Windows Style");
+        windowsStyleRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                windowsStyleRadioButtonActionPerformed(evt);
+            }
+        });
+        styleMenu.add(windowsStyleRadioButton);
+
+        styleRadioGroup.add(businessStyleRadioButton);
+        businessStyleRadioButton.setText("Business Style");
+        businessStyleRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                businessStyleRadioButtonActionPerformed(evt);
+            }
+        });
+        styleMenu.add(businessStyleRadioButton);
+
+        styleRadioGroup.add(dustStyleRadioButton);
+        dustStyleRadioButton.setText("Dust Style");
+        dustStyleRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dustStyleRadioButtonActionPerformed(evt);
+            }
+        });
+        styleMenu.add(dustStyleRadioButton);
+
+        styleRadioGroup.add(ravenStyleRadioButton);
+        ravenStyleRadioButton.setText("Black Style");
+        ravenStyleRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ravenStyleRadioButtonActionPerformed(evt);
+            }
+        });
+        styleMenu.add(ravenStyleRadioButton);
+
+        viewMenu.add(styleMenu);
+
+        jMenuBar1.add(viewMenu);
+
         toolsMenu.setText("Tools");
-        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         windowsMenuItem.setText("Windows Information");
         windowsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -452,8 +514,8 @@ public class CaseFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_chatToggleButtonActionPerformed
 
     private void imageViewerToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageViewerToggleButtonActionPerformed
-         GuiUtil.showPanel("imagesViewerCard", CardPanel);
-         this.setTitle(APPLICATION_NAME + "Image Viewer Window");
+         GuiUtil.showPanel("MultimediaViewer", CardPanel);
+         this.setTitle(APPLICATION_NAME + "Multimedeia Viewer Window");
     }//GEN-LAST:event_imageViewerToggleButtonActionPerformed
 
     private void viewLogMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewLogMenuItemActionPerformed
@@ -502,27 +564,58 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         return;
     }
     
-    FileUtil.removeDirectory(caseObj.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
+    //FileUtil.removeDirectory(caseObj.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
+    
     for (EmailConfiguration s : emailInfos) {
         try {
             downloadEmail(caseObj, s);
-        } catch (SQLException ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchProviderException ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MessagingException ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) {
             Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-
-
 }//GEN-LAST:event_jMenuItem1ActionPerformed
-   
+
+    private void windowsStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_windowsStyleRadioButtonActionPerformed
+        try { 
+            final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
+            GuiUtil.changeLookAndFeel(lookAndFeelName, this);  // set look and feel to windows look 
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_windowsStyleRadioButtonActionPerformed
+
+    private void businessStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_businessStyleRadioButtonActionPerformed
+        try { 
+            final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";
+            GuiUtil.changeLookAndFeel(lookAndFeelName, this);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_businessStyleRadioButtonActionPerformed
+
+    private void dustStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dustStyleRadioButtonActionPerformed
+        try { 
+            final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
+            GuiUtil.changeLookAndFeel(lookAndFeelName, this); 
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_dustStyleRadioButtonActionPerformed
+
+    private void ravenStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ravenStyleRadioButtonActionPerformed
+        try { 
+            final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel";
+            GuiUtil.changeLookAndFeel(lookAndFeelName, this); 
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_ravenStyleRadioButtonActionPerformed
+    
     public void downloadEmail(Case currentCase, EmailConfiguration config) throws SQLException, NoSuchProviderException, MessagingException, IOException, Exception {
 
         EmailDownloaderDialog dialogue = new EmailDownloaderDialog(this, true, currentCase);
@@ -546,8 +639,8 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             }
 
         }
-
     }
+    
     public void showIndexDialog(boolean startIndex) {
         IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj, startIndex);
         indexPanel.setLocationRelativeTo(this);
@@ -613,9 +706,11 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JPanel CardPanel;
     private javax.swing.JMenu aboutMenu;
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JRadioButtonMenuItem businessStyleRadioButton;
     private javax.swing.JMenuItem caseIndexingMenuItem;
     private javax.swing.JToggleButton caseManagerToggleButton;
     private javax.swing.JToggleButton chatToggleButton;
+    private javax.swing.JRadioButtonMenuItem dustStyleRadioButton;
     private javax.swing.JToggleButton emailToggleButton;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
@@ -632,11 +727,16 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JRadioButtonMenuItem ravenStyleRadioButton;
     private javax.swing.JMenuItem recentMenuItem;
     private javax.swing.JToggleButton reportToggleButton;
     private javax.swing.JToggleButton searchToggleButton;
+    private javax.swing.JMenu styleMenu;
+    private javax.swing.ButtonGroup styleRadioGroup;
     private javax.swing.JMenu toolsMenu;
     private javax.swing.JMenuItem viewLogMenuItem;
+    private javax.swing.JMenu viewMenu;
     private javax.swing.JMenuItem windowsMenuItem;
+    private javax.swing.JRadioButtonMenuItem windowsStyleRadioButton;
     // End of variables declaration//GEN-END:variables
 }
