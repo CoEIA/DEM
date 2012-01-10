@@ -10,6 +10,14 @@
  */
 package edu.coeia.reports;
 
+import java.util.HashMap;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRXmlDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 /**
  *
  * @author wajdyessam
@@ -17,6 +25,8 @@ package edu.coeia.reports;
 public class ReportPanel extends javax.swing.JPanel {
 
     /** Creates new form ReportPanel */
+    JasperPrint jasperPrint;
+    
     public ReportPanel() {
         initComponents();
     }
@@ -30,17 +40,73 @@ public class ReportPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addComponent(jButton1)
+                .addContainerGap(269, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(84, 84, 84)
+                .addComponent(jButton1)
+                .addContainerGap(193, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    //JasperReport jasperReport;
+        try
+        {
+          String reportFileName = "C:\\Users\\Farhan\\Documents\\report7.jrxml";
+          String outFileName = "c:\\addressbook.pdf";
+          String xmlFileName = "file:/C:/testxml.xml";//" //"C:\\testxml.xml";
+          String recordPath = "/dem/";
+                  
+          JRXmlDataSource jrxmlds = new JRXmlDataSource(xmlFileName,recordPath);
+                  
+          HashMap hm = new HashMap();
+          
+         
+              JasperPrint print = JasperFillManager.fillReport(
+                          reportFileName, 
+                          hm, 
+                          jrxmlds);
+              
+              JRExporter exporter = new JRPdfExporter();
+              
+              exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,outFileName);
+              exporter.setParameter(JRExporterParameter.JASPER_PRINT,print);
+                      
+                      exporter.exportReport();
+                      System.out.println("Created file: " + outFileName);             
+          }
+          catch (JRException e)
+          {
+              e.printStackTrace();
+              System.exit(1);
+          }
+          catch (Exception e)
+          {
+              e.printStackTrace();
+              System.exit(1);
+          }
+}//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }
