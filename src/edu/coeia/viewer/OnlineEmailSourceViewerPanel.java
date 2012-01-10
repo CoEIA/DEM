@@ -26,7 +26,7 @@ import org.apache.lucene.document.Fieldable;
  *
  * @author wajdyessam
  */
-class EmailSourceViewerPanel extends javax.swing.JPanel {
+class OnlineEmailSourceViewerPanel extends javax.swing.JPanel {
 
     private Document document ;
     
@@ -38,7 +38,7 @@ class EmailSourceViewerPanel extends javax.swing.JPanel {
     private JWebBrowser emailContentBrowser = new JWebBrowser();
     
     /** Creates new form EmailSourceViewerPanel */
-    public EmailSourceViewerPanel(SourceViewerDialog dialog) {
+    public OnlineEmailSourceViewerPanel(SourceViewerDialog dialog) {
         initComponents();
         
         this.dialog = dialog;

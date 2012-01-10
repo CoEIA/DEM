@@ -319,7 +319,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             panel = new ChatSourceViewerPanel(this);
         }
         else if ( IndexingConstant.isEmailDocument(document) ) {
-            panel = new EmailSourceViewerPanel(this);
+            panel = new OnlineEmailSourceViewerPanel(this);
         }
         else if ( IndexingConstant.isOfflineEmailDocument(document) ) {
             panel = new OfflineEmailSourceViewerPanel(this);

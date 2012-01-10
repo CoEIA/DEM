@@ -11,6 +11,23 @@
 package edu.coeia.offlinemail;
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.EmailConfiguration;
+import edu.coeia.gutil.JListUtil;
+import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.main.CaseFrame;
+import edu.coeia.util.FilesPath;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 
 /**
  *
@@ -19,10 +36,26 @@ import edu.coeia.cases.Case;
 public class EmailBrowsingPanel extends javax.swing.JPanel {
 
     private Case aCase;
+    private DefaultListModel emailSourcrListModel;
     
     /** Creates new form OfflineEmailBrowsingPanel */
-    public EmailBrowsingPanel() {
+    public EmailBrowsingPanel(final Case aCase, final CaseFrame frame) {
         initComponents();
+        this.emailSourcrListModel = new DefaultListModel();
+        this.aCase = aCase;
+        
+        // fill email source
+//        try {
+//            for(String path: this.getOfflineEmailsPaths()) {
+//                JListUtil.addToList(path, emailSourcrListModel, emailSourceJList);
+//            }
+//            
+//            for(EmailConfiguration config: this.aCase.getEmailConfig()) {
+//                JListUtil.addToList(config.getUserName(), emailSourcrListModel, emailSourceJList);
+//            }
+//        } catch (IOException ex) {
+//            Logger.getLogger(EmailBrowsingPanel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     /** This method is called from within the constructor to
@@ -36,7 +69,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        emailSourceJList = new javax.swing.JList();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -49,7 +82,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Sources"));
 
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(emailSourceJList);
 
         jButton1.setText("Load Email Source");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -143,10 +176,32 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private List<String> getOfflineEmailsPaths() throws IOException {
+        List<String> offlineEmailPaths = new ArrayList<String>();
+        
+        String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
+        Directory dir = FSDirectory.open(new File(indexDir));
+        IndexReader indexReader = IndexReader.open(dir);
+        
+        for (int i=0; i<indexReader.maxDoc(); i++) {
+            Document document = indexReader.document(i);
+            if ( document != null ) {
+                Field field = document.getField(IndexingConstant.OFFLINE_EMAIL_PATH);
+                if ( field != null && field.stringValue() != null) {
+                   String path = field.stringValue();
+                   offlineEmailPaths.add(path);
+                }
+            }
+        }
+        indexReader.close();
+        
+        return offlineEmailPaths;
+    }
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList emailSourceJList;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
