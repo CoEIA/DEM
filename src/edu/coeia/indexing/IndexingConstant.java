@@ -81,6 +81,7 @@ public class IndexingConstant {
     /**
      * constants for online email
      */
+    public static final String ONLINE_EMAIL_USER_NAME = "ONLINE_EMAIL_USER_NAME";
     public static final String ONLINE_EMAIL_FOLDER_NAME = "ONLINE_EMAIL_FOLDER_NAME";
     public static final String ONLINE_EMAIL_FROM = "ONLINE_EMAIL_FROM";
     public static final String ONLINE_EMAIL_TO = "ONLINE_EMAIL_TO";

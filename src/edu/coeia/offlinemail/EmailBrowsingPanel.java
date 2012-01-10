@@ -40,7 +40,6 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
 
     private Case aCase;
     private DefaultListModel emailSourcrListModel;
-    private String relativePath ;
     
     /** Creates new form OfflineEmailBrowsingPanel */
     public EmailBrowsingPanel(final Case aCase, final CaseFrame frame) {
@@ -52,7 +51,6 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         try {
             for(String path: this.getOfflineEmailsPaths()) {
                 JListUtil.addToList(path, emailSourcrListModel, emailSourceJList);
-                relativePath = path;
             }
             
             for(EmailConfiguration config: this.aCase.getEmailConfig()) {
@@ -198,25 +196,106 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
 
     private void loadEmail() {
         try {
-            CasePathHandler handler = CasePathHandler.newInstance(this.aCase.getCaseLocation());
-            handler.readConfiguration();
-            String fullPath = handler.getFullPath(relativePath);
-            
-            System.out.println("full: " + fullPath);
-            
-            List<EmailItem> emails = getAllMessaageInOfflineEmailPath(fullPath);
-            System.out.println("number of message: " + emails.size());
-            
-            // fill message in table
-            for(EmailItem item: emails) {
-                Object[] data = {item.getID(), item.getFolder(), item.getFrom(),
-                    item.getTo(), item.getSubject(), item.getTime(), item.hasAttachment()};
+            if ( isOfflineEmailSelected() ) {
+                String relativePath = String.valueOf(this.emailSourceJList.getSelectedValue());
                 
-                JTableUtil.addRowToJTable(jTable1, data);
+//                CasePathHandler handler = CasePathHandler.newInstance(this.aCase.getCaseLocation());
+//                handler.readConfiguration();
+//                String fullPath = handler.getFullPath(relativePath);
+//                System.out.println("full: " + fullPath);
+
+                List<EmailItem> emails = getAllMessaageInOfflineEmailPath(relativePath);
+                System.out.println("number of message: " + emails.size());
+
+                // fill message in table
+                for(EmailItem item: emails) {
+                    Object[] data = {item.getID(), item.getFolder(), item.getFrom(),
+                        item.getTo(), item.getSubject(), item.getTime(), item.hasAttachment()};
+
+                    JTableUtil.addRowToJTable(jTable1, data);
+                }
+            }
+            else if ( isOnlineEmailSelected() ) {
+                String username = String.valueOf(this.emailSourceJList.getSelectedValue());
+                List<EmailItem> emails = getAllMessageInOnlineEmailPath(username);
+                System.out.println("number of message: " + emails.size());
+
+                // fill message in table
+                for(EmailItem item: emails) {
+                    Object[] data = {item.getID(), item.getFolder(), item.getFrom(),
+                        item.getTo(), item.getSubject(), item.getTime(), item.hasAttachment()};
+
+                    JTableUtil.addRowToJTable(jTable1, data);
+                }
+            }
+            else {
+                System.out.println("nothing selected");
             }
         } catch (IOException ex) {
             Logger.getLogger(EmailBrowsingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private boolean isOfflineEmailSelected() {
+        Object selectedValue = this.emailSourceJList.getSelectedValue();
+        if ( selectedValue == null )
+            return false;
+        
+        return String.valueOf(emailSourceJList.getSelectedValue()).endsWith(".pst") ||
+               String.valueOf(emailSourceJList.getSelectedValue()).endsWith("ost");
+        
+    }
+    
+    private boolean isOnlineEmailSelected() {
+        Object selectedValue = this.emailSourceJList.getSelectedValue();
+        if ( selectedValue == null )
+            return false;
+        
+        String value = String.valueOf(selectedValue);
+        return !value.endsWith(".pst") && !value.endsWith("ost");
+    }
+    
+    private List<EmailItem> getAllMessageInOnlineEmailPath(final String username) throws IOException {
+        List<EmailItem> emails = new ArrayList<EmailItem>();
+        
+        String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
+        Directory dir = FSDirectory.open(new File(indexDir));
+        IndexReader indexReader = IndexReader.open(dir);
+        
+        for (int i=0; i<indexReader.maxDoc(); i++) {
+            Document document = indexReader.document(i);
+            if ( document != null ) {
+                Field field = document.getField(IndexingConstant.ONLINE_EMAIL_USER_NAME);
+                if ( field != null && field.stringValue() != null) {
+                   String tmp = field.stringValue();
+                   
+                   if ( tmp.equals(username)) {
+                         // show file properities
+                        String emailDate = document.get(IndexingConstant.ONLINE_EMAIL_RECIEVED_DATE);
+                        String emailMessage = document.get(IndexingConstant.ONLINE_EMAIL_BODY);
+                        String emailSubject = document.get(IndexingConstant.ONLINE_EMAIL_SUBJECT);
+
+                        String emailTo = document.get(IndexingConstant.ONLINE_EMAIL_TO);
+                        String emailFrom = document.get(IndexingConstant.ONLINE_EMAIL_FROM);
+                        String emailCC = document.get(IndexingConstant.ONLINE_EMAIL_CC);
+                        String emailBCC = document.get(IndexingConstant.ONLINE_EMAIL_BCC);
+                        String id = document.get(IndexingConstant.DOCUMENT_ID);
+                        //String parentId = document.get(IndexingConstant.DOCUMENT_PARENT_ID);
+                        String folderName = document.get(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
+                        boolean hasAttachment = Boolean.valueOf(document.get(IndexingConstant.ONLINE_EMAIL_ATTACHMENT_PATH));
+
+                        EmailItem item = new EmailItem(Integer.valueOf(id), 
+                                Integer.valueOf("0"), emailFrom,
+                                emailTo, emailSubject, emailDate, folderName, hasAttachment);
+
+                        emails.add(item);
+                   }
+                }
+            }
+        }
+        indexReader.close();
+        
+        return emails;
     }
     
     private List<EmailItem> getAllMessaageInOfflineEmailPath(final String path) throws IOException {
@@ -233,7 +312,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                 if ( field != null && field.stringValue() != null) {
                    String tmp = field.stringValue();
                    
-                   if ( tmp.endsWith(this.relativePath)) {
+                   if ( tmp.endsWith(path)) {
                          // show file properities
                         String emailAgent = document.get(IndexingConstant.OFFLINE_EMAIL_FOLDER_NAME);
                         String emailSource = document.get(IndexingConstant.OFFLINE_EMAIL_NAME);
