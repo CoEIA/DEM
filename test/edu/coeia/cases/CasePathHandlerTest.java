@@ -75,6 +75,15 @@ public class CasePathHandlerTest {
     }
     
     @Test
+    public void testConvertigFromFullRootPathToRelativePath() {
+        String casePath = "C:\\";
+        CasePathHandler pathHandler = CasePathHandler.newInstance(casePath);
+        pathHandler.add(new File(casePath));
+        String path = "C:\\git_shell_ext_debug.txt";
+        assertEquals("@PATH_0@\\git_shell_ext_debug.txt", pathHandler.getRelativePath(path));
+    }
+    
+    @Test
     public void testConvertingFromNestedFullPathToRelativePath() {
         String casePath = "C:\\out";
         CasePathHandler pathHandler = CasePathHandler.newInstance(casePath);

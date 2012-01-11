@@ -151,12 +151,27 @@ public class CasePathHandler {
             if ( fullPath.contains(entry.absolutePath)) {
                 relativePath.append(String.format(RELATIVE_PATH_PREFIX, i));
                 relativePath.append(File.separator);
-                relativePath.append(fullPath.replace(entry.absolutePath + "\\", ""));
+                relativePath.append(getRemainingPath(fullPath, entry.absolutePath));
                 break;
             }
         }
         
         return relativePath.toString();
+    }
+    
+    private String getRemainingPath(final String fullPath, final String partPath) {
+        StringBuilder buffer = new StringBuilder();
+        
+        String tmp = fullPath.replace(partPath, "");
+        
+        if ( tmp.startsWith("\\") ) {
+            buffer.append(tmp.substring(1));
+        }
+        else {
+            buffer.append(tmp);
+        }
+        
+        return buffer.toString();
     }
     
     /**
