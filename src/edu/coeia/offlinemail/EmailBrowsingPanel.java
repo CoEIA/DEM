@@ -10,8 +10,12 @@
  */
 package edu.coeia.offlinemail;
 
+import com.pff.PSTFile;
+
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CasePathHandler;
 import edu.coeia.cases.EmailConfiguration;
+import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant;
@@ -19,15 +23,17 @@ import edu.coeia.items.EmailItem;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FilesPath;
-
 import edu.coeia.viewer.SearchViewer;
 import edu.coeia.viewer.SourceViewerDialog;
+
 import java.io.File;
 import java.io.IOException;
 
 import java.text.ParseException;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -114,6 +120,13 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         filterEmailsTextField = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        factorSelectionPanel = new javax.swing.JPanel();
+        jLabel20 = new javax.swing.JLabel();
+        correlationComboBox = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -141,7 +154,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(loadEmailSourceButton))
         );
@@ -193,7 +206,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(filterEmailsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+                .addComponent(filterEmailsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -213,20 +226,81 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Statistics"));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Sender", "Reciever", "Number of Messages"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.setFillsViewportHeight(true);
+        jScrollPane3.setViewportView(jTable1);
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(0, 70, 213));
+        jLabel20.setText("Statistics For:");
+        factorSelectionPanel.add(jLabel20);
+
+        correlationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Inbox Folder", "Send Items Folder", "Messages Domain Name ", "Messages Origin Country", "Messages Frequency" }));
+        factorSelectionPanel.add(correlationComboBox);
+
+        jButton1.setText("Process Email");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        factorSelectionPanel.add(jButton1);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+            .addComponent(factorSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addComponent(factorSelectionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        add(jPanel4, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadEmailSourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadEmailSourceButtonActionPerformed
@@ -249,6 +323,72 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_emailsTableMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.processEmail();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void processEmail() {
+        // from date to date
+        String from = new Date().toString();
+        String to   = new Date().toString();
+
+       if ( !isOfflineEmailSelected() )
+           return;
+       
+        String path = String.valueOf(this.emailSourceJList.getSelectedValue());
+        
+        try {
+            CasePathHandler handler = CasePathHandler.newInstance(this.aCase.getCaseLocation());
+            handler.readConfiguration();
+            path = handler.getFullPath(path);
+        
+            PSTFile pstFile = new PSTFile(path);
+
+            int selectedIndex = correlationComboBox.getSelectedIndex();
+
+            switch ( selectedIndex ) {
+                case 0 :
+                    showVisualization(from, to, pstFile, path, "Inbox Visualization...",
+                            "Inbox", EmailVisualizationThread.FolderType.INBOX);
+                    break;
+
+                case 1 :
+                    showVisualization(from, to, pstFile, path, "Sent Items Visualization...",
+                            "Sent Items", EmailVisualizationThread.FolderType.SENT);
+                    break;
+
+                case 2 :
+                    showVisualization(from, to, pstFile, path, "Email Service Provider Visualization...",
+                            "ESP", EmailVisualizationThread.FolderType.ESP);
+                    break;
+
+                case 3 :
+                    showVisualization(from, to, pstFile, path, "Location Visualization...",
+                            "Location", EmailVisualizationThread.FolderType.LOCATION);
+                    break;
+
+                case 4 :
+                    showVisualization(from, to, pstFile, path, "Messages Communication Visualization...",
+                            "Frequency", EmailVisualizationThread.FolderType.FREQUENCY);
+                    break;
+            }
+        } 
+        catch (Exception e){
+           e.printStackTrace();
+        }
+    }
+    
+    private void showVisualization (String from, String to, PSTFile pst,
+            String path, String title, String folderName,EmailVisualizationThread.FolderType type) {
+        
+        InfiniteProgressPanel i = new InfiniteProgressPanel(title);
+        parentFrame.setGlassPane(i);
+        i.start();
+
+        EmailVisualizationThread thread = new EmailVisualizationThread(null, i, folderName , pst, path, from, to, type);
+        thread.execute();
+    }
+        
     private void loadEmail() {
         try {
             if ( isOfflineEmailSelected() ) {
@@ -436,15 +576,22 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox correlationComboBox;
     private javax.swing.JList emailSourceJList;
     private javax.swing.JTable emailsTable;
+    private javax.swing.JPanel factorSelectionPanel;
     private javax.swing.JTextField filterEmailsTextField;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JButton loadEmailSourceButton;
     // End of variables declaration//GEN-END:variables
 }
