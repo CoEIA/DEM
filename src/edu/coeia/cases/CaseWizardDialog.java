@@ -25,8 +25,13 @@ import java.io.File;
 import java.awt.CardLayout;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
@@ -161,6 +166,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         jScrollPane2 = new javax.swing.JScrollPane();
         sourcesJList = new javax.swing.JList();
         removeButton = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         EmailTable = new javax.swing.JTable();
@@ -231,7 +237,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         caseLocationTextField.setEditable(false);
         caseLocationTextField.setText(" ");
 
-        browseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        browseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         browseButton.setText("Browse...");
         browseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -248,7 +254,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         jLabel4.setText("Description:");
 
         descriptionTextArea.setColumns(20);
-        descriptionTextArea.setFont(new java.awt.Font("Courier New", 1, 18)); // NOI18N
+        descriptionTextArea.setFont(new java.awt.Font("Courier New", 1, 18));
         descriptionTextArea.setRows(5);
         jScrollPane1.setViewportView(descriptionTextArea);
 
@@ -327,6 +333,13 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
+        jButton3.setText("Unmount Encase Image");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -336,9 +349,10 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(addDriverButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(removeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addDriverButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(removeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,7 +366,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                             .addComponent(addDriverButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(removeButton)
-                        .addContainerGap(100, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)
+                        .addContainerGap())))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Would you like to import online e-mail accounts:"));
@@ -398,8 +414,8 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -425,16 +441,16 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addGap(569, 569, 569))
             .addGroup(CaseWizardA1Layout.createSequentialGroup()
                 .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, 0, 522, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         CaseWizardA1Layout.setVerticalGroup(
             CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CaseWizardA1Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jLabel10)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -445,14 +461,14 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Additonal Options"));
 
         YesNoIndexButtonGroup.add(NoIndexRadioButton);
-        NoIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        NoIndexRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         NoIndexRadioButton.setText("No");
 
-        DetectClusterCaseRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        DetectClusterCaseRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         DetectClusterCaseRadioButton.setSelected(true);
         DetectClusterCaseRadioButton.setText("Detect and cluster duplicated files within case files.");
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel15.setText("Would you like to index the case after creating?");
 
         YesNoIndexButtonGroup.add(YesIndexRadioButton);
@@ -470,7 +486,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         });
 
         YesNoMD5HashButtonGroup.add(NoMD5RadioButton);
-        NoMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        NoMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         NoMD5RadioButton.setText("No");
         NoMD5RadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -478,11 +494,11 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel14.setText(" Evidence (Data Source) should be indexed to be searchable and pefrom all functions.");
 
         YesNoMD5HashButtonGroup.add(YesMD5RadioButton);
-        YesMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        YesMD5RadioButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         YesMD5RadioButton.setSelected(true);
         YesMD5RadioButton.setText("Yes");
         YesMD5RadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -491,10 +507,10 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel16.setText("Would you like to calculate MD5 Hashe Values for the case so you can do Hash Analysis ?");
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel17.setText("Options:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -504,7 +520,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(YesMD5RadioButton)
                         .addGap(157, 157, 157)
@@ -559,7 +575,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             CaseWizardA2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CaseWizardA2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -567,11 +583,11 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Indexing Options"));
 
-        CacheImageCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CacheImageCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
         CacheImageCheckBox.setSelected(true);
         CacheImageCheckBox.setText("Cache Images to view on Multimedia Viewer");
 
-        ExcludeSystemFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ExcludeSystemFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
         ExcludeSystemFilesCheckBox.setText("Exclude Windows System Files from Indexing: ");
         ExcludeSystemFilesCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -579,7 +595,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
         });
 
-        IndexZipCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        IndexZipCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
         IndexZipCheckBox.setSelected(true);
         IndexZipCheckBox.setText("Index archieved folders (ZIP, RAR)");
 
@@ -587,18 +603,18 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         ProgramFilesRadioButton.setText("Program Files");
 
-        IndexEmbeddedFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        IndexEmbeddedFilesCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
         IndexEmbeddedFilesCheckBox.setSelected(true);
         IndexEmbeddedFilesCheckBox.setText("Index embedded files on MS Office and Attachments");
 
         jLabel6.setForeground(new java.awt.Color(255, 0, 0));
         jLabel6.setText("(Warning: Only choose this when you know that no evidences could be found within System Files)");
 
-        IndexChatCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        IndexChatCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
         IndexChatCheckBox.setSelected(true);
         IndexChatCheckBox.setText("Index Chat Sessions ( MSN, YAHOO, and SKYPE)");
 
-        DetectBrowserCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        DetectBrowserCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
         DetectBrowserCheckBox.setSelected(true);
         DetectBrowserCheckBox.setText("Detect and read Browsers (FireFox, IE) Sessions");
 
@@ -655,13 +671,13 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -911,8 +927,14 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         
        
         // if hotmail
-        if (config.getSource() == SOURCE.HOTMAIL || config.getSource() == SOURCE.Yahoo) {
-            if (dialogue.m_ObjDownloader.ConnectPop3(config.getUserName(), config.getPassword())) {
+        if (config.getSource() == SOURCE.HOTMAIL) {
+            if (dialogue.m_ObjDownloader.ConnectPop3Hotmail(config.getUserName(), config.getPassword())) {
+                dialogue.m_ObjDownloader.execute();
+                dialogue.setVisible(true);
+            }
+        }
+        if (config.getSource() == SOURCE.Yahoo) {
+            if (dialogue.m_ObjDownloader.ConnectPop3Yahoo(config.getUserName(), config.getPassword())) {
                 dialogue.m_ObjDownloader.execute();
                 dialogue.setVisible(true);
             }
@@ -1032,6 +1054,55 @@ private void NoMD5RadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//
 private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetectClusterLibraryRadioButtonActionPerformed
 // TODO add your handling code here:
 }//GEN-LAST:event_DetectClusterLibraryRadioButtonActionPerformed
+
+private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+// TODO add your handling code here:
+    //Handle open button action.
+    final JFileChooser fc = new JFileChooser();
+    File file = null;
+    int returnVal = fc.showOpenDialog(this);
+
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+        file = fc.getSelectedFile();
+        Runtime rt = Runtime.getRuntime();
+        String output = "tools\\mount_ewf.exe" + " " + file.getPath();
+        Pattern pattern = Pattern.compile("\\s");
+        Matcher matcher = pattern.matcher(file.getPath());
+        boolean found = matcher.find();
+        if (found) {
+            JOptionPane.showMessageDialog(this, "Please Remove White Spaces from case file name", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            Process pr = rt.exec(output);
+            BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+            String line = null;
+            if(input.readLine() == null){
+            JOptionPane.showMessageDialog(this, "Error Unmounting the Case, Please Unmount the case if it is already mounted", "Error", JOptionPane.ERROR_MESSAGE);    
+            return;
+            }
+            
+            int i = 0;
+            while ((line = input.readLine()) != null) {
+                i++;
+                if (i > 0) {
+                    break;
+                }
+                System.out.println(line);
+            }
+            String[] splitedLine = line.split("\\:");
+            String Path = splitedLine[1]+":\\";
+            JListUtil.addToList(Path.trim(), sourcesListModel, sourcesJList);
+           
+
+        } catch (IOException ex) {
+            Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+     else {
+    }
+
+}//GEN-LAST:event_jButton3ActionPerformed
 
     public boolean checkDirectIndex() {
         return indexTheCase;
@@ -1280,6 +1351,7 @@ private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.Actio
     private javax.swing.JTextField investigatorTextField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

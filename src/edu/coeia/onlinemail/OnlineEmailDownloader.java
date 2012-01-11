@@ -164,14 +164,24 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
     public void downloadEmail(Case currentCase, EmailConfiguration config, EmailDownloaderDialog dialogue) throws Exception {
 
         // if hotmail
-        if (config.getSource() == SOURCE.HOTMAIL || config.getSource() == SOURCE.Yahoo) {
+        if (config.getSource() == SOURCE.HOTMAIL) {
              
             dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
-            dialogue.m_ObjDownloader.ConnectPop3(Username, Password);
+            dialogue.m_ObjDownloader.ConnectPop3Hotmail(Username, Password);
             dialogue.m_ObjDownloader.execute();
             dialogue.setVisible(true);
 
         }
+        // if YAHOO
+        if (config.getSource() == SOURCE.Yahoo) {
+             
+            dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
+            dialogue.m_ObjDownloader.ConnectPop3Yahoo(Username, Password);
+            dialogue.m_ObjDownloader.execute();
+            dialogue.setVisible(true);
+
+        }
+        
         if (config.getSource() == SOURCE.GMAIL) {
             dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
             dialogue.m_ObjDownloader.ConnectIMAP(Username, Password);
@@ -379,7 +389,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                     catch (FolderClosedException ex)
                     {
                         ex.printStackTrace();
-                        ConnectPop3(Username, Password);
+                        ConnectPop3Hotmail(Username, Password);
                         if (!folder.isOpen())
                         {
                             folder.open(Folder.READ_ONLY);
@@ -391,7 +401,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         ex.printStackTrace();
                         if (!folder.isOpen()) 
                         {
-                            ConnectPop3(Username, Password);
+                            ConnectPop3Hotmail(Username, Password);
                             folder.open(Folder.READ_ONLY);
                             messages = folder.getMessages();
                         }
@@ -519,7 +529,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         
     }
     
-    public boolean ConnectPop3(String UserName, String Password) {
+    public boolean ConnectPop3Hotmail(String UserName, String Password) {
 
         this.Username = UserName;
         this.Password = Password;
@@ -553,6 +563,42 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         //  session.setDebug(true);
         return true;
     }
+    
+     public boolean ConnectPop3Yahoo(String UserName, String Password) {
+
+        this.Username = UserName;
+        this.Password = Password;
+
+        Properties props = System.getProperties();
+        String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
+        props.setProperty("mail.pop3.socketFactory.class", SSL_FACTORY);
+        props.setProperty("mail.pop3.socketFactory.fallback", "false");
+        props.setProperty("mail.pop3.port", "995");
+        props.setProperty("mail.pop3.socketFactory.port", "995");
+        props.setProperty("mail.pop3.connectiontimeout", "10000");
+        props.setProperty("mail.pop3.timeout", "10000");
+
+        Session session = Session.getDefaultInstance(props, null);
+        try {
+            store = session.getStore("pop3");
+        } catch (NoSuchProviderException ex) {
+
+            JOptionPane.showMessageDialog(this.emaildialogue, "Error Connecting to Hotmail", "Bad Such Provider", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+            return false;
+        }
+        try {
+            store.connect("plus.pop.mail.yahoo.com", 995, UserName, Password);
+        } catch (MessagingException ex1) {
+            Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex1);
+            JOptionPane.showMessageDialog(this.emaildialogue, "Check Username or Password or Connection is lost", "Error in Connecting", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        /****************************/
+        //  session.setDebug(true);
+        return true;
+    }
+    
 
     public boolean ConnectIMAP(String UserName, String Password) {
 
