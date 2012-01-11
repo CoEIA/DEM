@@ -1067,7 +1067,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         Runtime rt = Runtime.getRuntime();
         String output = "tools\\mount_ewf.exe" + " " + file.getPath();
         Pattern pattern = Pattern.compile("\\s");
-        Matcher matcher = pattern.matcher(file.getPath());
+        Matcher matcher = pattern.matcher(file.getName());
         boolean found = matcher.find();
         if (found) {
             JOptionPane.showMessageDialog(this, "Please Remove White Spaces from case file name", "Error", JOptionPane.ERROR_MESSAGE);
