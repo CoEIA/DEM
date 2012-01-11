@@ -28,6 +28,14 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+import java.util.HashMap;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRXmlDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 /**
  *
  * @author wajdyessam
@@ -478,7 +486,32 @@ public class ReportPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_instanceChatOptionButtonActionPerformed
 
     private void reportGenerationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportGenerationButtonActionPerformed
+        
         GuiUtil.showPanel("reportCard", this.OptionsPanels);
+        
+        try
+        {
+            String strXmlSource = RawResultFile.getFileSystemXmlFile(getAllFilePaths(),aCase);
+            File file = new File(FilesPath.TEMPLATES+"\\filesystem_report.jasper");
+            String strJasperFile = file.getAbsolutePath(); //"C:/Users/Farhan/Desktop/projects/DEM/templates/filesystem_report.jasper";
+            String strReportOutputPath = aCase.getCaseLocation()+DisclosureReport.REPORTFOLDER;
+            String strReportName = "filesystem";
+            
+            DisclosureReport disReport = new DisclosureReport(strJasperFile,
+                                                              strXmlSource,
+                                                              strReportOutputPath,strReportName);
+            
+            disReport.setOutputFileExtension(DisclosureReport.REPORT_TYPE.PDF);
+            disReport.setRootXPath("/dem/detail/effectivefiles/file");
+            disReport.Generate();
+        }
+        catch(Exception ex)
+        {
+            System.out.println("CAUSE: " + ex.getCause());
+            System.out.println("MESSAGE" + ex.getMessage());
+        }
+       
+                 
     }//GEN-LAST:event_reportGenerationButtonActionPerformed
 
     private void reportGeneratorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportGeneratorButtonActionPerformed

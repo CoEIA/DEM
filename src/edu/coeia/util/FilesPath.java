@@ -79,6 +79,7 @@ public class FilesPath {
     private static final String IE_CACHE_PROGRAM = "tools\\IECacheList.exe";
     private static final String IE_PASSWORD_PROGRAM = "tools\\iepv.exe" ;
     public static final String SMART_CARD_PROGRAM = "tools\\om.exe";
+    public static final String TEMPLATES = "templates\\";
     
     // location of temporary files used by the application
     public static final String HIS_TMP = TMP_PATH + "\\history.txt";
