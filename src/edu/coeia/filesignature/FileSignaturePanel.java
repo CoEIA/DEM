@@ -448,11 +448,13 @@ private void FolderListTreeValueChanged(javax.swing.event.TreeSelectionEvent evt
 
 private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 // TODO add your handling code here:
+    if (ft !=null)
+    {
     ft.stop();
     stopRequested = true;
     System.out.println("MyThread terminating.");
-    JOptionPane.showMessageDialog(this, "Finished Analyzing", "Finished", JOptionPane.INFORMATION_MESSAGE);
-    AnalyzeButton.setEnabled(true);
+    }
+    
 
 }//GEN-LAST:event_jButton2ActionPerformed
 
