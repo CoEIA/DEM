@@ -627,12 +627,18 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         
         // if hotmail
         if (config.getSource() == SOURCE.HOTMAIL) {
-            if (dialogue.m_ObjDownloader.ConnectPop3(config.getUserName(), config.getPassword())) {
+            if (dialogue.m_ObjDownloader.ConnectPop3Hotmail(config.getUserName(), config.getPassword())) {
                 dialogue.m_ObjDownloader.execute();
                 dialogue.setVisible(true);
             }
         }
-        if (config.getSource() == SOURCE.GMAIL ) {
+        if (config.getSource() == SOURCE.Yahoo) {
+            if (dialogue.m_ObjDownloader.ConnectPop3Yahoo(config.getUserName(), config.getPassword())) {
+                dialogue.m_ObjDownloader.execute();
+                dialogue.setVisible(true);
+            }
+        }
+       if (config.getSource() == SOURCE.GMAIL) {
             if (dialogue.m_ObjDownloader.ConnectIMAP(config.getUserName(), config.getPassword())) {
                 dialogue.m_ObjDownloader.execute();
                 dialogue.setVisible(true);
@@ -640,7 +646,7 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
         }
     }
-    
+
     public void showIndexDialog(boolean startIndex) {
         IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj, startIndex);
         indexPanel.setLocationRelativeTo(this);
