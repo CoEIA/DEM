@@ -36,7 +36,7 @@
               <Group type="102" alignment="1" attributes="0">
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Component id="jScrollPane1" alignment="1" pref="134" max="32767" attributes="0"/>
-                      <Component id="jButton1" alignment="1" pref="134" max="32767" attributes="0"/>
+                      <Component id="loadEmailSourceButton" alignment="1" pref="134" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -47,7 +47,7 @@
               <Group type="102" alignment="1" attributes="0">
                   <Component id="jScrollPane1" pref="383" max="32767" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="loadEmailSourceButton" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -64,12 +64,12 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="loadEmailSourceButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Load Email Source"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadEmailSourceButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -120,7 +120,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable1">
+            <Component class="javax.swing.JTable" name="emailsTable">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="7" rowCount="0">
@@ -135,6 +135,9 @@
                 </Property>
                 <Property name="fillsViewportHeight" type="boolean" value="true"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="emailsTableMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -147,7 +150,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jTextField1" pref="423" max="32767" attributes="0"/>
+                      <Component id="filterEmailsTextField" pref="423" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -157,7 +160,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jTextField1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="filterEmailsTextField" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="12" max="32767" attributes="0"/>
@@ -171,7 +174,7 @@
                 <Property name="text" type="java.lang.String" value="Filter:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="filterEmailsTextField">
               <Properties>
                 <Property name="text" type="java.lang.String" value=" "/>
               </Properties>

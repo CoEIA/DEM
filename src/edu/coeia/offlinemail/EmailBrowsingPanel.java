@@ -11,21 +11,32 @@
 package edu.coeia.offlinemail;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CasePathHandler;
 import edu.coeia.cases.EmailConfiguration;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.items.EmailItem;
 import edu.coeia.main.CaseFrame;
+import edu.coeia.util.DateUtil;
 import edu.coeia.util.FilesPath;
+
+import edu.coeia.viewer.SearchViewer;
+import edu.coeia.viewer.SourceViewerDialog;
 import java.io.File;
 import java.io.IOException;
+
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexReader;
@@ -40,12 +51,15 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
 
     private Case aCase;
     private DefaultListModel emailSourcrListModel;
+    private final List<Integer> documentIds = new ArrayList<Integer>();
+    private JFrame parentFrame ;
     
     /** Creates new form OfflineEmailBrowsingPanel */
     public EmailBrowsingPanel(final Case aCase, final CaseFrame frame) {
         initComponents();
         this.emailSourcrListModel = new DefaultListModel();
         this.aCase = aCase;
+        this.parentFrame = (JFrame) frame;
         
         // fill email source
         try {
@@ -59,6 +73,26 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         } catch (IOException ex) {
             Logger.getLogger(EmailBrowsingPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        /**
+         * Filter email table by keyword written into filter text field
+         */
+        this.filterEmailsTextField.getDocument().addDocumentListener(
+            new DocumentListener() {
+                @Override
+                public void changedUpdate(DocumentEvent event) { filterTable(); }
+
+                @Override
+                public void removeUpdate(DocumentEvent event) { filterTable(); }
+
+                @Override
+                public void insertUpdate(DocumentEvent event) { filterTable(); }
+                
+                private void filterTable() {
+                     JTableUtil.filterTable(emailsTable, filterEmailsTextField.getText().trim());
+                }
+            }
+        );
     }
 
     /** This method is called from within the constructor to
@@ -73,13 +107,13 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         emailSourceJList = new javax.swing.JList();
-        jButton1 = new javax.swing.JButton();
+        loadEmailSourceButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        emailsTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        filterEmailsTextField = new javax.swing.JTextField();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -87,10 +121,10 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
 
         jScrollPane1.setViewportView(emailSourceJList);
 
-        jButton1.setText("Load Email Source");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        loadEmailSourceButton.setText("Load Email Source");
+        loadEmailSourceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                loadEmailSourceButtonActionPerformed(evt);
             }
         });
 
@@ -101,7 +135,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
+                    .addComponent(loadEmailSourceButton, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -109,14 +143,14 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1))
+                .addComponent(loadEmailSourceButton))
         );
 
         add(jPanel1, java.awt.BorderLayout.WEST);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Content"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        emailsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -139,12 +173,17 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setFillsViewportHeight(true);
-        jScrollPane2.setViewportView(jTable1);
+        emailsTable.setFillsViewportHeight(true);
+        emailsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emailsTableMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(emailsTable);
 
         jLabel1.setText("Filter:");
 
-        jTextField1.setText(" ");
+        filterEmailsTextField.setText(" ");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -154,7 +193,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
+                .addComponent(filterEmailsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -162,7 +201,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(filterEmailsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
@@ -190,20 +229,31 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void loadEmailSourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadEmailSourceButtonActionPerformed
+        JTableUtil.removeAllRows(this.emailsTable);
         this.loadEmail();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_loadEmailSourceButtonActionPerformed
+
+    private void emailsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emailsTableMouseClicked
+        if ( evt.getClickCount() == 2 ) { // Double Click
+            // other click event
+            int row = this.emailsTable.getSelectedRow();
+            if ( row < 0 ) return ; // if not select row
+
+            String fileId = String.valueOf(this.emailsTable.getValueAt(row, 0));
+            int currentId = Integer.parseInt(fileId);
+
+            SearchViewer searchViewer = new SearchViewer("",currentId, this.documentIds);
+            SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true, searchViewer);
+            panel.setVisible(true);
+        }
+    }//GEN-LAST:event_emailsTableMouseClicked
 
     private void loadEmail() {
         try {
             if ( isOfflineEmailSelected() ) {
                 String relativePath = String.valueOf(this.emailSourceJList.getSelectedValue());
                 
-//                CasePathHandler handler = CasePathHandler.newInstance(this.aCase.getCaseLocation());
-//                handler.readConfiguration();
-//                String fullPath = handler.getFullPath(relativePath);
-//                System.out.println("full: " + fullPath);
-
                 List<EmailItem> emails = getAllMessaageInOfflineEmailPath(relativePath);
                 System.out.println("number of message: " + emails.size());
 
@@ -212,7 +262,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                     Object[] data = {item.getID(), item.getFolder(), item.getFrom(),
                         item.getTo(), item.getSubject(), item.getTime(), item.hasAttachment()};
 
-                    JTableUtil.addRowToJTable(jTable1, data);
+                    JTableUtil.addRowToJTable(emailsTable, data);
                 }
             }
             else if ( isOnlineEmailSelected() ) {
@@ -225,14 +275,18 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                     Object[] data = {item.getID(), item.getFolder(), item.getFrom(),
                         item.getTo(), item.getSubject(), item.getTime(), item.hasAttachment()};
 
-                    JTableUtil.addRowToJTable(jTable1, data);
+                    JTableUtil.addRowToJTable(emailsTable, data);
                 }
             }
             else {
                 System.out.println("nothing selected");
             }
-        } catch (IOException ex) {
-            Logger.getLogger(EmailBrowsingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        catch(ParseException ex) {
+            ex.printStackTrace();
         }
     }
     
@@ -255,8 +309,9 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         return !value.endsWith(".pst") && !value.endsWith("ost");
     }
     
-    private List<EmailItem> getAllMessageInOnlineEmailPath(final String username) throws IOException {
+    private List<EmailItem> getAllMessageInOnlineEmailPath(final String username) throws IOException, ParseException {
         List<EmailItem> emails = new ArrayList<EmailItem>();
+        List<Integer> ids = new ArrayList<Integer>();
         
         String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
@@ -286,20 +341,24 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
 
                         EmailItem item = new EmailItem(Integer.valueOf(id), 
                                 Integer.valueOf("0"), emailFrom,
-                                emailTo, emailSubject, emailDate, folderName, hasAttachment);
+                                emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment);
 
                         emails.add(item);
+                        ids.add(Integer.valueOf(id));
                    }
                 }
             }
         }
+        
+        this.setResultIds(ids);
         indexReader.close();
         
         return emails;
     }
     
-    private List<EmailItem> getAllMessaageInOfflineEmailPath(final String path) throws IOException {
+    private List<EmailItem> getAllMessaageInOfflineEmailPath(final String path) throws IOException, ParseException {
         List<EmailItem> emails = new ArrayList<EmailItem>();
+        List<Integer> ids = new ArrayList<Integer>();
         
         String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
@@ -334,13 +393,16 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                         
                         EmailItem item = new EmailItem(Integer.valueOf(id), 
                                 Integer.valueOf(parentId), emailFrom,
-                                emailTo, emailSubject, emailDate, folderName, hasAttachment);
+                                emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment);
                         
                         emails.add(item);
+                        ids.add(Integer.valueOf(id));
                    }
                 }
             }
         }
+        
+        this.setResultIds(ids);
         indexReader.close();
         
         return emails;
@@ -368,16 +430,21 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         return offlineEmailPaths;
     }
         
+    void setResultIds(final List<Integer> ids) {
+        this.documentIds.clear();
+        this.documentIds.addAll(Collections.unmodifiableList(ids));
+    }
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList emailSourceJList;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTable emailsTable;
+    private javax.swing.JTextField filterEmailsTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton loadEmailSourceButton;
     // End of variables declaration//GEN-END:variables
 }
