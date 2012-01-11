@@ -9,7 +9,6 @@ package edu.coeia.extractors;
  * @author wajdyessam
  */
 
-import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.indexing.Indexer;
 import java.io.File ;
 

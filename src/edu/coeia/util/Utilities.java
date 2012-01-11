@@ -6,7 +6,6 @@ package edu.coeia.util;
 
 import edu.coeia.offlinemail.Message;
 
-
 import javax.swing.filechooser.FileSystemView;
 
 import java.awt.Toolkit;
@@ -62,6 +61,16 @@ public class Utilities {
             result = input;
         }
         return result;
+    }
+    
+    public static String getEmptyStringWhenNullDate(final Date date) {
+        StringBuilder result = new StringBuilder();
+        
+        if ( date == null)
+            return result.toString();
+        
+        result.append(date.toString());
+        return result.toString();
     }
 
     public static InputStream convertListToInputStream(List<String> input) throws IOException {

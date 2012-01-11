@@ -9,6 +9,7 @@ package edu.coeia.util;
  * @author wajdyessam
  */
 
+import java.text.ParseException;
 import java.util.Calendar ;
 import java.util.Date ;
 import java.util.GregorianCalendar;
@@ -51,6 +52,22 @@ public class DateUtil {
         return formatDate(d);
     }
 
+    public static String formatDate (final String date) throws ParseException {
+        if ( date.isEmpty() )
+            return date;
+        
+        DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+        Date formattedDate = df.parse(date);
+        return formatedDateWithTime(formattedDate);
+    }
+    
+    public static String formatedDateWithTime(final Date date) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+	Calendar c = Calendar.getInstance();
+	c.setTime(date);
+	return df.format( c.getTime() );
+    }
+    
     public static String formatDate (Date d) {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 	Calendar c = Calendar.getInstance();

@@ -8,7 +8,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.FSDirectory ;
 import org.apache.lucene.util.Version ;
 
-import com.pff.PSTException ;
 import edu.coeia.cases.Case;
 import edu.coeia.util.FilesPath;
 

@@ -359,8 +359,6 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                     
                     try 
                     {
-
-
                         int messageId = messages.length - count++;
                         // sent and receive date
                         Date sentDate = Utilities.checkDate(message.getSentDate());

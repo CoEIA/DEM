@@ -16,6 +16,7 @@ import edu.coeia.indexing.IndexingDialog;
 import edu.coeia.multimedia.ImagesViewerPanel;
 import edu.coeia.internet.InternetSurfingPanel;
 import edu.coeia.multimedia.MultimediaPanel;
+import edu.coeia.offlinemail.EmailBrowsingPanel;
 import edu.coeia.onlinemail.EmailDownloaderDialog;
 import edu.coeia.onlinemail.OnlineEmailDownloader;
 import edu.coeia.searching.CaseSearchPanel;
@@ -63,7 +64,8 @@ public class CaseFrame extends javax.swing.JFrame {
     private CaseManagerPanel caseManagerPanel;
     private CaseSearchPanel caseSearchPanel ;
     private FileSystemPanel fileSystemPanel;
-    private EmailPanel emailPanel;
+    //private EmailPanel emailPanel;
+    private EmailBrowsingPanel emailPanel;
     private InternetSurfingPanel internetPanel;
     private ChatPanel chatPanel;
     private ImagesViewerPanel imgPanel;
@@ -110,14 +112,15 @@ public class CaseFrame extends javax.swing.JFrame {
         
         // add gui panels
         this.fileSystemPanel = new FileSystemPanel(this.caseObj, this);
-        this.emailPanel = new EmailPanel(this.caseObj, this);
+        //this.emailPanel = new EmailPanel(this.caseObj, this);
+        this.emailPanel = new EmailBrowsingPanel(this.caseObj, this);
         this.internetPanel = new InternetSurfingPanel(this.caseObj);
         this.chatPanel = new ChatPanel(this.caseObj);
         this.imgPanel = new ImagesViewerPanel(this.caseObj);
         this.multimediaPanel = new MultimediaPanel(this.caseObj);
         this.caseSearchPanel = new CaseSearchPanel(this.caseObj, this);
         this.caseManagerPanel = new CaseManagerPanel(this);
-        this.reportPanel = new ReportPanel();
+        this.reportPanel = new ReportPanel(this.caseObj, this);
         
         this.CardPanel.add(this.fileSystemPanel, "fileSystemCard");
         this.CardPanel.add(this.emailPanel, "emailCard");

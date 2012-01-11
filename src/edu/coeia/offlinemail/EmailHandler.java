@@ -748,7 +748,7 @@ public class EmailHandler {
                 case 2:
                     return next.getSentRepresentingName() + " <"+ next.getSentRepresentingEmailAddress() +">";
                 case 3:
-                    return next.getReceivedByName() + " <"+next.getReceivedByAddress()+">" + next.displayTo();
+                    return next.getReceivedByName() + " <"+next.getReceivedByAddress()+">" + next.getDisplayTo();
                 case 4:
                     return next.getClientSubmitTime();
                 case 5:

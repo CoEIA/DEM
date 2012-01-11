@@ -81,6 +81,7 @@ public class IndexingConstant {
     /**
      * constants for online email
      */
+    public static final String ONLINE_EMAIL_USER_NAME = "ONLINE_EMAIL_USER_NAME";
     public static final String ONLINE_EMAIL_FOLDER_NAME = "ONLINE_EMAIL_FOLDER_NAME";
     public static final String ONLINE_EMAIL_FROM = "ONLINE_EMAIL_FROM";
     public static final String ONLINE_EMAIL_TO = "ONLINE_EMAIL_TO";
@@ -94,7 +95,45 @@ public class IndexingConstant {
     public static final String ONLINE_EMAIL_MESSAGE_ID = "ONLINE_EMAIL_ID";
     
     
-        
+    /**
+     * constants for offline email
+     */
+    public static final String OFFLINE_EMAIL_PATH = "OFFLINE_EMAIL_PATH";
+    public static final String OFFLINE_EMAIL_NAME = "OFFLINE_EMIAL_NAME";
+    public static final String OFFLINE_EMAIL_FOLDER_NAME = "OFFLINE_EMAIL_FOLDER_NAME";
+    public static final String OFFLINE_EMAIL_HTML_CONTENT = "OFFLINE_EMAIL_HTML_CONTENT";
+    public static final String OFFLINE_EMAIL_PLAIN_CONTENT = "OFFLINE_EMAIL_PLAIN_CONTENT";
+    public static final String OFFLINE_EMAIL_ID = "OFFLINE_EMAIL_ID";
+    public static final String OFFLINE_EMAIL_INTERNET_ID = "OFFLINE_EMAIL_INTERNET_ID";
+    public static final String OFFLINE_EMAIL_SUBJECT = "OFFLINE_EMAIL_SUBJECT";
+    public static final String OFFLINE_EMAIL_ACTION_DATE = "OFFLINE_EMAIL_ACTION_DATE";
+    public static final String OFFLINE_EMAIL_CLIENT_SUBMIT_TIME = "OFFLINE_EMAIL_CLIENT_SUBMIT_TIME";
+    public static final String OFFLINE_EMAIL_DELIVERY_TIME = "OFFLINE_EMAIL_DELIVERY_TIME";
+    public static final String OFFLINE_EMAIL_ADDRESS = "OFFLINE_EMAIL_ADDRESS";
+    public static final String OFFLINE_EMAIL_HEADER = "OFFLINE_EMAIL_HEADER";
+    public static final String OFFLINE_EMAIL_SIZE = "OFFLINE_EMAIL_SIZE";
+    public static final String OFFLINE_EMAIL_NUMBER_OF_ATTACHMENT = "OFFLINE_EMAIL_NUMBER_OF_ATTACHMENT";
+    public static final String OFFLINE_EMAIL_NUMBER_OF_RECIPENT = "OFFLINE_EMAIL_NUMBER_OF_RECIPENT";
+    public static final String OFFLINE_EMAIL_SENT_REPRESENTING_NAME = "OFFLINE_EMAIL_SENT_REPRESENTING_NAME";
+    public static final String OFFLINE_EMAIL_SENDER_ADDRESS_TYPE = "OFFLINE_EMAIL_SENDER_ADDRESS_TYPE";
+    public static final String OFFLINE_EMAIL_SENDER_EMAIL_ADDRESS = "OFFLINE_EMAIL_SENDER_EMAIL_ADDRESS";
+    public static final String OFFLINE_EMAIL_SENDER_NAME = "OFFLINE_EMAIL_SENDER_NAME";
+    public static final String OFFLINE_EMAIL_RECIEVED_BY_ADDRESS = "OFFLINE_EMAIL_RECIEVED_BY_ADDRESS";
+    public static final String OFFLINE_EMAIL_RECIEVED_BY_ADDRESS_TYPE = "OFFLINE_EMAIL_RECIEVED_BY_ADDRESS_TYPE";
+    public static final String OFFLINE_EMAIL_RECIEVED_BY_NAME = "OFFLINE_EMAIL_RECIEVED_BY_NAME";
+    public static final String OFFLINE_EMAIL_DISPLAY_TO = "OFFLINE_EMAIL_DISPLAY_TO";
+    public static final String OFFLINE_EMAIL_DISPLAY_CC = "OFFLINE_EMAIL_DISPLAY_CC";
+    public static final String OFFLINE_EMAIL_DISPLAY_BCC = "OFFLINE_EMAIL_DISPLAY_BCC";
+    public static final String OFFLINE_EMAIL_HAS_REPLIED = "OFFLINE_EMAIL_HAS_REPLIED";
+    public static final String OFFLINE_EMAIL_HAS_FORWARDED = "OFFLINE_EMAIL_HAS_FORWARDED";
+    public static final String OFFLINE_EMAIL_HAS_ATTACHMENT = "OFFLINE_EMAIL_HAS_ATTACHMENT";
+    public static final String OFFLINE_EMAIL_RECIPENT_NAME = "OFFLINE_EMAIL_RECIPENT_NAME";
+    public static final String OFFLINE_EMAIL_RECIPENT_ADDRESS = "OFFLINE_EMAIL_RECIPENT_ADDRESS";
+    public static final String OFFLINE_EMAIL_RECIPENT_TYPE = "OFFLINE_EMAIL_RECIPENT_TYPE";
+    public static final String OFFLINE_EMAIL_RECIPENT_SMPT = "OFFLINE_EMAIL_RECIPENT_SMPT";
+    public static final String OFFLINE_EMAIL_ATTACHMENT_PATH = "OFFLINE_EMAIL_ATTACHMENT_PATH";
+       
+    
     public static boolean isFileDocument(final Document document) {
         return document.get(IndexingConstant.DOCUMENT)
                 .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE));
@@ -108,5 +147,10 @@ public class IndexingConstant {
     public static boolean isEmailDocument(final Document document) {
         return document.get(IndexingConstant.DOCUMENT)
                 .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL));
+    }
+    
+    public static boolean isOfflineEmailDocument(final Document document) {
+        return document.get(IndexingConstant.DOCUMENT)
+            .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.OFFLINE_EMAIL));
     }
 }

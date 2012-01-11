@@ -156,7 +156,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         });
         controlPanel.add(exportButton);
 
-        viewItemButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/viewer/1325657843_folderopen1.png"))); // NOI18N
+        viewItemButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325657843_folderopen1.png"))); // NOI18N
         viewItemButton.setText("View Item");
         viewItemButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -319,7 +319,10 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             panel = new ChatSourceViewerPanel(this);
         }
         else if ( IndexingConstant.isEmailDocument(document) ) {
-            panel = new EmailSourceViewerPanel(this);
+            panel = new OnlineEmailSourceViewerPanel(this);
+        }
+        else if ( IndexingConstant.isOfflineEmailDocument(document) ) {
+            panel = new OfflineEmailSourceViewerPanel(this);
         }
         
         this.viewerPanel.setLayout(new BorderLayout());

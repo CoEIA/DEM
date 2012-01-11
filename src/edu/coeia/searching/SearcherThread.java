@@ -94,6 +94,17 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             });
         }
 
+        if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.OFFLINE_EMAIL))) {
+            String fileId = pd.getDocument().get(IndexingConstant.DOCUMENT_ID);
+            String fileDate = pd.getDocument().get(IndexingConstant.OFFLINE_EMAIL_CLIENT_SUBMIT_TIME);
+            String fileTitle = pd.getDocument().get(IndexingConstant.OFFLINE_EMAIL_FOLDER_NAME);
+            String fileName = pd.getDocument().get(IndexingConstant.OFFLINE_EMAIL_SUBJECT);
+
+            ((DefaultTableModel)panel.getSearchTable().getModel()).addRow(new Object[] {
+                fileId, fileTitle, fileDate, type, fileName
+            });
+        }
+        
         if ( type.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT))) {
             String fileId = pd.getDocument().get(IndexingConstant.DOCUMENT_ID);
             String fileDate = pd.getDocument().get(IndexingConstant.CHAT_TIME);

@@ -53,8 +53,6 @@ public class OnlineEmailDBHandler {
     }
 
     public List<OnlineEmailMessage> getAllMessages() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-
-
         String select = "SELECT * FROM emails ";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(select);
@@ -62,8 +60,6 @@ public class OnlineEmailDBHandler {
         List<OnlineEmailMessage> mEmails = new ArrayList<OnlineEmailMessage>();
 
         while (resultSet.next()) {
-            
-            
             List<String> listPaths = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("PATH"));
             List<String> bccList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("BCC"));
             List<String> ccList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("CC"));
@@ -91,7 +87,6 @@ public class OnlineEmailDBHandler {
                     resultSet.getString("SENT_DATE"),
                     resultSet.getString("CREATED_DATE"),
                     listPaths, resultSet.getString("Folder_Name"));
-            System.out.println("added");
             mEmails.add(message);
         }
 

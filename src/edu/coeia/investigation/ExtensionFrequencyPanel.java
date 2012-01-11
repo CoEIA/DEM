@@ -128,6 +128,8 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
         }
     }
     
+    Case getCase() { return this.caseObj; }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel indexVisualizationButtonPanel;
     private javax.swing.JPanel indexVisualizingPiePanel;

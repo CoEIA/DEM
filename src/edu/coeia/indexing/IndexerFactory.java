@@ -37,9 +37,14 @@ final class IndexerFactory {
 
             String mime = tika.detect(file);
             
+            // if its outlook file, then call offline email indexer
+            if ( isOutlookFile(mime, file.getAbsolutePath()) ) {
+                indexer = OutlookIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor());
+            }
+            
             // if found office file and user select extract images, then do it
             // else it will indexed without images extractors
-            if ( isOfficeFile(mime) && luceneIndex.getCase().getCacheImages())
+            else if ( isOfficeFile(mime) && luceneIndex.getCase().getCacheImages())
                 indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
                          
             // simple file (html, txt, xml) is file that have not images
@@ -178,5 +183,11 @@ final class IndexerFactory {
                  mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.wordprocessingml.document") || 
                  mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.presentation") ||
                  mime.equals("application/rtf"); 
+    }
+    
+    private static boolean isOutlookFile(final String mime, final String path) {
+        return mime.equalsIgnoreCase("application/vnd.ms-outlook") ||
+                FileUtil.getExtension(path).equalsIgnoreCase("pst") ||
+                FileUtil.getExtension(path).equalsIgnoreCase("ost");
     }
 }

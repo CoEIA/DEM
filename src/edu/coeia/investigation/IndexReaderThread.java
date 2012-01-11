@@ -10,6 +10,8 @@ package edu.coeia.investigation;
  * @author wajdyessam
  */
 
+import edu.coeia.cases.Case;
+import edu.coeia.cases.CasePathHandler;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.charts.PieChartPanel;
 import edu.coeia.indexing.IndexingConstant;
@@ -20,7 +22,6 @@ import org.apache.lucene.store.Directory ;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.index.TermEnum ;
 import org.apache.lucene.index.Term ;
-import org.apache.lucene.document.Document ;
 
 import java.io.IOException ;
 import java.io.File ;
@@ -75,12 +76,18 @@ class IndexReaderThread extends SwingWorker<String, Integer> {
                 try {
                     tags = getAllTermFreqFromBody();
                 } catch (IOException ex) {
+                    ex.printStackTrace();
                     logger.log(Level.SEVERE, "Uncaught exception", ex);
                 }
                 break;
 
             case VISUALIZATION:
-                exts = getExtensionFreq();
+                try {
+                    exts = getExtensionFreq();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    logger.log(Level.SEVERE, "Uncaught exception", ex);
+                }
                 break;
 
             case IMAGES:
@@ -138,36 +145,39 @@ class IndexReaderThread extends SwingWorker<String, Integer> {
         return (aList);
     }
 
-    public HashMap<String,Double> getExtensionFreq () {
+    public HashMap<String,Double> getExtensionFreq () throws IOException {
         HashMap<String,Double> map = new HashMap<String,Double>();
         logger.log(Level.INFO, "Number of Docs: " + indexReader.numDocs());
+        
+        Case aCase = ( (ExtensionFrequencyPanel) this.resultPanel).getCase();
+        CasePathHandler handler = CasePathHandler.newInstance(aCase.getCaseLocation());
+        handler.readConfiguration();
+        
+        TermEnum te = indexReader.terms(new Term(IndexingConstant.FILE_PATH,"") );
+        while ( te.next() ) {
+            Term currentTerm = te.term();
 
-        try {
-            for (int i=0 ; i<indexReader.numDocs(); i++) {
-                Document doc = indexReader.document(i);
-                String file = doc.get(IndexingConstant.FILE_PATH);
+            if ( ! currentTerm.field().equals(IndexingConstant.FILE_PATH))
+                continue ;
 
-                if ( file == null )
-                    continue ;
+            String file = currentTerm.text();
+            String fullPath = handler.getFullPath(file);
+            String ext = FileUtil.getExtension(fullPath);
+            
+            if ( ext == null || ext.length() > 6) // no more extension than 5 character!
+                continue;
 
-                String ext = FileUtil.getExtension(file);
+            ext = ext.toLowerCase();
 
-                if ( ext == null || ext.length() > 6) // no more extension than 5 character!
-                    continue;
-                
-                ext = ext.toLowerCase();
-                
-                if ( map.get(ext) == null ){
-                    map.put(ext, 1.0);
-                }
-                else
-                    map.put(ext, map.get(ext) + 1);
+            if ( map.get(ext) == null ){
+                map.put(ext, 1.0);
             }
-        }
-        catch (Exception e){
-            logger.log(Level.SEVERE, "Uncaught exception", e);
+            else
+                map.put(ext, map.get(ext) + 1);
         }
 
+        te.close();
+        
         logger.log(Level.INFO, "Exts Size: " + map.size());
         return map ;
     }

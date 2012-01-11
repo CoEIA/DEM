@@ -5,11 +5,20 @@
 package edu.coeia.items;
 
 /**
- * Base class of all Item classes (File, Email, Chat) items
- * this is mapping between lucene fields and our object
+ * Base class of all Item classes (File, Online Email, Offline Email and Chat) items
+ * this is mapping between lucene document fields and our object
  * 
  * all items share common id, hash, parent-id fields
  * and they differ in their lucene fields
+ * 
+ * the id for document is to differentiate it with other document
+ * and the parent id is for show that this document have parent with this id
+ * the hash is the hash value for document content
+ * if the document is file then hash is file content
+ * if the document is email then the hash is email body
+ * if the document is chat then the file content is the hash 
+ * 
+ * two Item are equal when they share the same id
  * 
  * @author wajdyessam
  */

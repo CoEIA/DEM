@@ -403,6 +403,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         this.resultId.addAll(Collections.unmodifiableList(ids)); 
         this.setResultTableIds(ids);
     }
+    
     public List<Integer> getIds() { return Collections.unmodifiableList(this.resultId) ; }
         
     public JFrame getParentFrame() { return this.parentFrame ; }
