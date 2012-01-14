@@ -374,7 +374,8 @@ public class ReportPanel extends javax.swing.JPanel {
 
     private void generateReport() {
         try {
-            String strXmlSource = RawResultFile.getFileSystemXmlFile(getAllFilePaths(),aCase);
+            String strXmlSource = RawResultFile.getFileSystemXmlFile(IndexUtil.getAllFilePaths(aCase, handler)
+                    ,aCase);
             File file = new File(FilesPath.TEMPLATES+"\\filesystem_report.jasper");
             String strJasperFile = file.getAbsolutePath(); //"C:/Users/Farhan/Desktop/projects/DEM/templates/filesystem_report.jasper";
             String strReportOutputPath = aCase.getCaseLocation()+DisclosureReport.REPORTFOLDER;
@@ -393,48 +394,9 @@ public class ReportPanel extends javax.swing.JPanel {
             System.out.println("CAUSE: " + ex.getCause());
             System.out.println("MESSAGE" + ex.getMessage());
         }
-       
     }
     
-    private void extractAllFilesInsideCase() {
-        try {
-            List<String> paths = this.getAllFilePaths();
-            
-            for(String path: paths) {
-                System.out.println("Path: " + path);
-            }
-            
-        } catch (IOException ex) {
-            Logger.getLogger(ReportPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private List<String> getAllFilePaths() throws IOException {
-        List<String> files = new ArrayList<String>();
-        
-        String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        
-        for (int i=0; i<indexReader.maxDoc(); i++) {
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(IndexingConstant.DOCUMENT);
-                if ( field != null && field.stringValue() != null) {
-                    String path = field.stringValue();
-                   
-                    if ( path.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE)) ) {
-                        String relativePath = document.get(IndexingConstant.FILE_PATH);
-                        String fullpath = handler.getFullPath(relativePath);
-                        files.add(fullpath);
-                    }
-                }
-            }
-        }
-        
-        indexReader.close();
-        return files;
-    }
+
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel OptionsPanels;
