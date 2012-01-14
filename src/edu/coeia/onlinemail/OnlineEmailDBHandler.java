@@ -144,6 +144,10 @@ public class OnlineEmailDBHandler {
         Class.forName(DB_DRIVER).newInstance();
         connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
     }
+    public Connection getConnection()
+    {
+        return connection;
+    }
 
     private void makeDBStructure() throws SQLException {
         Statement statement_ = connection.createStatement();

@@ -38,9 +38,8 @@ public class ReportPanel extends javax.swing.JPanel {
             initComponents();
             this.aCase = aCase;
             this.parentFrame = frame;
-            
-            handler = CasePathHandler.newInstance(aCase.getCaseLocation());
-            handler.readConfiguration();
+            this.handler = CasePathHandler.newInstance(aCase.getCaseLocation());
+            this.handler.readConfiguration();
         } catch (IOException ex) {
             Logger.getLogger(ReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -323,37 +322,37 @@ public class ReportPanel extends javax.swing.JPanel {
 
     private void fileAuthersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileAuthersButtonActionPerformed
         ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new FilesAutherReportPanel(this), this);
+            new FilesAutherReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_fileAuthersButtonActionPerformed
 
     private void filesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesButtonActionPerformed
         ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new FilesReportPanel(this), this);
+            new FilesReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_filesButtonActionPerformed
 
     private void fileExtensionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileExtensionButtonActionPerformed
-                ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new FilesExtensionReportPanel(this), this);
+        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+            new FilesExtensionReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_fileExtensionButtonActionPerformed
 
     private void filesSizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesSizeButtonActionPerformed
         ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new FilesSizeReportPanel(this), this);
+            new FilesSizeReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_filesSizeButtonActionPerformed
 
     private void filesDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesDateButtonActionPerformed
         ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new FilesTimeReportPanel(this), this);
+            new FilesTimeReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_filesDateButtonActionPerformed
 
     private void casesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_casesButtonActionPerformed
         ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new CasesReportPanel(this), this);
+            new CasesReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_casesButtonActionPerformed
 

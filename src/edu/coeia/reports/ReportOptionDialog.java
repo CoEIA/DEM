@@ -120,7 +120,13 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         ReportGenerator generator = (ReportGenerator) this.centerReportPanel;
         String result = generator.generateReport();
         System.out.println("result: " + result);
+        
         generateReport(result);
+        
+        // open the document here
+        
+        // the close this window
+        this.dispose();
     }//GEN-LAST:event_generateButtonActionPerformed
 
     private void setCenterPanel(JPanel panel) {

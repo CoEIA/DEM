@@ -21,7 +21,7 @@ import java.util.ArrayList ;
  * 
  * @author wajdyessam
  */
-enum CaseManager {
+public enum CaseManager {
     
     /*
      * Single manager for all cases running in application
@@ -43,6 +43,20 @@ enum CaseManager {
         }
     }
         
+    public static List<Case> getCases() throws FileNotFoundException, IOException, ClassNotFoundException{
+        List<Case> cases = new ArrayList<Case>();
+        
+        File indexesInfo = new File(FilesPath.INDEXES_INFO);
+        List<String> casesPath  = FileUtil.getFileContentInArrayList(indexesInfo);
+
+        for(String path: casesPath) {
+            Case aCase = CaseManager.getCase(path);
+            cases.add(aCase);
+        }
+        
+        return cases;
+    }
+    
     public static void updateCase(final Case aCase) throws IOException {
        // create index information file & write the index on it
         String info = aCase.getCaseLocation() + "\\" + aCase.getCaseName() + ".DAT" ;

@@ -22,11 +22,12 @@ import javax.swing.JOptionPane;
 public class NewEmailDialogue extends javax.swing.JDialog {
 
     public boolean cancelClicked = false;
+
     /** Creates new form NewEmailDialogue */
     public NewEmailDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
     }
 
     /** This method is called from within the constructor to
@@ -154,6 +155,11 @@ private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         return;
 
     }
+    if (!checkEmail(UsernameTextField.getText(), getProvider())){
+        JOptionPane.showMessageDialog(this, " Please Write A Valid Email Provider", "Error", JOptionPane.ERROR_MESSAGE);
+        visible = true;
+        return;
+    }
 
     if (PasswordTextField.getText().isEmpty()) {
         JOptionPane.showMessageDialog(this, " Please Write Password", "Error", JOptionPane.ERROR_MESSAGE);
@@ -166,15 +172,36 @@ private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         visible = true;
         return;
     }
+
     cancelClicked = false;
     this.setVisible(visible);
 }//GEN-LAST:event_OKButtonActionPerformed
 
 private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelButtonActionPerformed
 // TODO add your handling code here:
-    cancelClicked = true; 
+    cancelClicked = true;
     this.setVisible(false);
 }//GEN-LAST:event_CancelButtonActionPerformed
+
+    private boolean checkEmail(String Email, EmailConfiguration.SOURCE source) {
+
+        int index = Email.lastIndexOf("@");
+        if (index < 0) {
+            return false;
+        }
+        String provider = Email.substring(index, Email.length());
+        if (provider.equals("@gmail.com") && source == EmailConfiguration.SOURCE.GMAIL) {
+            return true;
+        } else if (provider.equals("@hotmail.com") && source == EmailConfiguration.SOURCE.HOTMAIL) {
+            return true;
+        } else if (provider.equals("@yahoo.com") && source == EmailConfiguration.SOURCE.Yahoo) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
 
     public String getUserName() {
         return UsernameTextField.getText().toString().trim();
@@ -195,8 +222,8 @@ private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         }
         return provider;
     }
-    public JButton getCancelButton()
-    {
+
+    public JButton getCancelButton() {
         return CancelButton;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
