@@ -35,8 +35,6 @@ public class InvestigateDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        this.setLocationRelativeTo(panel);
-        
         this.parentPanel = panel;
         this.caseObj = this.parentPanel.getCase();
         this.parentFrame = (JFrame) parent;
@@ -47,6 +45,8 @@ public class InvestigateDialog extends javax.swing.JDialog {
         this.investigateTappedPane.add("Common Keywords", commonKeywordsPanel);
         this.investigateTappedPane.add("Extensions Frequencies", extensionFrequencyPanel);
         this.pack();
+        
+        this.setLocationRelativeTo(parent);
     }
 
     /** This method is called from within the constructor to

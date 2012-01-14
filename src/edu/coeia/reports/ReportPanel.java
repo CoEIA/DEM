@@ -13,21 +13,14 @@ package edu.coeia.reports;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CasePathHandler;
 import edu.coeia.gutil.GuiUtil;
-import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseFrame;
-import edu.coeia.util.FilesPath;
-import java.awt.Desktop;
-import java.io.File;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
+
+import javax.swing.JFrame;
 
 /**
  *
@@ -37,12 +30,14 @@ public class ReportPanel extends javax.swing.JPanel {
 
     private Case aCase;
     private CasePathHandler handler;
+    private JFrame parentFrame; 
     
     /** Creates new form ReportPanel */
     public ReportPanel(final Case aCase, final CaseFrame frame) {
         try {
             initComponents();
             this.aCase = aCase;
+            this.parentFrame = frame;
             
             handler = CasePathHandler.newInstance(aCase.getCaseLocation());
             handler.readConfiguration();
@@ -65,39 +60,29 @@ public class ReportPanel extends javax.swing.JPanel {
         ReportOptionsPanel = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jToolBar4 = new javax.swing.JToolBar();
-        caseSummaryOptionButton = new javax.swing.JButton();
-        caseSearchOptionButton = new javax.swing.JButton();
+        reportConfigurationButton = new javax.swing.JButton();
         fileSystemOptionButton = new javax.swing.JButton();
-        emailOptionButton = new javax.swing.JButton();
-        browserOptionButton = new javax.swing.JButton();
-        instanceChatOptionButton = new javax.swing.JButton();
-        reportGenerationButton = new javax.swing.JButton();
         OptionsPanels = new javax.swing.JPanel();
-        caseSummaryPanel = new javax.swing.JPanel();
-        caseSearchPanel = new javax.swing.JPanel();
         fileSystemPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jTextField1 = new javax.swing.JTextField();
-        emailOptionPanel = new javax.swing.JPanel();
-        browserPanel = new javax.swing.JPanel();
-        chatPanel = new javax.swing.JPanel();
-        reportPanel = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        filesButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        fileExtensionButton = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        filesSizeButton = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        filesDateButton = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        fileAuthersButton = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        casesButton = new javax.swing.JButton();
+        reportConfigPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         jRadioButton5 = new javax.swing.JRadioButton();
-        jCheckBox8 = new javax.swing.JCheckBox();
-        reportGeneratorButton = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -108,26 +93,19 @@ public class ReportPanel extends javax.swing.JPanel {
         jToolBar4.setOrientation(javax.swing.JToolBar.VERTICAL);
         jToolBar4.setRollover(true);
 
-        caseSummaryOptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/view_text.png"))); // NOI18N
-        caseSummaryOptionButton.setText("Case Summary");
-        caseSummaryOptionButton.setPreferredSize(new java.awt.Dimension(55, 55));
-        caseSummaryOptionButton.addActionListener(new java.awt.event.ActionListener() {
+        reportConfigurationButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/finish.png"))); // NOI18N
+        reportConfigurationButton.setText("Report Configuration");
+        reportConfigurationButton.setFocusable(false);
+        reportConfigurationButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        reportConfigurationButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        reportConfigurationButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                caseSummaryOptionButtonActionPerformed(evt);
+                reportConfigurationButtonActionPerformed(evt);
             }
         });
-        jToolBar4.add(caseSummaryOptionButton);
+        jToolBar4.add(reportConfigurationButton);
 
-        caseSearchOptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/search.png"))); // NOI18N
-        caseSearchOptionButton.setText("Case Search Options");
-        caseSearchOptionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                caseSearchOptionButtonActionPerformed(evt);
-            }
-        });
-        jToolBar4.add(caseSearchOptionButton);
-
-        fileSystemOptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/binary.png"))); // NOI18N
+        fileSystemOptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/view_text.png"))); // NOI18N
         fileSystemOptionButton.setText("File System Option");
         fileSystemOptionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,45 +113,6 @@ public class ReportPanel extends javax.swing.JPanel {
             }
         });
         jToolBar4.add(fileSystemOptionButton);
-
-        emailOptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/email.png"))); // NOI18N
-        emailOptionButton.setText("Email Options");
-        emailOptionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailOptionButtonActionPerformed(evt);
-            }
-        });
-        jToolBar4.add(emailOptionButton);
-
-        browserOptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/webButton.png"))); // NOI18N
-        browserOptionButton.setText("Browser Option");
-        browserOptionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                browserOptionButtonActionPerformed(evt);
-            }
-        });
-        jToolBar4.add(browserOptionButton);
-
-        instanceChatOptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/Chat.png"))); // NOI18N
-        instanceChatOptionButton.setText("Instant Chat Option");
-        instanceChatOptionButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                instanceChatOptionButtonActionPerformed(evt);
-            }
-        });
-        jToolBar4.add(instanceChatOptionButton);
-
-        reportGenerationButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/finish.png"))); // NOI18N
-        reportGenerationButton.setText("Report Generation");
-        reportGenerationButton.setFocusable(false);
-        reportGenerationButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        reportGenerationButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        reportGenerationButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reportGenerationButtonActionPerformed(evt);
-            }
-        });
-        jToolBar4.add(reportGenerationButton);
 
         jScrollPane8.setViewportView(jToolBar4);
 
@@ -192,121 +131,113 @@ public class ReportPanel extends javax.swing.JPanel {
 
         OptionsPanels.setLayout(new java.awt.CardLayout());
 
-        caseSummaryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Case Summary Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-
-        javax.swing.GroupLayout caseSummaryPanelLayout = new javax.swing.GroupLayout(caseSummaryPanel);
-        caseSummaryPanel.setLayout(caseSummaryPanelLayout);
-        caseSummaryPanelLayout.setHorizontalGroup(
-            caseSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 535, Short.MAX_VALUE)
-        );
-        caseSummaryPanelLayout.setVerticalGroup(
-            caseSummaryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 374, Short.MAX_VALUE)
-        );
-
-        OptionsPanels.add(caseSummaryPanel, "caseSummaryCard");
-
-        caseSearchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Case Search Option"));
-
-        javax.swing.GroupLayout caseSearchPanelLayout = new javax.swing.GroupLayout(caseSearchPanel);
-        caseSearchPanel.setLayout(caseSearchPanelLayout);
-        caseSearchPanelLayout.setHorizontalGroup(
-            caseSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 535, Short.MAX_VALUE)
-        );
-        caseSearchPanelLayout.setVerticalGroup(
-            caseSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 374, Short.MAX_VALUE)
-        );
-
-        OptionsPanels.add(caseSearchPanel, "caseSearchCard");
-
         fileSystemPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("File System Options"));
 
-        jCheckBox1.setSelected(true);
-        jCheckBox1.setText("List files duplication in this case");
-        jCheckBox1.setEnabled(false);
+        jLabel2.setText("Report about all files inside the case");
 
-        jCheckBox2.setSelected(true);
-        jCheckBox2.setText("List files duplication in this case with hash library");
-        jCheckBox2.setEnabled(false);
+        filesButton.setText("Options...");
+        filesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filesButtonActionPerformed(evt);
+            }
+        });
 
-        jCheckBox3.setSelected(true);
-        jCheckBox3.setText("List of all files have bad signature");
-        jCheckBox3.setEnabled(false);
+        jLabel3.setText("Report about all files extensions inside the case");
 
-        jCheckBox4.setSelected(true);
-        jCheckBox4.setText("List of all files have unknown signature");
-        jCheckBox4.setEnabled(false);
+        fileExtensionButton.setText("Options...");
+        fileExtensionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileExtensionButtonActionPerformed(evt);
+            }
+        });
 
-        jCheckBox5.setSelected(true);
-        jCheckBox5.setText("List of all files have matched signature");
-        jCheckBox5.setEnabled(false);
+        jLabel4.setText("Report about all files size inside the case");
 
-        jCheckBox6.setSelected(true);
-        jCheckBox6.setText("List of all files have Alias signature");
-        jCheckBox6.setEnabled(false);
+        filesSizeButton.setText("Options...");
+        filesSizeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filesSizeButtonActionPerformed(evt);
+            }
+        });
 
-        jCheckBox7.setSelected(true);
-        jCheckBox7.setText("List of all file name and their extension frequency inside this case");
+        jLabel5.setText("Report about all files date inside the case");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("List all extension found in case");
+        filesDateButton.setText("Options...");
+        filesDateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filesDateButtonActionPerformed(evt);
+            }
+        });
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Just list the following extension (*.exe, *.txt):");
+        jLabel6.setText("Report about all files authers inside the case");
 
-        jTextField1.setText(" ");
+        fileAuthersButton.setText("Options...");
+        fileAuthersButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileAuthersButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Report about all cases in this machine");
+
+        casesButton.setText("Options...");
+        casesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                casesButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox5)
-                    .addComponent(jCheckBox6)
-                    .addComponent(jCheckBox7)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jRadioButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
-                            .addComponent(jRadioButton1))))
-                .addContainerGap())
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(filesButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fileExtensionButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(filesSizeButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(filesDateButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fileAuthersButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(casesButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap(197, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(filesButton)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(125, Short.MAX_VALUE))
+                    .addComponent(jLabel3)
+                    .addComponent(fileExtensionButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(filesSizeButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(filesDateButton)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(fileAuthersButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(casesButton)
+                    .addComponent(jLabel7))
+                .addContainerGap(169, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout fileSystemPanelLayout = new javax.swing.GroupLayout(fileSystemPanel);
@@ -326,52 +257,7 @@ public class ReportPanel extends javax.swing.JPanel {
 
         OptionsPanels.add(fileSystemPanel, "fileSystemCard");
 
-        emailOptionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Options"));
-
-        javax.swing.GroupLayout emailOptionPanelLayout = new javax.swing.GroupLayout(emailOptionPanel);
-        emailOptionPanel.setLayout(emailOptionPanelLayout);
-        emailOptionPanelLayout.setHorizontalGroup(
-            emailOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 535, Short.MAX_VALUE)
-        );
-        emailOptionPanelLayout.setVerticalGroup(
-            emailOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 374, Short.MAX_VALUE)
-        );
-
-        OptionsPanels.add(emailOptionPanel, "emailOptionCard");
-
-        browserPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Browsers Option"));
-
-        javax.swing.GroupLayout browserPanelLayout = new javax.swing.GroupLayout(browserPanel);
-        browserPanel.setLayout(browserPanelLayout);
-        browserPanelLayout.setHorizontalGroup(
-            browserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 535, Short.MAX_VALUE)
-        );
-        browserPanelLayout.setVerticalGroup(
-            browserPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 374, Short.MAX_VALUE)
-        );
-
-        OptionsPanels.add(browserPanel, "browserCard");
-
-        chatPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Chat Options"));
-
-        javax.swing.GroupLayout chatPanelLayout = new javax.swing.GroupLayout(chatPanel);
-        chatPanel.setLayout(chatPanelLayout);
-        chatPanelLayout.setHorizontalGroup(
-            chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 535, Short.MAX_VALUE)
-        );
-        chatPanelLayout.setVerticalGroup(
-            chatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 374, Short.MAX_VALUE)
-        );
-
-        OptionsPanels.add(chatPanel, "chatCard");
-
-        reportPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Report Panel"));
+        reportConfigPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Report Panel"));
 
         jLabel1.setText("Select the type of report do you want:");
 
@@ -384,36 +270,21 @@ public class ReportPanel extends javax.swing.JPanel {
         buttonGroup2.add(jRadioButton5);
         jRadioButton5.setText("MS-WORD Report");
 
-        jCheckBox8.setText("Save the report when generating");
-
-        reportGeneratorButton.setText("Generate Report");
-        reportGeneratorButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reportGeneratorButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(10, 10, 10)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jRadioButton4)
-                                    .addComponent(jRadioButton3)
-                                    .addComponent(jRadioButton5)))
-                            .addComponent(jCheckBox8)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(172, 172, 172)
-                        .addComponent(reportGeneratorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(196, Short.MAX_VALUE))
+                            .addComponent(jRadioButton4)
+                            .addComponent(jRadioButton3)
+                            .addComponent(jRadioButton5))))
+                .addContainerGap(319, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -426,179 +297,126 @@ public class ReportPanel extends javax.swing.JPanel {
                 .addComponent(jRadioButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRadioButton5)
-                .addGap(18, 18, 18)
-                .addComponent(jCheckBox8)
-                .addGap(18, 18, 18)
-                .addComponent(reportGeneratorButton)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout reportPanelLayout = new javax.swing.GroupLayout(reportPanel);
-        reportPanel.setLayout(reportPanelLayout);
-        reportPanelLayout.setHorizontalGroup(
-            reportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(reportPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout reportConfigPanelLayout = new javax.swing.GroupLayout(reportConfigPanel);
+        reportConfigPanel.setLayout(reportConfigPanelLayout);
+        reportConfigPanelLayout.setHorizontalGroup(
+            reportConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reportConfigPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        reportPanelLayout.setVerticalGroup(
-            reportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(reportPanelLayout.createSequentialGroup()
+        reportConfigPanelLayout.setVerticalGroup(
+            reportConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(reportConfigPanelLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addContainerGap(250, Short.MAX_VALUE))
         );
 
-        OptionsPanels.add(reportPanel, "reportCard");
+        OptionsPanels.add(reportConfigPanel, "reportCard");
 
         add(OptionsPanels, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void caseSummaryOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caseSummaryOptionButtonActionPerformed
-        GuiUtil.showPanel("caseSummaryCard", this.OptionsPanels);
-    }//GEN-LAST:event_caseSummaryOptionButtonActionPerformed
+    private void fileAuthersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileAuthersButtonActionPerformed
+        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+                new FilesAutherReportPanel(this), this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_fileAuthersButtonActionPerformed
 
-    private void caseSearchOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caseSearchOptionButtonActionPerformed
-        GuiUtil.showPanel("caseSearchCard", this.OptionsPanels);
-    }//GEN-LAST:event_caseSearchOptionButtonActionPerformed
+    private void filesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesButtonActionPerformed
+        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+                new FilesReportPanel(this), this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_filesButtonActionPerformed
+
+    private void fileExtensionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileExtensionButtonActionPerformed
+                ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+                new FilesExtensionReportPanel(this), this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_fileExtensionButtonActionPerformed
+
+    private void filesSizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesSizeButtonActionPerformed
+        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+                new FilesSizeReportPanel(this), this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_filesSizeButtonActionPerformed
+
+    private void filesDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesDateButtonActionPerformed
+        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+                new FilesTimeReportPanel(this), this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_filesDateButtonActionPerformed
+
+    private void casesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_casesButtonActionPerformed
+        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+                new CasesReportPanel(this), this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_casesButtonActionPerformed
+
+    private void reportConfigurationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportConfigurationButtonActionPerformed
+        GuiUtil.showPanel("reportCard", this.OptionsPanels);
+    }//GEN-LAST:event_reportConfigurationButtonActionPerformed
 
     private void fileSystemOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemOptionButtonActionPerformed
         GuiUtil.showPanel("fileSystemCard", this.OptionsPanels);
     }//GEN-LAST:event_fileSystemOptionButtonActionPerformed
 
     private void emailOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailOptionButtonActionPerformed
-        GuiUtil.showPanel("emailOptionCard", this.OptionsPanels);
+
     }//GEN-LAST:event_emailOptionButtonActionPerformed
 
     private void browserOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browserOptionButtonActionPerformed
-        GuiUtil.showPanel("browserCard", this.OptionsPanels);
+
     }//GEN-LAST:event_browserOptionButtonActionPerformed
 
     private void instanceChatOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_instanceChatOptionButtonActionPerformed
-        GuiUtil.showPanel("chatCard", this.OptionsPanels);
+
     }//GEN-LAST:event_instanceChatOptionButtonActionPerformed
 
     private void reportGenerationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportGenerationButtonActionPerformed
-        
-        GuiUtil.showPanel("reportCard", this.OptionsPanels);
-        
-        try
-        {
-            String strXmlSource = RawResultFile.getFileSystemXmlFile(getAllFilePaths(),aCase);
-            File file = new File(FilesPath.TEMPLATES+"\\filesystem_report.jasper");
-            String strJasperFile = file.getAbsolutePath(); //"C:/Users/Farhan/Desktop/projects/DEM/templates/filesystem_report.jasper";
-            String strReportOutputPath = aCase.getCaseLocation()+DisclosureReport.REPORTFOLDER;
-            String strReportName = "filesystem";
-            
-            DisclosureReport disReport = new DisclosureReport(strJasperFile,
-                                                              strXmlSource,
-                                                              strReportOutputPath,strReportName);
-            
-            disReport.setOutputFileExtension(DisclosureReport.REPORT_TYPE.PDF);
-            disReport.setRootXPath("/dem/detail/effectivefiles/file");
-            disReport.Generate();
-            
-            if ((new File(disReport.getFinalFile())).exists())
-            {
-                File pdf = new File(disReport.getFinalFile());
-                Desktop.getDesktop().open(pdf);
-                System.out.println(disReport.getFinalFile());
-            } 
-            else
-                System.out.println("File is not exists");
-             
-        }
-        catch(Exception ex)
-        {
-            System.out.println("CAUSE: " + ex.getCause());
-            System.out.println("MESSAGE" + ex.getMessage());
-        }
-       
-                 
+   
     }//GEN-LAST:event_reportGenerationButtonActionPerformed
 
     private void reportGeneratorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportGeneratorButtonActionPerformed
-        this.extractAllFilesInsideCase();
+        
     }//GEN-LAST:event_reportGeneratorButtonActionPerformed
 
-    private void extractAllFilesInsideCase() {
-        try {
-            List<String> paths = this.getAllFilePaths();
-            
-            for(String path: paths) {
-                System.out.println("Path: " + path);
-            }
-            
-        } catch (IOException ex) {
-            Logger.getLogger(ReportPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private List<String> getAllFilePaths() throws IOException {
-        List<String> files = new ArrayList<String>();
-        
-        String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        
-        for (int i=0; i<indexReader.maxDoc(); i++) {
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(IndexingConstant.DOCUMENT);
-                if ( field != null && field.stringValue() != null) {
-                    String path = field.stringValue();
-                   
-                    if ( path.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE)) ) {
-                        String relativePath = document.get(IndexingConstant.FILE_PATH);
-                        String fullpath = handler.getFullPath(relativePath);
-                        files.add(fullpath);
-                    }
-                }
-            }
-        }
-        
-        indexReader.close();
-        return files;
-    }
+
+    Case getCase() { return this.aCase; }
+    CasePathHandler getCasePathHandler() { return this.handler; }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel OptionsPanels;
     private javax.swing.JPanel ReportOptionsPanel;
-    private javax.swing.JButton browserOptionButton;
-    private javax.swing.JPanel browserPanel;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JButton caseSearchOptionButton;
-    private javax.swing.JPanel caseSearchPanel;
-    private javax.swing.JButton caseSummaryOptionButton;
-    private javax.swing.JPanel caseSummaryPanel;
-    private javax.swing.JPanel chatPanel;
-    private javax.swing.JButton emailOptionButton;
-    private javax.swing.JPanel emailOptionPanel;
+    private javax.swing.JButton casesButton;
+    private javax.swing.JButton fileAuthersButton;
+    private javax.swing.JButton fileExtensionButton;
     private javax.swing.JButton fileSystemOptionButton;
     private javax.swing.JPanel fileSystemPanel;
-    private javax.swing.JButton instanceChatOptionButton;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JCheckBox jCheckBox7;
-    private javax.swing.JCheckBox jCheckBox8;
+    private javax.swing.JButton filesButton;
+    private javax.swing.JButton filesDateButton;
+    private javax.swing.JButton filesSizeButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JRadioButton jRadioButton5;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JToolBar jToolBar4;
-    private javax.swing.JButton reportGenerationButton;
-    private javax.swing.JButton reportGeneratorButton;
-    private javax.swing.JPanel reportPanel;
+    private javax.swing.JPanel reportConfigPanel;
+    private javax.swing.JButton reportConfigurationButton;
     // End of variables declaration//GEN-END:variables
 }

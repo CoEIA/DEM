@@ -76,7 +76,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     }
 
     private void FillTableUnknownFile(String FileName, String Status) {
-        Object[] arr = {FileName, Status};
+        Object[] arr = {FileName," ", Status};
         JTableUtil.addRowToJTable(FileAnalysisTable, arr);
     }
 
@@ -101,7 +101,8 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
         public void recursiveTraversal(File fileObject) {
 
-            if (fileObject.isDirectory() &&!stop) {
+            if(!stop){
+            if (fileObject.isDirectory() ) {
                 indent = getIndent(fileObject);
                 System.out.println(indent + fileObject.getName());
                 try {
@@ -116,6 +117,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
             } else if (fileObject.isFile()) {
                 System.out.println(indent + "  " + fileObject.getName());
                 TestFileAnalysis(fileObject);
+            }
             }
         }
 
@@ -446,13 +448,13 @@ private void FolderListTreeValueChanged(javax.swing.event.TreeSelectionEvent evt
 
 private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 // TODO add your handling code here:
-
-    stopRequested = true;
+    if (ft !=null)
+    {
     ft.stop();
-
+    stopRequested = true;
     System.out.println("MyThread terminating.");
-    JOptionPane.showMessageDialog(this, "Finished Analyzing", "Finished", JOptionPane.INFORMATION_MESSAGE);
-    AnalyzeButton.setEnabled(true);
+    }
+    
 
 }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -460,9 +462,9 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         ft = new FolderTraversar(selectedFile);
         AnalyzeButton.setEnabled(false);
         System.out.println("MyThread starting.");
-
         ft.traverse();
-
+        JOptionPane.showMessageDialog(this, "Finished Analyzing", "Finished", JOptionPane.INFORMATION_MESSAGE);
+        AnalyzeButton.setEnabled(true);
 
 
     }

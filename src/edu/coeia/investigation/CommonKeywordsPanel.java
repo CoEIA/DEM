@@ -466,6 +466,8 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
 //        }
     }
     
+    Case getCase() { return this.caseObj; }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cloudsFilterTextField;
     private javax.swing.JTable cloudsTable;
