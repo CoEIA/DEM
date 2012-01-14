@@ -1089,7 +1089,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                     break;
                 }
                 System.out.println(line);
-            }
+            }   
             String[] splitedLine = line.split("\\:");
             String Path = splitedLine[1]+":\\";
             JListUtil.addToList(Path.trim(), sourcesListModel, sourcesJList);

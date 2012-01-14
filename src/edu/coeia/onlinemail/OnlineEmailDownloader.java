@@ -146,6 +146,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                     String strIsResume = emaildialogue.getPauseButton().getText();
                     if (strIsResume.compareTo("Resume") == 0) {
                         emaildialogue.getPauseButton().setText("Pause");
+                        emaildialogue.getDownloadBar().setIndeterminate(true);
                         List<EmailConfiguration> emailInfos = emaildialogue.getCase().getEmailConfig();
                         for (EmailConfiguration s : emailInfos) {
                             downloadEmail(emaildialogue.getCase(), s, emaildialogue);
@@ -379,6 +380,8 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         OnlineEmailMessage msg = OnlineEmailMessage.newInstance(messageId, this.Username,
                                 from, to, bcclist, cclist, subject, body, sentDate.toString(), receiveDate.toString(), Paths, folder.getFullName());
                         db.inserteEmail(msg);
+                        db.getConnection().commit();
+                        
                         // Publish Data To Thread
                         ProgressData PData = new ProgressData(msg);
                         publish(PData);
