@@ -5,15 +5,18 @@
 package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.cases.CasePathHandler;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,10 +38,8 @@ import org.apache.lucene.store.FSDirectory;
  */
 public class IndexUtil {
     
-    public static List<Case> getAllCases() {
-        List<Case> cases = new ArrayList<Case>();
-        
-        return cases;
+    public static List<Case> getAllCases() throws FileNotFoundException, IOException, ClassNotFoundException {
+        return Collections.unmodifiableList(CaseManager.getCases());
     }
     
     public static Map<String, Double> getAllFilesFrequency(final Case aCase, final CasePathHandler handler)

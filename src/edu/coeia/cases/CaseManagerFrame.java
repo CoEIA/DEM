@@ -508,27 +508,15 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private void readCases() {
         try {
-            updateCasesTable(); // read cases into case JTable 
+            // read cases into case JTable 
+            List<Case> cases = CaseManager.getCases();
+            for(Case aCase: cases) {
+                insertIntoCaseTable(aCase);
+            }
             
         } catch (Exception ex) {
             Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
-        }
-    }
-    
-    /*
-     * Update recent table by reading cases (reading from indexes_info file) info table
-     */
-    private void updateCasesTable () throws FileNotFoundException, IOException, ClassNotFoundException {
-        File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        List<String> casesPath  = FileUtil.getFileContentInArrayList(indexesInfo);
-
-        // clear value on table before adding new values
-        JTableUtil.removeAllRows(recentCaseTable);
-        
-        for(String path: casesPath) {
-            Case index = CaseManager.getCase(path);
-            insertIntoCaseTable(index);
         }
     }
     
