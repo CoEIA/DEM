@@ -20,6 +20,14 @@ import org.apache.commons.io.FileUtils;
 public class RawResultFile {
     
     public static String getExtensionFrequencyXmlFile(Map<String, Double> map, Case currentCase) {
+        // iterator over map
+        for(Map.Entry<String, Double> entry: map.entrySet()) {
+            String extension = entry.getKey();
+            double frequecy = entry.getValue();
+            
+            // operations here...
+        }
+        
         return "";
     }
     
