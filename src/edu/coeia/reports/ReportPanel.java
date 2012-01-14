@@ -16,6 +16,7 @@ import edu.coeia.gutil.GuiUtil;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.util.FilesPath;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,14 +29,6 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-import java.util.HashMap;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRXmlDataSource;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 /**
  *
  * @author wajdyessam
@@ -504,6 +497,16 @@ public class ReportPanel extends javax.swing.JPanel {
             disReport.setOutputFileExtension(DisclosureReport.REPORT_TYPE.PDF);
             disReport.setRootXPath("/dem/detail/effectivefiles/file");
             disReport.Generate();
+            
+            if ((new File(disReport.getFinalFile())).exists())
+            {
+                File pdf = new File(disReport.getFinalFile());
+                Desktop.getDesktop().open(pdf);
+                System.out.println(disReport.getFinalFile());
+            } 
+            else
+                System.out.println("File is not exists");
+             
         }
         catch(Exception ex)
         {
