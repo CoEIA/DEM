@@ -10,8 +10,8 @@ import edu.coeia.cases.CasePathHandler;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
-
 import edu.coeia.util.Utilities;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
