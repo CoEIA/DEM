@@ -14,10 +14,10 @@ package edu.coeia.reports;
  *
  * @author wajdyessam
  */
-public class ExtensionsReportPanel extends javax.swing.JPanel implements ReportGenerator{
+public class FilesExtensionReportPanel extends javax.swing.JPanel implements ReportGenerator{
 
     /** Creates new form ListAllExtensionsReportPanel */
-    public ExtensionsReportPanel() {
+    public FilesExtensionReportPanel() {
         initComponents();
     }
 

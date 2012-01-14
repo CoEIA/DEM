@@ -551,7 +551,7 @@ public class ReportPanel extends javax.swing.JPanel {
 
     private void fileExtensionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileExtensionButtonActionPerformed
                 ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new ExtensionsReportPanel());
+                new FilesExtensionReportPanel());
         dialog.setVisible(true);
     }//GEN-LAST:event_fileExtensionButtonActionPerformed
 
