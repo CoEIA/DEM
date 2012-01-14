@@ -16,14 +16,19 @@ package edu.coeia.reports;
  */
 public class FilesAutherReportPanel extends javax.swing.JPanel implements ReportGenerator{
 
+    private ReportPanel reportPanel ;
+    
     /** Creates new form ListFileAutherReportPanel */
-    public FilesAutherReportPanel() {
+    public FilesAutherReportPanel(ReportPanel panel) {
         initComponents();
+        this.reportPanel = panel;
     }
     
     @Override
     public String generateReport() {
-        return "list of file authers";
+        String strXmlSource = "";
+        strXmlSource = "this is listing of all files authers in case";
+        return strXmlSource;
     }
 
     /** This method is called from within the constructor to

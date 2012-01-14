@@ -13,21 +13,14 @@ package edu.coeia.reports;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CasePathHandler;
 import edu.coeia.gutil.GuiUtil;
-import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseFrame;
-import edu.coeia.util.FilesPath;
-import java.io.File;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JFrame;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 
 /**
  *
@@ -328,75 +321,52 @@ public class ReportPanel extends javax.swing.JPanel {
         add(OptionsPanels, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void fileSystemOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemOptionButtonActionPerformed
-        GuiUtil.showPanel("fileSystemCard", this.OptionsPanels);
-    }//GEN-LAST:event_fileSystemOptionButtonActionPerformed
-
     private void fileAuthersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileAuthersButtonActionPerformed
         ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new FilesAutherReportPanel());
+                new FilesAutherReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_fileAuthersButtonActionPerformed
 
     private void filesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesButtonActionPerformed
         ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new FilesReportPanel());
+                new FilesReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_filesButtonActionPerformed
 
     private void fileExtensionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileExtensionButtonActionPerformed
                 ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new FilesExtensionReportPanel());
+                new FilesExtensionReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_fileExtensionButtonActionPerformed
 
     private void filesSizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesSizeButtonActionPerformed
         ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new FilesSizeReportPanel());
+                new FilesSizeReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_filesSizeButtonActionPerformed
 
     private void filesDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesDateButtonActionPerformed
         ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new FilesTimeReportPanel());
+                new FilesTimeReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_filesDateButtonActionPerformed
 
     private void casesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_casesButtonActionPerformed
         ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
-                new CasesReportPanel());
+                new CasesReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_casesButtonActionPerformed
 
     private void reportConfigurationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportConfigurationButtonActionPerformed
+        GuiUtil.showPanel("reportCard", this.OptionsPanels);
+    }//GEN-LAST:event_reportConfigurationButtonActionPerformed
 
-        GuiUtil.showPanel("reportCard", this.OptionsPanels);     }//GEN-LAST:event_reportConfigurationButtonActionPerformed
+    private void fileSystemOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemOptionButtonActionPerformed
+        GuiUtil.showPanel("fileSystemCard", this.OptionsPanels);
+    }//GEN-LAST:event_fileSystemOptionButtonActionPerformed
 
-    private void generateReport() {
-        try {
-            String strXmlSource = RawResultFile.getFileSystemXmlFile(IndexUtil.getAllFilePaths(aCase, handler)
-                    ,aCase);
-            File file = new File(FilesPath.TEMPLATES+"\\filesystem_report.jasper");
-            String strJasperFile = file.getAbsolutePath(); //"C:/Users/Farhan/Desktop/projects/DEM/templates/filesystem_report.jasper";
-            String strReportOutputPath = aCase.getCaseLocation()+DisclosureReport.REPORTFOLDER;
-            String strReportName = "filesystem";
-            
-            DisclosureReport disReport = new DisclosureReport(strJasperFile,
-                                                              strXmlSource,
-                                                              strReportOutputPath,strReportName);
-            
-            disReport.setOutputFileExtension(DisclosureReport.REPORT_TYPE.PDF);
-            disReport.setRootXPath("/dem/detail/effectivefiles/file");
-            disReport.Generate();
-        }
-        catch(Exception ex)
-        {
-            System.out.println("CAUSE: " + ex.getCause());
-            System.out.println("MESSAGE" + ex.getMessage());
-        }
-    }
-    
-
+    Case getCase() { return this.aCase; }
+    CasePathHandler getCasePathHandler() { return this.handler; }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel OptionsPanels;

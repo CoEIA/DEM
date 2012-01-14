@@ -16,14 +16,19 @@ package edu.coeia.reports;
  */
 public class FilesSizeReportPanel extends javax.swing.JPanel implements ReportGenerator{
 
+    private ReportPanel reportPanel ;
+    
     /** Creates new form ListFilesSizeReportPanel */
-    public FilesSizeReportPanel() {
+    public FilesSizeReportPanel(ReportPanel panel) {
         initComponents();
+        this.reportPanel = panel;
     }
 
     @Override
     public String generateReport() {
-        return "list of all file size";
+        String strXmlSource = "";
+        strXmlSource = "this is listing of all files size in case";
+        return strXmlSource;
     }
         
     /** This method is called from within the constructor to

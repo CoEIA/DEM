@@ -10,20 +10,37 @@
  */
 package edu.coeia.reports;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author wajdyessam
  */
 public class FilesReportPanel extends javax.swing.JPanel implements ReportGenerator{
 
+    private ReportPanel reportPanel ;
+    
     /** Creates new form ListAllFilesReportPanel */
-    public FilesReportPanel() {
+    public FilesReportPanel(ReportPanel panel) {
         initComponents();
+        this.reportPanel = panel;
     }
 
     @Override
     public String generateReport() {
-        return "this is listing of all files in case";
+        String strXmlSource = "";
+        
+        try {
+            strXmlSource = RawResultFile.getFileSystemXmlFile(
+                    IndexUtil.getAllFilePaths(this.reportPanel.getCase(), this.reportPanel.getCasePathHandler())
+            ,this.reportPanel.getCase());
+        } catch (IOException ex) {
+            Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return strXmlSource;
     }
         
     /** This method is called from within the constructor to

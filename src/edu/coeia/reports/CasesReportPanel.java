@@ -16,9 +16,12 @@ package edu.coeia.reports;
  */
 public class CasesReportPanel extends javax.swing.JPanel implements ReportGenerator{
 
+    private ReportPanel reportPanel ;
+    
     /** Creates new form ListAllCasesReportPanel */
-    public CasesReportPanel() {
+    public CasesReportPanel(ReportPanel panel) {
         initComponents();
+        this.reportPanel = panel;
     }
 
     @Override

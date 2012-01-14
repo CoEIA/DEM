@@ -10,6 +10,10 @@
  */
 package edu.coeia.reports;
 
+import edu.coeia.cases.Case;
+import edu.coeia.cases.CasePathHandler;
+import edu.coeia.util.FilesPath;
+import java.io.File;
 import javax.swing.JPanel;
 
 /**
@@ -18,14 +22,22 @@ import javax.swing.JPanel;
  */
 public class ReportOptionDialog extends javax.swing.JDialog {
 
-    JPanel reportPanel ;
+    private JPanel centerReportPanel ;
+    private ReportPanel reportPanel; 
+    private CasePathHandler handler ;
+    private Case aCase; 
     
     /** Creates new form ReportOptionDialog */
-    public ReportOptionDialog(java.awt.Frame parent, boolean modal, JPanel panel) {
+    public ReportOptionDialog(java.awt.Frame parent, boolean modal, JPanel panel, 
+            ReportPanel reportPanel) {
         super(parent, modal);
         initComponents();
         
-        this.reportPanel = panel;
+        this.centerReportPanel = panel;
+        this.reportPanel = reportPanel;
+        this.handler = this.reportPanel.getCasePathHandler();
+        this.aCase = this.reportPanel.getCase();
+        
         this.setCenterPanel(panel);
         this.pack();
         this.setLocationRelativeTo(parent);
@@ -104,9 +116,10 @@ public class ReportOptionDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_cencelButtonActionPerformed
 
     private void generateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateButtonActionPerformed
-        ReportGenerator generator = (ReportGenerator) this.reportPanel;
+        ReportGenerator generator = (ReportGenerator) this.centerReportPanel;
         String result = generator.generateReport();
         System.out.println("result: " + result);
+        generateReport(result);
     }//GEN-LAST:event_generateButtonActionPerformed
 
     private void setCenterPanel(JPanel panel) {
@@ -116,6 +129,28 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         this.repaint();
     }
     
+    private void generateReport(final String strXmlSource) {
+        try {
+            File file = new File(FilesPath.TEMPLATES+"\\filesystem_report.jasper");
+            String strJasperFile = file.getAbsolutePath(); //"C:/Users/Farhan/Desktop/projects/DEM/templates/filesystem_report.jasper";
+            String strReportOutputPath = aCase.getCaseLocation()+DisclosureReport.REPORTFOLDER;
+            String strReportName = "filesystem";
+            
+            DisclosureReport disReport = new DisclosureReport(strJasperFile,
+                                                              strXmlSource,
+                                                              strReportOutputPath,strReportName);
+            
+            disReport.setOutputFileExtension(DisclosureReport.REPORT_TYPE.PDF);
+            disReport.setRootXPath("/dem/detail/effectivefiles/file");
+            disReport.Generate();
+        }
+        catch(Exception ex)
+        {
+            System.out.println("CAUSE: " + ex.getCause());
+            System.out.println("MESSAGE" + ex.getMessage());
+        }
+    }
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cencelButton;
     private javax.swing.JPanel centerPanel;

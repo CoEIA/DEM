@@ -16,14 +16,19 @@ package edu.coeia.reports;
  */
 public class FilesExtensionReportPanel extends javax.swing.JPanel implements ReportGenerator{
 
+    private ReportPanel reportPanel ;
+    
     /** Creates new form ListAllExtensionsReportPanel */
-    public FilesExtensionReportPanel() {
+    public FilesExtensionReportPanel(ReportPanel panel) {
         initComponents();
+        this.reportPanel = panel;
     }
 
     @Override
     public String generateReport() {
-        return "list of all extensions";
+        String strXmlSource = "";
+        strXmlSource = "this is listing of all files exentsion in case";
+        return strXmlSource;
     }
         
     /** This method is called from within the constructor to
