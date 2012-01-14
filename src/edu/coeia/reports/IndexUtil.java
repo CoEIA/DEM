@@ -11,6 +11,7 @@ import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 
+import edu.coeia.util.Utilities;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -82,7 +83,7 @@ public class IndexUtil {
     public static List<String> getAllFilesHaveAuthers(final Case aCase, final CasePathHandler handler,
             List<String> authers) throws IOException{
         List<String> files = new ArrayList<String>();
-        
+        files.addAll(getAllFilePathsHaveAuther(aCase, handler, authers));
         return files;
     }
     
@@ -138,6 +139,73 @@ public class IndexUtil {
                         if ( !relativePath.isEmpty() ) {
                             String fullpath = handler.getFullPath(relativePath);
                             files.add(fullpath);
+                        }
+                    }
+                }
+            }
+        }
+        
+        indexReader.close();
+        return files;
+    }
+    
+    private static List<String> getAllFilePathsHaveAuther(final Case aCase, 
+            final CasePathHandler handler, final List<String> authers) 
+            throws IOException {
+        
+        List<String> files = new ArrayList<String>();
+        
+        String indexDir = aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
+        Directory dir = FSDirectory.open(new File(indexDir));
+        IndexReader indexReader = IndexReader.open(dir);
+        
+        for (int i=0; i<indexReader.maxDoc(); i++) {
+            Document document = indexReader.document(i);
+            if ( document != null ) {
+                Field field = document.getField(IndexingConstant.DOCUMENT);
+                if ( field != null && field.stringValue() != null) {
+                    String path = field.stringValue();
+                   
+                    if ( path.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE)) ) {
+                        String relativePath = document.get(IndexingConstant.FILE_PATH);
+                        String auther = document.get("Author");
+                        
+                        if ( !relativePath.isEmpty() && auther != null && !auther.trim().isEmpty() 
+                                && Utilities.isFound(authers, auther) )  {
+                            String fullpath = handler.getFullPath(relativePath);
+                            files.add(fullpath);
+                        }
+                    }
+                }
+            }
+        }
+        
+        indexReader.close();
+        return files;
+    }
+    
+    public static List<String> getAllAuthers(final Case aCase, final CasePathHandler handler) 
+            throws IOException {
+        
+        List<String> files = new ArrayList<String>();
+        
+        String indexDir = aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
+        Directory dir = FSDirectory.open(new File(indexDir));
+        IndexReader indexReader = IndexReader.open(dir);
+        
+        for (int i=0; i<indexReader.maxDoc(); i++) {
+            Document document = indexReader.document(i);
+            if ( document != null ) {
+                Field field = document.getField(IndexingConstant.DOCUMENT);
+                if ( field != null && field.stringValue() != null) {
+                    String path = field.stringValue();
+                   
+                    if ( path.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE)) ) {
+                        String relativePath = document.get(IndexingConstant.FILE_PATH);
+                        String auther = document.get("Author");
+                        
+                        if ( !relativePath.isEmpty() && auther != null && !auther.trim().isEmpty()) {
+                            files.add(auther);
                         }
                     }
                 }
