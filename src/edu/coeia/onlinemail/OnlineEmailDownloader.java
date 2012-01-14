@@ -42,11 +42,11 @@ import javax.swing.SwingWorker;
 import javax.swing.text.JTextComponent;
 
 class ProgressData {
-
+    
     OnlineEmailMessage mEmail;
-
+    
     public ProgressData(OnlineEmailMessage msg) {
-
+        
         this.mEmail = msg;
     }
 }
@@ -57,21 +57,18 @@ class ProgressData {
  * @version 1.0 18-7-2011
  */
 public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
-
+    
     private EmailDownloaderDialog emaildialogue;
-    private boolean emailFinished,m_bPause;
-    private String dbPath,m_strTmpPath;
+    private boolean emailFinished, m_bPause;
+    private String dbPath, m_strTmpPath;
     private String Username;
     private String Password;
     private ResumeState objResume;
-   
-    
-    
     /**
      * Logger Object
      */
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
-    
+
     /**
      * static factory that read all message from user account and store it in list
      * @param username the name of the account
@@ -79,19 +76,19 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
      * @return EmailReader object that contain all the messages in list
      */
     public static OnlineEmailDownloader newInstance(EmailDownloaderDialog dialogue,
-            String attachmentsPath, String dbPath,String strTmpPath) throws SQLException, NoSuchProviderException, MessagingException, IOException {
+            String attachmentsPath, String dbPath, String strTmpPath) throws SQLException, NoSuchProviderException, MessagingException, IOException {
         // check null values
         checkNull("attachmentsPath must be not null", attachmentsPath);
         checkNull("dbPath must be not null", dbPath);
         checkNotEmptyString("attachmentsPath must be not empty string", attachmentsPath);
         checkNotEmptyString("dbPath must be not empty string", dbPath);
         
-        return new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath,strTmpPath);
+        return new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, strTmpPath);
     }
-
-    public OnlineEmailDownloader(EmailDownloaderDialog dialogue, 
-                                 String attachmentsPath, String dbPath,String strTmpPath) throws SQLException, NoSuchProviderException, MessagingException, IOException {
-
+    
+    public OnlineEmailDownloader(EmailDownloaderDialog dialogue,
+            String attachmentsPath, String dbPath, String strTmpPath) throws SQLException, NoSuchProviderException, MessagingException, IOException {
+        
         this.attachmentsPath = attachmentsPath;
         this.emaildialogue = dialogue;
         this.dbPath = dbPath;
@@ -99,8 +96,8 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         this.m_strTmpPath = strTmpPath;
         
         objResume = new ResumeState();
-        
-       // if(true) objResume.Activate();
+
+        // if(true) objResume.Activate();
         
         System.setProperty("mail.mime.address.strict", "false");
         System.setProperty("mail.mimi.decodefilename", "true");
@@ -108,20 +105,20 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         System.setProperty("mail.mime.multipart.ignorewhitespaceline", "true");
         System.setProperty("mail.mime.parameters.strict", "false");
         System.setProperty("mail.mime.setdefaulttextcharse", "true");
-
+        
         FileUtil.createFolder(attachmentsPath);
         
         this.emaildialogue.addWindowListener(new WindowAdapter() {
-
+            
             public void windowClosed(WindowEvent e) {
                 cancel(true);
             }
         });
         emaildialogue.getCancelButton().setEnabled(false);
     }
-
+    
     private void createDB() throws SQLException {
-
+        
         try {
             this.db = new OnlineEmailDBHandler(this.dbPath);
         } catch (ClassNotFoundException ex) {
@@ -133,8 +130,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         }
     }
     
-    public void pauseDownloading()
-    {
+    public void pauseDownloading() {
         this.m_bPause = true;
         logger.info("paused has been pressed");
         
@@ -146,6 +142,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                     String strIsResume = emaildialogue.getPauseButton().getText();
                     if (strIsResume.compareTo("Resume") == 0) {
                         emaildialogue.getPauseButton().setText("Pause");
+                        emaildialogue.getDownloadBar().setIndeterminate(true);
                         List<EmailConfiguration> emailInfos = emaildialogue.getCase().getEmailConfig();
                         for (EmailConfiguration s : emailInfos) {
                             downloadEmail(emaildialogue.getCase(), s, emaildialogue);
@@ -153,33 +150,30 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                     }
                 }
             }
-        } 
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
-
     
     public void downloadEmail(Case currentCase, EmailConfiguration config, EmailDownloaderDialog dialogue) throws Exception {
 
         // if hotmail
         if (config.getSource() == SOURCE.HOTMAIL) {
-             
+            
             dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
             dialogue.m_ObjDownloader.ConnectPop3Hotmail(Username, Password);
             dialogue.m_ObjDownloader.execute();
             dialogue.setVisible(true);
-
+            
         }
         // if YAHOO
         if (config.getSource() == SOURCE.Yahoo) {
-             
+            
             dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
             dialogue.m_ObjDownloader.ConnectPop3Yahoo(Username, Password);
             dialogue.m_ObjDownloader.execute();
             dialogue.setVisible(true);
-
+            
         }
         
         if (config.getSource() == SOURCE.GMAIL) {
@@ -187,35 +181,35 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             dialogue.m_ObjDownloader.ConnectIMAP(Username, Password);
             dialogue.m_ObjDownloader.execute();
             dialogue.setVisible(true);
-
+            
         }
-
+        
     }
-    
+
     /**
      * write resume state into file 
      * @param ResumeState object
      * @throws Exception 
      */
-    private void writeResumeStatus(ResumeState resumeState) throws Exception { 
-      
-        String strFilePath = m_strTmpPath+"resume.dat";  
+    private void writeResumeStatus(ResumeState resumeState) throws Exception {        
+        
+        String strFilePath = m_strTmpPath + "resume.dat";        
         File file = new File(strFilePath);
-        FileUtil.writeObject(resumeState,file);
-       
+        FileUtil.writeObject(resumeState, file);
+        
     }
-    
+
     /**
      * delete resume state into file 
      * @param 
      * @throws Exception 
      */
-    private void deleteResumeStatus() { 
+    private void deleteResumeStatus() {        
         
-        String strFilePath = m_strTmpPath+"resume.dat";  
+        String strFilePath = m_strTmpPath + "resume.dat";        
         FileUtil.removeFile(strFilePath);
     }
-    
+
     /**
      * read the file and retrieve the object
      * @param file the file path to be read
@@ -223,142 +217,130 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
      * @throws Exception 
      */
     public ResumeState readResumeStatus() throws Exception {
-        String strFilePath = m_strTmpPath+"resume.dat";  
+        String strFilePath = m_strTmpPath + "resume.dat";        
         
-        if(!FileUtil.isFileFound(strFilePath))
+        if (!FileUtil.isFileFound(strFilePath)) {
             return null;
+        }
         
         File file = new File(strFilePath);
         ResumeState resumeState = FileUtil.readObject(file);
         return resumeState;
     }
     
-    protected void threadInitialization() throws IOException,Exception
-    {
+    protected void threadInitialization() throws IOException, Exception {
         ResumeState resTmp = readResumeStatus();
         
-        if(resTmp!=null) 
-        {
+        if (resTmp != null) {
             objResume = resTmp;
             emaildialogue.getPauseButton().setText("Resume");
             //JOptionPane.showMessageDialog(emaildialogue, "Do you want to resume your current download?", "Resume Option", JOptionPane.);
             int result = JOptionPane.showConfirmDialog(emaildialogue, "Do you want to resume your current download?", "Resume Option", JOptionPane.YES_NO_OPTION);
-            if(result!=JOptionPane.YES_OPTION)
-            {
-                 this.deleteResumeStatus();
-                 objResume.resetState();
+            if (result != JOptionPane.YES_OPTION) {
+                this.deleteResumeStatus();
+                objResume.resetState();
             }
             
             emaildialogue.getPauseButton().setText("Pause");
-        }
-        else
+        } else {
             emaildialogue.getPauseButton().setText("Pause");
-        
+        }
+
         // 1).  Create Data base 
         createDB();
         emaildialogue.getCancelButton().setEnabled(true);
         emaildialogue.getPauseButton().setEnabled(true);
     }
-            
+    
     @Override
     protected Void doInBackground() throws Exception, MessagingException, IOException, SQLException {
-
+        
         int count = 0;
-         
-        if (isCancelled()) 
-        {
+        
+        if (isCancelled()) {
             emailFinished = false;
             return null;
         }
-
+        
         this.threadInitialization();
 
         // 2).  Crawel For Each Folder 
         javax.mail.Folder[] folders = store.getDefaultFolder().list("*");
-
-        for (javax.mail.Folder folder : folders) 
-        {
-            Message[] messages=null;
+        
+        for (javax.mail.Folder folder : folders) {
+            Message[] messages = null;
             int iMessageCounter = 0;
             
-            if(!isFolderHoldMessages(folder)) continue;
+            if (!isFolderHoldMessages(folder)) {
+                continue;
+            }
             
-            if(objResume.isActive() && (objResume.getFoundState()==false))
-            {
-                if(objResume.getFolderName().compareToIgnoreCase(folder.getFullName())!=0) 
-                {
+            if (objResume.isActive() && (objResume.getFoundState() == false)) {
+                if (objResume.getFolderName().compareToIgnoreCase(folder.getFullName()) != 0) {
                     continue;
-                }
-                else 
-                {
+                } else {
                     objResume.setFoundState(true);
                     
                     Message[] mCurrentMessages = folder.getMessages();
                     
-                    if (folder instanceof com.sun.mail.pop3.POP3Folder)
-                    {
-                       /* FetchProfile fp = new FetchProfile();
+                    if (folder instanceof com.sun.mail.pop3.POP3Folder) {
+                        /* FetchProfile fp = new FetchProfile();
                         String strMsgId =((com.sun.mail.pop3.POP3Folder)folder).getUID(mCurrentMessages[mCurrentMessages.length-1]);
                         strMsgId = objResume.getMessageId();
                         fp.add(strMsgId);
                         folder.fetch(messages, fp);
                          * */
-                       int  lLastMsgId = mCurrentMessages.length;
-                       int iMsgId = iMessageCounter = Integer.parseInt(objResume.getMessageId());
-                       messages=((com.sun.mail.pop3.POP3Folder)folder).getMessages((int)iMsgId,(int)lLastMsgId);
+                        int lLastMsgId = mCurrentMessages.length;
+                        int iMsgId = iMessageCounter = Integer.parseInt(objResume.getMessageId());
+                        messages = ((com.sun.mail.pop3.POP3Folder) folder).getMessages((int) iMsgId, (int) lLastMsgId);
+                    } else {
+                        long lLastMsgId = (((UIDFolder) folder).getUID(mCurrentMessages[mCurrentMessages.length - 1]));                        
+                        long iMsgId = (long) Integer.parseInt(objResume.getMessageId());
+                        messages = ((com.sun.mail.imap.IMAPFolder) folder).getMessagesByUID(iMsgId, lLastMsgId);
                     }
-                    else    
-                    {
-                        long lLastMsgId = (((UIDFolder) folder).getUID(mCurrentMessages[mCurrentMessages.length-1]));                 
-                        long iMsgId =(long)Integer.parseInt(objResume.getMessageId());
-                        messages= ((com.sun.mail.imap.IMAPFolder)folder).getMessagesByUID(iMsgId,lLastMsgId);
-                    }
-                    
-                /* since resume status has been found we need to start processing again. 
-                 * so resume deactivation is happening here On next pause resume will active again.
-                 */
+
+                    /* since resume status has been found we need to start processing again. 
+                     * so resume deactivation is happening here On next pause resume will active again.
+                     */
                     objResume.Deactivate();
                 }
-            }
-            else                       
+            } else {
                 messages = folder.getMessages();
+            }
+            
+            if (messages != null) {
 
-            if (messages != null)
-            {
-                
                 // 4). For Each Message dump the message and download attachment
-                for (Message message : messages) 
-                {
+                for (Message message : messages) {
                     
                     
-                    if(this.m_bPause) {
-
+                    if (this.m_bPause) {
+                        
                         
                         String strMsgId;
-                        if (folder instanceof com.sun.mail.pop3.POP3Folder)
-                           strMsgId = String.valueOf(iMessageCounter);
-                        else 
-                           strMsgId = String.valueOf(((UIDFolder) folder).getUID(message));
+                        if (folder instanceof com.sun.mail.pop3.POP3Folder) {
+                            strMsgId = String.valueOf(iMessageCounter);
+                        } else {
+                            strMsgId = String.valueOf(((UIDFolder) folder).getUID(message));
+                        }
                         
                         objResume.setFolderName(folder.getFullName());
                         objResume.setMessageId(strMsgId);
                         objResume.setFoundState(false);
                         objResume.Activate();
                         
-                       this.writeResumeStatus(objResume);
-                       this.cancel(true);
-                       folder.close(true);
-
-                    }
+                        this.writeResumeStatus(objResume);
+                        this.cancel(true);
+                        folder.close(true);
                         
-                    if (isCancelled()) 
-                    {
+                    }
+                    
+                    if (isCancelled()) {
                         emailFinished = false;
                         return null;
                     }
                     
-                    try 
-                    {
+                    try {
                         int messageId = messages.length - count++;
                         // sent and receive date
                         Date sentDate = Utilities.checkDate(message.getSentDate());
@@ -379,33 +361,28 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         OnlineEmailMessage msg = OnlineEmailMessage.newInstance(messageId, this.Username,
                                 from, to, bcclist, cclist, subject, body, sentDate.toString(), receiveDate.toString(), Paths, folder.getFullName());
                         db.inserteEmail(msg);
+                        db.getConnection().commit();
+
                         // Publish Data To Thread
                         ProgressData PData = new ProgressData(msg);
                         publish(PData);
-
+                        
                     } // Continue Crawling after Folder Closed Exception ** POP3 Only
-                    catch (FolderClosedException ex)
-                    {
+                    catch (FolderClosedException ex) {
                         ex.printStackTrace();
                         ConnectPop3Hotmail(Username, Password);
-                        if (!folder.isOpen())
-                        {
+                        if (!folder.isOpen()) {
                             folder.open(Folder.READ_ONLY);
                             messages = folder.getMessages();
                         }
-                    } 
-                    catch (MessagingException ex)
-                    {
+                    } catch (MessagingException ex) {
                         ex.printStackTrace();
-                        if (!folder.isOpen()) 
-                        {
+                        if (!folder.isOpen()) {
                             ConnectPop3Hotmail(Username, Password);
                             folder.open(Folder.READ_ONLY);
                             messages = folder.getMessages();
                         }
-                    }
-                    catch (Exception ex) 
-                    {
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                     
@@ -416,13 +393,13 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         emailFinished = true;
         return null;
     }
-
+    
     private boolean isFolderHoldMessages(Folder folder) throws MessagingException {
-
+        
         boolean b = false;
         try {
             if ((folder.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
-
+                
                 System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
                 folder.open(Folder.READ_ONLY);
                 b = true;
@@ -433,8 +410,9 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             ex.printStackTrace();
         }
         return b;
-
+        
     }
+
     private String getFrom(Message message) throws MessagingException {
         String result = "";
         Address[] addresses = message.getFrom();
@@ -443,38 +421,33 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             break;
         }
         return result;
-
+        
     }
-
+    
     @Override
     protected void done() {
-
+        
         if (emailFinished) {
             this.deleteResumeStatus();
             JOptionPane.showMessageDialog(emaildialogue, "Finished Downloading Emails", "Done", JOptionPane.INFORMATION_MESSAGE);
             emaildialogue.setVisible(false);
             emaildialogue.getDownloadBar().setIndeterminate(false);
-        } 
-        else 
-        {
-            if(objResume.isActive())
-            {
+        } else {
+            if (objResume.isActive()) {
                 JOptionPane.showMessageDialog(emaildialogue, "Email downloading has been paused", "Paused", JOptionPane.INFORMATION_MESSAGE);
                 emaildialogue.getPauseButton().setText("Resume");
-            }
-            else    
-            {
+            } else {
                 //delete resume file 
                 this.deleteResumeStatus();
                 JOptionPane.showMessageDialog(emaildialogue, "Cancelled Email Downloading", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
                 emaildialogue.setVisible(false);
             }
             
-           
+            
         }
-
+        
         emaildialogue.getDownloadBar().setIndeterminate(false);
-
+        
         try {
             store.close();
             try {
@@ -491,29 +464,29 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     @Override
     protected void process(List<ProgressData> chunks) {
         if (isCancelled()) {
             emailFinished = false;
             return;
         }
-
+        
         for (ProgressData pd : chunks) {
             emaildialogue.getFrom().setText(Utilities.getEmptyStringWhenNullString(pd.mEmail.getFrom()));
             emaildialogue.getSubject().setText(Utilities.getEmptyStringWhenNullString(pd.mEmail.getSubject()));
             emaildialogue.getSentDate().setText(pd.mEmail.getSentDate());
-            this.setEmailDialogElementsText(emaildialogue.getTo(),pd.mEmail.getTo());
+            this.setEmailDialogElementsText(emaildialogue.getTo(), pd.mEmail.getTo());
             this.setEmailDialogElementsText(emaildialogue.getCC(), pd.mEmail.getCC());
             this.setEmailDialogElementsText(emaildialogue.getBCC(), pd.mEmail.getBCC());
             this.setEmailDialogElementsText(emaildialogue.getAttachments(), pd.mEmail.getAttachments());
         }
     }
-
+    
     private void setEmailDialogElementsText(JTextComponent field, List<String> texts) {
         StringBuilder buffer = new StringBuilder();
         
-        if ( !texts.isEmpty() ) {
+        if (!texts.isEmpty()) {
             for (String text : texts) {
                 buffer.append(Utilities.getEmptyStringWhenNullString(text)).append("\n");
             }
@@ -522,16 +495,15 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         field.setText(buffer.toString());
     }
     
-    public void pauseDownloading(boolean vbtrue)
-    {
+    public void pauseDownloading(boolean vbtrue) {
         
     }
     
     public boolean ConnectPop3Hotmail(String UserName, String Password) {
-
+        
         this.Username = UserName;
         this.Password = Password;
-
+        
         Properties props = System.getProperties();
         String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
         props.setProperty("mail.pop3.socketFactory.class", SSL_FACTORY);
@@ -540,12 +512,12 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         props.setProperty("mail.pop3.socketFactory.port", "995");
         props.setProperty("mail.pop3.connectiontimeout", "10000");
         props.setProperty("mail.pop3.timeout", "10000");
-
+        
         Session session = Session.getDefaultInstance(props, null);
         try {
             store = session.getStore("pop3");
         } catch (NoSuchProviderException ex) {
-
+            
             JOptionPane.showMessageDialog(this.emaildialogue, "Error Connecting to Hotmail", "Bad Such Provider", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
             return false;
@@ -562,11 +534,11 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         return true;
     }
     
-     public boolean ConnectPop3Yahoo(String UserName, String Password) {
-
+    public boolean ConnectPop3Yahoo(String UserName, String Password) {
+        
         this.Username = UserName;
         this.Password = Password;
-
+        
         Properties props = System.getProperties();
         String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
         props.setProperty("mail.pop3.socketFactory.class", SSL_FACTORY);
@@ -575,12 +547,12 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         props.setProperty("mail.pop3.socketFactory.port", "995");
         props.setProperty("mail.pop3.connectiontimeout", "10000");
         props.setProperty("mail.pop3.timeout", "10000");
-
+        
         Session session = Session.getDefaultInstance(props, null);
         try {
             store = session.getStore("pop3");
         } catch (NoSuchProviderException ex) {
-
+            
             JOptionPane.showMessageDialog(this.emaildialogue, "Error Connecting to Hotmail", "Bad Such Provider", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
             return false;
@@ -597,18 +569,17 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         return true;
     }
     
-
     public boolean ConnectIMAP(String UserName, String Password) {
-
+        
         this.Username = UserName;
         this.Password = Password;
-
+        
         Properties props = System.getProperties();
         props.setProperty("mail.store.protocol", "imaps");
         props.setProperty("mail.imaps.partialfetch", "false");
         props.setProperty("mail.pop3.connectiontimeout", "10000");
         props.setProperty("mail.pop3.timeout", "10000");
-
+        
         Session session = Session.getDefaultInstance(props, null);
         try {
             store = session.getStore("imaps");
@@ -617,7 +588,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             ex.printStackTrace();
             return false;
         }
-
+        
         try {
             store.connect("imap.gmail.com", UserName, Password);
         } catch (MessagingException ex1) {
@@ -629,21 +600,21 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         //  session.setDebug(true);
         return true;
     }
-
+    
     private String getFromAddress(String fromAdd) {
         Pattern p = Pattern.compile("[A-Z0-9\\._%\\+\\-]+@[A-Z0-9\\.\\-]+\\.[A-Z]{2,4}", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(fromAdd);
-
+        
         while (m.find()) {
             fromAdd = (m.group());
         }
-
+        
         return fromAdd;
     }
-
+    
     private List<String> getAddress(Message message, Message.RecipientType type)
             throws MessagingException {
-
+        
         List<String> addressList = new ArrayList<String>();
         Address[] recipients = null;
         try {
@@ -652,18 +623,18 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             ex.printStackTrace();
             String d = ex.getMessage();
         }
-
+        
         if (recipients != null) {
             for (Address address : recipients) {
                 addressList.add(address.toString());
             }
         }
-
+        
         return addressList;
     }
-
+    
     private List<String> getAttachments(Message temp) throws IOException, MessagingException {
-
+        
         attachments = new ArrayList<String>();
         Object objRef = null;
         try {
@@ -675,16 +646,16 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             if (!(objRef instanceof Multipart)) {
                 return Collections.emptyList();
             }
-
+            
             Multipart multipart = (Multipart) temp.getContent();
             System.out.println("Number of Parts: " + multipart.getCount());
-
+            
             for (int i = 0; i < multipart.getCount(); i++) {
                 BodyPart bodyPart = multipart.getBodyPart(i);
                 if (!Part.ATTACHMENT.equalsIgnoreCase(bodyPart.getDisposition())) {
                     continue; // dealing with attachments only
                 }
-
+                
                 String decoded = MimeUtility.decodeText(bodyPart.getFileName());
                 String filename = Normalizer.normalize(decoded, Normalizer.Form.NFC);
                 InputStream is = bodyPart.getInputStream();
@@ -706,7 +677,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         }
         return attachments;
     }
- 
+    
     private String getText(Part p) throws
             MessagingException, IOException, Exception {
         if (p.isMimeType("text/*")) {
@@ -725,11 +696,11 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-
+            
             textIsHtml = p.isMimeType("text/html");
             return s;
         }
-
+        
         if (p.isMimeType("multipart/alternative")) {
             // prefer html text over plain text
             Multipart mp = (Multipart) p.getContent();
@@ -760,7 +731,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                 }
             }
         }
-
+        
         return new String();
     }
     private Store store;

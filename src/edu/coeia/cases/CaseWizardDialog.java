@@ -1078,7 +1078,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
             String line = null;
             if(input.readLine() == null){
-            JOptionPane.showMessageDialog(this, "Error Unmounting the Case, Please Unmount the case if it is already mounted", "Error", JOptionPane.ERROR_MESSAGE);    
+            JOptionPane.showMessageDialog(this, "Error Unmounting the Case", "Error", JOptionPane.ERROR_MESSAGE);    
             return;
             }
             
@@ -1089,7 +1089,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                     break;
                 }
                 System.out.println(line);
-            }
+            }   
             String[] splitedLine = line.split("\\:");
             String Path = splitedLine[1]+":\\";
             JListUtil.addToList(Path.trim(), sourcesListModel, sourcesJList);
