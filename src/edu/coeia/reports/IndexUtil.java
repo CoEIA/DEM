@@ -37,7 +37,7 @@ import org.apache.lucene.store.FSDirectory;
  *
  * @author wajdyessam
  */
-public class IndexUtil {
+final class IndexUtil {
     
     public static List<Case> getAllCases() throws FileNotFoundException, IOException, ClassNotFoundException {
         return Collections.unmodifiableList(CaseManager.getCases());
