@@ -5,6 +5,7 @@
 package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
+import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +33,15 @@ public class RawResultFile {
     }
     
     public static String getCasesXmlFile(List<Case> cases, Case currentCase) {
+        for(Case aCase: cases) {
+            String caseName = aCase.getCaseName();
+            String caseLocation = aCase.getCaseLocation();
+            String caseCreatingTime = DateUtil.formatedDateWithTime(aCase.getCreateTime());
+            String caseAuther = aCase.getInvestigatorName();
+            
+            // operations here
+        }
+        
         return "";
     }
     
