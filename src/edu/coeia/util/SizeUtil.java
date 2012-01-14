@@ -56,6 +56,10 @@ public class SizeUtil {
         return toMB(n) / 1024 ;
     }
 
+    public static double fromMBtoByte(double mb) {
+        return mb * 1024 * 1024 ;
+    }
+    
     public static String formatSize (double number) {
         return new DecimalFormat("##.##").format(number) ;
     }

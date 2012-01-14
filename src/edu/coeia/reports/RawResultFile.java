@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -17,6 +18,14 @@ import org.apache.commons.io.FileUtils;
  * @author Farhan
  */
 public class RawResultFile {
+    
+    public static String getExtensionFrequencyXmlFile(Map<String, Double> map, Case currentCase) {
+        return "";
+    }
+    
+    public static String getCasesXmlFile(List<Case> cases, Case currentCase) {
+        return "";
+    }
     
     public static String getFileSystemXmlFile(List<String> list,Case cases)
     {

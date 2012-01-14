@@ -10,6 +10,10 @@
  */
 package edu.coeia.reports;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author wajdyessam
@@ -27,7 +31,16 @@ public class FilesExtensionReportPanel extends javax.swing.JPanel implements Rep
     @Override
     public String generateReport() {
         String strXmlSource = "";
-        strXmlSource = "this is listing of all files exentsion in case";
+        
+        try {
+            strXmlSource = RawResultFile.getExtensionFrequencyXmlFile(
+                    IndexUtil.getAllFilesFrequency(this.reportPanel.getCase(), this.reportPanel.getCasePathHandler()),
+                    this.reportPanel.getCase());
+        } 
+        catch (IOException ex) {
+            Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return strXmlSource;
     }
         

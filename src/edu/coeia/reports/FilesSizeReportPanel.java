@@ -10,6 +10,11 @@
  */
 package edu.coeia.reports;
 
+import edu.coeia.util.SizeUtil;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author wajdyessam
@@ -27,10 +32,19 @@ public class FilesSizeReportPanel extends javax.swing.JPanel implements ReportGe
     @Override
     public String generateReport() {
         String strXmlSource = "";
-        long from = Long.valueOf(this.fromSizeTextField.getText().trim());
-        long to = Long.valueOf(this.toSizeTextField.getText().trim());
         
-        strXmlSource = "this is listing of all files size in case";
+        long from = (long) SizeUtil.fromMBtoByte(Long.valueOf(this.fromSizeTextField.getText().trim()));
+        long to = (long) SizeUtil.fromMBtoByte(Long.valueOf(this.toSizeTextField.getText().trim()));
+        
+        try {
+            strXmlSource = RawResultFile.getFileSystemXmlFile(
+                    IndexUtil.getAllFilesBetweenSize(this.reportPanel.getCase(), this.reportPanel.getCasePathHandler(),
+                    from, to)
+            ,this.reportPanel.getCase());
+        } catch (IOException ex) {
+            Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return strXmlSource;
     }
         

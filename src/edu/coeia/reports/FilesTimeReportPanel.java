@@ -12,7 +12,10 @@ package edu.coeia.reports;
 
 import com.toedter.calendar.JDateChooser;
 import java.awt.BorderLayout;
+import java.io.IOException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -36,10 +39,18 @@ public class FilesTimeReportPanel extends javax.swing.JPanel implements ReportGe
         Date from = ((JDateChooser) fromDatePanel.getComponent(0)).getDate();
         Date to   = ((JDateChooser) toDatePanel.getComponent(0)).getDate();
         
-        System.out.println("from: " + from);
-        System.out.println("to: " + to);
+        String strXmlSource = "";
         
-        return "list of all file date";
+        try {
+            strXmlSource = RawResultFile.getFileSystemXmlFile(
+                    IndexUtil.getAllFilesBetweenDates(this.reportPanel.getCase(), this.reportPanel.getCasePathHandler(),
+                    from, to)
+            ,this.reportPanel.getCase());
+        } catch (IOException ex) {
+            Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return strXmlSource;
     }
         
     /** This method is called from within the constructor to

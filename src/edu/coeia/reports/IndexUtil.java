@@ -93,6 +93,7 @@ public class IndexUtil {
          for(String fileName: getAllFilePaths(aCase, handler)) {
             File file = new File(fileName);
             long length = file.length();
+            
             if ( length >= from && length <= to) {
                 files.add(fileName);
             }
@@ -133,8 +134,11 @@ public class IndexUtil {
                    
                     if ( path.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE)) ) {
                         String relativePath = document.get(IndexingConstant.FILE_PATH);
-                        String fullpath = handler.getFullPath(relativePath);
-                        files.add(fullpath);
+                        
+                        if ( !relativePath.isEmpty() ) {
+                            String fullpath = handler.getFullPath(relativePath);
+                            files.add(fullpath);
+                        }
                     }
                 }
             }

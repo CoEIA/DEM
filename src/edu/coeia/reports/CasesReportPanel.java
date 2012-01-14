@@ -10,6 +10,11 @@
  */
 package edu.coeia.reports;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author wajdyessam
@@ -26,7 +31,19 @@ public class CasesReportPanel extends javax.swing.JPanel implements ReportGenera
 
     @Override
     public String generateReport() {
-        return "this is listing of all cases report";
+        String strXmlSource = "";
+        
+        try {
+            strXmlSource = RawResultFile.getCasesXmlFile(IndexUtil.getAllCases(),this.reportPanel.getCase());
+        } 
+        catch (IOException ex) {
+            Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (ClassNotFoundException ex) {
+            Logger.getLogger(CasesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return strXmlSource;
     }
     
     /** This method is called from within the constructor to
