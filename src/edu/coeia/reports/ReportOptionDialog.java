@@ -13,6 +13,7 @@ package edu.coeia.reports;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CasePathHandler;
 import edu.coeia.util.FilesPath;
+import java.awt.Desktop;
 import java.io.File;
 import javax.swing.JPanel;
 
@@ -143,6 +144,15 @@ public class ReportOptionDialog extends javax.swing.JDialog {
             disReport.setOutputFileExtension(DisclosureReport.REPORT_TYPE.PDF);
             disReport.setRootXPath("/dem/detail/effectivefiles/file");
             disReport.Generate();
+            
+            if ((new File(disReport.getFinalFile())).exists())
+            {
+                File pdf = new File(disReport.getFinalFile());
+                Desktop.getDesktop().open(pdf);
+                System.out.println(disReport.getFinalFile());
+            } 
+            else
+                System.out.println("File is not exists");
         }
         catch(Exception ex)
         {

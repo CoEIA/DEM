@@ -8,6 +8,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.util.FileUtil;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
@@ -36,22 +37,37 @@ public class RawResultFile {
         String strOutputPath =mainRawfilePath+"\\filesystem.xml";
         String retOutput="";
         
+        String strLocation = cases.getCaseLocation();
+        strLocation.replace('C','/');
+        strLocation.replace(':','/');
+        System.out.println(strLocation);
         String strCaseXml ="<dem><case>"
                         +"<name>"+cases.getCaseName()+"</name>"
-                        +"<date>1-1-2012</date>"
-                        +"<size>321</size>"
                         +"<author>"+cases.getDescription()+"</author>"
-                        +"<source> "+cases.getCaseLocation()+"</source>"
+                        +"<source> "+strLocation+"</source>"
                         +"</case>";
 
         String files ="";
         
        Iterator<String> iterator = list.iterator();
 	while (iterator.hasNext()) {
-            String str = iterator.next();
-            str.replace(':','/');
+            String strPath = iterator.next();
+            File file = new File(strPath);
+            strPath.replace(':','/');
+                        
+            long filesize = file.length();
+            long filesizeInKB = filesize / 1024;
+
+            Date date = new Date(file.lastModified());
+            int mid= strPath.lastIndexOf(".");
+            String ext=strPath.substring(mid+1,strPath.length());  
 		files+=
-                         "<file>"+str+"</file>";
+                         "<file>"
+                        + "<path>"+strPath+"</path>"
+                        + "<size>"+filesizeInKB+"kb</size>"
+                        + "<moddate>"+date+"</moddate>"
+                        + "<extension>"+ext+"</extension>"
+                        + "</file>";
 	}
         
        retOutput  =strCaseXml
