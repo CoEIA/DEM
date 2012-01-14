@@ -10,6 +10,10 @@
  */
 package edu.coeia.reports;
 
+import com.toedter.calendar.JDateChooser;
+import java.awt.BorderLayout;
+import java.util.Date;
+
 /**
  *
  * @author wajdyessam
@@ -22,10 +26,19 @@ public class FilesTimeReportPanel extends javax.swing.JPanel implements ReportGe
     public FilesTimeReportPanel(ReportPanel panel) {
         initComponents();
         this.reportPanel = panel;
+        
+        toDatePanel.add(new JDateChooser(new Date()),BorderLayout.CENTER);
+        fromDatePanel.add(new JDateChooser(new Date(0)),BorderLayout.CENTER); 
     }
 
     @Override
     public String generateReport() {
+        Date from = ((JDateChooser) fromDatePanel.getComponent(0)).getDate();
+        Date to   = ((JDateChooser) toDatePanel.getComponent(0)).getDate();
+        
+        System.out.println("from: " + from);
+        System.out.println("to: " + to);
+        
         return "list of all file date";
     }
         
@@ -42,8 +55,8 @@ public class FilesTimeReportPanel extends javax.swing.JPanel implements ReportGe
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        toDatePanel = new javax.swing.JPanel();
+        fromDatePanel = new javax.swing.JPanel();
 
         jLabel1.setText("this report will display all the files that have specific creation date");
 
@@ -53,9 +66,9 @@ public class FilesTimeReportPanel extends javax.swing.JPanel implements ReportGe
 
         jLabel4.setText("to Date:");
 
-        jTextField1.setText(" ");
+        toDatePanel.setLayout(new java.awt.BorderLayout());
 
-        jTextField2.setText(" ");
+        fromDatePanel.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -70,14 +83,14 @@ public class FilesTimeReportPanel extends javax.swing.JPanel implements ReportGe
                             .addComponent(jLabel2)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))))
-                .addGap(18, 18, 18))
+                            .addComponent(toDatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                            .addComponent(fromDatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,22 +100,22 @@ public class FilesTimeReportPanel extends javax.swing.JPanel implements ReportGe
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fromDatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(toDatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel fromDatePanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPanel toDatePanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.util.logging.Level;
 import org.apache.commons.io.FileUtils;
 
 import org.apache.lucene.index.TermEnum ;
@@ -35,6 +34,12 @@ import org.apache.lucene.store.FSDirectory;
  * @author wajdyessam
  */
 public class IndexUtil {
+    
+    public static List<Case> getAllCases() {
+        List<Case> cases = new ArrayList<Case>();
+        
+        return cases;
+    }
     
     public static Map<String, Double> getAllFilesFrequency(final Case aCase, final CasePathHandler handler)
             throws IOException{
