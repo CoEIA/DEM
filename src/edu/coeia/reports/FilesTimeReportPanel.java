@@ -14,10 +14,10 @@ package edu.coeia.reports;
  *
  * @author wajdyessam
  */
-public class ListFileTimeReportPanel extends javax.swing.JPanel implements ReportGenerator {
+public class FilesTimeReportPanel extends javax.swing.JPanel implements ReportGenerator {
 
     /** Creates new form ListFileTimeReportPanel */
-    public ListFileTimeReportPanel() {
+    public FilesTimeReportPanel() {
         initComponents();
     }
 

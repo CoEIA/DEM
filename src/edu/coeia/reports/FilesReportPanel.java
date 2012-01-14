@@ -4,9 +4,9 @@
  */
 
 /*
- * ListAllExtensionsReportPanel.java
+ * ListAllFilesReportPanel.java
  *
- * Created on Jan 14, 2012, 8:14:03 AM
+ * Created on Jan 14, 2012, 7:44:49 AM
  */
 package edu.coeia.reports;
 
@@ -14,16 +14,16 @@ package edu.coeia.reports;
  *
  * @author wajdyessam
  */
-public class ListAllExtensionsReportPanel extends javax.swing.JPanel implements ReportGenerator{
+public class FilesReportPanel extends javax.swing.JPanel implements ReportGenerator{
 
-    /** Creates new form ListAllExtensionsReportPanel */
-    public ListAllExtensionsReportPanel() {
+    /** Creates new form ListAllFilesReportPanel */
+    public FilesReportPanel() {
         initComponents();
     }
 
     @Override
     public String generateReport() {
-        return "list of all extensions";
+        return "this is listing of all files in case";
     }
         
     /** This method is called from within the constructor to
@@ -38,9 +38,9 @@ public class ListAllExtensionsReportPanel extends javax.swing.JPanel implements 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        jLabel1.setText("this report will display the frequency of all files extensions inside the case");
+        jLabel1.setText("This report will listting all the files inside the case and its size and the creation");
 
-        jLabel2.setText("also will display pie chart to visualize the result ");
+        jLabel2.setText("date for each file");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -51,22 +51,20 @@ public class ListAllExtensionsReportPanel extends javax.swing.JPanel implements 
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
-
-
 }

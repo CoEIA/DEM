@@ -4,9 +4,9 @@
  */
 
 /*
- * ListFilesSizeReportPanel.java
+ * ListFileAutherReportPanel.java
  *
- * Created on Jan 14, 2012, 8:17:27 AM
+ * Created on Jan 14, 2012, 8:17:57 AM
  */
 package edu.coeia.reports;
 
@@ -14,18 +14,18 @@ package edu.coeia.reports;
  *
  * @author wajdyessam
  */
-public class ListFilesSizeReportPanel extends javax.swing.JPanel implements ReportGenerator{
+public class FilesAutherReportPanel extends javax.swing.JPanel implements ReportGenerator{
 
-    /** Creates new form ListFilesSizeReportPanel */
-    public ListFilesSizeReportPanel() {
+    /** Creates new form ListFileAutherReportPanel */
+    public FilesAutherReportPanel() {
         initComponents();
     }
-
+    
     @Override
     public String generateReport() {
-        return "list of all file size";
+        return "list of file authers";
     }
-        
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
