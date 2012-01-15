@@ -17,6 +17,7 @@ import java.sql.Statement ;
 import java.sql.ResultSet ;
 
 import java.util.ArrayList ;
+import java.util.List;
 
 /**
  *
@@ -42,42 +43,44 @@ public class SkypeParser {
 
     public String getPath () { return path ; }
     
-    public ArrayList<Tuple<String, ArrayList<SkypeMessage>>> parse () throws SQLException, ClassNotFoundException, InstantiationException,
-    IllegalAccessException {
-        File file = new File(path);
-        ArrayList<Tuple<String, ArrayList<SkypeMessage>>> userChats = new ArrayList<Tuple<String, ArrayList<SkypeMessage>>>();
-        
-        if ( file.exists() ) {
-            File[] files = file.listFiles();
+//    public ArrayList<Tuple<String, ArrayList<SkypeMessage>>> parse () throws SQLException, ClassNotFoundException, InstantiationException,
+//    IllegalAccessException {
+//        File file = new File(path);
+//        ArrayList<Tuple<String, ArrayList<SkypeMessage>>> userChats = new ArrayList<Tuple<String, ArrayList<SkypeMessage>>>();
+//        
+//        if ( file.exists() ) {
+//            File[] files = file.listFiles();
+//
+//            for (File skypePath: files) {
+//                if ( isSkypeUserPath(skypePath) ) {
+//                    Tuple<String,ArrayList<SkypeMessage>> userChat = new Tuple<String,ArrayList<SkypeMessage>>();
+//                    connectMozillaDB(skypePath.getAbsolutePath());
+//
+//                    ArrayList<SkypeMessage> msg = getMessages();
+//                    userChat.setA(skypePath.getName());
+//                    userChat.setB(msg);
+//
+//                    userChats.add(userChat);
+//                    closeDB();
+//                }
+//            }
+//        }
+//
+//        return userChats;
+//    }
 
-            for (File skypePath: files) {
-                if ( isSkypeUserPath(skypePath) ) {
-                    Tuple<String,ArrayList<SkypeMessage>> userChat = new Tuple<String,ArrayList<SkypeMessage>>();
-                    connectMozillaDB(skypePath.getAbsolutePath());
-
-                    ArrayList<SkypeMessage> msg = getMessages();
-                    userChat.setA(skypePath.getName());
-                    userChat.setB(msg);
-
-                    userChats.add(userChat);
-                    closeDB();
-                }
-            }
-        }
-
-        return userChats;
-    }
-
-    public ArrayList<Tuple<String, ArrayList<SkypeMessage>>> parseSkypeFile (String p) throws SQLException, ClassNotFoundException, InstantiationException,
+    // take path for the folder contain the main.db skype database file
+    // C:\\Documents and Settings\\wajdyessam\\Application Data\\Skype\\wajdyessam
+    public List<Tuple<String, List<SkypeMessage>>> parseSkypeFile (String p) throws SQLException, ClassNotFoundException, InstantiationException,
     IllegalAccessException {
         File skypePath = new File(p);
         
-        ArrayList<Tuple<String, ArrayList<SkypeMessage>>> userChats = new ArrayList<Tuple<String, ArrayList<SkypeMessage>>>();
+        List<Tuple<String, List<SkypeMessage>>> userChats = new ArrayList<Tuple<String, List<SkypeMessage>>>();
 
-        Tuple<String,ArrayList<SkypeMessage>> userChat = new Tuple<String,ArrayList<SkypeMessage>>();
+        Tuple<String,List<SkypeMessage>> userChat = new Tuple<String,List<SkypeMessage>>();
         connectMozillaDB(skypePath.getAbsolutePath());
 
-        ArrayList<SkypeMessage> msg = getMessages();
+        List<SkypeMessage> msg = getMessages();
         userChat.setA(skypePath.getName());
         userChat.setB(msg);
 
@@ -87,8 +90,8 @@ public class SkypeParser {
         return userChats;
      }
 
-    private ArrayList<SkypeMessage> getMessages ()  throws SQLException {
-        ArrayList<SkypeMessage> mList = new ArrayList<SkypeMessage>();
+    private List<SkypeMessage> getMessages ()  throws SQLException {
+        List<SkypeMessage> mList = new ArrayList<SkypeMessage>();
 
         String select =
             "select Messages.author,Messages.dialog_partner,datetime(Messages.timestamp,'unixepoch'),Messages.body_xml " +

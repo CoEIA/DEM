@@ -13,36 +13,24 @@ import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.chat.YahooMessage;
 import edu.coeia.chat.YahooMessageDecoder;
 import edu.coeia.chat.YahooMessageReader;
-import edu.coeia.chat.YahooMessageReader.YahooConversation;
 import edu.coeia.chat.YahooMessageReader.YahooChatSession;
+import edu.coeia.hash.HashCalculator;
 import edu.coeia.util.DateUtil;
+import edu.coeia.util.FileUtil;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 
-import java.util.List ;
-
+import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
 final class YahooChatIndexer extends Indexer{
-    
-    /**
-     *  chat type
-     */
     private static final String CHAT_AGENT = "YAHOO" ;
     private int parentId ;
     
     /**
      * static factory method to get an instance of YahooChatIndexer
-     * 
-     * @param writer
-     * @param file
-     * @param mimeType
-     * @param imageCaching
-     * @param caseLocation
-     * @param imageExtractor
-     * @return YahooChatIndexer
      */
     public static YahooChatIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor) {
@@ -50,17 +38,6 @@ final class YahooChatIndexer extends Indexer{
         return new YahooChatIndexer(luceneIndex, file, mimeType, imageExtractor, 0);
     }
     
-    /**
-     * index file object with parentid
-     * 
-     * @param writer
-     * @param file
-     * @param mimeType
-     * @param imageCaching
-     * @param caseLocation
-     * @param imageExtractor
-     * @param parentId 
-     */
     private YahooChatIndexer(LuceneIndex luceneIndex, File file, String mimeType, ImageExtractor imageExtractor,
             int parentId) {
         
@@ -74,31 +51,24 @@ final class YahooChatIndexer extends Indexer{
         
         try {
             YahooMessageReader reader = new YahooMessageReader();
-            List<YahooChatSession> sessions = reader.getAllYahooChatSession(this.getFile().getAbsolutePath());
+            YahooChatSession session = reader.getYahooChatSession(this.getFile());
             
+            // this id for the .dat file, each message will have this id as parent
             this.increaseId();
+            this.getLuceneIndex().getWriter().addDocument(getDocument());
+            this.parentId = this.getId();
             
             // then index the chat seesions in this file
-            for(YahooChatSession session: sessions) {
-                for(YahooConversation conversation: session.conversations) {
-                    // index the .DAT file first
-                    String datPath = conversation.path ;
-                    this.parentId = this.getId();
-                    this.getLuceneIndex().indexFile(new File(datPath), parentId,this.getDialog());
-                
-                    for(YahooMessage msg: conversation.messages) {
-                        Document doc = getDocument(msg,  session.userName, session.otherName , conversation.path); // add parentid and parent metadata here
-                       
-                        if (doc != null) {
-                            this.getLuceneIndex().getWriter().addDocument(doc);    // index file
-                            this.increaseId();                       // increase the id counter if file indexed successfully
+            for(YahooMessage msg: session.messages) {
+                Document doc = getDocument(msg,  session.userName, session.otherName , session.path); // add parentid and parent metadata here
 
-                        } else {
-                            System.out.println("Fail Parsing: " + this.getFile().getAbsolutePath());
-                            return false;
-                        }
-            
-                    }
+                if (doc != null) {
+                    this.getLuceneIndex().getWriter().addDocument(doc);    // index file
+                    this.increaseId();                       // increase the id counter if file indexed successfully
+
+                } else {
+                    System.out.println("Fail Parsing: " + this.getFile().getAbsolutePath());
+                    return false;
                 }
             }
         
@@ -150,7 +120,24 @@ final class YahooChatIndexer extends Indexer{
         doc.add(new Field(IndexingConstant.CHAT_LENGTH, String.valueOf(msg.getMessageLength()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_MESSAGE_PATH, msg.getMessagePath().toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
+        return doc;
+    }
+    
+    private Document getDocument() {
+        Document doc = new Document();
         
+        // generic document fields
+        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, HashCalculator.calculateFileHash(this.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        
+        // specific document fields
+        doc.add(new Field(IndexingConstant.FILE_PATH, this.getPathHandler().getRelativePath(this.getFile().getPath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.FILE_NAME, this.getFile().getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(this.getFile().lastModified(), DateTools.Resolution.MINUTE),Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.FILE_CONTENT, "", Field.Store.YES, Field.Index.ANALYZED));
+        doc.add(new Field(IndexingConstant.FILE_MIME, FileUtil.getExtension(this.getFile()), Field.Store.YES, Field.Index.NOT_ANALYZED) );
         
         return doc;
     }

@@ -10,17 +10,11 @@ package edu.coeia.chat;
  */
 
 import java.io.File ;
-import java.io.FileInputStream ;
-import java.io.DataInputStream ;
 import java.io.IOException ;
-import java.io.EOFException ;
 
-import java.util.Date ;
 import java.util.ArrayList ;
 import java.util.Collections;
-import java.util.HashMap ;
 import java.util.List;
-import java.util.Map ;
 
 public final class MSNMessageReader {
     

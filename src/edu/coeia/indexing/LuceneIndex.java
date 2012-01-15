@@ -103,18 +103,19 @@ public final class LuceneIndex {
         }
     }
     
-    public boolean indexDir(File dir){
-        boolean status = false;
-        
-        try {
-            Indexer indexType = IndexerFactory.getFolderIndexer(this, dir);
-            status = indexType.doIndexing();
-        }
-        catch(UnsupportedOperationException e){
-            //System.out.println(e.getMessage());
-            //e.printStackTrace();
-        }
-        
-        return status;
-    }
+//    public boolean indexChatFolder(File dir){
+//        boolean status = false;
+//        
+//        Indexer indexType = IndexerFactory.getFolderIndexer(this, dir);
+//        
+//        if ( indexType == null )
+//            return status;
+//        
+//        status = indexType.doIndexing();
+//        return status;
+//    }
+//    
+//    public boolean isChatFolder(File dir) {
+//        return IndexerFactory.isChatPath(dir.getAbsolutePath());
+//    }
 }

@@ -4,17 +4,11 @@
  */
 package edu.coeia.chat;
 
-import edu.coeia.chat.YahooMessageReader.YahooConversation;
-import edu.coeia.chat.YahooMessageReader.YahooChatSession;
+import edu.coeia.util.Tuple;
 
-import edu.coeia.detector.YahooDetector;
-
-import java.util.ArrayList;
 import java.util.List ;
 
 import org.junit.Test;
-import org.junit.Ignore ;
-import static org.junit.Assert.* ;
 
 
 /**
@@ -24,37 +18,16 @@ import static org.junit.Assert.* ;
 public class ChatSessionDetectionTest {
     
     @Test
-    @Ignore
-    public void printYahooChatMethod() throws Exception {
-        List<String> casePath = new YahooDetector().getFilesInCurrentSystem();
+    public void skypeChatDetectionTest() throws Exception{
+        SkypeParser parser = new SkypeParser();
+        String path = "C:\\Documents and Settings\\wajdyessam\\Application Data\\Skype\\wajdyessam";
+        List<Tuple<String, List<SkypeMessage>>> msgs = parser.parseSkypeFile(path);
         
-        for(String path: casePath) {
-            YahooMessageReader reader = new YahooMessageReader();
-            List<YahooChatSession> sessions = reader.getAllYahooChatSession(path);
-            
-            for(YahooChatSession session: sessions) {
-                System.out.println("Conversation Between : " + session.userName + " and: " + session.otherName);
-                
-                for(YahooConversation conversation: session.conversations) {
-                    System.out.println("Conversation #");
-                    
-                    for(YahooMessage msg: conversation.messages) {
-                        System.out.println(msg);
-                    }
-                }
+        for (Tuple<String, List<SkypeMessage>> user: msgs) {
+            System.out.println("User: " + user.getA());
+            for (SkypeMessage msg: user.getB()) {
+                System.out.println("Message: " + msg.getMessageText() + " with: " + msg.getPartner());
             }
-        }
-    }
-    
-    @Test
-    public void yahooChatDetectionTest1() throws Exception {
-        List<String> casePath = new ArrayList<String>();
-        casePath.add("C:\\Program Files\\Yahoo!\\Messenger\\Profiles");
-        
-        for(String path: casePath) {
-            YahooMessageReader reader = new YahooMessageReader();
-            List<YahooChatSession> sessions = reader.getAllYahooChatSession(path);
-            assertEquals(4, sessions.size());
         }
     }
 }

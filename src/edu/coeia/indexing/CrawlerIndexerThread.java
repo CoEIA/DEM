@@ -114,8 +114,10 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                     this.checkForThreadCancelling();
 
                     if ( file.isDirectory() && file.canRead()) {
-                        if ( this.luceneIndex.indexDir(path) )
-                            numberOfFilesIndexed++;
+//                        if ( this.luceneIndex.isChatFolder(file) ) {
+//                            if ( this.luceneIndex.indexChatFolder(path) )
+//                                numberOfFilesIndexed++;
+//                        }
                         
                         doDirectoryCrawling(file);
                     }

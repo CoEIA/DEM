@@ -37,8 +37,12 @@ final class IndexerFactory {
 
             String mime = tika.detect(file);
             
+            if ( isChatPath(file.getAbsolutePath()) ) {
+                indexer = getChatIndexer(luceneIndex, file);
+            }
+            
             // if its outlook file, then call offline email indexer
-            if ( isOutlookFile(mime, file.getAbsolutePath()) ) {
+            else if ( isOutlookFile(mime, file.getAbsolutePath()) ) {
                 indexer = OutlookIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor());
             }
             
@@ -81,32 +85,38 @@ final class IndexerFactory {
         return getIndexer(luceneIndex, file, 0);
     }
     
+    public static boolean isChatPath(String path) {
+        return isValidMSNChatFile(path) 
+                || isValidSkypeChatFile(path) 
+                || isValidYahooChatFile(path);
+    }
+        
     /**
      * Get Indexer for chat sessions
      * @param luceneIndex
-     * @param dir
+     * @param chatFile
      * @return 
      */
-    public static Indexer getFolderIndexer (LuceneIndex luceneIndex, File dir) {
-        // TODO:
-        // if chat session suppport, then continue to detec it
-        // else return from this method
+    public static Indexer getChatIndexer (LuceneIndex luceneIndex, File chatFile) {        
+        String path = chatFile.getAbsolutePath();
+        Indexer indexer = null;
         
-        if ( isValidMSNPath(dir.getAbsolutePath()))
-            return indexHotmailDir(luceneIndex, dir);
+        if ( isValidMSNChatFile(path)) {
+            System.out.println("found msn: " + path);
+            //indexer = MSNChatIndexer.newInstance(luceneIndex, chatFile, FileUtil.getExtension(path), new NoneImageExtractor());
+        }
         
-        else if ( isValidYahooPath(dir.getAbsolutePath()) )
-            return indexYahooDir(luceneIndex, dir);
+        else if ( isValidYahooChatFile(chatFile.getAbsolutePath()) ) {
+            System.out.println("found yahoo: " + path);
+            indexer = YahooChatIndexer.newInstance(luceneIndex, chatFile, FileUtil.getExtension(path), new NoneImageExtractor());  
+        }
         
-        throw new UnsupportedOperationException("Normal Folder");
-    }
-    
-    private static Indexer indexYahooDir(LuceneIndex luceneIndex, File path) {
-        return YahooChatIndexer.newInstance(luceneIndex, path, FileUtil.getExtension(path), new NoneImageExtractor());  
-    }
-    
-    private static Indexer indexHotmailDir(LuceneIndex luceneIndex, File path) {
-        return MSNChatIndexer.newInstance(luceneIndex, path, FileUtil.getExtension(path), new NoneImageExtractor());
+        else if ( isValidSkypeChatFile(chatFile.getAbsolutePath()) )  {
+            System.out.println("found skype: " + path);
+            //indexer = SkypeChatIndexer.newInstance(luceneIndex, chatFile, FileUtil.getExtension(path), new NoneImageExtractor());
+        }
+        
+        return indexer;
     }
     
     /**
@@ -114,8 +124,9 @@ final class IndexerFactory {
      * @param path to chat profile
      * @return true if path is correct and false if not
      */
-    private static boolean isValidYahooPath(String path) {
-        if ( path.endsWith("Program Files\\Yahoo!\\Messenger\\Profiles") )
+    private static boolean isValidYahooChatFile(String path) {
+        if ( path.contains("Program Files\\Yahoo!\\Messenger\\Profiles") &&
+              path.endsWith(".dat"))
             return true;
         
         return false;
@@ -126,8 +137,9 @@ final class IndexerFactory {
      * @param path to chat profile
      * @return true if path is correct and false if not
      */
-    private static boolean isValidMSNPath(String path) {
-        if ( path.endsWith("My Documents\\My Received Files") )
+    private static boolean isValidMSNChatFile(String path) {
+        if ( path.contains("My Documents\\My Received Files") &&
+             path.contains("History") && path.endsWith(".xml") )
             return true;
         
         return false;
@@ -138,8 +150,9 @@ final class IndexerFactory {
      * @param path to chat profile
      * @return true if path is correct and false if not
      */
-    private static boolean isValidSkypePath(String path) {
-        if ( path.endsWith("Application Data\\Skype") )
+    private static boolean isValidSkypeChatFile(String path) {
+        if ( path.contains("Application Data\\Skype") &&
+              path.endsWith("main.db"))
             return true;
         
         return false;
