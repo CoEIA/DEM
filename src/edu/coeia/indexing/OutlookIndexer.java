@@ -35,6 +35,9 @@ import com.pff.PSTFile;
 import com.pff.PSTFolder;
 import com.pff.PSTMessage;
 import com.pff.PSTRecipient;
+import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.List;
 
 final class OutlookIndexer extends Indexer{
     
@@ -66,9 +69,7 @@ final class OutlookIndexer extends Indexer{
        
         try {
             PSTFile pstFile = new PSTFile(this.getFile().getAbsolutePath());
-            System.out.println("name: " + pstFile.getMessageStore().getDisplayName());
             processOutlookFolder(pstFile.getRootFolder());
-            System.out.println("end of processing email\n\n\n");
             result = true;
             
         } catch (FileNotFoundException ex) {
@@ -103,7 +104,6 @@ final class OutlookIndexer extends Indexer{
             depth++;
             PSTMessage email = (PSTMessage) folder.getNextChild();
             while (email != null) {
-                System.out.println("\nFolder: " + folderName + " has message: " + email.getSubject());
                 Document document = this.getDocument(email, folderName);
                 this.indexDocument(document);
                 email = (PSTMessage) folder.getNextChild();
@@ -111,6 +111,27 @@ final class OutlookIndexer extends Indexer{
             depth--;
         }
         depth--;
+    }
+    
+    private void updateGUI(final PSTMessage email, final String folderName, final List<String> attachmentsName) {
+        EventQueue.invokeLater(new Runnable() { 
+            @Override
+            public void run() {
+                String subject = email.getSubject();
+                String date  = Utilities.getEmptyStringWhenNullDate(email.getActionDate());
+                boolean hasAttachment = email.hasAttachments();
+                
+                EmailCrawlingProgressPanel panel = new EmailCrawlingProgressPanel();
+                panel.setAgentType("Outlook");
+                panel.setEmailPath(getFile().getAbsolutePath());
+                panel.setCurrentFolder(folderName);
+                panel.setCurrentMessageSubject(subject);
+                panel.setMessageDate(date);
+                panel.setHasAttachment(String.valueOf(hasAttachment));
+                panel.setAttachment(attachmentsName);
+                getDialog().changeProgressPanel(panel);
+            }
+        });
     }
     
     private boolean indexDocument(final Document document) throws CorruptIndexException, IOException {
@@ -206,6 +227,23 @@ final class OutlookIndexer extends Indexer{
         doc.add(getNotAnlyzedField(OFFLINE_EMAIL_HAS_REPLIED, String.valueOf(hasReplied)));
         doc.add(getNotAnlyzedField(OFFLINE_EMAIL_HAS_FORWARDED, String.valueOf(hasForwarded)));
         doc.add(getNotAnlyzedField(OFFLINE_EMAIL_HAS_ATTACHMENT, String.valueOf(hasAttachment)));
+        
+        // get the name of attchments
+        List<String> attachmentsName = new ArrayList<String>();
+        for(int i=0; i<numberOfAttachments; i++) {
+            PSTAttachment attchment = email.getAttachment(i);
+            String fileName = this.getId() + "-" + id + "-" + attchment.getLongFilename();
+            
+            if ( fileName.isEmpty() ) {
+                String name = attchment.getFilename();
+                if ( name.isEmpty()) continue;
+                
+                fileName =  this.getId() + "-" + id + "-" + name;
+            }
+            attachmentsName.add(fileName);
+        }
+        
+        updateGUI(email, folderName, attachmentsName);
         
 //        System.out.println("html content: " + contentHTML);
 //        System.out.println("content plain: " + contentASCII);
