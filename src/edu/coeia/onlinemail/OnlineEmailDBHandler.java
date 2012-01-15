@@ -64,26 +64,26 @@ public class OnlineEmailDBHandler {
             List<String> bccList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("BCC"));
             List<String> ccList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("CC"));
 
-            InputStream subjectStream = resultSet.getAsciiStream("SUBJECT");
-            String subject = Utilities.convertStreamToString(subjectStream);
+            String subjectStream = resultSet.getString("SUBJECT");
+         //   String subject = Utilities.convertStreamToString(subjectStream);
             
-            InputStream toStream = resultSet.getAsciiStream("TO_ADDRESS");
-            List<String> toList = Utilities.getStringListFromCommaSeparatedString(Utilities.convertStreamToString(toStream));
+            String toStream = resultSet.getString("TO_ADDRESS");
+            List<String> toList = Utilities.getStringListFromCommaSeparatedString(subjectStream);
 
-            InputStream fromStream = resultSet.getAsciiStream("FROM_ADDRESS");
-            String from = Utilities.convertStreamToString(fromStream);
+            String fromStream = resultSet.getString("FROM_ADDRESS");
+          //  String from = Utilities.convertStreamToString(fromStream);
 
-            InputStream bodyStream = resultSet.getAsciiStream("BODY_MESSAGE");
-            String body = Utilities.convertStreamToString(bodyStream);
+            String bodyStream = resultSet.getString("BODY_MESSAGE");
+         //   String body = Utilities.convertStreamToString(bodyStream);
 
             OnlineEmailMessage message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"),
                     resultSet.getString("USERNAME"),
-                    from,
+                    fromStream,
                     toList,
                     bccList,
                     ccList,
-                    subject,
-                    body,
+                    subjectStream,
+                    bodyStream,
                     resultSet.getString("SENT_DATE"),
                     resultSet.getString("CREATED_DATE"),
                     listPaths, resultSet.getString("Folder_Name"));
@@ -111,17 +111,17 @@ public class OnlineEmailDBHandler {
         psInsert.setString(1, msg.getUsername());
         psInsert.setInt(2, msg.getId());
         
-        InputStream fromStream = new ByteArrayInputStream(msg.getFrom().getBytes());
-        psInsert.setAsciiStream(3,fromStream);
+        //InputStream fromStream = new ByteArrayInputStream(msg.getFrom().getBytes());
+        psInsert.setString(3,msg.getFrom());
                
-        InputStream toStream = new ByteArrayInputStream(toBuilder.getBytes());
-        psInsert.setAsciiStream(4, toStream);
+        //InputStream toStream = new ByteArrayInputStream(toBuilder.getBytes());
+        psInsert.setString(4, toBuilder);
         
-        InputStream subjectStream = new ByteArrayInputStream(msg.getSubject().getBytes());
-        psInsert.setAsciiStream(5, subjectStream);
+       // InputStream subjectStream = new ByteArrayInputStream(msg.getSubject().getBytes());
+        psInsert.setString(5, msg.getSubject());
         
-        InputStream bodyStream = new ByteArrayInputStream(msg.getBody().getBytes());
-        psInsert.setAsciiStream(6, bodyStream);
+       // InputStream bodyStream = new ByteArrayInputStream(msg.getBody().getBytes());
+        psInsert.setString(6, msg.getBody());
         
         psInsert.setString(7, msg.getReceiveDate());
         psInsert.setString(8, msg.getSentDate());
