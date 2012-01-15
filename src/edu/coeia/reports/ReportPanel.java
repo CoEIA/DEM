@@ -364,6 +364,27 @@ public class ReportPanel extends javax.swing.JPanel {
         GuiUtil.showPanel("fileSystemCard", this.OptionsPanels);
     }//GEN-LAST:event_fileSystemOptionButtonActionPerformed
 
+    private void emailOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailOptionButtonActionPerformed
+
+    }//GEN-LAST:event_emailOptionButtonActionPerformed
+
+    private void browserOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browserOptionButtonActionPerformed
+
+    }//GEN-LAST:event_browserOptionButtonActionPerformed
+
+    private void instanceChatOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_instanceChatOptionButtonActionPerformed
+
+    }//GEN-LAST:event_instanceChatOptionButtonActionPerformed
+
+    private void reportGenerationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportGenerationButtonActionPerformed
+   
+    }//GEN-LAST:event_reportGenerationButtonActionPerformed
+
+    private void reportGeneratorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportGeneratorButtonActionPerformed
+        
+    }//GEN-LAST:event_reportGeneratorButtonActionPerformed
+
+
     Case getCase() { return this.aCase; }
     CasePathHandler getCasePathHandler() { return this.handler; }
         

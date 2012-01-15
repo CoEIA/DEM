@@ -27,6 +27,11 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 public class DisclosureReport {
     
    private String m_strJasperCompiledFile, m_strDataSourceFile , m_strOutputFilePath, m_strOutputFileName , m_strRootXPath;
+   private String m_strFinalFile;
+
+    public String getFinalFile() {
+        return m_strFinalFile;
+    }
 
    public static String REPORTFOLDER = "\\Reports\\";
    
@@ -193,7 +198,8 @@ public class DisclosureReport {
             exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,strFinalOutput);
             exporter.setParameter(JRExporterParameter.JASPER_PRINT,v_jsPrint);
             exporter.exportReport();
-            System.out.println("Created file: " + strFinalOutput);    
+            System.out.println("Created file: " + strFinalOutput);
+            m_strFinalFile = strFinalOutput;
         }
         catch (JRException ex)
         {
