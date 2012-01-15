@@ -9,5 +9,5 @@ package edu.coeia.reports;
  * @author wajdyessam
  */
 public interface ReportGenerator {
-    public String generateReport();
+    public DatasourceXml generateReport();
 }

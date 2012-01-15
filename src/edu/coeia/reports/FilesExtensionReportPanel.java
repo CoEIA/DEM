@@ -29,11 +29,11 @@ public class FilesExtensionReportPanel extends javax.swing.JPanel implements Rep
     }
 
     @Override
-    public String generateReport() {
-        String strXmlSource = "";
+    public DatasourceXml generateReport() {
+         DatasourceXml objXmlSource = new DatasourceXml();
         
         try {
-            strXmlSource = RawResultFile.getExtensionFrequencyXmlFile(
+            objXmlSource = RawResultFile.getExtensionFrequencyXmlFile(
                     IndexUtil.getAllFilesFrequency(this.reportPanel.getCase(), this.reportPanel.getCasePathHandler()),
                     this.reportPanel.getCase());
         } 
@@ -41,7 +41,7 @@ public class FilesExtensionReportPanel extends javax.swing.JPanel implements Rep
             Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return strXmlSource;
+        return objXmlSource;
     }
         
     /** This method is called from within the constructor to

@@ -118,10 +118,10 @@ public class ReportOptionDialog extends javax.swing.JDialog {
 
     private void generateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateButtonActionPerformed
         ReportGenerator generator = (ReportGenerator) this.centerReportPanel;
-        String result = generator.generateReport();
-        System.out.println("result: " + result);
+        DatasourceXml objXmlSource = generator.generateReport();
+        System.out.println("result: " + objXmlSource);
         
-        generateReport(result);
+        generateReport(objXmlSource);
         
         // open the document here
         
@@ -136,19 +136,20 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         this.repaint();
     }
     
-    private void generateReport(final String strXmlSource) {
+    private void generateReport(final DatasourceXml objXmlSource) {
         try {
-            File file = new File(FilesPath.TEMPLATES+"\\filesystem_report.jasper");
+            
+            File file = new File(FilesPath.TEMPLATES+objXmlSource.m_strJasperFile);//"\\filesystem_report.jasper");
             String strJasperFile = file.getAbsolutePath(); //"C:/Users/Farhan/Desktop/projects/DEM/templates/filesystem_report.jasper";
             String strReportOutputPath = aCase.getCaseLocation()+DisclosureReport.REPORTFOLDER;
-            String strReportName = "filesystem";
+            String strReportName = objXmlSource.m_strReportName;//"filesystem";
             
             DisclosureReport disReport = new DisclosureReport(strJasperFile,
-                                                              strXmlSource,
+                                                              objXmlSource.m_strXmlPath,
                                                               strReportOutputPath,strReportName);
             
             disReport.setOutputFileExtension(DisclosureReport.REPORT_TYPE.PDF);
-            disReport.setRootXPath("/dem/detail/effectivefiles/file");
+            disReport.setRootXPath(objXmlSource.m_strXPath);//"/dem/detail/effectivefiles/file");
             disReport.Generate();
             
             if ((new File(disReport.getFinalFile())).exists())

@@ -30,14 +30,14 @@ public class FilesSizeReportPanel extends javax.swing.JPanel implements ReportGe
     }
 
     @Override
-    public String generateReport() {
-        String strXmlSource = "";
+    public DatasourceXml generateReport() {
+        DatasourceXml objXmlSource = new DatasourceXml();
         
         long from = (long) SizeUtil.fromMBtoByte(Long.valueOf(this.fromSizeTextField.getText().trim()));
         long to = (long) SizeUtil.fromMBtoByte(Long.valueOf(this.toSizeTextField.getText().trim()));
         
         try {
-            strXmlSource = RawResultFile.getFileSystemXmlFile(
+            objXmlSource = RawResultFile.getFileSystemXmlFile(
                     IndexUtil.getAllFilesBetweenSize(this.reportPanel.getCase(), this.reportPanel.getCasePathHandler(),
                     from, to)
             ,this.reportPanel.getCase());
@@ -45,7 +45,7 @@ public class FilesSizeReportPanel extends javax.swing.JPanel implements ReportGe
             Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return strXmlSource;
+        return objXmlSource;
     }
         
     /** This method is called from within the constructor to

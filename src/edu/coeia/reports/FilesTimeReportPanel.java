@@ -35,14 +35,15 @@ public class FilesTimeReportPanel extends javax.swing.JPanel implements ReportGe
     }
 
     @Override
-    public String generateReport() {
+    public DatasourceXml generateReport() {
+        DatasourceXml xmlSource= new DatasourceXml();
         Date from = ((JDateChooser) fromDatePanel.getComponent(0)).getDate();
         Date to   = ((JDateChooser) toDatePanel.getComponent(0)).getDate();
         
         String strXmlSource = "";
         
         try {
-            strXmlSource = RawResultFile.getFileSystemXmlFile(
+            xmlSource = RawResultFile.getFileSystemXmlFile(
                     IndexUtil.getAllFilesBetweenDates(this.reportPanel.getCase(), this.reportPanel.getCasePathHandler(),
                     from, to)
             ,this.reportPanel.getCase());
@@ -50,7 +51,7 @@ public class FilesTimeReportPanel extends javax.swing.JPanel implements ReportGe
             Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return strXmlSource;
+        return xmlSource;
     }
         
     /** This method is called from within the constructor to
