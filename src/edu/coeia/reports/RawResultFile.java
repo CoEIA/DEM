@@ -5,6 +5,7 @@
 package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseHistoryHandler;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 import java.io.File;
@@ -96,6 +97,9 @@ public class RawResultFile {
         String mainRawfilePath = currentCase.getCaseLocation()+"\\RAW";
         String cookedReportFolder = currentCase.getCaseLocation()+"\\Reports";
         DatasourceXml sourceXml = new DatasourceXml();
+        sourceXml.m_strJasperFile = "\\cases_report.jasper";
+        sourceXml.m_strXPath = "/dem/cases/case";
+        sourceXml.m_strReportName =  "cases";
         
         if(!FileUtil.isDirectoryExists(mainRawfilePath))
         {
@@ -107,28 +111,47 @@ public class RawResultFile {
             FileUtil.createFolder(cookedReportFolder);
         }
         
-        String strOutputPath =mainRawfilePath+"\\filesystem.xml";
+        String strOutputPath =mainRawfilePath+"\\cases.xml";
         String retOutput="";
         String strLocation = currentCase.getCaseLocation();
-        String strCaseXml ="<dem><case>"
-                        +"<name>"+currentCase.getCaseName()+"</name>"
-                        +"<author>"+currentCase.getDescription()+"</author>"
-                        +"<source> "+strLocation+"</source>"
-                        +"</case>";
+        String strCaseXml ="<dem><cases>";
+        String casess ="";
         
         for(Case aCase: cases) {
             String caseName = aCase.getCaseName();
             String caseLocation = aCase.getCaseLocation();
+            caseLocation = caseLocation.replace(':','\\');
             String caseCreatingTime = DateUtil.formatedDateWithTime(aCase.getCreateTime());
             String caseAuther = aCase.getInvestigatorName();
-            
+            String caseDescription  = aCase.getDescription();
+            long caseSize = CaseHistoryHandler.get(caseName).getCaseSize();
+            casess += "<case>"
+                      +"<path>"+caseLocation+"</path>"
+                       +"<creator>"+caseAuther+"</creator>"
+                      +"<name>"+ caseName+"</name>"
+                      +"<description>"+ caseDescription+"</description>"
+                      +"<size>"+ caseSize+"</size>"                  
+                      +"<date>"+caseCreatingTime+"</date>"
+                    + "</case>";
             // operations here
         }
         
+       strCaseXml+= casess +"</cases></dem>";
+                
+       try
+       {
+           File file = new File(strOutputPath);      
+           FileUtils.writeStringToFile(file, strCaseXml);
+       }
+       catch (IOException e)
+       {
+          e.printStackTrace();
+          strOutputPath="";
+       }
+
         sourceXml.m_strXmlPath =  strOutputPath;
-          
-        
-        return sourceXml;
+       
+      return sourceXml; 
     }
     
     public static DatasourceXml getFileSystemXmlFile(List<String> list,Case cases)
