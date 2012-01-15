@@ -8,7 +8,8 @@ import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.util.FilesPath;
 import edu.coeia.onlinemail.OnlineEmailDBHandler;
-import edu.coeia.hash.HashCalculator;
+
+import java.awt.EventQueue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,9 +27,9 @@ import org.apache.tika.exception.TikaException;
  *
  * @author Ahmed
  */
-final class EmailIndexer extends Indexer {
+final class OnlineEmailIndexer extends Indexer {
 
-    public EmailIndexer(LuceneIndex luceneIndex, File file, String mimeType,
+    public OnlineEmailIndexer(LuceneIndex luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor) {
         super(luceneIndex, file, mimeType, imageExtractor);
     }
@@ -46,6 +47,7 @@ final class EmailIndexer extends Indexer {
                     Document doc = getDocument(msg);
 
                     if (doc != null) {
+                        this.updateGUI(msg);
                         this.getLuceneIndex().getWriter().addDocument(doc);    // index file
                         this.increaseId();
 
@@ -69,6 +71,29 @@ final class EmailIndexer extends Indexer {
         return status;
     }
 
+    private void updateGUI(final OnlineEmailMessage email) {
+        EventQueue.invokeLater(new Runnable() { 
+            @Override
+            public void run() {
+                String subject = email.getSubject();
+                String date = email.getSentDate();
+                boolean hasAttachment = !email.getAttachments().isEmpty();
+                String folderName = email.getFolderName();
+                String agent = email.getUsername();
+                
+                EmailCrawlingProgressPanel panel = new EmailCrawlingProgressPanel();
+                panel.setAgentType(agent);
+                panel.setEmailPath("");
+                panel.setCurrentFolder(folderName);
+                panel.setCurrentMessageSubject(subject);
+                panel.setMessageDate(date);
+                panel.setHasAttachment(String.valueOf(hasAttachment));
+                panel.setAttachment(email.getAttachments());
+                getDialog().changeProgressPanel(panel);
+            }
+        });
+    }
+        
     public Document getDocument(OnlineEmailMessage msg) throws CorruptIndexException, IOException, FileNotFoundException, TikaException {
         Document doc = new Document();
 
