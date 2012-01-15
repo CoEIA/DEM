@@ -134,7 +134,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         indexControlPanelLayout.setHorizontalGroup(
             indexControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, indexControlPanelLayout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
+                .addContainerGap(129, Short.MAX_VALUE)
                 .addComponent(startIndexButton, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
                 .addComponent(stopIndexingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -178,7 +178,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
                 .addGroup(progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(progressPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE))
+                        .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, progressPanelLayout.createSequentialGroup()
                         .addGap(9, 9, 9)
                         .addGroup(progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -190,7 +190,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel41)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(numberOfErrorFilesLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)))
+                        .addComponent(numberOfErrorFilesLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         progressPanelLayout.setVerticalGroup(
@@ -214,6 +214,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         indexPanel.add(progressStatusPanel, java.awt.BorderLayout.NORTH);
 
         loggingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "logging", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        loggingPanel.setLayout(new java.awt.BorderLayout());
 
         indexTable.setAutoCreateRowSorter(true);
         indexTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -225,21 +226,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(indexTable);
 
-        javax.swing.GroupLayout loggingPanelLayout = new javax.swing.GroupLayout(loggingPanel);
-        loggingPanel.setLayout(loggingPanelLayout);
-        loggingPanelLayout.setHorizontalGroup(
-            loggingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(loggingPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        loggingPanelLayout.setVerticalGroup(
-            loggingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(loggingPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        loggingPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         indexPanel.add(loggingPanel, java.awt.BorderLayout.CENTER);
 
@@ -272,7 +259,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(timeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         indexHistoryPanelLayout.setVerticalGroup(
             indexHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,26 +275,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
         indexPanel.add(indexHistoryPanel, java.awt.BorderLayout.SOUTH);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 712, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(indexPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 517, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(indexPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
-        );
+        getContentPane().add(indexPanel, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -364,6 +332,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         this.getObjectPanel().revalidate();
         this.getObjectPanel().repaint();
         this.repaint();
+        this.validate();
     }
     
     void setTimeLabel(final String time) { this.timeLbl.setText(time); }

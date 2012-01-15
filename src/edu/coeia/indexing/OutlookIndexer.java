@@ -118,8 +118,10 @@ final class OutlookIndexer extends Indexer{
             @Override
             public void run() {
                 String subject = email.getSubject();
-                String date  = Utilities.getEmptyStringWhenNullDate(email.getActionDate());
+                String date  = Utilities.getEmptyStringWhenNullDate(email.getClientSubmitTime());
                 boolean hasAttachment = email.hasAttachments();
+                String sentRepresentingName = email.getSentRepresentingName();   
+                String displayTo = email.getDisplayTo();
                 
                 EmailCrawlingProgressPanel panel = new EmailCrawlingProgressPanel();
                 panel.setAgentType("Outlook");
@@ -128,6 +130,8 @@ final class OutlookIndexer extends Indexer{
                 panel.setCurrentMessageSubject(subject);
                 panel.setMessageDate(date);
                 panel.setHasAttachment(String.valueOf(hasAttachment));
+                panel.setFrom(sentRepresentingName);
+                panel.setTo(displayTo);
                 panel.setAttachment(attachmentsName);
                 getDialog().changeProgressPanel(panel);
             }

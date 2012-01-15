@@ -9,6 +9,7 @@ import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.util.FilesPath;
 import edu.coeia.onlinemail.OnlineEmailDBHandler;
 
+import edu.coeia.util.Utilities;
 import java.awt.EventQueue;
 
 import java.io.File;
@@ -87,6 +88,8 @@ final class OnlineEmailIndexer extends Indexer {
                 panel.setCurrentFolder(folderName);
                 panel.setCurrentMessageSubject(subject);
                 panel.setMessageDate(date);
+                panel.setFrom(email.getFrom());
+                panel.setTo(Utilities.getCommaSeparatedStringFromCollection(email.getTo()));
                 panel.setHasAttachment(String.valueOf(hasAttachment));
                 panel.setAttachment(email.getAttachments());
                 getDialog().changeProgressPanel(panel);

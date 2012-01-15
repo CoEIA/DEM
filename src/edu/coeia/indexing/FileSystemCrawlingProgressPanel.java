@@ -10,6 +10,8 @@
  */
 package edu.coeia.indexing;
 
+import java.util.List;
+
 /**
  *
  * @author wajdyessam
@@ -24,6 +26,13 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel {
     void setCurrentFile(final String fileName) { this.currentFileTextField.setText(fileName); }
     void setFileSize(final String size) { this.fileSizeTextField.setText(size); }
     void setFileExtension(final String ext) { this.fileExtensionTextField.setText(ext) ; }
+    
+    public void setEmbeddedDocuments(final List<String> documents) {
+        for(String doc: documents) {
+            this.embeddedDocumentsTextArea.append(doc);
+            this.embeddedDocumentsTextArea.append("\n");
+        }
+    }
     
     void clear() {
         this.setFileExtension("");
@@ -47,6 +56,9 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel {
         fileSizeTextField = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         fileExtensionTextField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        embeddedDocumentsTextArea = new javax.swing.JTextArea();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -76,16 +88,32 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel {
         fileExtensionTextField.setEnabled(false);
         jPanel1.add(fileExtensionTextField);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText("Embedded Documents:");
+        jPanel1.add(jLabel1);
+
+        embeddedDocumentsTextArea.setColumns(20);
+        embeddedDocumentsTextArea.setEditable(false);
+        embeddedDocumentsTextArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        embeddedDocumentsTextArea.setRows(5);
+        embeddedDocumentsTextArea.setEnabled(false);
+        jScrollPane1.setViewportView(embeddedDocumentsTextArea);
+
+        jPanel1.add(jScrollPane1);
+
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField currentFileTextField;
+    private javax.swing.JTextArea embeddedDocumentsTextArea;
     private javax.swing.JTextField fileExtensionTextField;
     private javax.swing.JTextField fileSizeTextField;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

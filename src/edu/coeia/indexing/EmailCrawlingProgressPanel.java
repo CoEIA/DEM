@@ -56,7 +56,7 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel8.setText("Offline Email Agent:");
+        jLabel8.setText(" Email Agent:");
         jPanel2.add(jLabel8);
 
         agentTypeTextField.setText(" ");
@@ -155,6 +155,9 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
     public void setCurrentMessageSubject(final String subject) { this.currentMessageSubjectTextField.setText(subject); }
     public void setMessageDate(final String date) { this.messageDateTextField.setText(date); }
     public void setHasAttachment(final String state) { this.hasAttachmentTextField.setText(state); }
+    public void setFrom(final String from) { this.fromTextField.setText(from); }
+    public void setTo(final String to) { this.toTextField.setText(to); }
+    
     public void setAttachment(final List<String> attachmentsName) {
         for(String attachment: attachmentsName) {
             this.attachmentsTextArea.append(attachment);
