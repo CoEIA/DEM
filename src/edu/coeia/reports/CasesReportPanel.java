@@ -30,11 +30,11 @@ public class CasesReportPanel extends javax.swing.JPanel implements ReportGenera
     }
 
     @Override
-    public String generateReport() {
-        String strXmlSource = "";
-        
+    public DatasourceXml generateReport() {
+
+        DatasourceXml xmlSource= new DatasourceXml();
         try {
-            strXmlSource = RawResultFile.getCasesXmlFile(IndexUtil.getAllCases(),this.reportPanel.getCase());
+            xmlSource = RawResultFile.getCasesXmlFile(IndexUtil.getAllCases(),this.reportPanel.getCase());
         } 
         catch (IOException ex) {
             Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -43,7 +43,7 @@ public class CasesReportPanel extends javax.swing.JPanel implements ReportGenera
             Logger.getLogger(CasesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return strXmlSource;
+        return xmlSource;
     }
     
     /** This method is called from within the constructor to

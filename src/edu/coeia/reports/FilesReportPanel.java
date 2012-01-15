@@ -29,18 +29,18 @@ public class FilesReportPanel extends javax.swing.JPanel implements ReportGenera
     }
 
     @Override
-    public String generateReport() {
-        String strXmlSource = "";
+    public DatasourceXml generateReport() {
+        DatasourceXml objXmlSource =new DatasourceXml();
         
         try {
-            strXmlSource = RawResultFile.getFileSystemXmlFile(
+            objXmlSource = RawResultFile.getFileSystemXmlFile(
                     IndexUtil.getAllFilePaths(this.reportPanel.getCase(), this.reportPanel.getCasePathHandler())
             ,this.reportPanel.getCase());
         } catch (IOException ex) {
             Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return strXmlSource;
+        return objXmlSource;
     }
         
     /** This method is called from within the constructor to

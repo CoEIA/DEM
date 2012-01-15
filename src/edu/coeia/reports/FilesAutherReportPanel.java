@@ -49,8 +49,8 @@ public class FilesAutherReportPanel extends javax.swing.JPanel implements Report
     }
     
     @Override
-    public String generateReport() {
-        String strXmlSource = "";
+    public DatasourceXml generateReport() {
+        DatasourceXml xmlSource= new DatasourceXml();
         List<String> authers = new ArrayList<String>();
         
         // make up list of authers
@@ -60,7 +60,7 @@ public class FilesAutherReportPanel extends javax.swing.JPanel implements Report
         }
         
          try {
-            strXmlSource = RawResultFile.getFileSystemXmlFile(
+            xmlSource = RawResultFile.getFileSystemXmlFile(
                     IndexUtil.getAllFilesHaveAuthers(this.reportPanel.getCase(), 
                     this.reportPanel.getCasePathHandler(), authers)
             ,this.reportPanel.getCase());
@@ -68,7 +68,7 @@ public class FilesAutherReportPanel extends javax.swing.JPanel implements Report
             Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return strXmlSource;
+        return xmlSource;
     }
 
     /** This method is called from within the constructor to

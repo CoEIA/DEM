@@ -21,35 +21,81 @@ import org.apache.commons.io.FileUtils;
  */
 public class RawResultFile {
     
-    public static String getExtensionFrequencyXmlFile(Map<String, Double> map, Case currentCase) {
+    public static DatasourceXml getExtensionFrequencyXmlFile(Map<String, Double> map, Case currentCase) {
         // iterator over map
-        for(Map.Entry<String, Double> entry: map.entrySet()) {
+        String mainRawfilePath = currentCase.getCaseLocation()+"\\RAW";
+        String cookedReportFolder = currentCase.getCaseLocation()+"\\Reports";
+        DatasourceXml sourceXml = new DatasourceXml();
+        if(!FileUtil.isDirectoryExists(mainRawfilePath))
+        {
+            FileUtil.createFolder(mainRawfilePath);
+        }
+        
+        if(!FileUtil.isDirectoryExists(cookedReportFolder))
+        {
+            FileUtil.createFolder(cookedReportFolder);
+        }
+        
+        sourceXml.m_strJasperFile = "\\fileextension_report.jasper";
+        sourceXml.m_strXPath = "/dem/detail/effectiveextensions/ext";
+        sourceXml.m_strReportName =  "fileextension";
+        
+        String strOutputPath =mainRawfilePath+"\\fileextension.xml";
+        String retOutput="";
+        String strLocation = currentCase.getCaseLocation();
+        String strCaseXml ="<dem><case>"
+                        +"<name>"+currentCase.getCaseName()+"</name>"
+                        +"<author>"+currentCase.getDescription()+"</author>"
+                        +"<source> "+strLocation+"</source>"
+                        +"</case>";
+        
+        String filesdata="";
+        int icounter = 0 ;
+        for(Map.Entry<String, Double> entry: map.entrySet()) 
+        {
             String extension = entry.getKey();
             double frequecy = entry.getValue();
             
             // operations here...
-        }
+            filesdata+=
+                         "<ext>"
+                        + "<sno>"+icounter+"</sno>"
+                        + "<extension>"+extension+"</extension>"
+                        + "<frequency>"+frequecy+"</frequency>"
+                        + "</ext>";
+            icounter++;
+	}
         
-        return "";
+       retOutput  =strCaseXml
+                +"<detail>"
+                      +"<effectiveextensions>"
+                      +filesdata
+                      +"</effectiveextensions>" 
+                     +"</detail>"
+                + "</dem>";
+       
+       try
+       {
+
+           File file = new File(strOutputPath);      
+           FileUtils.writeStringToFile(file, retOutput);
+       }
+       catch (IOException e)
+       {
+          e.printStackTrace();
+          strOutputPath="";
+       }
+       
+        sourceXml.m_strXmlPath =  strOutputPath;
+
+        return sourceXml;
     }
     
-    public static String getCasesXmlFile(List<Case> cases, Case currentCase) {
-        for(Case aCase: cases) {
-            String caseName = aCase.getCaseName();
-            String caseLocation = aCase.getCaseLocation();
-            String caseCreatingTime = DateUtil.formatedDateWithTime(aCase.getCreateTime());
-            String caseAuther = aCase.getInvestigatorName();
-            
-            // operations here
-        }
+    public static DatasourceXml getCasesXmlFile(List<Case> cases, Case currentCase) {
         
-        return "";
-    }
-    
-    public static String getFileSystemXmlFile(List<String> list,Case cases)
-    {
-        String mainRawfilePath = cases.getCaseLocation()+"\\RAW";
-        String cookedReportFolder = cases.getCaseLocation()+"\\Reports";
+        String mainRawfilePath = currentCase.getCaseLocation()+"\\RAW";
+        String cookedReportFolder = currentCase.getCaseLocation()+"\\Reports";
+        DatasourceXml sourceXml = new DatasourceXml();
         
         if(!FileUtil.isDirectoryExists(mainRawfilePath))
         {
@@ -63,11 +109,54 @@ public class RawResultFile {
         
         String strOutputPath =mainRawfilePath+"\\filesystem.xml";
         String retOutput="";
+        String strLocation = currentCase.getCaseLocation();
+        String strCaseXml ="<dem><case>"
+                        +"<name>"+currentCase.getCaseName()+"</name>"
+                        +"<author>"+currentCase.getDescription()+"</author>"
+                        +"<source> "+strLocation+"</source>"
+                        +"</case>";
+        
+        for(Case aCase: cases) {
+            String caseName = aCase.getCaseName();
+            String caseLocation = aCase.getCaseLocation();
+            String caseCreatingTime = DateUtil.formatedDateWithTime(aCase.getCreateTime());
+            String caseAuther = aCase.getInvestigatorName();
+            
+            // operations here
+        }
+        
+        sourceXml.m_strXmlPath =  strOutputPath;
+          
+        
+        return sourceXml;
+    }
+    
+    public static DatasourceXml getFileSystemXmlFile(List<String> list,Case cases)
+    {
+        String mainRawfilePath = cases.getCaseLocation()+"\\RAW";
+        String cookedReportFolder = cases.getCaseLocation()+"\\Reports";
+        DatasourceXml sourceXml = new DatasourceXml();
+        
+        if(!FileUtil.isDirectoryExists(mainRawfilePath))
+        {
+            FileUtil.createFolder(mainRawfilePath);
+        }
+        
+        if(!FileUtil.isDirectoryExists(cookedReportFolder))
+        {
+            FileUtil.createFolder(cookedReportFolder);
+        }
+        
+        sourceXml.m_strJasperFile = "\\filesystem_report.jasper";
+        sourceXml.m_strXPath = "/dem/detail/effectivefiles/file";
+        sourceXml.m_strReportName =  "filesystem";
+                
+        String strOutputPath =mainRawfilePath+"\\filesystem.xml";
+        String retOutput="";
         
         String strLocation = cases.getCaseLocation();
-        strLocation.replace('C','/');
-        strLocation.replace(':','/');
-        System.out.println(strLocation);
+        strLocation = strLocation.replace(':','\\');
+
         String strCaseXml ="<dem><case>"
                         +"<name>"+cases.getCaseName()+"</name>"
                         +"<author>"+cases.getDescription()+"</author>"
@@ -77,6 +166,7 @@ public class RawResultFile {
         String files ="";
         
        Iterator<String> iterator = list.iterator();
+       int icounter = 0;
 	while (iterator.hasNext()) {
             String strPath = iterator.next();
             File file = new File(strPath);
@@ -90,12 +180,14 @@ public class RawResultFile {
             String ext=strPath.substring(mid+1,strPath.length());  
 		files+=
                          "<file>"
+                        + "<sno>"+icounter+"</sno>"
                         + "<path>"+strPath+"</path>"
                         + "<size>"+filesizeInKB+"kb</size>"
                         + "<moddate>"+date+"</moddate>"
                         + "<extension>"+ext+"</extension>"
                         + "</file>";
-	}
+            icounter++;
+        }
         
        retOutput  =strCaseXml
                 +"<detail>"
@@ -117,6 +209,8 @@ public class RawResultFile {
           strOutputPath="";
        }
 
-        return strOutputPath;
+        sourceXml.m_strXmlPath =  strOutputPath;
+       
+        return sourceXml;
     }
 }

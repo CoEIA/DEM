@@ -56,26 +56,29 @@
 	<field name="source" class="java.lang.String">
 		<fieldDescription><![CDATA[/dem/case/source]]></fieldDescription>
 	</field>
+	<field name="sno" class="java.lang.String">
+		<fieldDescription><![CDATA[sno]]></fieldDescription>
+	</field>
 	<group name="Titles">
 		<groupExpression><![CDATA[$F{name}]]></groupExpression>
 		<groupHeader>
 			<band height="28">
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="4" width="193" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
+					<reportElement mode="Opaque" x="0" y="4" width="221" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
 					<textElement textAlignment="Center">
 						<font isBold="true" isItalic="false"/>
 					</textElement>
 					<text><![CDATA[Path]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="193" y="4" width="138" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
+					<reportElement mode="Opaque" x="221" y="4" width="138" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
 					<textElement textAlignment="Center">
 						<font isBold="true" isItalic="false"/>
 					</textElement>
 					<text><![CDATA[Modified Date]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="331" y="4" width="138" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
+					<reportElement mode="Opaque" x="359" y="4" width="110" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
 					<textElement textAlignment="Center">
 						<font isBold="true" isItalic="false"/>
 					</textElement>
@@ -155,14 +158,14 @@
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="7" y="39" width="78" height="20"/>
+				<reportElement x="7" y="39" width="78" height="20" forecolor="#999999"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Case Source:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="87" y="40" width="100" height="20"/>
+				<reportElement x="87" y="40" width="466" height="20" forecolor="#999999"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{source}]]></textFieldExpression>
 			</textField>
@@ -171,12 +174,12 @@
 	<detail>
 		<band height="45" splitType="Stretch">
 			<textField>
-				<reportElement x="193" y="0" width="138" height="20"/>
+				<reportElement x="221" y="0" width="138" height="20"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{moddate}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="331" y="0" width="138" height="20"/>
+				<reportElement x="359" y="0" width="110" height="20"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{size}]]></textFieldExpression>
 			</textField>
@@ -186,9 +189,14 @@
 				<textFieldExpression><![CDATA[$F{extension}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="0" width="193" height="43"/>
+				<reportElement x="29" y="0" width="193" height="43"/>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[$F{path}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="29" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{sno}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
