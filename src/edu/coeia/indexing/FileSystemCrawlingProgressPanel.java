@@ -21,9 +21,9 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    void setCurrentFile(final String fileName) { this.currentFileLbl.setText(fileName); }
-    void setFileSize(final String size) { this.sizeOfFileLbl.setText(size); }
-    void setFileExtension(final String ext) { this.fileExtensionLbl.setText(ext) ; }
+    void setCurrentFile(final String fileName) { this.currentFileTextField.setText(fileName); }
+    void setFileSize(final String size) { this.fileSizeTextField.setText(size); }
+    void setFileExtension(final String ext) { this.fileExtensionTextField.setText(ext) ; }
     
     void clear() {
         this.setFileExtension("");
@@ -40,85 +40,52 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        progresLabelPanel = new javax.swing.JPanel();
-        jLabel23 = new javax.swing.JLabel();
-        currentFileLbl = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        sizeOfFileLbl = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        fileExtensionLbl = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel26 = new javax.swing.JLabel();
+        currentFileTextField = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        fileSizeTextField = new javax.swing.JTextField();
+        jLabel28 = new javax.swing.JLabel();
+        fileExtensionTextField = new javax.swing.JTextField();
 
         setLayout(new java.awt.BorderLayout());
 
-        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel23.setText("Current File:");
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
-        currentFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        currentFileLbl.setForeground(new java.awt.Color(0, 0, 255));
-        currentFileLbl.setText(" ");
+        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel26.setText("Current File:");
+        jPanel1.add(jLabel26);
 
-        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel25.setText("File Size:");
+        currentFileTextField.setText(" ");
+        currentFileTextField.setEnabled(false);
+        jPanel1.add(currentFileTextField);
 
-        sizeOfFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        sizeOfFileLbl.setForeground(new java.awt.Color(0, 0, 255));
-        sizeOfFileLbl.setText(" ");
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel27.setText("File Size:");
+        jPanel1.add(jLabel27);
 
-        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel24.setText("File Extension:");
+        fileSizeTextField.setText(" ");
+        fileSizeTextField.setEnabled(false);
+        jPanel1.add(fileSizeTextField);
 
-        fileExtensionLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
-        fileExtensionLbl.setForeground(new java.awt.Color(0, 0, 255));
-        fileExtensionLbl.setText(" ");
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel28.setText("File Extension:");
+        jPanel1.add(jLabel28);
 
-        javax.swing.GroupLayout progresLabelPanelLayout = new javax.swing.GroupLayout(progresLabelPanel);
-        progresLabelPanel.setLayout(progresLabelPanelLayout);
-        progresLabelPanelLayout.setHorizontalGroup(
-            progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel23)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(currentFileLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE))
-                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fileExtensionLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE))
-                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel25)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sizeOfFileLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        progresLabelPanelLayout.setVerticalGroup(
-            progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel23)
-                    .addComponent(currentFileLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel25)
-                    .addComponent(sizeOfFileLbl))
-                .addGap(11, 11, 11)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fileExtensionLbl)
-                    .addComponent(jLabel24))
-                .addContainerGap(31, Short.MAX_VALUE))
-        );
+        fileExtensionTextField.setText(" ");
+        fileExtensionTextField.setEnabled(false);
+        jPanel1.add(fileExtensionTextField);
 
-        add(progresLabelPanel, java.awt.BorderLayout.NORTH);
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel currentFileLbl;
-    private javax.swing.JLabel fileExtensionLbl;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JPanel progresLabelPanel;
-    private javax.swing.JLabel sizeOfFileLbl;
+    private javax.swing.JTextField currentFileTextField;
+    private javax.swing.JTextField fileExtensionTextField;
+    private javax.swing.JTextField fileSizeTextField;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
