@@ -51,7 +51,7 @@ final class EmailIndexer extends Indexer {
 
                         for (String sAttachments : msg.getAttachments()) {
                             File attachmentPath = new File(this.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS + "\\" + sAttachments);
-                            this.getLuceneIndex().indexFile(attachmentPath, this.getId());
+                            this.getLuceneIndex().indexFile(attachmentPath, this.getId(), this.getDialog());
                         }
                     }
                 } 

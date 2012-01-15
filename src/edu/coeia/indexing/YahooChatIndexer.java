@@ -84,7 +84,7 @@ final class YahooChatIndexer extends Indexer{
                     // index the .DAT file first
                     String datPath = conversation.path ;
                     this.parentId = this.getId();
-                    this.getLuceneIndex().indexFile(new File(datPath), parentId);
+                    this.getLuceneIndex().indexFile(new File(datPath), parentId,this.getDialog());
                 
                     for(YahooMessage msg: conversation.messages) {
                         Document doc = getDocument(msg,  session.userName, session.otherName , conversation.path); // add parentid and parent metadata here

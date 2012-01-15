@@ -39,6 +39,12 @@ public abstract class Indexer {
     
     public abstract boolean doIndexing();
     
+    /** to update the current GUI dialog, to display what type of file
+     * the indexer work on it
+     * @param dialog the GUI that have the progress bar and error table
+     */
+    public void setGUIDialog(final IndexingDialog dialog) { this.indexingDialog = dialog; }
+    
     public File getFile() { return this.file ; }
     public String getMimeType() { return this.mimeType ;}
     public boolean isImageCache() { return this.imageCache; }
@@ -48,6 +54,7 @@ public abstract class Indexer {
     public LuceneIndex getLuceneIndex() { return this.luceneIndex; }
     public ImageExtractor getImageExtractor() { return this.imageExtractor; }
     public CasePathHandler getPathHandler() { return this.pathHandler; }
+    public IndexingDialog getDialog() { return this.indexingDialog ; }
     
     public int getId() { return id ; }
     public void increaseId() { id++; }
@@ -63,4 +70,5 @@ public abstract class Indexer {
     private final ImageExtractor imageExtractor;
     private final LuceneIndex luceneIndex ;
     private final CasePathHandler pathHandler;
+    private IndexingDialog indexingDialog;
 }

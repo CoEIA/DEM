@@ -260,7 +260,7 @@ final class OutlookIndexer extends Indexer{
             
             // index attachment
             try {
-                this.getLuceneIndex().indexFile(attachmentPath, this.getId());
+                this.getLuceneIndex().indexFile(attachmentPath, this.getId(), this.getDialog());
                 System.out.println("Index attchment: " + attachmentPath.getAbsolutePath());
             }
             catch(Exception e ) {

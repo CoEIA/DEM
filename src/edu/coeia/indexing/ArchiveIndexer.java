@@ -49,7 +49,7 @@ final class ArchiveIndexer extends Indexer {
             if ( handler != null ) {
                 for(TikaObjectExtractor.ObjectLocation location: handler.getLocations()) {
                     System.out.println("Extract: " + location.oldFilePath + " TO: " + location.newFilePath);
-                    this.getLuceneIndex().indexFile(new File(location.newFilePath), parentId);
+                    this.getLuceneIndex().indexFile(new File(location.newFilePath), parentId, this.getDialog());
                 }
             }
 

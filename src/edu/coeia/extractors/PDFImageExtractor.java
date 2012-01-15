@@ -26,7 +26,7 @@ public final class PDFImageExtractor implements ImageExtractor {
         // index the images using ImageIndexer
         for(TikaObjectExtractor.ObjectLocation location: handler.getLocations()) {
             try {
-                indexer.getLuceneIndex().indexFile(new File(location.newFilePath), parentId);
+                indexer.getLuceneIndex().indexFile(new File(location.newFilePath), parentId, indexer.getDialog());
             }
             catch(Exception e) {
                 e.printStackTrace();

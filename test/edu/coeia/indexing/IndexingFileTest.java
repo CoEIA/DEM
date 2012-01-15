@@ -34,7 +34,7 @@ public class IndexingFileTest extends CaseBaseSource{
             
             File file = new File(zipFiles.get(0));
             
-            boolean state = luceneIndexer.indexFile(file);
+            boolean state = luceneIndexer.indexFile(file, null);
             luceneIndexer.closeIndex();
             
             assertEquals(state, true);
@@ -49,7 +49,7 @@ public class IndexingFileTest extends CaseBaseSource{
             
             File file = new File(textFiles.get(0));
             
-            boolean state = luceneIndexer.indexFile(file);
+            boolean state = luceneIndexer.indexFile(file, null);
             luceneIndexer.closeIndex();
             
             assertEquals(state, true);
@@ -65,7 +65,7 @@ public class IndexingFileTest extends CaseBaseSource{
             
             File file = new File(docFiles.get(1));
             
-            boolean state = luceneIndexer.indexFile(file);
+            boolean state = luceneIndexer.indexFile(file, null);
             luceneIndexer.closeIndex();
             
             assertEquals(state, true);
@@ -81,7 +81,7 @@ public class IndexingFileTest extends CaseBaseSource{
             
             File file = new File(docFiles.get(0));
             
-            boolean state = luceneIndexer.indexFile(file);
+            boolean state = luceneIndexer.indexFile(file, null);
             luceneIndexer.closeIndex();
             
             assertEquals(state, true);

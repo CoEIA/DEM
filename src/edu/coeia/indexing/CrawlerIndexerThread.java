@@ -155,7 +155,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         boolean status = false;
 
         try {
-            status = this.luceneIndex.indexFile(path);
+            status = this.luceneIndex.indexFile(path, this.parentDialog);
             this.numberOfFilesIndexed++;
         }
         catch (Exception e) {
@@ -187,10 +187,14 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                 this.parentDialog.setNumberOfFilesError(String.valueOf(this.numberOfFilesCannotIndexed));
             }
             else {
-                this.parentDialog.setCurrentFile(pd.getPath());
-                this.parentDialog.setFileSize(SizeUtil.getSize(pd.getPath()));
+                // set gui panel to reflect that this is file object
+                FileSystemCrawlingProgressPanel panel = new FileSystemCrawlingProgressPanel();
+                panel.setCurrentFile(pd.getPath());
+                panel.setFileSize(SizeUtil.getSize(pd.getPath()));
+                panel.setFileExtension(FileUtil.getExtension(pd.getPath()));
+                
+                this.parentDialog.changeProgressPanel(panel);
                 this.parentDialog.setNumberOfFiles(String.valueOf(pd.getIndexCount()));
-                this.parentDialog.setFileExtension(FileUtil.getExtension(pd.getPath()));
                 this.parentDialog.setBigSizeLabel(pd.getSizeMsg());
             }
         }
