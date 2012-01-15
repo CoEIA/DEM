@@ -13,32 +13,18 @@ import edu.coeia.chat.MSNMessageReader;
 import edu.coeia.extractors.ImageExtractor;
 import static edu.coeia.chat.MSNMessageReader.* ;
 
-import edu.coeia.util.Utilities;
 import java.io.File;
-
-import java.util.List;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
 final class MSNChatIndexer extends Indexer{
     
-    /**
-     *  chat type
-     */
     private static final String CHAT_AGENT = "MSN" ;
     private int parentId ;
     
     /**
      * static factory method to get an instance of MSNIndexer
-     * 
-     * @param writer
-     * @param file
-     * @param mimeType
-     * @param imageCaching
-     * @param caseLocation
-     * @param imageExtractor
-     * @return YahooChatIndexer
      */
     public static MSNChatIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor) {
@@ -58,28 +44,28 @@ final class MSNChatIndexer extends Indexer{
         boolean status = false;
         
         try {
-           List<MSNChatSession> sessions = MSNMessageReader.getAllMSNChatSession(this.getFile().getAbsolutePath());
+           MSNChatSession session = MSNMessageReader.getMSNChatSession(this.getFile());
 
-            for(MSNChatSession session: sessions) {
-                for(MSNConversation conversation: session.conversations) {
-                    for(MSNMessage msg: conversation.messages) {
-                        
-                        Document doc = getDocument(msg,  session.userName, session.otherName , conversation.path); // add parentid and parent metadata here
-                        
-                        //int objectId = id;
-
-                        if (doc != null) {
-                            //this.getLuceneIndex().getWriter().addDocument(doc);    // index file
-                            //this.id++;                       // increase the id counter if file indexed successfully
-
-                        } else {
-                            System.out.println("Fail Parsing: " + this.getFile().getAbsolutePath());
-                            return false;
-                        }
-            
-                    }
-                }
-            }
+//            for(MSNChatSession session: sessions) {
+//                for(MSNConversation conversation: session.conversations) {
+//                    for(MSNMessage msg: conversation.messages) {
+//                        
+//                        Document doc = getDocument(msg,  session.userName, session.otherName , conversation.path); // add parentid and parent metadata here
+//                        
+//                        //int objectId = id;
+//
+//                        if (doc != null) {
+//                            //this.getLuceneIndex().getWriter().addDocument(doc);    // index file
+//                            //this.id++;                       // increase the id counter if file indexed successfully
+//
+//                        } else {
+//                            System.out.println("Fail Parsing: " + this.getFile().getAbsolutePath());
+//                            return false;
+//                        }
+//            
+//                    }
+//                }
+//            }
         
             status = true;
         }

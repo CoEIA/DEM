@@ -103,16 +103,14 @@ final class IndexerFactory {
         
         if ( isValidMSNChatFile(path)) {
             System.out.println("found msn: " + path);
-            //indexer = MSNChatIndexer.newInstance(luceneIndex, chatFile, FileUtil.getExtension(path), new NoneImageExtractor());
+            indexer = MSNChatIndexer.newInstance(luceneIndex, chatFile, FileUtil.getExtension(path), new NoneImageExtractor());
         }
         
         else if ( isValidYahooChatFile(chatFile.getAbsolutePath()) ) {
-            System.out.println("found yahoo: " + path);
             indexer = YahooChatIndexer.newInstance(luceneIndex, chatFile, FileUtil.getExtension(path), new NoneImageExtractor());  
         }
         
         else if ( isValidSkypeChatFile(chatFile.getAbsolutePath()) )  {
-            System.out.println("found skype: " + path);
             indexer = SkypeChatIndexer.newInstance(luceneIndex, chatFile, FileUtil.getExtension(path), new NoneImageExtractor());
         }
         
