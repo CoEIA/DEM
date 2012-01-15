@@ -102,20 +102,4 @@ public final class LuceneIndex {
             throw new UnsupportedOperationException(e.getMessage());
         }
     }
-    
-//    public boolean indexChatFolder(File dir){
-//        boolean status = false;
-//        
-//        Indexer indexType = IndexerFactory.getFolderIndexer(this, dir);
-//        
-//        if ( indexType == null )
-//            return status;
-//        
-//        status = indexType.doIndexing();
-//        return status;
-//    }
-//    
-//    public boolean isChatFolder(File dir) {
-//        return IndexerFactory.isChatPath(dir.getAbsolutePath());
-//    }
 }

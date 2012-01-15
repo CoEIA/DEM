@@ -74,25 +74,25 @@ class ChatSourceViewerPanel extends javax.swing.JPanel {
             // show all conversatoin here
             // by bring all the document that have parent-id as parent
             // then display it here as converstion
-            int count = this.searcher.searchParentById(parentId);
-            for (int i=0; i<count; i++) {
-                try {
-                    Document chatDoc = this.searcher.getDocHits(i);
-                    if ( ! chatDoc.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT)))
-                        continue ;
-                    
-                    String tmpChatPath = chatDoc.get(IndexingConstant.CHAT_FILE);
-                    String tmpDate = chatDoc.get(IndexingConstant.CHAT_TIME);
-                    String tmpFrom = chatDoc.get(IndexingConstant.CHAT_FROM);
-                    String tmpTo = chatDoc.get(IndexingConstant.CHAT_TO);
-                    String tmpMessage = chatDoc.get(IndexingConstant.CHAT_MESSAGE);
-                    
-                    // add this to table
-                    Object[] data = {tmpFrom, tmpTo, tmpDate, tmpMessage} ;
-                    JTableUtil.addRowToJTable(chatTable, data);
-                }
-                catch(Exception e) { e.printStackTrace(); }
-            }
+//            int count = this.searcher.searchParentById(parentId);
+//            for (int i=0; i<count; i++) {
+//                try {
+//                    Document chatDoc = this.searcher.getDocHits(i);
+//                    if ( ! chatDoc.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT)))
+//                        continue ;
+//                    
+//                    String tmpChatPath = chatDoc.get(IndexingConstant.CHAT_FILE);
+//                    String tmpDate = chatDoc.get(IndexingConstant.CHAT_TIME);
+//                    String tmpFrom = chatDoc.get(IndexingConstant.CHAT_FROM);
+//                    String tmpTo = chatDoc.get(IndexingConstant.CHAT_TO);
+//                    String tmpMessage = chatDoc.get(IndexingConstant.CHAT_MESSAGE);
+//                    
+//                    // add this to table
+//                    Object[] data = {tmpFrom, tmpTo, tmpDate, tmpMessage} ;
+//                    JTableUtil.addRowToJTable(chatTable, data);
+//                }
+//                catch(Exception e) { e.printStackTrace(); }
+//            }
             
             chatRenderPanel.validate();
         }

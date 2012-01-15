@@ -113,7 +113,7 @@ final class IndexerFactory {
         
         else if ( isValidSkypeChatFile(chatFile.getAbsolutePath()) )  {
             System.out.println("found skype: " + path);
-            //indexer = SkypeChatIndexer.newInstance(luceneIndex, chatFile, FileUtil.getExtension(path), new NoneImageExtractor());
+            indexer = SkypeChatIndexer.newInstance(luceneIndex, chatFile, FileUtil.getExtension(path), new NoneImageExtractor());
         }
         
         return indexer;
