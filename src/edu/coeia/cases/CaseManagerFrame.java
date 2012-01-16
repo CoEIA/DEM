@@ -7,7 +7,6 @@ import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FilesPath ;
-import edu.coeia.util.FileUtil;
 import edu.coeia.util.DEMLogger;
 import edu.coeia.util.ZipUtil;
 import edu.coeia.util.GUIFileFilter;
@@ -508,27 +507,15 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private void readCases() {
         try {
-            updateCasesTable(); // read cases into case JTable 
+            // read cases into case JTable 
+            List<Case> cases = CaseManager.getCases();
+            for(Case aCase: cases) {
+                insertIntoCaseTable(aCase);
+            }
             
         } catch (Exception ex) {
             Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
-        }
-    }
-    
-    /*
-     * Update recent table by reading cases (reading from indexes_info file) info table
-     */
-    private void updateCasesTable () throws FileNotFoundException, IOException, ClassNotFoundException {
-        File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        List<String> casesPath  = FileUtil.getFileContentInArrayList(indexesInfo);
-
-        // clear value on table before adding new values
-        JTableUtil.removeAllRows(recentCaseTable);
-        
-        for(String path: casesPath) {
-            Case index = CaseManager.getCase(path);
-            insertIntoCaseTable(index);
         }
     }
     
