@@ -42,7 +42,7 @@ public final class YahooMessageReader {
      * @throws NullPointerException when path is null 
      * @return YahooChatSession contain  chat sessions in path
      */
-    public YahooChatSession getYahooChatSession(File path) throws IOException{
+    public YahooChatSession processFile(File path) throws IOException{
         String currentUserName = path.getParentFile().getParentFile().getParentFile().getParentFile().getName() ;
         String otherUserName   = path.getParentFile().getName();
         List<YahooMessage> msgs = getYahooMessages(path.getAbsolutePath(), currentUserName, otherUserName);

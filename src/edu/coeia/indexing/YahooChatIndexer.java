@@ -51,7 +51,7 @@ final class YahooChatIndexer extends Indexer{
         
         try {
             YahooMessageReader reader = new YahooMessageReader();
-            YahooChatSession session = reader.getYahooChatSession(this.getFile());
+            YahooChatSession session = reader.processFile(this.getFile());
             
             // this id for the .dat file, each message will have this id as parent
             this.increaseId();
