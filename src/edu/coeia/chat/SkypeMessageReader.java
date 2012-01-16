@@ -25,49 +25,23 @@ import java.util.List;
  *
  */
 
-public class SkypeParser {
+public class SkypeMessageReader {
     private String path ;
     
-    private static String DB_NAME = "jdbc:sqlite:" ;
-    private static final String DB_DRIVER = "org.sqlite.JDBC";
-    private static final String DB_USER = "" ;
-    private static final String DB_PASS = "" ;
+    private final String DB_NAME = "jdbc:sqlite:" ;
+    private final String DB_DRIVER = "org.sqlite.JDBC";
+    private final String DB_USER = "" ;
+    private final String DB_PASS = "" ;
     private Connection connection ;
     
-    public SkypeParser() {
+    public SkypeMessageReader() {
     }
     
-    public SkypeParser (String path) {
+    public SkypeMessageReader (String path) {
         this.path = FilesPath.getSkypePath(path);
     }
 
     public String getPath () { return path ; }
-    
-//    public ArrayList<Tuple<String, ArrayList<SkypeMessage>>> parse () throws SQLException, ClassNotFoundException, InstantiationException,
-//    IllegalAccessException {
-//        File file = new File(path);
-//        ArrayList<Tuple<String, ArrayList<SkypeMessage>>> userChats = new ArrayList<Tuple<String, ArrayList<SkypeMessage>>>();
-//        
-//        if ( file.exists() ) {
-//            File[] files = file.listFiles();
-//
-//            for (File skypePath: files) {
-//                if ( isSkypeUserPath(skypePath) ) {
-//                    Tuple<String,ArrayList<SkypeMessage>> userChat = new Tuple<String,ArrayList<SkypeMessage>>();
-//                    connectMozillaDB(skypePath.getAbsolutePath());
-//
-//                    ArrayList<SkypeMessage> msg = getMessages();
-//                    userChat.setA(skypePath.getName());
-//                    userChat.setB(msg);
-//
-//                    userChats.add(userChat);
-//                    closeDB();
-//                }
-//            }
-//        }
-//
-//        return userChats;
-//    }
 
     // take path for the folder contain the main.db skype database file
     // C:\\Documents and Settings\\wajdyessam\\Application Data\\Skype\\wajdyessam

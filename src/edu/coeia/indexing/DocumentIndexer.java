@@ -54,7 +54,8 @@ final class DocumentIndexer extends Indexer {
         boolean status = false ;
         
         try {
-            TikaExtractor extractor = TikaExtractor.getExtractor(this.getFile(), this.getMimeType());
+            TikaExtractor extractor = TikaExtractor.getExtractor(this.getFile(), this.getMimeType(),
+                    TikaExtractor.EXTRACT_TYPE.TEXT_METADATA);
             
             String bodyText = extractor.getContent();
             Map<String, String> metadata = extractor.getMetadata();

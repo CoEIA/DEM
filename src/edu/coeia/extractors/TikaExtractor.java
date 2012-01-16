@@ -30,21 +30,25 @@ import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 public final class TikaExtractor {
+    
+    public static enum EXTRACT_TYPE {METADATA, TEXT_METADATA} ;
     
     /*
      * Extract Text Content and Metadata From Any Documents
      */
-    public static TikaExtractor getExtractor(File file, String mimeType) throws FileNotFoundException, IOException, SAXException, 
+    public static TikaExtractor getExtractor(File file, String mimeType, EXTRACT_TYPE type) throws FileNotFoundException, IOException, SAXException, 
             TikaException{
-        return new TikaExtractor(file, mimeType);
+        return new TikaExtractor(file, mimeType, type);
     }
     
-    private TikaExtractor (File file, String mimeType) throws FileNotFoundException, IOException, SAXException, 
+    private TikaExtractor (File file, String mimeType, EXTRACT_TYPE type) throws FileNotFoundException, IOException, SAXException, 
             TikaException {
         this.file = file ;
         this.mimeType = mimeType;
+        this.type = type;
 
         processObject();
     }
@@ -63,8 +67,20 @@ public final class TikaExtractor {
         return this.metadataMap;
     }
     
-    private void processObject() throws FileNotFoundException, IOException, SAXException, 
-            TikaException{
+    private void processObject() throws FileNotFoundException, 
+            IOException, SAXException, TikaException{
+        switch(this.type) {
+            case TEXT_METADATA:
+                extractTextAndMetaData();
+                break;
+            case METADATA:
+                extractMetaData();
+                break;
+        }
+    }
+    
+    private void extractTextAndMetaData()  throws FileNotFoundException, 
+            IOException, SAXException, TikaException {
         
         final TikaInputStream inputStream =  TikaInputStream.get(this.file);
         try {
@@ -97,9 +113,39 @@ public final class TikaExtractor {
         }
     }
     
+    private void extractMetaData()  throws FileNotFoundException, 
+            IOException, SAXException, TikaException{
+        final TikaInputStream inputStream =  TikaInputStream.get(this.file);
+        try {
+            final Detector detector = new DefaultDetector();
+            final Parser parser = new AutoDetectParser(detector);
+
+            final Metadata metadata = new Metadata();
+            metadata.set(Metadata.RESOURCE_NAME_KEY, this.file.getName());
+            metadata.set(Metadata.MIME_TYPE_MAGIC, this.mimeType);
+
+            final ParseContext parseContext = new ParseContext();
+            parseContext.set(Parser.class, parser);
+
+            ContentHandler contentHandler = new DefaultHandler();
+
+            parser.parse(inputStream, contentHandler, metadata, parseContext);
+   
+            // save metadata
+            for(String name: metadata.names()) {
+                metadataMap.put(name, metadata.get(name));
+            }
+            
+            System.out.println("meta only, text: " + this.content);
+        }
+        finally {
+            inputStream.close();
+        }
+    }
+    
     private File file ;
     private String mimeType ;
-    
+    private EXTRACT_TYPE type;
     private StringWriter content ;
     private Map<String, String> metadataMap = new HashMap<String, String>();
 }

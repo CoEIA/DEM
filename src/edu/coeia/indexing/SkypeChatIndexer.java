@@ -5,8 +5,9 @@
 package edu.coeia.indexing;
 
 import edu.coeia.chat.SkypeMessage;
-import edu.coeia.chat.SkypeParser;
+import edu.coeia.chat.SkypeMessageReader;
 import edu.coeia.extractors.ImageExtractor;
+import edu.coeia.extractors.NoneImageExtractor;
 import edu.coeia.hash.HashCalculator;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Tuple;
@@ -52,10 +53,12 @@ public class SkypeChatIndexer extends Indexer{
         try {     
             // this id for the .db file, each message will have this id as parent
             this.increaseId();
-            this.getLuceneIndex().getWriter().addDocument(getDocument());
+            //this.getLuceneIndex().getWriter().addDocument(getDocument());
+            NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
+                new NoneImageExtractor()).doIndexing();            
             this.parentId = this.getId();
             
-            SkypeParser parser = new SkypeParser();
+            SkypeMessageReader parser = new SkypeMessageReader();
             List<Tuple<String, List<SkypeMessage>>> msgs = parser.parseSkypeFile(this.getFile().getParent());
 
             for (Tuple<String, List<SkypeMessage>> user: msgs) {

@@ -47,7 +47,8 @@ final class ImageIndexer extends Indexer{
         boolean status = false; 
         
         try{            
-            TikaExtractor extractor = TikaExtractor.getExtractor(this.getFile(), this.getMimeType());
+            TikaExtractor extractor = TikaExtractor.getExtractor(this.getFile(), this.getMimeType(),
+                    TikaExtractor.EXTRACT_TYPE.METADATA);
             Map<String, String> metadata = extractor.getMetadata();
             
             Document doc = getDocument(this.getFile(), metadata);

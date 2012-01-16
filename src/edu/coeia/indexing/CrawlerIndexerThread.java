@@ -114,18 +114,15 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                     this.checkForThreadCancelling();
 
                     if ( file.isDirectory() && file.canRead()) {
-//                        if ( this.luceneIndex.isChatFolder(file) ) {
-//                            if ( this.luceneIndex.indexChatFolder(path) )
-//                                numberOfFilesIndexed++;
-//                        }
-                        
                         doDirectoryCrawling(file);
                     }
                     else if ( file.isFile() && file.canRead()) {
                         boolean status = doFileCrawling(file);
                         
                         if (status) {
-                            numberOfFilesInEvidenceFolder++;
+                            long size = file.length();
+                            this.numberOfFilesInEvidenceFolder++;
+                            this.sizeOfFilesInEvidenceFolder += size; 
                             logger.log(Level.INFO, "File Indexing Successfully: " + file.getAbsolutePath());
                         }
                     }
@@ -148,8 +145,6 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         // if file size more than 3 MB then show size message to indicate that indexing will take some time
         String msg = size > 3145728 ? "This file will take some minutes to index, please wait..." : " " ;
 
-        this.sizeOfFilesInEvidenceFolder += size; 
-        
         // publish file progress (update labels)
         publish(new ProgressIndexData( numberOfFilesInEvidenceFolder,numberOfFilesIndexed, 
                 path.getAbsolutePath(), "" , ProgressIndexData.TYPE.LABEL , msg));

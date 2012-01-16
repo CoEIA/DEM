@@ -423,7 +423,7 @@ private void skypeChatTreeValueChanged(javax.swing.event.TreeSelectionEvent evt)
 
         try {
             String path = (String) skypeComboBox.getSelectedItem() ;
-            SkypeParser parser = new SkypeParser();
+            SkypeMessageReader parser = new SkypeMessageReader();
             List<Tuple<String, List<SkypeMessage>>> msgs = parser.parseSkypeFile(path);
 
             for (Tuple<String, List<SkypeMessage>> user: msgs) {
@@ -460,7 +460,7 @@ private void loadSkypeButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
 
     private void fillSkypeTree (String path) throws IOException {
         rootSkypeNode = new DefaultMutableTreeNode("Skype Chat");
-        SkypeParser parser = new SkypeParser();
+        SkypeMessageReader parser = new SkypeMessageReader();
         
         try {
             List<Tuple<String, List<SkypeMessage>>> msgs = parser.parseSkypeFile(path);

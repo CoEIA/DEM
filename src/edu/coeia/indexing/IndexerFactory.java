@@ -71,8 +71,8 @@ final class IndexerFactory {
                 indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new ExternalImageExtractor(), parentId); 
             
             // Unkown file Format
-            //else
-                //indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
+            else
+                indexer = NonDocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
         }
         catch(IOException e){
             e.printStackTrace();
@@ -102,16 +102,18 @@ final class IndexerFactory {
         Indexer indexer = null;
         
         if ( isValidMSNChatFile(path)) {
-            System.out.println("found msn: " + path);
-            indexer = MSNChatIndexer.newInstance(luceneIndex, chatFile, FileUtil.getExtension(path), new NoneImageExtractor());
+            indexer = MSNChatIndexer.newInstance(luceneIndex, chatFile, 
+                    FileUtil.getExtension(path), new NoneImageExtractor());
         }
         
         else if ( isValidYahooChatFile(chatFile.getAbsolutePath()) ) {
-            indexer = YahooChatIndexer.newInstance(luceneIndex, chatFile, FileUtil.getExtension(path), new NoneImageExtractor());  
+            indexer = YahooChatIndexer.newInstance(luceneIndex, chatFile,
+                    FileUtil.getExtension(path), new NoneImageExtractor());  
         }
         
         else if ( isValidSkypeChatFile(chatFile.getAbsolutePath()) )  {
-            indexer = SkypeChatIndexer.newInstance(luceneIndex, chatFile, FileUtil.getExtension(path), new NoneImageExtractor());
+            indexer = SkypeChatIndexer.newInstance(luceneIndex, chatFile,
+                    FileUtil.getExtension(path), new NoneImageExtractor());
         }
         
         return indexer;

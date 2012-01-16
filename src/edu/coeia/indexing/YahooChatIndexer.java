@@ -14,6 +14,7 @@ import edu.coeia.chat.YahooMessage;
 import edu.coeia.chat.YahooMessageDecoder;
 import edu.coeia.chat.YahooMessageReader;
 import edu.coeia.chat.YahooMessageReader.YahooChatSession;
+import edu.coeia.extractors.NoneImageExtractor;
 import edu.coeia.hash.HashCalculator;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
@@ -55,7 +56,9 @@ final class YahooChatIndexer extends Indexer{
             
             // this id for the .dat file, each message will have this id as parent
             this.increaseId();
-            this.getLuceneIndex().getWriter().addDocument(getDocument());
+            //this.getLuceneIndex().getWriter().addDocument(getDocument());
+            NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
+                new NoneImageExtractor()).doIndexing();
             this.parentId = this.getId();
             
             // then index the chat seesions in this file

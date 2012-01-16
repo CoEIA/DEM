@@ -12,6 +12,7 @@ import edu.coeia.hash.HashCalculator;
 import edu.coeia.chat.MSNMessageReader;
 import edu.coeia.extractors.ImageExtractor;
 import static edu.coeia.chat.MSNMessageReader.*;
+import edu.coeia.extractors.NoneImageExtractor;
 import edu.coeia.util.FileUtil;
 
 import java.io.File;
@@ -51,7 +52,9 @@ final class MSNChatIndexer extends Indexer {
             
            // this id for the XML file, each message will have this id as parent
             this.increaseId();
-            this.getLuceneIndex().getWriter().addDocument(getDocument());
+            //this.getLuceneIndex().getWriter().addDocument(getDocument());
+            NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
+                    new NoneImageExtractor()).doIndexing();
             this.parentId = this.getId();
             
             for(MSNMessage msg: session.getConversations()) {

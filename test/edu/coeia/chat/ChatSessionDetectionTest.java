@@ -19,7 +19,7 @@ public class ChatSessionDetectionTest {
     
     @Test
     public void skypeChatDetectionTest() throws Exception{
-        SkypeParser parser = new SkypeParser();
+        SkypeMessageReader parser = new SkypeMessageReader();
         String path = "C:\\Documents and Settings\\wajdyessam\\Application Data\\Skype\\wajdyessam";
         List<Tuple<String, List<SkypeMessage>>> msgs = parser.parseSkypeFile(path);
         

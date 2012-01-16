@@ -11,7 +11,6 @@ package edu.coeia.chat;
  */
 
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.Utilities;
 
 import java.io.IOException ;
 import java.io.File ;
