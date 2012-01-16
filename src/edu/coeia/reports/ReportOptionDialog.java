@@ -16,18 +16,22 @@ import edu.coeia.util.FilesPath;
 import java.awt.Desktop;
 import java.io.File;
 import javax.swing.JPanel;
+import edu.coeia.reports.ProgressDialogue;
+import java.awt.Frame;
 
 /**
  *
  * @author wajdyessam
  */
-public class ReportOptionDialog extends javax.swing.JDialog {
+public class ReportOptionDialog extends javax.swing.JDialog implements Runnable {
 
     private JPanel centerReportPanel ;
     private ReportPanel reportPanel; 
     private CasePathHandler handler ;
     private Case aCase; 
-    
+    private Thread thread;
+    private Frame frame; 
+    private ProgressDialogue dialogue; 
     /** Creates new form ReportOptionDialog */
     public ReportOptionDialog(java.awt.Frame parent, boolean modal, JPanel panel, 
             ReportPanel reportPanel) {
@@ -117,16 +121,16 @@ public class ReportOptionDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_cencelButtonActionPerformed
 
     private void generateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateButtonActionPerformed
-        ReportGenerator generator = (ReportGenerator) this.centerReportPanel;
-        DatasourceXml objXmlSource = generator.generateReport();
-        System.out.println("result: " + objXmlSource);
         
-        generateReport(objXmlSource);
-        
-        // open the document here
-        
+        thread  = new Thread(this);
+        thread.start();
+        frame = new Frame("Waiting");  
+        dialogue = new ProgressDialogue(frame, true);
+        dialogue.getProgressBar().setIndeterminate(true);
+        dialogue.setLocationRelativeTo(this);
+        dialogue.setVisible(true);
         // the close this window
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_generateButtonActionPerformed
 
     private void setCenterPanel(JPanel panel) {
@@ -176,4 +180,14 @@ public class ReportOptionDialog extends javax.swing.JDialog {
     private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
+    public void run() {
+        ReportGenerator generator = (ReportGenerator) this.centerReportPanel;
+        DatasourceXml objXmlSource = generator.generateReport();
+        System.out.println("result: " + objXmlSource);
+                
+        // open the document here
+        generateReport(objXmlSource);
+        dialogue.setVisible(false);
+    }
 }
