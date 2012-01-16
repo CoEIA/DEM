@@ -63,8 +63,7 @@ final class IndexerFactory {
             // if found archive files and user select to index archive files
             // else consider them as normal file
             else if (isArchiveFile(mime) && luceneIndex.getCase().getCheckCompressed())
-                return null;
-                //indexer = ArchiveIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
+                indexer = ArchiveIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
              
             // images type
             else if ( isImage(mime) )
