@@ -42,7 +42,6 @@ import java.util.List;
 final class OutlookIndexer extends Indexer{
     
     private int depth = -1;
-    private int parentId ;
     
     /*
      * static factory method to get an instance of outlook indexer
@@ -60,7 +59,7 @@ final class OutlookIndexer extends Indexer{
     private OutlookIndexer(LuceneIndex luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor, int parentId) {
         super(luceneIndex, file, mimeType, imageExtractor);
-        this.parentId = parentId ;
+        this.setParentId(parentId);
     }
    
     @Override
@@ -138,20 +137,26 @@ final class OutlookIndexer extends Indexer{
         });
     }
     
-    private boolean indexDocument(final Document document) throws CorruptIndexException, IOException {
-        int objectId = this.getId();
-        boolean status = false;
+    private boolean indexDocument(final Document doc) throws CorruptIndexException, IOException {
+        boolean status  = false;
         
-        if (document != null) {
-            System.out.println("indexing document");
-            this.getLuceneIndex().getWriter().addDocument(document);    // index file
+        int objectId = this.getId();
+
+        if (doc != null) {
+            this.getLuceneIndex().getWriter().addDocument(doc);    // index file
             this.increaseId();      // increase the id counter if file indexed successfully
+
+            // cache images with id as parent id
+            if ( this.isImageCache() ) {
+                this.getImageExtractor().extractImages(this, this.getFile(), objectId);
+            }
+
             status = true;
         }
         
         return status;
     }
-    
+        
     private Document getDocument(final PSTMessage email, final String folderName) throws PSTException, IOException {
         int id = email.getDescriptorNode().descriptorIdentifier;
         String contentHTML = email.getBodyHTML();
@@ -191,7 +196,7 @@ final class OutlookIndexer extends Indexer{
         // generic document fields
         doc.add(new Field(DOCUMENT_ID, String.valueOf(this.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(DOCUMENT, getDocumentType(DOCUMENT_TYPE.OFFLINE_EMAIL), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(DOCUMENT_PARENT_ID, String.valueOf(this.getParentId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         //doc.add(new Field(DOCUMENT_HASH, HashCalculator.calculateFileHash(this.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specific document fields

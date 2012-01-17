@@ -12,11 +12,13 @@ import edu.coeia.util.Utilities;
 
 import java.io.File;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.index.CorruptIndexException;
 
 /**
  *
@@ -25,16 +27,6 @@ import org.apache.lucene.document.Field;
 
 final class DocumentIndexer extends Indexer {
 
-    private int parentId ;
-    
-    /*
-     * static factory method to get an instance of DocumentIndexer
-     */
-    public static DocumentIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
-            ImageExtractor imageExtractor) {
-        return new DocumentIndexer(luceneIndex, file, mimeType, imageExtractor, 0);
-    }
-     
     /*
      * static factory method to get an instance of DocumentIndexer
      */
@@ -46,7 +38,7 @@ final class DocumentIndexer extends Indexer {
     private DocumentIndexer(LuceneIndex luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor,int parentId) {
         super(luceneIndex, file,mimeType, imageExtractor);
-        this.parentId = parentId ;
+        this.setParentId(parentId);
     }
     
     @Override
@@ -61,19 +53,7 @@ final class DocumentIndexer extends Indexer {
             Map<String, String> metadata = extractor.getMetadata();
             
             Document doc = getDocument(bodyText, metadata); // add parentid and parent metadata here
-            int objectId = this.getId();
-            
-            if (doc != null) {
-                this.getLuceneIndex().getWriter().addDocument(doc);    // index file
-                this.increaseId();      // increase the id counter if file indexed successfully
-                
-                // cache images with id as parent id
-                if ( this.isImageCache() ) {
-                    this.getImageExtractor().extractImages(this, this.getFile(), objectId);
-                }
-
-                status = true;
-            }
+            status = indexDocument(doc);
         }
         catch(Exception e){
             throw new UnsupportedOperationException(e.getMessage());
@@ -82,13 +62,33 @@ final class DocumentIndexer extends Indexer {
         return status;
     }
         
+    private boolean indexDocument(final Document doc) throws CorruptIndexException, IOException {
+        boolean status  = false;
+        
+        int objectId = this.getId();
+
+        if (doc != null) {
+            this.getLuceneIndex().getWriter().addDocument(doc);    // index file
+            this.increaseId();      // increase the id counter if file indexed successfully
+
+            // cache images with id as parent id
+            if ( this.isImageCache() ) {
+                this.getImageExtractor().extractImages(this, this.getFile(), objectId);
+            }
+
+            status = true;
+        }
+        
+        return status;
+    }
+    
     private Document getDocument(String content, Map<String, String> metadata) {
         Document doc = new Document();
         
         // generic document fields
         doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.getParentId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_HASH, HashCalculator.calculateFileHash(this.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specific document fields

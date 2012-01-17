@@ -23,6 +23,16 @@ import org.apache.tika.Tika;
 final class IndexerFactory {
     
     /**
+     * Return Indexer depend on the type of the file
+     * and make this document without parent (have 0 value in parentId)
+     * so we can know later if this document embedded in other document
+     * or not
+     */
+    public static Indexer getIndexer (LuceneIndex luceneIndex, File file){
+        return getIndexer(luceneIndex, file, 0);
+    }
+        
+    /**
      * Get Indexer for Simple, Container, Images Document Files
      * @param luceneIndex
      * @param file
@@ -78,10 +88,6 @@ final class IndexerFactory {
         }        
         
         return indexer;
-    }
-    
-    public static Indexer getIndexer (LuceneIndex luceneIndex, File file){
-        return getIndexer(luceneIndex, file, 0);
     }
     
     public static boolean isChatPath(String path) {
@@ -175,7 +181,9 @@ final class IndexerFactory {
         return mime.equalsIgnoreCase("text/plain") ||
                  mime.equalsIgnoreCase("application/xml") ||
                  mime.equalsIgnoreCase("application/xhtml+xml") ||
-                 mime.equalsIgnoreCase("text/html")  ;
+                 mime.equalsIgnoreCase("text/html")  ||
+                 mime.endsWith("xml") ||
+                 mime.startsWith("text/");
     }
     
     private static boolean isOfficeFile(final String mime) {
@@ -190,6 +198,7 @@ final class IndexerFactory {
                  mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.slideshow") ||
                  mime.equalsIgnoreCase("application/vnd.ms-word.document.macroenabled.12") ||
                  mime.equalsIgnoreCase("application/vnd.ms-excel") ||
+                 mime.equalsIgnoreCase("application/msword") ||
                  mime.equalsIgnoreCase("application/vnd.ms-powerpoint") ||
                  mime.equalsIgnoreCase("application/vnd.visio") || 
                  mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.wordprocessingml.document") || 

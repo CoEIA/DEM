@@ -33,6 +33,7 @@ final class OnlineEmailIndexer extends Indexer {
     public OnlineEmailIndexer(LuceneIndex luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor) {
         super(luceneIndex, file, mimeType, imageExtractor);
+        this.setParentId(0);
     }
 
     @Override
@@ -49,12 +50,13 @@ final class OnlineEmailIndexer extends Indexer {
 
                     if (doc != null) {
                         this.updateGUI(msg);
-                        this.getLuceneIndex().getWriter().addDocument(doc);    // index file
-                        this.increaseId();
+                        
+                        int currentId = this.getId();
+                        this.indexDocument(doc);
 
                         for (String sAttachments : msg.getAttachments()) {
                             File attachmentPath = new File(this.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS + "\\" + sAttachments);
-                            this.getLuceneIndex().indexFile(attachmentPath, this.getId(), this.getDialog());
+                            this.getLuceneIndex().indexFile(attachmentPath, currentId , this.getDialog());
                         }
                     }
                 } 
@@ -72,6 +74,26 @@ final class OnlineEmailIndexer extends Indexer {
         return status;
     }
 
+    private boolean indexDocument(final Document doc) throws CorruptIndexException, IOException {
+        boolean status  = false;
+        
+        int objectId = this.getId();
+
+        if (doc != null) {
+            this.getLuceneIndex().getWriter().addDocument(doc);    // index file
+            this.increaseId();      // increase the id counter if file indexed successfully
+
+            // cache images with id as parent id
+            if ( this.isImageCache() ) {
+                this.getImageExtractor().extractImages(this, this.getFile(), objectId);
+            }
+
+            status = true;
+        }
+        
+        return status;
+    }
+        
     private void updateGUI(final OnlineEmailMessage email) {
         EventQueue.invokeLater(new Runnable() { 
             @Override
@@ -102,6 +124,7 @@ final class OnlineEmailIndexer extends Indexer {
 
         // generic document fields
         //TODO: make hash of message
+        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.getParentId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_HASH, "", Field.Store.YES, Field.Index.NOT_ANALYZED));

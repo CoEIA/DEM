@@ -106,7 +106,8 @@ public final class FileUtil {
      * @param destination the location of the file to be saved
      * @throws NullPointerException if the stream, filename and destination contain null data
      */
-    public static void saveObject(InputStream stream, String filename, String destination) {
+    public static void saveObject(InputStream stream, String filename, String destination) 
+            throws FileNotFoundException, IOException {
         filename = checkNull("filename can't be null", filename);
         destination = checkNull("destination string can't be null", destination);
         
@@ -125,14 +126,15 @@ public final class FileUtil {
      * @param stream contain the stream for the file to be written
      * @param destination the target destination
      */
-    public static void saveObject(InputStream stream, String destination) {
+    public static void saveObject(InputStream stream, String destination) throws FileNotFoundException,
+            IOException {
         destination = checkNull("destination string can't be null", destination);
         destination = checkNotEmptyString("destination must have a value", destination);
         
+        OutputStream outputStream = null;
         try {
             File file = new File(destination);
-
-            OutputStream outputStream = new FileOutputStream(file);
+            outputStream = new FileOutputStream(file);
 
             byte[] buffer = new byte[1024];
             int length = 0;
@@ -140,11 +142,9 @@ public final class FileUtil {
             while ( (length = stream.read(buffer)) > 0 ) {
                 outputStream.write(buffer, 0, length);
             }
-
-            outputStream.close();
-            
         }
-        catch (IOException e) {
+        finally {
+            outputStream.close();
         }
     }
         

@@ -59,7 +59,11 @@ public abstract class Indexer {
     public int getId() { return id ; }
     public void increaseId() { id++; }
     
+    public int getParentId() { return parentId; }
+    public void setParentId(int aParentId) { parentId = aParentId; }
+    
     private static int id = 1;
+    private static int parentId = 0;
     
     private final File file ;
     private final String mimeType ;
@@ -67,6 +71,7 @@ public abstract class Indexer {
     private final String imagesLocation ;
     private final String tmpLocation ;
     private final String caseLocation;
+    
     private final ImageExtractor imageExtractor;
     private final LuceneIndex luceneIndex ;
     private final CasePathHandler pathHandler;
