@@ -61,26 +61,6 @@ final class ImageIndexer extends Indexer{
         return status;
     }
     
-    private boolean indexDocument(final Document doc) throws CorruptIndexException, IOException {
-        boolean status  = false;
-        
-        int objectId = this.getId();
-
-        if (doc != null) {
-            this.getLuceneIndex().getWriter().addDocument(doc);    // index file
-            this.increaseId();      // increase the id counter if file indexed successfully
-
-            // cache images with id as parent id
-            if ( this.isImageCache() ) {
-                this.getImageExtractor().extractImages(this, this.getFile(), objectId);
-            }
-
-            status = true;
-        }
-        
-        return status;
-    }
-    
     // provide lucene document for images format (JPEG, PNG.. etc)
     private Document getDocument(File file, Map<String, String> metadata) {
         Document doc = new Document();

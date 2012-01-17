@@ -9,6 +9,9 @@ import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.util.FilesPath;
 
 import java.io.File ;
+import java.io.IOException;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
 
 /**
  * Abstract Class for defining Index object
@@ -39,6 +42,26 @@ public abstract class Indexer {
     
     public abstract boolean doIndexing();
     
+    protected boolean indexDocument(final Document document) throws CorruptIndexException, IOException {
+        boolean status  = false;
+        
+        int objectId = this.getId();
+
+        if (document != null) {
+            this.getLuceneIndex().getWriter().addDocument(document);    // index file
+            this.increaseId();      // increase the id counter if file indexed successfully
+
+            // cache images with id as parent id
+            if ( this.isImageCache() ) {
+                this.getImageExtractor().extractImages(this, this.getFile(), objectId);
+            }
+
+            status = true;
+        }
+        
+        return status;
+    }
+        
     /** to update the current GUI dialog, to display what type of file
      * the indexer work on it
      * @param dialog the GUI that have the progress bar and error table

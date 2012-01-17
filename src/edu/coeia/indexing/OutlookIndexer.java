@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.index.CorruptIndexException;
 
 import com.pff.PSTAttachment;
 import com.pff.PSTException;
@@ -35,7 +34,9 @@ import com.pff.PSTFile;
 import com.pff.PSTFolder;
 import com.pff.PSTMessage;
 import com.pff.PSTRecipient;
+
 import java.awt.EventQueue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,26 +136,6 @@ final class OutlookIndexer extends Indexer{
                 getDialog().changeProgressPanel(panel);
             }
         });
-    }
-    
-    private boolean indexDocument(final Document doc) throws CorruptIndexException, IOException {
-        boolean status  = false;
-        
-        int objectId = this.getId();
-
-        if (doc != null) {
-            this.getLuceneIndex().getWriter().addDocument(doc);    // index file
-            this.increaseId();      // increase the id counter if file indexed successfully
-
-            // cache images with id as parent id
-            if ( this.isImageCache() ) {
-                this.getImageExtractor().extractImages(this, this.getFile(), objectId);
-            }
-
-            status = true;
-        }
-        
-        return status;
     }
         
     private Document getDocument(final PSTMessage email, final String folderName) throws PSTException, IOException {
