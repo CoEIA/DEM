@@ -127,7 +127,7 @@ public class TikaObjectExtractor {
         @Override
         public void handle(String filename, MediaType mediaType, InputStream stream) {   
             // ignore ole file
-            if ( filename.startsWith("ole-") )
+            if ( filename == null || filename.startsWith("ole-") )
                 return ;
             try {
                 extractEmbbeddedObject(stream, filename, mediaType.toString(), mediaType.getSubtype());

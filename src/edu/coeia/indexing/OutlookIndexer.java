@@ -70,8 +70,8 @@ final class OutlookIndexer extends Indexer{
             
             this.outlookId = this.getId();
             
-            NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
-                new NoneImageExtractor(), this.getParentId()).doIndexing();
+//            NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
+//                new NoneImageExtractor(), this.getParentId()).doIndexing();
             
             this.processOutlookFolder(pstFile.getRootFolder());
             result = true;
@@ -129,7 +129,7 @@ final class OutlookIndexer extends Indexer{
         // index the attachments paths, with email id as the parent
         for(String path: filePaths) {
             File file = new File(path);
-            this.getLuceneIndex().indexFile(file, emailId, this.getDialog());
+            this.getLuceneIndex().indexFile(file, emailId, null);
         }
     }
     

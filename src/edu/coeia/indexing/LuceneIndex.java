@@ -92,7 +92,9 @@ public final class LuceneIndex {
             if ( indexType == null )
                 return false;
             
-            indexType.setGUIDialog(dialog);
+            if ( dialog !=  null) 
+                indexType.setGUIDialog(dialog);
+            
             return indexType.doIndexing();
         }
         catch(NullPointerException e) {
