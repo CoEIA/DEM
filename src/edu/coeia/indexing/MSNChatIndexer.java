@@ -18,12 +18,8 @@ import java.io.File;
 import org.apache.lucene.document.Document;
 
 final class MSNChatIndexer extends Indexer {
-
     static final String CHAT_AGENT = "MSN";
 
-    /**
-     * static factory method to get an instance of MSNIndexer
-     */
     public static MSNChatIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor) {
         return new MSNChatIndexer(luceneIndex, file, mimeType, imageExtractor, 0);

@@ -27,13 +27,11 @@ final class YahooChatIndexer extends Indexer{
      */
     public static YahooChatIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor) {
-            
         return new YahooChatIndexer(luceneIndex, file, mimeType, imageExtractor, 0);
     }
     
     private YahooChatIndexer(LuceneIndex luceneIndex, File file, String mimeType, ImageExtractor imageExtractor,
             int parentId) {
-        
         super(luceneIndex, file, mimeType, imageExtractor);
         this.setParentId(parentId);
     }

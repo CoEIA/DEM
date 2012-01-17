@@ -4,18 +4,32 @@
  */
 package edu.coeia.indexing;
 
+import com.pff.PSTAttachment;
+import com.pff.PSTException;
+import com.pff.PSTMessage;
+import com.pff.PSTRecipient;
+
+import static edu.coeia.indexing.IndexingConstant.*;
 import edu.coeia.chat.MSNMessageReader.MSNMessage;
 import edu.coeia.chat.SkypeMessage;
 import edu.coeia.chat.YahooMessage;
 import edu.coeia.chat.YahooMessageDecoder;
 import edu.coeia.hash.HashCalculator;
+import edu.coeia.indexing.IndexingConstant.DOCUMENT_TYPE;
 import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
+import edu.coeia.util.FilesPath;
 import edu.coeia.util.Utilities;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.lucene.document.DateTools;
@@ -63,6 +77,7 @@ final class LuceneDocumentBuilder {
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(indexer.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, "", Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specific lucene fileds
         doc.add(new Field(IndexingConstant.CHAT_AGENT, agent, Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -83,6 +98,7 @@ final class LuceneDocumentBuilder {
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(indexer.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, "", Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specific lucene fileds
         doc.add(new Field(IndexingConstant.CHAT_AGENT, agent, Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -124,6 +140,7 @@ final class LuceneDocumentBuilder {
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(indexer.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, "", Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specific lucene fileds
         doc.add(new Field(IndexingConstant.CHAT_AGENT, agent, Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -176,5 +193,113 @@ final class LuceneDocumentBuilder {
         }
 
         return doc;
+    }
+    
+    public static Document getDocument(Indexer indexer, final PSTMessage email, 
+            final String folderName, int parentId, final List<String> attachmentPaths) throws PSTException, IOException {
+        int id = email.getDescriptorNode().descriptorIdentifier;
+        String contentHTML = email.getBodyHTML();
+        String contentASCII = email.getBody();
+        String internetId = email.getInternetMessageId();
+        String subject = email.getSubject();
+        
+        Date actionDate = email.getActionDate();
+        Date clientSubmitTime = email.getClientSubmitTime();
+        Date deliveryTime = email.getMessageDeliveryTime();
+        
+        String emailAddress = email.getEmailAddress();
+        String messageHeader = email.getTransportMessageHeaders();
+        long messageSize = email.getMessageSize();
+        int numberOfAttachments = email.getNumberOfAttachments();
+        int numberOfRecipent = email.getNumberOfRecipients();
+         
+        String sentRepresentingName = email.getSentRepresentingName();       
+        String senderAddressType = email.getSenderAddrtype();
+        String senderEmailAddress = email.getSenderEmailAddress();
+        String senderName = email.getSenderName();
+        
+        String recievedByAddress = email.getReceivedByAddress();
+        String recievedByAddressType = email.getReceivedByAddressType();
+        String recievedByName = email.getReceivedByName();
+        
+        String displayTo = email.getDisplayTo();
+        String displayCC = email.getDisplayCC();
+        String displayBCC = email.getDisplayBCC();
+        
+        boolean hasReplied = email.hasReplied();
+        boolean hasForwarded = email.hasForwarded();
+        boolean hasAttachment = email.hasAttachments();
+        
+        Document doc = new Document();
+        
+        // generic document fields
+        doc.add(new Field(DOCUMENT_ID, String.valueOf(indexer.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(DOCUMENT, getDocumentType(DOCUMENT_TYPE.OFFLINE_EMAIL), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(DOCUMENT_PARENT_ID, String.valueOf(parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(DOCUMENT_HASH, "", Field.Store.YES, Field.Index.NOT_ANALYZED));
+        
+        // specific document fields
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_PATH, indexer.getPathHandler().getRelativePath(indexer.getFile().getAbsolutePath())));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_NAME, indexer.getFile().getName()));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_FOLDER_NAME, folderName));
+        
+        doc.add(getAnalyzedField(OFFLINE_EMAIL_HTML_CONTENT, contentHTML));
+        doc.add(getAnalyzedField(OFFLINE_EMAIL_PLAIN_CONTENT, contentASCII));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_ID, String.valueOf(id)));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_INTERNET_ID, internetId));
+        doc.add(getAnalyzedField(OFFLINE_EMAIL_SUBJECT, subject));
+        
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_ACTION_DATE, Utilities.getEmptyStringWhenNullDate(actionDate)));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_CLIENT_SUBMIT_TIME, Utilities.getEmptyStringWhenNullDate(clientSubmitTime)));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_DELIVERY_TIME, Utilities.getEmptyStringWhenNullDate(deliveryTime)));
+        
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_ADDRESS, emailAddress));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_HEADER, messageHeader));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_SIZE, String.valueOf(messageSize)));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_NUMBER_OF_ATTACHMENT, String.valueOf(numberOfAttachments)));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_NUMBER_OF_RECIPENT, String.valueOf(numberOfRecipent)));
+        
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_SENT_REPRESENTING_NAME, sentRepresentingName));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_SENDER_ADDRESS_TYPE, senderAddressType));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_SENDER_EMAIL_ADDRESS, senderEmailAddress));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_SENDER_NAME, senderName));
+        
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIEVED_BY_ADDRESS, recievedByAddress));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIEVED_BY_ADDRESS_TYPE, recievedByAddressType));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIEVED_BY_NAME, recievedByName));
+        
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_DISPLAY_TO, displayTo));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_DISPLAY_CC, displayCC));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_DISPLAY_BCC, displayBCC));
+        
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_HAS_REPLIED, String.valueOf(hasReplied)));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_HAS_FORWARDED, String.valueOf(hasForwarded)));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_HAS_ATTACHMENT, String.valueOf(hasAttachment)));
+        
+        for(int i=0; i<numberOfRecipent; i++) {
+            PSTRecipient r = email.getRecipient(i);
+            String name = r.getDisplayName();
+            String address = r.getEmailAddress();
+            String type = r.getEmailAddressType();
+            String smptAddress = r.getSmtpAddress();
+
+            doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIPENT_NAME, name));
+            doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIPENT_ADDRESS, address));
+            doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIPENT_TYPE, type));
+            doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIPENT_SMPT, smptAddress));
+        }
+        
+        for(String path: attachmentPaths)
+            doc.add(getNotAnlyzedField(OFFLINE_EMAIL_ATTACHMENT_PATH, path));
+        
+        return doc;
+    }
+    
+    private static Field getNotAnlyzedField(final String field, final String value) {
+        return new Field(field,value, Field.Store.YES, Field.Index.NOT_ANALYZED);
+    }
+    
+    private static Field getAnalyzedField(final String field, final String value) {
+        return new Field(field, value, Field.Store.YES, Field.Index.ANALYZED);
     }
 }
