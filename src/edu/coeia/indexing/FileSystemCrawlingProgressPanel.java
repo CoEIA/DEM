@@ -88,13 +88,13 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel {
         fileExtensionTextField.setEnabled(false);
         jPanel1.add(fileExtensionTextField);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel1.setText("Embedded Documents:");
         jPanel1.add(jLabel1);
 
         embeddedDocumentsTextArea.setColumns(20);
         embeddedDocumentsTextArea.setEditable(false);
-        embeddedDocumentsTextArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        embeddedDocumentsTextArea.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         embeddedDocumentsTextArea.setRows(5);
         embeddedDocumentsTextArea.setEnabled(false);
         jScrollPane1.setViewportView(embeddedDocumentsTextArea);

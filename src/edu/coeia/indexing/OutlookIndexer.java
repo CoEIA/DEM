@@ -30,6 +30,7 @@ import com.pff.PSTFile;
 import com.pff.PSTFolder;
 import com.pff.PSTMessage;
 
+import edu.coeia.extractors.NoneImageExtractor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,8 +67,8 @@ final class OutlookIndexer extends Indexer{
             
             this.outlookId = this.getId();
             
-//            NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
-//                new NoneImageExtractor(), this.getParentId()).doIndexing();
+            NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
+                new NoneImageExtractor(), this.getParentId()).doIndexing();
             
             this.processOutlookFolder(pstFile.getRootFolder());
             result = true;

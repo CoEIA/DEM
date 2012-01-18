@@ -165,7 +165,7 @@ final class IndexerFactory {
     
     private static boolean isArchiveFile(final String mime) {
         return mime.equalsIgnoreCase("application/zip") ||
-//          mime.equalsIgnoreCase("application/x-rar-compressed") ||
+          mime.equalsIgnoreCase("application/x-rar-compressed") ||
           mime.equalsIgnoreCase("application/x-bzip2");
     }
     

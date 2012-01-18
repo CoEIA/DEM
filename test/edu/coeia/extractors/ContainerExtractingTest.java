@@ -21,32 +21,32 @@ public class ContainerExtractingTest extends CaseBaseSource {
     }
     
    @Test
-   public void extractImagesFromDOCX() {
-      TikaObjectExtractor.EmbeddedObjectHandler handler = TikaObjectExtractor.getExtractor(containersList.get(0), OUTPUT_PATH,
+   public void extractImagesFromDOCX() throws Exception {
+      TikaObjectExtractor.EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(containersList.get(0), OUTPUT_PATH,
        TikaObjectExtractor.OBJECT_TYPE.CONTAINER).extract();
       
       assertEquals(33, handler.getLocations().size());
    }
    
    @Test
-   public void extractImagesFromPPTX() {
-       TikaObjectExtractor.EmbeddedObjectHandler handler = TikaObjectExtractor.getExtractor(containersList.get(1), OUTPUT_PATH,
+   public void extractImagesFromPPTX() throws Exception {
+       TikaObjectExtractor.EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(containersList.get(1), OUTPUT_PATH,
        TikaObjectExtractor.OBJECT_TYPE.CONTAINER).extract();
       
       assertEquals(53, handler.getLocations().size());
    }
    
    @Test
-   public void extractImagesFromPDF() {
-      TikaObjectExtractor.EmbeddedObjectHandler handler = TikaObjectExtractor.getExtractor(containersList.get(2), OUTPUT_PATH,
+   public void extractImagesFromPDF() throws Exception {
+      TikaObjectExtractor.EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(containersList.get(2), OUTPUT_PATH,
        TikaObjectExtractor.OBJECT_TYPE.CONTAINER).extract();
       
       assertEquals(0, handler.getLocations().size());
    }
    
    @Test
-   public void extractImageFromDOCX2() {
-      TikaObjectExtractor.EmbeddedObjectHandler handler = TikaObjectExtractor.getExtractor(containersList.get(3), OUTPUT_PATH,
+   public void extractImageFromDOCX2() throws Exception {
+      TikaObjectExtractor.EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(containersList.get(3), OUTPUT_PATH,
        TikaObjectExtractor.OBJECT_TYPE.CONTAINER).extract();
       
       assertEquals(7, handler.getLocations().size());

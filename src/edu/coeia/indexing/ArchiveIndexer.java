@@ -10,13 +10,18 @@ package edu.coeia.indexing;
  */
 
 import edu.coeia.extractors.ImageExtractor;
+import edu.coeia.extractors.NoneImageExtractor;
 import edu.coeia.extractors.TikaObjectExtractor;
 
+import edu.coeia.extractors.TikaObjectExtractor.EmbeddedObjectCollections;
+import edu.coeia.extractors.TikaObjectExtractor.ExtractedObjectInfo;
+import edu.coeia.util.FileUtil;
+import edu.coeia.util.SizeUtil;
 import java.io.File ;
+import java.util.ArrayList;
+import java.util.List;
 
 final class ArchiveIndexer extends Indexer {
-    
-    private int parentId ;
     
     public static ArchiveIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
            ImageExtractor imageExtractor, int parentId) {
@@ -31,7 +36,7 @@ final class ArchiveIndexer extends Indexer {
     private ArchiveIndexer(LuceneIndex luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor,int parentId) {
         super(luceneIndex, file,mimeType, imageExtractor);
-        this.parentId = parentId ;
+        this.setParentId(parentId);
     }
         
     @Override
@@ -39,17 +44,29 @@ final class ArchiveIndexer extends Indexer {
         boolean status = false ;
         
         try {
-            String folderName = this.getTmpLocation();
+            // index the zip folder with metadata only
+            int currentDocumentId = this.getId();
+            
+            // index the document itslef, without text extraction
+            NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
+                    new NoneImageExtractor(), this.getParentId()).doIndexing();
+            
+            // then extract its content with parent id to zip id
+            String destinationOfExtractionFiles = this.getTmpLocation();
 
-            // extract all the archive content in temp folder
-            TikaObjectExtractor.EmbeddedObjectHandler handler = TikaObjectExtractor.getExtractor(
-                    this.getFile().getAbsolutePath(), folderName,
+            // extract and save all the archive content in destination folder
+            EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(
+                    this.getFile().getAbsolutePath(), destinationOfExtractionFiles,
                     TikaObjectExtractor.OBJECT_TYPE.ARCHIVE).extract();
 
+            // update gui with content
+            this.updateGUI(handler);
+            
+            // then index each file inside archive file
             if ( handler != null ) {
-                for(TikaObjectExtractor.ObjectLocation location: handler.getLocations()) {
-                    System.out.println("Extract: " + location.oldFilePath + " TO: " + location.newFilePath);
-                    this.getLuceneIndex().indexFile(new File(location.newFilePath), parentId, this.getDialog());
+                for(ExtractedObjectInfo location: handler.getLocations()) {
+                    this.getLuceneIndex().indexFile(
+                            new File(location.getFileNewPath()), currentDocumentId, this.getDialog());
                 }
             }
 
@@ -60,5 +77,20 @@ final class ArchiveIndexer extends Indexer {
         }
         
         return status; 
+    }
+    
+    private void updateGUI(final EmbeddedObjectCollections handler) {
+        FileSystemCrawlingProgressPanel panel = new FileSystemCrawlingProgressPanel();
+        panel.setCurrentFile(getFile().getPath());
+        panel.setFileSize(SizeUtil.getSize(getFile().getPath()));
+        panel.setFileExtension(FileUtil.getExtension(getFile().getPath()));
+        
+        List<String> files = new ArrayList<String>();
+        for(ExtractedObjectInfo info: handler.getLocations()) {
+            files.add(info.getFileName());
+        }
+        
+        panel.setEmbeddedDocuments(files);
+        getDialog().changeProgressPanel(panel);
     }
 }

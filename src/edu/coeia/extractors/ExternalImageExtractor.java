@@ -23,13 +23,12 @@ public class ExternalImageExtractor implements ImageExtractor{
     
     @Override
     public void extractImages(Indexer indexer, File file,int parentId) {
-
-            try {
-                FileUtil.saveObject(new FileInputStream(file), file.getName(), indexer.getImagesLocation());
-            } catch (IOException ex) {
-                Logger.getLogger(ExternalImageExtractor.class.getName()).log(Level.SEVERE, null, ex);
-            }
-       
+        try {
+            FileUtil.saveObject(new FileInputStream(file), file.getName(), indexer.getImagesLocation());
+        } 
+        catch (IOException ex) {
+            Logger.getLogger(ExternalImageExtractor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
 
