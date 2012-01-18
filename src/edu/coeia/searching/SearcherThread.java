@@ -12,6 +12,11 @@ package edu.coeia.searching;
 
 import edu.coeia.indexing.IndexingConstant ;
 
+import edu.coeia.searching.SearcherThread.ProgressSearchData;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.SwingWorker ;
 import javax.swing.table.DefaultTableModel ;
 
@@ -20,23 +25,6 @@ import java.util.List ;
 import java.util.ArrayList ;
 
 import org.apache.lucene.document.Document;
-
-class ProgressSearchData {
-    private String path;
-    private int count ;
-    private int numberOfPatterns ;
-    private Document document ;
-    
-    public ProgressSearchData (int c, Document doc) {
-        count = c ;
-        this.document = doc;
-    }
-
-    public String getPath ()    { return path   ; }
-    public int getCount ()      { return count  ; }
-    public int getNumberOfPatterns () { return numberOfPatterns ; }
-    public Document getDocument () { return this.document ; }
-}
 
 class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     private long time ;
@@ -50,13 +38,14 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         this.queryString = panel.getQueryText();
         this.panel = panel ;
         this.searchScope = panel.getSearchScope() ;
-        this.searcher = panel.getLuceneSearcher();
     }
     
+    @Override
     public String doInBackground() {
         try {
-            long start = new Date().getTime();
+            this.searcher = new LuceneSearcher(this.panel.getCase());
             
+            long start = new Date().getTime();
             count = searcher.search(queryString, this.searchScope);
             long end = new Date().getTime();
             time = end-start ;
@@ -67,6 +56,35 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
 
         return "" + time ;
     }
+    
+    @Override
+    public void done() {
+        panel.getSearchProgressBar().setIndeterminate(false);
+        
+        List<Integer> ids = new ArrayList<Integer>();
+        
+        for (int i=0 ; i<count ; i++) {
+            try {
+                Document document = searcher.getDocHits(i);
+                ids.add(Integer.parseInt(document.get(IndexingConstant.DOCUMENT_ID)));
+                showData(new ProgressSearchData(i, document));
+            }
+            catch(Exception e) { 
+                e.printStackTrace();
+            }
+        }
+        
+        try {
+            this.searcher.closeSearcher();
+        } catch (Exception ex) {
+            Logger.getLogger(SearcherThread.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+        panel.setResultId(ids);
+        panel.setResultTableText(queryString);
+        panel.setSearchTableFocusable();
+    }
+    
     
     private void showData(ProgressSearchData pd) {
         String type = pd.getDocument().get(IndexingConstant.DOCUMENT);
@@ -116,26 +134,21 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         }
     }
     
-    @Override
-    public void done() {
-        panel.getSearchProgressBar().setIndeterminate(false);
-        
-        List<Integer> ids = new ArrayList<Integer>();
-        
-        for (int i=0 ; i<count ; i++) {
-            try {
-                Document document = searcher.getDocHits(i);
-                ids.add(Integer.parseInt(document.get(IndexingConstant.DOCUMENT_ID)));
-                showData(new ProgressSearchData(i, document));
-            }
-            catch(Exception e) { 
-                e.printStackTrace();
-            }
+    
+    class ProgressSearchData {
+        private String path;
+        private int count ;
+        private int numberOfPatterns ;
+        private Document document ;
+
+        public ProgressSearchData (int c, Document doc) {
+            count = c ;
+            this.document = doc;
         }
-        
-        panel.setResultId(ids);
-        panel.setResultTableText(queryString);
-        panel.setSearchTableFocusable();
-        //panel.closeLuceneSearch();
+
+        public String getPath ()    { return path   ; }
+        public int getCount ()      { return count  ; }
+        public int getNumberOfPatterns () { return numberOfPatterns ; }
+        public Document getDocument () { return this.document ; }
     }
 }

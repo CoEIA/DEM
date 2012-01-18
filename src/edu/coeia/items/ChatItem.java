@@ -10,7 +10,7 @@ package edu.coeia.items;
  */
 public class ChatItem extends Item {
     private final String from, to, date, messageText ;
-
+    
     public ChatItem (final int documentId, final int parentId, final String documentHash, 
             final String auther, final String partner, final String date, final String messageText) {
         

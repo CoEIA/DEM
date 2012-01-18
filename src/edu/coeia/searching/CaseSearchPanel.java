@@ -53,10 +53,6 @@ public class CaseSearchPanel extends javax.swing.JPanel {
     public void setFocusInAdvancedSearchPanel () {
         this.advancedSearchPanel.setQueryTextFeildFocusable();
     }
-
-    public void closeSearcher() {
-        this.advancedSearchPanel.closeLuceneSearch();
-    }
     
     void addSearchOption(final SearchHistory option) {
         this.searchOptions.add(option);

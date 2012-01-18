@@ -168,7 +168,6 @@ public class SearchResultPanel extends javax.swing.JPanel {
                 
                 String fileId = String.valueOf(searchTable.getValueAt(row, 0));
                 int currentId = Integer.parseInt(fileId);
-                //this.parentPanel.setCurrentId(currentId);
                 
                 SearchViewer searchViewer = new SearchViewer(this.keyword,
                         currentId, this.documentIds);

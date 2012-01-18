@@ -668,10 +668,6 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             if ( this.tagsManager !=  null ) {
                 this.tagsManager.closeManager();
             }
-            
-            if ( this.caseSearchPanel != null ) {
-                this.caseSearchPanel.closeSearcher();
-            }
         }
         catch (Exception e){
             logger.log(Level.SEVERE, "Uncaught exception", e);

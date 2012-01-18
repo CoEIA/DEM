@@ -19,6 +19,7 @@ import edu.coeia.items.Item;
 import edu.coeia.searching.CaseSearchPanel.SearchHistory;
 import edu.coeia.util.DateUtil;
 
+import java.util.logging.Level;
 import javax.swing.JProgressBar;
 import javax.swing.JTable;
 import javax.swing.JOptionPane ;
@@ -44,8 +45,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     
     private final List<Integer> resultId ;
     private int currentId = 0;
-    
-    private LuceneSearcher searcher ;
      
     private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
     
@@ -310,7 +309,11 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_advancedSearchLabelButtonMouseClicked
 
     private void resultSavingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultSavingButtonActionPerformed
-        this.saveSearchResult();
+        try {
+            this.saveSearchResult();
+        } catch (Exception ex) {
+            Logger.getLogger(AdvancedSearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_resultSavingButtonActionPerformed
 
     private void fileSystemCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemCheckBoxActionPerformed
@@ -352,7 +355,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
        this.investigateCase();
     }//GEN-LAST:event_investigateButtonMouseClicked
     
-    private void saveSearchResult() {
+    private void saveSearchResult() throws Exception {
         String query = this.getQueryText();
         SearchScope scope = this.getSearchScope();
         String time = DateUtil.getCurrentDate();
@@ -373,8 +376,9 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         investigateDialog.setVisible(true);
     }
     
-    private List<Item> getDocuments() {
+    private List<Item> getDocuments() throws Exception {
         List<Item> items = new ArrayList<Item>();
+        LuceneSearcher searcher = new LuceneSearcher(caseObj);
         
         for(Integer id: this.resultId) {
             Document currentDocument = searcher.getLuceneDocumentById(String.valueOf(id));
@@ -382,6 +386,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             items.add(fileItem);
         }
         
+        searcher.closeSearcher();
         return items;
     }
     
@@ -426,7 +431,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         return queryTextField.getText().trim() ;
     }
     
-    public LuceneSearcher getLuceneSearcher() { return this.searcher ;}
     public Case getCase() { return this.caseObj ; }
     
     SearchScope getSearchScope() {
@@ -476,15 +480,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     
     private void startSearching () {
         removeSearchField(false,false);
-
-        try {
-            if ( this.searcher == null ) {
-                this.searcher = new LuceneSearcher(this.caseObj);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
                 
         if ( CaseHistoryHandler.get(this.caseObj.getCaseName()).getIsCaseIndexed() == false ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
@@ -532,16 +527,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     
     void setSearchTableFocusable() {
         this.searchResultPanel.setSearchTableFocusable();
-    }
-    
-    void closeLuceneSearch() {
-        try {
-            if ( this.searcher != null )
-                this.searcher.closeSearcher();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
     }
     
     void setResultTableText(final String text) {

@@ -11,10 +11,13 @@
 package edu.coeia.viewer;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
+
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.searching.LuceneSearcher;
 import edu.coeia.util.Utilities;
+
 import java.awt.BorderLayout;
+
 import org.apache.lucene.document.Document;
 
 /**
