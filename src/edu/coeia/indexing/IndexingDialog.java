@@ -13,6 +13,7 @@ package edu.coeia.indexing;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 
+import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -326,13 +327,16 @@ public final class IndexingDialog extends javax.swing.JDialog {
     JProgressBar getProgressBar() { return this.progressBar ; }
     JPanel getObjectPanel() { return this.objectPanel; }
     
-    public void changeProgressPanel(JPanel newProgressPanel) {
-        this.getObjectPanel().removeAll();
-        this.getObjectPanel().add(newProgressPanel);
-        this.getObjectPanel().revalidate();
-        this.getObjectPanel().repaint();
-        this.repaint();
-        this.validate();
+    public void changeProgressPanel(final JPanel newProgressPanel) {
+        EventQueue.invokeLater(new Runnable() { 
+            @Override
+            public void run() {
+                getObjectPanel().removeAll();
+                getObjectPanel().add(newProgressPanel);
+                getObjectPanel().revalidate();
+                getObjectPanel().repaint();
+            }
+        });
     }
     
     void setTimeLabel(final String time) { this.timeLbl.setText(time); }

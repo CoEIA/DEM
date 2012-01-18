@@ -13,11 +13,9 @@ import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
-import edu.coeia.extractors.NoneImageExtractor;
 import edu.coeia.util.Tuple;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -31,8 +29,6 @@ import com.pff.PSTException;
 import com.pff.PSTFile;
 import com.pff.PSTFolder;
 import com.pff.PSTMessage;
-
-import java.awt.EventQueue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,12 +72,9 @@ final class OutlookIndexer extends Indexer{
             this.processOutlookFolder(pstFile.getRootFolder());
             result = true;
             
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(OutlookIndexer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PSTException ex) {
-            Logger.getLogger(OutlookIndexer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(OutlookIndexer.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
         
         return result;
@@ -116,52 +109,72 @@ final class OutlookIndexer extends Indexer{
         depth--;
     }
     
-    private void processEmail(final PSTMessage email, final String folderName) throws PSTException, IOException {
-        List<Tuple<String, PSTAttachment>> attachmentsName = this.getAttachments(email);
-        this.updateGuiWithAttachmentsName(email, folderName, attachmentsName);
-        List<String> filePaths = this.saveAndGetEmailAttachmentsPath(attachmentsName);
-        
-        // index the email message
-        int emailId = this.getId();
-        Document document = LuceneDocumentBuilder.getDocument(this, email, folderName, this.outlookId, filePaths);
-        this.indexDocument(document);
-        
-        // index the attachments paths, with email id as the parent
-        for(String path: filePaths) {
-            File file = new File(path);
-            this.getLuceneIndex().indexFile(file, emailId, null);
+    private void processEmail(final PSTMessage email, final String folderName) {
+        try {
+            List<Tuple<String, PSTAttachment>> attachmentsName = this.getAttachments(email);
+            this.updateGuiWithAttachmentsName(email, folderName, attachmentsName);
+            List<String> filePaths = this.saveAndGetEmailAttachmentsPath(attachmentsName);
+            
+            // index the email message
+            int emailId = this.getId();
+            Document document = LuceneDocumentBuilder.getDocument(this, email, folderName, this.outlookId, filePaths);
+            this.indexDocument(document);
+            
+            // index the attachments paths, with email id as the parent
+            for(String path: filePaths) {
+                try {
+                    File file = new File(path);
+                    boolean status = this.getLuceneIndex().indexFile(file, emailId, this.getDialog());
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                    System.out.println("cannot index the attachment: " + path);
+                }
+            }
+        } catch (PSTException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(OutlookIndexer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(OutlookIndexer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     private void updateGuiWithAttachmentsName(final PSTMessage email, final String folderName, final List<Tuple<String, PSTAttachment>> attachmentsName) {
-        EventQueue.invokeLater(new Runnable() { 
-            @Override
-            public void run() {
-                String subject = email.getSubject();
-                String date  = Utilities.getEmptyStringWhenNullDate(email.getClientSubmitTime());
-                boolean hasAttachment = email.hasAttachments();
-                String sentRepresentingName = email.getSentRepresentingName();   
-                String displayTo = email.getDisplayTo();
-                
-                EmailCrawlingProgressPanel panel = new EmailCrawlingProgressPanel();
-                panel.setAgentType("Outlook");
-                panel.setEmailPath(getFile().getAbsolutePath());
-                panel.setCurrentFolder(folderName);
-                panel.setCurrentMessageSubject(subject);
-                panel.setMessageDate(date);
-                panel.setHasAttachment(String.valueOf(hasAttachment));
-                panel.setFrom(sentRepresentingName);
-                panel.setTo(displayTo);
-                
-                List<String> names = new ArrayList<String>();
-                for(Tuple<String, PSTAttachment> pair: attachmentsName) {
-                    names.add(pair.getA());
-                }
-                panel.setAttachment(names);
-                
-                getDialog().changeProgressPanel(panel);
-            }
-        });
+        String subject = "";
+        String date = "";
+        String sentRepresentingName = "";
+        String displayTo = "";
+        boolean hasAttachment = false;
+
+        try {
+            subject = email.getSubject();
+            date  = Utilities.getEmptyStringWhenNullDate(email.getClientSubmitTime());
+            hasAttachment = email.hasAttachments();
+            sentRepresentingName = email.getSentRepresentingName();   
+            displayTo = Utilities.getEmptyStringWhenNullString(email.getDisplayTo());
+        }
+        catch(Exception e ) {
+            System.out.println("Exception in outlook gui update!!!");
+        }
+
+        EmailCrawlingProgressPanel panel = new EmailCrawlingProgressPanel();
+        panel.setAgentType("Outlook");
+        panel.setEmailPath(getFile().getAbsolutePath());
+        panel.setCurrentFolder(folderName);
+        panel.setCurrentMessageSubject(subject);
+        panel.setMessageDate(date);
+        panel.setHasAttachment(String.valueOf(hasAttachment));
+        panel.setFrom(sentRepresentingName);
+        panel.setTo(displayTo);
+
+        List<String> names = new ArrayList<String>();
+        for(Tuple<String, PSTAttachment> pair: attachmentsName) {
+            names.add(pair.getA());
+        }
+        panel.setAttachment(names);
+
+        getDialog().changeProgressPanel(panel);
     }
     
     private List<String> saveAndGetEmailAttachmentsPath(final List<Tuple<String, PSTAttachment>> attachmentsName) 
@@ -194,7 +207,7 @@ final class OutlookIndexer extends Indexer{
             
             if ( fileName.isEmpty() ) {
                 String name = attchment.getFilename();
-                if ( name.isEmpty()) continue;
+                if ( name.trim().isEmpty()) continue;
                 
                 fileName =  this.getId() + "-" + id + "-" + name;
             }

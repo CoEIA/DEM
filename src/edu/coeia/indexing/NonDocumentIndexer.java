@@ -46,7 +46,6 @@ final class NonDocumentIndexer extends Indexer{
         boolean status = false ;
         
         try {
-            System.out.println("index: " + this.getFile().getAbsolutePath());
             TikaExtractor extractor = TikaExtractor.getExtractor(this.getFile(), this.getMimeType(),
                     TikaExtractor.EXTRACT_TYPE.METADATA);
             

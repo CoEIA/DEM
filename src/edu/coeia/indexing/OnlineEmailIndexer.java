@@ -10,8 +10,6 @@ import edu.coeia.util.FilesPath;
 import edu.coeia.onlinemail.OnlineEmailDBHandler;
 import edu.coeia.util.Utilities;
 
-import java.awt.EventQueue;
-
 import java.io.File;
 
 import java.util.List;
@@ -70,27 +68,22 @@ final class OnlineEmailIndexer extends Indexer {
     }
         
     private void updateGUI(final OnlineEmailMessage email) {
-        EventQueue.invokeLater(new Runnable() { 
-            @Override
-            public void run() {
-                String subject = email.getSubject();
-                String date = email.getSentDate();
-                boolean hasAttachment = !email.getAttachments().isEmpty();
-                String folderName = email.getFolderName();
-                String agent = email.getUsername();
-                
-                EmailCrawlingProgressPanel panel = new EmailCrawlingProgressPanel();
-                panel.setAgentType(agent);
-                panel.setEmailPath("");
-                panel.setCurrentFolder(folderName);
-                panel.setCurrentMessageSubject(subject);
-                panel.setMessageDate(date);
-                panel.setFrom(email.getFrom());
-                panel.setTo(Utilities.getCommaSeparatedStringFromCollection(email.getTo()));
-                panel.setHasAttachment(String.valueOf(hasAttachment));
-                panel.setAttachment(email.getAttachments());
-                getDialog().changeProgressPanel(panel);
-            }
-        });
+        String subject = email.getSubject();
+        String date = email.getSentDate();
+        boolean hasAttachment = !email.getAttachments().isEmpty();
+        String folderName = email.getFolderName();
+        String agent = email.getUsername();
+
+        EmailCrawlingProgressPanel panel = new EmailCrawlingProgressPanel();
+        panel.setAgentType(agent);
+        panel.setEmailPath("");
+        panel.setCurrentFolder(folderName);
+        panel.setCurrentMessageSubject(subject);
+        panel.setMessageDate(date);
+        panel.setFrom(email.getFrom());
+        panel.setTo(Utilities.getCommaSeparatedStringFromCollection(email.getTo()));
+        panel.setHasAttachment(String.valueOf(hasAttachment));
+        panel.setAttachment(email.getAttachments());
+        getDialog().changeProgressPanel(panel);
     }
 }

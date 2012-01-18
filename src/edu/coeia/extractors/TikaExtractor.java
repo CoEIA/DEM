@@ -135,8 +135,6 @@ public final class TikaExtractor {
             for(String name: metadata.names()) {
                 metadataMap.put(name, metadata.get(name));
             }
-            
-            System.out.println("meta only, text: " + this.content);
         }
         finally {
             inputStream.close();

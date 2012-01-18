@@ -77,7 +77,7 @@ final class IndexerFactory {
              
             // images type
             else if ( isImage(mime) )
-                indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new ExternalImageExtractor(), parentId); 
+                indexer = NonDocumentIndexer.newInstance(luceneIndex, file, mime, new ExternalImageExtractor(), parentId); 
             
             // Unkown file Format
             else
@@ -165,7 +165,7 @@ final class IndexerFactory {
     
     private static boolean isArchiveFile(final String mime) {
         return mime.equalsIgnoreCase("application/zip") ||
-          mime.equalsIgnoreCase("application/x-rar-compressed") ||
+//          mime.equalsIgnoreCase("application/x-rar-compressed") ||
           mime.equalsIgnoreCase("application/x-bzip2");
     }
     
@@ -181,9 +181,7 @@ final class IndexerFactory {
         return mime.equalsIgnoreCase("text/plain") ||
                  mime.equalsIgnoreCase("application/xml") ||
                  mime.equalsIgnoreCase("application/xhtml+xml") ||
-                 mime.equalsIgnoreCase("text/html")  ||
-                 mime.endsWith("xml") ||
-                 mime.startsWith("text/");
+                 mime.equalsIgnoreCase("text/html") ;
     }
     
     private static boolean isOfficeFile(final String mime) {

@@ -4,11 +4,6 @@
  */
 package edu.coeia.indexing;
 
-import com.pff.PSTAttachment;
-import com.pff.PSTException;
-import com.pff.PSTMessage;
-import com.pff.PSTRecipient;
-
 import static edu.coeia.indexing.IndexingConstant.*;
 import edu.coeia.chat.MSNMessageReader.MSNMessage;
 import edu.coeia.chat.SkypeMessage;
@@ -19,18 +14,18 @@ import edu.coeia.indexing.IndexingConstant.DOCUMENT_TYPE;
 import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.FilesPath;
 import edu.coeia.util.Utilities;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import com.pff.PSTException;
+import com.pff.PSTMessage;
+import com.pff.PSTRecipient;
 
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
@@ -198,7 +193,7 @@ final class LuceneDocumentBuilder {
     public static Document getDocument(Indexer indexer, final PSTMessage email, 
             final String folderName, int parentId, final List<String> attachmentPaths) throws PSTException, IOException {
         int id = email.getDescriptorNode().descriptorIdentifier;
-        String contentHTML = email.getBodyHTML();
+        String contentHTML = Utilities.getEmptyStringWhenNullString(email.getBodyHTML());
         String contentASCII = email.getBody();
         String internetId = email.getInternetMessageId();
         String subject = email.getSubject();
