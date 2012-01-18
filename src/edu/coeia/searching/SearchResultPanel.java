@@ -199,7 +199,7 @@ public class SearchResultPanel extends javax.swing.JPanel {
                     
                     for(int i: indexes) {
                         int id = Integer.valueOf(String.valueOf(table.getValueAt(table.convertRowIndexToView(i), 0)));
-                        Document currentDocument = searcher.getDocument(String.valueOf(id));
+                        Document currentDocument = searcher.getLuceneDocumentById(String.valueOf(id));
                         hashItems.add(getHashItemFromDocument(currentDocument));
                     }
                     

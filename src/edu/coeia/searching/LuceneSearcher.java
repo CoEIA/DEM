@@ -207,7 +207,7 @@ public class LuceneSearcher {
         return doc ;
     }
     
-    public Document getDocument(final String id) {
+    public Document getLuceneDocumentById(final String id) {
         Document document = null ;
         try {
             int count = searchById(id);

@@ -47,7 +47,7 @@ class OnlineEmailSourceViewerPanel extends javax.swing.JPanel {
         this.currentId = dialog.getCurrentId() ;
         
         try {
-             this.document = this.searcher.getDocument(String.valueOf(this.currentId));
+             this.document = this.searcher.getLuceneDocumentById(String.valueOf(this.currentId));
              //this.parentDocument = this.searcher.getParentDocument(this.document.get(IndexingConstant.DOCUMENT_PARENT_ID));
         }
         catch(Exception e) {

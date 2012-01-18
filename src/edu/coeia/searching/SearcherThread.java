@@ -58,7 +58,6 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             long start = new Date().getTime();
             
             count = searcher.search(queryString, this.searchScope);
-            
             long end = new Date().getTime();
             time = end-start ;
            

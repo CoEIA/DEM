@@ -301,7 +301,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     
     private void showDocumentWithID (final int docId ) {
         try {
-            currentDocument = this.searcher.getDocument(String.valueOf(docId));
+            currentDocument = this.searcher.getLuceneDocumentById(String.valueOf(docId));
             showPanelForDocument(currentDocument);
         }
         catch(Exception e) {

@@ -37,24 +37,25 @@ import org.apache.lucene.document.Document;
  * @author wajdyessam
  */
 public class AdvancedSearchPanel extends javax.swing.JPanel {
-    private Case caseObj;
+    private final Case caseObj;
+    private final JFrame parentFrame ;
+    private final CaseSearchPanel caseSearchPanel ;
+    private final SearchResultPanel searchResultPanel ;
+    
+    private final List<Integer> resultId ;
+    private int currentId = 0;
+    
     private LuceneSearcher searcher ;
-    private JFrame parentFrame ;
-    private CaseSearchPanel parentPanel ;
-    private SearchResultPanel searchResultPanel ;
-    
+     
     private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
-    
-    private List<Integer> resultId ;
-    private int currentId = 0; 
     
     /** Creates new form AdvancedSearchPanel */
     public AdvancedSearchPanel(JPanel parentPanel) {
         initComponents();
         
-        this.parentPanel = (CaseSearchPanel) parentPanel;
-        this.caseObj = this.parentPanel.getCurrentCase();
-        this.parentFrame = this.parentPanel.getParentJFrame();
+        this.caseSearchPanel = (CaseSearchPanel) parentPanel;
+        this.caseObj = this.caseSearchPanel.getCurrentCase();
+        this.parentFrame = this.caseSearchPanel.getParentJFrame();
         
         this.resultId = new ArrayList<Integer>();
         
@@ -297,72 +298,75 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startSearchingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSearchingButtonActionPerformed
-        startSearching();
+        this.startSearching();
     }//GEN-LAST:event_startSearchingButtonActionPerformed
 
     private void clearLabelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearLabelButtonMouseClicked
-        removeSearchField(true,false);
+        this.removeSearchField(true,false);
     }//GEN-LAST:event_clearLabelButtonMouseClicked
 
     private void advancedSearchLabelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_advancedSearchLabelButtonMouseClicked
-        showAdvancedSearch();
+        this.showAdvancedSearch();
     }//GEN-LAST:event_advancedSearchLabelButtonMouseClicked
 
     private void resultSavingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultSavingButtonActionPerformed
-        String query = this.getQueryText();
-        SearchScope scope = this.getSearchScope();
-        String time = DateUtil.getCurrentDate();
-        
-        //TODO: make better checker for is searching done or not
-        if ( query.isEmpty() ) {
-            JOptionPane.showMessageDialog(this.parentPanel, "Please do search then try to save the result");
-            return;
-        }
-        
-        SearchHistory option = new SearchHistory(query, time, scope, this.getDocuments());
-        this.parentPanel.addSearchOption(option);
-        
-        JOptionPane.showMessageDialog(this.parentPanel, "Search Result is Saved Succesfully");
+        this.saveSearchResult();
     }//GEN-LAST:event_resultSavingButtonActionPerformed
 
     private void fileSystemCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemCheckBoxActionPerformed
-        if ( fileSystemCheckBox.isSelected() ) {
-            fileSystemContentCheckBox.setEnabled(true);
-            fileSystemMetadataCheckBox.setEnabled(true);
+        if ( this.fileSystemCheckBox.isSelected() ) {
+            this.fileSystemContentCheckBox.setEnabled(true);
+            this.fileSystemMetadataCheckBox.setEnabled(true);
         }
         else {
-            fileSystemContentCheckBox.setEnabled(false);
-            fileSystemMetadataCheckBox.setEnabled(false);
+            this.fileSystemContentCheckBox.setEnabled(false);
+            this.fileSystemMetadataCheckBox.setEnabled(false);
         }
     }//GEN-LAST:event_fileSystemCheckBoxActionPerformed
 
     private void emailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailCheckBoxActionPerformed
-        if ( emailCheckBox.isSelected() ) {
-            emailContentCheckBox.setEnabled(true);
-            emailHeaderCheckBox.setEnabled(true);
+        if ( this.emailCheckBox.isSelected() ) {
+            this.emailContentCheckBox.setEnabled(true);
+            this.emailHeaderCheckBox.setEnabled(true);
         }
         else {
-            emailContentCheckBox.setEnabled(false);
-            emailHeaderCheckBox.setEnabled(false);
+            this.emailContentCheckBox.setEnabled(false);
+            this.emailHeaderCheckBox.setEnabled(false);
         }
     }//GEN-LAST:event_emailCheckBoxActionPerformed
 
     private void chatCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatCheckBoxActionPerformed
-        if ( chatCheckBox.isSelected() ) {
-            chatContentCheckBox.setEnabled(true);
+        if ( this.chatCheckBox.isSelected() ) {
+            this.chatContentCheckBox.setEnabled(true);
         }
         else {
-            chatContentCheckBox.setEnabled(false);
+            this.chatContentCheckBox.setEnabled(false);
         }        
     }//GEN-LAST:event_chatCheckBoxActionPerformed
 
     private void queryTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryTextFieldActionPerformed
-        startSearching();
+        this.startSearching();
     }//GEN-LAST:event_queryTextFieldActionPerformed
 
     private void investigateButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_investigateButtonMouseClicked
-       investigateCase();
+       this.investigateCase();
     }//GEN-LAST:event_investigateButtonMouseClicked
+    
+    private void saveSearchResult() {
+        String query = this.getQueryText();
+        SearchScope scope = this.getSearchScope();
+        String time = DateUtil.getCurrentDate();
+        
+        if ( this.resultId.isEmpty() ) {
+            JOptionPane.showMessageDialog(this.caseSearchPanel, "Please do search then try to save the result");
+            return;
+        }
+        
+        SearchHistory option = new SearchHistory(query, time, scope, this.getDocuments());
+        this.caseSearchPanel.addSearchOption(option);
+        
+        JOptionPane.showMessageDialog(this.caseSearchPanel, "Search Result is Saved Succesfully");
+    }
     
     private void investigateCase() {
         InvestigateDialog investigateDialog = new InvestigateDialog(this.parentFrame, true, this);
@@ -373,7 +377,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         List<Item> items = new ArrayList<Item>();
         
         for(Integer id: this.resultId) {
-            Document currentDocument = searcher.getDocument(String.valueOf(id));
+            Document currentDocument = searcher.getLuceneDocumentById(String.valueOf(id));
             Item fileItem = getFileItemFromDocument(currentDocument);
             items.add(fileItem);
         }

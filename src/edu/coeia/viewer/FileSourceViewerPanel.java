@@ -46,7 +46,7 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
         this.currentId = dialog.getCurrentId() ;
         
         try {
-             this.document = this.searcher.getDocument(String.valueOf(this.currentId));
+             this.document = this.searcher.getLuceneDocumentById(String.valueOf(this.currentId));
         }
         catch(Exception e) {
             e.printStackTrace();
