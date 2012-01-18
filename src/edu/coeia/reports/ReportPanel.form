@@ -147,7 +147,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -156,15 +156,17 @@
                               <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="filesButton" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="fileExtensionButton" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="filesSizeButton" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="filesDateButton" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="fileAuthersButton" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="casesButton" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jButton1" max="32767" attributes="1"/>
+                              <Component id="filesButton" alignment="0" max="32767" attributes="1"/>
+                              <Component id="fileExtensionButton" alignment="0" max="32767" attributes="1"/>
+                              <Component id="filesSizeButton" alignment="0" max="32767" attributes="1"/>
+                              <Component id="filesDateButton" alignment="0" max="32767" attributes="1"/>
+                              <Component id="fileAuthersButton" alignment="0" max="32767" attributes="1"/>
+                              <Component id="casesButton" alignment="0" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace pref="201" max="32767" attributes="0"/>
                       </Group>
@@ -203,7 +205,12 @@
                               <Component id="casesButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="176" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="147" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -285,6 +292,19 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="casesButtonActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel8">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Report about all tagged items in the case"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButton1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Options..."/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
