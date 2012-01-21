@@ -32,7 +32,7 @@ public final class ChatItem extends Item {
         return object;
     }
 
-   @Override
+    @Override
     protected String getDescription() {
         String result = "";
         

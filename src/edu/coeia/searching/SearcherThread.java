@@ -21,7 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.SwingWorker ;
-import javax.swing.table.DefaultTableModel ;
 
 import java.util.Date ;
 import java.util.List ;
