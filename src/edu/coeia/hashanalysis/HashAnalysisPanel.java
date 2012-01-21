@@ -10,6 +10,10 @@
  */
 package edu.coeia.hashanalysis;
 
+import edu.coeia.items.Item;
+import edu.coeia.items.ItemFactory;
+import edu.coeia.viewer.SearchResultParamter;
+import edu.coeia.viewer.SourceViewerDialog;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant;
@@ -28,6 +32,8 @@ import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JTable;
 
 import org.apache.lucene.index.IndexReader ;
 import org.apache.lucene.store.Directory ;
@@ -37,11 +43,6 @@ import org.apache.lucene.document.Field;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import edu.coeia.items.Item;
-import edu.coeia.items.ItemFactory;
-import edu.coeia.viewer.SearchResultParamter;
-import edu.coeia.viewer.SourceViewerDialog;
-import javax.swing.JFrame;
 
 /**
  *
@@ -208,6 +209,11 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
             }
         });
         matchedTable.setFillsViewportHeight(true);
+        matchedTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                matchedTableMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(matchedTable);
 
         javax.swing.GroupLayout matchedFilesPanelLayout = new javax.swing.GroupLayout(matchedFilesPanel);
@@ -391,24 +397,34 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
     private void caseDuplicationResultTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_caseDuplicationResultTableMouseClicked
         if ( JTableUtil.isDoubleClick(evt) ) {
-            int row = this.caseDuplicationResultTable.getSelectedRow();
-            if ( row < 0 ) return;
-            
-            String documentId = String.valueOf(this.caseDuplicationResultTable.getValueAt(row, 0));
-            int documentIdNumber = Integer.parseInt(documentId);
-            
-            List<Integer> ids = new ArrayList<Integer>();
-            for(int i=0; i<this.caseDuplicationResultTable.getRowCount(); i++) {
-                int value = Integer.parseInt(String.valueOf(this.caseDuplicationResultTable.getValueAt(i, 0)));
-                ids.add(value);
-            }
-            
-            SearchResultParamter searchResult = new SearchResultParamter("", documentIdNumber, ids);
-            SourceViewerDialog dialog = new SourceViewerDialog(this.parentFrame, true, searchResult);
-            dialog.setVisible(true);
+            this.showSourceViewerDialog(this.caseDuplicationResultTable);
         }
     }//GEN-LAST:event_caseDuplicationResultTableMouseClicked
 
+    private void matchedTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_matchedTableMouseClicked
+        if ( JTableUtil.isDoubleClick(evt) ) {
+            this.showSourceViewerDialog(this.matchedTable);
+        }
+    }//GEN-LAST:event_matchedTableMouseClicked
+
+    private void showSourceViewerDialog(final JTable table) {
+        int row = table.getSelectedRow();
+        if ( row < 0 ) return;
+
+        String documentId = String.valueOf(table.getValueAt(row, 0));
+        int documentIdNumber = Integer.parseInt(documentId);
+
+        List<Integer> ids = new ArrayList<Integer>();
+        for(int i=0; i<table.getRowCount(); i++) {
+            int value = Integer.parseInt(String.valueOf(table.getValueAt(i, 0)));
+            ids.add(value);
+        }
+
+        SearchResultParamter searchResult = new SearchResultParamter("", documentIdNumber, ids);
+        SourceViewerDialog dialog = new SourceViewerDialog(this.parentFrame, true, searchResult);
+        dialog.setVisible(true);
+    }
+    
     private void doHashLibraryDuplicationAnalysis() {
         Object[] values = this.hashSetJList.getSelectedValues();
         for(Object value: values) {
