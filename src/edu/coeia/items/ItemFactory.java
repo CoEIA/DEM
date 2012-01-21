@@ -4,8 +4,13 @@
  */
 package edu.coeia.items;
 
+import edu.coeia.cases.Case;
+import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.searching.LuceneSearcher;
 import static edu.coeia.indexing.IndexingConstant.* ;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.lucene.document.Document;
 
 /**
@@ -14,9 +19,9 @@ import org.apache.lucene.document.Document;
  */
 public class ItemFactory {
     
-    public static Item newInstance (final Document document) {       
+    public static Item newInstance (final Document document, final Case aCase) {       
         if ( isFileDocument(document)) {
-            return buildFileItem(document);
+            return buildFileItem(document, aCase);
         }
 
         if ( isEmailDocument(document)) {
@@ -24,7 +29,7 @@ public class ItemFactory {
         }
 
         if ( isOfflineEmailDocument(document)) {
-            return buildOfflineEmailItem(document);
+            return buildOfflineEmailItem(document, aCase);
         }
         
         if ( isChatDocument(document)) {
@@ -34,7 +39,7 @@ public class ItemFactory {
         throw new UnsupportedOperationException("There is no item for this type of document");
     }
     
-    private static Item buildFileItem(final Document document) {
+    private static Item buildFileItem(final Document document, final Case aCase) {
         int documentId = Integer.parseInt(document.get(DOCUMENT_ID));
         int documentParentId = Integer.parseInt(document.get(DOCUMENT_PARENT_ID));
         String documentHash = document.get(DOCUMENT_HASH);
@@ -45,8 +50,31 @@ public class ItemFactory {
         String fileDate = document.get(FILE_DATE);
         String fileMime = document.get(FILE_MIME);
         
-        return new FileItem(documentId, documentParentId, documentHash, 
+         String description = "File";
+        
+        if ( documentParentId != 0 ) {
+            LuceneSearcher searcher;
+            try {
+                searcher = new LuceneSearcher(aCase);
+                Document parentDocuemnt = searcher.getLuceneDocumentById(document.get(DOCUMENT_PARENT_ID));
+                DOCUMENT_TYPE  type = IndexingConstant.getDocumentType(parentDocuemnt.get(IndexingConstant.DOCUMENT));
+                
+                if ( type == DOCUMENT_TYPE.OFFLINE_EMAIL ) 
+                    description = "Email Attachment";
+                else {
+                    description = "File Embedded";
+                }
+                
+            } catch (Exception ex) {
+                Logger.getLogger(ItemFactory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        FileItem item = new FileItem(documentId, documentParentId, documentHash, 
             fileName, filePath, fileContent, fileDate, fileMime);
+        
+        item.setDescription(description);
+        return item;
     }
     
     private static Item buildChatItem(final Document document) {
@@ -87,7 +115,7 @@ public class ItemFactory {
                 emailFrom, emailTo, emailSubject, emailSendDate, emailFolderName, hasAttachment,user);
     }
     
-    private static Item buildOfflineEmailItem(final Document document) {
+    private static Item buildOfflineEmailItem(final Document document, final Case aCase) {
         int documentId = Integer.parseInt(document.get(DOCUMENT_ID));
         int documentParentId = Integer.parseInt(document.get(DOCUMENT_PARENT_ID));
         String documentHash = document.get(DOCUMENT_HASH);
@@ -101,7 +129,30 @@ public class ItemFactory {
         boolean hasAttachment = Boolean.valueOf(document.get(ONLINE_EMAIL_ATTACHMENT_PATH));
         String user = document.get(OFFLINE_EMAIL_PATH);
         
-        return new EmailItem(documentId, documentParentId, documentHash,
+        String description = "Email Message";
+        
+        if ( documentParentId != 0 ) {
+            LuceneSearcher searcher;
+            try {
+                searcher = new LuceneSearcher(aCase);
+                Document parentDocuemnt = searcher.getLuceneDocumentById(document.get(DOCUMENT_PARENT_ID));
+                String path = parentDocuemnt.get(OFFLINE_EMAIL_PATH);
+                
+                if ( path.endsWith(".ost") || path.endsWith(".OST") ||
+                      path.endsWith(".pst") || path.endsWith(".PST") ) {
+                    description = "Email Message";
+                }
+                else
+                    description = "Email Attachment";
+            } catch (Exception ex) {
+                Logger.getLogger(ItemFactory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        EmailItem item = new EmailItem(documentId, documentParentId, documentHash,
                 emailFrom, emailTo, emailSubject, emailSendDate, emailFolderName, hasAttachment, user);
+        
+        item.setDescription(description);
+        return item;
     }
 }

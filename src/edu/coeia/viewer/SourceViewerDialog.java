@@ -363,6 +363,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     LuceneSearcher getLuceneSearch() { return this.searcher ; }
     String getQueryString() { return this.keyword ; }
     String getCurrentId() { return String.valueOf(this.documentsId.get(this.currentListIndex));  }
+    Case getCase() { return this.caseObj; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;

@@ -35,7 +35,8 @@ class ChatSourceViewerPanel extends javax.swing.JPanel {
         this.keyword = dialog.getQueryString();
         this.searcher = dialog.getLuceneSearch();
         this.currentId = dialog.getCurrentId() ;
-        this.item = ItemFactory.newInstance(this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)));
+        this.item = ItemFactory.newInstance(this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)),
+                this.searchViewerDialog.getCase());
         
         displayDocumentInformation();
     }

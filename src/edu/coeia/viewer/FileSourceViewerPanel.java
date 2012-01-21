@@ -45,7 +45,9 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
         this.keyword = dialog.getQueryString();
         this.searcher = dialog.getLuceneSearch();
         this.currentId = dialog.getCurrentId() ;
-        this.item = (FileItem) ItemFactory.newInstance(this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)));
+        this.item = (FileItem) ItemFactory.newInstance(
+                this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)),
+                this.searchViewerDialog.getCase());
                 
         // add file browser
         this.fileBrowser = new JWebBrowser();

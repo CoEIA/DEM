@@ -371,7 +371,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         
         MatchingResult result = this.hashLibraryDuplicationResult.get(row);
         for(Document document: result.matchingDocuments) {
-            Item item = ItemFactory.newInstance(document);
+            Item item = ItemFactory.newInstance(document, this.aCase);
             JTableUtil.addRowToJTable(this.matchedTable, item.getDisplayData());
         }
     }//GEN-LAST:event_analysisResultTableMouseClicked
@@ -390,7 +390,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         String key = String.valueOf(this.caseDuplicationTable.getValueAt(row, 0));
         Collection<Document> documentsId = this.caseDuplicationsMap.get(key);
         for(Document document: documentsId) {
-            Item item = ItemFactory.newInstance(document);
+            Item item = ItemFactory.newInstance(document, this.aCase);
             JTableUtil.addRowToJTable(this.caseDuplicationResultTable, item.getDisplayData());
         }
     }//GEN-LAST:event_caseDuplicationTableMouseClicked

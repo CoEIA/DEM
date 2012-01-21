@@ -96,7 +96,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             return; 
                 
         for(ProgressSearchData pd: chunks) {
-            Item item = ItemFactory.newInstance(pd.getDocument());
+            Item item = ItemFactory.newInstance(pd.getDocument(), this.aCase);
             JTableUtil.addRowToJTable(this.panel.getSearchTable(), item.getDisplayData());
         }
     }

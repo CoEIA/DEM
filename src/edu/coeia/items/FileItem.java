@@ -48,10 +48,14 @@ public final class FileItem extends Item{
         return result;
     }
     
+    public void setDescription(final String desc) {
+        this.description = desc;
+    }
+    
     private final String fileName ;
     private final String filePath;
     private final String fileContent; 
     private final String fileDate ;
     private final String fileMimeType;
-    private final String description;
+    private String description;
 }

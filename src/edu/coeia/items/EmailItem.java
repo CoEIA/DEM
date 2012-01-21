@@ -42,7 +42,7 @@ public final class EmailItem extends Item{
         return object;
     }
         
-   @Override
+    @Override
     protected String getDescription() {
         String result = "";
         
@@ -54,6 +54,10 @@ public final class EmailItem extends Item{
         return result;
     }
        
+    public void setDescription(final String desc) {
+        this.description = desc;
+    }
+    
     private final String from;
     private final String to;
     private final String subject;
@@ -62,5 +66,6 @@ public final class EmailItem extends Item{
     private final boolean hasAttachment;
     private final int id;
     private final String emailSource;
-    private final String description;
+    
+    private String description;
 }
