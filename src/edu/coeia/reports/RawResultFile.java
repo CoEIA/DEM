@@ -395,4 +395,122 @@ public class RawResultFile {
 
         return sourceXml;
     }
+      
+       public static DatasourceXml getHashAnalysisHashLibrary(JTable Table, Case cases) {
+        String mainRawfilePath = cases.getCaseLocation() + "\\RAW";
+        String cookedReportFolder = cases.getCaseLocation() + "\\Reports";
+        DatasourceXml sourceXml = new DatasourceXml();
+
+        if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
+            FileUtil.createFolder(mainRawfilePath);
+        }
+
+        if (!FileUtil.isDirectoryExists(cookedReportFolder)) {
+            FileUtil.createFolder(cookedReportFolder);
+        }
+
+        sourceXml.m_strJasperFile = "\\hashanalysis_report.jasper";
+        sourceXml.m_strXPath = "/hashfile/file";
+            sourceXml.m_strReportName = "hashanalysis_report";
+
+        String strOutputPath = mainRawfilePath + "\\hashanalysis_report.xml";
+        
+        Object[][] data = JTableUtil.getTableData(Table);
+        
+        
+        int r = Table.getRowCount();
+        int c = Table.getColumnCount();
+  
+        for (int i = 0; i < r; i++) {
+            for (int x = 0; x < c; x++) {
+                if (data[i][x] == null) {
+                    data[i][x] = new String();
+                }
+            }
+        }
+        
+        
+        String strCaseXml = "<hashfile>";
+        for (int i = 0; i < r; i++) {
+                strCaseXml += "<file><filename>" + data[i][0] + "</filename>"
+                        + "<filepath>" + data[i][1] + "</filepath>"
+                        + "<hashset>" + data[i][2] + "</hashset>"
+                        + "<hashvalue>" + data[i][3] + "</hashvalue>"
+                        + "</file>";
+        }
+        strCaseXml += "</hashfile>";
+
+
+        try {
+
+            File file = new File(strOutputPath);
+            FileUtils.writeStringToFile(file, strCaseXml);
+        } catch (IOException e) {
+            e.printStackTrace();
+            strOutputPath = "";
+        }
+
+        sourceXml.m_strXmlPath = strOutputPath;
+
+        return sourceXml;
+    }
+       
+         public static DatasourceXml getHashAnalysisinCase(JTable Table, Case cases) {
+        String mainRawfilePath = cases.getCaseLocation() + "\\RAW";
+        String cookedReportFolder = cases.getCaseLocation() + "\\Reports";
+        DatasourceXml sourceXml = new DatasourceXml();
+
+        if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
+            FileUtil.createFolder(mainRawfilePath);
+        }
+
+        if (!FileUtil.isDirectoryExists(cookedReportFolder)) {
+            FileUtil.createFolder(cookedReportFolder);
+        }
+
+        sourceXml.m_strJasperFile = "\\hashanalysis_incase_report.jasper";
+        sourceXml.m_strXPath = "/hashfile/file";
+            sourceXml.m_strReportName = "hashanalysis_incase_report";
+
+        String strOutputPath = mainRawfilePath + "\\hashanalysis_incase_report.xml";
+        
+        Object[][] data = JTableUtil.getTableData(Table);
+        
+        
+        int r = Table.getRowCount();
+        int c = Table.getColumnCount();
+  
+        for (int i = 0; i < r; i++) {
+            for (int x = 0; x < c; x++) {
+                if (data[i][x] == null) {
+                    data[i][x] = new String();
+                }
+            }
+        }
+        
+        
+        String strCaseXml = "<hashfile>";
+        for (int i = 0; i < r; i++) {
+                strCaseXml += "<file><filename>" + data[i][0] + "</filename>"
+                        + "<filepath>" + data[i][1] + "</filepath>"
+                        + "<date>" + data[i][2] + "</date>"
+                        + "<hashvalue>" + data[i][3] + "</hashvalue>"
+                        + "</file>";
+        }
+        strCaseXml += "</hashfile>";
+
+
+        try {
+
+            File file = new File(strOutputPath);
+            FileUtils.writeStringToFile(file, strCaseXml);
+        } catch (IOException e) {
+            e.printStackTrace();
+            strOutputPath = "";
+        }
+
+        sourceXml.m_strXmlPath = strOutputPath;
+
+        return sourceXml;
+    }
 }
