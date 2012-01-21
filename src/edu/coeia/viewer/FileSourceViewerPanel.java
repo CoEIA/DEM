@@ -29,12 +29,12 @@ import org.apache.lucene.document.Fieldable;
  */
 class FileSourceViewerPanel extends javax.swing.JPanel {
 
-    private JWebBrowser fileBrowser = new JWebBrowser();
-    private FileItem item;
-    private String keyword ;
-    private SourceViewerDialog searchViewerDialog ;
-    private LuceneSearcher searcher ;
-    private String currentId ;
+    private final JWebBrowser fileBrowser;
+    private final FileItem item;
+    private final String keyword ;
+    private final SourceViewerDialog searchViewerDialog ;
+    private final LuceneSearcher searcher ;
+    private final String currentId ;
     
     /** Creates new form FileSourceViewerPanel */
     public FileSourceViewerPanel(SourceViewerDialog dialog) {
@@ -47,6 +47,7 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
         this.item = (FileItem) ItemFactory.newInstance(this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)));
                 
         // add file browser
+        this.fileBrowser = new JWebBrowser();
         this.fileBrowser.setBarsVisible(false);
         this.fileBrowser.setStatusBarVisible(false);
         this.fileRenderPanel.add(fileBrowser, BorderLayout.CENTER); 

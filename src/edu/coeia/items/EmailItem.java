@@ -34,7 +34,8 @@ public final class EmailItem extends Item{
     public boolean hasAttachment() { return this.hasAttachment; }
     public int getID() { return this.id ; }
     public String getEmailSource() { return this.emailSource ; }
-                
+          
+    @Override
     public Object[] getDisplayData() {
         Object[] object = new Object[] {this.documentId, this.folder, this.time, "Email", this.emailSource};
         return object;

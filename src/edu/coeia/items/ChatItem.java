@@ -25,6 +25,7 @@ public class ChatItem extends Item {
         this.chatMessagePath = chatMessagePath;
     }
                 
+    @Override
     public Object[] getDisplayData() {
         Object[] object = new Object[] {this.documentId, this.chatFilePath, this.date, "CHAT", this.from};
         return object;
