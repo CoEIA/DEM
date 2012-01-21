@@ -336,4 +336,63 @@ public class RawResultFile {
 
         return sourceXml;
     }
+    
+      public static DatasourceXml getDatabaseSignatures(JTable Table, Case cases) {
+        String mainRawfilePath = cases.getCaseLocation() + "\\RAW";
+        String cookedReportFolder = cases.getCaseLocation() + "\\Reports";
+        DatasourceXml sourceXml = new DatasourceXml();
+
+        if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
+            FileUtil.createFolder(mainRawfilePath);
+        }
+
+        if (!FileUtil.isDirectoryExists(cookedReportFolder)) {
+            FileUtil.createFolder(cookedReportFolder);
+        }
+
+        sourceXml.m_strJasperFile = "\\databasesignature_report.jasper";
+        sourceXml.m_strXPath = "/filedb/db";
+            sourceXml.m_strReportName = "databasesignatures";
+
+        String strOutputPath = mainRawfilePath + "\\databasesignatures.xml";
+        
+        Object[][] data = JTableUtil.getTableData(Table);
+        
+        
+        int r = Table.getRowCount();
+        int c = Table.getColumnCount();
+  
+        for (int i = 0; i < r; i++) {
+            for (int x = 0; x < c; x++) {
+                if (data[i][x] == null) {
+                    data[i][x] = new String();
+                }
+            }
+        }
+        
+        
+        String strCaseXml = "<filedb>";
+        for (int i = 0; i < r; i++) {
+                strCaseXml += "<db><fileext>" + data[i][0] + "</fileext>"
+                        + "<filesign>" + data[i][1] + "</filesign>"
+                        + "<filetype>" + data[i][2] + "</filetype>"
+                        + "<filecatg>" + data[i][3] + "</filecatg>"
+                        + "</db>";
+        }
+        strCaseXml += "</filedb>";
+
+
+        try {
+
+            File file = new File(strOutputPath);
+            FileUtils.writeStringToFile(file, strCaseXml);
+        } catch (IOException e) {
+            e.printStackTrace();
+            strOutputPath = "";
+        }
+
+        sourceXml.m_strXmlPath = strOutputPath;
+
+        return sourceXml;
+    }
 }
