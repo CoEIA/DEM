@@ -50,7 +50,7 @@ public class ItemFactory {
         String fileDate = document.get(FILE_DATE);
         String fileMime = document.get(FILE_MIME);
         
-         String description = "File";
+        String description = "File";
         
         if ( documentParentId != 0 ) {
             LuceneSearcher searcher;

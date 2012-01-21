@@ -29,6 +29,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -53,7 +55,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
     private final Case aCase ;
     private final List<HashCategory> hashCategories ;   // contain all categories
     private final List<MatchingResult> hashLibraryDuplicationResult;   // contain the result of hash library duplication anaylsis
-    private final Multimap<String, Document> caseDuplicationsMap;      // contain the result of case duplication analysis
+    private final Multimap<String, String> caseDuplicationsMap;      // contain the result of case duplication analysis
     private final JFrame parentFrame;
     
     /** Creates new form HashAnalysisPanel */
@@ -382,16 +384,24 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_findDuplicationButtonActionPerformed
 
     private void caseDuplicationTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_caseDuplicationTableMouseClicked
-        int row = this.caseDuplicationTable.getSelectedRow();
-        if ( row < 0 ) return ;
-        
-        JTableUtil.removeAllRows(this.caseDuplicationResultTable);
-        
-        String key = String.valueOf(this.caseDuplicationTable.getValueAt(row, 0));
-        Collection<Document> documentsId = this.caseDuplicationsMap.get(key);
-        for(Document document: documentsId) {
-            Item item = ItemFactory.newInstance(document, this.aCase);
-            JTableUtil.addRowToJTable(this.caseDuplicationResultTable, item.getDisplayData());
+        try {
+            int row = this.caseDuplicationTable.getSelectedRow();
+            if ( row < 0 ) return ;
+            
+            JTableUtil.removeAllRows(this.caseDuplicationResultTable);
+            LuceneSearcher searcher = new LuceneSearcher(aCase);
+            
+            String key = String.valueOf(this.caseDuplicationTable.getValueAt(row, 0));
+            Collection<String> documentsId = this.caseDuplicationsMap.get(key);
+            for(String documentId: documentsId) {
+                Document document = searcher.getLuceneDocumentById(documentId);
+                Item item = ItemFactory.newInstance(document, this.aCase);
+                JTableUtil.addRowToJTable(this.caseDuplicationResultTable, item.getDisplayData());
+            }
+            
+            searcher.closeSearcher();
+        } catch (Exception ex) {
+            Logger.getLogger(HashAnalysisPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_caseDuplicationTableMouseClicked
 
@@ -539,11 +549,11 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         this.fillCaseDuplicationMap();  // read from index and fill the duplication map
         
         boolean isFoundDuplication = false; 
-        Map<String, Collection<Document>> m = this.caseDuplicationsMap.asMap();
+        Map<String, Collection<String>> m = this.caseDuplicationsMap.asMap();
         
-        for(Map.Entry<String, Collection<Document>> mapEntry: m.entrySet()){
+        for(Map.Entry<String, Collection<String>> mapEntry: m.entrySet()){
             String key = mapEntry.getKey();
-            Collection<Document> documents = mapEntry.getValue();
+            Collection<String> documents = mapEntry.getValue();
             
             if ( documents.size() > 1 ) { // find duplication  
                 isFoundDuplication = true;
@@ -568,7 +578,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
                 Field field = document.getField(IndexingConstant.DOCUMENT_HASH);
                 if ( field != null && field.stringValue() != null) {
                    String documentHash = field.stringValue();
-                   this.caseDuplicationsMap.put(documentHash, document);
+                   this.caseDuplicationsMap.put(documentHash, document.get(IndexingConstant.DOCUMENT_ID));
                 }
             }
         }
