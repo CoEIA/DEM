@@ -19,12 +19,13 @@ import edu.coeia.hashanalysis.HashItem;
 import edu.coeia.hashanalysis.HashSetDialog;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseFrame;
-import edu.coeia.viewer.SearchViewer;
+import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
 
 import java.awt.event.InputEvent;
 
 import java.io.IOException;
+
 import javax.swing.JTable;
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -64,7 +65,7 @@ public class SearchResultPanel extends javax.swing.JPanel {
         this.pathHandler = CasePathHandler.newInstance(this.caseObj.getCaseLocation());
         
         try {
-            pathHandler.readConfiguration();
+            this.pathHandler.readConfiguration();
         } catch (IOException ex) {
             Logger.getLogger(SearchResultPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -139,18 +140,6 @@ public class SearchResultPanel extends javax.swing.JPanel {
         this.resultTableRightClicked(evt);
     }//GEN-LAST:event_searchTableMousePressed
 
-    void setSearchTableFocusable() {
-        this.searchTable.requestFocusInWindow();
-    }
-    
-    void clearSearchTable() {
-        JTableUtil.removeAllRows(this.searchTable);
-    }
-     
-    public JTable getSearchTable() {
-        return this.searchTable ;
-    }
-    
     private void resultTableRightClicked(java.awt.event.MouseEvent evt) {
         if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
             if ( this.searchTable.isEnabled() )
@@ -162,16 +151,13 @@ public class SearchResultPanel extends javax.swing.JPanel {
         // set summary panel
         try {
             if ( evt.getClickCount() == 2 ) { // Double Click
-                // other click event
                 int row = searchTable.getSelectedRow();
                 if ( row < 0 ) return ; // if not select row
                 
                 String fileId = String.valueOf(searchTable.getValueAt(row, 0));
                 int currentId = Integer.parseInt(fileId);
                 
-                SearchViewer searchViewer = new SearchViewer(this.keyword,
-                        currentId, this.documentIds);
-                
+                SearchResultParamter searchViewer = new SearchResultParamter(this.keyword, currentId, this.documentIds);
                 SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true, searchViewer);
                 panel.setVisible(true);
             }
@@ -233,6 +219,18 @@ public class SearchResultPanel extends javax.swing.JPanel {
         }
                 
         return item;
+    }
+    
+    void setSearchTableFocusable() {
+        this.searchTable.requestFocusInWindow();
+    }
+    
+    void clearSearchTable() {
+        JTableUtil.removeAllRows(this.searchTable);
+    }
+     
+    public JTable getSearchTable() {
+        return this.searchTable ;
     }
     
     void setQueryText(final String query) {

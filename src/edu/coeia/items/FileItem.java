@@ -28,6 +28,11 @@ public final class FileItem extends Item{
     public String getFileContent() { return this.fileContent ;}
     public String getFileDate() { return this.fileDate ;}
     public String getFileMimeType() { return this.fileMimeType ;}
+                
+    public Object[] getDisplayData() {
+        Object[] object = new Object[] {this.documentId, this.fileName, this.fileDate, "FILE", this.filePath};
+        return object;
+    }
     
     private final String fileName ;
     private final String filePath;

@@ -64,7 +64,9 @@ public class ItemFactory {
         String chatLength = document.get(CHAT_LENGTH);
         String chatMessagePath = document.get(CHAT_MESSAGE_PATH);
         
-        return new ChatItem(documentId, documentParentId, documentHash, chatFrom, chatTo, chatTime, chatMessage);
+        return new ChatItem(documentId, documentParentId, documentHash, 
+            chatFrom, chatTo, chatTime, chatMessage,
+            chatAgent, chatFile, chatLength, chatMessagePath);
     }
     
     private static Item buildOnlineEmailItem(final Document document) {
@@ -78,14 +80,28 @@ public class ItemFactory {
         String emailFrom = document.get(ONLINE_EMAIL_FROM);
         String emailTo = document.get(ONLINE_EMAIL_TO);
         String emailId = document.get(ONLINE_EMAIL_MESSAGE_ID);
-        String hasAttachment = document.get(ONLINE_EMAIL_ATTACHMENT_PATH);
+        boolean hasAttachment = Boolean.valueOf(document.get(ONLINE_EMAIL_ATTACHMENT_PATH));
+        String user = document.get(ONLINE_EMAIL_USER_NAME);
         
-        return new EmailItem(documentId, documentParentId, 
-                emailFrom, emailTo, emailSubject, emailSendDate, emailFolderName, true);
+        return new EmailItem(documentId, documentParentId, documentHash,
+                emailFrom, emailTo, emailSubject, emailSendDate, emailFolderName, hasAttachment,user);
     }
     
     private static Item buildOfflineEmailItem(final Document document) {
-        return null;
+        int documentId = Integer.parseInt(document.get(DOCUMENT_ID));
+        int documentParentId = Integer.parseInt(document.get(DOCUMENT_PARENT_ID));
+        String documentHash = document.get(DOCUMENT_HASH);
+        
+        String emailSendDate = document.get(OFFLINE_EMAIL_CLIENT_SUBMIT_TIME);
+        String emailFolderName = document.get(OFFLINE_EMAIL_FOLDER_NAME);
+        String emailSubject = document.get(OFFLINE_EMAIL_SUBJECT);
+        String emailFrom = document.get(OFFLINE_EMAIL_SENT_REPRESENTING_NAME);
+        String emailTo = document.get(OFFLINE_EMAIL_DISPLAY_TO);
+        String emailId = document.get(OFFLINE_EMAIL_ID);
+        boolean hasAttachment = Boolean.valueOf(document.get(ONLINE_EMAIL_ATTACHMENT_PATH));
+        String user = document.get(OFFLINE_EMAIL_PATH);
+        
+        return new EmailItem(documentId, documentParentId, documentHash,
+                emailFrom, emailTo, emailSubject, emailSendDate, emailFolderName, hasAttachment, user);
     }
-    
 }

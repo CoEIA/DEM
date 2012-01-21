@@ -11,8 +11,9 @@
 package edu.coeia.viewer;
 
 import edu.coeia.util.Utilities;
-import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.searching.LuceneSearcher;
+import edu.coeia.items.FileItem;
+import edu.coeia.items.ItemFactory;
 
 import java.awt.BorderLayout;
 
@@ -20,7 +21,6 @@ import java.util.List ;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
-import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Fieldable;
 
 /**
@@ -30,34 +30,28 @@ import org.apache.lucene.document.Fieldable;
 class FileSourceViewerPanel extends javax.swing.JPanel {
 
     private JWebBrowser fileBrowser = new JWebBrowser();
-    private Document document ;
+    private FileItem item;
     private String keyword ;
-    private SourceViewerDialog dialog ;
+    private SourceViewerDialog searchViewerDialog ;
     private LuceneSearcher searcher ;
     private String currentId ;
     
     /** Creates new form FileSourceViewerPanel */
     public FileSourceViewerPanel(SourceViewerDialog dialog) {
-        initComponents();
+        this.initComponents();
         
-        this.dialog = dialog;
+        this.searchViewerDialog = dialog;
         this.keyword = dialog.getQueryString();
         this.searcher = dialog.getLuceneSearch();
         this.currentId = dialog.getCurrentId() ;
-        
-        try {
-             this.document = this.searcher.getLuceneDocumentById(String.valueOf(this.currentId));
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+        this.item = (FileItem) ItemFactory.newInstance(this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)));
                 
         // add file browser
-        fileBrowser.setBarsVisible(false);
-        fileBrowser.setStatusBarVisible(false);
-        fileRenderPanel.add(fileBrowser, BorderLayout.CENTER); 
+        this.fileBrowser.setBarsVisible(false);
+        this.fileBrowser.setStatusBarVisible(false);
+        this.fileRenderPanel.add(fileBrowser, BorderLayout.CENTER); 
         
-        displayDocumentInformation();
+        this.displayDocumentInformation();
     }
 
     /** This method is called from within the constructor to
@@ -222,11 +216,11 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
     private void displayDocumentInformation () {        
         try {
             // show file properities
-            String fileName = this.document.get(IndexingConstant.FILE_NAME);
-            String filePath = this.document.get(IndexingConstant.FILE_PATH);
-            String date = this.document.get(IndexingConstant.FILE_DATE);
-            String embedded = this.document.get(IndexingConstant.DOCUMENT_PARENT_ID);
-            String mime = this.document.get(IndexingConstant.FILE_MIME);
+            String fileName = this.item.getFileName();
+            String filePath = this.item.getFilePath();
+            String date = this.item.getFileDate();
+            String embedded = "";
+            String mime = this.item.getFileMimeType();
             
             fileNameTextField.setText(fileName);
             filePathTextField.setText(filePath);
@@ -235,11 +229,11 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
             mimeTextField.setText(mime);
             
             // Show File Content
-            String content = document.get(IndexingConstant.FILE_CONTENT);
+            String content = this.item.getFileContent();
             fileBrowser.setHTMLContent(Utilities.highlightString(content, this.keyword));
             
             // show matadata information for File
-            List<Fieldable> fields = document.getFields();
+            List<Fieldable> fields = this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)).getFields();
             StringBuilder metadataBuilder = new StringBuilder();
             
             for (Fieldable field: fields) {
@@ -250,9 +244,9 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
             String metadata = metadataBuilder.toString();
             //TODO: replace metadate view to browser or html type to support html rendering
             //metaDataTextArea.setText(highlightString(metadata, keyword));
-            metaDataTextArea.setText(metadata);
+            this.metaDataTextArea.setText(metadata);
 
-            fileRenderPanel.validate();
+            this.fileRenderPanel.validate();
         }
         catch(Exception e) {
             e.printStackTrace();

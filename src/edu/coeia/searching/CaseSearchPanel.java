@@ -70,6 +70,7 @@ public class CaseSearchPanel extends javax.swing.JPanel {
             this.query = query ;
             this.time = time;
             this.scope = scope;
+            this.documents = new ArrayList<Item>();
             this.documents.addAll(Collections.unmodifiableList(docs));
         }
         
@@ -77,7 +78,7 @@ public class CaseSearchPanel extends javax.swing.JPanel {
         String time;
         SearchScope scope;
         
-        List<Item> documents = new ArrayList<Item>();
+        List<Item> documents;
     }
     
     /** This method is called from within the constructor to

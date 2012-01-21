@@ -12,20 +12,20 @@ import java.util.List;
  *
  * @author wajdyessam
  */
-public class SearchViewer {
+public class SearchResultParamter {
     
-    public SearchViewer(final String keyword,final int documentId, final List<Integer> ids) {
+    public SearchResultParamter(final String keyword,final int documentId, final List<Integer> ids) {
         this.keyword = keyword;
-        this.documentId = documentId;
+        this.currentDocumentId = documentId;
         this.documentsIdNumbers = new ArrayList<Integer>();
         this.documentsIdNumbers.addAll(Collections.unmodifiableList(ids));
     }
     
     public String getKeyword() { return this.keyword ; }
-    public int getDocumentId() { return this.documentId; }
+    public int getCurrentDocumentId() { return this.currentDocumentId; }
     public List<Integer> getDocumentIds() { return Collections.unmodifiableList(this.documentsIdNumbers); }
     
     private final String keyword;
-    private final int documentId; 
+    private final int currentDocumentId; 
     private final List<Integer> documentsIdNumbers;
 }

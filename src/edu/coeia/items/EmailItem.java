@@ -10,11 +10,12 @@ package edu.coeia.items;
  */
 public final class EmailItem extends Item{
     
-    public EmailItem(final int documentId, final int documentParentId,
+    public EmailItem(final int documentId, final int documentParentId,final String hash,
             final String from, final String to, final String subject, 
-            final String time, final String folder, final boolean hasAttachment) {
+            final String time, final String folder, final boolean hasAttachment,
+            final String emailSource) {
         
-        super(documentId, documentParentId, "");
+        super(documentId, documentParentId, hash);
         this.from = from;
         this.to = to;
         this.subject = subject;
@@ -22,6 +23,7 @@ public final class EmailItem extends Item{
         this.id = documentId;
         this.folder = folder;
         this.hasAttachment = hasAttachment;
+        this.emailSource = emailSource;
     }
     
     public String getFrom() { return this.from ; }
@@ -31,7 +33,13 @@ public final class EmailItem extends Item{
     public String getFolder() { return this.folder;}
     public boolean hasAttachment() { return this.hasAttachment; }
     public int getID() { return this.id ; }
-    
+    public String getEmailSource() { return this.emailSource ; }
+                
+    public Object[] getDisplayData() {
+        Object[] object = new Object[] {this.documentId, this.folder, this.time, "Email", this.emailSource};
+        return object;
+    }
+        
     private final String from;
     private final String to;
     private final String subject;
@@ -39,4 +47,5 @@ public final class EmailItem extends Item{
     private final String folder;
     private final boolean hasAttachment;
     private final int id;
+    private final String emailSource;
 }

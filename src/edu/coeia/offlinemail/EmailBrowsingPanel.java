@@ -23,7 +23,7 @@ import edu.coeia.items.EmailItem;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FilesPath;
-import edu.coeia.viewer.SearchViewer;
+import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
 
 import java.io.File;
@@ -315,7 +315,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             String fileId = String.valueOf(this.emailsTable.getValueAt(row, 0));
             int currentId = Integer.parseInt(fileId);
 
-            SearchViewer searchViewer = new SearchViewer("",currentId, this.documentIds);
+            SearchResultParamter searchViewer = new SearchResultParamter("",currentId, this.documentIds);
             SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true, searchViewer);
             panel.setVisible(true);
         }
@@ -488,13 +488,14 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                         String emailCC = document.get(IndexingConstant.ONLINE_EMAIL_CC);
                         String emailBCC = document.get(IndexingConstant.ONLINE_EMAIL_BCC);
                         String id = document.get(IndexingConstant.DOCUMENT_ID);
-                        //String parentId = document.get(IndexingConstant.DOCUMENT_PARENT_ID);
+                        String hash = document.get(IndexingConstant.DOCUMENT_HASH);
                         String folderName = document.get(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
                         boolean hasAttachment = Boolean.valueOf(document.get(IndexingConstant.ONLINE_EMAIL_ATTACHMENT_PATH));
-
+                        String user = document.get(IndexingConstant.ONLINE_EMAIL_USER_NAME);
+                        
                         EmailItem item = new EmailItem(Integer.valueOf(id), 
-                                Integer.valueOf("0"), emailFrom,
-                                emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment);
+                                Integer.valueOf("0"), hash, emailFrom,
+                                emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment,user);
 
                         emails.add(item);
                         ids.add(Integer.valueOf(id));
@@ -541,12 +542,14 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                         String emailBCC = document.get(IndexingConstant.OFFLINE_EMAIL_DISPLAY_BCC);
                         String id = document.get(IndexingConstant.DOCUMENT_ID);
                         String parentId = document.get(IndexingConstant.DOCUMENT_PARENT_ID);
+                        String hash = document.get(IndexingConstant.DOCUMENT_HASH);
                         String folderName = document.get(IndexingConstant.OFFLINE_EMAIL_FOLDER_NAME);
                         boolean hasAttachment = Boolean.valueOf(document.get(IndexingConstant.OFFLINE_EMAIL_HAS_ATTACHMENT));
+                        String user = document.get(IndexingConstant.OFFLINE_EMAIL_PATH);
                         
                         EmailItem item = new EmailItem(Integer.valueOf(id), 
-                                Integer.valueOf(parentId), emailFrom,
-                                emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment);
+                                Integer.valueOf(parentId), hash,  emailFrom,
+                                emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment,user);
                         
                         emails.add(item);
                         ids.add(Integer.valueOf(id));
