@@ -14,6 +14,7 @@ import edu.coeia.util.Utilities;
 import edu.coeia.searching.LuceneSearcher;
 import edu.coeia.items.FileItem;
 import edu.coeia.items.ItemFactory;
+import edu.coeia.indexing.IndexingConstant;
 
 import java.awt.BorderLayout;
 
@@ -67,6 +68,9 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
         viewPanel = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         fileRenderPanel = new javax.swing.JPanel();
+        textViewerPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        planTextArea = new javax.swing.JTextArea();
         FileMetaDataPanel = new javax.swing.JPanel();
         jScrollPane28 = new javax.swing.JScrollPane();
         metaDataTextArea = new javax.swing.JTextArea();
@@ -86,23 +90,29 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         fileRenderPanel.setLayout(new java.awt.BorderLayout());
-        jTabbedPane2.addTab("Text Content", fileRenderPanel);
+        jTabbedPane2.addTab("HTML Viewer", fileRenderPanel);
+
+        textViewerPanel.setLayout(new java.awt.BorderLayout());
+
+        planTextArea.setColumns(20);
+        planTextArea.setEditable(false);
+        planTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        planTextArea.setRows(5);
+        jScrollPane1.setViewportView(planTextArea);
+
+        textViewerPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jTabbedPane2.addTab("Plan Text Viewer", textViewerPanel);
+
+        FileMetaDataPanel.setLayout(new java.awt.BorderLayout());
 
         metaDataTextArea.setColumns(20);
-        metaDataTextArea.setFont(new java.awt.Font("Tahoma", 0, 14));
+        metaDataTextArea.setEditable(false);
+        metaDataTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         metaDataTextArea.setRows(5);
         jScrollPane28.setViewportView(metaDataTextArea);
 
-        javax.swing.GroupLayout FileMetaDataPanelLayout = new javax.swing.GroupLayout(FileMetaDataPanel);
-        FileMetaDataPanel.setLayout(FileMetaDataPanelLayout);
-        FileMetaDataPanelLayout.setHorizontalGroup(
-            FileMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
-        );
-        FileMetaDataPanelLayout.setVerticalGroup(
-            FileMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
-        );
+        FileMetaDataPanel.add(jScrollPane28, java.awt.BorderLayout.CENTER);
 
         jTabbedPane2.addTab("MetaData", FileMetaDataPanel);
 
@@ -212,7 +222,6 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
 
         add(properitiesPanel, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
-
         
     private void displayDocumentInformation () {        
         try {
@@ -232,13 +241,16 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
             // Show File Content
             String content = this.item.getFileContent();
             fileBrowser.setHTMLContent(Utilities.highlightString(content, this.keyword));
+            planTextArea.setText(content);
             
             // show matadata information for File
             List<Fieldable> fields = this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)).getFields();
             StringBuilder metadataBuilder = new StringBuilder();
             
             for (Fieldable field: fields) {
-                if ( ! field.name().startsWith("file_")) // files in IndexingConstant start with prefix file_
+                if ( !field.name().startsWith("file_") &&
+                     !field.name().equalsIgnoreCase(IndexingConstant.FILE_CONTENT)) // files in IndexingConstant start with prefix file_
+                    
                     metadataBuilder.append(field.name()).append(" : " ).append(field.stringValue()).append("\n");
             }
             
@@ -254,8 +266,6 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
         }
     }
     
-
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FileMetaDataPanel;
     private javax.swing.JTextField dateTextField;
@@ -269,11 +279,14 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane28;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextArea metaDataTextArea;
     private javax.swing.JTextField mimeTextField;
+    private javax.swing.JTextArea planTextArea;
     private javax.swing.JPanel properitiesPanel;
+    private javax.swing.JPanel textViewerPanel;
     private javax.swing.JPanel viewPanel;
     // End of variables declaration//GEN-END:variables
 }
