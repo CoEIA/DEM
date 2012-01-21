@@ -81,6 +81,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         hashSetJList = new javax.swing.JList();
         hashAnalysisButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         resultPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         analysisResultTable = new javax.swing.JTable();
@@ -109,19 +110,27 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
             }
         });
 
+        jButton1.setText("Report");
+
         javax.swing.GroupLayout hashSetPanelLayout = new javax.swing.GroupLayout(hashSetPanel);
         hashSetPanel.setLayout(hashSetPanelLayout);
         hashSetPanelLayout.setHorizontalGroup(
             hashSetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(hashAnalysisButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+            .addGroup(hashSetPanelLayout.createSequentialGroup()
+                .addComponent(hashAnalysisButton, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
         );
         hashSetPanelLayout.setVerticalGroup(
             hashSetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hashSetPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(hashAnalysisButton))
+                .addGroup(hashSetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(hashAnalysisButton)
+                    .addComponent(jButton1)))
         );
 
         hashLibraryDuplicationPanel.add(hashSetPanel, java.awt.BorderLayout.WEST);
@@ -164,13 +173,13 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         resultPanelLayout.setHorizontalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resultPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                .addGap(93, 93, 93)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
                 .addContainerGap())
         );
         resultPanelLayout.setVerticalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
         );
 
         hashLibraryDuplicationPanel.add(resultPanel, java.awt.BorderLayout.CENTER);
@@ -208,7 +217,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         matchedFilesPanelLayout.setHorizontalGroup(
             matchedFilesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(matchedFilesPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
                 .addContainerGap())
         );
         matchedFilesPanelLayout.setVerticalGroup(
@@ -267,7 +276,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         resultPanel1Layout.setHorizontalGroup(
             resultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, resultPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(findDuplicationButton))
         );
@@ -275,8 +284,8 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
             resultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resultPanel1Layout.createSequentialGroup()
                 .addComponent(findDuplicationButton)
-                .addContainerGap(132, Short.MAX_VALUE))
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                .addContainerGap(146, Short.MAX_VALUE))
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
         );
 
         caseDuplicationPanel.add(resultPanel1, java.awt.BorderLayout.CENTER);
@@ -314,7 +323,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         matchedFilesPanel1Layout.setHorizontalGroup(
             matchedFilesPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(matchedFilesPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
                 .addContainerGap())
         );
         matchedFilesPanel1Layout.setVerticalGroup(
@@ -577,6 +586,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
     private javax.swing.JPanel hashLibraryDuplicationPanel;
     private javax.swing.JList hashSetJList;
     private javax.swing.JPanel hashSetPanel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

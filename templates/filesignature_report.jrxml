@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="filesystem_report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.zoom" value="1.1"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="70"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -32,40 +32,67 @@
 		</box>
 	</style>
 	<subDataset name="Table Dataset 1"/>
-	<subDataset name="dummyxml"/>
-	<subDataset name="New Dataset 1"/>
 	<queryString language="xPath">
-		<![CDATA[/dem/filetags/tag]]>
+		<![CDATA[/filesign/sign]]>
 	</queryString>
-	<field name="name" class="java.lang.String">
-		<fieldDescription><![CDATA[name]]></fieldDescription>
+	<field name="filename" class="java.lang.String">
+		<fieldDescription><![CDATA[filename]]></fieldDescription>
 	</field>
-	<field name="moddate" class="java.lang.String">
-		<fieldDescription><![CDATA[moddate]]></fieldDescription>
+	<field name="status" class="java.lang.String">
+		<fieldDescription><![CDATA[status]]></fieldDescription>
 	</field>
-	<field name="message" class="java.lang.String">
-		<fieldDescription><![CDATA[message]]></fieldDescription>
+	<field name="signatures" class="java.lang.String">
+		<fieldDescription><![CDATA[signatures]]></fieldDescription>
+	</field>
+	<field name="suspected" class="java.lang.String">
+		<fieldDescription><![CDATA[suspected]]></fieldDescription>
+	</field>
+	<field name="fileextensions" class="java.lang.String">
+		<fieldDescription><![CDATA[fileextensions]]></fieldDescription>
 	</field>
 	<group name="Titles">
-		<groupExpression><![CDATA[$F{name}]]></groupExpression>
+		<groupExpression><![CDATA[]]></groupExpression>
 		<groupHeader>
-			<band height="28">
+			<band height="29">
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="4" width="116" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
+					<reportElement mode="Opaque" x="0" y="4" width="111" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
 					<textElement textAlignment="Center">
 						<font isBold="true" isItalic="false"/>
 					</textElement>
-					<text><![CDATA[Item Name]]></text>
+					<text><![CDATA[Filename]]></text>
 				</staticText>
-				<textField>
-					<reportElement x="153" y="4" width="100" height="20"/>
-					<textElement/>
-					<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
-				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="111" y="4" width="114" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
+					<textElement textAlignment="Center">
+						<font isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Status]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="469" y="4" width="84" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
+					<textElement textAlignment="Center">
+						<font isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Extension]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="225" y="4" width="91" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
+					<textElement textAlignment="Center">
+						<font isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Suspected Signature]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="316" y="4" width="153" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
+					<textElement textAlignment="Center">
+						<font isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Suspected Signature]]></text>
+				</staticText>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="27"/>
+			<band height="50"/>
 		</groupFooter>
 	</group>
 	<background>
@@ -80,7 +107,7 @@
 			<staticText>
 				<reportElement style="Title" x="0" y="13" width="263" height="33"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Tagged Items Report]]></text>
+				<text><![CDATA[File Signature Report]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="SubTitle" x="47" y="46" width="216" height="22"/>
@@ -105,15 +132,8 @@
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Effected Items"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Analyzed Files"]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="163" y="15" width="78" height="20"/>
-				<textElement>
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Case Name:]]></text>
-			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement style="Column header" x="378" y="0" width="197" height="20"/>
 				<textElement>
@@ -124,31 +144,32 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="122" splitType="Stretch">
-			<textField>
-				<reportElement x="153" y="20" width="100" height="20"/>
+		<band height="45" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="7" y="0" width="91" height="20"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{moddate}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{filename}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="153" y="60" width="100" height="20"/>
+				<reportElement x="111" y="0" width="111" height="20"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{message}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="20" width="116" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
-				<textElement textAlignment="Center">
-					<font isBold="true" isItalic="false"/>
-				</textElement>
-				<text><![CDATA[Modified Date]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="60" width="116" height="20" forecolor="#0000CC" backcolor="#CCCCFF"/>
-				<textElement textAlignment="Center">
-					<font isBold="true" isItalic="false"/>
-				</textElement>
-				<text><![CDATA[Message]]></text>
-			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="225" y="0" width="91" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{signatures}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="348" y="0" width="101" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{suspected}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="469" y="0" width="84" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{fileextensions}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

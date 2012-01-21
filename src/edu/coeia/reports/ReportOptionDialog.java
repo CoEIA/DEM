@@ -31,18 +31,29 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
     private Case aCase; 
     private Thread thread;
     private Frame frame; 
-    private ProgressDialogue dialogue; 
+    private ProgressDialogue dialogue;
+
+    public ReportOptionDialog(java.awt.Frame parent, boolean modal, JPanel panel, Case aCase) {
+        super(parent, modal);
+        initComponents();
+        this.aCase = aCase;
+        this.setCenterPanel(panel);
+        this.pack();
+        this.setLocationRelativeTo(parent);
+
+    }
+
     /** Creates new form ReportOptionDialog */
-    public ReportOptionDialog(java.awt.Frame parent, boolean modal, JPanel panel, 
+    public ReportOptionDialog(java.awt.Frame parent, boolean modal, JPanel panel,
             ReportPanel reportPanel) {
         super(parent, modal);
         initComponents();
-        
+
         this.centerReportPanel = panel;
         this.reportPanel = reportPanel;
         this.handler = this.reportPanel.getCasePathHandler();
         this.aCase = this.reportPanel.getCase();
-        
+
         this.setCenterPanel(panel);
         this.pack();
         this.setLocationRelativeTo(parent);
@@ -140,7 +151,7 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
         this.repaint();
     }
     
-    private void generateReport(final DatasourceXml objXmlSource) {
+    public void generateReport(final DatasourceXml objXmlSource) {
         try {
             
             File file = new File(FilesPath.TEMPLATES+objXmlSource.m_strJasperFile);//"\\filesystem_report.jasper");
