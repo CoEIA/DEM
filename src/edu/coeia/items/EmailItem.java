@@ -24,6 +24,7 @@ public final class EmailItem extends Item{
         this.folder = folder;
         this.hasAttachment = hasAttachment;
         this.emailSource = emailSource;
+        this.description = getDescription();
     }
     
     public String getFrom() { return this.from ; }
@@ -37,10 +38,22 @@ public final class EmailItem extends Item{
           
     @Override
     public Object[] getDisplayData() {
-        Object[] object = new Object[] {this.documentId, this.folder, this.time, "Email", this.emailSource};
+        Object[] object = new Object[] {this.documentId, this.folder, this.time, this.description, this.emailSource};
         return object;
     }
         
+   @Override
+    protected String getDescription() {
+        String result = "";
+        
+        if ( this.documentParentId != 0 )
+            result = "Email Attachment";
+        else
+            result = "Email Message";
+        
+        return result;
+    }
+       
     private final String from;
     private final String to;
     private final String subject;
@@ -49,4 +62,5 @@ public final class EmailItem extends Item{
     private final boolean hasAttachment;
     private final int id;
     private final String emailSource;
+    private final String description;
 }

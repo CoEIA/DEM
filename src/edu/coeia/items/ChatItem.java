@@ -8,7 +8,7 @@ package edu.coeia.items;
  *
  * @author wajdyessam
  */
-public class ChatItem extends Item {
+public final class ChatItem extends Item {
     public ChatItem (final int documentId, final int parentId, final String documentHash, 
             final String auther, final String partner, final String date, final String messageText,
             final String agent, final String path, final String length, final String chatMessagePath) {
@@ -23,14 +23,27 @@ public class ChatItem extends Item {
         this.chatFilePath = path;
         this.chatLength = length;
         this.chatMessagePath = chatMessagePath;
+        this.description = getDescription();
     }
                 
     @Override
     public Object[] getDisplayData() {
-        Object[] object = new Object[] {this.documentId, this.chatFilePath, this.date, "CHAT", this.from};
+        Object[] object = new Object[] {this.documentId, this.chatFilePath, this.date, this.description, this.from};
         return object;
     }
 
+   @Override
+    protected String getDescription() {
+        String result = "";
+        
+        if ( this.documentParentId != 0 )
+            result = "Chat Embedded";
+        else
+            result = "Chat";
+        
+        return result;
+    }
+       
     public String getFrom() { return this.from ; }
     public String getTo() { return this.to ; }
     public String getDate() { return this.date ; }
@@ -48,4 +61,5 @@ public class ChatItem extends Item {
     private final String chatFilePath;
     private final String chatLength;
     private final String chatMessagePath;
+    private final String description;
 }

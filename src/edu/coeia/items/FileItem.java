@@ -21,6 +21,7 @@ public final class FileItem extends Item{
         this.fileContent = fileContent;
         this.fileDate = fileDate;
         this.fileMimeType = fileMimeType;
+        this.description = getDescription();
     }
     
     public String getFileName()  { return this.fileName ; }
@@ -31,8 +32,20 @@ public final class FileItem extends Item{
            
     @Override
     public Object[] getDisplayData() {
-        Object[] object = new Object[] {this.documentId, this.fileName, this.fileDate, "FILE", this.filePath};
+        Object[] object = new Object[] {this.documentId, this.fileName, this.fileDate, this.description , this.filePath};
         return object;
+    }
+    
+    @Override
+    protected String getDescription() {
+        String result = "";
+        
+        if ( this.documentParentId != 0 )
+            result = "File Embedded";
+        else
+            result = "File";
+        
+        return result;
     }
     
     private final String fileName ;
@@ -40,4 +53,5 @@ public final class FileItem extends Item{
     private final String fileContent; 
     private final String fileDate ;
     private final String fileMimeType;
+    private final String description;
 }

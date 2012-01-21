@@ -181,7 +181,8 @@ final class IndexerFactory {
         return mime.equalsIgnoreCase("text/plain") ||
                  mime.equalsIgnoreCase("application/xml") ||
                  mime.equalsIgnoreCase("application/xhtml+xml") ||
-                 mime.equalsIgnoreCase("text/html") ;
+                 mime.equalsIgnoreCase("text/html") ||
+                 mime.startsWith("text");
     }
     
     private static boolean isOfficeFile(final String mime) {

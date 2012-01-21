@@ -56,6 +56,7 @@ public abstract class Item {
     public String getDocumentHash() { return this.documentHash ; }
     
     public abstract Object[] getDisplayData();
+    protected abstract String getDescription();
     
     protected int documentId ;
     protected int documentParentId;
