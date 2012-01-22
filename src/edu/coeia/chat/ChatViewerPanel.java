@@ -18,6 +18,9 @@ import edu.coeia.items.ChatItem;
 import edu.coeia.items.ItemFactory;
 import edu.coeia.util.FilesPath;
 
+import java.awt.Cursor;
+import java.awt.EventQueue;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -27,6 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
+import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -206,13 +210,78 @@ public class ChatViewerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_loadItemButtonActionPerformed
 
     private void refreshList() throws Exception {
-        Set<String> files = getChatFilePath(this.agent);
-        for(String file: files) {
-            File path = new File(file);
-            JListUtil.addToList(path.getName(), chatListModel, chatJList);
-        }
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        ProgressDialog progressDialog = new ProgressDialog(null, false);
+        progressDialog.setVisible(true);
+        
+        Task task = new Task(progressDialog);
+        task.execute();
+        
+//        Set<String> files = getChatFilePath(this.agent);
+//        for(String file: files) {
+//            File path = new File(file);
+//            JListUtil.addToList(path.getName(), chatListModel, chatJList);
+//        }
     }
 
+    private class Task extends SwingWorker<Void, Void> {
+        private final ProgressDialog dialog;
+        
+        public Task (final ProgressDialog dialog) {
+            this.dialog = dialog;
+        }
+        
+        @Override
+        public Void doInBackground() {
+            try {
+                getChatFilePath();
+            } catch (IOException ex) {
+                Logger.getLogger(Task.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
+        }
+
+        private Set<String> getChatFilePath() throws IOException{
+            String indexDir = aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
+            Directory dir = FSDirectory.open(new File(indexDir));
+            IndexReader indexReader = IndexReader.open(dir);
+            Set<String> aList = new HashSet<String>();
+            this.dialog.setMax(indexReader.maxDoc());
+            
+            for (int i=0; i<indexReader.maxDoc(); i++) {
+                this.dialog.setValue(i);
+                Document document = indexReader.document(i);
+                if ( document != null ) {
+                    Field field = document.getField(IndexingConstant.CHAT_FILE);
+                    if ( field != null && field.stringValue() != null) {
+
+                       if ( document.getField(IndexingConstant.CHAT_AGENT).stringValue().equals(agent)) {
+                           String chatFile = field.stringValue();
+                           final File path = new File(chatFile);
+                           EventQueue.invokeLater(new Runnable() {
+                               @Override
+                               public void run() { 
+                                   JListUtil.addToList(path.getName(), chatListModel, chatJList);
+                               }
+                           });
+                           
+                       }
+                    }
+                }
+            }
+            indexReader.close();
+
+            return aList;
+        }
+
+        @Override
+        public void done() {
+            System.out.println("end");
+            this.dialog.dispose();
+            setCursor(null);
+        }
+    }
+    
     private Set<String> getChatFilePath(final String agent) throws IOException{
         String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));

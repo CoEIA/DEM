@@ -94,7 +94,6 @@ public class IndexingConstant {
     public static final String ONLINE_EMAIL_ATTACHMENT_PATH = "ONLINE_EMAIL_ATTACHMENT_PATH";
     public static final String ONLINE_EMAIL_MESSAGE_ID = "ONLINE_EMAIL_ID";
     
-    
     /**
      * constants for offline email
      */
