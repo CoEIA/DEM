@@ -209,7 +209,7 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
     // End of variables declaration//GEN-END:variables
 
     public void run() {
-        ReportGenerator generator = (ReportGenerator) this.centerReportPanel;
+        
         // open the document here
         generateReport(input);
         dialogue.setVisible(false);
