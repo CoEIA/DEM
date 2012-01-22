@@ -26,6 +26,7 @@ import org.apache.tika.mime.MediaType;
 public class TikaObjectExtractor {
     private String filename ;
     private String destination;
+    private OBJECT_TYPE type ;
     
     /**
      * Type of Object we want to extract objects from it
@@ -36,39 +37,29 @@ public class TikaObjectExtractor {
      */
     public static enum OBJECT_TYPE {CONTAINER, ARCHIVE}
     
-    private OBJECT_TYPE type ;
     
-    public static TikaObjectExtractor getExtractor(String file, String destination, OBJECT_TYPE type ) {
+    public static TikaObjectExtractor newInstance(String file, String destination, OBJECT_TYPE type ) {
         return new TikaObjectExtractor(file, destination, type);
     }
     
+    public EmbeddedObjectCollections extract () throws Exception {
+        ContainerExtractor extractor = new ParserContainerExtractor();        
+        return process(filename, extractor);
+    }
+        
     private TikaObjectExtractor(String file, String destination, OBJECT_TYPE type) {
         this.filename = file;
         this.destination = destination;
         this.type = type ;
     }
     
-    public EmbeddedObjectHandler extract () {
-        EmbeddedObjectHandler handler = null;
-        
-        try {
-            ContainerExtractor extractor = new ParserContainerExtractor();
-            handler =  process(filename, extractor);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        
-        return handler ;
-    }
-    
-    private EmbeddedObjectHandler process(String filename, ContainerExtractor extractor) throws Exception {
+    private EmbeddedObjectCollections process(String filename, ContainerExtractor extractor) throws Exception {
         TikaInputStream stream = getTikaInputStream(filename);
-        EmbeddedObjectHandler handler = null;
+        EmbeddedObjectCollections handler = null;
         
         try {
             // Process it
-            handler = new EmbeddedObjectHandler(this.destination, this.type);
+            handler = new EmbeddedObjectCollections(this.destination, this.type);
             
             if( type == OBJECT_TYPE.CONTAINER) { // recursive extractor to get all items inside document
                 extractor.extract(stream, extractor, handler);
@@ -90,20 +81,26 @@ public class TikaObjectExtractor {
     /*
      * Object Location hold information about the file extracted from object
      */
-    public static class ObjectLocation {
-        public final String fileName ;
-        public final String type;
-        public final String extension ;
-        public final String oldFilePath ;
-        public final String newFilePath ;
+    public class ExtractedObjectInfo {
+        private final String fileName ;
+        private final String type;
+        private final String extension ;
+        private final String oldFilePath ;
+        private final String newFilePath ;
         
-        public ObjectLocation(String fn, String t, String oldF, String newF, String ext) {
+        public ExtractedObjectInfo(String fn, String t, String oldF, String newF, String ext) {
             this.fileName = fn;
             this.type = t;
             this.extension = ext;
             this.oldFilePath = oldF; 
             this.newFilePath = newF;
         }
+        
+        public String getFileName() { return this.fileName ; }
+        public String getFileType() { return this.type; }
+        public String getFileExtension() { return this.extension; }
+        public String getFileOldPath() { return this.oldFilePath; }
+        public String getFileNewPath() { return this.newFilePath ; }
         
         @Override
         public String toString() {
@@ -112,26 +109,28 @@ public class TikaObjectExtractor {
         }
     }
     
-    public static class EmbeddedObjectHandler implements EmbeddedResourceHandler {
-        private String destination ;
-        private List<ObjectLocation> locations = new ArrayList<ObjectLocation>();
-        private OBJECT_TYPE type; 
+    public class EmbeddedObjectCollections implements EmbeddedResourceHandler {
+        private final String destination ;
+        private final List<ExtractedObjectInfo> locations;
+        private final OBJECT_TYPE type; 
         
-        public EmbeddedObjectHandler(String destination, OBJECT_TYPE type) {
+        public EmbeddedObjectCollections(String destination, OBJECT_TYPE type) {
             this.destination = destination;
             this.type = type ;
+            this.locations = new ArrayList<ExtractedObjectInfo>();
         }
         
-        public List<ObjectLocation> getLocations() { return Collections.unmodifiableList(this.locations); }
+        public List<ExtractedObjectInfo> getLocations() { return Collections.unmodifiableList(this.locations); }
         
         @Override
         public void handle(String filename, MediaType mediaType, InputStream stream) {   
-            // ignore ole file
-            if ( filename.startsWith("ole-") )
+            if ( filename == null)
                 return ;
+            
             try {
                 extractEmbbeddedObject(stream, filename, mediaType.toString(), mediaType.getSubtype());
             } catch (IOException ex) {
+                ex.printStackTrace();
                 Logger.getLogger(TikaObjectExtractor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -156,7 +155,7 @@ public class TikaObjectExtractor {
             String distenationPath = objectFile.getAbsolutePath();
 
             // create location object
-            ObjectLocation location = new ObjectLocation(objectFile.getName(), type, originalFilePath,
+            ExtractedObjectInfo location = new ExtractedObjectInfo(objectFile.getName(), type, originalFilePath,
                     distenationPath, ext);
             locations.add(location);
 

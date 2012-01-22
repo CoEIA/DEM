@@ -13,33 +13,31 @@ import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
-import static edu.coeia.indexing.IndexingConstant.*;
+import edu.coeia.util.Tuple;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import java.util.Date;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.index.CorruptIndexException;
 
 import com.pff.PSTAttachment;
 import com.pff.PSTException;
 import com.pff.PSTFile;
 import com.pff.PSTFolder;
 import com.pff.PSTMessage;
-import com.pff.PSTRecipient;
+
+import edu.coeia.extractors.NoneImageExtractor;
+import java.util.ArrayList;
+import java.util.List;
 
 final class OutlookIndexer extends Indexer{
     
     private int depth = -1;
-    private int parentId ;
+    private int outlookId = 0;
     
     /*
      * static factory method to get an instance of outlook indexer
@@ -57,7 +55,7 @@ final class OutlookIndexer extends Indexer{
     private OutlookIndexer(LuceneIndex luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor, int parentId) {
         super(luceneIndex, file, mimeType, imageExtractor);
-        this.parentId = parentId ;
+        this.setParentId(parentId);
     }
    
     @Override
@@ -66,17 +64,18 @@ final class OutlookIndexer extends Indexer{
        
         try {
             PSTFile pstFile = new PSTFile(this.getFile().getAbsolutePath());
-            System.out.println("name: " + pstFile.getMessageStore().getDisplayName());
-            processOutlookFolder(pstFile.getRootFolder());
-            System.out.println("end of processing email\n\n\n");
+            
+            this.outlookId = this.getId();
+            
+            NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
+                new NoneImageExtractor(), this.getParentId()).doIndexing();
+            
+            this.processOutlookFolder(pstFile.getRootFolder());
             result = true;
             
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(OutlookIndexer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PSTException ex) {
-            Logger.getLogger(OutlookIndexer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(OutlookIndexer.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
         
         return result;
@@ -92,7 +91,7 @@ final class OutlookIndexer extends Indexer{
 
         // get folders
         if (folder.hasSubfolders()) {
-            Vector<PSTFolder> childFolders = folder.getSubFolders();
+            List<PSTFolder> childFolders = folder.getSubFolders();
             for (PSTFolder childFolder : childFolders) {
                 processOutlookFolder(childFolder);
             }
@@ -103,9 +102,7 @@ final class OutlookIndexer extends Indexer{
             depth++;
             PSTMessage email = (PSTMessage) folder.getNextChild();
             while (email != null) {
-                System.out.println("\nFolder: " + folderName + " has message: " + email.getSubject());
-                Document document = this.getDocument(email, folderName);
-                this.indexDocument(document);
+                processEmail(email, folderName);
                 email = (PSTMessage) folder.getNextChild();
             }
             depth--;
@@ -113,132 +110,97 @@ final class OutlookIndexer extends Indexer{
         depth--;
     }
     
-    private boolean indexDocument(final Document document) throws CorruptIndexException, IOException {
-        int objectId = this.getId();
-        boolean status = false;
-        
-        if (document != null) {
-            System.out.println("indexing document");
-            this.getLuceneIndex().getWriter().addDocument(document);    // index file
-            this.increaseId();      // increase the id counter if file indexed successfully
-            status = true;
+    private void processEmail(final PSTMessage email, final String folderName) {
+        try {
+            List<Tuple<String, PSTAttachment>> attachmentsName = this.getAttachments(email);
+            this.updateGuiWithAttachmentsName(email, folderName, attachmentsName);
+            List<String> filePaths = this.saveAndGetEmailAttachmentsPath(attachmentsName);
+            
+            // index the email message
+            int emailId = this.getId();
+            Document document = LuceneDocumentBuilder.getDocument(this, email, folderName, this.outlookId, filePaths);
+            this.indexDocument(document);
+            
+            // index the attachments paths, with email id as the parent
+            for(String path: filePaths) {
+                try {
+                    File file = new File(path);
+                    boolean status = this.getLuceneIndex().indexFile(file, emailId, this.getDialog());
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                    System.out.println("cannot index the attachment: " + path);
+                }
+            }
+        } catch (PSTException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(OutlookIndexer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(OutlookIndexer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        return status;
     }
     
-    private Document getDocument(final PSTMessage email, final String folderName) throws PSTException, IOException {
-        int id = email.getDescriptorNode().descriptorIdentifier;
-        String contentHTML = email.getBodyHTML();
-        String contentASCII = email.getBody();
-        String internetId = email.getInternetMessageId();
-        String subject = email.getSubject();
+    private void updateGuiWithAttachmentsName(final PSTMessage email, final String folderName, final List<Tuple<String, PSTAttachment>> attachmentsName) {
+        String subject = "";
+        String date = "";
+        String sentRepresentingName = "";
+        String displayTo = "";
+        boolean hasAttachment = false;
+
+        try {
+            subject = email.getSubject();
+            date  = Utilities.getEmptyStringWhenNullDate(email.getClientSubmitTime());
+            hasAttachment = email.hasAttachments();
+            sentRepresentingName = email.getSentRepresentingName();   
+            displayTo = Utilities.getEmptyStringWhenNullString(email.getDisplayTo());
+        }
+        catch(Exception e ) {
+            System.out.println("Exception in outlook gui update!!!");
+        }
+
+        EmailCrawlingProgressPanel panel = new EmailCrawlingProgressPanel();
+        panel.setAgentType("Outlook");
+        panel.setEmailPath(getFile().getAbsolutePath());
+        panel.setCurrentFolder(folderName);
+        panel.setCurrentMessageSubject(subject);
+        panel.setMessageDate(date);
+        panel.setHasAttachment(String.valueOf(hasAttachment));
+        panel.setFrom(sentRepresentingName);
+        panel.setTo(displayTo);
+
+        List<String> names = new ArrayList<String>();
+        for(Tuple<String, PSTAttachment> pair: attachmentsName) {
+            names.add(pair.getA());
+        }
+        panel.setAttachment(names);
+
+        getDialog().changeProgressPanel(panel);
+    }
+    
+    private List<String> saveAndGetEmailAttachmentsPath(final List<Tuple<String, PSTAttachment>> attachmentsName) 
+            throws PSTException, IOException {
+        File storingPath = new File(this.getCaseLocation() + "\\" + FilesPath.OFFLINE_EMAIL_ATTACHMENTS);
         
-        Date actionDate = email.getActionDate();
-        Date clientSubmitTime = email.getClientSubmitTime();
-        Date deliveryTime = email.getMessageDeliveryTime();
+        List<String> filePaths = new ArrayList<String>();
         
-        String emailAddress = email.getEmailAddress();
-        String messageHeader = email.getTransportMessageHeaders();
-        long messageSize = email.getMessageSize();
-        int numberOfAttachments = email.getNumberOfAttachments();
-        int numberOfRecipent = email.getNumberOfRecipients();
-         
-        String sentRepresentingName = email.getSentRepresentingName();       
-        String senderAddressType = email.getSenderAddrtype();
-        String senderEmailAddress = email.getSenderEmailAddress();
-        String senderName = email.getSenderName();
-        
-        String recievedByAddress = email.getReceivedByAddress();
-        String recievedByAddressType = email.getReceivedByAddressType();
-        String recievedByName = email.getReceivedByName();
-        
-        String displayTo = email.getDisplayTo();
-        String displayCC = email.getDisplayCC();
-        String displayBCC = email.getDisplayBCC();
-        
-        boolean hasReplied = email.hasReplied();
-        boolean hasForwarded = email.hasForwarded();
-        boolean hasAttachment = email.hasAttachments();
-        
-        Document doc = new Document();
-        
-        // generic document fields
-        doc.add(new Field(DOCUMENT_ID, String.valueOf(this.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(DOCUMENT, getDocumentType(DOCUMENT_TYPE.OFFLINE_EMAIL), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        //doc.add(new Field(DOCUMENT_HASH, HashCalculator.calculateFileHash(this.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        
-        // specific document fields
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_PATH, this.getPathHandler().getRelativePath(this.getFile().getAbsolutePath())));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_NAME, this.getFile().getName()));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_FOLDER_NAME, folderName));
-        
-        doc.add(getAnalyzedField(OFFLINE_EMAIL_HTML_CONTENT, contentHTML));
-        doc.add(getAnalyzedField(OFFLINE_EMAIL_PLAIN_CONTENT, contentASCII));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_ID, String.valueOf(id)));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_INTERNET_ID, internetId));
-        doc.add(getAnalyzedField(OFFLINE_EMAIL_SUBJECT, subject));
-        
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_ACTION_DATE, Utilities.getEmptyStringWhenNullDate(actionDate)));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_CLIENT_SUBMIT_TIME, Utilities.getEmptyStringWhenNullDate(clientSubmitTime)));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_DELIVERY_TIME, Utilities.getEmptyStringWhenNullDate(deliveryTime)));
-        
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_ADDRESS, emailAddress));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_HEADER, messageHeader));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_SIZE, String.valueOf(messageSize)));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_NUMBER_OF_ATTACHMENT, String.valueOf(numberOfAttachments)));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_NUMBER_OF_RECIPENT, String.valueOf(numberOfRecipent)));
-        
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_SENT_REPRESENTING_NAME, sentRepresentingName));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_SENDER_ADDRESS_TYPE, senderAddressType));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_SENDER_EMAIL_ADDRESS, senderEmailAddress));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_SENDER_NAME, senderName));
-        
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIEVED_BY_ADDRESS, recievedByAddress));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIEVED_BY_ADDRESS_TYPE, recievedByAddressType));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIEVED_BY_NAME, recievedByName));
-        
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_DISPLAY_TO, displayTo));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_DISPLAY_CC, displayCC));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_DISPLAY_BCC, displayBCC));
-        
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_HAS_REPLIED, String.valueOf(hasReplied)));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_HAS_FORWARDED, String.valueOf(hasForwarded)));
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_HAS_ATTACHMENT, String.valueOf(hasAttachment)));
-        
-//        System.out.println("html content: " + contentHTML);
-//        System.out.println("content plain: " + contentASCII);
-//        System.out.println("id: " + id);
-//        System.out.println("interned ID: " + internetId);
-//        System.out.println("subject: " + subject);
-//        System.out.println("action date: " + actionDate);
-//        System.out.println("client submit time: " + clientSubmitTime);
-//        System.out.println("delievery time: " + deliveryTime);
-//        System.out.println("email address: " + emailAddress);
-//        System.out.println("message header: " + messageHeader);
-//        System.out.println("number of attachments: " + numberOfAttachments);
-//        System.out.println("number of recipent: " + numberOfRecipent);
-        
-        for(int i=0; i<numberOfRecipent; i++) {
-            PSTRecipient r = email.getRecipient(i);
-            String name = r.getDisplayName();
-            String address = r.getEmailAddress();
-            String type = r.getEmailAddressType();
-            String smptAddress = r.getSmtpAddress();
+        for(Tuple<String, PSTAttachment> pair: attachmentsName) {
+            File attachmentPath = new File(storingPath, pair.getA());
+            InputStream stream = pair.getB().getFileInputStream();
+            FileUtil.saveObject(stream,attachmentPath.getAbsolutePath());
+            stream.close();
             
-//            System.out.println("Recipent Name: " + name);
-//            System.out.println("Recipent address: " + address);
-//            System.out.println("Recipent type: " + type);
-//            System.out.println("Recipent smpt: " + smptAddress);
-            
-            doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIPENT_NAME, name));
-            doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIPENT_ADDRESS, address));
-            doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIPENT_TYPE, type));
-            doc.add(getNotAnlyzedField(OFFLINE_EMAIL_RECIPENT_SMPT, smptAddress));
+            filePaths.add(attachmentPath.getAbsolutePath());
         }
         
-        File storingPath = new File(this.getCaseLocation() + "\\" + FilesPath.OFFLINE_EMAIL_ATTACHMENTS);
+        return filePaths;
+    }
+  
+    private List<Tuple<String, PSTAttachment>> getAttachments(final PSTMessage email) throws PSTException, IOException {
+        int id = email.getDescriptorNode().descriptorIdentifier;
+        int numberOfAttachments = email.getNumberOfAttachments();
+
+        List<Tuple<String, PSTAttachment>> attachmentsName = new ArrayList<Tuple<String, PSTAttachment>>();
         
         for(int i=0; i<numberOfAttachments; i++) {
             PSTAttachment attchment = email.getAttachment(i);
@@ -246,52 +208,15 @@ final class OutlookIndexer extends Indexer{
             
             if ( fileName.isEmpty() ) {
                 String name = attchment.getFilename();
-                if ( name.isEmpty()) continue;
+                if ( name.trim().isEmpty()) continue;
                 
                 fileName =  this.getId() + "-" + id + "-" + name;
             }
             
-            File attachmentPath = new File(storingPath, fileName);
-            InputStream stream = attchment.getFileInputStream();
-            FileUtil.saveObject(stream,attachmentPath.getAbsolutePath());
-            stream.close();
-            
-            doc.add(getNotAnlyzedField(OFFLINE_EMAIL_ATTACHMENT_PATH, attachmentPath.getAbsolutePath()));
-            
-            // index attachment
-            try {
-                this.getLuceneIndex().indexFile(attachmentPath, this.getId());
-                System.out.println("Index attchment: " + attachmentPath.getAbsolutePath());
-            }
-            catch(Exception e ) {
-                System.out.println("cannot index attchment: " + attachmentPath);
-            }
+            Tuple pair = new Tuple(fileName, attchment);
+            attachmentsName.add(pair);
         }
-                
-//        System.out.println("message size: " + messageSize);
-//        System.out.println("sent representing name: "+ sentRepresentingName);
-//        System.out.println("sender address type: " + senderAddressType);
-//        System.out.println("sender Email Address: " + senderEmailAddress );
-//        System.out.println("sender name: " + senderName);
-//        System.out.println("recieved by address: " +  recievedByAddress);
-//        System.out.println("recieved by address type: " + recievedByAddressType);
-//        System.out.println("recieved by name: " + recievedByName);
-//        System.out.println("display to: " + displayTo);
-//        System.out.println("display cc: " + displayCC);
-//        System.out.println("display bcc: " + displayBCC);
-//        System.out.println("has replied: " + hasReplied);
-//        System.out.println("has forwared: " + hasForwarded);
-//        System.out.println("has attachment: " + hasAttachment);
-//        System.out.println("******************************************\n");
         
-        return doc;
-    }
-    
-    private Field getNotAnlyzedField(final String field, final String value) {
-        return new Field(field,value, Field.Store.YES, Field.Index.NOT_ANALYZED);
-    }
-    
-    private Field getAnalyzedField(final String field, final String value) {
-        return new Field(field, value, Field.Store.YES, Field.Index.ANALYZED);
+        return attachmentsName;
     }
 }

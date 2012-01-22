@@ -81,16 +81,19 @@ public final class LuceneIndex {
 	writer.close();
     }
     
-    public boolean indexFile(File file) throws UnsupportedOperationException{
-        return indexFile(file, 0);
+    public boolean indexFile(File file, IndexingDialog dialog) throws UnsupportedOperationException{
+        return indexFile(file, 0, dialog);
     }
     
-    public boolean indexFile(File file, int parentId) throws UnsupportedOperationException{ 
+    public boolean indexFile(File file, int parentId, IndexingDialog dialog) throws UnsupportedOperationException{ 
         try {
             Indexer indexType = IndexerFactory.getIndexer(this, file, parentId);
             
             if ( indexType == null )
                 return false;
+            
+            if ( dialog !=  null) 
+                indexType.setGUIDialog(dialog);
             
             return indexType.doIndexing();
         }
@@ -100,20 +103,5 @@ public final class LuceneIndex {
         catch(UnsupportedOperationException e){
             throw new UnsupportedOperationException(e.getMessage());
         }
-    }
-    
-    public boolean indexDir(File dir){
-        boolean status = false;
-        
-        try {
-            Indexer indexType = IndexerFactory.getFolderIndexer(this, dir);
-            status = indexType.doIndexing();
-        }
-        catch(UnsupportedOperationException e){
-            //System.out.println(e.getMessage());
-            //e.printStackTrace();
-        }
-        
-        return status;
     }
 }

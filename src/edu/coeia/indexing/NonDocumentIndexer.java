@@ -5,15 +5,19 @@
 package edu.coeia.indexing;
 
 import edu.coeia.extractors.ImageExtractor;
+import edu.coeia.extractors.TikaExtractor;
+
 import java.io.File;
+
+import java.util.Map;
+
+import org.apache.lucene.document.Document;
 
 /**
  *
  * @author wajdyessam
  */
 final class NonDocumentIndexer extends Indexer{
-    
-    private int parentId ;
     
     /*
      * static factory method to get an instance of DocumentIndexer
@@ -34,12 +38,26 @@ final class NonDocumentIndexer extends Indexer{
     private NonDocumentIndexer(LuceneIndex luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor,int parentId) {
         super(luceneIndex, file,mimeType, imageExtractor);
-        this.parentId = parentId ;
+        this.setParentId(parentId);
     }
     
     @Override
     public boolean doIndexing() {
-        return false;
+        boolean status = false ;
+        
+        try {
+            TikaExtractor extractor = TikaExtractor.getExtractor(this.getFile(), this.getMimeType(),
+                    TikaExtractor.EXTRACT_TYPE.METADATA);
+            
+            Map<String, String> metadata = extractor.getMetadata();
+            Document doc = LuceneDocumentBuilder.getDocument(this, "", metadata); // add parentid and parent metadata here
+            status = this.indexDocument(doc);
+        }
+        catch(Exception e){
+            throw new UnsupportedOperationException(e.getMessage());
+        }
+
+        return status;
     }
     
 }

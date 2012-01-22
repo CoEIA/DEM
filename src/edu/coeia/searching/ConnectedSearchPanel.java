@@ -256,7 +256,7 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
            FileItem fileItem = (FileItem) item;
            
            Object[] data = {
-               fileItem.getDocumentId(), fileItem.getFileTitle(),fileItem.getFileDate(),
+               fileItem.getDocumentId(), fileItem.getFilePath(),fileItem.getFileDate(),
                "FILE", fileItem.getFileName()
            };
            

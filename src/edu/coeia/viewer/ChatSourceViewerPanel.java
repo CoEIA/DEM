@@ -10,11 +10,10 @@
  */
 package edu.coeia.viewer;
 
-import edu.coeia.gutil.JTableUtil;
-import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.items.ChatItem;
+import edu.coeia.items.Item;
+import edu.coeia.items.ItemFactory;
 import edu.coeia.searching.LuceneSearcher;
-
-import org.apache.lucene.document.Document;
 
 /**
  *
@@ -22,30 +21,22 @@ import org.apache.lucene.document.Document;
  */
 class ChatSourceViewerPanel extends javax.swing.JPanel {
 
-    private Document document ;
-    private Document parentDocument ;
-    
     private String keyword ;
-    private SourceViewerDialog dialog ;
+    private SourceViewerDialog searchViewerDialog ;
     private LuceneSearcher searcher ;
     private String currentId ;
+    private Item item;
     
     /** Creates new form ChatSourceViewerPanel */
     public ChatSourceViewerPanel(SourceViewerDialog dialog) {
         initComponents();
         
-        this.dialog = dialog;
+        this.searchViewerDialog = dialog;
         this.keyword = dialog.getQueryString();
         this.searcher = dialog.getLuceneSearch();
         this.currentId = dialog.getCurrentId() ;
-        
-        try {
-             this.document = this.searcher.getDocument(String.valueOf(this.currentId));
-             this.parentDocument = this.searcher.getParentDocument(this.document.get(IndexingConstant.DOCUMENT_PARENT_ID));
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+        this.item = ItemFactory.newInstance(this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)),
+                this.searchViewerDialog.getCase());
         
         displayDocumentInformation();
     }
@@ -53,16 +44,17 @@ class ChatSourceViewerPanel extends javax.swing.JPanel {
     private void displayDocumentInformation () {        
         try {
             // show file properities
-            String chatAgent = this.document.get(IndexingConstant.CHAT_AGENT);
-            String chatPath = this.document.get(IndexingConstant.CHAT_FILE);
-            String date = this.document.get(IndexingConstant.CHAT_TIME);
-            String from = this.document.get(IndexingConstant.CHAT_FROM);
-            String to = this.document.get(IndexingConstant.CHAT_TO);
-            String message = this.document.get(IndexingConstant.CHAT_MESSAGE);
+            ChatItem chatItem = (ChatItem) this.item;
+            String chatAgent = "";
+            String chatPath = "";
+            String date = chatItem.getDate();
+            String from = chatItem.getFrom();
+            String to = chatItem.getTo();
+            String message = chatItem.getMessageText();
             
-            String doc = this.document.get(IndexingConstant.DOCUMENT);
-            String docId = this.document.get(IndexingConstant.DOCUMENT_ID);
-            String parentId = this.document.get(IndexingConstant.DOCUMENT_PARENT_ID);
+            String doc = "CHAT";
+            String docId = String.valueOf(chatItem.getDocumentId());
+            String parentId = String.valueOf(chatItem.getDocumentParentId());
             
             chatAgentTextField.setText(chatAgent);
             chatPathTextField.setText(chatPath);
@@ -74,25 +66,25 @@ class ChatSourceViewerPanel extends javax.swing.JPanel {
             // show all conversatoin here
             // by bring all the document that have parent-id as parent
             // then display it here as converstion
-            int count = this.searcher.searchParentById(parentId);
-            for (int i=0; i<count; i++) {
-                try {
-                    Document chatDoc = this.searcher.getDocHits(i);
-                    if ( ! chatDoc.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT)))
-                        continue ;
-                    
-                    String tmpChatPath = chatDoc.get(IndexingConstant.CHAT_FILE);
-                    String tmpDate = chatDoc.get(IndexingConstant.CHAT_TIME);
-                    String tmpFrom = chatDoc.get(IndexingConstant.CHAT_FROM);
-                    String tmpTo = chatDoc.get(IndexingConstant.CHAT_TO);
-                    String tmpMessage = chatDoc.get(IndexingConstant.CHAT_MESSAGE);
-                    
-                    // add this to table
-                    Object[] data = {tmpFrom, tmpTo, tmpDate, tmpMessage} ;
-                    JTableUtil.addRowToJTable(chatTable, data);
-                }
-                catch(Exception e) { e.printStackTrace(); }
-            }
+//            int count = this.searcher.searchParentById(parentId);
+//            for (int i=0; i<count; i++) {
+//                try {
+//                    Document chatDoc = this.searcher.getDocHits(i);
+//                    if ( ! chatDoc.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT)))
+//                        continue ;
+//                    
+//                    String tmpChatPath = chatDoc.get(IndexingConstant.CHAT_FILE);
+//                    String tmpDate = chatDoc.get(IndexingConstant.CHAT_TIME);
+//                    String tmpFrom = chatDoc.get(IndexingConstant.CHAT_FROM);
+//                    String tmpTo = chatDoc.get(IndexingConstant.CHAT_TO);
+//                    String tmpMessage = chatDoc.get(IndexingConstant.CHAT_MESSAGE);
+//                    
+//                    // add this to table
+//                    Object[] data = {tmpFrom, tmpTo, tmpDate, tmpMessage} ;
+//                    JTableUtil.addRowToJTable(chatTable, data);
+//                }
+//                catch(Exception e) { e.printStackTrace(); }
+//            }
             
             chatRenderPanel.validate();
         }

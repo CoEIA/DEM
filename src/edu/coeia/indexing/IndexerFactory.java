@@ -23,6 +23,16 @@ import org.apache.tika.Tika;
 final class IndexerFactory {
     
     /**
+     * Return Indexer depend on the type of the file
+     * and make this document without parent (have 0 value in parentId)
+     * so we can know later if this document embedded in other document
+     * or not
+     */
+    public static Indexer getIndexer (LuceneIndex luceneIndex, File file){
+        return getIndexer(luceneIndex, file, 0);
+    }
+        
+    /**
      * Get Indexer for Simple, Container, Images Document Files
      * @param luceneIndex
      * @param file
@@ -37,8 +47,12 @@ final class IndexerFactory {
 
             String mime = tika.detect(file);
             
+            if ( isChatPath(file.getAbsolutePath()) ) {
+                indexer = getChatIndexer(luceneIndex, file);
+            }
+            
             // if its outlook file, then call offline email indexer
-            if ( isOutlookFile(mime, file.getAbsolutePath()) ) {
+            else if ( isOutlookFile(mime, file.getAbsolutePath()) ) {
                 indexer = OutlookIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor());
             }
             
@@ -59,16 +73,15 @@ final class IndexerFactory {
             // if found archive files and user select to index archive files
             // else consider them as normal file
             else if (isArchiveFile(mime) && luceneIndex.getCase().getCheckCompressed())
-                return null;
-                //indexer = ArchiveIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
+                indexer = ArchiveIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
              
             // images type
             else if ( isImage(mime) )
-                indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new ExternalImageExtractor(), parentId); 
+                indexer = NonDocumentIndexer.newInstance(luceneIndex, file, mime, new ExternalImageExtractor(), parentId); 
             
             // Unkown file Format
-            //else
-                //indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
+            else
+                indexer = NonDocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
         }
         catch(IOException e){
             e.printStackTrace();
@@ -77,36 +90,38 @@ final class IndexerFactory {
         return indexer;
     }
     
-    public static Indexer getIndexer (LuceneIndex luceneIndex, File file){
-        return getIndexer(luceneIndex, file, 0);
+    public static boolean isChatPath(String path) {
+        return isValidMSNChatFile(path) 
+                || isValidSkypeChatFile(path) 
+                || isValidYahooChatFile(path);
     }
-    
+        
     /**
      * Get Indexer for chat sessions
      * @param luceneIndex
-     * @param dir
+     * @param chatFile
      * @return 
      */
-    public static Indexer getFolderIndexer (LuceneIndex luceneIndex, File dir) {
-        // TODO:
-        // if chat session suppport, then continue to detec it
-        // else return from this method
+    public static Indexer getChatIndexer (LuceneIndex luceneIndex, File chatFile) {        
+        String path = chatFile.getAbsolutePath();
+        Indexer indexer = null;
         
-        if ( isValidMSNPath(dir.getAbsolutePath()))
-            return indexHotmailDir(luceneIndex, dir);
+        if ( isValidMSNChatFile(path)) {
+            indexer = MSNChatIndexer.newInstance(luceneIndex, chatFile, 
+                    FileUtil.getExtension(path), new NoneImageExtractor());
+        }
         
-        else if ( isValidYahooPath(dir.getAbsolutePath()) )
-            return indexYahooDir(luceneIndex, dir);
+        else if ( isValidYahooChatFile(chatFile.getAbsolutePath()) ) {
+            indexer = YahooChatIndexer.newInstance(luceneIndex, chatFile,
+                    FileUtil.getExtension(path), new NoneImageExtractor());  
+        }
         
-        throw new UnsupportedOperationException("Normal Folder");
-    }
-    
-    private static Indexer indexYahooDir(LuceneIndex luceneIndex, File path) {
-        return YahooChatIndexer.newInstance(luceneIndex, path, FileUtil.getExtension(path), new NoneImageExtractor());  
-    }
-    
-    private static Indexer indexHotmailDir(LuceneIndex luceneIndex, File path) {
-        return MSNChatIndexer.newInstance(luceneIndex, path, FileUtil.getExtension(path), new NoneImageExtractor());
+        else if ( isValidSkypeChatFile(chatFile.getAbsolutePath()) )  {
+            indexer = SkypeChatIndexer.newInstance(luceneIndex, chatFile,
+                    FileUtil.getExtension(path), new NoneImageExtractor());
+        }
+        
+        return indexer;
     }
     
     /**
@@ -114,8 +129,9 @@ final class IndexerFactory {
      * @param path to chat profile
      * @return true if path is correct and false if not
      */
-    private static boolean isValidYahooPath(String path) {
-        if ( path.endsWith("Program Files\\Yahoo!\\Messenger\\Profiles") )
+    private static boolean isValidYahooChatFile(String path) {
+        if ( path.contains("Program Files\\Yahoo!\\Messenger\\Profiles") &&
+              path.endsWith(".dat"))
             return true;
         
         return false;
@@ -126,8 +142,9 @@ final class IndexerFactory {
      * @param path to chat profile
      * @return true if path is correct and false if not
      */
-    private static boolean isValidMSNPath(String path) {
-        if ( path.endsWith("My Documents\\My Received Files") )
+    private static boolean isValidMSNChatFile(String path) {
+        if ( path.contains("My Documents\\My Received Files") &&
+             path.contains("History") && path.endsWith(".xml") )
             return true;
         
         return false;
@@ -138,8 +155,9 @@ final class IndexerFactory {
      * @param path to chat profile
      * @return true if path is correct and false if not
      */
-    private static boolean isValidSkypePath(String path) {
-        if ( path.endsWith("Application Data\\Skype") )
+    private static boolean isValidSkypeChatFile(String path) {
+        if ( path.contains("Application Data\\Skype") &&
+              path.endsWith("main.db"))
             return true;
         
         return false;
@@ -163,7 +181,8 @@ final class IndexerFactory {
         return mime.equalsIgnoreCase("text/plain") ||
                  mime.equalsIgnoreCase("application/xml") ||
                  mime.equalsIgnoreCase("application/xhtml+xml") ||
-                 mime.equalsIgnoreCase("text/html")  ;
+                 mime.equalsIgnoreCase("text/html") ||
+                 mime.startsWith("text");
     }
     
     private static boolean isOfficeFile(final String mime) {
@@ -178,6 +197,7 @@ final class IndexerFactory {
                  mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.presentationml.slideshow") ||
                  mime.equalsIgnoreCase("application/vnd.ms-word.document.macroenabled.12") ||
                  mime.equalsIgnoreCase("application/vnd.ms-excel") ||
+                 mime.equalsIgnoreCase("application/msword") ||
                  mime.equalsIgnoreCase("application/vnd.ms-powerpoint") ||
                  mime.equalsIgnoreCase("application/vnd.visio") || 
                  mime.equalsIgnoreCase("application/vnd.openxmlformats-officedocument.wordprocessingml.document") || 

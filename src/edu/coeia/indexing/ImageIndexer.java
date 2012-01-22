@@ -15,16 +15,16 @@ import edu.coeia.hash.HashCalculator;
 import edu.coeia.util.FileUtil;
 import java.io.File ;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document ;
 import org.apache.lucene.document.Field ;
+import org.apache.lucene.index.CorruptIndexException;
 
 
 final class ImageIndexer extends Indexer{
-    
-    private int parentId ;
     
     public static ImageIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor) {
@@ -39,7 +39,7 @@ final class ImageIndexer extends Indexer{
     private ImageIndexer(LuceneIndex luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor, int parentId) {
         super(luceneIndex, file,mimeType, imageExtractor);
-        this.parentId = parentId ;
+        this.setParentId(parentId);
     }
         
     @Override
@@ -47,25 +47,12 @@ final class ImageIndexer extends Indexer{
         boolean status = false; 
         
         try{            
-            TikaExtractor extractor = TikaExtractor.getExtractor(this.getFile(), this.getMimeType());
+            TikaExtractor extractor = TikaExtractor.getExtractor(this.getFile(), this.getMimeType(),
+                    TikaExtractor.EXTRACT_TYPE.METADATA);
             Map<String, String> metadata = extractor.getMetadata();
             
             Document doc = getDocument(this.getFile(), metadata);
-            this.getLuceneIndex().getWriter().addDocument(doc);
-            
-            int objectId = this.getId() ;
-            
-            if ( doc != null) {
-                this.getLuceneIndex().getWriter().addDocument(doc);    // index file
-                this.increaseId();
-                
-                // cache images i.e move the image to images location , id will ignored 
-                if ( this.isImageCache() ) {
-                    this.getImageExtractor().extractImages(this, this.getFile(), objectId);
-                }
-
-                status = true;
-            }
+            status = this.indexDocument(doc);
         }
         catch(Exception e) {
             throw new UnsupportedOperationException(e.getMessage());
@@ -81,7 +68,7 @@ final class ImageIndexer extends Indexer{
         // generic document fileds
         doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.getParentId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.DOCUMENT_HASH, HashCalculator.calculateFileHash(this.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specfic document fields

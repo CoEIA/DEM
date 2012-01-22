@@ -42,6 +42,8 @@ public class LuceneSearcher {
     protected IndexSearcher searcher ;
     protected TopDocs results ;
     
+    private final int MAX_RESULT = 1000;
+    
     public LuceneSearcher (final Case currentCase) throws Exception {
         File caseLocation = new File (currentCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
         
@@ -59,9 +61,10 @@ public class LuceneSearcher {
         MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_20, fields, analyzer);
         
         Query query = parser.parse(queryString);
-        results = searcher.search(query, 1000);
+        results = searcher.search(query, MAX_RESULT);
 
-        return results.totalHits ;
+        int filterTotalHist = results.totalHits > MAX_RESULT ? MAX_RESULT: results.totalHits;
+        return filterTotalHist;
     }
     
     private String[] getSupportedFileds(SearchScope luceneFields) {
@@ -179,7 +182,7 @@ public class LuceneSearcher {
         Term term = new Term(IndexingConstant.DOCUMENT_ID, fileId);
         Query query = new TermQuery(term);
         
-        results = searcher.search(query, 10);
+        results = searcher.search(query, MAX_RESULT);
         return results.totalHits ;
     }
 
@@ -187,7 +190,7 @@ public class LuceneSearcher {
         Term term = new Term(IndexingConstant.DOCUMENT_PARENT_ID, fileId);
         Query query = new TermQuery(term);
         
-        results = searcher.search(query, 10);
+        results = searcher.search(query, MAX_RESULT);
         return results.totalHits;
     }
     
@@ -195,7 +198,7 @@ public class LuceneSearcher {
         Term term = new Term(IndexingConstant.DOCUMENT_HASH, hashValue);
         Query query = new TermQuery(term);
         
-        results = searcher.search(query, 100);
+        results = searcher.search(query, MAX_RESULT);
         return results.totalHits;
     }
 
@@ -207,7 +210,7 @@ public class LuceneSearcher {
         return doc ;
     }
     
-    public Document getDocument(final String id) {
+    public Document getLuceneDocumentById(final String id) {
         Document document = null ;
         try {
             int count = searchById(id);

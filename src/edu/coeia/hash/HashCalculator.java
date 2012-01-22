@@ -13,8 +13,16 @@ import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
 import static edu.coeia.util.PreconditionsChecker.* ;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import java.security.MessageDigest ;
 import java.security.NoSuchAlgorithmException ;
+import java.security.DigestInputStream;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * MD5 Hash Calculator for files and directories
@@ -58,7 +66,21 @@ public class HashCalculator {
         }
         
         public void addFile(final String path) {
-            digest.update(FileUtil.getFileBytes(path));
+            //digest.update(FileUtil.getFileBytes(path));
+            DigestInputStream digestInputStream = null;
+            try {
+                digestInputStream = new DigestInputStream(new FileInputStream(path), digest);
+                byte[] buffer = new byte[8192];
+                while( digestInputStream.read(buffer) != -1 );
+            } catch (Exception ex) {
+                Logger.getLogger(HashCalculator.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    digestInputStream.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(HashCalculator.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         
         public String done() {
@@ -78,10 +100,20 @@ public class HashCalculator {
         
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(FileUtil.getFileBytes(path));
+            //md.update(FileUtil.getFileBytes(path));
+            DigestInputStream digestInputStream = new DigestInputStream(new FileInputStream(path), md);
+            byte[] buffer = new byte[8192];
+            while( digestInputStream.read(buffer) != -1 );
             digestString.append(Utilities.toHex(md.digest()));
+            digestInputStream.close();
+        }
+        catch(FileNotFoundException e) {
+            
         }
         catch(NoSuchAlgorithmException e) {
+            
+        }
+        catch(IOException e) {
             
         }
         

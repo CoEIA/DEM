@@ -114,16 +114,15 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                     this.checkForThreadCancelling();
 
                     if ( file.isDirectory() && file.canRead()) {
-                        if ( this.luceneIndex.indexDir(path) )
-                            numberOfFilesIndexed++;
-                        
                         doDirectoryCrawling(file);
                     }
                     else if ( file.isFile() && file.canRead()) {
                         boolean status = doFileCrawling(file);
                         
                         if (status) {
-                            numberOfFilesInEvidenceFolder++;
+                            long size = file.length();
+                            this.numberOfFilesInEvidenceFolder++;
+                            this.sizeOfFilesInEvidenceFolder += size; 
                             logger.log(Level.INFO, "File Indexing Successfully: " + file.getAbsolutePath());
                         }
                     }
@@ -146,8 +145,6 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         // if file size more than 3 MB then show size message to indicate that indexing will take some time
         String msg = size > 3145728 ? "This file will take some minutes to index, please wait..." : " " ;
 
-        this.sizeOfFilesInEvidenceFolder += size; 
-        
         // publish file progress (update labels)
         publish(new ProgressIndexData( numberOfFilesInEvidenceFolder,numberOfFilesIndexed, 
                 path.getAbsolutePath(), "" , ProgressIndexData.TYPE.LABEL , msg));
@@ -155,7 +152,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         boolean status = false;
 
         try {
-            status = this.luceneIndex.indexFile(path);
+            status = this.luceneIndex.indexFile(path, this.parentDialog);
             this.numberOfFilesIndexed++;
         }
         catch (Exception e) {
@@ -170,7 +167,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
     private void doEmailCrawling() {
         File dbPath = new File(this.aCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB );
         logger.log(Level.INFO, "Email Indexing in Folder: " +  dbPath);
-        EmailIndexer emailIndexer = new EmailIndexer(this.luceneIndex, dbPath, "", new OfficeImageExtractor());
+        OnlineEmailIndexer emailIndexer = new OnlineEmailIndexer(this.luceneIndex, dbPath, "", new OfficeImageExtractor());
         logger.log(Level.INFO, "Email Indexing Status: " +  emailIndexer.doIndexing());
     }
     
@@ -187,10 +184,14 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
                 this.parentDialog.setNumberOfFilesError(String.valueOf(this.numberOfFilesCannotIndexed));
             }
             else {
-                this.parentDialog.setCurrentFile(pd.getPath());
-                this.parentDialog.setFileSize(SizeUtil.getSize(pd.getPath()));
+                // set gui panel to reflect that this is file object
+                FileSystemCrawlingProgressPanel panel = new FileSystemCrawlingProgressPanel();
+                panel.setCurrentFile(pd.getPath());
+                panel.setFileSize(SizeUtil.getSize(pd.getPath()));
+                panel.setFileExtension(FileUtil.getExtension(pd.getPath()));
+                
+                this.parentDialog.changeProgressPanel(panel);
                 this.parentDialog.setNumberOfFiles(String.valueOf(pd.getIndexCount()));
-                this.parentDialog.setFileExtension(FileUtil.getExtension(pd.getPath()));
                 this.parentDialog.setBigSizeLabel(pd.getSizeMsg());
             }
         }

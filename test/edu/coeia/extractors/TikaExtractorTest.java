@@ -22,7 +22,8 @@ public class TikaExtractorTest extends CaseBaseSource{
     
    @Test
    public void extractTextFileContent()  throws Exception{
-       TikaExtractor extractor = TikaExtractor.getExtractor(files.get(0), mimeType);
+       TikaExtractor extractor = TikaExtractor.getExtractor(files.get(0), mimeType,
+               TikaExtractor.EXTRACT_TYPE.TEXT_METADATA);
        String content = extractor.getContent().trim();
        System.out.println("content: " + content);
        assertEquals("This is the content of the Plain Text document", content);
@@ -30,7 +31,8 @@ public class TikaExtractorTest extends CaseBaseSource{
    
    @Test
    public void extractTextFileMetadata()  throws Exception{
-        TikaExtractor extractor = TikaExtractor.getExtractor(files.get(0), mimeType);
+        TikaExtractor extractor = TikaExtractor.getExtractor(files.get(0), mimeType,
+                TikaExtractor.EXTRACT_TYPE.TEXT_METADATA);
         Map<String, String> metadata = extractor.getMetadata();
         
         assertEquals("PlainText.txt", metadata.get(Metadata.RESOURCE_NAME_KEY));
@@ -39,7 +41,8 @@ public class TikaExtractorTest extends CaseBaseSource{
    // test another file DOCX
    @Test
    public void extractDOCXFileContent()  throws Exception{
-       TikaExtractor extractor = TikaExtractor.getExtractor(files.get(1), "");
+       TikaExtractor extractor = TikaExtractor.getExtractor(files.get(1), "",
+               TikaExtractor.EXTRACT_TYPE.TEXT_METADATA);
        String content = extractor.getContent();
        
        assertTrue(content.contains("Wajdy Action"));
@@ -48,7 +51,8 @@ public class TikaExtractorTest extends CaseBaseSource{
    // test another file RTF
    @Test
    public void extractRTFFileContent()  throws Exception{
-       TikaExtractor extractor = TikaExtractor.getExtractor(files.get(2), "");
+       TikaExtractor extractor = TikaExtractor.getExtractor(files.get(2), "",
+               TikaExtractor.EXTRACT_TYPE.TEXT_METADATA);
        String content = extractor.getContent();
        
        assertTrue(content.contains("document"));
@@ -57,14 +61,16 @@ public class TikaExtractorTest extends CaseBaseSource{
    // test PDF file
    @Test
    public void extractPDFFileContent()  throws Exception{
-       TikaExtractor extractor = TikaExtractor.getExtractor(files.get(3), "");
+       TikaExtractor extractor = TikaExtractor.getExtractor(files.get(3), "",
+               TikaExtractor.EXTRACT_TYPE.TEXT_METADATA);
        assertTrue(extractor.getContent().contains("Hashes sometimes show up in unusual circumstances"));
    }
    
    @Test
    public void extractExeFileContent() throws Exception {
        File file  = new File("C:\\data\\assistant.exe");
-       TikaExtractor extractor = TikaExtractor.getExtractor(file, "");
+       TikaExtractor extractor = TikaExtractor.getExtractor(file, "",
+              TikaExtractor.EXTRACT_TYPE.TEXT_METADATA);
        System.out.println("content: " + extractor.getContent());
        
        assertTrue(extractor.getContent().contains(""));
@@ -80,7 +86,8 @@ public class TikaExtractorTest extends CaseBaseSource{
     @Test
    public void extractExeFileContent2() throws Exception {
        File file  = new File("C:\\data\\a.exe");
-       TikaExtractor extractor = TikaExtractor.getExtractor(file, "");
+       TikaExtractor extractor = TikaExtractor.getExtractor(file, "",
+               TikaExtractor.EXTRACT_TYPE.TEXT_METADATA);
        System.out.println("content: " + extractor.getContent());
        
        assertTrue(extractor.getContent().contains(""));

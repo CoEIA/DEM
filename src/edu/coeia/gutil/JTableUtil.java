@@ -31,6 +31,7 @@ import java.awt.Point ;
 import java.awt.Rectangle ;
 import java.awt.Component ;
 
+import java.awt.event.MouseEvent;
 import java.util.List ;
 import java.util.ArrayList ;
 import java.util.regex.PatternSyntaxException;
@@ -211,5 +212,9 @@ public class JTableUtil {
     public static void addRowToJTable(final JTable table, final Object[] data) {
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
         tableModel.addRow(data);
+    }
+    
+    public static boolean isDoubleClick(MouseEvent evt) {
+        return evt.getClickCount() == 2;
     }
 }

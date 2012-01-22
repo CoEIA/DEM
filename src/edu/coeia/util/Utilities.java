@@ -32,6 +32,12 @@ import java.util.logging.Logger;
  */
 public class Utilities {
 
+    // from http://www.devx.com/tips/Tip/34353
+    // convert little endian to big endain
+    public static int convertFromLEToBE (int i) {
+        return((i&0xff)<<24)+((i&0xff00)<<8)+((i&0xff0000)>>8)+((i>>24)&0xff);
+    }
+    
     /**
      * return hexadecimal representation of arrays as uppercase string
      * @param bytes

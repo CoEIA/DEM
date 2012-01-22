@@ -23,7 +23,7 @@ import edu.coeia.items.EmailItem;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FilesPath;
-import edu.coeia.viewer.SearchViewer;
+import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
 
 import java.io.File;
@@ -67,19 +67,6 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         this.aCase = aCase;
         this.parentFrame = (JFrame) frame;
         
-        // fill email source
-        try {
-            for(String path: this.getOfflineEmailsPaths()) {
-                JListUtil.addToList(path, emailSourcrListModel, emailSourceJList);
-            }
-            
-            for(EmailConfiguration config: this.aCase.getEmailConfig()) {
-                JListUtil.addToList(config.getUserName(), emailSourcrListModel, emailSourceJList);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(EmailBrowsingPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
         /**
          * Filter email table by keyword written into filter text field
          */
@@ -114,6 +101,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         emailSourceJList = new javax.swing.JList();
         loadEmailSourceButton = new javax.swing.JButton();
+        refreshEmailSourceButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         emailsTable = new javax.swing.JTable();
@@ -134,10 +122,17 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
 
         jScrollPane1.setViewportView(emailSourceJList);
 
-        loadEmailSourceButton.setText("Load Email Source");
+        loadEmailSourceButton.setText("Load Selecte dEmail Source");
         loadEmailSourceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadEmailSourceButtonActionPerformed(evt);
+            }
+        });
+
+        refreshEmailSourceButton.setText("Refresh Email Source");
+        refreshEmailSourceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshEmailSourceButtonActionPerformed(evt);
             }
         });
 
@@ -145,17 +140,20 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                    .addComponent(loadEmailSourceButton, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(loadEmailSourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(refreshEmailSourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(refreshEmailSourceButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loadEmailSourceButton))
         );
 
@@ -206,7 +204,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(filterEmailsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                .addComponent(filterEmailsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -226,14 +224,14 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -269,7 +267,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         jTable1.setFillsViewportHeight(true);
         jScrollPane3.setViewportView(jTable1);
 
-        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel20.setForeground(new java.awt.Color(0, 70, 213));
         jLabel20.setText("Statistics For:");
         factorSelectionPanel.add(jLabel20);
@@ -289,8 +287,8 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
-            .addComponent(factorSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE)
+            .addComponent(factorSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,7 +315,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             String fileId = String.valueOf(this.emailsTable.getValueAt(row, 0));
             int currentId = Integer.parseInt(fileId);
 
-            SearchViewer searchViewer = new SearchViewer("",currentId, this.documentIds);
+            SearchResultParamter searchViewer = new SearchResultParamter("",currentId, this.documentIds);
             SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true, searchViewer);
             panel.setVisible(true);
         }
@@ -326,6 +324,21 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.processEmail();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void refreshEmailSourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshEmailSourceButtonActionPerformed
+        // fill email source
+        try {
+            for(String path: this.getOfflineEmailsPaths()) {
+                JListUtil.addToList(path, emailSourcrListModel, emailSourceJList);
+            }
+            
+            for(EmailConfiguration config: this.aCase.getEmailConfig()) {
+                JListUtil.addToList(config.getUserName(), emailSourcrListModel, emailSourceJList);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(EmailBrowsingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_refreshEmailSourceButtonActionPerformed
 
     private void processEmail() {
         // from date to date
@@ -475,13 +488,14 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                         String emailCC = document.get(IndexingConstant.ONLINE_EMAIL_CC);
                         String emailBCC = document.get(IndexingConstant.ONLINE_EMAIL_BCC);
                         String id = document.get(IndexingConstant.DOCUMENT_ID);
-                        //String parentId = document.get(IndexingConstant.DOCUMENT_PARENT_ID);
+                        String hash = document.get(IndexingConstant.DOCUMENT_HASH);
                         String folderName = document.get(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
                         boolean hasAttachment = Boolean.valueOf(document.get(IndexingConstant.ONLINE_EMAIL_ATTACHMENT_PATH));
-
+                        String user = document.get(IndexingConstant.ONLINE_EMAIL_USER_NAME);
+                        
                         EmailItem item = new EmailItem(Integer.valueOf(id), 
-                                Integer.valueOf("0"), emailFrom,
-                                emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment);
+                                Integer.valueOf("0"), hash, emailFrom,
+                                emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment,user);
 
                         emails.add(item);
                         ids.add(Integer.valueOf(id));
@@ -528,12 +542,14 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                         String emailBCC = document.get(IndexingConstant.OFFLINE_EMAIL_DISPLAY_BCC);
                         String id = document.get(IndexingConstant.DOCUMENT_ID);
                         String parentId = document.get(IndexingConstant.DOCUMENT_PARENT_ID);
+                        String hash = document.get(IndexingConstant.DOCUMENT_HASH);
                         String folderName = document.get(IndexingConstant.OFFLINE_EMAIL_FOLDER_NAME);
                         boolean hasAttachment = Boolean.valueOf(document.get(IndexingConstant.OFFLINE_EMAIL_HAS_ATTACHMENT));
+                        String user = document.get(IndexingConstant.OFFLINE_EMAIL_PATH);
                         
                         EmailItem item = new EmailItem(Integer.valueOf(id), 
-                                Integer.valueOf(parentId), emailFrom,
-                                emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment);
+                                Integer.valueOf(parentId), hash,  emailFrom,
+                                emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment,user);
                         
                         emails.add(item);
                         ids.add(Integer.valueOf(id));
@@ -593,5 +609,6 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton loadEmailSourceButton;
+    private javax.swing.JButton refreshEmailSourceButton;
     // End of variables declaration//GEN-END:variables
 }

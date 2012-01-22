@@ -423,10 +423,10 @@ private void skypeChatTreeValueChanged(javax.swing.event.TreeSelectionEvent evt)
 
         try {
             String path = (String) skypeComboBox.getSelectedItem() ;
-            SkypeParser parser = new SkypeParser();
-            ArrayList<Tuple<String, ArrayList<SkypeMessage>>> msgs = parser.parseSkypeFile(path);
+            SkypeMessageReader parser = new SkypeMessageReader();
+            List<Tuple<String, List<SkypeMessage>>> msgs = parser.parseSkypeFile(path);
 
-            for (Tuple<String, ArrayList<SkypeMessage>> user: msgs) {
+            for (Tuple<String, List<SkypeMessage>> user: msgs) {
                 if ( user.getA().equals(current)) {
                     DefaultTableModel model = (DefaultTableModel) skypeTable.getModel();
                     for (SkypeMessage msg: user.getB()) {
@@ -460,15 +460,15 @@ private void loadSkypeButtonActionPerformed(java.awt.event.ActionEvent evt) {//G
 
     private void fillSkypeTree (String path) throws IOException {
         rootSkypeNode = new DefaultMutableTreeNode("Skype Chat");
-        SkypeParser parser = new SkypeParser();
+        SkypeMessageReader parser = new SkypeMessageReader();
         
         try {
-            ArrayList<Tuple<String, ArrayList<SkypeMessage>>> msgs = parser.parseSkypeFile(path);
+            List<Tuple<String, List<SkypeMessage>>> msgs = parser.parseSkypeFile(path);
 
             if ( msgs == null)
                 return ;
 
-            for (Tuple<String, ArrayList<SkypeMessage>> user: msgs) {
+            for (Tuple<String, List<SkypeMessage>> user: msgs) {
                 DefaultMutableTreeNode node = new DefaultMutableTreeNode(user.getA());
                 rootSkypeNode.add(node);
             }

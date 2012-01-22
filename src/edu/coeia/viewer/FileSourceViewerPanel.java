@@ -11,8 +11,10 @@
 package edu.coeia.viewer;
 
 import edu.coeia.util.Utilities;
-import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.searching.LuceneSearcher;
+import edu.coeia.items.FileItem;
+import edu.coeia.items.ItemFactory;
+import edu.coeia.indexing.IndexingConstant;
 
 import java.awt.BorderLayout;
 
@@ -20,7 +22,6 @@ import java.util.List ;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
-import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Fieldable;
 
 /**
@@ -29,35 +30,32 @@ import org.apache.lucene.document.Fieldable;
  */
 class FileSourceViewerPanel extends javax.swing.JPanel {
 
-    private JWebBrowser fileBrowser = new JWebBrowser();
-    private Document document ;
-    private String keyword ;
-    private SourceViewerDialog dialog ;
-    private LuceneSearcher searcher ;
-    private String currentId ;
+    private final JWebBrowser fileBrowser;
+    private final FileItem item;
+    private final String keyword ;
+    private final SourceViewerDialog searchViewerDialog ;
+    private final LuceneSearcher searcher ;
+    private final String currentId ;
     
     /** Creates new form FileSourceViewerPanel */
     public FileSourceViewerPanel(SourceViewerDialog dialog) {
-        initComponents();
+        this.initComponents();
         
-        this.dialog = dialog;
+        this.searchViewerDialog = dialog;
         this.keyword = dialog.getQueryString();
         this.searcher = dialog.getLuceneSearch();
         this.currentId = dialog.getCurrentId() ;
-        
-        try {
-             this.document = this.searcher.getDocument(String.valueOf(this.currentId));
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+        this.item = (FileItem) ItemFactory.newInstance(
+                this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)),
+                this.searchViewerDialog.getCase());
                 
         // add file browser
-        fileBrowser.setBarsVisible(false);
-        fileBrowser.setStatusBarVisible(false);
-        fileRenderPanel.add(fileBrowser, BorderLayout.CENTER); 
+        this.fileBrowser = new JWebBrowser();
+        this.fileBrowser.setBarsVisible(false);
+        this.fileBrowser.setStatusBarVisible(false);
+        this.fileRenderPanel.add(fileBrowser, BorderLayout.CENTER); 
         
-        displayDocumentInformation();
+        this.displayDocumentInformation();
     }
 
     /** This method is called from within the constructor to
@@ -72,6 +70,9 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
         viewPanel = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         fileRenderPanel = new javax.swing.JPanel();
+        textViewerPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        planTextArea = new javax.swing.JTextArea();
         FileMetaDataPanel = new javax.swing.JPanel();
         jScrollPane28 = new javax.swing.JScrollPane();
         metaDataTextArea = new javax.swing.JTextArea();
@@ -91,23 +92,29 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         fileRenderPanel.setLayout(new java.awt.BorderLayout());
-        jTabbedPane2.addTab("Text Content", fileRenderPanel);
+        jTabbedPane2.addTab("HTML Viewer", fileRenderPanel);
+
+        textViewerPanel.setLayout(new java.awt.BorderLayout());
+
+        planTextArea.setColumns(20);
+        planTextArea.setEditable(false);
+        planTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        planTextArea.setRows(5);
+        jScrollPane1.setViewportView(planTextArea);
+
+        textViewerPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        jTabbedPane2.addTab("Plan Text Viewer", textViewerPanel);
+
+        FileMetaDataPanel.setLayout(new java.awt.BorderLayout());
 
         metaDataTextArea.setColumns(20);
-        metaDataTextArea.setFont(new java.awt.Font("Tahoma", 0, 14));
+        metaDataTextArea.setEditable(false);
+        metaDataTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         metaDataTextArea.setRows(5);
         jScrollPane28.setViewportView(metaDataTextArea);
 
-        javax.swing.GroupLayout FileMetaDataPanelLayout = new javax.swing.GroupLayout(FileMetaDataPanel);
-        FileMetaDataPanel.setLayout(FileMetaDataPanelLayout);
-        FileMetaDataPanelLayout.setHorizontalGroup(
-            FileMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
-        );
-        FileMetaDataPanelLayout.setVerticalGroup(
-            FileMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
-        );
+        FileMetaDataPanel.add(jScrollPane28, java.awt.BorderLayout.CENTER);
 
         jTabbedPane2.addTab("MetaData", FileMetaDataPanel);
 
@@ -217,16 +224,15 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
 
         add(properitiesPanel, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
-
         
     private void displayDocumentInformation () {        
         try {
             // show file properities
-            String fileName = this.document.get(IndexingConstant.FILE_NAME);
-            String filePath = this.document.get(IndexingConstant.FILE_PATH);
-            String date = this.document.get(IndexingConstant.FILE_DATE);
-            String embedded = this.document.get(IndexingConstant.DOCUMENT_PARENT_ID);
-            String mime = this.document.get(IndexingConstant.FILE_MIME);
+            String fileName = this.item.getFileName();
+            String filePath = this.item.getFilePath();
+            String date = this.item.getFileDate();
+            String embedded = "";
+            String mime = this.item.getFileMimeType();
             
             fileNameTextField.setText(fileName);
             filePathTextField.setText(filePath);
@@ -235,31 +241,32 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
             mimeTextField.setText(mime);
             
             // Show File Content
-            String content = document.get(IndexingConstant.FILE_CONTENT);
+            String content = this.item.getFileContent();
             fileBrowser.setHTMLContent(Utilities.highlightString(content, this.keyword));
+            planTextArea.setText(content);
             
             // show matadata information for File
-            List<Fieldable> fields = document.getFields();
+            List<Fieldable> fields = this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)).getFields();
             StringBuilder metadataBuilder = new StringBuilder();
             
             for (Fieldable field: fields) {
-                if ( ! field.name().startsWith("file_")) // files in IndexingConstant start with prefix file_
+                if ( !field.name().startsWith("file_") &&
+                     !field.name().equalsIgnoreCase(IndexingConstant.FILE_CONTENT)) // files in IndexingConstant start with prefix file_
+                    
                     metadataBuilder.append(field.name()).append(" : " ).append(field.stringValue()).append("\n");
             }
             
             String metadata = metadataBuilder.toString();
             //TODO: replace metadate view to browser or html type to support html rendering
             //metaDataTextArea.setText(highlightString(metadata, keyword));
-            metaDataTextArea.setText(metadata);
+            this.metaDataTextArea.setText(metadata);
 
-            fileRenderPanel.validate();
+            this.fileRenderPanel.validate();
         }
         catch(Exception e) {
             e.printStackTrace();
         }
     }
-    
-
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FileMetaDataPanel;
@@ -274,11 +281,14 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane28;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextArea metaDataTextArea;
     private javax.swing.JTextField mimeTextField;
+    private javax.swing.JTextArea planTextArea;
     private javax.swing.JPanel properitiesPanel;
+    private javax.swing.JPanel textViewerPanel;
     private javax.swing.JPanel viewPanel;
     // End of variables declaration//GEN-END:variables
 }

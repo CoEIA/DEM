@@ -55,7 +55,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     /**
      * Lucene Document ID number list and the current id opened now
      */
-    private List<Integer> documentsNumber = new ArrayList<Integer>();
+    private List<Integer> documentsId = new ArrayList<Integer>();
     
     /*
      * the current index of the document list
@@ -63,11 +63,11 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private int currentListIndex ;
     
     /** Creates new form SourceViewerDialog */
-    public SourceViewerDialog(java.awt.Frame parent, boolean modal, SearchViewer searchViewer) {
+    public SourceViewerDialog(java.awt.Frame parent, boolean modal, SearchResultParamter searchViewer) {
         super(parent, modal);
         initComponents();
-        
         this.setLocationRelativeTo(this.parent);
+        
         this.parent = parent ;
         this.tagManger = ((CaseFrame) this.parent).getTagsManager();
         this.caseObj  = ((CaseFrame) this.parent).getCase();
@@ -92,8 +92,9 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             e.printStackTrace();
         }
         
-        this.documentsNumber.addAll(searchViewer.getDocumentIds());
-        this.currentListIndex = this.documentsNumber.indexOf(searchViewer.getDocumentId());
+        this.documentsId.addAll(searchViewer.getDocumentIds());
+        this.currentListIndex = this.documentsId.indexOf(searchViewer.getCurrentDocumentId());
+        
         this.showDocumentWithIndex(this.currentListIndex);
     }
 
@@ -296,12 +297,12 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     
     private void showDocumentWithIndex (final int id) {
         checkControlButtons();
-        showDocumentWithID(this.documentsNumber.get(id));    
+        showDocumentWithID(this.documentsId.get(id));    
     }
     
     private void showDocumentWithID (final int docId ) {
         try {
-            currentDocument = this.searcher.getDocument(String.valueOf(docId));
+            currentDocument = this.searcher.getLuceneDocumentById(String.valueOf(docId));
             showPanelForDocument(currentDocument);
         }
         catch(Exception e) {
@@ -334,7 +335,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
      * Enable or disable back/next button depend on current list id and max list id
      */
     private void checkControlButtons () {
-        if ( this.documentsNumber.size() == 1 ) {
+        if ( this.documentsId.size() == 1 ) {
             this.previousButton.setEnabled(false);
             this.nextButton.setEnabled(false);
             return ;
@@ -345,7 +346,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         else
             this.previousButton.setEnabled(true);
         
-        if ( this.currentListIndex == this.documentsNumber.size()-1 )
+        if ( this.currentListIndex == this.documentsId.size()-1 )
             this.nextButton.setEnabled(false);
         else
             this.nextButton.setEnabled(true);
@@ -361,7 +362,8 @@ public class SourceViewerDialog extends javax.swing.JDialog {
      */
     LuceneSearcher getLuceneSearch() { return this.searcher ; }
     String getQueryString() { return this.keyword ; }
-    String getCurrentId() { return String.valueOf(this.documentsNumber.get(this.currentListIndex));  }
+    String getCurrentId() { return String.valueOf(this.documentsId.get(this.currentListIndex));  }
+    Case getCase() { return this.caseObj; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;

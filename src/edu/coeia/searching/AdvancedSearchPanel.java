@@ -13,9 +13,8 @@ package edu.coeia.searching;
 import edu.coeia.cases.Case;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.cases.CaseHistoryHandler;
-import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.items.FileItem;
 import edu.coeia.items.Item;
+import edu.coeia.items.ItemFactory;
 import edu.coeia.searching.CaseSearchPanel.SearchHistory;
 import edu.coeia.util.DateUtil;
 
@@ -29,6 +28,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
 
 import org.apache.lucene.document.Document;
 
@@ -37,28 +37,27 @@ import org.apache.lucene.document.Document;
  * @author wajdyessam
  */
 public class AdvancedSearchPanel extends javax.swing.JPanel {
-    private Case caseObj;
-    private LuceneSearcher searcher ;
-    private JFrame parentFrame ;
-    private CaseSearchPanel parentPanel ;
-    private SearchResultPanel searchResultPanel ;
+    private final Case caseObj;
+    private final JFrame parentFrame ;
+    private final CaseSearchPanel caseSearchPanel ;
+    private final SearchResultPanel searchResultPanel ;
     
+    private final List<Integer> resultId ;
+    private int currentId = 0;
+     
     private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
-    
-    private List<Integer> resultId ;
-    private int currentId = 0; 
     
     /** Creates new form AdvancedSearchPanel */
     public AdvancedSearchPanel(JPanel parentPanel) {
         initComponents();
         
-        this.parentPanel = (CaseSearchPanel) parentPanel;
-        this.caseObj = this.parentPanel.getCurrentCase();
-        this.parentFrame = this.parentPanel.getParentJFrame();
+        this.caseSearchPanel = (CaseSearchPanel) parentPanel;
+        this.caseObj = this.caseSearchPanel.getCurrentCase();
+        this.parentFrame = this.caseSearchPanel.getParentJFrame();
         
         this.resultId = new ArrayList<Integer>();
-        
         this.searchResultPanel = new SearchResultPanel(parentFrame);
+        
         this.CenterPanel.removeAll();
         this.CenterPanel.add(this.searchResultPanel);
         this.CenterPanel.revalidate();
@@ -297,190 +296,116 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startSearchingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startSearchingButtonActionPerformed
-        startSearching();
+        this.startSearching();
     }//GEN-LAST:event_startSearchingButtonActionPerformed
 
     private void clearLabelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearLabelButtonMouseClicked
-        removeSearchField(true,false);
+        this.removeSearchField(true);
     }//GEN-LAST:event_clearLabelButtonMouseClicked
 
     private void advancedSearchLabelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_advancedSearchLabelButtonMouseClicked
-        showAdvancedSearch();
+        this.showAdvancedSearchDialog();
     }//GEN-LAST:event_advancedSearchLabelButtonMouseClicked
 
     private void resultSavingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultSavingButtonActionPerformed
-        String query = this.getQueryText();
-        SearchScope scope = this.getSearchScope();
-        String time = DateUtil.getCurrentDate();
-        
-        //TODO: make better checker for is searching done or not
-        if ( query.isEmpty() ) {
-            JOptionPane.showMessageDialog(this.parentPanel, "Please do search then try to save the result");
-            return;
+        try {
+            this.saveSearchResult();
+        } catch (Exception ex) {
+            Logger.getLogger(AdvancedSearchPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        SearchHistory option = new SearchHistory(query, time, scope, this.getDocuments());
-        this.parentPanel.addSearchOption(option);
-        
-        JOptionPane.showMessageDialog(this.parentPanel, "Search Result is Saved Succesfully");
     }//GEN-LAST:event_resultSavingButtonActionPerformed
 
     private void fileSystemCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemCheckBoxActionPerformed
-        if ( fileSystemCheckBox.isSelected() ) {
-            fileSystemContentCheckBox.setEnabled(true);
-            fileSystemMetadataCheckBox.setEnabled(true);
+        if ( this.fileSystemCheckBox.isSelected() ) {
+            this.fileSystemContentCheckBox.setEnabled(true);
+            this.fileSystemMetadataCheckBox.setEnabled(true);
         }
         else {
-            fileSystemContentCheckBox.setEnabled(false);
-            fileSystemMetadataCheckBox.setEnabled(false);
+            this.fileSystemContentCheckBox.setEnabled(false);
+            this.fileSystemMetadataCheckBox.setEnabled(false);
         }
     }//GEN-LAST:event_fileSystemCheckBoxActionPerformed
 
     private void emailCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailCheckBoxActionPerformed
-        if ( emailCheckBox.isSelected() ) {
-            emailContentCheckBox.setEnabled(true);
-            emailHeaderCheckBox.setEnabled(true);
+        if ( this.emailCheckBox.isSelected() ) {
+            this.emailContentCheckBox.setEnabled(true);
+            this.emailHeaderCheckBox.setEnabled(true);
         }
         else {
-            emailContentCheckBox.setEnabled(false);
-            emailHeaderCheckBox.setEnabled(false);
+            this.emailContentCheckBox.setEnabled(false);
+            this.emailHeaderCheckBox.setEnabled(false);
         }
     }//GEN-LAST:event_emailCheckBoxActionPerformed
 
     private void chatCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatCheckBoxActionPerformed
-        if ( chatCheckBox.isSelected() ) {
-            chatContentCheckBox.setEnabled(true);
+        if ( this.chatCheckBox.isSelected() ) {
+            this.chatContentCheckBox.setEnabled(true);
         }
         else {
-            chatContentCheckBox.setEnabled(false);
+            this.chatContentCheckBox.setEnabled(false);
         }        
     }//GEN-LAST:event_chatCheckBoxActionPerformed
 
     private void queryTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queryTextFieldActionPerformed
-        startSearching();
+        this.startSearching();
     }//GEN-LAST:event_queryTextFieldActionPerformed
 
     private void investigateButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_investigateButtonMouseClicked
-       investigateCase();
+       this.showInvestigateDialog();
     }//GEN-LAST:event_investigateButtonMouseClicked
     
-    private void investigateCase() {
+    private void showAdvancedSearchDialog() {
+        AdvancedSearchDialog advancedSearchDialog = new AdvancedSearchDialog(this.parentFrame, true);
+        advancedSearchDialog.setVisible(true);
+
+        String query = advancedSearchDialog.getQuery() ;
+
+        if ( query == null || query.isEmpty() )
+            return ;
+
+        this.setQueryText(query);
+        this.startSearching();
+    }
+    
+    private void showInvestigateDialog() {
         InvestigateDialog investigateDialog = new InvestigateDialog(this.parentFrame, true, this);
         investigateDialog.setVisible(true);
     }
     
-    private List<Item> getDocuments() {
-        List<Item> items = new ArrayList<Item>();
-        
-        for(Integer id: this.resultId) {
-            Document currentDocument = searcher.getDocument(String.valueOf(id));
-            Item fileItem = getFileItemFromDocument(currentDocument);
-            items.add(fileItem);
-        }
-        
-        return items;
-    }
-    
-    private FileItem getFileItemFromDocument(final Document document) {
-        int fileId = Integer.valueOf(document.get(IndexingConstant.DOCUMENT_ID));
-        int parentId = Integer.valueOf(document.get(IndexingConstant.DOCUMENT_PARENT_ID));
-        String hash = document.get(IndexingConstant.DOCUMENT_HASH);
-        
-        String fileContent = document.get(IndexingConstant.FILE_CONTENT);
-        String fileMime = document.get(IndexingConstant.FILE_MIME);
-        String fileDate = document.get(IndexingConstant.FILE_DATE);
-        String fileTitle = document.get(IndexingConstant.FILE_NAME);
-        String fileName = document.get(IndexingConstant.FILE_PATH);
-        
-        FileItem fileItem = new FileItem(fileId, parentId, hash,
-                fileName, fileTitle, fileContent, fileDate, fileMime);
-        
-        return fileItem;
-    }
-    
-    void setResultId (List<Integer> ids) { 
-        this.resultId.clear();
-        this.resultId.addAll(Collections.unmodifiableList(ids)); 
-        this.setResultTableIds(ids);
-    }
-    
-    public List<Integer> getIds() { return Collections.unmodifiableList(this.resultId) ; }
-        
-    public JFrame getParentFrame() { return this.parentFrame ; }
-    
-    public void setCurrentId (int id) { this.currentId = id ; }
-    public int getCurrentId() { return this.currentId ; }
-    
-    JProgressBar getSearchProgressBar () { return this.searchProgressBard ; }
-    JTable getSearchTable() { return this.searchResultPanel.getSearchTable(); }
-    
-    public void setQueryText(final String queryText) { 
-        this.queryTextField.setText(queryText);
-    }
-    
-    public String getQueryText() {
-        return queryTextField.getText().trim() ;
-    }
-    
-    public LuceneSearcher getLuceneSearcher() { return this.searcher ;}
-    public Case getCase() { return this.caseObj ; }
-    
     SearchScope getSearchScope() {
         SearchScope.Builder builder = new SearchScope.Builder();
         
-        if ( fileSystemCheckBox.isSelected() ) {
-            if ( fileSystemContentCheckBox.isSelected() ) {
+        if ( this.fileSystemCheckBox.isSelected() ) {
+            if ( this.fileSystemContentCheckBox.isSelected() ) {
                 builder = builder.fileSystemContent(true);
             }
             
-            if ( fileSystemMetadataCheckBox.isSelected() ) {
+            if ( this.fileSystemMetadataCheckBox.isSelected() ) {
                 builder = builder.fileSystemMetadata(true);
             }
         }
         
-        if ( emailCheckBox.isSelected() ) {
-            if ( emailContentCheckBox.isSelected() ) {
+        if ( this.emailCheckBox.isSelected() ) {
+            if ( this.emailContentCheckBox.isSelected() ) {
                 builder = builder.emailContent(true);
             }
             
-            if ( emailHeaderCheckBox.isSelected() ) {
+            if ( this.emailHeaderCheckBox.isSelected() ) {
                 builder = builder.emailHeader(true);
             }
         }
         
-        if ( chatCheckBox.isSelected() ) {
-            if ( chatContentCheckBox.isSelected() ) {
+        if ( this.chatCheckBox.isSelected() ) {
+            if ( this.chatContentCheckBox.isSelected() ) {
                 builder = builder.chatContent(true);
             }
         }
         
         return builder.build();
     }
-    
-    private void showAdvancedSearch() {
-        AdvancedSearchDialog asd = new AdvancedSearchDialog(null, true);
-        asd.setVisible(true);
-
-        String query = asd.getQuery() ;
-
-        if ( query == null || query.isEmpty() )
-            return ;
-
-        queryTextField.setText(query);
-        startSearching();
-    }
-    
+        
     private void startSearching () {
-        removeSearchField(false,false);
-
-        try {
-            if ( this.searcher == null ) {
-                this.searcher = new LuceneSearcher(this.caseObj);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        removeSearchField(false);
                 
         if ( CaseHistoryHandler.get(this.caseObj.getCaseName()).getIsCaseIndexed() == false ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
@@ -494,23 +419,78 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             return  ;
         }
 
-        searchProgressBard.setIndeterminate(true);
+        this.searchProgressBard.setIndeterminate(true);
         
         SearcherThread sThread = new SearcherThread(this);
         sThread.execute();
     }
     
-    private void removeSearchField (boolean all, boolean restCheckBox) {
-        searchProgressBard.setIndeterminate(false); 
+    private void removeSearchField (boolean all) {
+        this.searchProgressBard.setIndeterminate(false); 
         this.searchResultPanel.clearSearchTable();
         
         if ( all ) {
-            queryTextField.setText("");
-        }
-
-        if ( restCheckBox ) {
+            this.queryTextField.setText("");
         }
     }
+    
+    private void saveSearchResult() throws Exception {
+        String query = this.getQueryText();
+        SearchScope scope = this.getSearchScope();
+        String time = DateUtil.getCurrentDate();
+        
+        if ( this.resultId.isEmpty() ) {
+            JOptionPane.showMessageDialog(this.caseSearchPanel, "Please do search then try to save the result");
+            return;
+        }
+        
+        SearchHistory option = new SearchHistory(query, time, scope, this.getDocuments());
+        this.caseSearchPanel.addSearchOption(option);
+        
+        JOptionPane.showMessageDialog(this.caseSearchPanel, "Search Result is Saved Succesfully");
+    }
+    
+    private List<Item> getDocuments() throws Exception {
+        List<Item> items = new ArrayList<Item>();
+        LuceneSearcher searcher = new LuceneSearcher(caseObj);
+        
+        for(Integer id: this.resultId) {
+            Document currentDocument = searcher.getLuceneDocumentById(String.valueOf(id));
+            Item fileItem = ItemFactory.newInstance(currentDocument, this.caseObj);
+            items.add(fileItem);
+        }
+        
+        searcher.closeSearcher();
+        return items;
+    }
+    
+    //methods for handling the current document id, and the result id
+    void setResultId (final List<Integer> ids) { 
+        this.resultId.clear();
+        this.resultId.addAll(Collections.unmodifiableList(ids)); 
+        this.setResultTableIds(ids);
+    }
+    
+    void setResultTableIds(final List<Integer> ids) { this.searchResultPanel.setResultIds(ids); }
+    void setSearchTableFocusable() { this.searchResultPanel.setSearchTableFocusable(); }
+    void setResultTableText(final String text) { this.searchResultPanel.setQueryText(text); }
+    
+    // result ids
+    public List<Integer> getIds() { return Collections.unmodifiableList(this.resultId) ; }
+    public void setCurrentId (int id) { this.currentId = id ; }
+    public int getCurrentId() { return this.currentId ; }
+    
+    // get GUI elements so the thread can access it
+    JFrame getParentFrame() { return this.parentFrame ; }
+    JProgressBar getSearchProgressBar () { return this.searchProgressBard ; }
+    JTable getSearchTable() { return this.searchResultPanel.getSearchTable(); }
+    
+    // query text filed accessing
+    public void setQueryText(final String queryText) {  this.queryTextField.setText(queryText); }
+    String getQueryText() { return queryTextField.getText().trim() ; }
+    void setQueryTextFeildFocusable () {  this.queryTextField.requestFocusInWindow(); }
+    
+    public Case getCase() { return this.caseObj ; }
     
     private void disableNotIndexedComponent () {
         if ( caseObj.getEvidenceSourceLocation().isEmpty() ) {
@@ -518,35 +498,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         }
     }
     
-    public void setSearchKeyword (String text) {
-        queryTextField.setText(text);
-    }
-    
-    void setQueryTextFeildFocusable () {
-        this.queryTextField.requestFocusInWindow();
-    }
-    
-    void setSearchTableFocusable() {
-        this.searchResultPanel.setSearchTableFocusable();
-    }
-    
-    void closeLuceneSearch() {
-        try {
-            if ( this.searcher != null )
-                this.searcher.closeSearcher();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    void setResultTableText(final String text) {
-        this.searchResultPanel.setQueryText(text);
-    }
-    
-    void setResultTableIds(final List<Integer> ids) {
-        this.searchResultPanel.setResultIds(ids);
-    }
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CenterPanel;

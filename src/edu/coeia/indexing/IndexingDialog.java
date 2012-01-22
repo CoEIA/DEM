@@ -13,6 +13,7 @@ package edu.coeia.indexing;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 
+import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTable ;
 
@@ -78,24 +80,17 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
         indexPanel = new javax.swing.JPanel();
         progressStatusPanel = new javax.swing.JPanel();
-        progresLabelPanel = new javax.swing.JPanel();
-        jLabel23 = new javax.swing.JLabel();
-        currentFileLbl = new javax.swing.JLabel();
-        numberOfFilesLbl = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
-        numberOfErrorFilesLbl = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        jLabel41 = new javax.swing.JLabel();
-        sizeOfFileLbl = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        fileExtensionLbl = new javax.swing.JLabel();
-        bigSizeMsgLbl = new javax.swing.JLabel();
+        objectPanel = new javax.swing.JPanel();
         indexControlPanel = new javax.swing.JPanel();
         startIndexButton = new javax.swing.JButton();
         stopIndexingButton = new javax.swing.JButton();
         progressPanel = new javax.swing.JPanel();
         progressBar = new javax.swing.JProgressBar();
-        InfinatePanel = new javax.swing.JPanel();
+        jLabel27 = new javax.swing.JLabel();
+        numberOfFilesLbl = new javax.swing.JLabel();
+        bigSizeMsgLbl = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        numberOfErrorFilesLbl = new javax.swing.JLabel();
         loggingPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         indexTable = new javax.swing.JTable();
@@ -111,108 +106,13 @@ public final class IndexingDialog extends javax.swing.JDialog {
         indexPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         indexPanel.setLayout(new java.awt.BorderLayout());
 
-        progressStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index File System", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        progressStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Case", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         progressStatusPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel23.setText("Current File:");
+        objectPanel.setLayout(new java.awt.BorderLayout());
+        progressStatusPanel.add(objectPanel, java.awt.BorderLayout.NORTH);
 
-        currentFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
-        currentFileLbl.setForeground(new java.awt.Color(0, 0, 255));
-        currentFileLbl.setText(" ");
-
-        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
-        numberOfFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
-        numberOfFilesLbl.setText(" ");
-
-        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel27.setText("Number of Files in Index:");
-
-        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
-        numberOfErrorFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
-        numberOfErrorFilesLbl.setText(" ");
-
-        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel25.setText("File Size:");
-
-        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel41.setText("Number of Files Cannot Indexed:");
-
-        sizeOfFileLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
-        sizeOfFileLbl.setForeground(new java.awt.Color(0, 0, 255));
-        sizeOfFileLbl.setText(" ");
-
-        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel24.setText("File Extension:");
-
-        fileExtensionLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
-        fileExtensionLbl.setForeground(new java.awt.Color(0, 0, 255));
-        fileExtensionLbl.setText(" ");
-
-        bigSizeMsgLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
-        bigSizeMsgLbl.setForeground(new java.awt.Color(255, 0, 0));
-        bigSizeMsgLbl.setText(" ");
-
-        javax.swing.GroupLayout progresLabelPanelLayout = new javax.swing.GroupLayout(progresLabelPanel);
-        progresLabelPanel.setLayout(progresLabelPanelLayout);
-        progresLabelPanelLayout.setHorizontalGroup(
-            progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel23))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(currentFileLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(bigSizeMsgLbl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, progresLabelPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel27)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(numberOfFilesLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, progresLabelPanelLayout.createSequentialGroup()
-                                .addGap(66, 66, 66)
-                                .addComponent(sizeOfFileLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel41))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(numberOfErrorFilesLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fileExtensionLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        progresLabelPanelLayout.setVerticalGroup(
-            progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel23)
-                    .addComponent(currentFileLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel25)
-                    .addComponent(sizeOfFileLbl)
-                    .addComponent(fileExtensionLbl)
-                    .addComponent(jLabel24))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel27)
-                    .addComponent(numberOfFilesLbl)
-                    .addComponent(jLabel41)
-                    .addComponent(numberOfErrorFilesLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bigSizeMsgLbl)
-                .addContainerGap())
-        );
-
-        progressStatusPanel.add(progresLabelPanel, java.awt.BorderLayout.NORTH);
-
-        startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         startIndexButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/database.png"))); // NOI18N
         startIndexButton.setText("Start Indexing");
         startIndexButton.addActionListener(new java.awt.event.ActionListener() {
@@ -221,7 +121,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
             }
         });
 
-        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         stopIndexingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         stopIndexingButton.setText("Stop Indexing");
         stopIndexingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -235,7 +135,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         indexControlPanelLayout.setHorizontalGroup(
             indexControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, indexControlPanelLayout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
+                .addContainerGap(129, Short.MAX_VALUE)
                 .addComponent(startIndexButton, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60)
                 .addComponent(stopIndexingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,28 +153,59 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
         progressStatusPanel.add(indexControlPanel, java.awt.BorderLayout.SOUTH);
 
-        InfinatePanel.setLayout(new java.awt.BorderLayout());
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel27.setText("Number of Files in Index:");
+
+        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        numberOfFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
+        numberOfFilesLbl.setText(" ");
+
+        bigSizeMsgLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        bigSizeMsgLbl.setForeground(new java.awt.Color(255, 0, 0));
+        bigSizeMsgLbl.setText(" ");
+
+        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel41.setText("Number of Files Cannot Indexed:");
+
+        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        numberOfErrorFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
+        numberOfErrorFilesLbl.setText(" ");
 
         javax.swing.GroupLayout progressPanelLayout = new javax.swing.GroupLayout(progressPanel);
         progressPanel.setLayout(progressPanelLayout);
         progressPanelLayout.setHorizontalGroup(
             progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(progressPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, progressPanelLayout.createSequentialGroup()
-                        .addComponent(InfinatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(107, 107, 107))
                     .addGroup(progressPanelLayout.createSequentialGroup()
-                        .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addContainerGap()
+                        .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, progressPanelLayout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addGroup(progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(bigSizeMsgLbl, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, progressPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel27)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(numberOfFilesLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel41)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(numberOfErrorFilesLbl, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         progressPanelLayout.setVerticalGroup(
             progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(progressPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, progressPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(InfinatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(progressPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27)
+                    .addComponent(numberOfFilesLbl)
+                    .addComponent(jLabel41)
+                    .addComponent(numberOfErrorFilesLbl))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bigSizeMsgLbl)
+                .addGap(16, 16, 16)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -284,6 +215,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         indexPanel.add(progressStatusPanel, java.awt.BorderLayout.NORTH);
 
         loggingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "logging", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        loggingPanel.setLayout(new java.awt.BorderLayout());
 
         indexTable.setAutoCreateRowSorter(true);
         indexTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -295,21 +227,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(indexTable);
 
-        javax.swing.GroupLayout loggingPanelLayout = new javax.swing.GroupLayout(loggingPanel);
-        loggingPanel.setLayout(loggingPanelLayout);
-        loggingPanelLayout.setHorizontalGroup(
-            loggingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(loggingPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        loggingPanelLayout.setVerticalGroup(
-            loggingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(loggingPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        loggingPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         indexPanel.add(loggingPanel, java.awt.BorderLayout.CENTER);
 
@@ -342,7 +260,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(timeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         indexHistoryPanelLayout.setVerticalGroup(
             indexHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,26 +276,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
         indexPanel.add(indexHistoryPanel, java.awt.BorderLayout.SOUTH);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 712, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(indexPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 517, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(indexPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
-        );
+        getContentPane().add(indexPanel, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -426,11 +325,21 @@ public final class IndexingDialog extends javax.swing.JDialog {
     Case getCase() { return this.aCase ; }
     JTable getLoggingTable () { return this.indexTable; }
     JProgressBar getProgressBar() { return this.progressBar ; }
+    JPanel getObjectPanel() { return this.objectPanel; }
+    
+    public void changeProgressPanel(final JPanel newProgressPanel) {
+        EventQueue.invokeLater(new Runnable() { 
+            @Override
+            public void run() {
+                getObjectPanel().removeAll();
+                getObjectPanel().add(newProgressPanel);
+                getObjectPanel().revalidate();
+                getObjectPanel().repaint();
+            }
+        });
+    }
     
     void setTimeLabel(final String time) { this.timeLbl.setText(time); }
-    void setCurrentFile(final String fileName) { this.currentFileLbl.setText(fileName); }
-    void setFileSize(final String size) { this.sizeOfFileLbl.setText(size); }
-    void setFileExtension(final String ext) { this.fileExtensionLbl.setText(ext) ; }
     void setNumberOfFiles(final String no) { this.numberOfFilesLbl.setText(no); }
     void setNumberOfFilesError(final String no) { this.numberOfErrorFilesLbl.setText(no); }
     void setLastIndexTime(final String time) { this.indexDateLbl.setText(time); }
@@ -442,9 +351,6 @@ public final class IndexingDialog extends javax.swing.JDialog {
     
     void clearFields() {
         this.setBigSizeLabel("");
-        this.setFileExtension("");
-        this.setCurrentFile("");
-        this.setFileSize("");
         this.setprogressBar(0);
         this.getProgressBar().setStringPainted(false);
         this.setProgressIndetermined(false);
@@ -453,18 +359,12 @@ public final class IndexingDialog extends javax.swing.JDialog {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel InfinatePanel;
     private javax.swing.JLabel bigSizeMsgLbl;
-    private javax.swing.JLabel currentFileLbl;
-    private javax.swing.JLabel fileExtensionLbl;
     private javax.swing.JPanel indexControlPanel;
     private javax.swing.JLabel indexDateLbl;
     private javax.swing.JPanel indexHistoryPanel;
     private javax.swing.JPanel indexPanel;
     private javax.swing.JTable indexTable;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel41;
@@ -473,11 +373,10 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private javax.swing.JPanel loggingPanel;
     private javax.swing.JLabel numberOfErrorFilesLbl;
     private javax.swing.JLabel numberOfFilesLbl;
-    private javax.swing.JPanel progresLabelPanel;
+    private javax.swing.JPanel objectPanel;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JPanel progressPanel;
     private javax.swing.JPanel progressStatusPanel;
-    private javax.swing.JLabel sizeOfFileLbl;
     private javax.swing.JButton startIndexButton;
     private javax.swing.JButton stopIndexingButton;
     private javax.swing.JLabel timeLbl;

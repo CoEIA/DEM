@@ -10,6 +10,7 @@ package edu.coeia.extractors;
  */
 
 import edu.coeia.indexing.Indexer;
+
 import java.io.File ;
 
 public final class OfficeImageExtractor implements ImageExtractor{
@@ -18,15 +19,20 @@ public final class OfficeImageExtractor implements ImageExtractor{
     public void extractImages(Indexer indexer, File file,int parentId) {
 
         // extracting images
-        TikaObjectExtractor extractor = TikaObjectExtractor.getExtractor(file.getAbsolutePath(), indexer.getTmpLocation(),
+        TikaObjectExtractor extractor = TikaObjectExtractor.newInstance(file.getAbsolutePath(), indexer.getTmpLocation(),
             TikaObjectExtractor.OBJECT_TYPE.CONTAINER);
         
-        TikaObjectExtractor.EmbeddedObjectHandler handler = extractor.extract();
+        TikaObjectExtractor.EmbeddedObjectCollections handler  = null;
+        try {
+            handler = extractor.extract();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         
         // index the images using ImageIndexer
-        for(TikaObjectExtractor.ObjectLocation location: handler.getLocations()) {
+        for(TikaObjectExtractor.ExtractedObjectInfo location: handler.getLocations()) {
             try {
-                indexer.getLuceneIndex().indexFile(new File(location.newFilePath), parentId);
+                indexer.getLuceneIndex().indexFile(new File(location.getFileNewPath()), parentId, indexer.getDialog());
             }
             catch(Exception e) {
                 e.printStackTrace();

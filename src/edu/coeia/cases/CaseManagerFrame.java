@@ -507,6 +507,8 @@ public class CaseManagerFrame extends javax.swing.JFrame {
      */
     private void readCases() {
         try {
+            JTableUtil.removeAllRows(this.recentCaseTable);
+            
             // read cases into case JTable 
             List<Case> cases = CaseManager.getCases();
             for(Case aCase: cases) {
