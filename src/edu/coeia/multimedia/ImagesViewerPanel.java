@@ -61,8 +61,7 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
     private static final int NUMBER_OF_IMAGES_IN_PANEL = 9;
     
     /** Creates new form ImagesViewerPanel */
-    public ImagesViewerPanel(Case aIndex) 
-    {
+    public ImagesViewerPanel(Case aIndex) {
         initComponents();
         this.index = aIndex;
         disableNotIndexedComponent();
@@ -218,6 +217,7 @@ private void showImagesButtonActionPerformed(java.awt.event.ActionEvent evt) {//
             showImages();
         }
         catch (IOException e){
+            e.printStackTrace();
             logger.log(Level.SEVERE, "Uncaught exception", e);
         }
 }//GEN-LAST:event_showImagesButtonActionPerformed
@@ -241,6 +241,7 @@ private void nextPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
             showImages();
         }
         catch (Exception e){
+            e.printStackTrace();
             logger.log(Level.SEVERE, "Uncaught exception", e);
         }
 }//GEN-LAST:event_nextPageButtonActionPerformed
@@ -263,6 +264,7 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             showImages();
         }
         catch (IOException e){
+            e.printStackTrace();
             logger.log(Level.SEVERE, "Uncaught exception", e);
         }
 }
@@ -275,6 +277,7 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             try {
                 String name = ImageViewer.getInstance(index).get(i);
                 File imageFile = new File(name);
+                System.out.println("file: " + imageFile.getAbsolutePath());
                 BufferedImage myPicture = ImageIO.read(imageFile);
                 BufferedImage newPictue = createResizedCopy(myPicture,IMAGE_WIDTH,IMAGE_HEIGHT,false);
 
@@ -295,7 +298,10 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
                 });
                 ImageDisplayPanel.add(picLabel);
             }
-            catch (Exception e) {logger.log(Level.SEVERE, "Uncaught exception", e); }
+            catch (Exception e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Uncaught exception", e);
+            }
         }
 
         // change border title name
@@ -326,6 +332,7 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             count = ImageViewer.getInstance(index).size();
         }
         catch (Exception e) {
+            e.printStackTrace();
             logger.log(Level.SEVERE, "Uncaught exception", e);
         }
 
@@ -404,7 +411,7 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             if ( GeoTagging.hasGoeTag(lbl.getPath()) && mapButton != null )
                 popup.add(mapButton);
         }
-        catch (Exception e) {}
+        catch (Exception e) {e.printStackTrace();}
 
 
         lbl.setComponentPopupMenu(popup);
@@ -423,7 +430,7 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
             else
                 geoTagLbl.setText("No");
         }
-        catch (Exception e) {logger.log(Level.SEVERE, "Uncaught exception", e);}
+        catch (Exception e) {e.printStackTrace();logger.log(Level.SEVERE, "Uncaught exception", e);}
     }    
     
     private void checkImageViewerButtons () {

@@ -14,13 +14,11 @@ import edu.coeia.cases.Case ;
 import edu.coeia.util.FilesPath ;
 
 import java.util.List ;
-
-import java.io.IOException ;
 import java.util.ArrayList;
 
 public class ImageViewer {
 
-    public static List<String> getInstance(Case index) throws IOException, Exception {
+    public static List<String> getInstance(Case index) throws Exception {
         List<String> imagesPath = new ArrayList<String>();
 
         MultimediaReader ir = new MultimediaReader(index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);

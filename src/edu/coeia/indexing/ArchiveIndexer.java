@@ -12,12 +12,13 @@ package edu.coeia.indexing;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.extractors.NoneImageExtractor;
 import edu.coeia.extractors.TikaObjectExtractor;
-
 import edu.coeia.extractors.TikaObjectExtractor.EmbeddedObjectCollections;
 import edu.coeia.extractors.TikaObjectExtractor.ExtractedObjectInfo;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.SizeUtil;
+
 import java.io.File ;
+
 import java.util.ArrayList;
 import java.util.List;
 
