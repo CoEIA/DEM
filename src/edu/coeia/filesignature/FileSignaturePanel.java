@@ -269,7 +269,6 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
                 AnalyzeButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(AnalyzeButton);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         jButton2.setText("Stop");
@@ -278,7 +277,6 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2);
 
         jButton1.setText("Generate File Analysis Report");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -286,7 +284,6 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
 
         jButton3.setText("Generate Database Report");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -294,7 +291,36 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(AnalyzeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AnalyzeButton)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton1)))
+        );
 
         treePanel.add(jPanel1, java.awt.BorderLayout.SOUTH);
 
