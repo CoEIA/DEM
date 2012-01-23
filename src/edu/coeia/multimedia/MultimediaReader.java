@@ -31,7 +31,7 @@ public class MultimediaReader {
     private String indexDir ;
     private Directory dir ;
     private IndexReader indexReader ;
-    enum Operations { Images, Audio, Archieve,Video };
+    public enum Operations { Images, Audio, Archieve,Video };
     
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
 

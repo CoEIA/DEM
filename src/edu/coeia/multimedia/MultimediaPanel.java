@@ -11,36 +11,30 @@
 package edu.coeia.multimedia;
 
 import edu.coeia.cases.Case;
-import java.io.IOException;
-
 
 /**
  *
  * @author Ahmed
  */
-public class MultimediaPanel extends javax.swing.JPanel {
 
+public class MultimediaPanel extends javax.swing.JPanel {
     private Case aCase;
 
     /** Creates new form MultimediaPanel */
-    public MultimediaPanel(Case index) {
+    public MultimediaPanel(final Case index) {
         initComponents();
         this.aCase = index;
-        this.jTabbedPane1.addTab("Image Viewer", new ImagesViewerPanel(aCase));
-        this.jTabbedPane1.addTab("Audio Viewer", new AudioViewerPanel(aCase ));
-        this.jTabbedPane1.addTab("Archieve Viewer", new ArchieveViewerPanel(aCase ));
-        this.jTabbedPane1.addTab("Video Viewer", new VideoViewerPanel(aCase ));
-       
-      
-    }
-    public Case getCase()
-    {
-        return this.aCase;
+        
+        MultimediaViewerPanel audioPanel = new MultimediaViewerPanel(aCase, MultimediaReader.Operations.Audio);
+        MultimediaViewerPanel videoPanel = new MultimediaViewerPanel(aCase, MultimediaReader.Operations.Video);
+        MultimediaViewerPanel archivePanel = new MultimediaViewerPanel(aCase, MultimediaReader.Operations.Archieve);
+        
+        this.multimediaTappedPane.addTab("Image Viewer", new ImagesViewerPanel(aCase));
+        this.multimediaTappedPane.addTab("Audio Viewer", audioPanel);
+        this.multimediaTappedPane.addTab("Archieve Viewer", archivePanel);
+        this.multimediaTappedPane.addTab("Video Viewer", videoPanel);
     }
  
- 
-
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -50,20 +44,20 @@ public class MultimediaPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        multimediaTappedPane = new javax.swing.JTabbedPane();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 747, Short.MAX_VALUE)
+            .addComponent(multimediaTappedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
+            .addComponent(multimediaTappedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane multimediaTappedPane;
     // End of variables declaration//GEN-END:variables
 }

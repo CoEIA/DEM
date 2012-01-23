@@ -9,7 +9,6 @@ package edu.coeia.multimedia;
  * @author wajdyessam
  */
 
-import edu.coeia.multimedia.GPSData;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifReader;
