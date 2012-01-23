@@ -29,12 +29,12 @@ public class FileSystemPanel extends javax.swing.JPanel {
         this.aCase = aIndex ;
         
         //SearchFileSystemPanel searchPanel = new SearchFileSystemPanel(aIndex, parentFrame);
-        FileBrowsingPanel fileBrowsingPanel = new FileBrowsingPanel();
+        //FileBrowsingPanel fileBrowsingPanel = new FileBrowsingPanel();
         FileSignaturePanel fileSignaturePanel = new FileSignaturePanel(this.aCase);
         HashAnalysisPanel hashAnalysisPanel = new HashAnalysisPanel(this);
         
         //this.fileSystemTappedPane.add("Searching", searchPanel);
-        this.fileSystemTappedPane.add("Browse", fileBrowsingPanel);
+        //this.fileSystemTappedPane.add("Browse", fileBrowsingPanel);
         this.fileSystemTappedPane.add("File Signature", fileSignaturePanel);
         this.fileSystemTappedPane.add("Hash Analysis", hashAnalysisPanel);
     }

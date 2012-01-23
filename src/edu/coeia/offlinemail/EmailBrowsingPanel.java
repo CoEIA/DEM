@@ -570,8 +570,9 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
+        int max = indexReader.maxDoc();
         
-        for (int i=0; i<indexReader.maxDoc(); i++) {
+        for (int i=0; i<max ; i++) {
             Document document = indexReader.document(i);
             if ( document != null ) {
                 Field field = document.getField(IndexingConstant.OFFLINE_EMAIL_PATH);
@@ -580,7 +581,10 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                    offlineEmailPaths.add(path);
                 }
             }
+            
+            document = null;
         }
+        
         indexReader.close();
         
         return offlineEmailPaths;

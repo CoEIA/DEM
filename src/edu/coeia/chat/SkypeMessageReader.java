@@ -36,10 +36,6 @@ public class SkypeMessageReader {
     
     public SkypeMessageReader() {
     }
-    
-    public SkypeMessageReader (String path) {
-        this.path = FilesPath.getSkypePath(path);
-    }
 
     public String getPath () { return path ; }
 
@@ -95,18 +91,5 @@ public class SkypeMessageReader {
 
     private void closeDB () throws SQLException {
         connection.close();
-    }
-
-    private boolean isSkypeUserPath (File filePath) {
-        File[] files = filePath.listFiles() ;
-
-        if ( files != null ) {
-            for (File file : files) {
-                if ( file.isFile() && file.getName().equalsIgnoreCase(FilesPath.SKYPE_DB) )
-                    return (true);
-            }
-        }
-
-        return false ;
     }
 }
