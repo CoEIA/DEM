@@ -31,18 +31,26 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
     private Case aCase; 
     private Thread thread;
     private Frame frame; 
-    private ProgressDialogue dialogue; 
+    private ProgressDialogue dialogue;
+    private DatasourceXml input;
+    public ReportOptionDialog (Case aCase) {
+         
+        this.aCase = aCase;
+        
+
+    }
+
     /** Creates new form ReportOptionDialog */
-    public ReportOptionDialog(java.awt.Frame parent, boolean modal, JPanel panel, 
+    public ReportOptionDialog(java.awt.Frame parent, boolean modal, JPanel panel,
             ReportPanel reportPanel) {
         super(parent, modal);
         initComponents();
-        
+
         this.centerReportPanel = panel;
         this.reportPanel = reportPanel;
         this.handler = this.reportPanel.getCasePathHandler();
         this.aCase = this.reportPanel.getCase();
-        
+
         this.setCenterPanel(panel);
         this.pack();
         this.setLocationRelativeTo(parent);
@@ -120,6 +128,20 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
         this.dispose();
     }//GEN-LAST:event_cencelButtonActionPerformed
 
+    public  void RunProgressDialogue()
+    {
+     
+        thread = new Thread(this);
+        thread.start();
+        frame = new Frame("Waiting");
+        dialogue = new ProgressDialogue(frame, true);
+        dialogue.getProgressBar().setIndeterminate(true);
+        dialogue.setLocationRelativeTo(this);
+        dialogue.setVisible(true);
+        // the close this window
+        this.setVisible(false);
+        
+    }
     private void generateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateButtonActionPerformed
         
         thread  = new Thread(this);
@@ -139,8 +161,13 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
         this.centerPanel.revalidate();
         this.repaint();
     }
+    public void SetDataSource(DatasourceXml input)
+    {
+        this.input = input;
+        
+    }
     
-    private void generateReport(final DatasourceXml objXmlSource) {
+    private  void generateReport(final DatasourceXml objXmlSource) {
         try {
             
             File file = new File(FilesPath.TEMPLATES+objXmlSource.m_strJasperFile);//"\\filesystem_report.jasper");
@@ -182,12 +209,9 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
     // End of variables declaration//GEN-END:variables
 
     public void run() {
-        ReportGenerator generator = (ReportGenerator) this.centerReportPanel;
-        DatasourceXml objXmlSource = generator.generateReport();
-        System.out.println("result: " + objXmlSource);
-                
+        
         // open the document here
-        generateReport(objXmlSource);
+        generateReport(input);
         dialogue.setVisible(false);
     }
 }

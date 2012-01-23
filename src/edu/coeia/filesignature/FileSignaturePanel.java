@@ -12,6 +12,12 @@ package edu.coeia.filesignature;
 
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
+import edu.coeia.main.CaseFrame;
+import edu.coeia.reports.DatasourceXml;
+import edu.coeia.reports.FileSignatureReportsPanel;
+import edu.coeia.reports.RawResultFile;
+import edu.coeia.reports.ReportOptionDialog;
+import edu.coeia.reports.ReportPanel;
 import edu.coeia.util.Utilities;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultTreeModel;
@@ -43,6 +50,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     private volatile boolean stopRequested = false;
     private Thread newThrd;
     private FolderTraversar ft;
+    private Case aCase;
 
     public FileSignaturePanel() {
     }
@@ -51,6 +59,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     public FileSignaturePanel(Case aCase) {
         initComponents();
 
+        this.aCase = aCase;
         List<String> caseLocation = aCase.getEvidenceSourceLocation();
         try {
             fillDataBaseTable();
@@ -226,6 +235,8 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         jPanel1 = new javax.swing.JPanel();
         AnalyzeButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         tablePanel = new javax.swing.JPanel();
         databasePanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -268,6 +279,22 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
             }
         });
         jPanel1.add(jButton2);
+
+        jButton1.setText("Generate File Analysis Report");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1);
+
+        jButton3.setText("Generate Database Report");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3);
 
         treePanel.add(jPanel1, java.awt.BorderLayout.SOUTH);
 
@@ -458,6 +485,32 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 }//GEN-LAST:event_jButton2ActionPerformed
 
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+// TODO add your handling code here:
+  
+    int rows = FileAnalysisTable.getRowCount();
+    if (rows <=0) 
+    {
+      JOptionPane.showMessageDialog(this, "No Analaysis has been Performed", " Error Generating Report", JOptionPane.INFORMATION_MESSAGE);  
+      return;
+    }
+    FileSignatureReportsPanel report = new FileSignatureReportsPanel();
+    DatasourceXml source = report.generateReport(FileAnalysisTable, aCase );
+    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
+    dialogue.SetDataSource(source);
+    dialogue.RunProgressDialogue();
+    
+}//GEN-LAST:event_jButton1ActionPerformed
+
+private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+// TODO add your handling code here:
+    DatasourceXml objXmlSource = new DatasourceXml();
+    objXmlSource = RawResultFile.getDatabaseSignatures(SignatureTableDB, aCase);
+    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
+    dialogue.SetDataSource(objXmlSource);
+    dialogue.RunProgressDialogue();
+}//GEN-LAST:event_jButton3ActionPerformed
+
     public void run() {
         ft = new FolderTraversar(selectedFile);
         AnalyzeButton.setEnabled(false);
@@ -474,7 +527,9 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JTree FolderListTree;
     private javax.swing.JTable SignatureTableDB;
     private javax.swing.JPanel databasePanel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

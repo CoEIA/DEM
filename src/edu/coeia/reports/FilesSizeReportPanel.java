@@ -73,6 +73,11 @@ public class FilesSizeReportPanel extends javax.swing.JPanel implements ReportGe
         jLabel3.setText("From Size:");
 
         fromSizeTextField.setText(" ");
+        fromSizeTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fromSizeTextFieldActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("MB");
 
@@ -127,6 +132,11 @@ public class FilesSizeReportPanel extends javax.swing.JPanel implements ReportGe
                 .addContainerGap(38, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+private void fromSizeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromSizeTextFieldActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_fromSizeTextFieldActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField fromSizeTextField;
     private javax.swing.JLabel jLabel1;
