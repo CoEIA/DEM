@@ -9,6 +9,7 @@ import edu.coeia.util.SizeUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.gutil.ImageLabel;
 
+import edu.coeia.multimedia.GeoTagging.GPSData;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import javax.swing.border.TitledBorder;

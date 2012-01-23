@@ -25,11 +25,13 @@ public class MultimediaPanel extends javax.swing.JPanel {
         initComponents();
         this.aCase = index;
         
-        MultimediaViewerPanel audioPanel = new MultimediaViewerPanel(aCase, MultimediaReader.Operations.Audio);
-        MultimediaViewerPanel videoPanel = new MultimediaViewerPanel(aCase, MultimediaReader.Operations.Video);
-        MultimediaViewerPanel archivePanel = new MultimediaViewerPanel(aCase, MultimediaReader.Operations.Archieve);
+        MultimediaViewerPanel audioPanel = new MultimediaViewerPanel(aCase, MultimediaReader.TYPE.AUDIO);
+        MultimediaViewerPanel videoPanel = new MultimediaViewerPanel(aCase, MultimediaReader.TYPE.VIDEO);
+        MultimediaViewerPanel archivePanel = new MultimediaViewerPanel(aCase, MultimediaReader.TYPE.ARCHIVE);
+        MultimediaViewerPanel imageViewer = new MultimediaViewerPanel(aCase, MultimediaReader.TYPE.IMAGE);
         
-        this.multimediaTappedPane.addTab("Image Viewer", new ImagesViewerPanel(aCase));
+        this.multimediaTappedPane.addTab("Image Thumbnail Viewer", new ImagesViewerPanel(aCase));
+        this.multimediaTappedPane.addTab("Image Viewer", imageViewer);
         this.multimediaTappedPane.addTab("Audio Viewer", audioPanel);
         this.multimediaTappedPane.addTab("Archieve Viewer", archivePanel);
         this.multimediaTappedPane.addTab("Video Viewer", videoPanel);

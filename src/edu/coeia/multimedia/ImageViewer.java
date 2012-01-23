@@ -16,16 +16,16 @@ import edu.coeia.util.FilesPath ;
 import java.util.List ;
 
 import java.io.IOException ;
+import java.util.ArrayList;
 
 public class ImageViewer {
-    private static List<String> imagesPath ;
 
     public static List<String> getInstance(Case index) throws IOException, Exception {
-        if ( imagesPath == null ) {
-            MultimediaReader ir = new MultimediaReader(index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
-            imagesPath = ir.getListPathsFromIndex(MultimediaReader.Operations.Images,index);
-            ir.close();
-        }
+        List<String> imagesPath = new ArrayList<String>();
+
+        MultimediaReader ir = new MultimediaReader(index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
+        imagesPath.addAll(ir.getListPathsFromIndex(MultimediaReader.TYPE.IMAGE,index));
+        ir.close();
 
         return imagesPath ;
     }

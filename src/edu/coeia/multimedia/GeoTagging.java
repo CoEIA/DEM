@@ -58,4 +58,14 @@ public class GeoTagging {
 
         return result;
     }
+    
+    public static class GPSData {
+        public long lat;
+        public String latR ;
+        public long lon;
+        public String lonR ;
+
+        public String location;
+        public String time ;
+    }
 }

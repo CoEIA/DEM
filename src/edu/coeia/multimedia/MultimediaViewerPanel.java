@@ -30,20 +30,24 @@ import javax.swing.event.DocumentListener;
 public class MultimediaViewerPanel extends javax.swing.JPanel {
 
     private final Case aCase;
-    private final MultimediaReader.Operations type;
+    private final MultimediaReader.TYPE type;
     
     /** Creates new form MultimediaViewerPanel */
-    public MultimediaViewerPanel(final Case aCase, final MultimediaReader.Operations type) {
-        initComponents();
+    public MultimediaViewerPanel(final Case aCase, final MultimediaReader.TYPE type) {
+        this.initComponents();
         this.aCase = aCase;
         this.type = type;
         
-        this.filterTableTextField.getDocument().addDocumentListener(new DocumentListener() { 
-           public void changedUpdate(DocumentEvent e){ doFilter(); }
+        this.filterTableTextField.getDocument().addDocumentListener(
+                new DocumentListener() { 
+            public void changedUpdate(DocumentEvent e){ doFilter(); }
             public void removeUpdate (DocumentEvent e){ doFilter(); }
             public void insertUpdate (DocumentEvent e){ doFilter(); }
             
-            private void doFilter() {JTableUtil.filterTable(itemTable, filterTableTextField.getText().trim());}
+            private void doFilter() {
+                JTableUtil.filterTable(itemTable,
+                        filterTableTextField.getText().trim());
+            }
         });
     }
 
