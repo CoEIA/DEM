@@ -181,7 +181,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
 
         viewerPanel.add(tablePanel, java.awt.BorderLayout.CENTER);
 
-        add(viewerPanel, java.awt.BorderLayout.PAGE_START);
+        add(viewerPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
