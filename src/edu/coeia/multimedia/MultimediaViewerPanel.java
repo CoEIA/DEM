@@ -12,9 +12,8 @@ package edu.coeia.multimedia;
 
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
-
-
 import edu.coeia.task.MultimediaLoadingTask;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

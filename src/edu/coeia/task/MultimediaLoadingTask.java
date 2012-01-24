@@ -5,11 +5,6 @@
 package edu.coeia.task;
 
 import edu.coeia.multimedia.MultimediaViewerPanel;
-
-import java.io.IOException;
-
-
-
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CasePathHandler;
 import edu.coeia.gutil.JTableUtil;
@@ -18,6 +13,7 @@ import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 
 import java.io.File;
+import java.io.IOException;
 
 import java.util.Arrays;
 

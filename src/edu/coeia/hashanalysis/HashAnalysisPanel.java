@@ -16,38 +16,32 @@ import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.searching.LuceneSearcher;
-import edu.coeia.util.FilesPath;
 import edu.coeia.filesystem.FileSystemPanel;
-
-import java.io.File;
+import edu.coeia.reports.DatasourceXml;
+import edu.coeia.reports.RawResultFile;
+import edu.coeia.reports.ReportOptionDialog;
+import edu.coeia.task.CaseDuplicationTask;
+import edu.coeia.task.HashLibraryDuplicationTask;
 
 import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import javax.swing.JList;
 
-import org.apache.lucene.index.IndexReader ;
-import org.apache.lucene.store.Directory ;
-import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.document.Document ;
-import org.apache.lucene.document.Field;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import edu.coeia.reports.DatasourceXml;
-import edu.coeia.reports.RawResultFile;
-import edu.coeia.reports.ReportOptionDialog;
 
 /**
  *
@@ -390,7 +384,8 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
     private void hashAnalysisButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashAnalysisButtonActionPerformed
         this.resetHashLibraryDuplicationElements();
-        this.doHashLibraryDuplicationAnalysis();
+        HashLibraryDuplicationTask task = new HashLibraryDuplicationTask(aCase, this);
+        task.startTask();
     }//GEN-LAST:event_hashAnalysisButtonActionPerformed
 
     private void analysisResultTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_analysisResultTableMouseClicked
@@ -408,7 +403,8 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
     private void findDuplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findDuplicationButtonActionPerformed
         this.resetCaseDuplicationElements();
-        this.doCaseDuplicationAnalysis();
+        CaseDuplicationTask task = new CaseDuplicationTask(aCase, this);
+        task.startTask();
     }//GEN-LAST:event_findDuplicationButtonActionPerformed
 
     private void caseDuplicationTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_caseDuplicationTableMouseClicked
@@ -492,48 +488,8 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         dialog.setVisible(true);
     }
     
-    private void doHashLibraryDuplicationAnalysis() {
-        Object[] values = this.hashSetJList.getSelectedValues();
-        for(Object value: values) {
-            String hashCategoryName = String.valueOf(value);
-            List<MatchingResult> results = this.startHashAnalysis(hashCategoryName);
-            this.hashLibraryDuplicationResult.addAll(results);
-        }
-        
-        if ( this.hashLibraryDuplicationResult.isEmpty() ) {
-            JOptionPane.showMessageDialog(null, "There is no duplication with selected hash set(s)",
-                    "cannot find any matched files in this case",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-    
-    private List<MatchingResult> startHashAnalysis(final String hashSetName) {
-        HashCategory hashCategory = this.getHashCategory(hashSetName);
-        List<MatchingResult> matchedDuplications = new ArrayList<MatchingResult>();
-        
-        for(HashItem item: hashCategory.getItems()) {
-            String hashValue = item.getHashValue();
-            List<Document> documents = searchFor(hashValue);
-            
-            if ( !documents.isEmpty() ) {
-                Object[] data = {
-                    item.getFileName(), item.getFilePath(), 
-                    hashSetName, item.getCaseName(), item.getCasePath(), 
-                    item.getHashValue(), item.getInvestigatorName(), item.getTime()
-                };
-                
-                JTableUtil.addRowToJTable(this.analysisResultTable, data);
-                
-                MatchingResult result = new MatchingResult(hashCategory, item, documents);
-                matchedDuplications.add(result);
-            }
-        }
-        
-        return matchedDuplications;
-    }
-    
-    private class MatchingResult {
-        MatchingResult (HashCategory hashCategory, HashItem item, List<Document> docs) {
+    public static class MatchingResult {
+        public MatchingResult (HashCategory hashCategory, HashItem item, List<Document> docs) {
             this.hashCategory = hashCategory ;
             this.hashItem = item;
             this.matchingDocuments.addAll(Collections.unmodifiableList(docs));
@@ -544,104 +500,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         List<Document> matchingDocuments = new ArrayList<Document>();
     }
     
-    private List<Document> searchFor(final String hashValue) {
-        List<Document> documents = new ArrayList<Document>();
-        LuceneSearcher luceneSearcher = null;
-        
-        try {
-            luceneSearcher = new LuceneSearcher(this.aCase);
-            int hits = luceneSearcher.searchForHash(hashValue);
-            
-            for(int i=0; i<hits; i++) {
-                Document document = luceneSearcher.getDocHits(i);
-                documents.add(document);
-            }
-            
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-             try {
-                 if ( luceneSearcher != null )
-                    luceneSearcher.closeSearcher();
-             }
-             catch(Exception e) {
-                 e.printStackTrace();
-             }
-        }
-        
-        return documents;
-    }
-    
-    private HashCategory getHashCategory(final String hashSetName) {
-        HashCategory hashCategory = null;
-        
-        for(HashCategory tmp: this.hashCategories ) {
-            if ( tmp.getName().equals(hashSetName) ) {
-                hashCategory = tmp;
-                break;
-            }
-        }
-        
-        return hashCategory;
-    }
-    
-    // implements case dupliction code
-    
-    private void doCaseDuplicationAnalysis() {
-        try {
-            boolean isFoundDuplication = this.findCaseDuplication();
-            
-            if ( !isFoundDuplication ) {
-                JOptionPane.showMessageDialog(null, "There is no duplication in this case");
-            }
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    
-    public boolean findCaseDuplication() throws Exception {
-        this.fillCaseDuplicationMap();  // read from index and fill the duplication map
-        
-        boolean isFoundDuplication = false; 
-        Map<String, Collection<String>> m = this.caseDuplicationsMap.asMap();
-        
-        for(Map.Entry<String, Collection<String>> mapEntry: m.entrySet()){
-            String key = mapEntry.getKey();
-            Collection<String> documents = mapEntry.getValue();
-            
-            if ( documents.size() > 1 ) { // find duplication  
-                isFoundDuplication = true;
-                Object[] data = {key, documents.size()};
-                JTableUtil.addRowToJTable(this.caseDuplicationTable, data);
-            }
-            
-            documents = null;
-        }
-        
-        return isFoundDuplication;
-    }
-        
-    private void fillCaseDuplicationMap() throws Exception {
-        String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        
-        for (int i=0; i<indexReader.maxDoc(); i++) {
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(IndexingConstant.DOCUMENT_HASH);
-                if ( field != null && field.stringValue() != null) {
-                   String documentHash = field.stringValue();
-                   this.caseDuplicationsMap.put(documentHash, document.get(IndexingConstant.DOCUMENT_ID));
-                }
-            }
-        }
-        indexReader.close();
-    }
-    
+
     private void initializingHashCategoriesJList() throws Exception{
         DefaultListModel model = new DefaultListModel();
         
@@ -664,6 +523,13 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         JTableUtil.removeAllRows(this.caseDuplicationResultTable);
         JTableUtil.removeAllRows(this.caseDuplicationTable);
     }
+    
+    public List<HashCategory> getHashCateogries() { return this.hashCategories; }
+    public List<MatchingResult> getHashLibraryDuplicationResult() { return this.hashLibraryDuplicationResult; }
+    public Multimap<String, String> getCaseDuplicationMap() { return this.caseDuplicationsMap; }
+    public JList getHashLibraryList() { return this.hashSetJList; }
+    public JTable getAnalysisResultTable() { return this.analysisResultTable ;}
+    public JTable getCaseDuplicationTable() { return this.caseDuplicationTable ; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable analysisResultTable;
