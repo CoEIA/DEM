@@ -10,36 +10,20 @@
  */
 package edu.coeia.chat;
 
-import edu.coeia.task.ProgressDialog;
 import edu.coeia.cases.Case;
-import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.items.ChatItem;
-import edu.coeia.items.ItemFactory;
-import edu.coeia.util.FilesPath;
+import edu.coeia.task.ChatLoadingTask;
+import edu.coeia.task.ChatRefreshTask;
 
-import java.awt.Cursor;
-import java.awt.EventQueue;
-
-import java.io.File;
-import java.io.IOException;
-
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
-import javax.swing.SwingWorker;
+import javax.swing.JList;
+import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 
 /**
  *
@@ -188,7 +172,10 @@ public class ChatViewerPanel extends javax.swing.JPanel {
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
             this.chatListModel.removeAllElements();
-            this.refreshList();
+            
+            ChatRefreshTask task = new ChatRefreshTask(aCase, this);
+            task.startTask();
+            
         } catch (Exception ex) {
             Logger.getLogger(ChatViewerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -197,140 +184,24 @@ public class ChatViewerPanel extends javax.swing.JPanel {
     private void loadItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadItemButtonActionPerformed
         try {
             JTableUtil.removeAllRows(this.chatTable);
-            
             int row = this.chatJList.getSelectedIndex();
             if (row == - 1)
                 return;
             
             String path = String.valueOf(this.chatJList.getSelectedValue());
-            this.displayChatSessions(path);
+            ChatLoadingTask task = new ChatLoadingTask(aCase, this, path);
+            task.startTask();
             
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(ChatViewerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }   
     }//GEN-LAST:event_loadItemButtonActionPerformed
 
-    private void refreshList() throws Exception {
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        ProgressDialog progressDialog = new ProgressDialog(null, false,null);
-        progressDialog.setVisible(true);
-        
-        Task task = new Task(progressDialog);
-        task.execute();
-        
-//        Set<String> files = getChatFilePath(this.agent);
-//        for(String file: files) {
-//            File path = new File(file);
-//            JListUtil.addToList(path.getName(), chatListModel, chatJList);
-//        }
-    }
-
-    private class Task extends SwingWorker<Void, Void> {
-        private final ProgressDialog dialog;
-        
-        public Task (final ProgressDialog dialog) {
-            this.dialog = dialog;
-        }
-        
-        @Override
-        public Void doInBackground() {
-            try {
-                getChatFilePath();
-            } catch (IOException ex) {
-                Logger.getLogger(Task.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return null;
-        }
-
-        private Set<String> getChatFilePath() throws IOException{
-            String indexDir = aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
-            Directory dir = FSDirectory.open(new File(indexDir));
-            IndexReader indexReader = IndexReader.open(dir);
-            Set<String> aList = new HashSet<String>();
-            this.dialog.setMax(indexReader.maxDoc());
-            
-            for (int i=0; i<indexReader.maxDoc(); i++) {
-                this.dialog.setValue(i);
-                Document document = indexReader.document(i);
-                if ( document != null ) {
-                    Field field = document.getField(IndexingConstant.CHAT_FILE);
-                    if ( field != null && field.stringValue() != null) {
-
-                       if ( document.getField(IndexingConstant.CHAT_AGENT).stringValue().equals(agent)) {
-                           String chatFile = field.stringValue();
-                           final File path = new File(chatFile);
-                           EventQueue.invokeLater(new Runnable() {
-                               @Override
-                               public void run() { 
-                                   JListUtil.addToList(path.getName(), chatListModel, chatJList);
-                               }
-                           });
-                           
-                       }
-                    }
-                }
-            }
-            indexReader.close();
-
-            return aList;
-        }
-
-        @Override
-        public void done() {
-            System.out.println("end");
-            this.dialog.dispose();
-            setCursor(null);
-        }
-    }
     
-    private Set<String> getChatFilePath(final String agent) throws IOException{
-        String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        Set<String> aList = new HashSet<String>();
-        
-        for (int i=0; i<indexReader.maxDoc(); i++) {
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(IndexingConstant.CHAT_FILE);
-                if ( field != null && field.stringValue() != null) {
-                    
-                   if ( document.getField(IndexingConstant.CHAT_AGENT).stringValue().equals(agent)) {
-                       String chatFile = field.stringValue();
-                       aList.add(chatFile);
-                   }
-                }
-            }
-        }
-        indexReader.close();
-        
-        return aList;
-    }
-    
-    private void displayChatSessions(final String fileName) throws IOException{
-        String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-
-        for (int i=0; i<indexReader.maxDoc(); i++) {
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(IndexingConstant.CHAT_FILE);
-                if ( field != null && field.stringValue() != null) {
-                    
-                   if ( field.stringValue().endsWith(fileName)) {
-                       ChatItem item = (ChatItem) ItemFactory.newInstance(document, aCase);
-                       Object[] data = new Object[] {item.getFrom(), item.getTo(), item.getMessageText(),
-                            item.getDate()};
-                       JTableUtil.addRowToJTable(chatTable, data);
-                       
-                   }
-                }
-            }
-        }
-        indexReader.close();
-    }
-    
+    public JList getList() { return this.chatJList; }
+    public DefaultListModel getListModel() { return this.chatListModel; }
+    public String getAgent() { return this.agent; }
+    public JTable getTable() { return this.chatTable; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList chatJList;
