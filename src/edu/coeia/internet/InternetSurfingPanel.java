@@ -48,7 +48,6 @@ import java.util.logging.Level;
 import java.sql.SQLException ;
 
 import java.net.URISyntaxException ;
-import java.util.List;
 
 /*
  * InternetSurfingPanel.java

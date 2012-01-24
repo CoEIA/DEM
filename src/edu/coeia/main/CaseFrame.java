@@ -64,7 +64,6 @@ public class CaseFrame extends javax.swing.JFrame {
     private CaseManagerPanel caseManagerPanel;
     private CaseSearchPanel caseSearchPanel ;
     private FileSystemPanel fileSystemPanel;
-    //private EmailPanel emailPanel;
     private EmailBrowsingPanel emailPanel;
     private InternetSurfingPanel internetPanel;
     private ChatPanel chatPanel;
@@ -112,7 +111,6 @@ public class CaseFrame extends javax.swing.JFrame {
         
         // add gui panels
         this.fileSystemPanel = new FileSystemPanel(this.caseObj, this);
-        //this.emailPanel = new EmailPanel(this.caseObj, this);
         this.emailPanel = new EmailBrowsingPanel(this.caseObj, this);
         this.internetPanel = new InternetSurfingPanel(this.caseObj);
         this.chatPanel = new ChatPanel(this.caseObj);

@@ -4,6 +4,7 @@
  */
 package edu.coeia.util;
 
+import edu.coeia.task.Task;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,12 +23,72 @@ import java.util.zip.ZipOutputStream;
  */
 
 public class ZipUtil {
-    public ZipUtil () {
-        
+    private Task task;
+    
+    public ZipUtil (final Task task) {
+        this.task = task;
     }
     
     public void compress(final String srcFolder, final String dest) throws Exception {
         this.compressFolder(srcFolder, dest);
+    }
+    
+    private void compressFolder (final String srcFolder, final String destZipFile) throws Exception {
+        File srcFile = new File(srcFolder);
+        
+        if ( srcFile.isDirectory() ) {
+            FileOutputStream dest = new FileOutputStream(destZipFile);
+            ZipOutputStream out = new ZipOutputStream(dest);
+            this.compresFolderContent("DEM", srcFolder, out);
+            out.close();
+        }
+    }
+    
+    private void compresFolderContent(final String path, final String srcFile, final ZipOutputStream out) throws Exception {
+        File dir = new File(srcFile);
+        String[] files = dir.list();
+        
+        for(String file: files) {
+            if ( task.isCancelledTask() )
+                return;
+            
+            String newPath = path + File.separator + dir.getName();
+            String newFilePath = srcFile + File.separator + file;
+            this.compressObject(newPath, newFilePath, out);
+        }
+    }
+        
+    private void compressObject(final String path, final String srcFile, final ZipOutputStream out) throws Exception {
+        File file = new File(srcFile);
+        
+        if ( file.isDirectory() ) {
+            this.compresFolderContent(path, srcFile, out);
+        }
+        else {
+            this.compressFile(path, srcFile, out);
+        }
+    }
+    
+    private void compressFile(final String path, final String srcFile, final ZipOutputStream out) throws Exception {
+        if ( task.isCancelledTask() )
+            return;
+        
+        File file = new File(srcFile);
+        if ( file.isDirectory() ) return;
+        
+        final int BUFFER = 2048;
+        byte data[] = new byte[BUFFER];
+        
+        FileInputStream fileInputStream = new FileInputStream(srcFile);
+        ZipEntry entry = new ZipEntry(path + File.separator + file.getName());
+        out.putNextEntry(entry);
+
+        int count;
+        while ( (count = fileInputStream.read(data)) > 0 ) 
+            out.write(data, 0, count);
+
+        fileInputStream.close();
+        out.closeEntry(); 
     }
     
     public void decompress(final String srcZip, final String destDir) throws Exception {
@@ -41,6 +102,9 @@ public class ZipUtil {
         
         ZipEntry zipEntry;
         while( (zipEntry = zInputStream.getNextEntry())  != null ) {
+            if ( task.isCancelledTask() )
+                return;
+            
             if ( zipEntry.isDirectory() ) {
                 File newFolder = new File(destDir + File.separator + zipEntry.getName());
                 newFolder.mkdir();
@@ -61,57 +125,5 @@ public class ZipUtil {
         }
 
         zInputStream.close();
-    }
-    
-    private void compressFolder (final String srcFolder, final String destZipFile) throws Exception {
-        File srcFile = new File(srcFolder);
-        
-        if ( srcFile.isDirectory() ) {
-            FileOutputStream dest = new FileOutputStream(destZipFile);
-            ZipOutputStream out = new ZipOutputStream(dest);
-            this.compresFolderContent("DEM", srcFolder, out);
-            out.close();
-        }
-    }
-    
-    private void compresFolderContent(final String path, final String srcFile, final ZipOutputStream out) throws Exception {
-        File dir = new File(srcFile);
-        String[] files = dir.list();
-        
-        for(String file: files) {
-            String newPath = path + File.separator + dir.getName();
-            String newFilePath = srcFile + File.separator + file;
-            this.compressObject(newPath, newFilePath, out);
-        }
-    }
-        
-    private void compressObject(final String path, final String srcFile, final ZipOutputStream out) throws Exception {
-        File file = new File(srcFile);
-        
-        if ( file.isDirectory() ) {
-            this.compresFolderContent(path, srcFile, out);
-        }
-        else {
-            this.compressFile(path, srcFile, out);
-        }
-    }
-    
-    private void compressFile(final String path, final String srcFile, final ZipOutputStream out) throws Exception {
-        File file = new File(srcFile);
-        if ( file.isDirectory() ) return;
-        
-        final int BUFFER = 2048;
-        byte data[] = new byte[BUFFER];
-        
-        FileInputStream fileInputStream = new FileInputStream(srcFile);
-        ZipEntry entry = new ZipEntry(path + File.separator + file.getName());
-        out.putNextEntry(entry);
-
-        int count;
-        while ( (count = fileInputStream.read(data)) > 0 ) 
-            out.write(data, 0, count);
-
-        fileInputStream.close();
-        out.closeEntry(); 
     }
 }

@@ -39,6 +39,9 @@ public class FilesPath {
     // extension for DEM case
     public final static String DEM_CASE_EXTENSION = ".DEM_CASE";
     
+    // extension for DEM case preference file
+    public final static String DEM_CASE_PREFERENCE = "CASE.pref";
+    
     // path for storing case images
     public final static String IMAGES_PATH = "IMAGES" ;
     

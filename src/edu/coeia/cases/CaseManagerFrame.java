@@ -6,18 +6,15 @@ import edu.coeia.main.SmartCardDialog;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.DateUtil;
-import edu.coeia.util.FilesPath ;
 import edu.coeia.util.DEMLogger;
-import edu.coeia.util.ZipUtil;
-import edu.coeia.util.GUIFileFilter;
+import edu.coeia.task.CaseExporterTask;
+import edu.coeia.task.CaseImporterTask;
+import edu.coeia.task.CaseRemoverTask;
 
 /* import sun classes */
 import javax.swing.JOptionPane ;
-import javax.swing.JFileChooser;
-import javax.swing.SwingWorker;
 
 import java.io.IOException ;
-import java.io.File ;
 import java.io.FileNotFoundException ;
 
 import java.util.List ;
@@ -31,14 +28,13 @@ import java.awt.event.WindowEvent;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-
 /*
  * CaseManagerFrame the main entry point to DEM
  * @author Wajdy Essam
  * Created on 16/07/2010, 01:09:17 م
  */
 
-public class CaseManagerFrame extends javax.swing.JFrame {
+public final class CaseManagerFrame extends javax.swing.JFrame {
    
     /**
      *  Select the License Model
@@ -303,70 +299,17 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     }
     
     private void importCaseAction(){
-        try {
-            final GUIFileFilter SWING_DEM_FILTER = new GUIFileFilter("DEM CASE", 
-                FilesPath.DEM_CASE_EXTENSION);
-    
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setFileFilter(SWING_DEM_FILTER);
-            
-            int result = fileChooser.showOpenDialog(this);
-            if ( result == JFileChooser.APPROVE_OPTION ) {
-                final File file = fileChooser.getSelectedFile();
-                
-                new SwingWorker<Void, String>() {
-                    @Override
-                    protected Void doInBackground() throws Exception {
-                        ZipUtil zipper = new ZipUtil();
-                        String fileNameWithOutExt = file.getName().toString().replaceFirst("[.][^.]+$", "");
-                        String destPath = caseManager.getCasesPath() + File.separator + fileNameWithOutExt;
-                        zipper.decompress(file.getAbsolutePath(), destPath);
-                        
-                        File filePath = new File(destPath).listFiles()[0];
-                        String path = filePath.listFiles()[0].getAbsolutePath();
-                        
-                        String line = fileNameWithOutExt + " - " + path;
-                        Case aCase = CaseManager.getCase(line);
-                        aCase.setCaseLocation(path);
-                        CaseManager.updateCase(aCase);
-                        
-                        String prefLocation = aCase.getCaseLocation() + "\\" + "CASE.pref";
-                        CaseHistoryHandler.importCaseHistory(prefLocation);
-                        readCases(); 
-                        
-                        return null;
-                    }
-
-                    @Override
-                    protected void process(List<String> names) {
-                    }
-                }.execute();
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        CaseImporterTask task = new CaseImporterTask(this);
+        task.startTask();
     }
     
     private void exportCaseAction() { 
         try {
-            logger.info("Load Case Entring");
             String indexName = getSelectedCase();
             Case aCase = CaseManager.getCaseFromCaseName(indexName);
+            CaseExporterTask task = new CaseExporterTask(aCase);
+            task.startTask();
             
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setSelectedFile(new File(indexName + FilesPath.DEM_CASE_EXTENSION) );
-
-            int result = fileChooser.showSaveDialog(this);
-            if ( result == JFileChooser.APPROVE_OPTION ) {
-                File file = fileChooser.getSelectedFile();
-                String caseName = file.getAbsolutePath();
-                
-                String prefLocation = aCase.getCaseLocation() + "\\" + "CASE.pref";
-                CaseHistoryHandler.exportToFile(aCase.getCaseName(), prefLocation);
-                
-                ZipUtil zipper = new ZipUtil();
-                zipper.compress(aCase.getCaseLocation(), caseName);
-            }
         }
         catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to open",
@@ -407,26 +350,23 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     
     private void removeCaseAction() {
         String caseName = null; 
-        
+
         try {
             caseName = getSelectedCase();
+            if ( !caseManager.isRunningCase(caseName)) {
+                CaseRemoverTask task = new CaseRemoverTask(this, caseName);
+                task.startTask();
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "This case is already opening, close it first to remove it",
+                        "Please close the openining Case", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
         catch(NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to remove",
                 "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
-            
-            return ;
-        }
-        
-        if ( !caseManager.isRunningCase(caseName)) {
-            removeCase(caseName);
-            logger.info("Remove Case : " + caseName);
 
-            readCases(); // update view table
-        }
-        else {
-            JOptionPane.showMessageDialog(this, "This case is already opening, close it first to remove it",
-                    "Please close the openining Case", JOptionPane.INFORMATION_MESSAGE);
+            return ;
         }
     }
     
@@ -504,8 +444,9 @@ public class CaseManagerFrame extends javax.swing.JFrame {
     
     /*
      * Read cases from files and update recent table
+     * this mehtod also be called from importer thread after import new case
      */
-    private void readCases() {
+    public void readCases() {
         try {
             JTableUtil.removeAllRows(this.recentCaseTable);
             
@@ -590,21 +531,6 @@ public class CaseManagerFrame extends javax.swing.JFrame {
         dialog.setVisible(true);
         
         return dialog.getResult();
-    }
-    
-    private void removeCase (String caseName) {
-        try {
-            Case aCase = CaseManager.getCaseFromCaseName(caseName);
-            boolean status = CaseManager.removeCase(aCase);
-            
-            if ( !status)  {
-                System.out.println("error in removing file: " + caseName);
-            }
-        }
-        catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
-                JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     

@@ -10,6 +10,7 @@
  */
 package edu.coeia.chat;
 
+import edu.coeia.task.ProgressDialog;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
@@ -211,7 +212,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
 
     private void refreshList() throws Exception {
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        ProgressDialog progressDialog = new ProgressDialog(null, false);
+        ProgressDialog progressDialog = new ProgressDialog(null, false,null);
         progressDialog.setVisible(true);
         
         Task task = new Task(progressDialog);
