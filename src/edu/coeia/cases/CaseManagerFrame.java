@@ -331,9 +331,9 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
                     "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
         }
         catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
-                JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
+//                JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -343,6 +343,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             loadCase(caseName, false);
         }
         catch (Exception e){
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
                 JOptionPane.ERROR_MESSAGE);
         }

@@ -213,7 +213,7 @@ final class OutlookIndexer extends Indexer{
                 fileName =  this.getId() + "-" + id + "-" + name;
             }
             
-            Tuple pair = new Tuple(fileName, attchment);
+            Tuple<String, PSTAttachment> pair = new Tuple<String, PSTAttachment>(fileName, attchment);
             attachmentsName.add(pair);
         }
         

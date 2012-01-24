@@ -12,11 +12,6 @@ package edu.coeia.multimedia;
 
 import edu.coeia.cases.Case;
 
-/**
- *
- * @author Ahmed
- */
-
 public class MultimediaPanel extends javax.swing.JPanel {
     private Case aCase;
 
@@ -25,10 +20,10 @@ public class MultimediaPanel extends javax.swing.JPanel {
         initComponents();
         this.aCase = index;
         
-        MultimediaViewerPanel audioPanel = new MultimediaViewerPanel(aCase, MultimediaReader.TYPE.AUDIO);
-        MultimediaViewerPanel videoPanel = new MultimediaViewerPanel(aCase, MultimediaReader.TYPE.VIDEO);
-        MultimediaViewerPanel archivePanel = new MultimediaViewerPanel(aCase, MultimediaReader.TYPE.ARCHIVE);
-        MultimediaViewerPanel imageViewer = new MultimediaViewerPanel(aCase, MultimediaReader.TYPE.IMAGE);
+        MultimediaViewerPanel audioPanel = new MultimediaViewerPanel(aCase, MultimediaViewerPanel.TYPE.AUDIO);
+        MultimediaViewerPanel videoPanel = new MultimediaViewerPanel(aCase, MultimediaViewerPanel.TYPE.VIDEO);
+        MultimediaViewerPanel archivePanel = new MultimediaViewerPanel(aCase, MultimediaViewerPanel.TYPE.ARCHIVE);
+        MultimediaViewerPanel imageViewer = new MultimediaViewerPanel(aCase, MultimediaViewerPanel.TYPE.IMAGE);
         
         this.multimediaTappedPane.addTab("Image Thumbnail Viewer", new ImagesViewerPanel(aCase));
         this.multimediaTappedPane.addTab("Image Viewer", imageViewer);

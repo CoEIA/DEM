@@ -12,15 +12,13 @@ package edu.coeia.multimedia;
 
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.util.FileUtil;
-import edu.coeia.util.FilesPath;
 
-import java.io.File;
 
-import java.util.List;
+import edu.coeia.task.MultimediaLoadingTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -30,11 +28,13 @@ import javax.swing.event.DocumentListener;
  */
 public class MultimediaViewerPanel extends javax.swing.JPanel {
 
+    public enum TYPE { IMAGE, AUDIO, ARCHIVE, VIDEO };
+    
     private final Case aCase;
-    private final MultimediaReader.TYPE type;
+    private final TYPE type;
     
     /** Creates new form MultimediaViewerPanel */
-    public MultimediaViewerPanel(final Case aCase, final MultimediaReader.TYPE type) {
+    public MultimediaViewerPanel(final Case aCase, final TYPE type) {
         this.initComponents();
         this.aCase = aCase;
         this.type = type;
@@ -119,25 +119,15 @@ public class MultimediaViewerPanel extends javax.swing.JPanel {
 
     private void loadItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadItemsButtonActionPerformed
         try {
-            loadItems();
+            MultimediaLoadingTask task = new MultimediaLoadingTask(aCase, this, type);
+            task.startTask();
         } catch (Exception ex) {
             Logger.getLogger(MultimediaViewerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_loadItemsButtonActionPerformed
 
-    private void loadItems() throws Exception {
-        String caseLocation = this.aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
-        MultimediaReader reader = new MultimediaReader(caseLocation);
-        List<String> paths = reader.getListPathsFromIndex(type, aCase);
-        reader.close();
-        
-        for(String path: paths) {
-            File file = new File(path);
-            Object[] data = {file.getAbsolutePath(), FileUtil.getExtension(file),
-                            file.lastModified(), file.isHidden(), file.length()};
-            JTableUtil.addRowToJTable(itemTable, data);
-        }
-    }
+    public TYPE getType() { return this.type; }
+    public JTable getTable() { return this.itemTable; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel filterPanel;

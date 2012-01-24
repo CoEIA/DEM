@@ -230,9 +230,9 @@ private void nextPageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GE
                 return ;
             }
 
-            if (  imageIndex != ImageViewer.getInstance(index).size() ) {
-                imageIndex += NUMBER_OF_IMAGES_IN_PANEL;
-            }
+//            if (  imageIndex != ImageViewer.getInstance(index).size() ) {
+//                imageIndex += NUMBER_OF_IMAGES_IN_PANEL;
+//            }
 
             if (currentImagePage < totalImagePage ) {
                 currentImagePage++;
@@ -275,7 +275,7 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         
         for(int i=imageIndex; i<imageIndex + (NUMBER_OF_IMAGES_IN_PANEL) ; i++ ) {
             try {
-                String name = ImageViewer.getInstance(index).get(i);
+                String name = "" ; // ImageViewer.getInstance(index).get(i);
                 File imageFile = new File(name);
                 System.out.println("file: " + imageFile.getAbsolutePath());
                 BufferedImage myPicture = ImageIO.read(imageFile);
@@ -329,7 +329,7 @@ private void prePageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
         int count = 0 ;
         
         try {
-            count = ImageViewer.getInstance(index).size();
+            count = 1; //ImageViewer.getInstance(index).size();
         }
         catch (Exception e) {
             e.printStackTrace();
