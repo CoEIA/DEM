@@ -73,7 +73,7 @@ public enum CaseManager {
 
         for (String line: indexPtr) {
             String name = line.split("-")[0].trim();
-            String path = line.split("-")[1].trim();
+            String path = line.substring(line.indexOf("-") + 1).trim();
 
             if ( name.equals(aCase.getCaseName()) && path.equals(aCase.getCaseLocation()))
                 continue ;
@@ -97,7 +97,7 @@ public enum CaseManager {
     
     public static Case getCase(String line) throws IOException, ClassNotFoundException {
         String name = line.split("-")[0].trim();
-        String path = line.split("-")[1].trim();
+        String path = line.substring(line.indexOf("-") + 1).trim();
 
         Case aIndex = FileUtil.readObject(new File(path + "\\" + name + ".DAT"));
         return aIndex;
@@ -155,7 +155,7 @@ public enum CaseManager {
 
             for (String line: indexPtr) {
                 String name = line.split("-")[0].trim();
-                String path = line.split("-")[1].trim();
+                String path = line.substring(line.indexOf("-") + 1).trim();
 
                 if ( name.equals(aCase.getCaseName()) && path.equals(aCase.getCaseLocation()))
                     continue ;

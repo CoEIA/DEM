@@ -97,7 +97,7 @@ public class CasePathHandler {
         
         for(String line: lines) {
             String name = line.split("-")[0].trim();
-            String path = line.split("-")[1].trim();
+            String path = line.substring(line.indexOf("-") + 1).trim();
             this.casePathsMapping.add(new RelativeAndFullPathMapping(name, path));
         }
         

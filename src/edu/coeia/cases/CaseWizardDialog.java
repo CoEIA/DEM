@@ -1,38 +1,18 @@
 package edu.coeia.cases;
 
-import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
-
 import edu.coeia.cases.EmailConfiguration.SOURCE;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.GUIFileFilter;
 import edu.coeia.onlinemail.EmailDownloaderDialog;
-
 import edu.coeia.onlinemail.OnlineEmailDownloader;
 
-import java.awt.Component;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultListModel;
-import java.util.List;
-import java.util.ArrayList;
-import java.io.File;
-import java.awt.CardLayout;
-
-import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Date;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
@@ -40,10 +20,27 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-        
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.File;
+
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.List;
+import java.util.ArrayList;
+
+import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
+
 /*
  * IndexWizard.java
  *
@@ -1315,6 +1312,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
         };
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox CacheImageCheckBox;
     private javax.swing.JPanel CaseWizardA1;
