@@ -124,7 +124,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
                     ex.printStackTrace();
                 }
             } else if (fileObject.isFile()) {
-                System.out.println(indent + "  " + fileObject.getName());
+                //System.out.println(indent + "  " + fileObject.getName());
                 TestFileAnalysis(fileObject);
             }
             }

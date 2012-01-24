@@ -78,10 +78,16 @@ public class FileUtilTest {
     
     @Test
     public void getNormalFilExtenstion() {
-//        String fileName = "a.pdf";
-//        assertEquals("pdf", FileUtil.getExtension(fileName));
-//        
-//        fileName = "ahmed\\file\\dir\\asdfsd.doc";
-//        assertEquals("doc", FileUtil.getExtension(fileName));
+        String fileName = "C:\\code.txt";
+        assertEquals("txt", FileUtil.getExtension(fileName));
+        
+        fileName = "C:\\a\\a.b\\d.3\\file.pdf";
+        assertEquals("pdf", FileUtil.getExtension(fileName));
+        
+        fileName = "C:\\a\\asd\\";
+        assertEquals("", FileUtil.getExtension(fileName));
+        
+        fileName = "C:\\Documents and Settings\\wajdyessam\\Desktop\\DEM\\DEM1\\DEM_Source_Code\\OfflineMining\\.git\\objects\\0e\\a75c8762079b23f296fb5954c8a44f007147af";
+        assertEquals("", FileUtil.getExtension(fileName));
     }
 }

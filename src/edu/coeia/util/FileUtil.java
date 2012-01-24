@@ -248,26 +248,24 @@ public final class FileUtil {
 
         input.close();
         return (aList);
-    }    
-    
-    public static String getExtension (File f) {
-        if ( !f.exists() || f.isDirectory() ) {
-            return null ;
-        }
-        
-        int index = f.getAbsolutePath().lastIndexOf(".");
-        
-        if ((index < 0) && (index >= f.toString().length()))
-            return null ;
-
-        String ext = f.toString().substring(index+1);
-
-        return (ext);
     }
-
+    
     public static String getExtension (String f){
         return getExtension(new File(f));
-    }    
+    }   
+    
+    public static String getExtension (final File file) {
+        if ( !file.exists() || file.isDirectory() ) {
+           throw new IllegalArgumentException("the file should be existed in the system");
+        }
+        
+        int index = file.getName().lastIndexOf(".");
+        if ( index < 0 )
+            return "";
+
+        String ext = file.getName().substring(index+1);
+        return (ext);
+    }
     
     public static boolean isDirectoryExists(String Path) {
         File file = new File(Path);
