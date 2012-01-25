@@ -67,7 +67,6 @@ public class CaseFrame extends javax.swing.JFrame {
     private EmailBrowsingPanel emailPanel;
     private InternetSurfingPanel internetPanel;
     private ChatPanel chatPanel;
-    private ImagesViewerPanel imgPanel;
     private ReportPanel reportPanel;
     private MultimediaPanel multimediaPanel;
     
@@ -114,7 +113,6 @@ public class CaseFrame extends javax.swing.JFrame {
         this.emailPanel = new EmailBrowsingPanel(this.caseObj, this);
         this.internetPanel = new InternetSurfingPanel(this.caseObj);
         this.chatPanel = new ChatPanel(this.caseObj);
-        this.imgPanel = new ImagesViewerPanel(this.caseObj);
         this.multimediaPanel = new MultimediaPanel(this.caseObj);
         this.caseSearchPanel = new CaseSearchPanel(this.caseObj, this);
         this.caseManagerPanel = new CaseManagerPanel(this);
@@ -124,7 +122,6 @@ public class CaseFrame extends javax.swing.JFrame {
         this.CardPanel.add(this.emailPanel, "emailCard");
         this.CardPanel.add(this.internetPanel, "internetSurfingCard");
         this.CardPanel.add(this.chatPanel, "chatCard");
-        this.CardPanel.add(this.imgPanel, "imagesViewerCard");
         this.CardPanel.add(this.multimediaPanel, "MultimediaViewer");
         this.CardPanel.add(this.caseSearchPanel, "searchCard");
         this.CardPanel.add(this.caseManagerPanel, "caseManagerCard");

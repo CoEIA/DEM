@@ -103,7 +103,7 @@ public class ImagesViewerPanel extends javax.swing.JPanel {
         ImageControlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Images Viewer", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         ImageControlPanel.setLayout(new java.awt.BorderLayout());
 
-        showImagesButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        showImagesButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         showImagesButton.setText("Show Images");
         showImagesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
