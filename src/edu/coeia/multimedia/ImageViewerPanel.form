@@ -91,7 +91,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="scaleTextField">
           <Properties>
-            <Property name="text" type="java.lang.String" value=" "/>
+            <Property name="text" type="java.lang.String" value="120"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
@@ -101,7 +101,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="padTextField">
           <Properties>
-            <Property name="text" type="java.lang.String" value=" "/>
+            <Property name="text" type="java.lang.String" value="2"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
@@ -111,7 +111,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="rowsTextField">
           <Properties>
-            <Property name="text" type="java.lang.String" value=" "/>
+            <Property name="text" type="java.lang.String" value="10"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
@@ -121,7 +121,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="imagerPerPageTextField">
           <Properties>
-            <Property name="text" type="java.lang.String" value=" "/>
+            <Property name="text" type="java.lang.String" value="80"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="applyOptionButton">
@@ -375,6 +375,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="imagePathTextField">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="text" type="java.lang.String" value=" "/>
           </Properties>
         </Component>
@@ -385,6 +386,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="imageSizeTextField">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="text" type="java.lang.String" value=" "/>
           </Properties>
         </Component>
@@ -395,6 +397,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="lastModificationTextField">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="text" type="java.lang.String" value=" "/>
           </Properties>
         </Component>
@@ -405,6 +408,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="hasGeoTaggingTextField">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="text" type="java.lang.String" value=" "/>
           </Properties>
         </Component>
@@ -423,7 +427,9 @@
             <Component class="javax.swing.JTextArea" name="metadataTextArea">
               <Properties>
                 <Property name="columns" type="int" value="20"/>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="rows" type="int" value="5"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
           </SubComponents>

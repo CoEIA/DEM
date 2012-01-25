@@ -13,6 +13,7 @@ package edu.coeia.multimedia;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CasePathHandler;
 import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.util.DateUtil;
 import edu.coeia.util.FilesPath;
 
 import java.awt.BorderLayout;
@@ -40,6 +41,7 @@ import javax.swing.SwingConstants;
 import java.io.File;
 import java.io.IOException;
 
+import java.util.Date;
 import org.apache.lucene.index.IndexReader ;
 import org.apache.lucene.store.Directory ;
 import org.apache.lucene.store.FSDirectory;
@@ -67,6 +69,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     public ImageViewerPanel(final Case aCase) {
         initComponents();
         this.aCase = aCase;
+        this.setOptionsValue();
     }
     
     private void displayImages(final List<String> images) throws IOException {
@@ -220,19 +223,19 @@ public class ImageViewerPanel extends javax.swing.JPanel {
 
         jLabel1.setText("Scale Factor:");
 
-        scaleTextField.setText(" ");
+        scaleTextField.setText("120");
 
         jLabel2.setText("Image Pad:");
 
-        padTextField.setText(" ");
+        padTextField.setText("2");
 
         jLabel3.setText("No Row:");
 
-        rowsTextField.setText(" ");
+        rowsTextField.setText("10");
 
         jLabel4.setText("Image Per Page:");
 
-        imagerPerPageTextField.setText(" ");
+        imagerPerPageTextField.setText("80");
 
         applyOptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/save.png"))); // NOI18N
         applyOptionButton.setText("Apply Options");
@@ -386,24 +389,30 @@ public class ImageViewerPanel extends javax.swing.JPanel {
 
         jLabel6.setText("Image Path:");
 
+        imagePathTextField.setEditable(false);
         imagePathTextField.setText(" ");
 
         jLabel7.setText("Image Size:");
 
+        imageSizeTextField.setEditable(false);
         imageSizeTextField.setText(" ");
 
         jLabel8.setText("Last Modification Date:");
 
+        lastModificationTextField.setEditable(false);
         lastModificationTextField.setText(" ");
 
         jLabel9.setText("Has GeoTagging:");
 
+        hasGeoTaggingTextField.setEditable(false);
         hasGeoTaggingTextField.setText(" ");
 
         jLabel10.setText("Metadata:");
 
         metadataTextArea.setColumns(20);
+        metadataTextArea.setEditable(false);
         metadataTextArea.setRows(5);
+        metadataTextArea.setEnabled(false);
         jScrollPane1.setViewportView(metadataTextArea);
 
         javax.swing.GroupLayout StatusPanelLayout = new javax.swing.GroupLayout(StatusPanel);
@@ -467,6 +476,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
 
     private void applyOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyOptionButtonActionPerformed
        // set the new variable after checking it correctenss
+        this.setOptionsValue();
         
        // then ask for recomputiong the panel witn these new options
         this.recomputeTheImagePages();
@@ -474,6 +484,22 @@ public class ImageViewerPanel extends javax.swing.JPanel {
 
     private void recomputeTheImagePages() {
         
+    }
+    
+    private void setOptionsValue() {
+        SCALE_FACTOR = Integer.parseInt(this.scaleTextField.getText().trim());
+        PAD_FACTOR = Integer.parseInt(this.padTextField.getText().trim());
+        ROWS_NUMBER = Integer.parseInt(this.rowsTextField.getText().trim());
+        IMAGE_PER_PAGE = Integer.parseInt(this.imagerPerPageTextField.getText().trim());
+    }
+    
+    private void setStatusInformation(final String path) {
+        File file = new File(path);
+        this.imagePathTextField.setText(file.getAbsolutePath());
+        this.imageSizeTextField.setText(String.valueOf(file.length()));
+        this.lastModificationTextField.setText(DateUtil.formatedDateWithTime(new Date(file.lastModified())));
+        this.hasGeoTaggingTextField.setText(String.valueOf(GeoTagging.hasGoeTag(path)));
+        this.metadataTextArea.setText("");
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
