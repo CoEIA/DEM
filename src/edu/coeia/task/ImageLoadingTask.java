@@ -7,11 +7,19 @@ package edu.coeia.task;
 import edu.coeia.multimedia.ImageViewerPanel;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CasePathHandler;
+import edu.coeia.gutil.ImageLabel;
 import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.multimedia.GeoTagging;
+import edu.coeia.multimedia.GeoTagging.GPSData;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.Tuple;
 
+import edu.coeia.util.Utilities;
 import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
@@ -29,6 +37,9 @@ import javax.swing.ScrollPaneConstants;
 import java.io.File;
 import java.io.IOException;
 
+import java.net.URI;
+import javax.swing.JButton;
+import javax.swing.JPopupMenu;
 import org.apache.lucene.index.IndexReader ;
 import org.apache.lucene.store.Directory ;
 import org.apache.lucene.store.FSDirectory;
@@ -217,5 +228,81 @@ public class ImageLoadingTask implements Task{
     private boolean isImage(String extension) {
         String[] extensions = {"jpg", "jpeg", "bmp", "gif", "tif", "png","psd"};
         return Arrays.asList(extensions).contains(extension);
+    }
+    
+    private void showPopupOpen (MouseEvent event) {
+        final ImageLabel lbl = (ImageLabel) event.getSource();
+        JPopupMenu popup = new JPopupMenu();
+        JButton selectBtn = new JButton("Select  Image Location in PC");
+        JButton openBtn   = new JButton("Open Image With Image Viewer");
+
+        selectBtn.addActionListener( new java.awt.event.ActionListener() {
+            public void actionPerformed (java.awt.event.ActionEvent event) {
+                try {
+                    Utilities.selectObjectInExplorer(lbl.getPath());
+                }
+                catch (Exception e){
+                }
+            }
+        });
+        
+        openBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                try {
+                    Desktop desktop = null ;
+                    
+                    if (Desktop.isDesktopSupported()) {
+                        desktop = Desktop.getDesktop();
+
+                        if ( desktop.isSupported(Desktop.Action.OPEN) ) {
+                            desktop.open(new File(lbl.getPath()));
+                        }
+                    }
+                }
+                catch (Exception e){
+                }
+            }
+        });
+        
+        JButton mapButton = null;
+
+         try {
+            if ( GeoTagging.hasGoeTag(lbl.getPath()) ) {
+                mapButton  = new JButton("Show GPS  With Google  Map");
+                mapButton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent event) {
+                        try {
+                            Desktop desktop = null;
+
+                            if (Desktop.isDesktopSupported()) {
+                                desktop = Desktop.getDesktop();
+
+                                if ( desktop.isSupported(Desktop.Action.BROWSE) ) {
+                                    GPSData data =  GeoTagging.getGPS(lbl.getPath());
+                                    String url = "http://maps.google.com/maps?q=" + data.location ;
+                                    URI uri = new URI(url);
+                                    desktop.browse(uri);
+                                }
+                            }
+                        }
+                        catch (Exception e){
+                        }
+                    }
+                });
+            }
+        }
+        catch (Exception e) {}
+        
+        popup.add(selectBtn);
+        popup.add(openBtn);
+
+         try {
+            if ( GeoTagging.hasGoeTag(lbl.getPath()) && mapButton != null )
+                popup.add(mapButton);
+        }
+        catch (Exception e) {e.printStackTrace();}
+
+
+        lbl.setComponentPopupMenu(popup);
     }
 }
