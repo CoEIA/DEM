@@ -40,7 +40,7 @@ import org.apache.lucene.store.FSDirectory;
 final class IndexUtil {
     
     public static List<Case> getAllCases() throws FileNotFoundException, IOException, ClassNotFoundException {
-        return Collections.unmodifiableList(CaseManager.getCases());
+        return Collections.unmodifiableList(CaseManager.Manager.getCases());
     }
     
     public static Map<String, Double> getAllFilesFrequency(final Case aCase, final CasePathHandler handler)

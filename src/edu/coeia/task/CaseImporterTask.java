@@ -67,7 +67,7 @@ public class CaseImporterTask implements Task{
         String line = fileNameWithOutExt + " - " + path;
         Case aCase = CaseManager.getCase(line);
         aCase.setCaseLocation(path);
-        CaseManager.updateCase(aCase);
+        CaseManager.Manager.updateCase(aCase);
 
         String prefLocation = aCase.getCaseLocation() + File.separator +  FilesPath.DEM_CASE_PREFERENCE;
         CaseHistoryHandler.importCaseHistory(prefLocation);

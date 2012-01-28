@@ -54,6 +54,7 @@ public class AddEmailDialog extends javax.swing.JDialog {
         setTitle("Add New Email");
 
         ProviderGroupButton.add(GmailRadioButton);
+        GmailRadioButton.setSelected(true);
         GmailRadioButton.setText("Gmail");
 
         ProviderGroupButton.add(HotmailRadioButton);

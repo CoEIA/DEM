@@ -305,8 +305,8 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     
     private void exportCaseAction() { 
         try {
-            String indexName = getSelectedCase();
-            Case aCase = CaseManager.getCaseFromCaseName(indexName);
+            String caseName = getSelectedCase();
+            Case aCase = CaseManager.Manager.getCaseFromCaseName(caseName);
             CaseExporterTask task = new CaseExporterTask(aCase);
             task.startTask();
             
@@ -332,8 +332,8 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         }
         catch (Exception e) {
             e.printStackTrace();
-//            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
-//                JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
+                JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -385,7 +385,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         }
 
         logger.info("Create New Case Don Successfully");
-        CaseManager.writeCaseToInfoFile(aCase); // update indexes info file with new index
+        CaseManager.Manager.writeCaseToInfoFile(aCase); // update indexes info file with new index
 
         readCases(); // update recent table with this new information
 
@@ -452,7 +452,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             JTableUtil.removeAllRows(this.recentCaseTable);
             
             // read cases into case JTable 
-            List<Case> cases = CaseManager.getCases();
+            List<Case> cases = CaseManager.Manager.getCases();
             for(Case aCase: cases) {
                 insertIntoCaseTable(aCase);
             }
@@ -490,7 +490,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     private void loadCase (String caseName, boolean startIndex) throws FileNotFoundException, IOException, ClassNotFoundException, Exception{
         if ( caseName != null ) {
             if ( !caseManager.isRunningCase(caseName)) {
-                Case aCase = CaseManager.getCaseFromCaseName(caseName);
+                Case aCase = CaseManager.Manager.getCaseFromCaseName(caseName);
 
                 // check here for case evience chnaging
                 // and update the file before opening the case

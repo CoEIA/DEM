@@ -1100,7 +1100,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private boolean createCase(Case aCase) {
         try {
             setCurrentCase(aCase);
-            CaseManager.CaseOperation.writeCase(aCase);
+            CaseManager.Manager.writeCase(aCase);
 
             return true;
         } catch (Exception e) {
@@ -1133,7 +1133,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             showErrorMessage("You must choose a Location for the Case ", "Empty Case Location");
             return false;
         }
-        if (CaseManager.caseExists(caseName)) {
+        if (CaseManager.Manager.caseExists(caseName)) {
             showErrorMessage("The Case Name is Already Taken, Choose Another Name", "Case Name Exists");
             return false;
         }
