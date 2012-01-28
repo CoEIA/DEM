@@ -2,7 +2,7 @@ package edu.coeia.onlinemail;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.EmailConfiguration;
-import edu.coeia.cases.EmailConfiguration.SOURCE;
+import edu.coeia.cases.EmailConfiguration.ONLINE_EMAIL_AGENT;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.Utilities;
@@ -143,7 +143,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                     if (strIsResume.compareTo("Resume") == 0) {
                         emaildialogue.getPauseButton().setText("Pause");
                         emaildialogue.getDownloadBar().setIndeterminate(true);
-                        List<EmailConfiguration> emailInfos = emaildialogue.getCase().getEmailConfig();
+                        List<EmailConfiguration> emailInfos = emaildialogue.getCase().getEmailConfigurations();
                         for (EmailConfiguration s : emailInfos) {
                             downloadEmail(emaildialogue.getCase(), s, emaildialogue);
                         }
@@ -158,7 +158,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
     public void downloadEmail(Case currentCase, EmailConfiguration config, EmailDownloaderDialog dialogue) throws Exception {
 
         // if hotmail
-        if (config.getSource() == SOURCE.HOTMAIL) {
+        if (config.getSource() == ONLINE_EMAIL_AGENT.HOTMAIL) {
             
             dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
             dialogue.m_ObjDownloader.ConnectPop3Hotmail(Username, Password);
@@ -167,7 +167,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             
         }
         // if YAHOO
-        if (config.getSource() == SOURCE.Yahoo) {
+        if (config.getSource() == ONLINE_EMAIL_AGENT.YAHOO) {
             
             dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
             dialogue.m_ObjDownloader.ConnectPop3Yahoo(Username, Password);
@@ -176,7 +176,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             
         }
         
-        if (config.getSource() == SOURCE.GMAIL) {
+        if (config.getSource() == ONLINE_EMAIL_AGENT.GMAIL) {
             dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
             dialogue.m_ObjDownloader.ConnectIMAP(Username, Password);
             dialogue.m_ObjDownloader.execute();

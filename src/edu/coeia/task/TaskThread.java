@@ -49,6 +49,7 @@ public class TaskThread extends SwingWorker<Void, String> {
     
     @Override
     public void done() {
+        this.dialog.setVisible(false);
         this.dialog.dispose();
         return;
     }

@@ -19,12 +19,12 @@ import javax.swing.JOptionPane;
  *
  * @author Ahmed
  */
-public class NewEmailDialogue extends javax.swing.JDialog {
+public class AddEmailDialog extends javax.swing.JDialog {
 
     public boolean cancelClicked = false;
 
     /** Creates new form NewEmailDialogue */
-    public NewEmailDialogue(java.awt.Frame parent, boolean modal) {
+    public AddEmailDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
@@ -183,18 +183,18 @@ private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     this.setVisible(false);
 }//GEN-LAST:event_CancelButtonActionPerformed
 
-    private boolean checkEmail(String Email, EmailConfiguration.SOURCE source) {
+    private boolean checkEmail(String Email, EmailConfiguration.ONLINE_EMAIL_AGENT source) {
 
         int index = Email.lastIndexOf("@");
         if (index < 0) {
             return false;
         }
         String provider = Email.substring(index, Email.length());
-        if (provider.equals("@gmail.com") && source == EmailConfiguration.SOURCE.GMAIL) {
+        if (provider.equals("@gmail.com") && source == EmailConfiguration.ONLINE_EMAIL_AGENT.GMAIL) {
             return true;
-        } else if (provider.equals("@hotmail.com") && source == EmailConfiguration.SOURCE.HOTMAIL) {
+        } else if (provider.equals("@hotmail.com") && source == EmailConfiguration.ONLINE_EMAIL_AGENT.HOTMAIL) {
             return true;
-        } else if (provider.equals("@yahoo.com") && source == EmailConfiguration.SOURCE.Yahoo) {
+        } else if (provider.equals("@yahoo.com") && source == EmailConfiguration.ONLINE_EMAIL_AGENT.YAHOO) {
             return true;
         } else {
             return false;
@@ -211,14 +211,14 @@ private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         return PasswordTextField.getText().toString().trim();
     }
 
-    public EmailConfiguration.SOURCE getProvider() {
-        EmailConfiguration.SOURCE provider = null;
+    public EmailConfiguration.ONLINE_EMAIL_AGENT getProvider() {
+        EmailConfiguration.ONLINE_EMAIL_AGENT provider = null;
         if (GmailRadioButton.isSelected()) {
-            provider = EmailConfiguration.SOURCE.GMAIL;
+            provider = EmailConfiguration.ONLINE_EMAIL_AGENT.GMAIL;
         } else if (YahooRadioButton.isSelected()) {
-            provider = EmailConfiguration.SOURCE.Yahoo;
+            provider = EmailConfiguration.ONLINE_EMAIL_AGENT.YAHOO;
         } else if (HotmailRadioButton.isSelected()) {
-            provider = EmailConfiguration.SOURCE.HOTMAIL;
+            provider = EmailConfiguration.ONLINE_EMAIL_AGENT.HOTMAIL;
         }
         return provider;
     }

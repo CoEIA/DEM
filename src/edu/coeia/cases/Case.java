@@ -9,6 +9,7 @@ package edu.coeia.cases;
  * @author wajdyessam
  *
  */
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,205 +19,79 @@ import java.io.Serializable;
 
 public final class Case implements Serializable {
 
-    // Requaired paramters for case
+    // Requaired (constant) paramters for case
     private final String investigatorName;
     private final String description;
     private final Date createTime;
 
+    // Required (can be changed) paramaters for case
+    private final List<String> evidenceSourceLocation;
     private String caseName;
     private String caseLocation;
-    private final List<String> evidenceSourceLocation;
     
     // Optional Paramaters for case
-
-    private boolean isIndex;
-    private boolean isHash;
-    private boolean isExportLibrary;
-    private boolean isClusterWithCase;
-    private boolean isClusterWithLibrary;
-    private boolean isIndexArchive;
-    private boolean isIndexEmbedded;
-    private boolean isCacheImages;
-    private boolean isExcludeFileSystems;
-    private boolean isIndexChatSessions;
-    private boolean isDetectBrowserRessions;
-    
-    // index history information
-    private boolean indexStatus;
-    private String lastIndexDate;
-    private String indexingTime;
-    private String caseSource;
-    //private int dataIndexedCount, dataIndexedSize ;
-
+    private final List<EmailConfiguration> emaiConfigurations;
     private final boolean doIndexingAfterCaseCreating;
     private final boolean computeHashForEveryItem;
-    private final boolean exportCopyOfHashes;
     private final boolean detectDuplicationInCase;
     private final boolean detectDuplicationWithHashLibrary;
     private final boolean indexArchiveFiles;
- 
+    private final boolean indexChatSessions;
+    private final boolean indexEmbeddedDocuments;
+    private final boolean indexBroswers;
+    private final boolean cacheImage;
+    private final boolean execludeFileSystem;
 
-    // Email Configuation
-    private final List<EmailConfiguration> emailConfig;
-
-    private Case(Builder builder) {
+    private Case(final CaseBuilder builder) {
         this.caseName = builder.caseName;
         this.caseLocation = builder.caseLocation;
         this.investigatorName = builder.investigatorName;
         this.description = builder.description;
         this.createTime = builder.createTime;
-        this.evidenceSourceLocation = builder.caseSource;
-        this.emailConfig = builder.emailInfo;
-        this.doIndexingAfterCaseCreating = builder.isIndexingCaseAfterFinishing;
-        this.computeHashForEveryItem = builder.isHash;
-        this.exportCopyOfHashes = builder.isExportLibrary;
-        this.detectDuplicationInCase = builder.isClusterWithCase;
-        this.detectDuplicationWithHashLibrary = builder.isClusterWithLibrary;
-        this.indexArchiveFiles = builder.isIndexArchive;
-        this.isIndexEmbedded = builder.isIndexEmbedded;
-        this.isCacheImages = builder.isCacheImages;
-        this.isExcludeFileSystems = builder.isExcludeFileSystems;
-        this.isIndexChatSessions  = builder.isIndexChatSessions;
-        this.isDetectBrowserRessions  = builder.isDetectBrowserRessions;
+        this.evidenceSourceLocation = builder.evidenceSourceLocation;
+        this.emaiConfigurations = builder.emaiConfigurations;
+        this.doIndexingAfterCaseCreating = builder.doIndexingAfterCaseCreating;
+        this.computeHashForEveryItem = builder.computeHashForEveryItem;
+        this.detectDuplicationInCase = builder.detectDuplicationInCase;
+        this.detectDuplicationWithHashLibrary = builder.detectDuplicationWithHashLibrary;
+        this.indexArchiveFiles = builder.indexArchiveFiles;
+        this.indexEmbeddedDocuments = builder.indexEmbeddedDocuments;
+        this.cacheImage = builder.cacheImage;
+        this.execludeFileSystem = builder.execludeFileSystem;
+        this.indexChatSessions  = builder.indexChatSessions;
+        this.indexBroswers  = builder.indexBroswers;
     }
 
-    public static class Builder {
-        // Requaired Paramaters
-        private final String caseName;
-        private final String caseLocation;
-        private final String investigatorName;
-        private final String description;
-        private final Date createTime;
-        private final List<EmailConfiguration> emailInfo;
-        private final List<String> caseSource;
-        // optional Params
-        private boolean isIndexingCaseAfterFinishing = false;
-        private boolean isHash = false;
-        private boolean isExportLibrary = false;
-        private boolean isClusterWithCase = false;
-        private boolean isClusterWithLibrary = false;
-        private boolean isIndexArchive = false;
-        private boolean isIndexEmbedded = false;
-        private boolean isCacheImages = false;
-        private boolean isExcludeFileSystems = false;
-
-        private boolean isIndexChatSessions = false;
-        private boolean isDetectBrowserRessions = false;
-    
-        // index history information
-        private boolean indexStatus = false;
-        private String lastIndexDate = "";
-        private String indexingTime = "";
-        //private int dataIndexedCount, dataIndexedSize ;
-
-        public Builder(String indexName, String indexLocation, String investigatorName,
-                String description, List<String> caseSource, Date createTime, long caseSize) {
-            this.caseName = indexName;
-            this.caseLocation = indexLocation;
-            this.investigatorName = investigatorName;
-            this.description = description;
-            this.caseSource = caseSource;
-            this.createTime = createTime;
-            this.emailInfo = new ArrayList<EmailConfiguration>();
-        }
-
-        public Case build() {
-            return new Case(this);
-        }
-
-        public Builder isIndex(boolean val) {
-            isIndexingCaseAfterFinishing = val;
-            return this;
-        }
-
-        public Builder isHash(boolean val) {
-            isHash = val;
-            return this;
-        }
-
-        public Builder isExportLibrary(boolean val) {
-            isExportLibrary = val;
-            return this;
-        }
-
-        public Builder isClusterWithCase(boolean val) {
-            isClusterWithCase = val;
-            return this;
-        }
-
-        public Builder isClusterWithLibrary(boolean val) {
-            isClusterWithLibrary = val;
-            return this;
-        }
-
-        public Builder isIndexArchive(boolean val) {
-            isIndexArchive = val;
-            return this;
-        }
-
-        public Builder isIndexEmbedded(boolean val) {
-            isIndexEmbedded = val;
-            return this;
-        }
-
-        public Builder isCacheImages(boolean val) {
-            isCacheImages = val;
-            return this;
-        }
-
-        public Builder isExcludeFileSystems(boolean val) {
-            isExcludeFileSystems = val;
-            return this;
-        }
-
-        public Builder createEmailConfig(List<EmailConfiguration> configList) {
-            emailInfo.addAll(configList);
-            return this;
-        }
-        public Builder isIndexChatSessions(boolean val)
-        {
-            isIndexChatSessions = val; 
-            return this;
-        }
-        public Builder isDetectBrowserSessiond(boolean val)
-        {
-            isDetectBrowserRessions = val;
-            return this;
-        }
-    }
-
-    public boolean GetisHash() {
+    public boolean computeHashForEveryItem() {
         return this.computeHashForEveryItem;
     }
 
-    public boolean GetisIndex() {
+    public boolean doIndexingAfterCaseCreation() {
         return this.doIndexingAfterCaseCreating;
     }
 
-    public boolean GetisExportLibrary() {
-        return this.exportCopyOfHashes;
-    }
-
-    public boolean GetisClusterWithCase() {
+    public boolean detectDuplicationWithinCase() {
         return this.detectDuplicationInCase;
     }
 
-
-   public boolean isIndexChatSessions() {
-       return this.isIndexChatSessions;
-   }
-   public boolean isDectetBroswerSessions()
-   {
-       return this.isDetectBrowserRessions;
-   }
-
-
-    public boolean GetisExcludeFileSystems() {
-        return this.isExcludeFileSystems;
+    public boolean detectDuplicationWithHashLibrary() {
+        return this.detectDuplicationWithHashLibrary;
+    }
+    
+    public boolean isIndexChatSessions() {
+       return this.indexChatSessions;
+    }
+   
+    public boolean detectInternetBrowsers() {
+       return this.indexBroswers;
     }
 
-    public List<EmailConfiguration> getEmailConfig() {
-        return Collections.unmodifiableList(this.emailConfig);
+    public boolean execludeFileSystem() {
+        return this.execludeFileSystem;
+    }
+
+    public List<EmailConfiguration> getEmailConfigurations() {
+        return Collections.unmodifiableList(this.emaiConfigurations);
     }
 
     public String getCaseName() {
@@ -236,12 +111,7 @@ public final class Case implements Serializable {
     }
 
     public List<String> getEvidenceSourceLocation() {
-        List<String> list = new ArrayList<String>();
-        for(String s : evidenceSourceLocation)
-        {
-        list.add(s);
-        }
-        return list;
+        return Collections.unmodifiableList(this.evidenceSourceLocation);
     }
 
     public Date getCreateTime() {
@@ -249,7 +119,7 @@ public final class Case implements Serializable {
     }
 
     public boolean getCacheImages() {
-        return isCacheImages;
+        return cacheImage;
     }
 
     public boolean getCheckCompressed() {
@@ -257,7 +127,7 @@ public final class Case implements Serializable {
     }
     
     public boolean getCheckEmbedded() {
-        return isIndexEmbedded;
+        return indexEmbeddedDocuments;
     }
     
     // resetting case information
@@ -275,5 +145,113 @@ public final class Case implements Serializable {
     
     public void removeEvidenceSourceLocation(final String location) {
         this.evidenceSourceLocation.remove(location);
+    }
+    
+    public static class CaseBuilder {
+        // Requaired (constant) paramters for case
+        private final String investigatorName;
+        private final String description;
+        private final Date createTime;
+
+        // Required (can be changed) paramaters for case
+        private final List<String> evidenceSourceLocation;
+        private final String caseName;
+        private final String caseLocation;
+
+        // Optional Paramaters for case
+        private List<EmailConfiguration> emaiConfigurations;
+        private boolean doIndexingAfterCaseCreating;
+        private boolean computeHashForEveryItem;
+        private boolean detectDuplicationInCase;
+        private boolean detectDuplicationWithHashLibrary;
+        private boolean indexArchiveFiles;
+        private boolean indexChatSessions;
+        private boolean indexEmbeddedDocuments;
+        private boolean indexBroswers;
+        private boolean cacheImage;
+        private boolean execludeFileSystem;
+    
+         public CaseBuilder(final String indexName, final String indexLocation, 
+                 final String investigatorName, final String description,
+                 final List<String> caseSource,
+                 final Date createTime, final long caseSize) {
+             
+            this.caseName = indexName;
+            this.caseLocation = indexLocation;
+            this.investigatorName = investigatorName;
+            this.description = description;
+            this.evidenceSourceLocation = Collections.unmodifiableList(caseSource);
+            this.createTime = new Date(createTime.getTime());
+            this.emaiConfigurations = new ArrayList<EmailConfiguration>();
+        }
+
+        public Case build() {
+            return new Case(this);
+        }
+
+        public CaseBuilder indexArchiveFiles(boolean value) {
+            this.indexArchiveFiles = value;
+            return this;
+        }
+        
+        public CaseBuilder indexEmbeddedDocuments(boolean value) {
+            this.indexEmbeddedDocuments = value;
+            return this;
+        }
+                
+        public CaseBuilder computeHashForEveryItem(boolean value) {
+            this.computeHashForEveryItem = value;
+            return this;
+        }
+
+        public CaseBuilder doIndexingAfterCaseCreation(boolean val) {
+            this.doIndexingAfterCaseCreating = val;
+            return this;
+        }
+
+        public CaseBuilder detectDuplicationWithinCase(boolean val) {
+            this.detectDuplicationInCase = val;
+            return this;
+        }
+
+        public CaseBuilder detectDuplicationWithHashLibrary(boolean val) {
+            this.detectDuplicationWithHashLibrary = val;
+            return this;
+        }
+
+        public CaseBuilder isIndexChatSessions(boolean val) {
+           this.indexChatSessions = val;
+           return this;
+        }
+
+        public CaseBuilder detectInternetBrowsers(boolean val) {
+           this.indexBroswers = val;
+           return this;
+        }
+
+        public CaseBuilder execludeFileSystem(boolean val) {
+            this.execludeFileSystem = val;
+            return this;
+        }
+
+        public CaseBuilder getCacheImages(boolean val) {
+            this.cacheImage = val;
+            return this;
+        }
+
+        public CaseBuilder getCheckCompressed(boolean val) {
+            this.indexArchiveFiles = val;
+            return this;
+        }
+
+        public CaseBuilder getCheckEmbedded(boolean val) {
+            this.indexEmbeddedDocuments = val;
+            return this;
+        }
+    
+        public CaseBuilder addEmailConfiguration(final List<EmailConfiguration> emails) {
+            this.emaiConfigurations = Collections.unmodifiableList(emails);
+            return this;
+        }
     }
 }

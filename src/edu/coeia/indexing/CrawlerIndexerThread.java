@@ -85,7 +85,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
             }
 
             // crawl and index emails
-            if ( !aCase.getEmailConfig().isEmpty()) {
+            if ( !aCase.getEmailConfigurations().isEmpty()) {
                this.doEmailCrawling();
             }
             

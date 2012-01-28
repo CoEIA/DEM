@@ -11,19 +11,21 @@ import java.io.Serializable;
  * @author Ahmed
  */
 
-public class EmailConfiguration implements Serializable{
+public final class EmailConfiguration implements Serializable{
     
-    public enum SOURCE {HOTMAIL, GMAIL, Yahoo };
+    public enum ONLINE_EMAIL_AGENT {HOTMAIL, GMAIL, YAHOO };
     
     private final String userName;
     private final String password;
-    private final SOURCE source ;
+    private final ONLINE_EMAIL_AGENT source ;
 
-    public static EmailConfiguration newInstance(final String username, final String password, final SOURCE source) {
+    public static EmailConfiguration newInstance(final String username,
+            final String password, final ONLINE_EMAIL_AGENT source) {
         return new EmailConfiguration(username, password, source);
     }
     
-    private EmailConfiguration(final String username, final String password, final SOURCE source) {
+    private EmailConfiguration(final String username, final String password,
+            final ONLINE_EMAIL_AGENT source) {
         this.userName = username;
         this.password = password;
         this.source = source ;
@@ -35,6 +37,5 @@ public class EmailConfiguration implements Serializable{
     public String getPassword()
     { return this.password;}
     
-    public SOURCE getSource() { return this.source ;}
-
+    public ONLINE_EMAIL_AGENT getSource() { return this.source ;}
 }

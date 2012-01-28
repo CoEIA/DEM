@@ -86,7 +86,7 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
     }
 
     private void disableNotIndexedComponent() {
-        if (!caseObj.GetisIndex()) {
+        if (!caseObj.doIndexingAfterCaseCreation()) {
             indexVisulizingButton.setEnabled(false);
         }
     }

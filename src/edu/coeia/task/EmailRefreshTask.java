@@ -58,7 +58,7 @@ public class EmailRefreshTask implements Task{
             JListUtil.addToList(path, panel.getModel(), panel.getList());
         }
 
-        for(EmailConfiguration config: this.aCase.getEmailConfig()) {
+        for(EmailConfiguration config: this.aCase.getEmailConfigurations()) {
             JListUtil.addToList(config.getUserName(), panel.getModel(), panel.getList());
         }
     }

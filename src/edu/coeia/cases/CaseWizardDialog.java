@@ -1,6 +1,6 @@
 package edu.coeia.cases;
 
-import edu.coeia.cases.EmailConfiguration.SOURCE;
+import edu.coeia.cases.EmailConfiguration.ONLINE_EMAIL_AGENT;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.FilesPath;
@@ -857,7 +857,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         List<EmailConfiguration> emailInfos = new ArrayList<EmailConfiguration>();
         Object[][] data = getEmailTableData();
         for (int c = 0; c < EmailTable.getRowCount(); c++) {
-            emailInfos.add(EmailConfiguration.newInstance(String.valueOf(data[c][0]), String.valueOf(data[c][1]), EmailConfiguration.SOURCE.valueOf(String.valueOf(data[c][2]))));
+            emailInfos.add(EmailConfiguration.newInstance(String.valueOf(data[c][0]), String.valueOf(data[c][1]), EmailConfiguration.ONLINE_EMAIL_AGENT.valueOf(String.valueOf(data[c][2]))));
         }
 
         this.setVisible(false);
@@ -866,11 +866,23 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         this.indexTheCase = YesIndexRadioButton.isSelected() ;
        
         // Build Case
-        currentCase = new Case.Builder(caseNameTextField.getText().trim(),
+        currentCase = new Case.CaseBuilder(caseNameTextField.getText().trim(),
                 caseLocationTextField.getText().trim(),
                 investigatorTextField.getText().trim(),
                 descriptionTextArea.getText().trim(),
-                CaseSources, new Date(), 0).isCacheImages(CacheImageCheckBox.isSelected()).isClusterWithCase(DetectClusterCaseRadioButton.isSelected()).isClusterWithLibrary(DetectClusterLibraryRadioButton.isSelected()).isExcludeFileSystems(ExcludeSystemFilesCheckBox.isSelected()).isHash(YesMD5RadioButton.isSelected()).isIndex(YesIndexRadioButton.isSelected()).isIndexArchive(IndexZipCheckBox.isSelected()).isIndexEmbedded(IndexEmbeddedFilesCheckBox.isSelected()).isIndexChatSessions(IndexChatCheckBox.isSelected()).isDetectBrowserSessiond(DetectBrowserCheckBox.isSelected()).createEmailConfig(emailInfos).build();
+                CaseSources, new Date(), 0)
+                .getCacheImages(CacheImageCheckBox.isSelected())
+                .detectDuplicationWithinCase(DetectClusterCaseRadioButton.isSelected())
+                .detectDuplicationWithHashLibrary(DetectClusterLibraryRadioButton.isSelected())
+                .execludeFileSystem(ExcludeSystemFilesCheckBox.isSelected())
+                .computeHashForEveryItem(YesMD5RadioButton.isSelected())
+                .doIndexingAfterCaseCreation(YesIndexRadioButton.isSelected())
+                .indexArchiveFiles(IndexZipCheckBox.isSelected())
+                .indexEmbeddedDocuments(IndexEmbeddedFilesCheckBox.isSelected())
+                .isIndexChatSessions(IndexChatCheckBox.isSelected())
+                .detectInternetBrowsers(DetectBrowserCheckBox.isSelected())
+                .addEmailConfiguration(emailInfos)
+            .build();
 
         if (!createCase(currentCase)) {     
             showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
@@ -904,19 +916,19 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
         
        
         // if hotmail
-        if (config.getSource() == SOURCE.HOTMAIL) {
+        if (config.getSource() == ONLINE_EMAIL_AGENT.HOTMAIL) {
             if (dialogue.m_ObjDownloader.ConnectPop3Hotmail(config.getUserName(), config.getPassword())) {
                 dialogue.m_ObjDownloader.execute();
                 dialogue.setVisible(true);
             }
         }
-        if (config.getSource() == SOURCE.Yahoo) {
+        if (config.getSource() == ONLINE_EMAIL_AGENT.YAHOO) {
             if (dialogue.m_ObjDownloader.ConnectPop3Yahoo(config.getUserName(), config.getPassword())) {
                 dialogue.m_ObjDownloader.execute();
                 dialogue.setVisible(true);
             }
         }
-        if (config.getSource() == SOURCE.GMAIL) {
+        if (config.getSource() == ONLINE_EMAIL_AGENT.GMAIL) {
             if (dialogue.m_ObjDownloader.ConnectIMAP(config.getUserName(), config.getPassword())) {
                 dialogue.m_ObjDownloader.execute();
                 dialogue.setVisible(true);
@@ -941,7 +953,7 @@ private void ExcludeSystemFilesCheckBoxActionPerformed(java.awt.event.ActionEven
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-    NewEmailDialogue dialogue = new NewEmailDialogue(_parent, true);
+    AddEmailDialog dialogue = new AddEmailDialog(_parent, true);
     dialogue.setLocationRelativeTo(this);
     dialogue.setVisible(true);
 

@@ -6,7 +6,7 @@ import edu.coeia.filesystem.FileSystemPanel;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseManagerPanel;
 import edu.coeia.cases.EmailConfiguration;
-import edu.coeia.cases.EmailConfiguration.SOURCE;
+import edu.coeia.cases.EmailConfiguration.ONLINE_EMAIL_AGENT;
 import edu.coeia.chat.ChatPanel;
 import edu.coeia.util.Utilities;
 import edu.coeia.gutil.GuiUtil ;
@@ -550,7 +550,7 @@ public class CaseFrame extends javax.swing.JFrame {
 
 private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         
-    List<EmailConfiguration> emailInfos = caseObj.getEmailConfig();
+    List<EmailConfiguration> emailInfos = caseObj.getEmailConfigurations();
  
     if (emailInfos.isEmpty()) {
         JOptionPane.showMessageDialog(this, "There is no Email Information", "No Email in Case", JOptionPane.ERROR_MESSAGE);
@@ -619,19 +619,19 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 );
         
         // if hotmail
-        if (config.getSource() == SOURCE.HOTMAIL) {
+        if (config.getSource() == ONLINE_EMAIL_AGENT.HOTMAIL) {
             if (dialogue.m_ObjDownloader.ConnectPop3Hotmail(config.getUserName(), config.getPassword())) {
                 dialogue.m_ObjDownloader.execute();
                 dialogue.setVisible(true);
             }
         }
-        if (config.getSource() == SOURCE.Yahoo) {
+        if (config.getSource() == ONLINE_EMAIL_AGENT.YAHOO) {
             if (dialogue.m_ObjDownloader.ConnectPop3Yahoo(config.getUserName(), config.getPassword())) {
                 dialogue.m_ObjDownloader.execute();
                 dialogue.setVisible(true);
             }
         }
-       if (config.getSource() == SOURCE.GMAIL) {
+       if (config.getSource() == ONLINE_EMAIL_AGENT.GMAIL) {
             if (dialogue.m_ObjDownloader.ConnectIMAP(config.getUserName(), config.getPassword())) {
                 dialogue.m_ObjDownloader.execute();
                 dialogue.setVisible(true);
