@@ -11,12 +11,12 @@
 package edu.coeia.multimedia;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CasePathHandler;
 import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.util.DateUtil;
-import edu.coeia.util.FilesPath;
+import edu.coeia.items.FileItem;
+import edu.coeia.items.ItemFactory;
+import edu.coeia.searching.LuceneSearcher;
+import edu.coeia.task.ImageLoadingTask;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.image.BufferedImage;
@@ -25,152 +25,50 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Arrays;
 
-import javax.imageio.ImageIO;
-
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.AbstractListModel;
+import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.JPanel;
 
-import java.io.File;
-import java.io.IOException;
-
-import java.util.Date;
-import org.apache.lucene.index.IndexReader ;
-import org.apache.lucene.store.Directory ;
-import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-
-import static org.imgscalr.Scalr.*;
-import org.imgscalr.Scalr;
+import org.apache.lucene.document.Fieldable;
 
 /**
  *
  * @author wajdyessam
  */
 public class ImageViewerPanel extends javax.swing.JPanel {
-
+    private final Case aCase;
+    
     private int SCALE_FACTOR = 120;
     private int PAD_FACTOR = 2;
     private int ROWS_NUMBER = 10;
     private int IMAGE_PER_PAGE = 80;
     
-    private final Case aCase;
-    private int noOfImages ;
+    private int totalNumberOfImages ;
+    private int totalNumberOfPages;
+    
+    private boolean isImageSizeIsComputed;   // get number of images in case, its computed one time
+    private int currentImageNo;
+    private int currentImagePage;
+    
+
     
     /** Creates new form ImageViewerPanel */
     public ImageViewerPanel(final Case aCase) {
         initComponents();
         this.aCase = aCase;
-        this.setOptionsValue();
-    }
-    
-    private void displayImages(final List<String> images) throws IOException {
-        this.renderPanel.removeAll();
-        
-        List<Icon> icons = new ArrayList<Icon>();
-        for(String image: images) {
-            try {
-                File imageFile = new File(image);
-                BufferedImage bufferedImage = ImageIO.read(imageFile);
-                BufferedImage scaledImage = createThumbnail(bufferedImage);
-                Icon icon = new ImageIcon(scaledImage, imageFile.getName());
-                icons.add(icon);
-            }
-            catch(Exception e) {
-                System.out.println(image + " cannot be veweing");
-            }
-        }
-        
-        JList list = new JList(icons.toArray());
-        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        list.setCellRenderer(new MyCellRenderer());
-        list.setVisibleRowCount(ROWS_NUMBER);
-        list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        
-        JScrollPane pane = new JScrollPane(list);
-        this.renderPanel.add(pane, BorderLayout.CENTER);
-    }
-    
-    private BufferedImage createThumbnail(BufferedImage img) {
-        img = Scalr.resize(img, SCALE_FACTOR);
-        return pad(img, PAD_FACTOR);
-    }
-        
-    private class MyCellRenderer extends JLabel implements ListCellRenderer {
-        public MyCellRenderer() {
-            this.setOpaque(true);
-        }
-        
-        @Override
-        public Component getListCellRendererComponent(JList list, Object value, 
-                int index, boolean isSelected, boolean cellHasFocus) {
-            
-            ImageIcon icon = (ImageIcon) value;
-            
-            this.setText(icon.getDescription());
-            this.setIcon(icon);
-            this.setVerticalTextPosition(SwingConstants.BOTTOM);
-            this.setHorizontalTextPosition(SwingConstants.CENTER);
-            
-            if ( isSelected ) {
-                this.setBackground(Color.GRAY);
-                this.setForeground(Color.WHITE);
-            }
-            else {
-                this.setBackground(Color.WHITE);
-                this.setForeground(Color.BLACK);
-            }
-            
-            return this;
-        }
-    }
-    
-    private List<String> loadItems() throws IOException {
-        List<String> files = new ArrayList<String>();
-        
-        String indexDir = this.aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        
-        CasePathHandler handler = CasePathHandler.newInstance(aCase.getCaseLocation());
-        handler.readConfiguration();
-                            
-        for (int i = 0; i < indexReader.maxDoc(); i++) {
-            Document document = indexReader.document(i);
-            
-            if (document != null) {
-                Field field = document.getField(IndexingConstant.FILE_MIME);
-                
-                if (field != null && field.stringValue() != null) {
-                    String documentExtension = field.stringValue();
-                    String fullpath = "";
-                    
-                    if (isImage(documentExtension) ) {
-                        fullpath = handler.getFullPath(document.get(IndexingConstant.FILE_PATH));
-                    }
-                    
-                    if ( ! fullpath.isEmpty() ) {
-                        files.add(fullpath);
-                    }
-                }
-            }
-        }
-        
-        indexReader.close();
-        return files;
-    }
-   
-    private boolean isImage(String extension) {
-        String[] extensions = {"jpg", "bmp", "gif", "tif", "png","psd"};
-        return Arrays.asList(extensions).contains(extension);
+        this.setImageViewerOptions();
+        this.nextLabel.setEnabled(false);
+        this.backLabel.setEnabled(false);
     }
     
     /** This method is called from within the constructor to
@@ -196,9 +94,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
         controlPanel = new javax.swing.JPanel();
         nextLabel = new javax.swing.JLabel();
         backLabel = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        pageLabel = new javax.swing.JLabel();
         renderPanel = new javax.swing.JPanel();
         filterPanel = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -225,11 +121,11 @@ public class ImageViewerPanel extends javax.swing.JPanel {
 
         scaleTextField.setText("120");
 
-        jLabel2.setText("Image Pad:");
+        jLabel2.setText("Image Border:");
 
         padTextField.setText("2");
 
-        jLabel3.setText("No Row:");
+        jLabel3.setText("No of Rows:");
 
         rowsTextField.setText("10");
 
@@ -238,7 +134,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
         imagerPerPageTextField.setText("80");
 
         applyOptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/save.png"))); // NOI18N
-        applyOptionButton.setText("Apply Options");
+        applyOptionButton.setText("Save");
         applyOptionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 applyOptionButtonActionPerformed(evt);
@@ -249,23 +145,32 @@ public class ImageViewerPanel extends javax.swing.JPanel {
         ImageOptionPanel.setLayout(ImageOptionPanelLayout);
         ImageOptionPanelLayout.setHorizontalGroup(
             ImageOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ImageOptionPanelLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addContainerGap(26, Short.MAX_VALUE))
+            .addGroup(ImageOptionPanelLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel4)
+                .addContainerGap(26, Short.MAX_VALUE))
+            .addGroup(ImageOptionPanelLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(applyOptionButton))
+            .addGroup(ImageOptionPanelLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel3)
+                .addContainerGap(47, Short.MAX_VALUE))
+            .addGroup(ImageOptionPanelLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jLabel1)
+                .addContainerGap(43, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ImageOptionPanelLayout.createSequentialGroup()
-                .addGroup(ImageOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(scaleTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                    .addComponent(padTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                    .addComponent(rowsTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ImageOptionPanelLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel1))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ImageOptionPanelLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel3))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ImageOptionPanelLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel4))
-                    .addComponent(imagerPerPageTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                    .addComponent(applyOptionButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
+                .addGroup(ImageOptionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(padTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                    .addComponent(rowsTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                    .addComponent(imagerPerPageTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                    .addComponent(scaleTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
                 .addContainerGap())
         );
         ImageOptionPanelLayout.setVerticalGroup(
@@ -274,21 +179,21 @@ public class ImageViewerPanel extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scaleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(padTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rowsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(imagerPerPageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addGap(18, 18, 18)
                 .addComponent(applyOptionButton)
-                .addGap(159, 159, 159))
+                .addGap(205, 205, 205))
         );
 
         add(ImageOptionPanel, java.awt.BorderLayout.WEST);
@@ -299,16 +204,24 @@ public class ImageViewerPanel extends javax.swing.JPanel {
         nextLabel.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
         nextLabel.setForeground(new java.awt.Color(0, 51, 204));
         nextLabel.setText("Next");
+        nextLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nextLabelMouseClicked(evt);
+            }
+        });
 
         backLabel.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
         backLabel.setForeground(new java.awt.Color(0, 51, 204));
         backLabel.setText("Back");
+        backLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backLabelMouseClicked(evt);
+            }
+        });
 
-        jLabel13.setText("1");
-
-        jLabel14.setText("2");
-
-        jLabel15.setText("3");
+        pageLabel.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
+        pageLabel.setForeground(new java.awt.Color(0, 51, 204));
+        pageLabel.setText("(0/MAX)");
 
         javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
         controlPanel.setLayout(controlPanelLayout);
@@ -316,27 +229,21 @@ public class ImageViewerPanel extends javax.swing.JPanel {
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(controlPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(nextLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(backLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 289, Short.MAX_VALUE)
-                .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel15)
-                .addGap(42, 42, 42))
+                .addComponent(nextLabel)
+                .addGap(64, 64, 64)
+                .addComponent(pageLabel)
+                .addContainerGap(276, Short.MAX_VALUE))
         );
         controlPanelLayout.setVerticalGroup(
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(controlPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nextLabel)
                     .addComponent(backLabel)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel15))
+                    .addComponent(nextLabel)
+                    .addComponent(pageLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -365,7 +272,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(filterImageTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                .addComponent(filterImageTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(loadImageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -392,7 +299,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
         imagePathTextField.setEditable(false);
         imagePathTextField.setText(" ");
 
-        jLabel7.setText("Image Size:");
+        jLabel7.setText("Image Name:");
 
         imageSizeTextField.setEditable(false);
         imageSizeTextField.setText(" ");
@@ -411,6 +318,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
 
         metadataTextArea.setColumns(20);
         metadataTextArea.setEditable(false);
+        metadataTextArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         metadataTextArea.setRows(5);
         metadataTextArea.setEnabled(false);
         jScrollPane1.setViewportView(metadataTextArea);
@@ -422,13 +330,13 @@ public class ImageViewerPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StatusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                    .addComponent(imagePathTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                    .addComponent(imagePathTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(imageSizeTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(imageSizeTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lastModificationTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                    .addComponent(hasGeoTaggingTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(lastModificationTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                    .addComponent(hasGeoTaggingTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING))
@@ -464,43 +372,239 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadImageButtonActionPerformed
-        try {
-            List<String> images = this.loadItems();
-            this.noOfImages = images.size();
-            this.displayImages(images.subList(0, IMAGE_PER_PAGE));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            Logger.getLogger(ImageViewerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ImageLoadingTask task = new ImageLoadingTask(aCase, this);
+        task.startTask();
     }//GEN-LAST:event_loadImageButtonActionPerformed
 
     private void applyOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyOptionButtonActionPerformed
-       // set the new variable after checking it correctenss
-        this.setOptionsValue();
-        
-       // then ask for recomputiong the panel witn these new options
-        this.recomputeTheImagePages();
+       this.setImageViewerOptions();
     }//GEN-LAST:event_applyOptionButtonActionPerformed
 
-    private void recomputeTheImagePages() {
-        
-    }
-    
-    private void setOptionsValue() {
+    private void nextLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextLabelMouseClicked
+        this.currentImagePage++;
+        this.currentImageNo += this.IMAGE_PER_PAGE;
+
+        ImageLoadingTask task = new ImageLoadingTask(aCase, this);
+        task.startTask();
+    }//GEN-LAST:event_nextLabelMouseClicked
+
+    private void backLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backLabelMouseClicked
+        this.currentImagePage--;
+        this.currentImageNo -= this.IMAGE_PER_PAGE;
+
+        ImageLoadingTask task = new ImageLoadingTask(aCase, this);
+        task.startTask();    
+    }//GEN-LAST:event_backLabelMouseClicked
+
+    private void setImageViewerOptions() {
         SCALE_FACTOR = Integer.parseInt(this.scaleTextField.getText().trim());
         PAD_FACTOR = Integer.parseInt(this.padTextField.getText().trim());
         ROWS_NUMBER = Integer.parseInt(this.rowsTextField.getText().trim());
         IMAGE_PER_PAGE = Integer.parseInt(this.imagerPerPageTextField.getText().trim());
     }
     
-    private void setStatusInformation(final String path) {
-        File file = new File(path);
-        this.imagePathTextField.setText(file.getAbsolutePath());
-        this.imageSizeTextField.setText(String.valueOf(file.length()));
-        this.lastModificationTextField.setText(DateUtil.formatedDateWithTime(new Date(file.lastModified())));
-        this.hasGeoTaggingTextField.setText(String.valueOf(GeoTagging.hasGoeTag(path)));
-        this.metadataTextArea.setText("");
+    public void setStatusInformation(final ImageIconWithDocumentId selectedImage) {
+        try {
+            LuceneSearcher searcher = new LuceneSearcher(this.aCase);
+            Document currentDocument = searcher.getLuceneDocumentById(String.valueOf(selectedImage.getId()));
+            
+            FileItem item = (FileItem) ItemFactory.newInstance(currentDocument, aCase);
+            String fileName = item.getFileName();
+            String filePath = item.getFilePath();
+            String date = item.getFileDate();
+
+            // show matadata information for File
+            List<Fieldable> fields = searcher.getLuceneDocumentById(String.valueOf(selectedImage.getId())).getFields();
+            StringBuilder metadataBuilder = new StringBuilder();
+            
+            for (Fieldable field: fields) {
+                if ( !field.name().startsWith("file_") &&
+                     !field.name().equalsIgnoreCase(IndexingConstant.FILE_CONTENT)) // files in IndexingConstant start with prefix file_
+                    
+                    metadataBuilder.append(field.name()).append(" : " ).append(field.stringValue()).append("\n");
+            }
+            
+            String metadata = metadataBuilder.toString();
+            
+            this.imagePathTextField.setText(filePath);
+            this.imageSizeTextField.setText(fileName);
+            this.lastModificationTextField.setText(date);
+            this.hasGeoTaggingTextField.setText(String.valueOf(GeoTagging.hasGoeTag(filePath)));
+            this.metadataTextArea.setText(metadata);
+            
+            searcher.closeSearcher();
+        } catch (Exception ex) {
+            Logger.getLogger(ImageViewerPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+    
+    public void checkImageControllingButtons() {
+        if ( this.currentImagePage == 0 ) {
+            nextLabel.setEnabled(true);
+            backLabel.setEnabled(false);
+        }
+        else if ( this.currentImagePage == this.totalNumberOfPages ) {
+            nextLabel.setEnabled(false);
+            backLabel.setEnabled(true);
+        }
+        else {
+            nextLabel.setEnabled(true);
+            backLabel.setEnabled(true);
+        }
+        
+        // update pages label
+        this.pageLabel.setText(String.format("(%d/%d)", this.currentImagePage, this.totalNumberOfPages));
+    }
+    
+    public void computeNumberOfPages() { 
+        this.currentImageNo = 0;
+        this.currentImagePage = 0 ;
+        this.totalNumberOfPages = this.totalNumberOfImages / this.IMAGE_PER_PAGE ;
+    }
+    
+    public static final class FilteredList extends JList {
+
+        private final JTextField textField;
+
+        public FilteredList(final JTextField field) {
+            super();
+
+            this.textField = field;
+            this.setModel(new FilteredModel());
+            setDocumentListener();
+        }
+
+        @Override
+        public void setModel(ListModel model) {
+            if (!(model instanceof FilteredModel)) {
+                throw (new IllegalArgumentException());
+            }
+
+            super.setModel(model);
+        }
+
+        public void addItem(Object o) {
+            ((FilteredModel) getModel()).addElement(o);
+        }
+
+        public void update() {
+            ((FilteredModel) getModel()).refilter();
+        }
+
+        private class FilteredModel extends AbstractListModel {
+
+            public FilteredModel() {
+                super();
+                items = new ArrayList<ImageIconWithDocumentId>();
+                fItems = new ArrayList<ImageIconWithDocumentId>();
+            }
+
+            public Object getElementAt(int index) {
+                if (index < fItems.size()) {
+                    return fItems.get(index);
+                } else {
+                    return null;
+                }
+            }
+
+            public int getSize() {
+                return fItems.size();
+            }
+
+            public void addElement(Object o) {
+                items.add((ImageIconWithDocumentId) o);
+            }
+
+            private void refilter() {
+                fItems.clear();
+                String term = textField.getText().trim();
+                for (int i = 0; i < items.size(); i++) {
+                    if (items.get(i).getDescription().indexOf(term, 0) != -1) {
+                        fItems.add(items.get(i));
+                    }
+                }
+
+                fireContentsChanged(this, 0, getSize());
+            }
+            private List<ImageIconWithDocumentId> items;
+            private List<ImageIconWithDocumentId> fItems;
+        }
+
+        private void setDocumentListener() {
+            this.textField.getDocument().addDocumentListener(
+            new DocumentListener() {
+
+                public void changedUpdate(DocumentEvent e) {
+                    ((FilteredModel) getModel()).refilter();
+                }
+
+                public void insertUpdate(DocumentEvent e) {
+                    ((FilteredModel) getModel()).refilter();
+                }
+
+                public void removeUpdate(DocumentEvent e) {
+                    ((FilteredModel) getModel()).refilter();
+                }
+            });
+        }
+    }
+
+    public static class ImageIconWithDocumentId extends ImageIcon {
+
+        private final int documentId;
+
+        public ImageIconWithDocumentId(BufferedImage img, String name, int docId) {
+            super(img, name);
+            this.documentId = docId;
+        }
+
+        public int getId() {
+            return this.documentId;
+        }
+    }
+
+    public static class MyCellRenderer extends JLabel implements ListCellRenderer {
+
+        public MyCellRenderer() {
+            this.setOpaque(true);
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value,
+                int index, boolean isSelected, boolean cellHasFocus) {
+
+            ImageIconWithDocumentId icon = (ImageIconWithDocumentId) value;
+
+            this.setText(icon.getDescription());
+            this.setIcon(icon);
+            this.setVerticalTextPosition(SwingConstants.BOTTOM);
+            this.setHorizontalTextPosition(SwingConstants.CENTER);
+
+            if (isSelected) {
+                this.setBackground(Color.GRAY);
+                this.setForeground(Color.WHITE);
+            } else {
+                this.setBackground(Color.WHITE);
+                this.setForeground(Color.BLACK);
+            }
+
+            return this;
+        }
+    }
+
+    public JPanel getRenderPanel() { return this.renderPanel;  }
+    public int getScaleFactor() { return this.SCALE_FACTOR; }
+    public int getPadFactor() { return this.PAD_FACTOR ; }
+    public int getRowsNumber() { return this.ROWS_NUMBER; }
+    public int getImagePerPage() { return this.IMAGE_PER_PAGE; }
+    public int getCurrentImagePage() { return this.currentImagePage; }
+    public int getCurrentImageNo() { return this.currentImageNo; }
+    public int getTotalNumberOfImages() { return this.totalNumberOfImages; }
+    public int getTotalNumberOfPages() { return this.totalNumberOfPages; }
+    public JTextField getFilterTextField() { return this.filterImageTextField; }
+    public boolean isImageSizeIsComputed() { return this.isImageSizeIsComputed; }
+    public void setImageSizeFlag() { this.isImageSizeIsComputed = true; }
+    public void setTotalNumberOfImages(int total) { this.totalNumberOfImages = total; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ImageOptionPanel;
@@ -517,9 +621,6 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     private javax.swing.JTextField imagerPerPageTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -534,8 +635,12 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     private javax.swing.JTextArea metadataTextArea;
     private javax.swing.JLabel nextLabel;
     private javax.swing.JTextField padTextField;
+    private javax.swing.JLabel pageLabel;
     private javax.swing.JPanel renderPanel;
     private javax.swing.JTextField rowsTextField;
     private javax.swing.JTextField scaleTextField;
     // End of variables declaration//GEN-END:variables
 }
+
+
+
