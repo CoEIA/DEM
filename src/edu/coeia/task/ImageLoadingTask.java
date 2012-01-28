@@ -13,8 +13,8 @@ import edu.coeia.multimedia.GeoTagging;
 import edu.coeia.multimedia.GeoTagging.GPSData;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.Tuple;
-
 import edu.coeia.util.Utilities;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
@@ -33,13 +33,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.JButton;
+import javax.swing.JPopupMenu;
 
 import java.io.File;
 import java.io.IOException;
 
 import java.net.URI;
-import javax.swing.JButton;
-import javax.swing.JPopupMenu;
+
 import org.apache.lucene.index.IndexReader ;
 import org.apache.lucene.store.Directory ;
 import org.apache.lucene.store.FSDirectory;
