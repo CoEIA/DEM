@@ -50,7 +50,7 @@ public enum CaseManager {
         List<String> casesPath  = FileUtil.getFileContentInArrayList(indexesInfo);
 
         for(String path: casesPath) {
-            Case aCase = CaseManager.getCase(path);
+            Case aCase = this.getCase(path);
             cases.add(aCase);
         }
         
@@ -95,7 +95,7 @@ public enum CaseManager {
         writer.close();
     }
     
-    public static Case getCase(String line) throws IOException, ClassNotFoundException {
+    public Case getCase(String line) throws IOException, ClassNotFoundException {
         String name = line.split("-")[0].trim();
         String path = line.substring(line.indexOf("-") + 1).trim();
 
@@ -112,7 +112,7 @@ public enum CaseManager {
         List<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
 
         for(String path: indexesInfoContent) {
-            Case index = CaseManager.getCase(path);
+            Case index = this.getCase(path);
 
             if ( index.getCaseName().equals(indexName))
                 return index ;
@@ -131,7 +131,7 @@ public enum CaseManager {
             List<String> casesInfoContent = FileUtil.getFileContentInArrayList(casesInfo);
 
             for (String path : casesInfoContent) {
-                Case aCase = CaseManager.getCase(path);
+                Case aCase = this.getCase(path);
 
                 if (aCase.getCaseName().equalsIgnoreCase(caseName)) {
                     return true;
@@ -226,6 +226,11 @@ public enum CaseManager {
     public boolean isRunningCase (String caseName) {
         return this.listOfOpeningCase.contains(caseName);
     }
+
+    public String getCasesPath() {
+        return FilesPath.CASES_PATH;
+    }
+    
     
     /**
      * Check if their is missing files in the case
@@ -261,10 +266,6 @@ public enum CaseManager {
     private boolean isCaseFolderExist() {
         File root = new File(FilesPath.APPLICATION_PATH);
         return ( root.exists() );
-    }
-
-    public String getCasesPath() {
-        return FilesPath.CASES_PATH;
     }
     
     /**
