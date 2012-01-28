@@ -49,25 +49,7 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
  * Created on Jul 13, 2010, 2:00:51 PM
  * 
  */
-class PasswordCellRenderer extends JPasswordField
-            implements TableCellRenderer {
 
-        public PasswordCellRenderer() {
-            super();
-
-            // This displays astericks in fields since it is a password.
-            // It does not affect the actual value of the cell.
-            this.setText("filler123");
-
-        }
-
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-         
-      return this;
-   }
-
-}
-        
 public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
  
     private Case currentCase;
@@ -124,9 +106,6 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             public void changedUpdate(DocumentEvent e) {
             }
         });
-
-
-
     }
 
     /** This method is called from within the constructor to
@@ -895,6 +874,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
         if (!createCase(currentCase)) {     
             showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
+            return;
         }
 
         for (EmailConfiguration s : emailInfos) {
@@ -1311,6 +1291,19 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7",
             "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
         };
+    }
+    
+    private class PasswordCellRenderer extends JPasswordField
+        implements TableCellRenderer {
+
+        public PasswordCellRenderer() {
+            super();
+            this.setText("test code");
+        }
+
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            return this;
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
