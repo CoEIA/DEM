@@ -25,9 +25,8 @@ import java.util.logging.Logger;
  */
 public class InvestigateDialog extends javax.swing.JDialog {
 
-    private Case caseObj;
-    private JFrame parentFrame;
-    private AdvancedSearchPanel parentPanel;
+    private final Case caseObj;
+    private final AdvancedSearchPanel parentPanel;
     private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
     /** Creates new form InvestigateDialog */
@@ -37,10 +36,9 @@ public class InvestigateDialog extends javax.swing.JDialog {
         
         this.parentPanel = panel;
         this.caseObj = this.parentPanel.getCase();
-        this.parentFrame = (JFrame) parent;
         
-        CommonKeywordsPanel commonKeywordsPanel = new CommonKeywordsPanel(this.parentFrame, this.parentPanel);
-        ExtensionFrequencyPanel extensionFrequencyPanel = new ExtensionFrequencyPanel(this.parentFrame, this.parentPanel);
+        CommonKeywordsPanel commonKeywordsPanel = new CommonKeywordsPanel(this, this.parentPanel);
+        ExtensionFrequencyPanel extensionFrequencyPanel = new ExtensionFrequencyPanel(this);
         
         this.investigateTappedPane.add("Common Keywords", commonKeywordsPanel);
         this.investigateTappedPane.add("Extensions Frequencies", extensionFrequencyPanel);
@@ -67,6 +65,8 @@ public class InvestigateDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    public Case getCase() { return this.caseObj; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane investigateTappedPane;

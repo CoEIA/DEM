@@ -12,18 +12,16 @@ package edu.coeia.investigation;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseHistoryHandler;
-import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.gutil.WrapLayout;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.reports.DatasourceXml;
-import edu.coeia.reports.ProgressDialogue;
 import edu.coeia.reports.RawResultFile;
 import edu.coeia.reports.ReportOptionDialog;
 import edu.coeia.searching.AdvancedSearchPanel;
-import edu.coeia.util.FilesPath;
+import edu.coeia.searching.InvestigateDialog;
+import edu.coeia.task.CommonKeywordsTask;
 
-import java.awt.Frame;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -33,9 +31,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.JLabel;
-import javax.swing.JFrame;
-
-import java.io.IOException;
 
 import java.util.List;
 import java.util.Iterator;
@@ -53,18 +48,20 @@ import org.mcavallo.opencloud.Tag;
 public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable {
 
     private Case caseObj;
-    private JFrame parentFrame;
-    private AdvancedSearchPanel parentPanel;
+    private InvestigateDialog parentDialog;
+    private AdvancedSearchPanel advancedSearchPanel;
+    
     private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     private Thread thread;
+    
     /** Creates new form CommonKeywordsPanel */
-    public CommonKeywordsPanel(Frame parent, AdvancedSearchPanel panel) {
+    public CommonKeywordsPanel(final InvestigateDialog dialog, final AdvancedSearchPanel panel) {
         initComponents();
 
-        this.parentPanel = panel;
-        this.caseObj = this.parentPanel.getCase();
-        this.parentFrame = (JFrame) parent;
-
+        this.parentDialog = dialog;
+        this.caseObj = this.parentDialog.getCase();
+        this.advancedSearchPanel = panel;
+        
         JTableUtil.setTableAlignmentValue(cloudsTable, 1);
 
         tagsPanel.setLayout(new WrapLayout());
@@ -353,29 +350,14 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             JTableUtil.removeAllRows(cloudsTable);
             tagsPanel.removeAll();
 
+            CommonKeywordsTask task = new CommonKeywordsTask(caseObj, this);
+            task.startTask();
+            
             tagsPanel.repaint();
-            tagsPanel.validate();
-
-            InfiniteProgressPanel i = new InfiniteProgressPanel("Loading Index Tags Clouds...");
-            parentFrame.setGlassPane(i);
-            i.start();
-
-            String indexPath = caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
-            String indexName = caseObj.getCaseName();
-
-            IndexReaderThread thread = new IndexReaderThread(i, indexPath, indexName, 
-                    IndexReaderThread.IndexItem.TAGS, this);
-            thread.execute();
-
-            tagsPanel.repaint();
-            tagsPanel.validate();
         } catch (NumberFormatException n) {
             JOptionPane.showMessageDialog(this, "number is not correct",
                     "integer number is no correct", JOptionPane.ERROR_MESSAGE);
             logger.log(Level.SEVERE, "Uncaught exception", n);
-        } catch (IOException e) {
-            e.printStackTrace();
-            logger.log(Level.SEVERE, "Uncaught exception", e);
         }
     }
     
@@ -457,7 +439,8 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                 }
 
                 public void doSearch(String text) {
-                    parentPanel.setQueryText(text);
+                    advancedSearchPanel.setQueryText(text);
+                    closeDialog();
                 }
             });
 
@@ -469,6 +452,10 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
     }
 
+    private void closeDialog() {
+        this.parentDialog.dispose();
+    }
+    
     public void filterCloudTable() {
         String text = cloudsFilterTextField.getText().trim();
         JTableUtil.filterTable(cloudsTable, text);
@@ -486,16 +473,13 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     }
 
     private class CloudsInputListener implements DocumentListener {
-
         public void changedUpdate(DocumentEvent e) {
             filterCloudTable();
         }
         
-
         public void removeUpdate(DocumentEvent e) {
             filterCloudTable();
         }
-
         public void insertUpdate(DocumentEvent e) {
             filterCloudTable();
         }
@@ -507,8 +491,6 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 //            cloudsTable.setEnabled(false);
 //        }
     }
-    
-    Case getCase() { return this.caseObj; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cloudsFilterTextField;

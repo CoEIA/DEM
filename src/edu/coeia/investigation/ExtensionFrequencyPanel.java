@@ -10,25 +10,17 @@
  */
 package edu.coeia.investigation;
 
-
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseHistoryHandler;
-import edu.coeia.filesystem.FileSystemPanel;
-import edu.coeia.gutil.InfiniteProgressPanel;
-import edu.coeia.searching.AdvancedSearchPanel;
-import edu.coeia.util.FilesPath;
+import edu.coeia.searching.InvestigateDialog;
+import edu.coeia.task.ExtensionFrequencyTask;
 
 import java.awt.BorderLayout;
 
-import java.awt.Frame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
-
-import java.io.IOException;
 
 import java.util.logging.Logger;
-import java.util.logging.Level;
 
 /**
  *
@@ -37,19 +29,16 @@ import java.util.logging.Level;
 public class ExtensionFrequencyPanel extends javax.swing.JPanel {
 
     private Case caseObj;
-    private JFrame parentFrame;
-    private AdvancedSearchPanel parentPanel;
+    private InvestigateDialog parentDialog;
     private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
     /** Creates new form ExtensionFrequencyPanel */
-    public ExtensionFrequencyPanel(Frame parent, AdvancedSearchPanel panel) {
+    public ExtensionFrequencyPanel(InvestigateDialog dialog) {
         initComponents();
         
-        this.caseObj = panel.getCase();
-        this.parentFrame = (JFrame) parent;
-        this.parentPanel = panel;
-
-        disableNotIndexedComponent();
+        this.caseObj = dialog.getCase();
+        this.parentDialog = dialog;
+        this.disableNotIndexedComponent();
     }
 
     /** This method is called from within the constructor to
@@ -91,44 +80,27 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_indexVisulizingButtonActionPerformed
     
     public void setIndexVisualizationPanel(JPanel panel) {
+        indexVisualizingPiePanel.removeAll();
         indexVisualizingPiePanel.add(panel, BorderLayout.CENTER);
-        indexVisualizingPiePanel.validate();
+        indexVisualizingPiePanel.revalidate();
     }
 
     private void disableNotIndexedComponent() {
-//        if (caseObj.getDocumentInIndex().isEmpty()) {
-//            indexVisulizingButton.setEnabled(false);
-//        }
-    }
-    
-    private void generateVisualization() {
-        try {
-            if (CaseHistoryHandler.get(this.caseObj.getCaseName()).getIsCaseIndexed() == false ) {
-                JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
-                        "Case is not indexed", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            indexVisualizingPiePanel.removeAll();
-
-            String indexPath = caseObj.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
-            String indexName = caseObj.getCaseName();
-
-            InfiniteProgressPanel i = new InfiniteProgressPanel("Loading Index Extensions ...");
-            parentFrame.setGlassPane(i);
-            i.start();
-
-            IndexReaderThread thread = new IndexReaderThread(i, indexPath, indexName, IndexReaderThread.IndexItem.VISUALIZATION, this);
-            thread.execute();
-
-            indexVisualizingPiePanel.repaint();
-            indexVisualizingPiePanel.validate();
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Uncaught exception", e);
+        if (!caseObj.GetisIndex()) {
+            indexVisulizingButton.setEnabled(false);
         }
     }
     
-    Case getCase() { return this.caseObj; }
+    private void generateVisualization() {
+        if (CaseHistoryHandler.get(this.caseObj.getCaseName()).getIsCaseIndexed() == false ) {
+            JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
+                    "Case is not indexed", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        ExtensionFrequencyTask task = new ExtensionFrequencyTask(caseObj, this);
+        task.startTask();
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel indexVisualizationButtonPanel;

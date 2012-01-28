@@ -10,7 +10,6 @@ package edu.coeia.charts;
  * @author wajdyessam
  */
 
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -22,7 +21,6 @@ import org.jfree.util.Rotation;
 
 import javax.swing.JPanel ;
 
-import java.util.HashMap ;
 import java.util.Set ;
 import java.util.Iterator ;
 import java.util.Map ;
@@ -30,23 +28,17 @@ import java.util.Map ;
 import java.io.IOException ;
 
 public class PieChartPanel {
-    private static HashMap<String,Double> map ;
 
-    public static JPanel getPieChartPanel (HashMap<String,Double> map2, String title) throws IOException {
-        map = map2;
-        
-         // create a dataset...
-        final PieDataset dataset = createSampleDataset();
-
-        // create the chart...
+    public static JPanel newInstance (final Map<String,Double> map, String title) throws IOException {
+        final PieDataset dataset = createSampleDataset(map);
         final JFreeChart chart = createChart(dataset,title);
         final ChartPanel chartPanel = new ChartPanel(chart);
+        
         chartPanel.setSize(400, 400);
-
         return chartPanel ;
     }
     
-    private static PieDataset createSampleDataset() {
+    private static PieDataset createSampleDataset(final Map<String,Double> map) {
         final DefaultPieDataset result = new DefaultPieDataset();
 
         Set set = map.entrySet();
@@ -66,7 +58,6 @@ public class PieChartPanel {
     }
 
     private static JFreeChart createChart(final PieDataset dataset, String str) {
-
         final JFreeChart chart = ChartFactory.createPieChart3D(
             str,                    // chart title
             dataset,                // data

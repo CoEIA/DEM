@@ -148,7 +148,6 @@ public final class HashVerifier {
                 }
             }
         }
-        
     }
     
     /**
