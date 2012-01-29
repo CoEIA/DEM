@@ -892,7 +892,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
             this.setCurrentCase(currentCase);
             CaseManager caseManger = CaseManager.newInstance(currentCase);
-            if (! caseManger.createNewCase()) {     
+            if (! caseManger.createCase()) {     
                 showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
                 return;
             }

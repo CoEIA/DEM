@@ -69,7 +69,7 @@ public class CaseImporterTask implements Task{
         Case aCase = ApplicationManager.Manager.getCase(line);
         aCase.setCaseLocation(path);
         CaseManager caseManger = CaseManager.newInstance(aCase);
-        caseManger.updateCaseInformation();
+        caseManger.updateCase(aCase.getCaseName(), path);
 
         String prefLocation = aCase.getCaseLocation() + File.separator +  FilesPath.DEM_CASE_PREFERENCE;
         CaseHistoryHandler.importCaseHistory(prefLocation);

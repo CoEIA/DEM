@@ -8,6 +8,7 @@ import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,8 +32,10 @@ public final class CaseManager {
      * create the folder structure for the current case object
      * options and return true if their is no problems
      */
-    public boolean createNewCase() throws IOException {
+    public boolean createCase() throws IOException {
         this.createCaseFoldersStructure();
+        this.saveCaseInformation();
+        this.updateCasesInformationFile();
         return true;
     }
     
@@ -42,75 +45,45 @@ public final class CaseManager {
      * with the new information contained in the current instance
      * of Case object
      * 
+     * and then update information file by replacing the case that
+     * have the old path with the current information
+     * 
      * @throws IOException 
      */
-    public void updateCaseInformation() throws IOException {
+    public void updateCase(final String oldCaseName, final String oldCaseLocation) throws IOException {
         FileUtil.createFile(this.getCaseInformationFileLocation()); 
-        FileUtil.writeObject(this.aCase, new File(this.getCaseInformationFileLocation()));
-        this.updateCaseToInfoFile();
+        this.saveCaseInformation();
+        this.replaceCaseLocation(oldCaseName, oldCaseLocation);
     }
     
-    public void updateCaseToInfoFile() throws IOException {
-        List<String> indexPtr = FileUtil.getFileContentInArrayList(new File(FilesPath.INDEXES_INFO) );
-        List<String> newIndexPtr = new ArrayList<String>();
-
-        for (String line: indexPtr) {
-            String name = line.split("-")[0].trim();
-            String path = line.substring(line.indexOf("-") + 1).trim();
-
-            if ( name.equals(aCase.getCaseName()) && path.equals(aCase.getCaseLocation()))
-                continue ;
-
-            newIndexPtr.add(line);
-        }
+    /**
+     *  Remove the case folder then
+     *  update information file and also history
+     *  the update will occur even if their is problems when deleting some files
+     *  inside the case, so we can know that we read completed case
+     *  and no exception occur during reading not-removed correctly case
+     * 
+     * @return the status of removing case folder
+     * @throws Exception 
+     */
+    public boolean removeCase() throws Exception {
+        boolean status = FileUtil.removeDirectory(this.getCaseFolderLocation());
         
-        String newLine = aCase.getCaseName() + " - " + aCase.getCaseLocation();
-        newIndexPtr.add(newLine);
+        List<String> otherCasesGroup = this.getOtherCases(this.aCase.getCaseName(), this.getCaseFolderLocation());
+        FileUtil.writeToFile(otherCasesGroup, getCasesInformationFileLocation());
 
-        // write new index information to file
-        FileUtil.writeToFile(newIndexPtr, FilesPath.INDEXES_INFO);
-    }
-    
-    // add entry to indexes info file
-    public void writeCaseToInfoFile () throws IOException {
-        PrintWriter writer = new PrintWriter(new FileWriter(new File(FilesPath.INDEXES_INFO), true));
-        writer.println(aCase.getCaseName() + " - " + aCase.getCaseLocation());
-        writer.close();
+        // remove case history from preferences
+        CaseHistoryHandler.remove(aCase.getCaseName());
+        
+        return status;
     }
     
     public boolean isCaseHaveChangedSource() throws IOException {
-        return !CasePathHandler.newInstance(aCase.getCaseLocation()).getChangedEntries().isEmpty();
+        return !CasePathHandler.newInstance(this.getCaseFolderLocation()).getChangedEntries().isEmpty();
     }
-    
-    public boolean removeCase() throws Exception {
-        boolean status = false; 
         
-        File file = new File( aCase.getCaseLocation() );
-
-        if ( FileUtil.removeDirectory(file) ) {
-            List<String> indexPtr = FileUtil.getFileContentInArrayList(new File(FilesPath.INDEXES_INFO) );
-            List<String> newIndexPtr = new ArrayList<String>();
-
-            for (String line: indexPtr) {
-                String name = line.split("-")[0].trim();
-                String path = line.substring(line.indexOf("-") + 1).trim();
-
-                if ( name.equals(aCase.getCaseName()) && path.equals(aCase.getCaseLocation()))
-                    continue ;
-
-                newIndexPtr.add(line);
-            }
-
-            // write new index information to file
-            FileUtil.writeToFile(newIndexPtr, FilesPath.INDEXES_INFO);
-
-            // remove case history from preferences
-            CaseHistoryHandler.remove(aCase.getCaseName());
-            
-            status = true;
-        }
-        
-        return status;
+    public String getCasesInformationFileLocation() {
+        return FilesPath.INDEXES_INFO;
     }
     
     public String getCaseFolderLocation() { 
@@ -118,29 +91,70 @@ public final class CaseManager {
     }
     
     public String getIndexFolderLocation() { 
-        return aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
+        return aCase.getCaseLocation() 
+                + File.separator 
+                + FilesPath.INDEX_PATH;
     }
     
     public String getImageFolderLocation() {
-        return aCase.getCaseLocation() +  File.separator + FilesPath.IMAGES_PATH;
+        return aCase.getCaseLocation() 
+                +  File.separator 
+                + FilesPath.IMAGES_PATH;
     }
     
     public String getCaseInformationFileLocation() {
-        return aCase.getCaseLocation() + File.separator + aCase.getCaseName() + ".DAT";
+        return aCase.getCaseLocation() 
+                + File.separator 
+                + aCase.getCaseName() 
+                + FilesPath.DEM_CASE_INFO_EXTENSION;
     }
     
     public String getCaseLogFileLocation() {
-        return aCase.getCaseLocation() + File.separator + aCase.getCaseName() + ".LOG";
+        return aCase.getCaseLocation() 
+                + File.separator 
+                + aCase.getCaseName() 
+                + FilesPath.DEM_CASE_LOG_EXTENSION;
     }
     
     public String getCaseArchiveOutputFolderLocation() {
-        return aCase.getCaseLocation() + File.separator + FilesPath.CASE_TMP;
+        return aCase.getCaseLocation() 
+                + File.separator 
+                + FilesPath.CASE_TMP;
     }
     
     public String getCaseOfflineEmailAttachmentLocation() {
-        return aCase.getCaseLocation() + File.separator + FilesPath.OFFLINE_EMAIL_ATTACHMENTS;
+        return aCase.getCaseLocation() 
+                + File.separator 
+                + FilesPath.OFFLINE_EMAIL_ATTACHMENTS;
     }
     
+    private List<String> getOtherCases(final String name, final String path) throws FileNotFoundException {
+        List<String> originalCases = FileUtil.getFileContentInList(new File(getCasesInformationFileLocation()));
+        List<String> otherCases = new ArrayList<String>();
+
+        for (String line: originalCases) {
+            String otherCaseName = line.split("-")[0].trim();
+            String otherCasePath = line.substring(line.indexOf("-") + 1).trim();
+
+            if ( otherCaseName.equals(name) && otherCasePath.equals(path))
+                continue ;
+
+            otherCases.add(line);
+        }
+        
+        return otherCases;
+    }
+        
+    private void saveCaseInformation() throws IOException {
+        FileUtil.writeObject(aCase, new File(this.getCaseInformationFileLocation()));
+    }
+    
+    private void updateCasesInformationFile () throws IOException {
+        PrintWriter writer = new PrintWriter(new FileWriter(new File(this.getCasesInformationFileLocation()), true));
+        writer.println(aCase.getCaseName() + " - " + aCase.getCaseLocation());
+        writer.close();
+    }
+        
     private void createCaseFoldersStructure () throws IOException {
         FileUtil.createFolder(this.getCaseFolderLocation());    // CASE Parent Folder
         FileUtil.createFolder(this.getIndexFolderLocation());   // INDEX folder
@@ -148,11 +162,10 @@ public final class CaseManager {
         FileUtil.createFolder(this.getCaseArchiveOutputFolderLocation());   // ARCHIVE folder
         FileUtil.createFolder(this.getCaseOfflineEmailAttachmentLocation()); // OFFLINE Email Attachments
         
-        // Write Case information inside .DAT file and also make LOG file
+        // create LOG and information (.DAT) file
         FileUtil.createFile(this.getCaseLogFileLocation());
         FileUtil.createFile(this.getCaseInformationFileLocation()); 
-        FileUtil.writeObject(aCase, new File(this.getCaseInformationFileLocation()));
-
+        
         // create case configuration file and write path mapping on it
         CasePathHandler handler = CasePathHandler.newInstance(aCase.getCaseLocation());
         for(String path: aCase.getEvidenceSourceLocation()) {
@@ -161,6 +174,14 @@ public final class CaseManager {
         handler.saveConfiguration();
     }
     
+    private void replaceCaseLocation(final String oldCaseName, final String oldCaseLocation) throws IOException {
+        List<String> otherCasesGroup = this.getOtherCases(oldCaseName, oldCaseLocation);
+        String newLine = aCase.getCaseName() + " - " + aCase.getCaseLocation();
+        otherCasesGroup.add(newLine);
+        
+        FileUtil.writeToFile(otherCasesGroup, this.getCasesInformationFileLocation());
+    }
+        
     private CaseManager (final Case aCase) {
         this.aCase = aCase;
     }

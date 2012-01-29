@@ -174,7 +174,7 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
             aCase.addEvidenceSourceLocation(newPath);
             
             CaseManager caseManager = CaseManager.newInstance(aCase);
-            caseManager.updateCaseInformation();
+            caseManager.updateCase(aCase.getCaseName(), oldPath);
             
             // update gui list
             this.fillListWithNotFoundedSources();

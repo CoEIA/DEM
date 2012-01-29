@@ -246,7 +246,7 @@ public final class FileUtil {
         return content.toString();
     }
 
-    public static List<String> getFileContentInArrayList (File file) throws FileNotFoundException {
+    public static List<String> getFileContentInList (File file) throws FileNotFoundException {
         List<String> aList = new ArrayList<String>();
         Scanner input = new Scanner(file);
 

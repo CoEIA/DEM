@@ -93,7 +93,7 @@ public class CasePathHandler {
     public List<RelativeAndFullPathMapping> readConfiguration() throws IOException{
         this.casePathsMapping.clear();
         
-        List<String> lines = FileUtil.getFileContentInArrayList(new File(this.configurationFileLocation));
+        List<String> lines = FileUtil.getFileContentInList(new File(this.configurationFileLocation));
         
         for(String line: lines) {
             String name = line.split("-")[0].trim();
@@ -180,7 +180,7 @@ public class CasePathHandler {
      * @throws IOException 
      */
     public void updateFullPath(final RelativeAndFullPathMapping entry) throws IOException {
-        List<String> lines = FileUtil.getFileContentInArrayList(new File(this.configurationFileLocation));
+        List<String> lines = FileUtil.getFileContentInList(new File(this.configurationFileLocation));
         List<String> newLines = new ArrayList<String>();
         
         // fill with unmodifiable entry

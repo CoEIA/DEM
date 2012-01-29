@@ -397,8 +397,6 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         }
 
         logger.info("Create New Case Don Successfully");
-        CaseManager caseManager = CaseManager.newInstance(aCase);
-        caseManager.writeCaseToInfoFile(); // update indexes info file with new index
 
         readCases(); // update recent table with this new information
 

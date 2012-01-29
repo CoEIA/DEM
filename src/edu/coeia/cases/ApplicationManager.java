@@ -47,7 +47,7 @@ public enum ApplicationManager {
         List<Case> cases = new ArrayList<Case>();
         
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        List<String> casesPath  = FileUtil.getFileContentInArrayList(indexesInfo);
+        List<String> casesPath  = FileUtil.getFileContentInList(indexesInfo);
 
         for(String path: casesPath) {
             Case aCase = this.getCase(path);
@@ -71,7 +71,7 @@ public enum ApplicationManager {
      */
     public Case getCaseFromCaseName (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
         File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        List<String> indexesInfoContent  = FileUtil.getFileContentInArrayList(indexesInfo);
+        List<String> indexesInfoContent  = FileUtil.getFileContentInList(indexesInfo);
 
         for(String path: indexesInfoContent) {
             Case index = this.getCase(path);
@@ -91,7 +91,7 @@ public enum ApplicationManager {
             ClassNotFoundException  {
         
         File casesInfo = new File(FilesPath.INDEXES_INFO);
-        List<String> casesInfoContent = FileUtil.getFileContentInArrayList(casesInfo);
+        List<String> casesInfoContent = FileUtil.getFileContentInList(casesInfo);
 
         for (String path : casesInfoContent) {
             Case aCase = this.getCase(path);
@@ -104,7 +104,6 @@ public enum ApplicationManager {
         return false;
     }
     
-    // TODO: remove this, it break encapsulation!!!
     public List<String> getList () {
         return this.listOfOpeningCase ;
     }
