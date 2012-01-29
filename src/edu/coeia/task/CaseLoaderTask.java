@@ -6,6 +6,7 @@ package edu.coeia.task;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.cases.ApplicationManager;
 import edu.coeia.cases.CaseManager;
 import edu.coeia.cases.CaseManagerFrame;
 import edu.coeia.cases.UpdatingCaseEvidenceSourceDialog;
@@ -50,21 +51,23 @@ public class CaseLoaderTask implements Task {
     
     private void loadCase () throws FileNotFoundException, IOException, ClassNotFoundException, Exception{
         if ( caseName != null ) {
-            if ( !CaseManager.Manager.isRunningCase(caseName)) {
-                Case aCase = CaseManager.Manager.getCaseFromCaseName(caseName);
+            if ( !ApplicationManager.Manager.isRunningCase(caseName)) {
+                Case aCase = ApplicationManager.Manager.getCaseFromCaseName(caseName);
 
                 // check here for case evience chnaging
                 // and update the file before opening the case
                 boolean caseSourceIsUptoDate = true;
                 
-                if ( CaseManager.Manager.isCaseHaveChangedSource(aCase) )  {
+                CaseManager caseManger = CaseManager.newInstance(aCase);
+        
+                if ( caseManger.isCaseHaveChangedSource() )  {
                     caseSourceIsUptoDate = askAndUpdateNewCaseSource(aCase);
                 }
                 
                 if ( caseSourceIsUptoDate ) {                    
-                    CaseManager.Manager.addCase(caseName);
+                    ApplicationManager.Manager.addCase(caseName);
 
-                    CaseFrame mainFrame = new CaseFrame(aCase, CaseManager.Manager.getList());
+                    CaseFrame mainFrame = new CaseFrame(aCase, ApplicationManager.Manager.getList());
                     mainFrame.setLocationRelativeTo(this.frame);
                     mainFrame.setVisible(true);
 

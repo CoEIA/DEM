@@ -6,6 +6,7 @@ package edu.coeia.task;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.cases.ApplicationManager;
 import edu.coeia.cases.CaseManager;
 import edu.coeia.cases.CaseManagerFrame;
 import edu.coeia.util.FilesPath;
@@ -58,16 +59,17 @@ public class CaseImporterTask implements Task{
     private void importCaseAction() throws Exception{
         ZipUtil zipper = new ZipUtil(this);
         String fileNameWithOutExt = file.getName().toString().replaceFirst("[.][^.]+$", "");
-        String destPath = CaseManager.Manager.getCasesPath() + File.separator + fileNameWithOutExt;
+        String destPath = ApplicationManager.Manager.getCasesPath() + File.separator + fileNameWithOutExt;
         zipper.decompress(file.getAbsolutePath(), destPath);
 
         File filePath = new File(destPath).listFiles()[0];
         String path = filePath.listFiles()[0].getAbsolutePath();
 
         String line = fileNameWithOutExt + " - " + path;
-        Case aCase = CaseManager.Manager.getCase(line);
+        Case aCase = ApplicationManager.Manager.getCase(line);
         aCase.setCaseLocation(path);
-        CaseManager.Manager.updateCase(aCase);
+        CaseManager caseManger = CaseManager.newInstance(aCase);
+        caseManger.updateCaseInformation();
 
         String prefLocation = aCase.getCaseLocation() + File.separator +  FilesPath.DEM_CASE_PREFERENCE;
         CaseHistoryHandler.importCaseHistory(prefLocation);

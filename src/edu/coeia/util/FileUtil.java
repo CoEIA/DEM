@@ -96,6 +96,14 @@ public final class FileUtil {
             folder.mkdir();
     }
     
+    public static boolean createFile(String filePath) throws IOException {
+        filePath = checkNull("filepath can't be null ", filePath);
+        filePath = checkNotEmptyString("file path must be not empty", filePath);
+        
+        File file = new File(filePath);
+        return file.createNewFile();
+    }
+    
     /*
      * Save the bytes in the stream to the specified location with the file name
      * 

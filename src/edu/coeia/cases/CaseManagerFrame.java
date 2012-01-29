@@ -49,7 +49,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
      * the folder is [Case_forensics, CASES, TMP, HashLibrary, INDEXES.txt] 
      * and handle the list of all opening case to prevent opening the same case more than one time
      */
-    private static final CaseManager caseManager = CaseManager.Manager ;
+    private static final ApplicationManager applicationManager = ApplicationManager.Manager ;
     
     /**
      * Logger Object
@@ -314,7 +314,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     private void exportCaseAction() { 
         try {
             String caseName = getSelectedCase();
-            Case aCase = CaseManager.Manager.getCaseFromCaseName(caseName);
+            Case aCase = ApplicationManager.Manager.getCaseFromCaseName(caseName);
             CaseExporterTask task = new CaseExporterTask(aCase);
             task.startTask();
             
@@ -366,7 +366,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
          try {
             String caseName = getSelectedCase();
             
-            if ( !caseManager.isRunningCase(caseName)) {
+            if ( !applicationManager.isRunningCase(caseName)) {
                 CaseRemoverTask task = new CaseRemoverTask(this, caseName);
                 task.startTask();
             }
@@ -397,7 +397,8 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         }
 
         logger.info("Create New Case Don Successfully");
-        CaseManager.Manager.writeCaseToInfoFile(aCase); // update indexes info file with new index
+        CaseManager caseManager = CaseManager.newInstance(aCase);
+        caseManager.writeCaseToInfoFile(); // update indexes info file with new index
 
         readCases(); // update recent table with this new information
 
@@ -467,7 +468,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             @Override
             public void run() {
                 try {
-                    final List<Case> cases = CaseManager.Manager.getCases();
+                    final List<Case> cases = ApplicationManager.Manager.getCases();
                     
                     EventQueue.invokeLater(new Runnable() { 
                         @Override

@@ -858,50 +858,56 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
     }//GEN-LAST:event_autoDetectYahooButtonActionPerformed
 
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
-
-        List<EmailConfiguration> emailInfos = new ArrayList<EmailConfiguration>();
-        Object[][] data = getEmailTableData();
-        for (int c = 0; c < EmailTable.getRowCount(); c++) {
-            emailInfos.add(EmailConfiguration.newInstance(String.valueOf(data[c][0]), String.valueOf(data[c][1]), EmailConfiguration.ONLINE_EMAIL_AGENT.valueOf(String.valueOf(data[c][2]))));
-        }
-
-        this.setVisible(false);
-
-        // set direct indexing the case after creating
-        this.indexTheCase = YesIndexRadioButton.isSelected() ;
-       
-        // Build Case
-        currentCase = new Case.CaseBuilder(caseNameTextField.getText().trim(),
-                caseLocationTextField.getText().trim(),
-                investigatorTextField.getText().trim(),
-                descriptionTextArea.getText().trim(),
-                CaseSources, new Date(), 0)
-                .getCacheImages(CacheImageCheckBox.isSelected())
-                .detectDuplicationWithinCase(DetectClusterCaseRadioButton.isSelected())
-                .detectDuplicationWithHashLibrary(DetectClusterLibraryRadioButton.isSelected())
-                .execludeFileSystem(ExcludeSystemFilesCheckBox.isSelected())
-                .computeHashForEveryItem(YesMD5RadioButton.isSelected())
-                .doIndexingAfterCaseCreation(YesIndexRadioButton.isSelected())
-                .indexArchiveFiles(IndexZipCheckBox.isSelected())
-                .indexEmbeddedDocuments(IndexEmbeddedFilesCheckBox.isSelected())
-                .isIndexChatSessions(IndexChatCheckBox.isSelected())
-                .detectInternetBrowsers(DetectBrowserCheckBox.isSelected())
-                .addEmailConfiguration(emailInfos)
-            .build();
-
-        if (!createCase(currentCase)) {     
-            showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
-            return;
-        }
-
-        for (EmailConfiguration s : emailInfos) {
-            try {
-                downloadEmail(currentCase, s);
-            } catch (Exception ex) {
-                Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            List<EmailConfiguration> emailInfos = new ArrayList<EmailConfiguration>();
+            Object[][] data = getEmailTableData();
+            for (int c = 0; c < EmailTable.getRowCount(); c++) {
+                emailInfos.add(EmailConfiguration.newInstance(String.valueOf(data[c][0]), String.valueOf(data[c][1]), EmailConfiguration.ONLINE_EMAIL_AGENT.valueOf(String.valueOf(data[c][2]))));
             }
 
-        } // End For Each Email Config
+            this.setVisible(false);
+
+            // set direct indexing the case after creating
+            this.indexTheCase = YesIndexRadioButton.isSelected() ;
+           
+            // Build Case
+            currentCase = new Case.CaseBuilder(
+                    caseNameTextField.getText().trim(),
+                    caseLocationTextField.getText().trim(),
+                    investigatorTextField.getText().trim(),
+                    descriptionTextArea.getText().trim(),
+                    CaseSources, new Date(), 0)
+                    .getCacheImages(CacheImageCheckBox.isSelected())
+                    .detectDuplicationWithinCase(DetectClusterCaseRadioButton.isSelected())
+                    .detectDuplicationWithHashLibrary(DetectClusterLibraryRadioButton.isSelected())
+                    .execludeFileSystem(ExcludeSystemFilesCheckBox.isSelected())
+                    .computeHashForEveryItem(YesMD5RadioButton.isSelected())
+                    .doIndexingAfterCaseCreation(YesIndexRadioButton.isSelected())
+                    .indexArchiveFiles(IndexZipCheckBox.isSelected())
+                    .indexEmbeddedDocuments(IndexEmbeddedFilesCheckBox.isSelected())
+                    .isIndexChatSessions(IndexChatCheckBox.isSelected())
+                    .detectInternetBrowsers(DetectBrowserCheckBox.isSelected())
+                    .addEmailConfiguration(emailInfos)
+            .build();
+
+            this.setCurrentCase(currentCase);
+            CaseManager caseManger = CaseManager.newInstance(currentCase);
+            if (! caseManger.createNewCase()) {     
+                showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
+                return;
+            }
+
+            for (EmailConfiguration s : emailInfos) {
+                try {
+                    downloadEmail(currentCase, s);
+                } catch (Exception ex) {
+                    Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } // End For Each Email Config
+        } catch (IOException ex) {
+            Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
 
     }//GEN-LAST:event_finishButtonActionPerformed
@@ -1101,20 +1107,6 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     public boolean checkDirectIndex() {
         return indexTheCase;
     }
-
-    private boolean createCase(Case aCase) {
-        try {
-            setCurrentCase(aCase);
-            CaseManager.Manager.createCaseFoldersStructure(aCase);
-
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-    
    
     /*
      * Check The IndexPanelInfo Before Go to the Next Panel
@@ -1138,7 +1130,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             showErrorMessage("You must choose a Location for the Case ", "Empty Case Location");
             return false;
         }
-        if (CaseManager.Manager.caseExists(caseName)) {
+        if (ApplicationManager.Manager.caseExists(caseName)) {
             showErrorMessage("The Case Name is Already Taken, Choose Another Name", "Case Name Exists");
             return false;
         }

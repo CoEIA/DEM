@@ -5,6 +5,7 @@
 package edu.coeia.task;
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.ApplicationManager;
 import edu.coeia.cases.CaseManager;
 import edu.coeia.cases.CaseManagerFrame;
 
@@ -39,8 +40,9 @@ public class CaseRemoverTask implements Task{
     }
   
     private void removeCaseAction() throws Exception{
-        Case aCase = CaseManager.Manager.getCaseFromCaseName(caseName);
-        boolean status = CaseManager.Manager.removeCase(aCase);
+        Case aCase = ApplicationManager.Manager.getCaseFromCaseName(caseName);
+        CaseManager caseManager = CaseManager.newInstance(aCase);
+        boolean status = caseManager.removeCase();
         this.frame.readCases(); // update view table
     }
 }
