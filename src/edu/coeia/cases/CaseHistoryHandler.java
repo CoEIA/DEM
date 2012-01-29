@@ -24,7 +24,7 @@ import java.io.FileOutputStream;
 import java.util.prefs.Preferences ;
 import java.util.prefs.BackingStoreException;
 
-public final class CaseHistoryHandler {
+final class CaseHistoryHandler {
    
     /**
      * constant used for storing variable into registry (the default
@@ -43,19 +43,19 @@ public final class CaseHistoryHandler {
      * the case must be indexed before written into storing location
      * or it will not written on registry 
      */
-    public static void set (final CaseHistory caseHistory) {
+    public void setHistory (final CaseHistory caseHistory) {
         checkNull("caseHistory cannot be null object", caseHistory);
 
         if ( caseHistory.getIsCaseIndexed() ) {
             Preferences root = Preferences.userRoot();
-            Preferences node = root.node(CaseHistoryHandler.DEM_CASES_NODES_PATH + caseHistory.caseName);
+            Preferences node = root.node(CaseHistoryHandler.DEM_CASES_NODES_PATH + caseHistory.getCaseName());
             
             // write history
-            node.put(CASE_NAME, caseHistory.caseName);
-            node.put(CASE_TIME, caseHistory.lastModified);
-            node.putBoolean(CASE_STATUS, caseHistory.isCaseIndexed);
-            node.putLong(CASE_ITEMS, caseHistory.numberOfItemsIndexed);
-            node.putLong(CASE_SIZE, caseHistory.caseSize);
+            node.put(CASE_NAME, caseHistory.getCaseName());
+            node.put(CASE_TIME, caseHistory.getLastModified());
+            node.putBoolean(CASE_STATUS, caseHistory.getIsCaseIndexed());
+            node.putLong(CASE_ITEMS, caseHistory.getNumberOfItemsIndexed());
+            node.putLong(CASE_SIZE, caseHistory.getCaseSize());
         }
     }
     
@@ -65,7 +65,7 @@ public final class CaseHistoryHandler {
      * @return CaseHistory object that hold history information for this <tt>caseName</tt>
      * @throws NullPointerException if <tt>caseName</tt> is not exists
      */
-    public static CaseHistory get (final String caseName) {
+    public CaseHistory getHistory (final String caseName) {
         checkNull("case name must be not null", caseName);
         checkNotEmptyString("case name must have value", caseName);
         
@@ -86,7 +86,7 @@ public final class CaseHistoryHandler {
         return history;
     }
     
-    public static void exportToFile(final String caseName, final String filePath) throws Exception{
+    public void exportHistory(final String caseName, final String filePath) throws Exception{
         checkNull("case name must be not null", caseName);
         checkNotEmptyString("case name must have value", caseName);
         
@@ -98,7 +98,7 @@ public final class CaseHistoryHandler {
         fileOutputStream.close();
     }
     
-    public static void importCaseHistory(final String fileName) throws Exception {
+    public void importHistory(final String fileName) throws Exception {
         FileInputStream fileInputStream = new FileInputStream(fileName);
         Preferences.importPreferences(fileInputStream);
         fileInputStream.close();
@@ -110,7 +110,7 @@ public final class CaseHistoryHandler {
      * @param caseName the name of case to be deleted
      * @return status flag if deleted or not
      */
-    static boolean remove (final String caseName) {
+    public boolean removeHistory (final String caseName) {
         checkNull("case name must be not null", caseName);
         checkNotEmptyString("case name must have value", caseName);
         
@@ -129,36 +129,5 @@ public final class CaseHistoryHandler {
         }
                 
         return status;
-    }
-    
-    /**
-     * Container for holding case history information
-     */
-    public static final class CaseHistory {
-        private final String caseName ;
-        private final String lastModified ;
-        private final boolean isCaseIndexed ;
-        private final long numberOfItemsIndexed ;
-        private final long caseSize ;
-        
-        public static CaseHistory newInstance(String cName, String lm, boolean isIndexed, 
-                long itemsCount, long size) {
-            
-            return new CaseHistory(cName, lm, isIndexed, itemsCount, size);
-        }
-        
-        private CaseHistory(String cName, String lm, boolean isIndexed, long itemsCount, long size) {
-            this.lastModified = lm;
-            this.caseName = cName ;
-            this.isCaseIndexed = isIndexed; 
-            this.numberOfItemsIndexed = itemsCount ;
-            this.caseSize = size; 
-        }
-        
-        public String getLastModified() { return this.lastModified ;}
-        public String getCaseName() { return this.caseName ; }
-        public boolean getIsCaseIndexed() { return this.isCaseIndexed ; }
-        public long getNumberOfItemsIndexed() { return this.numberOfItemsIndexed ; }
-        public long getCaseSize() { return this.caseSize ;}
     }
 }

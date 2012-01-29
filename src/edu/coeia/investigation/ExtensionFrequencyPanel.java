@@ -11,7 +11,7 @@
 package edu.coeia.investigation;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.searching.InvestigateDialog;
 import edu.coeia.task.ExtensionFrequencyTask;
 
@@ -92,10 +92,11 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
     }
     
     private void generateVisualization() {
-        if (CaseHistoryHandler.get(this.caseObj.getCaseName()).getIsCaseIndexed() == false ) {
+        CaseManager caseManager = CaseManager.newInstance(this.caseObj);
+        if ( ! caseManager.getCaseHistory().getIsCaseIndexed() ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
-                    "Case is not indexed", JOptionPane.ERROR_MESSAGE);
-            return;
+                    "Case is not indexed",JOptionPane.ERROR_MESSAGE );
+            return ;
         }
         
         ExtensionFrequencyTask task = new ExtensionFrequencyTask(caseObj, this);

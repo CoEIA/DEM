@@ -11,7 +11,7 @@
 package edu.coeia.investigation;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.gutil.WrapLayout;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.gutil.JTableUtil;
@@ -340,10 +340,11 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         
     private void generateTextCloud() {
         try {
-            if (CaseHistoryHandler.get(this.caseObj.getCaseName()).getIsCaseIndexed() == false ) {
+            CaseManager caseManager = CaseManager.newInstance(this.caseObj);
+            if ( ! caseManager.getCaseHistory().getIsCaseIndexed() ) {
                 JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
-                        "Case is not indexed", JOptionPane.ERROR_MESSAGE);
-                return;
+                        "Case is not indexed",JOptionPane.ERROR_MESSAGE );
+                return ;
             }
 
             // remove data

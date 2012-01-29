@@ -5,7 +5,6 @@
 package edu.coeia.task;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseHistoryHandler;
 import edu.coeia.cases.ApplicationManager;
 import edu.coeia.cases.CaseManager;
 import edu.coeia.cases.CaseManagerFrame;
@@ -68,11 +67,12 @@ public class CaseImporterTask implements Task{
         String line = fileNameWithOutExt + " - " + path;
         Case aCase = ApplicationManager.Manager.getCase(line);
         aCase.setCaseLocation(path);
+        
+        String prefLocation = aCase.getCaseLocation() + File.separator +  FilesPath.DEM_CASE_PREFERENCE;
         CaseManager caseManger = CaseManager.newInstance(aCase);
         caseManger.updateCase(aCase.getCaseName(), path);
-
-        String prefLocation = aCase.getCaseLocation() + File.separator +  FilesPath.DEM_CASE_PREFERENCE;
-        CaseHistoryHandler.importCaseHistory(prefLocation);
+        caseManger.importHistory(prefLocation);
+        
         this.frame.readCases();
     }
 }

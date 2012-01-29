@@ -54,7 +54,6 @@ import com.pff.PSTObject ;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 import com.toedter.calendar.JDateChooser;
-import edu.coeia.cases.CaseHistoryHandler;
 import edu.coeia.gutil.JTableUtil;
 import org.apache.lucene.document.Document;
 
@@ -685,11 +684,11 @@ public class EmailPanel extends javax.swing.JPanel {
 
 private void emailSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailSearchButtonActionPerformed
 
-        if ( CaseHistoryHandler.get(this.index.getCaseName()).getIsCaseIndexed() == false ) {
-            JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
-                "Case is not indexed",JOptionPane.ERROR_MESSAGE );
-            return ;
-        }
+//        if ( CaseHistoryHandler.get(this.index.getCaseName()).getIsCaseIndexed() == false ) {
+//            JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
+//                "Case is not indexed",JOptionPane.ERROR_MESSAGE );
+//            return ;
+//        }
 
         if ( emailSearchTextField.getText().trim().isEmpty() ) {
             JOptionPane.showMessageDialog(this, "please write the keyword you want to search",

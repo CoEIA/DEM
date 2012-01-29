@@ -34,6 +34,7 @@ public final class CaseManagerPanel extends javax.swing.JPanel {
     private TagsManager tagsManager ;
     
     private int currentTagIndex;
+    private final CaseManager caseManager ;
     
     /** Creates new form CaseManagerPanel */
     public CaseManagerPanel(CaseFrame frame) {
@@ -42,6 +43,7 @@ public final class CaseManagerPanel extends javax.swing.JPanel {
         this.parent = frame;
         this.aCase = frame.getCase() ;
         this.tagsManager = frame.getTagsManager() ;
+        this.caseManager = CaseManager.newInstance(aCase);
         
         // initializing tags panel
         initializingTagsPanel();
@@ -680,7 +682,7 @@ public final class CaseManagerPanel extends javax.swing.JPanel {
      * this information will be changed after each indexing
      */
     public void displayMutableCaseInformationPanel() {
-        CaseHistoryHandler.CaseHistory history = CaseHistoryHandler.get(this.aCase.getCaseName());
+        CaseHistory history = this.caseManager.getCaseHistory();
         
         this.lastModifiedTextField.setText(history.getLastModified());
         this.indexedTextField.setText(String.valueOf(history.getIsCaseIndexed()));

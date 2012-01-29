@@ -5,7 +5,6 @@
 package edu.coeia.task;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseHistoryHandler;
 import edu.coeia.cases.ApplicationManager;
 import edu.coeia.cases.CaseManager;
 import edu.coeia.cases.CaseManagerFrame;
@@ -71,7 +70,8 @@ public class CaseLoaderTask implements Task {
                     mainFrame.setLocationRelativeTo(this.frame);
                     mainFrame.setVisible(true);
 
-                    if ( ! CaseHistoryHandler.get(aCase.getCaseName()).getIsCaseIndexed() ) {
+                    CaseManager caseManager = CaseManager.newInstance(aCase);
+                    if ( ! caseManager.getCaseHistory().getIsCaseIndexed() ) {
                         mainFrame.showIndexDialog(startIndex);
                     }
                 }

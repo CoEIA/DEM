@@ -5,7 +5,7 @@
 package edu.coeia.task;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.ZipUtil;
 
@@ -53,7 +53,8 @@ public class CaseExporterTask implements Task{
         String caseName = this.file.getAbsolutePath();
 
         String prefLocation = this.aCase.getCaseLocation() + File.separator +  FilesPath.DEM_CASE_PREFERENCE;
-        CaseHistoryHandler.exportToFile(this.aCase.getCaseName(), prefLocation);
+        CaseManager caseManager = CaseManager.newInstance(aCase);
+        caseManager.exportHistory(this.aCase.getCaseName(), prefLocation);
 
         ZipUtil zipper = new ZipUtil(this);
         zipper.compress(this.aCase.getCaseLocation(), caseName);

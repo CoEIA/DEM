@@ -12,7 +12,8 @@ package edu.coeia.indexing;
 
 import edu.coeia.extractors.OfficeImageExtractor;
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.cases.CaseHistory;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.CrawlerIndexerThread.ProgressIndexData;
 import edu.coeia.util.DateUtil;
@@ -45,6 +46,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
     private final Case aCase ;
     private final LuceneIndex luceneIndex ;
     private final IndexingDialog parentDialog ;
+    private final CaseManager caseManager ;
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
 
     public CrawlerIndexerThread (IndexingDialog parentDialog) throws IOException{
@@ -53,7 +55,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
         this.luceneIndex = LuceneIndex.newInstance(this.aCase);
         this.parentDialog.setNumberOfFilesError("0");
         this.parentDialog.setProgressIndetermined(true);
-        
+        this.caseManager = CaseManager.newInstance(aCase);
         logger.log(Level.INFO, "Create Lucene Indexer Instance");
     }
     
@@ -219,11 +221,11 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
 
             // save case history & close the index
             if ( indexStatus ) {
-                CaseHistoryHandler.CaseHistory history = CaseHistoryHandler.CaseHistory.newInstance(
+                CaseHistory history = CaseHistory.newInstance(
                         this.aCase.getCaseName(), new Date().toString(), true, this.numberOfFilesIndexed, 
                         this.sizeOfFilesInEvidenceFolder);
 
-                CaseHistoryHandler.set(history);
+                this.caseManager.setCaseHistory(history);
             }
             this.parentDialog.hideIndexingDialog();
         }

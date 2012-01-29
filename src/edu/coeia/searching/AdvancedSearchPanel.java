@@ -12,7 +12,7 @@ package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
 import edu.coeia.util.FilesPath ;
-import edu.coeia.cases.CaseHistoryHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.items.Item;
 import edu.coeia.items.ItemFactory;
 import edu.coeia.searching.CaseSearchPanel.SearchHistory;
@@ -406,8 +406,9 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         
     private void startSearching () {
         removeSearchField(false);
-                
-        if ( CaseHistoryHandler.get(this.caseObj.getCaseName()).getIsCaseIndexed() == false ) {
+            
+        CaseManager caseManager = CaseManager.newInstance(this.caseObj);
+        if ( ! caseManager.getCaseHistory().getIsCaseIndexed() ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
             return ;

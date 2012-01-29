@@ -5,8 +5,7 @@
 package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseHistoryHandler;
-import edu.coeia.filesignature.FileSignature;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.tags.Tag;
 import edu.coeia.tags.TagsManager;
@@ -121,7 +120,7 @@ public class RawResultFile {
             String caseCreatingTime = DateUtil.formatedDateWithTime(aCase.getCreateTime());
             String caseAuther = aCase.getInvestigatorName();
             String caseDescription = aCase.getDescription();
-            long caseSize = CaseHistoryHandler.get(caseName).getCaseSize();
+            long caseSize = CaseManager.newInstance(aCase).getCaseHistory().getCaseSize();
             casess += "<case>"
                     + "<path>" + caseLocation + "</path>"
                     + "<creator>" + caseAuther + "</creator>"

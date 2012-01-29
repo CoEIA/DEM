@@ -17,13 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Case Manger will create, update and remove cases from application
+ * Case Manger will create, update and remove cases and their histories 
+ * from application
  * 
  * @author wajdyessam
  */
 
 public final class CaseManager {
     private final Case aCase ;
+    private final CaseHistoryHandler caseHistoryHandler;
     
     public static CaseManager newInstance (final Case aCase) {
         return new CaseManager(aCase);
@@ -73,10 +75,26 @@ public final class CaseManager {
         List<String> otherCasesGroup = this.getOtherCases(this.aCase.getCaseName(), this.getCaseFolderLocation());
         FileUtil.writeToFile(otherCasesGroup, getCasesInformationFileLocation());
 
-        // remove case history from preferences
-        CaseHistoryHandler.remove(aCase.getCaseName());
+        // removeHistory case history from preferences
+        this.caseHistoryHandler.removeHistory(aCase.getCaseName());
         
         return status;
+    }
+    
+    public CaseHistory getCaseHistory() {
+        return this.caseHistoryHandler.getHistory(this.aCase.getCaseName());
+    }
+    
+    public void setCaseHistory(final CaseHistory history) {
+        this.caseHistoryHandler.setHistory(history);
+    }
+    
+    public void importHistory(final String fileName) throws Exception {
+        this.caseHistoryHandler.importHistory(fileName);
+    }
+    
+    public void exportHistory(final String caseName, final String filePath) throws Exception {
+        this.caseHistoryHandler.exportHistory(caseName, filePath);
     }
     
     public boolean isCaseHaveChangedSource() throws IOException {
@@ -185,5 +203,6 @@ public final class CaseManager {
         
     private CaseManager (final Case aCase) {
         this.aCase = aCase;
+        this.caseHistoryHandler = new CaseHistoryHandler();
     }
 }
