@@ -49,7 +49,7 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
         
         // fill with missing case sources
         CasePathHandler pathHandler = CasePathHandler.newInstance(aCase.getCaseLocation());
-        for(CasePathHandler.RelativeAndFullPathMapping entry: pathHandler.getChangedEntries()) {
+        for(CasePathHandler.PathMapping entry: pathHandler.getChangedEntries()) {
              String data = entry.absolutePath;
              JListUtil.addToList(data, sourcesListModel, sourcesList);
         }
@@ -165,7 +165,7 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
             if (newPath == null) return;
             
             String relative = getRelativeMarkForPath(oldPath);
-            CasePathHandler.RelativeAndFullPathMapping entry = new CasePathHandler.RelativeAndFullPathMapping(relative, newPath);
+            CasePathHandler.PathMapping entry = new CasePathHandler.PathMapping(relative, newPath);
             CasePathHandler pathHandler = CasePathHandler.newInstance(aCase.getCaseLocation());
             pathHandler.updateFullPath(entry);
             
@@ -189,7 +189,7 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
 
     private String getRelativeMarkForPath(final String fullPath) throws IOException{
         CasePathHandler pathHandler = CasePathHandler.newInstance(aCase.getCaseLocation());
-        for(CasePathHandler.RelativeAndFullPathMapping entry: pathHandler.getChangedEntries()) {
+        for(CasePathHandler.PathMapping entry: pathHandler.getChangedEntries()) {
              String data = entry.absolutePath;
              String relative = entry.relativePath;
              

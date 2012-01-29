@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CasePathHandler {
-    private final List<RelativeAndFullPathMapping> casePathsMapping;
+    private final List<PathMapping> casePathsMapping;
     private final String configurationFileLocation ;
     
     public static final String RELATIVE_PATH_PREFIX = "@PATH_%d@";
@@ -48,7 +48,7 @@ public class CasePathHandler {
     }
     
     private CasePathHandler(final String caseLocation) {
-        this.casePathsMapping = new ArrayList<RelativeAndFullPathMapping>();
+        this.casePathsMapping = new ArrayList<PathMapping>();
         this.configurationFileLocation = caseLocation + File.separator + FilesPath.CASE_CONFIG;
     }
     
@@ -65,7 +65,7 @@ public class CasePathHandler {
      */
     public void add(final File file){
         String fileName = String.format(RELATIVE_PATH_PREFIX, this.casePathsMapping.size());
-        RelativeAndFullPathMapping entry = new RelativeAndFullPathMapping(fileName, file.getAbsolutePath());
+        PathMapping entry = new PathMapping(fileName, file.getAbsolutePath());
         this.casePathsMapping.add(entry);
     }
     
@@ -78,7 +78,7 @@ public class CasePathHandler {
     public void saveConfiguration() throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(new File(this.configurationFileLocation), true));
         
-        for(RelativeAndFullPathMapping entry: this.casePathsMapping)
+        for(PathMapping entry: this.casePathsMapping)
             writer.println(entry.relativePath + " - " + entry.absolutePath);
         
         writer.close();
@@ -90,7 +90,7 @@ public class CasePathHandler {
      * @return unmodifiable list of mapping file paths
      * @throws IOException 
      */
-    public List<RelativeAndFullPathMapping> readConfiguration() throws IOException{
+    public List<PathMapping> readConfiguration() throws IOException{
         this.casePathsMapping.clear();
         
         List<String> lines = FileUtil.getFileContentInList(new File(this.configurationFileLocation));
@@ -98,7 +98,7 @@ public class CasePathHandler {
         for(String line: lines) {
             String name = line.split("-")[0].trim();
             String path = line.substring(line.indexOf("-") + 1).trim();
-            this.casePathsMapping.add(new RelativeAndFullPathMapping(name, path));
+            this.casePathsMapping.add(new PathMapping(name, path));
         }
         
         return Collections.unmodifiableList(this.casePathsMapping);
@@ -113,7 +113,7 @@ public class CasePathHandler {
        StringBuilder fullPath = new StringBuilder();
        
        for(int i=0; i<this.casePathsMapping.size(); i++) {
-           RelativeAndFullPathMapping entry = this.casePathsMapping.get(i);
+           PathMapping entry = this.casePathsMapping.get(i);
            
            if ( relativePath.startsWith(entry.relativePath) ) {
                String filePath = relativePath.split(String.format(RELATIVE_PATH_PREFIX + "\\\\", i))[1];
@@ -146,7 +146,7 @@ public class CasePathHandler {
         StringBuilder relativePath = new StringBuilder();
         
         for(int i=0; i<this.casePathsMapping.size(); i++) {
-            RelativeAndFullPathMapping entry = this.casePathsMapping.get(i);
+            PathMapping entry = this.casePathsMapping.get(i);
             
             if ( fullPath.contains(entry.absolutePath)) {
                 relativePath.append(String.format(RELATIVE_PATH_PREFIX, i));
@@ -179,7 +179,7 @@ public class CasePathHandler {
      * @param entry the new entry we want its absolute path
      * @throws IOException 
      */
-    public void updateFullPath(final RelativeAndFullPathMapping entry) throws IOException {
+    public void updateFullPath(final PathMapping entry) throws IOException {
         List<String> lines = FileUtil.getFileContentInList(new File(this.configurationFileLocation));
         List<String> newLines = new ArrayList<String>();
         
@@ -204,12 +204,12 @@ public class CasePathHandler {
      * detect and return all the entry that have missing absolute path
      * @return list of not founded entries in configuration file
      */
-    public List<RelativeAndFullPathMapping> getChangedEntries() throws IOException {
+    public List<PathMapping> getChangedEntries() throws IOException {
         this.readConfiguration();
         
-        List<RelativeAndFullPathMapping> changedEntries = new ArrayList<RelativeAndFullPathMapping>();
+        List<PathMapping> changedEntries = new ArrayList<PathMapping>();
         
-        for(RelativeAndFullPathMapping entry: this.casePathsMapping) {
+        for(PathMapping entry: this.casePathsMapping) {
             if ( this.isSourceChanged(entry) ) {
                 changedEntries.add(entry);
             }
@@ -222,10 +222,10 @@ public class CasePathHandler {
      * Simple class represent the mapping of full and relative path
      * in the configuration file
      */
-    public static class RelativeAndFullPathMapping {
+    public static class PathMapping {
         String relativePath, absolutePath;
         
-        public RelativeAndFullPathMapping(final String name, final String path) {
+        public PathMapping(final String name, final String path) {
             this.relativePath = name;
             this.absolutePath = path;
         }
@@ -236,7 +236,7 @@ public class CasePathHandler {
      * @param entry that we want to check if its changed or not
      * @return 
      */
-    private boolean isSourceChanged(final RelativeAndFullPathMapping entry) {
+    private boolean isSourceChanged(final PathMapping entry) {
         boolean isChanged = false;
         
         String path = entry.absolutePath;

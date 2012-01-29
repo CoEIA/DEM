@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Case Manger will create, update and remove cases from application
+ * 
  * @author wajdyessam
  */
 

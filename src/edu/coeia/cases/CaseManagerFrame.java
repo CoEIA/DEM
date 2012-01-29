@@ -29,6 +29,7 @@ import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 
 /*
  * CaseManagerFrame the main entry point to DEM
+ * 
  * @author Wajdy Essam
  * Created on 16/07/2010, 01:09:17 م
  */
@@ -44,9 +45,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     private static final LicenseManager licenseManager = LicenseManager.BETA_LICENSE; // select beta version
     
     /**
-     * Case Manager Object
-     * will create cases folder if no folder exists or some files in this folder are missing
-     * the folder is [Case_forensics, CASES, TMP, HashLibrary, INDEXES.txt] 
+     * Application Manager Singleton object will create folder structures for the cases
      * and handle the list of all opening case to prevent opening the same case more than one time
      */
     private static final ApplicationManager applicationManager = ApplicationManager.Manager ;
@@ -384,8 +383,6 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     }
     
     private void createNewCaseAction() throws Exception{
-        logger.info("Create New Case Entring");
-
         CaseWizardDialog indexWizard = new CaseWizardDialog(CaseManagerFrame.this,true, 
                 licenseManager.isFullVersion());
         indexWizard.setVisible(true);

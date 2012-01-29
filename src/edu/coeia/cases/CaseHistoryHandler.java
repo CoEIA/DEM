@@ -135,11 +135,11 @@ public final class CaseHistoryHandler {
      * Container for holding case history information
      */
     public static final class CaseHistory {
-        private String caseName ;
-        private String lastModified ;
-        private boolean isCaseIndexed ;
-        private long numberOfItemsIndexed ;
-        private long caseSize ;
+        private final String caseName ;
+        private final String lastModified ;
+        private final boolean isCaseIndexed ;
+        private final long numberOfItemsIndexed ;
+        private final long caseSize ;
         
         public static CaseHistory newInstance(String cName, String lm, boolean isIndexed, 
                 long itemsCount, long size) {
