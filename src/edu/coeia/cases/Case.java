@@ -147,7 +147,7 @@ public final class Case implements Serializable {
         this.evidenceSourceLocation.remove(location);
     }
     
-    public static class CaseBuilder {
+    static class CaseBuilder {
         // Requaired (constant) paramters for case
         private final String investigatorName;
         private final String description;
@@ -173,14 +173,14 @@ public final class Case implements Serializable {
     
          public CaseBuilder(final String indexName, final String indexLocation, 
                  final String investigatorName, final String description,
-                 final List<String> caseSource,
+                 final List<String> evidenceFolders,
                  final Date createTime, final long caseSize) {
              
             this.caseName = indexName;
             this.caseLocation = indexLocation;
             this.investigatorName = investigatorName;
             this.description = description;
-            this.evidenceSourceLocation = Collections.unmodifiableList(caseSource);
+            this.evidenceSourceLocation = Collections.unmodifiableList(evidenceFolders);
             this.createTime = new Date(createTime.getTime());
             this.emaiConfigurations = new ArrayList<EmailConfiguration>();
         }

@@ -11,16 +11,19 @@ import java.io.PrintWriter;
 
 import java.util.List;
 import java.util.ArrayList ;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * Case Manager is singleton class that hold functionality related to other cases management
+ * Case Manager is singleton class that hold functionality related to cases
  * 
- * it prevent the case to be opened again, by holding list of all opening case
- * and update this list as the case opening/closing
+ * it also prevent the case to be opened again, by holding list of all opening case
+ * and update this list when new case opening or closing existing one
  * 
  * 
  * @author wajdyessam
  */
+
 public enum CaseManager {
     
     /*
@@ -33,12 +36,11 @@ public enum CaseManager {
     private CaseManager() {
         this.listOfOpeningCase = new ArrayList<String>();  
         
-        if ( !isCaseFolderExist() || isCaseHaveMissingFiles()) {
+        if ( !isApplicationFolderExists() || isApplicationHaveMissingFiles()) {
             try {
-                createApplicationFolders();
-            }
-            catch(IOException e){
-                e.printStackTrace();
+                createApplicationFoldersStructure();
+            } catch (IOException ex) {
+                Logger.getLogger(CaseManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -125,21 +127,19 @@ public enum CaseManager {
      * Check if Case Exists
      * @return true if there is case with this name
      */
-    public boolean caseExists(String caseName)  {
-        try {
-            File casesInfo = new File(FilesPath.INDEXES_INFO);
-            List<String> casesInfoContent = FileUtil.getFileContentInArrayList(casesInfo);
+    public boolean caseExists(String caseName) throws FileNotFoundException, IOException, 
+            ClassNotFoundException  {
+        
+        File casesInfo = new File(FilesPath.INDEXES_INFO);
+        List<String> casesInfoContent = FileUtil.getFileContentInArrayList(casesInfo);
 
-            for (String path : casesInfoContent) {
-                Case aCase = this.getCase(path);
+        for (String path : casesInfoContent) {
+            Case aCase = this.getCase(path);
 
-                if (aCase.getCaseName().equalsIgnoreCase(caseName)) {
-                    return true;
-                }
+            if (aCase.getCaseName().equalsIgnoreCase(caseName)) {
+                return true;
             }
         }
-        catch (IOException e) {}
-        catch (ClassNotFoundException e) { }
 
         return false;
     }
@@ -175,7 +175,7 @@ public enum CaseManager {
         return status;
     }
     
-    public void writeCase (Case caseObject) throws IOException {
+    public void createCaseFoldersStructure (Case caseObject) throws IOException {
         // create main folder
         File dir = new File( caseObject.getCaseLocation());
         dir.mkdir();
@@ -214,6 +214,10 @@ public enum CaseManager {
         outlookAttachment.mkdir();
     }
     
+    public boolean isCaseHaveChangedSource(final Case aCase) throws IOException {
+        return !CasePathHandler.newInstance(aCase.getCaseLocation()).getChangedEntries().isEmpty();
+    }
+        
     // TODO: remove this, it break encapsulation!!!
     public List<String> getList () {
         return this.listOfOpeningCase ;
@@ -236,7 +240,7 @@ public enum CaseManager {
      * Check if their is missing files in the case
      * @return true if their is missing files, false when all essential files exists
      */
-    private boolean isCaseHaveMissingFiles() {
+    private boolean isApplicationHaveMissingFiles() {
         boolean status = true;
         
         File root = new File(FilesPath.APPLICATION_PATH);
@@ -260,10 +264,10 @@ public enum CaseManager {
     }
     
     /**
-     * Check if Case Main Folder Exists
+     * Check if DEM Main Folder that contain anythings related to cases Exists
      * @return 
      */
-    private boolean isCaseFolderExist() {
+    private boolean isApplicationFolderExists() {
         File root = new File(FilesPath.APPLICATION_PATH);
         return ( root.exists() );
     }
@@ -272,7 +276,7 @@ public enum CaseManager {
      * Create All the folder required to store cases
      * @throws IOException 
      */
-    private void createApplicationFolders () throws IOException{
+    private void createApplicationFoldersStructure () throws IOException{
         File root = new File(FilesPath.APPLICATION_PATH);
         File cases = new File(FilesPath.CASES_PATH);
         File indexesInfo = new File(FilesPath.INDEXES_INFO);

@@ -16,12 +16,13 @@ package edu.coeia.cases;
  * @author wajdyessam
  */
 
+import static edu.coeia.util.PreconditionsChecker.* ;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.prefs.Preferences ;
 
+import java.util.prefs.Preferences ;
 import java.util.prefs.BackingStoreException;
-import static edu.coeia.util.PreconditionsChecker.* ;
 
 public final class CaseHistoryHandler {
    

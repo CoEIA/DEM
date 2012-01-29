@@ -8,6 +8,7 @@ import edu.coeia.util.GUIFileFilter;
 import edu.coeia.onlinemail.EmailDownloaderDialog;
 import edu.coeia.onlinemail.OnlineEmailDownloader;
 
+import java.io.FileNotFoundException;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -790,8 +791,12 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         switch (currentIndex) {
             case 0:
-                if (checkWizardFirstPanel()) {
-                    next();
+                try {
+                    if (checkWizardFirstPanel()) {
+                        next();
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
 
@@ -1100,7 +1105,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private boolean createCase(Case aCase) {
         try {
             setCurrentCase(aCase);
-            CaseManager.Manager.writeCase(aCase);
+            CaseManager.Manager.createCaseFoldersStructure(aCase);
 
             return true;
         } catch (Exception e) {
@@ -1116,7 +1121,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
      * Check caseName if empty or is its existed
      * @return true if the all information are correct
      */
-    private boolean checkWizardFirstPanel() {
+    private boolean checkWizardFirstPanel() throws FileNotFoundException, IOException, ClassNotFoundException {
         String caseName = getCaseName(caseNameTextField.getText().trim());
         String caseLocation = caseLocationTextField.getText().trim();
         String caseDesc = descriptionTextArea.getText();

@@ -25,7 +25,7 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
  *
  * @author wajdyessam
  */
-final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog {
+public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog {
 
     private final Case aCase; 
     private boolean result = false;
