@@ -12,8 +12,8 @@ package edu.coeia.indexing.dialogs;
 
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
-
 import edu.coeia.indexing.CrawlerIndexerThread;
+
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
