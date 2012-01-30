@@ -17,17 +17,17 @@ import org.junit.Test;
  */
 public class ChatSessionDetectionTest {
     
-    @Test
-    public void skypeChatDetectionTest() throws Exception{
-        SkypeMessageReader parser = new SkypeMessageReader();
-        String path = "C:\\Documents and Settings\\wajdyessam\\Application Data\\Skype\\wajdyessam";
-        List<Tuple<String, List<SkypeMessage>>> msgs = parser.parseSkypeFile(path);
-        
-        for (Tuple<String, List<SkypeMessage>> user: msgs) {
-            System.out.println("User: " + user.getA());
-            for (SkypeMessage msg: user.getB()) {
-                System.out.println("Message: " + msg.getMessageText() + " with: " + msg.getPartner());
-            }
-        }
-    }
+//    @Test
+//    public void skypeChatDetectionTest() throws Exception{
+//        SkypeMessageReader parser = new SkypeMessageReader();
+//        String path = "C:\\Documents and Settings\\wajdyessam\\Application Data\\Skype\\wajdyessam";
+//        List<Tuple<String, List<SkypeMessage>>> msgs = parser.parseSkypeFile(path);
+//        
+//        for (Tuple<String, List<SkypeMessage>> user: msgs) {
+//            System.out.println("User: " + user.getA());
+//            for (SkypeMessage msg: user.getB()) {
+//                System.out.println("Message: " + msg.getMessageText() + " with: " + msg.getPartner());
+//            }
+//        }
+//    }
 }

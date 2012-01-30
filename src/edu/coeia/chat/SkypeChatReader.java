@@ -6,7 +6,6 @@
 package edu.coeia.chat;
 
 import edu.coeia.util.FilesPath;
-import edu.coeia.util.Tuple ;
 
 import java.io.File;
 
@@ -25,7 +24,7 @@ import java.util.List;
  *
  */
 
-public class SkypeMessageReader implements ChatReader {
+public class SkypeChatReader implements ChatReader {
     private final String DB_NAME = "jdbc:sqlite:" ;
     private final String DB_DRIVER = "org.sqlite.JDBC";
     private final String DB_USER = "" ;
@@ -34,36 +33,15 @@ public class SkypeMessageReader implements ChatReader {
 
     @Override
     public ChatSession processFile(final File path) throws Exception {
-        connectMozillaDB(path.getAbsolutePath());
+        this.connectMozillaDB(path.getAbsolutePath());
         List<ChatMessage> msgs = getMessages();
-        closeDB();
+        this.closeDB();
         
         ChatSession chat = ChatSession.newInstance(path.getName(), "", path.getAbsolutePath(), msgs);
         return chat;
     }
-    
-    // take path for the folder contain the main.db skype database file
-    // C:\\Documents and Settings\\wajdyessam\\Application Data\\Skype\\wajdyessam
-//    public List<Tuple<String, List<ChatMessage>>> parseSkypeFile (String p) throws SQLException, ClassNotFoundException, InstantiationException,
-//    IllegalAccessException {
-//        File skypePath = new File(p);
-//        
-//        List<Tuple<String, List<ChatMessage>>> userChats = new ArrayList<Tuple<String, List<ChatMessage>>>();
-//
-//        Tuple<String,List<ChatMessage>> userChat = new Tuple<String,List<ChatMessage>>();
-//        connectMozillaDB(skypePath.getAbsolutePath());
-//
-//        List<ChatMessage> msg = getMessages();
-//        userChat.setA(skypePath.getName());
-//        userChat.setB(msg);
-//
-//        userChats.add(userChat);
-//        closeDB();
-//
-//        return userChats;
-//     }
 
-    private List<ChatMessage> getMessages ()  throws SQLException {
+    private List<ChatMessage> getMessages() throws SQLException {
         List<ChatMessage> mList = new ArrayList<ChatMessage>();
 
         String select =

@@ -107,18 +107,18 @@ final class IndexerFactory {
         Indexer indexer = null;
         
         if ( isValidMSNChatFile(path)) {
-            indexer = MSNChatIndexer.newInstance(luceneIndex, chatFile, 
-                    FileUtil.getExtension(path), new NoneImageExtractor());
+            indexer = ChatIndexer.newInstance(luceneIndex, chatFile, 
+                    FileUtil.getExtension(path), new NoneImageExtractor(), ChatIndexer.CHAT_TYPE.MSN);
         }
         
         else if ( isValidYahooChatFile(chatFile.getAbsolutePath()) ) {
-            indexer = YahooChatIndexer.newInstance(luceneIndex, chatFile,
-                    FileUtil.getExtension(path), new NoneImageExtractor());  
+            indexer = ChatIndexer.newInstance(luceneIndex, chatFile,
+                    FileUtil.getExtension(path), new NoneImageExtractor(), ChatIndexer.CHAT_TYPE.YAHOO);  
         }
         
         else if ( isValidSkypeChatFile(chatFile.getAbsolutePath()) )  {
-            indexer = SkypeChatIndexer.newInstance(luceneIndex, chatFile,
-                    FileUtil.getExtension(path), new NoneImageExtractor());
+            indexer = ChatIndexer.newInstance(luceneIndex, chatFile,
+                    FileUtil.getExtension(path), new NoneImageExtractor(), ChatIndexer.CHAT_TYPE.SKYPE);
         }
         
         return indexer;

@@ -22,7 +22,7 @@ import java.util.Date ;
 import java.util.ArrayList ;
 import java.util.List;
 
-public final class YahooMessageReader implements ChatReader {
+public final class YahooChatReader implements ChatReader {
     
     /*
      * Gel chat Session in yahoo file (.DAT file)

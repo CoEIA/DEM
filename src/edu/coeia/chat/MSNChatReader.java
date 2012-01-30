@@ -21,7 +21,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element; 
 import org.w3c.dom.NodeList;
 
-public final class MSNMessageReader implements ChatReader{
+public final class MSNChatReader implements ChatReader{
 
     /*
      * Gel all chat Session in MSN folder

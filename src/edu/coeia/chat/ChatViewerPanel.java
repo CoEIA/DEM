@@ -191,7 +191,6 @@ public class ChatViewerPanel extends javax.swing.JPanel {
             String path = String.valueOf(this.chatJList.getSelectedValue());
             ChatLoadingTask task = new ChatLoadingTask(aCase, this, path);
             task.startTask();
-            
         } catch (Exception ex) {
             Logger.getLogger(ChatViewerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }   
