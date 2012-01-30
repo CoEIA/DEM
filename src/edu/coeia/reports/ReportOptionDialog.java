@@ -34,7 +34,7 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
     private Frame frame; 
     private ProgressDialogue dialogue;
     private DatasourceXml input;
-    private CaseFacade caseManager;
+    private CaseFacade caseFacade;
     
     public ReportOptionDialog (Case aCase) {
          
@@ -51,7 +51,7 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
 
         this.centerReportPanel = panel;
         this.reportPanel = reportPanel;
-        this.caseManager = this.reportPanel.getCaseManager();
+        this.caseFacade = this.reportPanel.getCaseFacade();
         this.aCase = this.reportPanel.getCase();
 
         this.setCenterPanel(panel);

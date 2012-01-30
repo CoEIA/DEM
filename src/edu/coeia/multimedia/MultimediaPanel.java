@@ -17,28 +17,28 @@ import javax.swing.JFrame;
 
 public class MultimediaPanel extends javax.swing.JPanel {
     private final CaseFrame caseFrame ;
-    private final CaseFacade caseManager;
+    private final CaseFacade caseFacade;
 
     /** Creates new form MultimediaPanel */
     public MultimediaPanel(final JFrame frame) {
         initComponents();
         
         this.caseFrame = (CaseFrame) frame;
-        this.caseManager =  this.caseFrame.getCaseManager();
+        this.caseFacade =  this.caseFrame.getCaseFacade();
         
-        MultimediaViewerPanel audioPanel = new MultimediaViewerPanel(this.caseManager,
+        MultimediaViewerPanel audioPanel = new MultimediaViewerPanel(this.caseFacade,
                 MultimediaViewerPanel.TYPE.AUDIO);
         
-        MultimediaViewerPanel videoPanel = new MultimediaViewerPanel(this.caseManager,
+        MultimediaViewerPanel videoPanel = new MultimediaViewerPanel(this.caseFacade,
                 MultimediaViewerPanel.TYPE.VIDEO);
                 
-        MultimediaViewerPanel archivePanel = new MultimediaViewerPanel(this.caseManager,
+        MultimediaViewerPanel archivePanel = new MultimediaViewerPanel(this.caseFacade,
                 MultimediaViewerPanel.TYPE.ARCHIVE);
         
-        MultimediaViewerPanel imageViewer = new MultimediaViewerPanel(this.caseManager,
+        MultimediaViewerPanel imageViewer = new MultimediaViewerPanel(this.caseFacade,
                 MultimediaViewerPanel.TYPE.IMAGE);
         
-        ImageViewerPanel imageThumbnailViewer = new ImageViewerPanel(this.caseManager );
+        ImageViewerPanel imageThumbnailViewer = new ImageViewerPanel(this.caseFacade );
         
         this.multimediaTappedPane.addTab("Image Thumbnail Viewer", imageThumbnailViewer);
         this.multimediaTappedPane.addTab("Image Viewer", imageViewer);

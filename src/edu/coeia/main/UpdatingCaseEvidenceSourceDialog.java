@@ -29,18 +29,18 @@ import edu.coeia.cases.CaseFacade;
 public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog {
     private boolean result = false;
     
-    private final CaseFacade caseManager; 
+    private final CaseFacade caseFacade; 
     private final DefaultListModel sourcesListModel;
     
     /** Creates new form UpdatingCaseEvidenceSourceDialog */
-    public UpdatingCaseEvidenceSourceDialog(java.awt.Frame parent, boolean modal, final CaseFacade caseManager) 
+    public UpdatingCaseEvidenceSourceDialog(java.awt.Frame parent, boolean modal, final CaseFacade caseFacade) 
             throws IOException{
         
         super(parent, modal);
         initComponents();
         
         this.setLocationRelativeTo(parent);
-        this.caseManager = caseManager;
+        this.caseFacade = caseFacade;
         this.sourcesListModel = new DefaultListModel();
         this.fillListWithNotFoundedSources();
     }
@@ -49,12 +49,12 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
         sourcesListModel.clear();
         
         // fill with missing case sources
-        for(String absolutePath: this.caseManager.getChangedEntries()) {
+        for(String absolutePath: this.caseFacade.getChangedEntries()) {
              JListUtil.addToList(absolutePath, sourcesListModel, sourcesList);
         }
         
         // check if all paths are fixes
-        if ( this.caseManager.getChangedEntries().isEmpty()) {
+        if ( this.caseFacade.getChangedEntries().isEmpty()) {
             JOptionPane.showMessageDialog(this, "All Sources have been fixed", "case sources have been founded", JOptionPane.INFORMATION_MESSAGE);
             this.result = true;
             this.dispose();
@@ -163,12 +163,12 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
             String newPath = directoryDialog.getSelectedDirectory();
             if (newPath == null) return;
             
-            this.caseManager.updateMapping(oldFullPath, newPath);
+            this.caseFacade.updateMapping(oldFullPath, newPath);
             
             // update case object
-            this.caseManager.getCase().removeEvidenceSourceLocation(oldFullPath);
-            this.caseManager.getCase().addEvidenceSourceLocation(newPath);
-            this.caseManager.updateCase(this.caseManager.getCase().getCaseName(), oldFullPath);
+            this.caseFacade.getCase().removeEvidenceSourceLocation(oldFullPath);
+            this.caseFacade.getCase().addEvidenceSourceLocation(newPath);
+            this.caseFacade.updateCase(this.caseFacade.getCase().getCaseName(), oldFullPath);
             
             // update gui list
             this.fillListWithNotFoundedSources();

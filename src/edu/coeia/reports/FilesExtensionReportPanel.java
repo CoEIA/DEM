@@ -34,7 +34,7 @@ public class FilesExtensionReportPanel extends javax.swing.JPanel implements Rep
         
         try {
             objXmlSource = RawResultFile.getExtensionFrequencyXmlFile(
-                    IndexUtil.getAllFilesFrequency(this.reportPanel.getCaseManager()),
+                    IndexUtil.getAllFilesFrequency(this.reportPanel.getCaseFacade()),
                     this.reportPanel.getCase());
         } 
         catch (IOException ex) {

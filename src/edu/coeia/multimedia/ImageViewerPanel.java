@@ -61,13 +61,13 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     private int currentImageNo;
     private int currentImagePage;
     
-    private final CaseFacade caseManager ;
+    private final CaseFacade caseFacade ;
     
     /** Creates new form ImageViewerPanel */
-    public ImageViewerPanel(final CaseFacade caseManager) {
+    public ImageViewerPanel(final CaseFacade caseFacade) {
         initComponents();
-        this.caseManager = caseManager;
-        this.aCase = this.caseManager.getCase();
+        this.caseFacade = caseFacade;
+        this.aCase = this.caseFacade.getCase();
         this.setImageViewerOptions();
         this.nextLabel.setEnabled(false);
         this.backLabel.setEnabled(false);
@@ -374,7 +374,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadImageButtonActionPerformed
-        ImageLoadingTask task = new ImageLoadingTask(this.caseManager, this);
+        ImageLoadingTask task = new ImageLoadingTask(this.caseFacade, this);
         task.startTask();
     }//GEN-LAST:event_loadImageButtonActionPerformed
 
@@ -386,7 +386,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
         this.currentImagePage++;
         this.currentImageNo += this.IMAGE_PER_PAGE;
 
-        ImageLoadingTask task = new ImageLoadingTask(this.caseManager, this);
+        ImageLoadingTask task = new ImageLoadingTask(this.caseFacade, this);
         task.startTask();
     }//GEN-LAST:event_nextLabelMouseClicked
 
@@ -394,7 +394,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
         this.currentImagePage--;
         this.currentImageNo -= this.IMAGE_PER_PAGE;
 
-        ImageLoadingTask task = new ImageLoadingTask(this.caseManager, this);
+        ImageLoadingTask task = new ImageLoadingTask(this.caseFacade, this);
         task.startTask();    
     }//GEN-LAST:event_backLabelMouseClicked
 

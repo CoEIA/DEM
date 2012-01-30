@@ -27,7 +27,7 @@ public class FileSystemPanel extends javax.swing.JPanel {
         initComponents();
 
         this.caseFrame = (CaseFrame) parentFrame;
-        this.aCase = this.caseFrame.getCaseManager().getCase();
+        this.aCase = this.caseFrame.getCaseFacade().getCase();
         
         //SearchFileSystemPanel searchPanel = new SearchFileSystemPanel(aIndex, parentFrame);
         //FileBrowsingPanel fileBrowsingPanel = new FileBrowsingPanel();

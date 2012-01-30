@@ -10,7 +10,6 @@
  */
 package edu.coeia.searching;
 
-import edu.coeia.cases.Case;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.items.Item;
@@ -40,7 +39,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private final JFrame parentFrame ;
     private final CaseSearchPanel caseSearchPanel ;
     private final SearchResultPanel searchResultPanel ;
-    private final CaseFacade caseManager ;
+    private final CaseFacade caseFacade ;
     
     private final List<Integer> resultId ;
     private int currentId = 0;
@@ -52,7 +51,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         initComponents();
         
         this.caseSearchPanel = (CaseSearchPanel) parentPanel;
-        this.caseManager = this.caseSearchPanel.getCaseManager();
+        this.caseFacade = this.caseSearchPanel.getCaseFacade();
         this.parentFrame = this.caseSearchPanel.getParentJFrame();
         
         this.resultId = new ArrayList<Integer>();
@@ -407,7 +406,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private void startSearching () {
         removeSearchField(false);
             
-        if ( ! this.caseManager.getCaseHistory().getIsCaseIndexed() ) {
+        if ( ! this.caseFacade.getCaseHistory().getIsCaseIndexed() ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
             return ;
@@ -452,11 +451,11 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     
     private List<Item> getDocuments() throws Exception {
         List<Item> items = new ArrayList<Item>();
-        LuceneSearcher searcher = new LuceneSearcher(this.caseManager.getCase());
+        LuceneSearcher searcher = new LuceneSearcher(this.caseFacade.getCase());
         
         for(Integer id: this.resultId) {
             Document currentDocument = searcher.getLuceneDocumentById(String.valueOf(id));
-            Item fileItem = ItemFactory.newInstance(currentDocument, this.caseManager.getCase());
+            Item fileItem = ItemFactory.newInstance(currentDocument, this.caseFacade.getCase());
             items.add(fileItem);
         }
         
@@ -490,10 +489,10 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     String getQueryText() { return queryTextField.getText().trim() ; }
     void setQueryTextFeildFocusable () {  this.queryTextField.requestFocusInWindow(); }
     
-    public CaseFacade getCaseManager() { return this.caseManager; }
+    public CaseFacade getCaseFacade() { return this.caseFacade; }
     
     private void disableNotIndexedComponent () {
-        if ( this.caseManager.getCase().getEvidenceSourceLocation().isEmpty() ) {
+        if ( this.caseFacade.getCase().getEvidenceSourceLocation().isEmpty() ) {
             startSearchingButton.setEnabled(false);
         }
     }

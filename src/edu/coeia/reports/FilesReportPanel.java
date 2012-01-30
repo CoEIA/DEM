@@ -34,7 +34,7 @@ public class FilesReportPanel extends javax.swing.JPanel implements ReportGenera
         
         try {
             objXmlSource = RawResultFile.getFileSystemXmlFile(
-                    IndexUtil.getAllFilePaths(this.reportPanel.getCaseManager())
+                    IndexUtil.getAllFilePaths(this.reportPanel.getCaseFacade())
             ,this.reportPanel.getCase());
         } catch (IOException ex) {
             Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);

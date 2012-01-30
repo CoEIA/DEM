@@ -42,12 +42,12 @@ final class IndexUtil {
         return Collections.unmodifiableList(ApplicationManager.Manager.getCases());
     }
     
-    public static Map<String, Double> getAllFilesFrequency(final CaseFacade caseManager)
+    public static Map<String, Double> getAllFilesFrequency(final CaseFacade caseFacade)
             throws IOException{
         
         Map<String,Double> map = new HashMap<String,Double>();
         
-        String indexDir = caseManager.getIndexFolderLocation();
+        String indexDir = caseFacade.getIndexFolderLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
@@ -59,7 +59,7 @@ final class IndexUtil {
                 continue ;
 
             String file = currentTerm.text();
-            String fullPath = caseManager.getFullPath(file);
+            String fullPath = caseFacade.getFullPath(file);
             String ext = FileUtil.getExtension(fullPath);
             
             if ( ext == null || ext.length() > 6) // no more extension than 5 character!
@@ -79,18 +79,18 @@ final class IndexUtil {
         return map ;
     }
     
-    public static List<String> getAllFilesHaveAuthers(final CaseFacade caseManager,
+    public static List<String> getAllFilesHaveAuthers(final CaseFacade caseFacade,
             List<String> authers) throws IOException{
         List<String> files = new ArrayList<String>();
-        files.addAll(getAllFilePathsHaveAuther(caseManager, authers));
+        files.addAll(getAllFilePathsHaveAuther(caseFacade, authers));
         return files;
     }
     
-    public static List<String> getAllFilesBetweenSize(final CaseFacade caseManager, 
+    public static List<String> getAllFilesBetweenSize(final CaseFacade caseFacade, 
             final long from, final long to) throws IOException{
         List<String> files = new ArrayList<String>();
         
-         for(String fileName: getAllFilePaths(caseManager)) {
+         for(String fileName: getAllFilePaths(caseFacade)) {
             File file = new File(fileName);
             long length = file.length();
             
@@ -102,11 +102,11 @@ final class IndexUtil {
         return files;
     }
     
-    public static List<String> getAllFilesBetweenDates(final CaseFacade caseManager, 
+    public static List<String> getAllFilesBetweenDates(final CaseFacade caseFacade, 
             final Date from, final Date to) throws IOException{
         List<String> files = new ArrayList<String>();
         
-        for(String fileName: getAllFilePaths(caseManager)) {
+        for(String fileName: getAllFilePaths(caseFacade)) {
             File file = new File(fileName);
             if ( FileUtils.isFileNewer(file, from) && FileUtils.isFileOlder(file, to) ) {
                 files.add(fileName);
@@ -116,12 +116,12 @@ final class IndexUtil {
         return files;
     }
     
-    public static List<String> getAllFilePaths(final CaseFacade caseManager) 
+    public static List<String> getAllFilePaths(final CaseFacade caseFacade) 
             throws IOException {
         
         List<String> files = new ArrayList<String>();
         
-        String indexDir = caseManager.getIndexFolderLocation();
+        String indexDir = caseFacade.getIndexFolderLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
@@ -136,7 +136,7 @@ final class IndexUtil {
                         String relativePath = document.get(IndexingConstant.FILE_PATH);
                         
                         if ( !relativePath.isEmpty() ) {
-                            String fullpath = caseManager.getFullPath(relativePath);
+                            String fullpath = caseFacade.getFullPath(relativePath);
                             files.add(fullpath);
                         }
                     }
@@ -148,13 +148,13 @@ final class IndexUtil {
         return files;
     }
     
-    private static List<String> getAllFilePathsHaveAuther(final CaseFacade caseManager, 
+    private static List<String> getAllFilePathsHaveAuther(final CaseFacade caseFacade, 
             final List<String> authers) 
             throws IOException {
         
         List<String> files = new ArrayList<String>();
         
-        String indexDir = caseManager.getIndexFolderLocation();
+        String indexDir = caseFacade.getIndexFolderLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
@@ -171,7 +171,7 @@ final class IndexUtil {
                         
                         if ( !relativePath.isEmpty() && auther != null && !auther.trim().isEmpty() 
                                 && Utilities.isFound(authers, auther) )  {
-                            String fullpath = caseManager.getFullPath(relativePath);
+                            String fullpath = caseFacade.getFullPath(relativePath);
                             files.add(fullpath);
                         }
                     }
@@ -183,12 +183,12 @@ final class IndexUtil {
         return files;
     }
     
-    public static List<String> getAllAuthers(final CaseFacade caseManager) 
+    public static List<String> getAllAuthers(final CaseFacade caseFacade) 
             throws IOException {
         
         List<String> files = new ArrayList<String>();
         
-        String indexDir = caseManager.getIndexFolderLocation();
+        String indexDir = caseFacade.getIndexFolderLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         

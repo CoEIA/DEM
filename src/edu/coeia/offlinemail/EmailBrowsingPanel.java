@@ -47,15 +47,15 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     
     private final CaseFrame caseFrame ;
     private final Case aCase ;    
-    private final CaseFacade caseManager ;
+    private final CaseFacade caseFacade ;
     
     /** Creates new form OfflineEmailBrowsingPanel */
     public EmailBrowsingPanel(final JFrame frame) {
         initComponents();
         this.emailSourcrListModel = new DefaultListModel();
         this.caseFrame = (CaseFrame) frame;
-        this.caseManager = this.caseFrame.getCaseManager();
-        this.aCase =  this.caseFrame.getCaseManager().getCase();
+        this.caseFacade = this.caseFrame.getCaseFacade();
+        this.aCase =  this.caseFrame.getCaseFacade().getCase();
         
         /**
          * Filter email table by keyword written into filter text field
@@ -337,7 +337,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         String path = String.valueOf(this.emailSourceJList.getSelectedValue());
         
         try {
-            path = this.caseManager.getFullPath(path);
+            path = this.caseFacade.getFullPath(path);
         
             PSTFile pstFile = new PSTFile(path);
 

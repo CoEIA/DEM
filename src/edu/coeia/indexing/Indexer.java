@@ -24,10 +24,10 @@ public abstract class Indexer {
     public Indexer(LuceneIndex luceneIndex, File file, String mimeType, ImageExtractor imageExtractor) {
         this.file = file ;
         this.mimeType = mimeType; 
-        this.caseManager = luceneIndex.getCaseManager();
-        this.imageCache = this.caseManager.getCase().getCacheImages();
+        this.caseFacade = luceneIndex.getCaseFacade();
+        this.imageCache = this.caseFacade.getCase().getCacheImages();
         this.imageExtractor = imageExtractor;
-        this.caseLocation = this.caseManager.getCase().getCaseLocation();
+        this.caseLocation = this.caseFacade.getCase().getCaseLocation();
         this.imagesLocation = this.caseLocation + "\\" + FilesPath.IMAGES_PATH;
         this.tmpLocation = this.caseLocation + "\\" + FilesPath.CASE_TMP;
         this.luceneIndex = luceneIndex ;
@@ -70,7 +70,7 @@ public abstract class Indexer {
     public LuceneIndex getLuceneIndex() { return this.luceneIndex; }
     public ImageExtractor getImageExtractor() { return this.imageExtractor; }
     public IndexingDialog getDialog() { return this.indexingDialog ; }
-    public CaseFacade getCaseManager() { return this.caseManager ; }
+    public CaseFacade getCaseFacade() { return this.caseFacade ; }
     
     public int getId() { return id ; }
     public void increaseId() { id++; }
@@ -90,6 +90,6 @@ public abstract class Indexer {
     
     private final ImageExtractor imageExtractor;
     private final LuceneIndex luceneIndex ;
-    private final CaseFacade caseManager ;
+    private final CaseFacade caseFacade ;
     private IndexingDialog indexingDialog;
 }

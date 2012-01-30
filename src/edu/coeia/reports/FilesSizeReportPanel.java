@@ -38,7 +38,7 @@ public class FilesSizeReportPanel extends javax.swing.JPanel implements ReportGe
         
         try {
             objXmlSource = RawResultFile.getFileSystemXmlFile(
-                    IndexUtil.getAllFilesBetweenSize(this.reportPanel.getCaseManager(),
+                    IndexUtil.getAllFilesBetweenSize(this.reportPanel.getCaseFacade(),
                     from, to)
             ,this.reportPanel.getCase());
         } catch (IOException ex) {

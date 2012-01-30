@@ -32,13 +32,13 @@ public class MultimediaLoadingTask implements Task{
     private final Case aCase;
     private final MultimediaViewerPanel panel;
     private final MultimediaViewerPanel.TYPE type;
-    private final CaseFacade caseManager ;
+    private final CaseFacade caseFacade ;
     
-    public MultimediaLoadingTask(final CaseFacade caseManager, final MultimediaViewerPanel panel,
+    public MultimediaLoadingTask(final CaseFacade caseFacade, final MultimediaViewerPanel panel,
             final MultimediaViewerPanel.TYPE type) {
         this.thread = new TaskThread(this);
-        this.caseManager = caseManager ;
-        this.aCase = this.caseManager.getCase();
+        this.caseFacade = caseFacade ;
+        this.aCase = this.caseFacade.getCase();
         this.panel = panel;
         this.type = type;
     }
@@ -77,16 +77,16 @@ public class MultimediaLoadingTask implements Task{
                     String fullpath = "";
                     
                     if (type == MultimediaViewerPanel.TYPE.IMAGE && isImage(documentExtension) ) {
-                        fullpath = this.caseManager.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                        fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
                     }
                     else if (type == MultimediaViewerPanel.TYPE.AUDIO && isAudio(documentExtension)) {
-                        fullpath = this.caseManager.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                        fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
                     }
                     else if (type == MultimediaViewerPanel.TYPE.ARCHIVE && isArchieve(documentExtension)) {
-                        fullpath = this.caseManager.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                        fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
                     }
                     else if (type == MultimediaViewerPanel.TYPE.VIDEO && isVideo(documentExtension)) {
-                        fullpath = this.caseManager.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                        fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
                     }
                     
                     if ( ! fullpath.isEmpty() ) {

@@ -53,8 +53,8 @@ public class CaseExporterTask implements Task{
         String caseName = this.file.getAbsolutePath();
 
         String prefLocation = this.aCase.getCaseLocation() + File.separator +  FilesPath.DEM_CASE_PREFERENCE;
-        CaseFacade caseManager = CaseFacade.newInstance(aCase);
-        caseManager.exportHistory(this.aCase.getCaseName(), prefLocation);
+        CaseFacade caseFacade = CaseFacade.newInstance(aCase);
+        caseFacade.exportHistory(this.aCase.getCaseName(), prefLocation);
 
         ZipUtil zipper = new ZipUtil(this);
         zipper.compress(this.aCase.getCaseLocation(), caseName);

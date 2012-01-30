@@ -54,15 +54,15 @@ public class SearchResultPanel extends javax.swing.JPanel {
     private final Case caseObj;
     
     private final List<Integer> documentIds = new ArrayList<Integer>();
-    private final CaseFacade caseManager;
+    private final CaseFacade caseFacade;
     
     /** Creates new form SearchResultPanel */
     public SearchResultPanel(JFrame parentFrame) {
         initComponents();
 
         this.parentFrame = parentFrame;
-        this.caseObj  = ((CaseFrame) this.parentFrame).getCaseManager().getCase();
-        this.caseManager = ((CaseFrame) this.parentFrame).getCaseManager();
+        this.caseObj  = ((CaseFrame) this.parentFrame).getCaseFacade().getCase();
+        this.caseFacade = ((CaseFrame) this.parentFrame).getCaseFacade();
     }
 
     /** This method is called from within the constructor to
@@ -204,7 +204,7 @@ public class SearchResultPanel extends javax.swing.JPanel {
         if ( IndexingConstant.isFileDocument(document) ) {
             String fileName = document.get(IndexingConstant.FILE_NAME);
             String relativePath = document.get(IndexingConstant.FILE_PATH);
-            String fullPath = this.caseManager.getFullPath(relativePath);
+            String fullPath = this.caseFacade.getFullPath(relativePath);
             String hashValue = HashCalculator.calculateFileHash(fullPath);
             
             item = HashItem.newInstance(fileName, fullPath, this.caseObj.getCaseName(),

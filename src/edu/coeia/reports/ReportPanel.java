@@ -29,7 +29,7 @@ import javax.swing.JFrame;
  */
 public class ReportPanel extends javax.swing.JPanel {
 
-    private CaseFacade caseManager ;
+    private CaseFacade caseFacade ;
     private TagsManager tags;
     private CaseFrame caseFrame ;
     private Case aCase ;
@@ -42,8 +42,8 @@ public class ReportPanel extends javax.swing.JPanel {
         initComponents();
 
         this.caseFrame = (CaseFrame) frame;
-        this.aCase =  this.caseFrame.getCaseManager().getCase();
-        this.caseManager = this.caseFrame.getCaseManager();
+        this.aCase =  this.caseFrame.getCaseFacade().getCase();
+        this.caseFacade = this.caseFrame.getCaseFacade();
         this.tags = this.caseFrame.getTagsManager(); 
     }
 
@@ -529,7 +529,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 
     Case getCase() { return this.aCase; }
-    CaseFacade getCaseManager() { return this.caseManager; }
+    CaseFacade getCaseFacade() { return this.caseFacade; }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel OptionsPanels;

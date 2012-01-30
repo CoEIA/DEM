@@ -31,24 +31,24 @@ import org.apache.lucene.util.Version ;
 public final class LuceneIndex {
 
     private final IndexWriter writer ;
-    private final CaseFacade caseManager;
+    private final CaseFacade caseFacade;
     
     /*
      * Static Factory Method 
      * Create New Instance of Lucene Indexer
      */
-    public static LuceneIndex newInstance(final CaseFacade caseManager) throws IOException{ 
-        return new LuceneIndex(caseManager);
+    public static LuceneIndex newInstance(final CaseFacade caseFacade) throws IOException{ 
+        return new LuceneIndex(caseFacade);
     }
     
-    private LuceneIndex (final CaseFacade caseManager) throws IOException {
-        File indexDir = new File(caseManager.getIndexFolderLocation());
+    private LuceneIndex (final CaseFacade caseFacade) throws IOException {
+        File indexDir = new File(caseFacade.getIndexFolderLocation());
         
         if ( !indexDir.exists() ) {
             throw new IOException("not found indexing folder");
         }
 
-	this.caseManager = caseManager;
+	this.caseFacade = caseFacade;
       
         // using stop analyzer
         this.writer = new IndexWriter(FSDirectory.open(indexDir), new StopAnalyzer(Version.LUCENE_20, 
@@ -69,7 +69,7 @@ public final class LuceneIndex {
         this.writer.addDocument(document);
     }
     
-    CaseFacade getCaseManager() { return this.caseManager; }
+    CaseFacade getCaseFacade() { return this.caseFacade; }
     IndexWriter getWriter () { return this.writer ; }
     
     int getIndexNumber () throws IOException {

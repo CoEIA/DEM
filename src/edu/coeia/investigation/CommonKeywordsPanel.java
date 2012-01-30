@@ -59,7 +59,7 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
         initComponents();
 
         this.parentDialog = dialog;
-        this.caseObj = this.parentDialog.getCaseManager().getCase();
+        this.caseObj = this.parentDialog.getCaseFacade().getCase();
         this.advancedSearchPanel = panel;
         
         JTableUtil.setTableAlignmentValue(cloudsTable, 1);
@@ -340,8 +340,8 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         
     private void generateTextCloud() {
         try {
-            CaseFacade caseManager = CaseFacade.newInstance(this.caseObj);
-            if ( ! caseManager.getCaseHistory().getIsCaseIndexed() ) {
+            CaseFacade caseFacade = CaseFacade.newInstance(this.caseObj);
+            if ( ! caseFacade.getCaseHistory().getIsCaseIndexed() ) {
                 JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                         "Case is not indexed",JOptionPane.ERROR_MESSAGE );
                 return ;

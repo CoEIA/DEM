@@ -37,9 +37,9 @@ public class ChatViewerPanel extends javax.swing.JPanel {
     private final String agent;
     
     /** Creates new form ChatViewerPanel */
-    public ChatViewerPanel(final CaseFacade caseManager, final String agent) {
+    public ChatViewerPanel(final CaseFacade caseFacade, final String agent) {
         initComponents();
-        this.aCase = caseManager.getCase();
+        this.aCase = caseFacade.getCase();
         this.chatListModel = new DefaultListModel();
         this.agent = agent;
         

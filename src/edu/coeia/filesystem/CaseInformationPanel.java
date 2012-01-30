@@ -33,7 +33,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
 
     private final CaseFrame parent ;
     private final TagsManager tagsManager ;
-    private final CaseFacade caseManager ;
+    private final CaseFacade caseFacade ;
     
     private int currentTagIndex;
     
@@ -43,7 +43,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         
         this.parent = frame;
         this.tagsManager = frame.getTagsManager() ;
-        this.caseManager = frame.getCaseManager();
+        this.caseFacade = frame.getCaseFacade();
                 
         // initializing tags panel
         this.initializingTagsPanel();
@@ -509,7 +509,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
     private void verifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verifyButtonActionPerformed
         String hash = this.caseHashValueTextField.getText().trim();
         if ( !hash.isEmpty() )
-            HashVerifier.newInstance(this.parent, hash, this.caseManager.getCase().getEvidenceSourceLocation().get(0)).start();
+            HashVerifier.newInstance(this.parent, hash, this.caseFacade.getCase().getEvidenceSourceLocation().get(0)).start();
         else
             JOptionPane.showMessageDialog(this, "Please enter the original hash value",
                     "Missing Hash Value", JOptionPane.ERROR_MESSAGE);
@@ -664,14 +664,14 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
      * display case information in the related panel
      */
     public void displayCaseInformationPanel() {
-        this.caseNameTextField.setText(this.caseManager.getCase().getCaseName());
-        this.createdDateTextField.setText(DateUtil.formatDate(this.caseManager.getCase().getCreateTime()));
-        this.createdByTextField.setText(this.caseManager.getCase().getInvestigatorName());
-        this.casePathTextField.setText(this.caseManager.getCase().getCaseLocation());
-        this.caseDescriptionTextField.setText(this.caseManager.getCase().getDescription());
+        this.caseNameTextField.setText(this.caseFacade.getCase().getCaseName());
+        this.createdDateTextField.setText(DateUtil.formatDate(this.caseFacade.getCase().getCreateTime()));
+        this.createdByTextField.setText(this.caseFacade.getCase().getInvestigatorName());
+        this.casePathTextField.setText(this.caseFacade.getCase().getCaseLocation());
+        this.caseDescriptionTextField.setText(this.caseFacade.getCase().getDescription());
         
         StringBuilder paths = new StringBuilder();
-        for(String doc: this.caseManager.getCase().getEvidenceSourceLocation())
+        for(String doc: this.caseFacade.getCase().getEvidenceSourceLocation())
             paths.append(doc).append("\n");
         
         this.caseSourcesTextView.setText(paths.toString());   // clear the field and append new data
@@ -682,7 +682,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
      * this information will be changed after each indexing
      */
     public void displayMutableCaseInformationPanel() {
-        CaseHistory history = this.caseManager.getCaseHistory();
+        CaseHistory history = this.caseFacade.getCaseHistory();
         
         this.lastModifiedTextField.setText(history.getLastModified());
         this.indexedTextField.setText(String.valueOf(history.getIsCaseIndexed()));

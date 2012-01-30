@@ -29,13 +29,13 @@ public class MultimediaViewerPanel extends javax.swing.JPanel {
 
     public enum TYPE { IMAGE, AUDIO, ARCHIVE, VIDEO };
     
-    private final CaseFacade caseManager;
+    private final CaseFacade caseFacade;
     private final TYPE type;
     
     /** Creates new form MultimediaViewerPanel */
-    public MultimediaViewerPanel(final CaseFacade caseManager, final TYPE type) {
+    public MultimediaViewerPanel(final CaseFacade caseFacade, final TYPE type) {
         this.initComponents();
-        this.caseManager = caseManager;
+        this.caseFacade = caseFacade;
         this.type = type;
         
         this.filterTableTextField.getDocument().addDocumentListener(
@@ -118,7 +118,7 @@ public class MultimediaViewerPanel extends javax.swing.JPanel {
 
     private void loadItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadItemsButtonActionPerformed
         try {
-            MultimediaLoadingTask task = new MultimediaLoadingTask(this.caseManager, this, type);
+            MultimediaLoadingTask task = new MultimediaLoadingTask(this.caseFacade, this, type);
             task.startTask();
         } catch (Exception ex) {
             Logger.getLogger(MultimediaViewerPanel.class.getName()).log(Level.SEVERE, null, ex);

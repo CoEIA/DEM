@@ -50,7 +50,7 @@ import java.util.logging.Logger;
  */
 
 public class CaseFrame extends javax.swing.JFrame {
-    private final CaseFacade caseManager;
+    private final CaseFacade caseFacade;
     private final TagsManager tagsManager ;
     
     private final String APPLICATION_NAME = "Digital Evidence Miner: ";
@@ -74,9 +74,9 @@ public class CaseFrame extends javax.swing.JFrame {
      * @param aCase case opened in CaseFacade
      * @param list a list of all openings case
      */
-    public CaseFrame(final CaseFacade caseManager, List<String> list) {
+    public CaseFrame(final CaseFacade caseFacade, List<String> list) {
         initComponents();
-        logger.info("OfflineMining Frame Constructor, Open Case: " + caseManager.getCase().getCaseName());
+        logger.info("OfflineMining Frame Constructor, Open Case: " + caseFacade.getCase().getCaseName());
         
         /*
          * set frame resizable and set frame title
@@ -92,9 +92,9 @@ public class CaseFrame extends javax.swing.JFrame {
         /*
          * initializing class
          */
-        this.caseManager = caseManager;
+        this.caseFacade = caseFacade;
         this.listOfOpeningCase = list;
-        this.tagsManager = TagsManager.getTagsManager(this.caseManager.getTagDatabaseLocation());
+        this.tagsManager = TagsManager.getTagsManager(this.caseFacade.getTagDatabaseLocation());
         
         /**
          * Remove Case Name From the list when Frame Closed
@@ -642,7 +642,7 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     }
 
     public void showIndexDialog(boolean startIndex) {
-        IndexingDialog indexPanel = new IndexingDialog(this, true, this.getCaseManager(), startIndex);
+        IndexingDialog indexPanel = new IndexingDialog(this, true, this.getCaseFacade(), startIndex);
         indexPanel.setLocationRelativeTo(this);
         indexPanel.setVisible(true);
         
@@ -691,9 +691,9 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
     }
     
-    private Case getCase() { return this.caseManager.getCase() ; }
+    private Case getCase() { return this.caseFacade.getCase() ; }
     public TagsManager getTagsManager() { return this.tagsManager; }
-    public CaseFacade getCaseManager() { return this.caseManager; }
+    public CaseFacade getCaseFacade() { return this.caseFacade; }
     
     public void refreshTagsList() {
         this.caseManagerPanel.initializingTagsPanel();

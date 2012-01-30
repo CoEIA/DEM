@@ -44,7 +44,7 @@ public class FilesTimeReportPanel extends javax.swing.JPanel implements ReportGe
         
         try {
             xmlSource = RawResultFile.getFileSystemXmlFile(
-                    IndexUtil.getAllFilesBetweenDates(this.reportPanel.getCaseManager(),
+                    IndexUtil.getAllFilesBetweenDates(this.reportPanel.getCaseFacade(),
                     from, to)
             ,this.reportPanel.getCase());
         } catch (IOException ex) {

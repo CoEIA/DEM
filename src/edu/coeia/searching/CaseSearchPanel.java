@@ -30,7 +30,7 @@ public class CaseSearchPanel extends javax.swing.JPanel {
     private ConnectedSearchPanel connectedSearchPanel;
     
     private final CaseFrame caseFrame ;
-    private final CaseFacade caseManager ;
+    private final CaseFacade caseFacade ;
     
     private List<SearchHistory> searchOptions = new ArrayList<SearchHistory>();
     
@@ -39,7 +39,7 @@ public class CaseSearchPanel extends javax.swing.JPanel {
         initComponents();
         
         this.caseFrame = (CaseFrame) frame;
-        this.caseManager =  this.caseFrame.getCaseManager();
+        this.caseFacade =  this.caseFrame.getCaseFacade();
         
         // add tapped pane
         this.advancedSearchPanel = new AdvancedSearchPanel(this);
@@ -48,7 +48,7 @@ public class CaseSearchPanel extends javax.swing.JPanel {
         this.caseSearchTappedPane.add("Connected Search", connectedSearchPanel);
     }
     
-    public CaseFacade getCaseManager() { return this.caseManager; }
+    public CaseFacade getCaseFacade() { return this.caseFacade; }
     public JFrame getParentJFrame() { return this.caseFrame ; }
     
     public void setFocusInAdvancedSearchPanel () {

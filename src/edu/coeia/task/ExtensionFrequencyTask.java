@@ -34,12 +34,12 @@ public class ExtensionFrequencyTask implements Task{
     private final TaskThread thread;
     private final Case aCase;
     private final ExtensionFrequencyPanel panel;
-    private final CaseFacade caseManager ;
+    private final CaseFacade caseFacade ;
     
-    public ExtensionFrequencyTask(final CaseFacade caseManager, final ExtensionFrequencyPanel panel) {
+    public ExtensionFrequencyTask(final CaseFacade caseFacade, final ExtensionFrequencyPanel panel) {
         this.thread = new TaskThread(this);
-        this.caseManager = caseManager;
-        this.aCase = this.caseManager.getCase();
+        this.caseFacade = caseFacade;
+        this.aCase = this.caseFacade.getCase();
         this.panel = panel;
     }
     
@@ -83,7 +83,7 @@ public class ExtensionFrequencyTask implements Task{
                 Field field = document.getField(IndexingConstant.FILE_PATH);
                 if ( field != null && field.stringValue() != null) {
                     String path = field.stringValue();
-                    String fullPath = this.caseManager.getFullPath(path);
+                    String fullPath = this.caseFacade.getFullPath(path);
                     String ext = FileUtil.getExtension(fullPath);
 
                     if ( ext == null || ext.length() > 6) // no more extension than 5 character!

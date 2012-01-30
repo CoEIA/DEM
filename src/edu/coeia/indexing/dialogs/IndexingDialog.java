@@ -34,16 +34,16 @@ import javax.swing.JTable ;
 public final class IndexingDialog extends javax.swing.JDialog {
 
     private CrawlerIndexerThread indexerThread ;
-    private final CaseFacade caseManager;
+    private final CaseFacade caseFacade;
     
     /** Creates new form IndexingDialog */
     public IndexingDialog(java.awt.Frame parent, boolean modal,
-            final CaseFacade caseManager, boolean startIndexNow) {
+            final CaseFacade caseFacade, boolean startIndexNow) {
         
         super(parent, modal);
         initComponents();
        
-        this.caseManager = caseManager;
+        this.caseFacade = caseFacade;
         
         // set start and end button
         resettingButtons(true);
@@ -325,7 +325,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         stopIndexingButton.setEnabled(!state);
     }
    
-    public CaseFacade getCaseManager() { return this.caseManager; }
+    public CaseFacade getCaseFacade() { return this.caseFacade; }
 
     public JTable getLoggingTable () { return this.indexTable; }
     public JProgressBar getProgressBar() { return this.progressBar ; }

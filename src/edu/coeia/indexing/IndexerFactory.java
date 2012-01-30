@@ -58,7 +58,7 @@ final class IndexerFactory {
             
             // if found office file and user select extract images, then do it
             // else it will indexed without images extractors
-            else if ( isOfficeFile(mime) && luceneIndex.getCaseManager().getCase().getCacheImages())
+            else if ( isOfficeFile(mime) && luceneIndex.getCaseFacade().getCase().getCacheImages())
                 indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
                          
             // simple file (html, txt, xml) is file that have not images
@@ -72,7 +72,7 @@ final class IndexerFactory {
                         
             // if found archive files and user select to index archive files
             // else consider them as normal file
-            else if (isArchiveFile(mime) && luceneIndex.getCaseManager().getCase().getCheckCompressed())
+            else if (isArchiveFile(mime) && luceneIndex.getCaseFacade().getCase().getCheckCompressed())
                 indexer = ArchiveIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
              
             // images type

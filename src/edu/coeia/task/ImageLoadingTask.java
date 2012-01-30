@@ -58,12 +58,12 @@ public class ImageLoadingTask implements Task{
     private final TaskThread thread;
     private final Case aCase;
     private final ImageViewerPanel panel;
-    private final CaseFacade caseManager; 
+    private final CaseFacade caseFacade; 
     
-    public ImageLoadingTask(final CaseFacade caseManager, final ImageViewerPanel panel) {
+    public ImageLoadingTask(final CaseFacade caseFacade, final ImageViewerPanel panel) {
         this.thread = new TaskThread(this);
-        this.caseManager = caseManager;
-        this.aCase = this.caseManager.getCase();
+        this.caseFacade = caseFacade;
+        this.aCase = this.caseFacade.getCase();
         this.panel = panel;
     }
     
@@ -162,7 +162,7 @@ public class ImageLoadingTask implements Task{
                         if ( path.contains(this.aCase.getCaseName() + File.separator + FilesPath.CASE_TMP) ) 
                             fullpath = path;
                         else
-                            fullpath = this.caseManager.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                            fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
                     }
                     
                     if ( !fullpath.isEmpty()) {
@@ -203,7 +203,7 @@ public class ImageLoadingTask implements Task{
                         if ( path.contains(this.aCase.getCaseName() + File.separator + FilesPath.CASE_TMP) ) 
                             fullpath = path;
                         else
-                            fullpath = this.caseManager.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                            fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
                     }
                     
                     if ( ! fullpath.isEmpty() ) {

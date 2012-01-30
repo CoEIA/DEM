@@ -61,10 +61,10 @@ public class CaseLoaderTask implements Task {
                 // and update the file before opening the case
                 boolean caseSourceIsUptoDate = true;
                 
-                CaseFacade caseManager = CaseFacade.newInstance(aCase);
+                CaseFacade caseFacade = CaseFacade.newInstance(aCase);
         
-                if ( caseManager.isCaseHaveChangedSource() )  {
-                    caseSourceIsUptoDate = askAndUpdateNewCaseSource(caseManager);
+                if ( caseFacade.isCaseHaveChangedSource() )  {
+                    caseSourceIsUptoDate = askAndUpdateNewCaseSource(caseFacade);
                 }
                 
                 if ( caseSourceIsUptoDate ) {                    
@@ -74,7 +74,7 @@ public class CaseLoaderTask implements Task {
                     mainFrame.setLocationRelativeTo(this.frame);
                     mainFrame.setVisible(true);
                     
-                    if ( ! caseManager.getCaseHistory().getIsCaseIndexed() ) {
+                    if ( ! caseFacade.getCaseHistory().getIsCaseIndexed() ) {
                         mainFrame.showIndexDialog(startIndex);
                     }
                 }
@@ -89,8 +89,8 @@ public class CaseLoaderTask implements Task {
         }
     }
     
-    private boolean askAndUpdateNewCaseSource(final CaseFacade caseManager) throws IOException {
-        UpdatingCaseEvidenceSourceDialog dialog = new UpdatingCaseEvidenceSourceDialog(this.frame, true, caseManager);
+    private boolean askAndUpdateNewCaseSource(final CaseFacade caseFacade) throws IOException {
+        UpdatingCaseEvidenceSourceDialog dialog = new UpdatingCaseEvidenceSourceDialog(this.frame, true, caseFacade);
         dialog.setVisible(true);
         
         return dialog.getResult();

@@ -22,19 +22,19 @@ import javax.swing.JFrame;
 public class ChatPanel extends javax.swing.JPanel {
 
     private final CaseFrame caseFrame ;
-    private final CaseFacade caseManager;
+    private final CaseFacade caseFacade;
     
     /** Creates new form ChatDisplayPanel */
     public ChatPanel(final JFrame frame) {
         initComponents();
         
         this.caseFrame = (CaseFrame) frame;
-        this.caseManager =  this.caseFrame.getCaseManager();
+        this.caseFacade =  this.caseFrame.getCaseFacade();
         
         // add three panels
-        ChatViewerPanel windowsLivePanel = new ChatViewerPanel(this.caseManager, "MSN");
-        ChatViewerPanel yahooPanel = new ChatViewerPanel(this.caseManager, "YAHOO");
-        ChatViewerPanel skypePanel = new ChatViewerPanel(this.caseManager, "SKYPE");
+        ChatViewerPanel windowsLivePanel = new ChatViewerPanel(this.caseFacade, "MSN");
+        ChatViewerPanel yahooPanel = new ChatViewerPanel(this.caseFacade, "YAHOO");
+        ChatViewerPanel skypePanel = new ChatViewerPanel(this.caseFacade, "SKYPE");
         
         this.chatTappedPane.add("Windows Live Messanger", windowsLivePanel);
         this.chatTappedPane.add("Yahoo! Chat Messanger", yahooPanel);

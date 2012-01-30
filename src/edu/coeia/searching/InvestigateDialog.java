@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class InvestigateDialog extends javax.swing.JDialog {
 
-    private final CaseFacade caseManager;
+    private final CaseFacade caseFacade;
     private final AdvancedSearchPanel parentPanel;
     private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
@@ -32,7 +32,7 @@ public class InvestigateDialog extends javax.swing.JDialog {
         initComponents();
         
         this.parentPanel = panel;
-        this.caseManager = this.parentPanel.getCaseManager();
+        this.caseFacade = this.parentPanel.getCaseFacade();
         
         CommonKeywordsPanel commonKeywordsPanel = new CommonKeywordsPanel(this, this.parentPanel);
         ExtensionFrequencyPanel extensionFrequencyPanel = new ExtensionFrequencyPanel(this);
@@ -62,7 +62,7 @@ public class InvestigateDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public CaseFacade getCaseManager() { return this.caseManager; }
+    public CaseFacade getCaseFacade() { return this.caseFacade; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane investigateTappedPane;

@@ -71,8 +71,8 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         
         this.parent = parent ;
         this.tagManger = ((CaseFrame) this.parent).getTagsManager();
-        this.caseObj  = ((CaseFrame) this.parent).getCaseManager().getCase();
-        this.caseManger = ((CaseFrame) this.parent).getCaseManager();
+        this.caseObj  = ((CaseFrame) this.parent).getCaseFacade().getCase();
+        this.caseManger = ((CaseFrame) this.parent).getCaseFacade();
         this.keyword = searchViewer.getKeyword();
 
         try {
