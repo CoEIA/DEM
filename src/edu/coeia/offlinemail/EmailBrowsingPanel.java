@@ -42,17 +42,18 @@ import com.pff.PSTFile;
  */
 public class EmailBrowsingPanel extends javax.swing.JPanel {
 
-    private Case aCase;
-    private DefaultListModel emailSourcrListModel;
-    private final List<Integer> documentIds = new ArrayList<Integer>();
-    private JFrame parentFrame ;
+    private final DefaultListModel emailSourcrListModel;
+    private final List<Integer> documentIds = new ArrayList<Integer>();;
+    
+    private final CaseFrame caseFrame ;
+    private final Case aCase ;    
     
     /** Creates new form OfflineEmailBrowsingPanel */
-    public EmailBrowsingPanel(final Case aCase, final CaseFrame frame) {
+    public EmailBrowsingPanel(final JFrame frame) {
         initComponents();
         this.emailSourcrListModel = new DefaultListModel();
-        this.aCase = aCase;
-        this.parentFrame = (JFrame) frame;
+        this.caseFrame = (CaseFrame) frame;
+        this.aCase =  this.caseFrame.getCase();
         
         /**
          * Filter email table by keyword written into filter text field
@@ -304,7 +305,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             int currentId = Integer.parseInt(fileId);
 
             SearchResultParamter searchViewer = new SearchResultParamter("",currentId, this.documentIds);
-            SourceViewerDialog panel = new SourceViewerDialog(this.parentFrame, true, searchViewer);
+            SourceViewerDialog panel = new SourceViewerDialog(this.caseFrame, true, searchViewer);
             panel.setVisible(true);
         }
     }//GEN-LAST:event_emailsTableMouseClicked
@@ -378,7 +379,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             String path, String title, String folderName,EmailVisualizationThread.FolderType type) {
         
         InfiniteProgressPanel i = new InfiniteProgressPanel(title);
-        parentFrame.setGlassPane(i);
+        caseFrame.setGlassPane(i);
         i.start();
 
         EmailVisualizationThread thread = new EmailVisualizationThread(null, i, folderName , pst, path, from, to, type);

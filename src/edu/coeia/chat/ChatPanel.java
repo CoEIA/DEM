@@ -11,6 +11,8 @@
 package edu.coeia.chat;
 
 import edu.coeia.cases.Case;
+import edu.coeia.main.CaseFrame;
+import javax.swing.JFrame;
 
 /**
  *
@@ -18,12 +20,15 @@ import edu.coeia.cases.Case;
  */
 public class ChatPanel extends javax.swing.JPanel {
 
-    private Case aCase ;
+    private final CaseFrame caseFrame ;
+    private final Case aCase ;
     
     /** Creates new form ChatDisplayPanel */
-    public ChatPanel(final Case aIndex) {
+    public ChatPanel(final JFrame frame) {
         initComponents();
-        this.aCase = aIndex ;
+        
+        this.caseFrame = (CaseFrame) frame;
+        this.aCase =  this.caseFrame.getCase();
         
         // add three panels
         ChatViewerPanel windowsLivePanel = new ChatViewerPanel(aCase, "MSN");

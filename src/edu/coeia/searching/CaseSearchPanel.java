@@ -13,6 +13,7 @@ package edu.coeia.searching;
 import edu.coeia.cases.Case;
 import edu.coeia.items.Item;
 
+import edu.coeia.main.CaseFrame;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,27 +29,27 @@ public class CaseSearchPanel extends javax.swing.JPanel {
     private AdvancedSearchPanel  advancedSearchPanel;
     private ConnectedSearchPanel connectedSearchPanel;
     
-    private JFrame parentFrame; 
-    private Case currentCase ;
+    private final CaseFrame caseFrame ;
+    private final Case aCase ;
     
     private List<SearchHistory> searchOptions = new ArrayList<SearchHistory>();
     
     /** Creates new form CaseSearchPanel */
-    public CaseSearchPanel(Case aCase, JFrame parentFrame) {
+    public CaseSearchPanel(final JFrame frame) {
         initComponents();
         
-        this.currentCase = aCase ;
-        this.parentFrame = parentFrame;
+        this.caseFrame = (CaseFrame) frame;
+        this.aCase =  this.caseFrame.getCase();
         
         // add tapped pane
         this.advancedSearchPanel = new AdvancedSearchPanel(this);
-        this.connectedSearchPanel = new ConnectedSearchPanel(aCase, parentFrame, this);
+        this.connectedSearchPanel = new ConnectedSearchPanel(aCase, caseFrame, this);
         this.caseSearchTappedPane.add("Advanced Search", advancedSearchPanel);
         this.caseSearchTappedPane.add("Connected Search", connectedSearchPanel);
     }
     
-    public Case getCurrentCase() { return this.currentCase; }
-    public JFrame getParentJFrame() { return this.parentFrame ; }
+    public Case getCurrentCase() { return this.aCase; }
+    public JFrame getParentJFrame() { return this.caseFrame ; }
     
     public void setFocusInAdvancedSearchPanel () {
         this.advancedSearchPanel.setQueryTextFeildFocusable();

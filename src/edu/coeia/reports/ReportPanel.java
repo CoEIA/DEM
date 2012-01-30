@@ -29,10 +29,11 @@ import javax.swing.JFrame;
  */
 public class ReportPanel extends javax.swing.JPanel {
 
-    private Case aCase;
     private CasePathHandler handler;
-    private JFrame parentFrame; 
     private TagsManager tags;
+    
+    private CaseFrame caseFrame ;
+    private Case aCase ;
     
     public ReportPanel()
     {
@@ -41,14 +42,16 @@ public class ReportPanel extends javax.swing.JPanel {
     
    
     /** Creates new form ReportPanel */
-    public ReportPanel(final Case aCase, final CaseFrame frame) {
+    public ReportPanel(final JFrame frame) {
         try {
             initComponents();
-            this.aCase = aCase;
-            this.parentFrame = frame;
+
+            this.caseFrame = (CaseFrame) frame;
+            this.aCase =  this.caseFrame.getCase();
+        
             this.handler = CasePathHandler.newInstance(aCase.getCaseLocation());
             this.handler.readConfiguration();
-            this.tags = frame.getTagsManager(); 
+            this.tags = this.caseFrame.getTagsManager(); 
            
         } catch (IOException ex) {
             Logger.getLogger(ReportPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -461,37 +464,37 @@ public class ReportPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void fileAuthersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileAuthersButtonActionPerformed
-        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+        ReportOptionDialog dialog = new ReportOptionDialog(this.caseFrame, true,
             new FilesAutherReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_fileAuthersButtonActionPerformed
 
     private void filesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesButtonActionPerformed
-        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+        ReportOptionDialog dialog = new ReportOptionDialog(this.caseFrame, true,
             new FilesReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_filesButtonActionPerformed
 
     private void fileExtensionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileExtensionButtonActionPerformed
-        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+        ReportOptionDialog dialog = new ReportOptionDialog(this.caseFrame, true,
             new FilesExtensionReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_fileExtensionButtonActionPerformed
 
     private void filesSizeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesSizeButtonActionPerformed
-        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+        ReportOptionDialog dialog = new ReportOptionDialog(this.caseFrame, true,
             new FilesSizeReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_filesSizeButtonActionPerformed
 
     private void filesDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filesDateButtonActionPerformed
-        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+        ReportOptionDialog dialog = new ReportOptionDialog(this.caseFrame, true,
             new FilesTimeReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_filesDateButtonActionPerformed
 
     private void casesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_casesButtonActionPerformed
-        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+        ReportOptionDialog dialog = new ReportOptionDialog(this.caseFrame, true,
             new CasesReportPanel(this), this);
         dialog.setVisible(true);
     }//GEN-LAST:event_casesButtonActionPerformed
@@ -526,7 +529,7 @@ public class ReportPanel extends javax.swing.JPanel {
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-        ReportOptionDialog dialog = new ReportOptionDialog(this.parentFrame, true,
+        ReportOptionDialog dialog = new ReportOptionDialog(this.caseFrame, true,
             new TaggedItemsReportPanel(this, tags),this);
         dialog.setVisible(true);
 }//GEN-LAST:event_jButton1ActionPerformed

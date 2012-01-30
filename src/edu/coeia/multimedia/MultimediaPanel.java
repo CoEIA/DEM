@@ -11,14 +11,19 @@
 package edu.coeia.multimedia;
 
 import edu.coeia.cases.Case;
+import edu.coeia.main.CaseFrame;
+import javax.swing.JFrame;
 
 public class MultimediaPanel extends javax.swing.JPanel {
-    private Case aCase;
+    private final CaseFrame caseFrame ;
+    private final Case aCase ;
 
     /** Creates new form MultimediaPanel */
-    public MultimediaPanel(final Case index) {
+    public MultimediaPanel(final JFrame frame) {
         initComponents();
-        this.aCase = index;
+        
+        this.caseFrame = (CaseFrame) frame;
+        this.aCase =  this.caseFrame.getCase();
         
         MultimediaViewerPanel audioPanel = new MultimediaViewerPanel(aCase, MultimediaViewerPanel.TYPE.AUDIO);
         MultimediaViewerPanel videoPanel = new MultimediaViewerPanel(aCase, MultimediaViewerPanel.TYPE.VIDEO);

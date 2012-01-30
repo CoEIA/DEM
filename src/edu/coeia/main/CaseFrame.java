@@ -4,6 +4,7 @@ package edu.coeia.main;
 import edu.coeia.reports.ReportPanel;
 import edu.coeia.filesystem.FileSystemPanel;
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.cases.CaseManagerPanel;
 import edu.coeia.cases.EmailConfiguration;
 import edu.coeia.cases.EmailConfiguration.ONLINE_EMAIL_AGENT;
@@ -49,7 +50,7 @@ import java.util.logging.Logger;
  */
 
 public class CaseFrame extends javax.swing.JFrame {
-    private final Case caseObj ;
+    private final CaseManager caseManager;
     private final TagsManager tagsManager ;
     
     private final String APPLICATION_NAME = "Digital Evidence Miner: ";
@@ -91,9 +92,9 @@ public class CaseFrame extends javax.swing.JFrame {
         /*
          * initializing class
          */
-        this.caseObj = aCase ;
+        this.caseManager = CaseManager.newInstance(aCase) ;
         this.listOfOpeningCase = list;
-        this.tagsManager = TagsManager.getTagsManager(this.caseObj.getCaseLocation() + "\\" + FilesPath.CASE_TAGS);
+        this.tagsManager = TagsManager.getTagsManager(this.caseManager.getTagDatabaseLocation());
         
         /**
          * Remove Case Name From the list when Frame Closed
@@ -107,14 +108,14 @@ public class CaseFrame extends javax.swing.JFrame {
         });
         
         // add gui panels
-        this.fileSystemPanel = new FileSystemPanel(this.caseObj, this);
-        this.emailPanel = new EmailBrowsingPanel(this.caseObj, this);
-        this.internetPanel = new InternetSurfingPanel(this.caseObj);
-        this.chatPanel = new ChatPanel(this.caseObj);
-        this.multimediaPanel = new MultimediaPanel(this.caseObj);
-        this.caseSearchPanel = new CaseSearchPanel(this.caseObj, this);
+        this.fileSystemPanel = new FileSystemPanel(this);
+        this.emailPanel = new EmailBrowsingPanel(this);
+        this.internetPanel = new InternetSurfingPanel(this);
+        this.chatPanel = new ChatPanel(this);
+        this.multimediaPanel = new MultimediaPanel(this);
+        this.caseSearchPanel = new CaseSearchPanel(this);
         this.caseManagerPanel = new CaseManagerPanel(this);
-        this.reportPanel = new ReportPanel(this.caseObj, this);
+        this.reportPanel = new ReportPanel(this);
         
         this.CardPanel.add(this.fileSystemPanel, "fileSystemCard");
         this.CardPanel.add(this.emailPanel, "emailCard");
@@ -550,7 +551,7 @@ public class CaseFrame extends javax.swing.JFrame {
 
 private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         
-    List<EmailConfiguration> emailInfos = caseObj.getEmailConfigurations();
+    List<EmailConfiguration> emailInfos = this.getCase().getEmailConfigurations();
  
     if (emailInfos.isEmpty()) {
         JOptionPane.showMessageDialog(this, "There is no Email Information", "No Email in Case", JOptionPane.ERROR_MESSAGE);
@@ -561,7 +562,7 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     
     for (EmailConfiguration s : emailInfos) {
         try {
-            downloadEmail(caseObj, s);
+            downloadEmail(this.getCase(), s);
         } 
         catch (Exception ex) {
             Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -641,7 +642,7 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     }
 
     public void showIndexDialog(boolean startIndex) {
-        IndexingDialog indexPanel = new IndexingDialog(this, true, caseObj, startIndex);
+        IndexingDialog indexPanel = new IndexingDialog(this, true, this.getCase(), startIndex);
         indexPanel.setLocationRelativeTo(this);
         indexPanel.setVisible(true);
         
@@ -651,8 +652,8 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     
     private void closeCaseFrame() {
         try {
-            if ( this.caseObj != null ) {
-                String caseName = this.caseObj.getCaseName() ;
+            if ( this.getCase() != null ) {
+                String caseName = this.getCase().getCaseName() ;
 
                 if ( !caseName.isEmpty() )
                     this.listOfOpeningCase.remove(caseName);
@@ -690,7 +691,7 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
     }
     
-    public Case getCase() { return this.caseObj ; }
+    public Case getCase() { return this.caseManager.getCase() ; }
     public TagsManager getTagsManager() { return this.tagsManager; }
     
     public void refreshTagsList() {

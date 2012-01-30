@@ -17,8 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Case Manger will create, update and remove cases and their histories 
+ * Case Manger Faced, will create, update and remove cases and their histories 
  * from application
+ * 
+ * also hide the complexity of path mapping conversion
+ * between full and relative path
  * 
  * @author wajdyessam
  */
@@ -146,6 +149,14 @@ public final class CaseManager {
                 + File.separator 
                 + FilesPath.OFFLINE_EMAIL_ATTACHMENTS;
     }
+    
+    public String getTagDatabaseLocation() {
+        return this.aCase.getCaseLocation() 
+                + File.separator 
+                + FilesPath.CASE_TAGS;
+    }
+    
+    public Case getCase() { return this.aCase; }
     
     private List<String> getOtherCases(final String name, final String path) throws FileNotFoundException {
         List<String> originalCases = FileUtil.getFileContentInList(new File(getCasesInformationFileLocation()));

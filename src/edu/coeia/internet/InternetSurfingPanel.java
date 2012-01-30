@@ -16,6 +16,7 @@ import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.offlinemail.CorrelationDialog;
 import edu.coeia.gutil.JTableUtil;
+import edu.coeia.main.CaseFrame;
 import edu.coeia.util.FileUtil;
 
 import java.awt.Desktop ;
@@ -59,18 +60,19 @@ import java.net.URISyntaxException ;
  */
 
 public class InternetSurfingPanel extends javax.swing.JPanel {
-
     private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
-    private Case index;
+    private JFileChooser fileChooser ;       
     
-    private JFileChooser fileChooser ;
-    private JFrame mainFrame ;        
+    private final CaseFrame caseFrame ;
+    private final Case aCase ;
     
     /** Creates new form InternetSurfingPanel */
-    public InternetSurfingPanel(Case aIndex) {
+    public InternetSurfingPanel(final JFrame frame) {
         initComponents();
         
-        this.index = aIndex;
+        this.caseFrame = (CaseFrame) frame;
+        this.aCase =  this.caseFrame.getCase();
+        
         // configure file chooser to select files (txt)
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -1463,7 +1465,7 @@ private void ffViewHTMLReportButtonActionPerformed(java.awt.event.ActionEvent ev
             mozillaHandler.closeDB();
 
             result.append(FireFoxHTMLReportGenerator.getHeader());
-            result.append(FireFoxHTMLReportGenerator.getName(new Date().toString(), index.getInvestigatorName(), userName));
+            result.append(FireFoxHTMLReportGenerator.getName(new Date().toString(), aCase.getInvestigatorName(), userName));
             result.append(FireFoxHTMLReportGenerator.getTopHostTable());
             
             for (ArrayList<String> row: rows){
@@ -1534,7 +1536,7 @@ private void ffVisualizingVisitedHostButtonActionPerformed(java.awt.event.Action
             }
 
             // show visulization
-            CorrelationDialog cd = new CorrelationDialog(mainFrame, true, visitedMap,userName,"FireFox Top Visited Hosts");
+            CorrelationDialog cd = new CorrelationDialog(this.caseFrame, true, visitedMap,userName,"FireFox Top Visited Hosts");
             cd.setVisible(true);
         }
         catch (Exception e){
@@ -1580,7 +1582,7 @@ private void loadFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 //    }
 
     FirefoxDetector detector = new FirefoxDetector();
-    List<String> ffPaths = detector.getFilesInPathInternet(index.getEvidenceSourceLocation());
+    List<String> ffPaths = detector.getFilesInPathInternet(aCase.getEvidenceSourceLocation());
     
     if (ffPaths.isEmpty()) {
         showErrorMessage("Cannot Found Any FireFox Files", "Error");
@@ -1846,7 +1848,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
         String path_combo = (String) ieComboBox.getSelectedItem();
         
         UsersDetector detector = new UsersDetector();
-        List<String> iePaths = detector.getFilesInPathInternet(index.getEvidenceSourceLocation());
+        List<String> iePaths = detector.getFilesInPathInternet(aCase.getEvidenceSourceLocation());
 
         if (iePaths.isEmpty()) {
             showErrorMessage("Cannot Found Any IE Files","Error");

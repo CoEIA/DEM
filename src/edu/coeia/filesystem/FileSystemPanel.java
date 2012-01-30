@@ -18,15 +18,15 @@ import javax.swing.JFrame;
 
 public class FileSystemPanel extends javax.swing.JPanel {
     
-    private CaseFrame caseFrame ;
-    private Case aCase ;
+    private final CaseFrame caseFrame ;
+    private final Case aCase ;
     
     /** Creates new form FileSystemPanel */
-    public FileSystemPanel(Case aIndex, JFrame parentFrame) {
+    public FileSystemPanel(final JFrame parentFrame) {
         initComponents();
 
         this.caseFrame = (CaseFrame) parentFrame;
-        this.aCase = aIndex ;
+        this.aCase = this.caseFrame.getCase() ;
         
         //SearchFileSystemPanel searchPanel = new SearchFileSystemPanel(aIndex, parentFrame);
         //FileBrowsingPanel fileBrowsingPanel = new FileBrowsingPanel();
