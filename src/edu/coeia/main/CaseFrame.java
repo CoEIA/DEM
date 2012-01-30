@@ -74,9 +74,9 @@ public class CaseFrame extends javax.swing.JFrame {
      * @param aCase case opened in CaseFacade
      * @param list a list of all openings case
      */
-    public CaseFrame(Case aCase, List<String> list) {
+    public CaseFrame(final CaseFacade caseManager, List<String> list) {
         initComponents();
-        logger.info("OfflineMining Frame Constructor, Open Case: " + aCase.getCaseName());
+        logger.info("OfflineMining Frame Constructor, Open Case: " + caseManager.getCase().getCaseName());
         
         /*
          * set frame resizable and set frame title
@@ -92,7 +92,7 @@ public class CaseFrame extends javax.swing.JFrame {
         /*
          * initializing class
          */
-        this.caseManager = CaseFacade.newInstance(aCase) ;
+        this.caseManager = caseManager;
         this.listOfOpeningCase = list;
         this.tagsManager = TagsManager.getTagsManager(this.caseManager.getTagDatabaseLocation());
         

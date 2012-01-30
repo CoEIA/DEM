@@ -4,7 +4,7 @@
  */
 package edu.coeia.gutil;
 
-import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -14,7 +14,7 @@ import javax.swing.JList;
  */
 public class JListUtil {
     // TODO: General List Model Methods, Move it to Utilties
-    public static void AddFromModelToList(DefaultListModel model, ArrayList<String> list) {
+    public static void AddFromModelToList(DefaultListModel model, List<String> list) {
         for (int i = 0; i < model.size(); i++) {
             list.add((String) model.getElementAt(i));
         }

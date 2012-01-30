@@ -25,11 +25,15 @@ public class CaseLoaderTask implements Task {
     private final CaseManagerFrame frame;
     private final String caseName ;
     private final boolean startIndex;
+    private final CaseFacade caseFacade ;
     
-    public CaseLoaderTask(final CaseManagerFrame frame, final String caseName, final boolean indexNow) {
+    public CaseLoaderTask(final CaseManagerFrame frame,
+            final CaseFacade caseFacade, final boolean indexNow) {
+        
         this.thread = new TaskThread(this);
         this.frame = frame;
-        this.caseName = caseName;
+        this.caseFacade = caseFacade;
+        this.caseName = caseFacade.getCase().getCaseName();
         this.startIndex = indexNow;
     }
     
@@ -66,7 +70,7 @@ public class CaseLoaderTask implements Task {
                 if ( caseSourceIsUptoDate ) {                    
                     ApplicationManager.Manager.addCase(caseName);
 
-                    CaseFrame mainFrame = new CaseFrame(aCase, ApplicationManager.Manager.getList());
+                    CaseFrame mainFrame = new CaseFrame(this.caseFacade, ApplicationManager.Manager.getList());
                     mainFrame.setLocationRelativeTo(this.frame);
                     mainFrame.setVisible(true);
                     

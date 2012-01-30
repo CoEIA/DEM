@@ -51,7 +51,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
     private final CaseFacade caseManager ;
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
 
-    public CrawlerIndexerThread (IndexingDialog parentDialog) throws IOException{
+    public CrawlerIndexerThread (final IndexingDialog parentDialog) throws IOException{
         this.caseManager = parentDialog.getCaseManager();
         this.aCase = this.caseManager.getCase();
         this.parentDialog = parentDialog;

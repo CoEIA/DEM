@@ -42,7 +42,7 @@ public final class LuceneIndex {
     }
     
     private LuceneIndex (final CaseFacade caseManager) throws IOException {
-        File indexDir = new File(caseManager.getCaseInformationFileLocation());
+        File indexDir = new File(caseManager.getIndexFolderLocation());
         
         if ( !indexDir.exists() ) {
             throw new IOException("not found indexing folder");

@@ -4,7 +4,6 @@ package edu.coeia.main;
 import edu.coeia.managers.ApplicationManager;
 import edu.coeia.managers.LicenseManager;
 import edu.coeia.wizard.CaseWizardDialog;
-import edu.coeia.main.SmartCardDialog;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.DateUtil;
@@ -13,8 +12,12 @@ import edu.coeia.task.CaseExporterTask;
 import edu.coeia.task.CaseImporterTask;
 import edu.coeia.task.CaseRemoverTask;
 import edu.coeia.task.CaseLoaderTask;
+import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseFacade;
 
 /* import sun classes */
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import javax.swing.JOptionPane ;
 
 import java.util.List ;
@@ -29,7 +32,6 @@ import java.awt.EventQueue;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-import edu.coeia.cases.Case;
 
 /*
  * CaseManagerFrame the main entry point to DEM
@@ -331,11 +333,16 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         }
     }
     
+    private CaseFacade newFacade(final String caseName) throws FileNotFoundException,
+            IOException, ClassNotFoundException {
+        
+        return CaseFacade.newInstance(ApplicationManager.Manager.getCaseFromCaseName(caseName));
+    }
+    
     private void loadCaseAction() {
         try {
-            logger.info("Load Case Entring");
-            String indexName = getSelectedCase();
-            loadCase(indexName, false);
+            String caseName = getSelectedCase();
+            loadCase(newFacade(caseName), false);
         }
         catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to open",
@@ -351,7 +358,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     private void caseTableDoubleClickedAction() {
         try {
             String caseName = getSelectedCase();
-            loadCase(caseName, false);
+            loadCase(newFacade(caseName), false);
         }
         catch(NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to open",
@@ -391,8 +398,8 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
                 licenseManager.isFullVersion());
         indexWizard.setVisible(true);
 
-        Case aCase = indexWizard.getCurrentCase();
-        if ( aCase == null) {
+        CaseFacade facade = indexWizard.getCaseFacade();
+        if ( facade == null) {
             logger.info("Create New Case Cancled");
             return ;
         }
@@ -403,7 +410,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
 
         if ( indexWizard.checkDirectIndex()) {
             try {
-                loadCase(aCase.getCaseName(), true);
+                loadCase(facade, true);
             }
             catch(Exception e){
                 logger.severe("Cannot Index the case directly after create it");
@@ -508,8 +515,8 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         return indexName; 
     }
 
-    private void loadCase (String caseName, boolean startIndex){
-        CaseLoaderTask task = new CaseLoaderTask(this, caseName, startIndex);
+    private void loadCase (final CaseFacade facade, boolean startIndex){
+        CaseLoaderTask task = new CaseLoaderTask(this, facade, startIndex);
         task.startTask();
     }
     

@@ -4,13 +4,14 @@ import edu.coeia.wizard.EmailConfiguration.ONLINE_EMAIL_AGENT;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.FilesPath;
-import edu.coeia.util.GUIFileFilter;
 import edu.coeia.onlinemail.EmailDownloaderDialog;
 import edu.coeia.onlinemail.OnlineEmailDownloader;
+import edu.coeia.managers.ApplicationManager;
+import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseFacade;
+import edu.coeia.gutil.GuiUtil;
 
 import java.io.FileNotFoundException;
-import javax.swing.JPanel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultListModel;
@@ -23,9 +24,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Frame;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,9 +42,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
-import edu.coeia.managers.ApplicationManager;
-import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseFacade;
+
 
 /*
  * IndexWizard.java
@@ -54,51 +53,47 @@ import edu.coeia.cases.CaseFacade;
  * 
  */
 
-public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
+public class CaseWizardDialog extends javax.swing.JDialog{
  
-    private Case currentCase;
     private String PATH = FilesPath.CASES_PATH;
-    private ArrayList<String> CaseSources;
-    DefaultListModel sourcesListModel;
+    private List<String> evidencePathLocations;
+    private final DefaultListModel sourcesListModel;
     
-    private JFileChooser fileChooser;
-    boolean indexTheCase = false;   // index the case after create it
-    java.awt.Frame _parent;
+    private boolean indexTheCase = false;   // index the case after create it
+    private final Frame parentFrame;
+    
     /*
      * Wizard CardLayout - Panels Names
      */
     private String[] cardsName = {"indexInfoPanel", "CaseWizardA1", "CaseWizardA2", "CaseWizardA3"};
     private int currentIndex = 0;
-
-   
+    private CaseFacade caseFacade; 
 
     /** Creates new form IndexWizard */
     public CaseWizardDialog(java.awt.Frame parent, boolean modal, boolean isFullVersion) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(parent);
        
-        this._parent = parent;
+        this.parentFrame = parent;
         ProgramFilesRadioButton.setVisible(false);
         WindowsFilesRadioButton.setVisible(false);
         backButton.setEnabled(false);
         finishButton.setEnabled(false);
         
-        CaseSources = new ArrayList<String>();
+        evidencePathLocations = new ArrayList<String>();
         sourcesListModel = new DefaultListModel();
         
         // Set Password 
         JPasswordField password = new JPasswordField();
         password.setBorder( new LineBorder(Color.BLACK) );
-        TableCellRenderer editor = new DefaultTableCellRenderer();
         EmailTable.getColumnModel().getColumn(1).setCellRenderer(new PasswordCellRenderer());
         
         // show first card indexInfoPanel and disable back button and finish button
-        showPanel(cardsName[0], indexWizardPanel);
-        setLocationRelativeTo(parent);
-
+        GuiUtil.showPanel(cardsName[0], indexWizardPanel);
+        
         // add listener for index name text feild
         caseNameTextField.getDocument().addDocumentListener(new DocumentListener() {
-
             public void insertUpdate(DocumentEvent e) {
                 checkforCaseLocationPath();
             }
@@ -108,6 +103,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             }
 
             public void changedUpdate(DocumentEvent e) {
+                checkforCaseLocationPath();
             }
         });
     }
@@ -801,52 +797,42 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 } catch (Exception ex) {
                     Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                break;
+            break;
 
             case 1:
                 if (checkWizardSecondPanel()) {
                     next();
                 }
-                break;
+            break;
+                
             case 2:
                 nextLast();
-                break;
+            break;
 
         }
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         switch (currentIndex) {
-
             case 1:
                 backFirst();
-                break;
+            break;
 
             case 2:
-                CaseSources.clear();
+                evidencePathLocations.clear();
                 back();
-                break;
+            break;
+                
             case 3:
                 back();
-                break;
+            break;
         }
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        currentCase = null;
+        this.caseFacade = null;
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
-
-    private void openDialog(GUIFileFilter filter, DefaultListModel model, JList list) {
-        fileChooser.setFileFilter(filter);
-
-        int result = fileChooser.showOpenDialog(CaseWizardDialog.this);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            String path = fileChooser.getSelectedFile().getAbsolutePath();
-            JListUtil.addToList(path, model, list);
-        }
-    }
 
     private void autoDetectIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoDetectIEButtonActionPerformed
     }//GEN-LAST:event_autoDetectIEButtonActionPerformed
@@ -865,7 +851,11 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             List<EmailConfiguration> emailInfos = new ArrayList<EmailConfiguration>();
             Object[][] data = getEmailTableData();
             for (int c = 0; c < EmailTable.getRowCount(); c++) {
-                emailInfos.add(EmailConfiguration.newInstance(String.valueOf(data[c][0]), String.valueOf(data[c][1]), EmailConfiguration.ONLINE_EMAIL_AGENT.valueOf(String.valueOf(data[c][2]))));
+                emailInfos.add(EmailConfiguration.
+                        newInstance(String.valueOf(data[c][0]),
+                                    String.valueOf(data[c][1]),
+                                    EmailConfiguration.ONLINE_EMAIL_AGENT.valueOf(String.valueOf(data[c][2]))
+                        ));
             }
 
             this.setVisible(false);
@@ -874,12 +864,12 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             this.indexTheCase = YesIndexRadioButton.isSelected() ;
            
             // Build Case
-            currentCase = new Case.CaseBuilder(
+            Case currentCase = new Case.CaseBuilder(
                     caseNameTextField.getText().trim(),
                     caseLocationTextField.getText().trim(),
                     investigatorTextField.getText().trim(),
                     descriptionTextArea.getText().trim(),
-                    CaseSources, new Date(), 0)
+                    evidencePathLocations, new Date(), 0)
                     .getCacheImages(CacheImageCheckBox.isSelected())
                     .detectDuplicationWithinCase(DetectClusterCaseRadioButton.isSelected())
                     .detectDuplicationWithHashLibrary(DetectClusterLibraryRadioButton.isSelected())
@@ -892,10 +882,9 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                     .detectInternetBrowsers(DetectBrowserCheckBox.isSelected())
                     .addEmailConfiguration(emailInfos)
             .build();
-
-            this.setCurrentCase(currentCase);
-            CaseFacade caseManger = CaseFacade.newInstance(currentCase);
-            if (! caseManger.createCase()) {     
+            
+            this.caseFacade = CaseFacade.newInstance(currentCase);
+            if (!caseFacade.createCase()) {     
                 showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
                 return;
             }
@@ -906,13 +895,11 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 } catch (Exception ex) {
                     Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             } // End For Each Email Config
+
         } catch (IOException ex) {
             Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
     }//GEN-LAST:event_finishButtonActionPerformed
 
     public Object[][] getEmailTableData() {
@@ -921,7 +908,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
     public void downloadEmail(Case currentCase, EmailConfiguration config) throws Exception {
 
-        EmailDownloaderDialog dialogue = new EmailDownloaderDialog(_parent, true, currentCase);
+        EmailDownloaderDialog dialogue = new EmailDownloaderDialog(parentFrame, true, currentCase);
         dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue,
                 currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
                 currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB,
@@ -952,22 +939,18 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
 
     }
 private void ExcludeSystemFilesCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcludeSystemFilesCheckBoxActionPerformed
-// TODO add your handling code here:
     if (!ProgramFilesRadioButton.isVisible() && !WindowsFilesRadioButton.isVisible()) {
         ProgramFilesRadioButton.setVisible(true);
         WindowsFilesRadioButton.setVisible(true);
     } else {
-
         ProgramFilesRadioButton.setVisible(false);
         WindowsFilesRadioButton.setVisible(false);
-
     }
-
 }//GEN-LAST:event_ExcludeSystemFilesCheckBoxActionPerformed
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-    AddingEmailSourceDialog dialogue = new AddingEmailSourceDialog(_parent, true);
+    AddingEmailSourceDialog dialogue = new AddingEmailSourceDialog(parentFrame, true);
     dialogue.setLocationRelativeTo(this);
     dialogue.setVisible(true);
 
@@ -1154,8 +1137,8 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
     private boolean checkWizardSecondPanel() {
      
-       JListUtil.AddFromModelToList(sourcesListModel, CaseSources);
-        if (CaseSources.isEmpty()) {
+       JListUtil.AddFromModelToList(sourcesListModel, evidencePathLocations);
+        if (evidencePathLocations.isEmpty()) {
             showErrorMessage("You must choose a Case Source", "Empty Source");
             return false;
         }
@@ -1181,7 +1164,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
      */
     private void next() {
         currentIndex++;
-        showPanel(cardsName[currentIndex], indexWizardPanel);
+        GuiUtil.showPanel(cardsName[currentIndex], indexWizardPanel);
         backButton.setEnabled(true);
         nextButton.setEnabled(true);
     }
@@ -1192,7 +1175,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
      */
     private void nextLast() {
         currentIndex++;
-        showPanel(cardsName[currentIndex], indexWizardPanel);
+        GuiUtil.showPanel(cardsName[currentIndex], indexWizardPanel);
         backButton.setEnabled(true);
         nextButton.setEnabled(false);
         finishButton.setEnabled(true);
@@ -1203,9 +1186,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
      */
     private void backFirst() {
         currentIndex--;
-
-
-        showPanel(cardsName[currentIndex], indexWizardPanel);
+        GuiUtil.showPanel(cardsName[currentIndex], indexWizardPanel);
         backButton.setEnabled(false);
         nextButton.setEnabled(true);
     }
@@ -1216,22 +1197,12 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
      */
     private void back() {
         currentIndex--;
-
-        showPanel(cardsName[currentIndex], indexWizardPanel);
+        GuiUtil.showPanel(cardsName[currentIndex], indexWizardPanel);
         backButton.setEnabled(true);
         nextButton.setEnabled(true);
         finishButton.setEnabled(false);
     }
 
-    /**
-     * Show The Selected Panel in The CardLayout
-     * @param panelName
-     * @param name 
-     */
-    private void showPanel(String panelName, JPanel name) {
-        CardLayout card = (CardLayout) name.getLayout();
-        card.show(name, panelName);
-    }
 
     private void showEmptyMessage(String msg) {
         JOptionPane.showMessageDialog(this, msg, "Object Not Found", JOptionPane.ERROR_MESSAGE);
@@ -1240,26 +1211,14 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private void showErrorMessage(String msg, String title) {       
         JOptionPane.showMessageDialog(CaseWizardDialog.this, msg, title, JOptionPane.ERROR_MESSAGE);
     }
-
-    // TODO: check why there is acces/mutu ?
-    public Case getCurrentCase() {
-        return currentCase;
-    }
-
-    public void setCurrentCase(Case in) {
-        currentCase = in;
-    }
-
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    
+    public CaseFacade getCaseFacade() { return this.caseFacade; }
 
     /*
      * Case Name Checker
      * Check the Validity of The Case That Created By The User
      */
     private static class CaseNameChecker {
-
         private static boolean isInvalidText(String text) {
             for (String word : illegalCharacters) {
                 if (text.contains(word)) {
@@ -1313,7 +1272,8 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             this.setText("test code");
         }
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        public Component getTableCellRendererComponent(JTable table, Object value, 
+                boolean isSelected, boolean hasFocus, int row, int column) {
             return this;
         }
     }
