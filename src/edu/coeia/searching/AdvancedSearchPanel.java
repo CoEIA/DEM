@@ -37,10 +37,10 @@ import org.apache.lucene.document.Document;
  * @author wajdyessam
  */
 public class AdvancedSearchPanel extends javax.swing.JPanel {
-    private final Case caseObj;
     private final JFrame parentFrame ;
     private final CaseSearchPanel caseSearchPanel ;
     private final SearchResultPanel searchResultPanel ;
+    private final CaseManager caseManager ;
     
     private final List<Integer> resultId ;
     private int currentId = 0;
@@ -52,7 +52,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         initComponents();
         
         this.caseSearchPanel = (CaseSearchPanel) parentPanel;
-        this.caseObj = this.caseSearchPanel.getCurrentCase();
+        this.caseManager = this.caseSearchPanel.getCaseManager();
         this.parentFrame = this.caseSearchPanel.getParentJFrame();
         
         this.resultId = new ArrayList<Integer>();
@@ -407,8 +407,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private void startSearching () {
         removeSearchField(false);
             
-        CaseManager caseManager = CaseManager.newInstance(this.caseObj);
-        if ( ! caseManager.getCaseHistory().getIsCaseIndexed() ) {
+        if ( ! this.caseManager.getCaseHistory().getIsCaseIndexed() ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
             return ;
@@ -453,11 +452,11 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     
     private List<Item> getDocuments() throws Exception {
         List<Item> items = new ArrayList<Item>();
-        LuceneSearcher searcher = new LuceneSearcher(caseObj);
+        LuceneSearcher searcher = new LuceneSearcher(this.caseManager.getCase());
         
         for(Integer id: this.resultId) {
             Document currentDocument = searcher.getLuceneDocumentById(String.valueOf(id));
-            Item fileItem = ItemFactory.newInstance(currentDocument, this.caseObj);
+            Item fileItem = ItemFactory.newInstance(currentDocument, this.caseManager.getCase());
             items.add(fileItem);
         }
         
@@ -491,10 +490,10 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     String getQueryText() { return queryTextField.getText().trim() ; }
     void setQueryTextFeildFocusable () {  this.queryTextField.requestFocusInWindow(); }
     
-    public Case getCase() { return this.caseObj ; }
+    public CaseManager getCaseManager() { return this.caseManager; }
     
     private void disableNotIndexedComponent () {
-        if ( caseObj.getEvidenceSourceLocation().isEmpty() ) {
+        if ( this.caseManager.getCase().getEvidenceSourceLocation().isEmpty() ) {
             startSearchingButton.setEnabled(false);
         }
     }

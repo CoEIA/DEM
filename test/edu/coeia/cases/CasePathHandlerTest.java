@@ -26,7 +26,7 @@ public class CasePathHandlerTest {
         CasePathHandler pathHandler = CasePathHandler.newInstance(casePath);
         pathHandler.add(new File("C:\\data"));
         pathHandler.saveConfiguration();
-        assertEquals(1, pathHandler.readConfiguration().size());
+        assertEquals(1, pathHandler.reloadFileMapping().size());
         FileUtil.removeFile(casePath + File.separator + FilesPath.CASE_CONFIG);
     }
     
@@ -37,7 +37,7 @@ public class CasePathHandlerTest {
         pathHandler.add(new File("C:\\data"));
         pathHandler.add(new File("C:\\docs"));
         pathHandler.saveConfiguration();
-        assertEquals(2, pathHandler.readConfiguration().size());
+        assertEquals(2, pathHandler.reloadFileMapping().size());
         FileUtil.removeFile(casePath + File.separator + FilesPath.CASE_CONFIG);
     }
     

@@ -6,7 +6,7 @@ package edu.coeia.task;
 
 import edu.coeia.multimedia.ImageViewerPanel;
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CasePathHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.gutil.ImageLabel;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.multimedia.GeoTagging;
@@ -58,10 +58,12 @@ public class ImageLoadingTask implements Task{
     private final TaskThread thread;
     private final Case aCase;
     private final ImageViewerPanel panel;
+    private final CaseManager caseManager; 
     
-    public ImageLoadingTask(final Case aCase, final ImageViewerPanel panel) {
+    public ImageLoadingTask(final CaseManager caseManager, final ImageViewerPanel panel) {
         this.thread = new TaskThread(this);
-        this.aCase = aCase;
+        this.caseManager = caseManager;
+        this.aCase = this.caseManager.getCase();
         this.panel = panel;
     }
     
@@ -139,9 +141,6 @@ public class ImageLoadingTask implements Task{
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
-        CasePathHandler handler = CasePathHandler.newInstance(aCase.getCaseLocation());
-        handler.readConfiguration();
-                            
         int counter = 0;
         
         for (int i=0; i < indexReader.maxDoc(); i++) {
@@ -163,7 +162,7 @@ public class ImageLoadingTask implements Task{
                         if ( path.contains(this.aCase.getCaseName() + File.separator + FilesPath.CASE_TMP) ) 
                             fullpath = path;
                         else
-                            fullpath = handler.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                            fullpath = this.caseManager.getFullPath(document.get(IndexingConstant.FILE_PATH));
                     }
                     
                     if ( !fullpath.isEmpty()) {
@@ -188,9 +187,6 @@ public class ImageLoadingTask implements Task{
         String indexDir = this.aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
-        
-        CasePathHandler handler = CasePathHandler.newInstance(aCase.getCaseLocation());
-        handler.readConfiguration();
                             
         for (int i = 0; i < indexReader.maxDoc(); i++) {
             Document document = indexReader.document(i);
@@ -207,7 +203,7 @@ public class ImageLoadingTask implements Task{
                         if ( path.contains(this.aCase.getCaseName() + File.separator + FilesPath.CASE_TMP) ) 
                             fullpath = path;
                         else
-                            fullpath = handler.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                            fullpath = this.caseManager.getFullPath(document.get(IndexingConstant.FILE_PATH));
                     }
                     
                     if ( ! fullpath.isEmpty() ) {

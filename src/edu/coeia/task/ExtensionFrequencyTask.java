@@ -5,7 +5,7 @@
 package edu.coeia.task;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CasePathHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.charts.PieChartPanel;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.investigation.ExtensionFrequencyPanel;
@@ -23,8 +23,6 @@ import javax.swing.JPanel;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.index.TermEnum;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
@@ -36,10 +34,12 @@ public class ExtensionFrequencyTask implements Task{
     private final TaskThread thread;
     private final Case aCase;
     private final ExtensionFrequencyPanel panel;
+    private final CaseManager caseManager ;
     
-    public ExtensionFrequencyTask(final Case aCase, final ExtensionFrequencyPanel panel) {
+    public ExtensionFrequencyTask(final CaseManager caseManager, final ExtensionFrequencyPanel panel) {
         this.thread = new TaskThread(this);
-        this.aCase = aCase;
+        this.caseManager = caseManager;
+        this.aCase = this.caseManager.getCase();
         this.panel = panel;
     }
     
@@ -72,9 +72,6 @@ public class ExtensionFrequencyTask implements Task{
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
-        CasePathHandler handler = CasePathHandler.newInstance(aCase.getCaseLocation());
-        handler.readConfiguration();
-        
         int max = indexReader.maxDoc();
         
         for (int i=0; i<max; i++) {
@@ -86,7 +83,7 @@ public class ExtensionFrequencyTask implements Task{
                 Field field = document.getField(IndexingConstant.FILE_PATH);
                 if ( field != null && field.stringValue() != null) {
                     String path = field.stringValue();
-                    String fullPath = handler.getFullPath(path);
+                    String fullPath = this.caseManager.getFullPath(path);
                     String ext = FileUtil.getExtension(fullPath);
 
                     if ( ext == null || ext.length() > 6) // no more extension than 5 character!
@@ -106,32 +103,7 @@ public class ExtensionFrequencyTask implements Task{
         }
         
         indexReader.close();
-        
-//        TermEnum te = indexReader.terms(new Term(IndexingConstant.FILE_PATH,"") );
-//        while ( te.next() ) {
-//            Term currentTerm = te.term();
-//
-//            if ( ! currentTerm.field().equals(IndexingConstant.FILE_PATH))
-//                continue ;
-//
-//            String file = currentTerm.text();
-//            String fullPath = handler.getFullPath(file);
-//            String ext = FileUtil.getExtension(fullPath);
-//            
-//            if ( ext == null || ext.length() > 6) // no more extension than 5 character!
-//                continue;
-//
-//            ext = ext.toLowerCase();
-//
-//            if ( map.get(ext) == null ){
-//                map.put(ext, 1.0);
-//            }
-//            else
-//                map.put(ext, map.get(ext) + 1);
-//        }
-//
-//        te.close();
-        
+
         return map ;
     }
 }

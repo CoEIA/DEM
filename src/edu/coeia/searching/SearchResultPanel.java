@@ -11,7 +11,7 @@
 package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CasePathHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.hash.HashCalculator;
@@ -54,21 +54,15 @@ public class SearchResultPanel extends javax.swing.JPanel {
     private final Case caseObj;
     
     private final List<Integer> documentIds = new ArrayList<Integer>();
-    private final CasePathHandler pathHandler;
+    private final CaseManager caseManager;
     
     /** Creates new form SearchResultPanel */
     public SearchResultPanel(JFrame parentFrame) {
         initComponents();
 
         this.parentFrame = parentFrame;
-        this.caseObj  = ((CaseFrame) this.parentFrame).getCase();
-        this.pathHandler = CasePathHandler.newInstance(this.caseObj.getCaseLocation());
-        
-        try {
-            this.pathHandler.readConfiguration();
-        } catch (IOException ex) {
-            Logger.getLogger(SearchResultPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.caseObj  = ((CaseFrame) this.parentFrame).getCaseManager().getCase();
+        this.caseManager = ((CaseFrame) this.parentFrame).getCaseManager();
     }
 
     /** This method is called from within the constructor to
@@ -210,7 +204,7 @@ public class SearchResultPanel extends javax.swing.JPanel {
         if ( IndexingConstant.isFileDocument(document) ) {
             String fileName = document.get(IndexingConstant.FILE_NAME);
             String relativePath = document.get(IndexingConstant.FILE_PATH);
-            String fullPath = pathHandler.getFullPath(relativePath);
+            String fullPath = this.caseManager.getFullPath(relativePath);
             String hashValue = HashCalculator.calculateFileHash(fullPath);
             
             item = HashItem.newInstance(fileName, fullPath, this.caseObj.getCaseName(),

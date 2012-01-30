@@ -39,7 +39,7 @@ public class FilesAutherReportPanel extends javax.swing.JPanel implements Report
     
     private void fillList() {
         try {
-            List<String> authers = IndexUtil.getAllAuthers(this.reportPanel.getCase(), this.reportPanel.getCasePathHandler());
+            List<String> authers = IndexUtil.getAllAuthers(this.reportPanel.getCaseManager());
             for(String auther: authers) {
                 JListUtil.addToList(auther, srcListModel, srcList);
             }
@@ -61,8 +61,7 @@ public class FilesAutherReportPanel extends javax.swing.JPanel implements Report
         
          try {
             xmlSource = RawResultFile.getFileSystemXmlFile(
-                    IndexUtil.getAllFilesHaveAuthers(this.reportPanel.getCase(), 
-                    this.reportPanel.getCasePathHandler(), authers)
+                    IndexUtil.getAllFilesHaveAuthers(this.reportPanel.getCaseManager(), authers)
             ,this.reportPanel.getCase());
         } catch (IOException ex) {
             Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);

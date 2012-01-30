@@ -11,13 +11,15 @@
 package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CasePathHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.util.FilesPath;
+
 import java.awt.Desktop;
-import java.io.File;
-import javax.swing.JPanel;
-import edu.coeia.reports.ProgressDialogue;
 import java.awt.Frame;
+
+import java.io.File;
+
+import javax.swing.JPanel;
 
 /**
  *
@@ -27,12 +29,13 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
 
     private JPanel centerReportPanel ;
     private ReportPanel reportPanel; 
-    private CasePathHandler handler ;
     private Case aCase; 
     private Thread thread;
     private Frame frame; 
     private ProgressDialogue dialogue;
     private DatasourceXml input;
+    private CaseManager caseManager;
+    
     public ReportOptionDialog (Case aCase) {
          
         this.aCase = aCase;
@@ -48,7 +51,7 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
 
         this.centerReportPanel = panel;
         this.reportPanel = reportPanel;
-        this.handler = this.reportPanel.getCasePathHandler();
+        this.caseManager = this.reportPanel.getCaseManager();
         this.aCase = this.reportPanel.getCase();
 
         this.setCenterPanel(panel);

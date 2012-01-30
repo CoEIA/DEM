@@ -47,7 +47,7 @@ final class LuceneDocumentBuilder {
         doc.add(new Field(IndexingConstant.DOCUMENT_HASH, HashCalculator.calculateFileHash(indexer.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specific document fields
-        String path = indexer.getPathHandler().getRelativePath(indexer.getFile().getPath());
+        String path = indexer.getCaseManager().getRelativePath(indexer.getFile().getPath());
         if ( path.isEmpty() )
             path = indexer.getFile().getAbsolutePath(); // this is for file inside TMP, we cannot get relative path for it
         
@@ -80,7 +80,7 @@ final class LuceneDocumentBuilder {
         
         // specific lucene fileds
         doc.add(new Field(IndexingConstant.CHAT_AGENT, agent, Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_FILE, indexer.getPathHandler().getRelativePath(path), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.CHAT_FILE, indexer.getCaseManager().getRelativePath(path), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_FROM, msg.getFrom(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_TO, msg.getTo(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_TIME, msg.getDateTime() , Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -101,7 +101,7 @@ final class LuceneDocumentBuilder {
         
         // specific lucene fileds
         doc.add(new Field(IndexingConstant.CHAT_AGENT, agent, Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_FILE, indexer.getPathHandler().getRelativePath(indexer.getFile()), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.CHAT_FILE, indexer.getCaseManager().getRelativePath(indexer.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_FROM, msg.getAuther(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_TO, Utilities.getEmptyStringWhenNullString(msg.getPartner()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_TIME, msg.getDate() , Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -143,7 +143,7 @@ final class LuceneDocumentBuilder {
         
         // specific lucene fileds
         doc.add(new Field(IndexingConstant.CHAT_AGENT, agent, Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_FILE, indexer.getPathHandler().getRelativePath(path), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.CHAT_FILE, indexer.getCaseManager().getRelativePath(path), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_FROM, from, Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_TO, to, Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_TIME, DateUtil.formatDateTime(msg.getTimeStamp()) , Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -238,7 +238,7 @@ final class LuceneDocumentBuilder {
         doc.add(new Field(DOCUMENT_HASH, "", Field.Store.YES, Field.Index.NOT_ANALYZED));
         
         // specific document fields
-        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_PATH, indexer.getPathHandler().getRelativePath(indexer.getFile().getAbsolutePath())));
+        doc.add(getNotAnlyzedField(OFFLINE_EMAIL_PATH, indexer.getCaseManager().getRelativePath(indexer.getFile().getAbsolutePath())));
         doc.add(getNotAnlyzedField(OFFLINE_EMAIL_NAME, indexer.getFile().getName()));
         doc.add(getNotAnlyzedField(OFFLINE_EMAIL_FOLDER_NAME, folderName));
         

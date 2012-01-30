@@ -71,7 +71,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         initComponents();
         
         this.caseFrame = (CaseFrame) frame;
-        this.aCase =  this.caseFrame.getCase();
+        this.aCase =  this.caseFrame.getCaseManager().getCase();
         
         // configure file chooser to select files (txt)
         fileChooser = new JFileChooser();

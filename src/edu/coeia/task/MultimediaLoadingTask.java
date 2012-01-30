@@ -6,7 +6,7 @@ package edu.coeia.task;
 
 import edu.coeia.multimedia.MultimediaViewerPanel;
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CasePathHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.util.FileUtil;
@@ -32,11 +32,13 @@ public class MultimediaLoadingTask implements Task{
     private final Case aCase;
     private final MultimediaViewerPanel panel;
     private final MultimediaViewerPanel.TYPE type;
+    private final CaseManager caseManager ;
     
-    public MultimediaLoadingTask(final Case aCase, final MultimediaViewerPanel panel,
+    public MultimediaLoadingTask(final CaseManager caseManager, final MultimediaViewerPanel panel,
             final MultimediaViewerPanel.TYPE type) {
         this.thread = new TaskThread(this);
-        this.aCase = aCase;
+        this.caseManager = caseManager ;
+        this.aCase = this.caseManager.getCase();
         this.panel = panel;
         this.type = type;
     }
@@ -60,9 +62,6 @@ public class MultimediaLoadingTask implements Task{
         String indexDir = this.aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
-        
-        CasePathHandler handler = CasePathHandler.newInstance(aCase.getCaseLocation());
-        handler.readConfiguration();
                             
         for (int i = 0; i < indexReader.maxDoc(); i++) {
             if ( this.isCancelledTask() )
@@ -78,16 +77,16 @@ public class MultimediaLoadingTask implements Task{
                     String fullpath = "";
                     
                     if (type == MultimediaViewerPanel.TYPE.IMAGE && isImage(documentExtension) ) {
-                        fullpath = handler.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                        fullpath = this.caseManager.getFullPath(document.get(IndexingConstant.FILE_PATH));
                     }
                     else if (type == MultimediaViewerPanel.TYPE.AUDIO && isAudio(documentExtension)) {
-                        fullpath = handler.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                        fullpath = this.caseManager.getFullPath(document.get(IndexingConstant.FILE_PATH));
                     }
                     else if (type == MultimediaViewerPanel.TYPE.ARCHIVE && isArchieve(documentExtension)) {
-                        fullpath = handler.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                        fullpath = this.caseManager.getFullPath(document.get(IndexingConstant.FILE_PATH));
                     }
                     else if (type == MultimediaViewerPanel.TYPE.VIDEO && isVideo(documentExtension)) {
-                        fullpath = handler.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                        fullpath = this.caseManager.getFullPath(document.get(IndexingConstant.FILE_PATH));
                     }
                     
                     if ( ! fullpath.isEmpty() ) {

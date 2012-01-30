@@ -642,7 +642,7 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     }
 
     public void showIndexDialog(boolean startIndex) {
-        IndexingDialog indexPanel = new IndexingDialog(this, true, this.getCase(), startIndex);
+        IndexingDialog indexPanel = new IndexingDialog(this, true, this.getCaseManager(), startIndex);
         indexPanel.setLocationRelativeTo(this);
         indexPanel.setVisible(true);
         
@@ -691,8 +691,9 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
     }
     
-    public Case getCase() { return this.caseManager.getCase() ; }
+    private Case getCase() { return this.caseManager.getCase() ; }
     public TagsManager getTagsManager() { return this.tagsManager; }
+    public CaseManager getCaseManager() { return this.caseManager; }
     
     public void refreshTagsList() {
         this.caseManagerPanel.initializingTagsPanel();

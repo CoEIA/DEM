@@ -33,11 +33,11 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
     private SearchResultPanel searchResultPanel;
     
     /** Creates new form ConnectedSearchPanel */
-    public ConnectedSearchPanel(Case aIndex, JFrame aParentFrame, JPanel parentPanel) {
+    public ConnectedSearchPanel(JPanel parentPanel) {
         initComponents();
         
         this.parentPanel = (CaseSearchPanel) parentPanel;
-        this.parentFrame = aParentFrame;
+        this.parentFrame = this.parentPanel.getParentJFrame();
         
         this.searchResultPanel = new SearchResultPanel(parentFrame);
         this.CenterPanel.removeAll();

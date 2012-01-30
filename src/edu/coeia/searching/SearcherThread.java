@@ -48,7 +48,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     @Override
     public String doInBackground() {
         try {
-            this.aCase = this.panel.getCase();
+            this.aCase = this.panel.getCaseManager().getCase();
             this.searcher = new LuceneSearcher(this.aCase);
             
             long start = new Date().getTime();

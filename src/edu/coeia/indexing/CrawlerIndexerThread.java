@@ -50,12 +50,12 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
 
     public CrawlerIndexerThread (IndexingDialog parentDialog) throws IOException{
-        this.aCase = parentDialog.getCase();
+        this.caseManager = parentDialog.getCaseManager();
+        this.aCase = this.caseManager.getCase();
         this.parentDialog = parentDialog;
-        this.luceneIndex = LuceneIndex.newInstance(this.aCase);
+        this.luceneIndex = LuceneIndex.newInstance(this.caseManager);
         this.parentDialog.setNumberOfFilesError("0");
         this.parentDialog.setProgressIndetermined(true);
-        this.caseManager = CaseManager.newInstance(aCase);
         logger.log(Level.INFO, "Create Lucene Indexer Instance");
     }
     

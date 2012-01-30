@@ -11,6 +11,7 @@
 package edu.coeia.multimedia;
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.items.FileItem;
 import edu.coeia.items.ItemFactory;
@@ -60,12 +61,13 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     private int currentImageNo;
     private int currentImagePage;
     
-
+    private final CaseManager caseManager ;
     
     /** Creates new form ImageViewerPanel */
-    public ImageViewerPanel(final Case aCase) {
+    public ImageViewerPanel(final CaseManager caseManager) {
         initComponents();
-        this.aCase = aCase;
+        this.caseManager = caseManager;
+        this.aCase = this.caseManager.getCase();
         this.setImageViewerOptions();
         this.nextLabel.setEnabled(false);
         this.backLabel.setEnabled(false);
@@ -372,7 +374,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadImageButtonActionPerformed
-        ImageLoadingTask task = new ImageLoadingTask(aCase, this);
+        ImageLoadingTask task = new ImageLoadingTask(this.caseManager, this);
         task.startTask();
     }//GEN-LAST:event_loadImageButtonActionPerformed
 
@@ -384,7 +386,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
         this.currentImagePage++;
         this.currentImageNo += this.IMAGE_PER_PAGE;
 
-        ImageLoadingTask task = new ImageLoadingTask(aCase, this);
+        ImageLoadingTask task = new ImageLoadingTask(this.caseManager, this);
         task.startTask();
     }//GEN-LAST:event_nextLabelMouseClicked
 
@@ -392,7 +394,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
         this.currentImagePage--;
         this.currentImageNo -= this.IMAGE_PER_PAGE;
 
-        ImageLoadingTask task = new ImageLoadingTask(aCase, this);
+        ImageLoadingTask task = new ImageLoadingTask(this.caseManager, this);
         task.startTask();    
     }//GEN-LAST:event_backLabelMouseClicked
 

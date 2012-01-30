@@ -10,7 +10,6 @@
  */
 package edu.coeia.investigation;
 
-import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseManager;
 import edu.coeia.searching.InvestigateDialog;
 import edu.coeia.task.ExtensionFrequencyTask;
@@ -28,7 +27,7 @@ import java.util.logging.Logger;
  */
 public class ExtensionFrequencyPanel extends javax.swing.JPanel {
 
-    private Case caseObj;
+    private CaseManager caseManager; 
     private InvestigateDialog parentDialog;
     private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
@@ -36,7 +35,7 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
     public ExtensionFrequencyPanel(InvestigateDialog dialog) {
         initComponents();
         
-        this.caseObj = dialog.getCase();
+        this.caseManager = dialog.getCaseManager();
         this.parentDialog = dialog;
         this.disableNotIndexedComponent();
     }
@@ -86,20 +85,19 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
     }
 
     private void disableNotIndexedComponent() {
-        if (!caseObj.doIndexingAfterCaseCreation()) {
+        if (!this.caseManager.getCase().doIndexingAfterCaseCreation()) {
             indexVisulizingButton.setEnabled(false);
         }
     }
     
-    private void generateVisualization() {
-        CaseManager caseManager = CaseManager.newInstance(this.caseObj);
-        if ( ! caseManager.getCaseHistory().getIsCaseIndexed() ) {
+    private void generateVisualization() {;
+        if ( ! this.caseManager.getCaseHistory().getIsCaseIndexed() ) {
             JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
                     "Case is not indexed",JOptionPane.ERROR_MESSAGE );
             return ;
         }
         
-        ExtensionFrequencyTask task = new ExtensionFrequencyTask(caseObj, this);
+        ExtensionFrequencyTask task = new ExtensionFrequencyTask(this.caseManager, this);
         task.startTask();
     }
     

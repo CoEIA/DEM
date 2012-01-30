@@ -59,7 +59,7 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
         initComponents();
 
         this.parentDialog = dialog;
-        this.caseObj = this.parentDialog.getCase();
+        this.caseObj = this.parentDialog.getCaseManager().getCase();
         this.advancedSearchPanel = panel;
         
         JTableUtil.setTableAlignmentValue(cloudsTable, 1);

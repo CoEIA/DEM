@@ -10,10 +10,10 @@
  */
 package edu.coeia.searching;
 
-import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.items.Item;
-
 import edu.coeia.main.CaseFrame;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +30,7 @@ public class CaseSearchPanel extends javax.swing.JPanel {
     private ConnectedSearchPanel connectedSearchPanel;
     
     private final CaseFrame caseFrame ;
-    private final Case aCase ;
+    private final CaseManager caseManager ;
     
     private List<SearchHistory> searchOptions = new ArrayList<SearchHistory>();
     
@@ -39,16 +39,16 @@ public class CaseSearchPanel extends javax.swing.JPanel {
         initComponents();
         
         this.caseFrame = (CaseFrame) frame;
-        this.aCase =  this.caseFrame.getCase();
+        this.caseManager =  this.caseFrame.getCaseManager();
         
         // add tapped pane
         this.advancedSearchPanel = new AdvancedSearchPanel(this);
-        this.connectedSearchPanel = new ConnectedSearchPanel(aCase, caseFrame, this);
+        this.connectedSearchPanel = new ConnectedSearchPanel(this);
         this.caseSearchTappedPane.add("Advanced Search", advancedSearchPanel);
         this.caseSearchTappedPane.add("Connected Search", connectedSearchPanel);
     }
     
-    public Case getCurrentCase() { return this.aCase; }
+    public CaseManager getCaseManager() { return this.caseManager; }
     public JFrame getParentJFrame() { return this.caseFrame ; }
     
     public void setFocusInAdvancedSearchPanel () {

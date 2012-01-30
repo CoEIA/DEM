@@ -29,6 +29,7 @@ import java.util.List;
 public final class CaseManager {
     private final Case aCase ;
     private final CaseHistoryHandler caseHistoryHandler;
+    private final CasePathHandler casePathHandler; 
     
     public static CaseManager newInstance (final Case aCase) {
         return new CaseManager(aCase);
@@ -42,6 +43,7 @@ public final class CaseManager {
         this.createCaseFoldersStructure();
         this.saveCaseInformation();
         this.updateCasesInformationFile();
+        this.addCaseMappingInformation();
         return true;
     }
     
@@ -84,6 +86,7 @@ public final class CaseManager {
         return status;
     }
     
+    // Case History Simplified Methods
     public CaseHistory getCaseHistory() {
         return this.caseHistoryHandler.getHistory(this.aCase.getCaseName());
     }
@@ -100,10 +103,54 @@ public final class CaseManager {
         this.caseHistoryHandler.exportHistory(caseName, filePath);
     }
     
+    // Case File path mapping simplified methods
+    public void updateMappingFile() throws IOException { 
+        this.casePathHandler.reloadFileMapping();
+    }
+    
+    public String getFullPath(final String relativePath) {
+        return this.casePathHandler.getFullPath(relativePath);
+    }
+    
+    public String getRelativePath(final String fullPath) {
+        return this.casePathHandler.getRelativePath(fullPath);
+    }
+    
     public boolean isCaseHaveChangedSource() throws IOException {
-        return !CasePathHandler.newInstance(this.getCaseFolderLocation()).getChangedEntries().isEmpty();
+        return !this.casePathHandler.getChangedEntries().isEmpty();
+    }
+    
+    public void updateMapping(final String oldFullPath, final String newFullPath) throws IOException {
+        String oldRelativePath = getRelativeMarkForPath(oldFullPath);
+        CasePathHandler.PathMapping entry = new CasePathHandler.PathMapping(oldRelativePath, newFullPath);
+        this.casePathHandler.updateFullPath(entry);
+    }
+    
+    public List<String> getChangedEntries() throws IOException {
+        List<CasePathHandler.PathMapping> mapping = this.casePathHandler.getChangedEntries();
+        List<String> fullPaths = new ArrayList<String>();
+        
+        for(CasePathHandler.PathMapping pathMapping: mapping) {
+            fullPaths.add(pathMapping.absolutePath);
+        }
+        
+        return fullPaths;
+    }
+    
+    private String getRelativeMarkForPath(final String fullPath) throws IOException{
+        for(CasePathHandler.PathMapping entry: this.casePathHandler.getChangedEntries()) {
+             String data = entry.absolutePath;
+             String relative = entry.relativePath;
+             
+             if ( fullPath.equals(data) ) 
+                 return relative;
+        }
+        
+        return "";
     }
         
+    
+    // case paths getter methods
     public String getCasesInformationFileLocation() {
         return FilesPath.INDEXES_INFO;
     }
@@ -156,6 +203,12 @@ public final class CaseManager {
                 + FilesPath.CASE_TAGS;
     }
     
+    public String getCaseConfigurationFileLocation() {
+        return this.aCase.getCaseLocation()
+                + File.separator
+                + FilesPath.CASE_CONFIG;
+    }
+    
     public Case getCase() { return this.aCase; }
     
     private List<String> getOtherCases(final String name, final String path) throws FileNotFoundException {
@@ -192,16 +245,18 @@ public final class CaseManager {
         FileUtil.createFolder(this.getCaseArchiveOutputFolderLocation());   // ARCHIVE folder
         FileUtil.createFolder(this.getCaseOfflineEmailAttachmentLocation()); // OFFLINE Email Attachments
         
-        // create LOG and information (.DAT) file
+        // create LOG and information (.DAT) file and Configuration File (mapping file)
         FileUtil.createFile(this.getCaseLogFileLocation());
         FileUtil.createFile(this.getCaseInformationFileLocation()); 
-        
-        // create case configuration file and write path mapping on it
-        CasePathHandler handler = CasePathHandler.newInstance(aCase.getCaseLocation());
+        FileUtil.createFile(this.getCaseConfigurationFileLocation());
+    }
+    
+    private void addCaseMappingInformation() throws IOException {
         for(String path: aCase.getEvidenceSourceLocation()) {
-            handler.add(new File(path));
+            this.casePathHandler.add(new File(path));
         }
-        handler.saveConfiguration();
+        
+        this.casePathHandler.saveConfiguration();
     }
     
     private void replaceCaseLocation(final String oldCaseName, final String oldCaseLocation) throws IOException {
@@ -215,5 +270,6 @@ public final class CaseManager {
     private CaseManager (final Case aCase) {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();
+        this.casePathHandler = CasePathHandler.newInstance(this.getCaseConfigurationFileLocation());
     }
 }

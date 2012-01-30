@@ -10,7 +10,7 @@
  */
 package edu.coeia.multimedia;
 
-import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.task.MultimediaLoadingTask;
 
@@ -29,13 +29,13 @@ public class MultimediaViewerPanel extends javax.swing.JPanel {
 
     public enum TYPE { IMAGE, AUDIO, ARCHIVE, VIDEO };
     
-    private final Case aCase;
+    private final CaseManager caseManager;
     private final TYPE type;
     
     /** Creates new form MultimediaViewerPanel */
-    public MultimediaViewerPanel(final Case aCase, final TYPE type) {
+    public MultimediaViewerPanel(final CaseManager caseManager, final TYPE type) {
         this.initComponents();
-        this.aCase = aCase;
+        this.caseManager = caseManager;
         this.type = type;
         
         this.filterTableTextField.getDocument().addDocumentListener(
@@ -118,7 +118,7 @@ public class MultimediaViewerPanel extends javax.swing.JPanel {
 
     private void loadItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadItemsButtonActionPerformed
         try {
-            MultimediaLoadingTask task = new MultimediaLoadingTask(aCase, this, type);
+            MultimediaLoadingTask task = new MultimediaLoadingTask(this.caseManager, this, type);
             task.startTask();
         } catch (Exception ex) {
             Logger.getLogger(MultimediaViewerPanel.class.getName()).log(Level.SEVERE, null, ex);

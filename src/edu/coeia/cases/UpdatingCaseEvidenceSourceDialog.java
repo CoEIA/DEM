@@ -26,20 +26,20 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
  * @author wajdyessam
  */
 public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog {
-
-    private final Case aCase; 
     private boolean result = false;
+    
+    private final CaseManager caseManager; 
     private final DefaultListModel sourcesListModel;
     
     /** Creates new form UpdatingCaseEvidenceSourceDialog */
-    public UpdatingCaseEvidenceSourceDialog(java.awt.Frame parent, boolean modal, final Case aCase) 
+    public UpdatingCaseEvidenceSourceDialog(java.awt.Frame parent, boolean modal, final CaseManager caseManager) 
             throws IOException{
         
         super(parent, modal);
         initComponents();
         
         this.setLocationRelativeTo(parent);
-        this.aCase = aCase;
+        this.caseManager = caseManager;
         this.sourcesListModel = new DefaultListModel();
         this.fillListWithNotFoundedSources();
     }
@@ -48,14 +48,12 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
         sourcesListModel.clear();
         
         // fill with missing case sources
-        CasePathHandler pathHandler = CasePathHandler.newInstance(aCase.getCaseLocation());
-        for(CasePathHandler.PathMapping entry: pathHandler.getChangedEntries()) {
-             String data = entry.absolutePath;
-             JListUtil.addToList(data, sourcesListModel, sourcesList);
+        for(String absolutePath: this.caseManager.getChangedEntries()) {
+             JListUtil.addToList(absolutePath, sourcesListModel, sourcesList);
         }
         
         // check if all paths are fixes
-        if ( pathHandler.getChangedEntries().isEmpty()) {
+        if ( this.caseManager.getChangedEntries().isEmpty()) {
             JOptionPane.showMessageDialog(this, "All Sources have been fixed", "case sources have been founded", JOptionPane.INFORMATION_MESSAGE);
             this.result = true;
             this.dispose();
@@ -156,7 +154,7 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
                 JOptionPane.showMessageDialog(this, "Select Source First", "select old source first", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            String oldPath = String.valueOf(object);
+            String oldFullPath = String.valueOf(object);
             
             JDirectoryDialog directoryDialog = new JDirectoryDialog();
             directoryDialog.show(this);
@@ -164,17 +162,12 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
             String newPath = directoryDialog.getSelectedDirectory();
             if (newPath == null) return;
             
-            String relative = getRelativeMarkForPath(oldPath);
-            CasePathHandler.PathMapping entry = new CasePathHandler.PathMapping(relative, newPath);
-            CasePathHandler pathHandler = CasePathHandler.newInstance(aCase.getCaseLocation());
-            pathHandler.updateFullPath(entry);
+            this.caseManager.updateMapping(oldFullPath, newPath);
             
             // update case object
-            aCase.removeEvidenceSourceLocation(oldPath);
-            aCase.addEvidenceSourceLocation(newPath);
-            
-            CaseManager caseManager = CaseManager.newInstance(aCase);
-            caseManager.updateCase(aCase.getCaseName(), oldPath);
+            this.caseManager.getCase().removeEvidenceSourceLocation(oldFullPath);
+            this.caseManager.getCase().addEvidenceSourceLocation(newPath);
+            this.caseManager.updateCase(this.caseManager.getCase().getCaseName(), oldFullPath);
             
             // update gui list
             this.fillListWithNotFoundedSources();
@@ -186,19 +179,6 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
        this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
-
-    private String getRelativeMarkForPath(final String fullPath) throws IOException{
-        CasePathHandler pathHandler = CasePathHandler.newInstance(aCase.getCaseLocation());
-        for(CasePathHandler.PathMapping entry: pathHandler.getChangedEntries()) {
-             String data = entry.absolutePath;
-             String relative = entry.relativePath;
-             
-             if ( fullPath.equals(data) ) 
-                 return relative;
-        }
-        
-        return "";
-    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeButton;

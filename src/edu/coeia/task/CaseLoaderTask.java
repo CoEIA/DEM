@@ -57,10 +57,10 @@ public class CaseLoaderTask implements Task {
                 // and update the file before opening the case
                 boolean caseSourceIsUptoDate = true;
                 
-                CaseManager caseManger = CaseManager.newInstance(aCase);
+                CaseManager caseManager = CaseManager.newInstance(aCase);
         
-                if ( caseManger.isCaseHaveChangedSource() )  {
-                    caseSourceIsUptoDate = askAndUpdateNewCaseSource(aCase);
+                if ( caseManager.isCaseHaveChangedSource() )  {
+                    caseSourceIsUptoDate = askAndUpdateNewCaseSource(caseManager);
                 }
                 
                 if ( caseSourceIsUptoDate ) {                    
@@ -69,14 +69,13 @@ public class CaseLoaderTask implements Task {
                     CaseFrame mainFrame = new CaseFrame(aCase, ApplicationManager.Manager.getList());
                     mainFrame.setLocationRelativeTo(this.frame);
                     mainFrame.setVisible(true);
-
-                    CaseManager caseManager = CaseManager.newInstance(aCase);
+                    
                     if ( ! caseManager.getCaseHistory().getIsCaseIndexed() ) {
                         mainFrame.showIndexDialog(startIndex);
                     }
                 }
                 else {
-                    System.out.println("case folder in changed, and you should privde the correct path");
+                    System.out.println("case folder in changed, and you should provide the correct path");
                 }
             }
             else {
@@ -86,8 +85,8 @@ public class CaseLoaderTask implements Task {
         }
     }
     
-    private boolean askAndUpdateNewCaseSource(final Case aCase) throws IOException {
-        UpdatingCaseEvidenceSourceDialog dialog = new UpdatingCaseEvidenceSourceDialog(this.frame, true, aCase);
+    private boolean askAndUpdateNewCaseSource(final CaseManager caseManager) throws IOException {
+        UpdatingCaseEvidenceSourceDialog dialog = new UpdatingCaseEvidenceSourceDialog(this.frame, true, caseManager);
         dialog.setVisible(true);
         
         return dialog.getResult();

@@ -10,7 +10,7 @@
  */
 package edu.coeia.indexing;
 
-import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.gutil.JTableUtil;
 
 import java.awt.EventQueue;
@@ -33,14 +33,16 @@ import javax.swing.JTable ;
 public final class IndexingDialog extends javax.swing.JDialog {
 
     private CrawlerIndexerThread indexerThread ;
-    private final Case aCase;
+    private final CaseManager caseManager;
     
     /** Creates new form IndexingDialog */
-    public IndexingDialog(java.awt.Frame parent, boolean modal, Case aCase, boolean startIndexNow) {
+    public IndexingDialog(java.awt.Frame parent, boolean modal,
+            final CaseManager caseManager, boolean startIndexNow) {
+        
         super(parent, modal);
         initComponents();
-        
-        this.aCase = aCase;
+       
+        this.caseManager = caseManager;
         
         // set start and end button
         resettingButtons(true);
@@ -322,7 +324,8 @@ public final class IndexingDialog extends javax.swing.JDialog {
         stopIndexingButton.setEnabled(!state);
     }
    
-    Case getCase() { return this.aCase ; }
+    CaseManager getCaseManager() { return this.caseManager; }
+
     JTable getLoggingTable () { return this.indexTable; }
     JProgressBar getProgressBar() { return this.progressBar ; }
     JPanel getObjectPanel() { return this.objectPanel; }

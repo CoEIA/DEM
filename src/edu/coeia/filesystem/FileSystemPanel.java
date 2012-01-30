@@ -3,6 +3,7 @@ package edu.coeia.filesystem;
 
 import edu.coeia.hashanalysis.HashAnalysisPanel;
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.filesignature.FileSignaturePanel;
 import edu.coeia.main.CaseFrame;
 import javax.swing.JFrame;
@@ -26,7 +27,7 @@ public class FileSystemPanel extends javax.swing.JPanel {
         initComponents();
 
         this.caseFrame = (CaseFrame) parentFrame;
-        this.aCase = this.caseFrame.getCase() ;
+        this.aCase = this.caseFrame.getCaseManager().getCase();
         
         //SearchFileSystemPanel searchPanel = new SearchFileSystemPanel(aIndex, parentFrame);
         //FileBrowsingPanel fileBrowsingPanel = new FileBrowsingPanel();

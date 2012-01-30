@@ -29,28 +29,26 @@ import javax.swing.JOptionPane;
  */
 public final class CaseManagerPanel extends javax.swing.JPanel {
 
-    private CaseFrame parent ;
-    private Case aCase; 
-    private TagsManager tagsManager ;
+    private final CaseFrame parent ;
+    private final TagsManager tagsManager ;
+    private final CaseManager caseManager ;
     
     private int currentTagIndex;
-    private final CaseManager caseManager ;
     
     /** Creates new form CaseManagerPanel */
     public CaseManagerPanel(CaseFrame frame) {
         initComponents();
         
         this.parent = frame;
-        this.aCase = frame.getCase() ;
         this.tagsManager = frame.getTagsManager() ;
-        this.caseManager = CaseManager.newInstance(aCase);
-        
+        this.caseManager = frame.getCaseManager();
+                
         // initializing tags panel
-        initializingTagsPanel();
+        this.initializingTagsPanel();
         
         // update case information panel
-        displayCaseInformationPanel();
-        displayMutableCaseInformationPanel();
+        this.displayCaseInformationPanel();
+        this.displayMutableCaseInformationPanel();
     }
 
     /** This method is called from within the constructor to
@@ -509,7 +507,7 @@ public final class CaseManagerPanel extends javax.swing.JPanel {
     private void verifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verifyButtonActionPerformed
         String hash = this.caseHashValueTextField.getText().trim();
         if ( !hash.isEmpty() )
-            HashVerifier.newInstance(this.parent, hash, this.aCase.getEvidenceSourceLocation().get(0)).start();
+            HashVerifier.newInstance(this.parent, hash, this.caseManager.getCase().getEvidenceSourceLocation().get(0)).start();
         else
             JOptionPane.showMessageDialog(this, "Please enter the original hash value",
                     "Missing Hash Value", JOptionPane.ERROR_MESSAGE);
@@ -664,14 +662,14 @@ public final class CaseManagerPanel extends javax.swing.JPanel {
      * display case information in the related panel
      */
     public void displayCaseInformationPanel() {
-        this.caseNameTextField.setText(this.aCase.getCaseName());
-        this.createdDateTextField.setText(DateUtil.formatDate(this.aCase.getCreateTime()));
-        this.createdByTextField.setText(this.aCase.getInvestigatorName());
-        this.casePathTextField.setText(this.aCase.getCaseLocation());
-        this.caseDescriptionTextField.setText(this.aCase.getDescription());
+        this.caseNameTextField.setText(this.caseManager.getCase().getCaseName());
+        this.createdDateTextField.setText(DateUtil.formatDate(this.caseManager.getCase().getCreateTime()));
+        this.createdByTextField.setText(this.caseManager.getCase().getInvestigatorName());
+        this.casePathTextField.setText(this.caseManager.getCase().getCaseLocation());
+        this.caseDescriptionTextField.setText(this.caseManager.getCase().getDescription());
         
         StringBuilder paths = new StringBuilder();
-        for(String doc: this.aCase.getEvidenceSourceLocation())
+        for(String doc: this.caseManager.getCase().getEvidenceSourceLocation())
             paths.append(doc).append("\n");
         
         this.caseSourcesTextView.setText(paths.toString());   // clear the field and append new data

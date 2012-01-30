@@ -6,10 +6,9 @@ package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.ApplicationManager;
-import edu.coeia.cases.CasePathHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.FilesPath;
 import edu.coeia.util.Utilities;
 
 import java.io.File;
@@ -43,12 +42,12 @@ final class IndexUtil {
         return Collections.unmodifiableList(ApplicationManager.Manager.getCases());
     }
     
-    public static Map<String, Double> getAllFilesFrequency(final Case aCase, final CasePathHandler handler)
+    public static Map<String, Double> getAllFilesFrequency(final CaseManager caseManager)
             throws IOException{
         
         Map<String,Double> map = new HashMap<String,Double>();
         
-        String indexDir = aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
+        String indexDir = caseManager.getCaseInformationFileLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
@@ -60,7 +59,7 @@ final class IndexUtil {
                 continue ;
 
             String file = currentTerm.text();
-            String fullPath = handler.getFullPath(file);
+            String fullPath = caseManager.getFullPath(file);
             String ext = FileUtil.getExtension(fullPath);
             
             if ( ext == null || ext.length() > 6) // no more extension than 5 character!
@@ -80,18 +79,18 @@ final class IndexUtil {
         return map ;
     }
     
-    public static List<String> getAllFilesHaveAuthers(final Case aCase, final CasePathHandler handler,
+    public static List<String> getAllFilesHaveAuthers(final CaseManager caseManager,
             List<String> authers) throws IOException{
         List<String> files = new ArrayList<String>();
-        files.addAll(getAllFilePathsHaveAuther(aCase, handler, authers));
+        files.addAll(getAllFilePathsHaveAuther(caseManager, authers));
         return files;
     }
     
-    public static List<String> getAllFilesBetweenSize(final Case aCase, final CasePathHandler handler, 
+    public static List<String> getAllFilesBetweenSize(final CaseManager caseManager, 
             final long from, final long to) throws IOException{
         List<String> files = new ArrayList<String>();
         
-         for(String fileName: getAllFilePaths(aCase, handler)) {
+         for(String fileName: getAllFilePaths(caseManager)) {
             File file = new File(fileName);
             long length = file.length();
             
@@ -103,11 +102,11 @@ final class IndexUtil {
         return files;
     }
     
-    public static List<String> getAllFilesBetweenDates(final Case aCase, final CasePathHandler handler, 
+    public static List<String> getAllFilesBetweenDates(final CaseManager caseManager, 
             final Date from, final Date to) throws IOException{
         List<String> files = new ArrayList<String>();
         
-        for(String fileName: getAllFilePaths(aCase, handler)) {
+        for(String fileName: getAllFilePaths(caseManager)) {
             File file = new File(fileName);
             if ( FileUtils.isFileNewer(file, from) && FileUtils.isFileOlder(file, to) ) {
                 files.add(fileName);
@@ -117,12 +116,12 @@ final class IndexUtil {
         return files;
     }
     
-    public static List<String> getAllFilePaths(final Case aCase, final CasePathHandler handler) 
+    public static List<String> getAllFilePaths(final CaseManager caseManager) 
             throws IOException {
         
         List<String> files = new ArrayList<String>();
         
-        String indexDir = aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
+        String indexDir = caseManager.getCaseInformationFileLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
@@ -137,7 +136,7 @@ final class IndexUtil {
                         String relativePath = document.get(IndexingConstant.FILE_PATH);
                         
                         if ( !relativePath.isEmpty() ) {
-                            String fullpath = handler.getFullPath(relativePath);
+                            String fullpath = caseManager.getFullPath(relativePath);
                             files.add(fullpath);
                         }
                     }
@@ -149,13 +148,13 @@ final class IndexUtil {
         return files;
     }
     
-    private static List<String> getAllFilePathsHaveAuther(final Case aCase, 
-            final CasePathHandler handler, final List<String> authers) 
+    private static List<String> getAllFilePathsHaveAuther(final CaseManager caseManager, 
+            final List<String> authers) 
             throws IOException {
         
         List<String> files = new ArrayList<String>();
         
-        String indexDir = aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
+        String indexDir = caseManager.getCaseInformationFileLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
@@ -172,7 +171,7 @@ final class IndexUtil {
                         
                         if ( !relativePath.isEmpty() && auther != null && !auther.trim().isEmpty() 
                                 && Utilities.isFound(authers, auther) )  {
-                            String fullpath = handler.getFullPath(relativePath);
+                            String fullpath = caseManager.getFullPath(relativePath);
                             files.add(fullpath);
                         }
                     }
@@ -184,12 +183,12 @@ final class IndexUtil {
         return files;
     }
     
-    public static List<String> getAllAuthers(final Case aCase, final CasePathHandler handler) 
+    public static List<String> getAllAuthers(final CaseManager caseManager) 
             throws IOException {
         
         List<String> files = new ArrayList<String>();
         
-        String indexDir = aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
+        String indexDir = caseManager.getCaseInformationFileLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         

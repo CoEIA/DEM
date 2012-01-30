@@ -11,7 +11,7 @@
 package edu.coeia.viewer;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CasePathHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.searching.LuceneSearcher ;
@@ -48,9 +48,10 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private String keyword ;
     private LuceneSearcher searcher ;
     private Document currentDocument ;
-    private Frame parent ;
-    private TagsManager tagManger  ;
-    private Case caseObj ;
+    private final Frame parent ;
+    private final TagsManager tagManger  ;
+    private final Case caseObj ;
+    private final CaseManager caseManger; 
     
     /**
      * Lucene Document ID number list and the current id opened now
@@ -70,9 +71,10 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         
         this.parent = parent ;
         this.tagManger = ((CaseFrame) this.parent).getTagsManager();
-        this.caseObj  = ((CaseFrame) this.parent).getCase();
+        this.caseObj  = ((CaseFrame) this.parent).getCaseManager().getCase();
+        this.caseManger = ((CaseFrame) this.parent).getCaseManager();
         this.keyword = searchViewer.getKeyword();
-        
+
         try {
             this.searcher = new LuceneSearcher(caseObj);
             
@@ -227,9 +229,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         if ( IndexingConstant.isFileDocument(document) ) {
             try {
                 String filePath = document.get(IndexingConstant.FILE_PATH);
-                CasePathHandler pathHandler = CasePathHandler.newInstance(this.caseObj.getCaseLocation());
-                pathHandler.readConfiguration();
-                String fullPath = pathHandler.getFullPath(filePath);
+                String fullPath = this.caseManger.getFullPath(filePath);
                 this.openFile(fullPath);
             } catch (IOException ex) {
                 Logger.getLogger(SourceViewerDialog.class.getName()).log(Level.SEVERE, null, ex);
@@ -284,10 +284,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             if ( result == JFileChooser.APPROVE_OPTION ) {
                 File file = fileChooser.getSelectedFile();
                 try {
-                    CasePathHandler pathHandler = CasePathHandler.newInstance(this.caseObj.getCaseLocation());
-                    pathHandler.readConfiguration();
-                    String fullPath = pathHandler.getFullPath(filePath);
-                    
+                    String fullPath = this.caseManger.getFullPath(filePath);
                     FileUtil.saveObject(new FileInputStream(fullPath), file.getAbsolutePath());
                 }
                 catch(Exception e) { e.printStackTrace(); }

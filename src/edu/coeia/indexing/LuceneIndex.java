@@ -11,7 +11,7 @@ package edu.coeia.indexing;
  *
  */
 
-import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.util.FilesPath;
 
 import java.io.File;
@@ -30,24 +30,24 @@ import org.apache.lucene.util.Version ;
 public final class LuceneIndex {
 
     private final IndexWriter writer ;
-    private final Case caseObject; 
+    private final CaseManager caseManager;
     
     /*
      * Static Factory Method 
      * Create New Instance of Lucene Indexer
      */
-    public static LuceneIndex newInstance(Case aCase) throws IOException{ 
-        return new LuceneIndex(aCase);
+    public static LuceneIndex newInstance(final CaseManager caseManager) throws IOException{ 
+        return new LuceneIndex(caseManager);
     }
     
-    private LuceneIndex (Case aCase) throws IOException {
-        File indexDir = new File(aCase.getCaseLocation() + "\\" +  FilesPath.INDEX_PATH);
+    private LuceneIndex (final CaseManager caseManager) throws IOException {
+        File indexDir = new File(caseManager.getCaseInformationFileLocation());
         
         if ( !indexDir.exists() ) {
             throw new IOException("not found indexing folder");
         }
 
-	this.caseObject = aCase; 
+	this.caseManager = caseManager;
       
         // using stop analyzer
         this.writer = new IndexWriter(FSDirectory.open(indexDir), new StopAnalyzer(Version.LUCENE_20, 
@@ -68,7 +68,7 @@ public final class LuceneIndex {
         this.writer.addDocument(document);
     }
     
-    Case getCase () { return this.caseObject ; }
+    CaseManager getCaseManager() { return this.caseManager; }
     IndexWriter getWriter () { return this.writer ; }
     
     int getIndexNumber () throws IOException {

@@ -10,26 +10,35 @@
  */
 package edu.coeia.multimedia;
 
-import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.main.CaseFrame;
+
 import javax.swing.JFrame;
 
 public class MultimediaPanel extends javax.swing.JPanel {
     private final CaseFrame caseFrame ;
-    private final Case aCase ;
+    private final CaseManager caseManager;
 
     /** Creates new form MultimediaPanel */
     public MultimediaPanel(final JFrame frame) {
         initComponents();
         
         this.caseFrame = (CaseFrame) frame;
-        this.aCase =  this.caseFrame.getCase();
+        this.caseManager =  this.caseFrame.getCaseManager();
         
-        MultimediaViewerPanel audioPanel = new MultimediaViewerPanel(aCase, MultimediaViewerPanel.TYPE.AUDIO);
-        MultimediaViewerPanel videoPanel = new MultimediaViewerPanel(aCase, MultimediaViewerPanel.TYPE.VIDEO);
-        MultimediaViewerPanel archivePanel = new MultimediaViewerPanel(aCase, MultimediaViewerPanel.TYPE.ARCHIVE);
-        MultimediaViewerPanel imageViewer = new MultimediaViewerPanel(aCase, MultimediaViewerPanel.TYPE.IMAGE);
-        ImageViewerPanel imageThumbnailViewer = new ImageViewerPanel(aCase);
+        MultimediaViewerPanel audioPanel = new MultimediaViewerPanel(this.caseManager,
+                MultimediaViewerPanel.TYPE.AUDIO);
+        
+        MultimediaViewerPanel videoPanel = new MultimediaViewerPanel(this.caseManager,
+                MultimediaViewerPanel.TYPE.VIDEO);
+                
+        MultimediaViewerPanel archivePanel = new MultimediaViewerPanel(this.caseManager,
+                MultimediaViewerPanel.TYPE.ARCHIVE);
+        
+        MultimediaViewerPanel imageViewer = new MultimediaViewerPanel(this.caseManager,
+                MultimediaViewerPanel.TYPE.IMAGE);
+        
+        ImageViewerPanel imageThumbnailViewer = new ImageViewerPanel(this.caseManager );
         
         this.multimediaTappedPane.addTab("Image Thumbnail Viewer", imageThumbnailViewer);
         this.multimediaTappedPane.addTab("Image Viewer", imageViewer);

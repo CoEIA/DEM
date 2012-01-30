@@ -6,7 +6,13 @@ package edu.coeia.cases;
 
 import edu.coeia.util.FileUtil;
 
-import edu.coeia.util.FilesPath;
+import java.io.File ;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,15 +30,7 @@ import java.util.List;
  * @author wajdyessam
  */
 
-import java.io.File ;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
-public class CasePathHandler {
+final class CasePathHandler {
     private final List<PathMapping> casePathsMapping;
     private final String configurationFileLocation ;
     
@@ -47,9 +45,9 @@ public class CasePathHandler {
         return new CasePathHandler(caseLocation);
     }
     
-    private CasePathHandler(final String caseLocation) {
+    private CasePathHandler(final String caseConfigurationFilePath) {
         this.casePathsMapping = new ArrayList<PathMapping>();
-        this.configurationFileLocation = caseLocation + File.separator + FilesPath.CASE_CONFIG;
+        this.configurationFileLocation = caseConfigurationFilePath ;
     }
     
     /**
@@ -90,7 +88,7 @@ public class CasePathHandler {
      * @return unmodifiable list of mapping file paths
      * @throws IOException 
      */
-    public List<PathMapping> readConfiguration() throws IOException{
+    public List<PathMapping> reloadFileMapping() throws IOException{
         this.casePathsMapping.clear();
         
         List<String> lines = FileUtil.getFileContentInList(new File(this.configurationFileLocation));
@@ -205,7 +203,7 @@ public class CasePathHandler {
      * @return list of not founded entries in configuration file
      */
     public List<PathMapping> getChangedEntries() throws IOException {
-        this.readConfiguration();
+        this.reloadFileMapping();
         
         List<PathMapping> changedEntries = new ArrayList<PathMapping>();
         

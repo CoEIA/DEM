@@ -11,7 +11,6 @@
 package edu.coeia.offlinemail;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CasePathHandler;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.main.CaseFrame;
@@ -35,6 +34,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import com.pff.PSTFile;
+import edu.coeia.cases.CaseManager;
 
 /**
  *
@@ -47,13 +47,15 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     
     private final CaseFrame caseFrame ;
     private final Case aCase ;    
+    private final CaseManager caseManager ;
     
     /** Creates new form OfflineEmailBrowsingPanel */
     public EmailBrowsingPanel(final JFrame frame) {
         initComponents();
         this.emailSourcrListModel = new DefaultListModel();
         this.caseFrame = (CaseFrame) frame;
-        this.aCase =  this.caseFrame.getCase();
+        this.caseManager = this.caseFrame.getCaseManager();
+        this.aCase =  this.caseFrame.getCaseManager().getCase();
         
         /**
          * Filter email table by keyword written into filter text field
@@ -335,9 +337,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         String path = String.valueOf(this.emailSourceJList.getSelectedValue());
         
         try {
-            CasePathHandler handler = CasePathHandler.newInstance(this.aCase.getCaseLocation());
-            handler.readConfiguration();
-            path = handler.getFullPath(path);
+            path = this.caseManager.getFullPath(path);
         
             PSTFile pstFile = new PSTFile(path);
 

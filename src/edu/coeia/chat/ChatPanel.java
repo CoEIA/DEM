@@ -10,8 +10,9 @@
  */
 package edu.coeia.chat;
 
-import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.main.CaseFrame;
+
 import javax.swing.JFrame;
 
 /**
@@ -21,19 +22,19 @@ import javax.swing.JFrame;
 public class ChatPanel extends javax.swing.JPanel {
 
     private final CaseFrame caseFrame ;
-    private final Case aCase ;
+    private final CaseManager caseManager;
     
     /** Creates new form ChatDisplayPanel */
     public ChatPanel(final JFrame frame) {
         initComponents();
         
         this.caseFrame = (CaseFrame) frame;
-        this.aCase =  this.caseFrame.getCase();
+        this.caseManager =  this.caseFrame.getCaseManager();
         
         // add three panels
-        ChatViewerPanel windowsLivePanel = new ChatViewerPanel(aCase, "MSN");
-        ChatViewerPanel yahooPanel = new ChatViewerPanel(aCase, "YAHOO");
-        ChatViewerPanel skypePanel = new ChatViewerPanel(aCase, "SKYPE");
+        ChatViewerPanel windowsLivePanel = new ChatViewerPanel(this.caseManager, "MSN");
+        ChatViewerPanel yahooPanel = new ChatViewerPanel(this.caseManager, "YAHOO");
+        ChatViewerPanel skypePanel = new ChatViewerPanel(this.caseManager, "SKYPE");
         
         this.chatTappedPane.add("Windows Live Messanger", windowsLivePanel);
         this.chatTappedPane.add("Yahoo! Chat Messanger", yahooPanel);

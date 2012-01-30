@@ -4,7 +4,7 @@
  */
 package edu.coeia.indexing;
 
-import edu.coeia.cases.CasePathHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.util.FilesPath;
 
@@ -23,21 +23,13 @@ public abstract class Indexer {
     public Indexer(LuceneIndex luceneIndex, File file, String mimeType, ImageExtractor imageExtractor) {
         this.file = file ;
         this.mimeType = mimeType; 
-        this.imageCache = luceneIndex.getCase().getCacheImages();
+        this.caseManager = luceneIndex.getCaseManager();
+        this.imageCache = this.caseManager.getCase().getCacheImages();
         this.imageExtractor = imageExtractor;
-        this.caseLocation = luceneIndex.getCase().getCaseLocation();
+        this.caseLocation = this.caseManager.getCase().getCaseLocation();
         this.imagesLocation = this.caseLocation + "\\" + FilesPath.IMAGES_PATH;
         this.tmpLocation = this.caseLocation + "\\" + FilesPath.CASE_TMP;
         this.luceneIndex = luceneIndex ;
-        this.pathHandler = CasePathHandler.newInstance(this.caseLocation);
-        
-        // read the mapping from file
-        try {
-            this.pathHandler.readConfiguration();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
     }
     
     public abstract boolean doIndexing();
@@ -76,8 +68,8 @@ public abstract class Indexer {
     public String getCaseLocation() { return this.caseLocation; }
     public LuceneIndex getLuceneIndex() { return this.luceneIndex; }
     public ImageExtractor getImageExtractor() { return this.imageExtractor; }
-    public CasePathHandler getPathHandler() { return this.pathHandler; }
     public IndexingDialog getDialog() { return this.indexingDialog ; }
+    public CaseManager getCaseManager() { return this.caseManager ; }
     
     public int getId() { return id ; }
     public void increaseId() { id++; }
@@ -97,6 +89,6 @@ public abstract class Indexer {
     
     private final ImageExtractor imageExtractor;
     private final LuceneIndex luceneIndex ;
-    private final CasePathHandler pathHandler;
+    private final CaseManager caseManager ;
     private IndexingDialog indexingDialog;
 }

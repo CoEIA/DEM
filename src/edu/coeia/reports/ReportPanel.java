@@ -11,7 +11,7 @@
 package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CasePathHandler;
+import edu.coeia.cases.CaseManager;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.main.CaseFrame;
 
@@ -29,33 +29,22 @@ import javax.swing.JFrame;
  */
 public class ReportPanel extends javax.swing.JPanel {
 
-    private CasePathHandler handler;
+    private CaseManager caseManager ;
     private TagsManager tags;
-    
     private CaseFrame caseFrame ;
     private Case aCase ;
     
-    public ReportPanel()
-    {
-        
+    public ReportPanel() { 
     }
-    
-   
+
     /** Creates new form ReportPanel */
     public ReportPanel(final JFrame frame) {
-        try {
-            initComponents();
+        initComponents();
 
-            this.caseFrame = (CaseFrame) frame;
-            this.aCase =  this.caseFrame.getCase();
-        
-            this.handler = CasePathHandler.newInstance(aCase.getCaseLocation());
-            this.handler.readConfiguration();
-            this.tags = this.caseFrame.getTagsManager(); 
-           
-        } catch (IOException ex) {
-            Logger.getLogger(ReportPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.caseFrame = (CaseFrame) frame;
+        this.aCase =  this.caseFrame.getCaseManager().getCase();
+        this.caseManager = this.caseFrame.getCaseManager();
+        this.tags = this.caseFrame.getTagsManager(); 
     }
 
     /** This method is called from within the constructor to
@@ -540,7 +529,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 
     Case getCase() { return this.aCase; }
-    CasePathHandler getCasePathHandler() { return this.handler; }
+    CaseManager getCaseManager() { return this.caseManager; }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel OptionsPanels;
