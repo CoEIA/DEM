@@ -6,10 +6,10 @@ package edu.coeia.items;
 
 /**
  * Base class of all Item classes (File, Online Email, Offline Email and Chat) items
- * this is mapping between lucene document fields and our object
+ * this is mapping between Lucene document fields and our object
  * 
  * all items share common id, hash, parent-id fields
- * and they differ in their lucene fields
+ * and they differ in their Lucene fields
  * 
  * the id for document is to differentiate it with other document
  * and the parent id is for show that this document have parent with this id
@@ -58,7 +58,7 @@ public abstract class Item {
     public abstract Object[] getDisplayData();
     protected abstract String getDescription();
     
-    protected int documentId ;
-    protected int documentParentId;
-    protected String documentHash ;
+    protected final int documentId ;
+    protected final int documentParentId;
+    protected final String documentHash ;
 }

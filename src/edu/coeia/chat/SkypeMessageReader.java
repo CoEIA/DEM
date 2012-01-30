@@ -26,18 +26,11 @@ import java.util.List;
  */
 
 public class SkypeMessageReader {
-    private String path ;
-    
     private final String DB_NAME = "jdbc:sqlite:" ;
     private final String DB_DRIVER = "org.sqlite.JDBC";
     private final String DB_USER = "" ;
     private final String DB_PASS = "" ;
     private Connection connection ;
-    
-    public SkypeMessageReader() {
-    }
-
-    public String getPath () { return path ; }
 
     // take path for the folder contain the main.db skype database file
     // C:\\Documents and Settings\\wajdyessam\\Application Data\\Skype\\wajdyessam

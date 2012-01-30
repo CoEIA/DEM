@@ -10,7 +10,8 @@ package edu.coeia.indexing;
  */
 import edu.coeia.chat.MSNMessageReader;
 import edu.coeia.extractors.ImageExtractor;
-import static edu.coeia.chat.MSNMessageReader.*;
+import edu.coeia.chat.MSNMessage;
+import edu.coeia.chat.MSNMessageReader.MSNChatSession;
 import edu.coeia.extractors.NoneImageExtractor;
 
 import java.io.File;

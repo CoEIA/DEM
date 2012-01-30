@@ -5,7 +5,7 @@
 package edu.coeia.indexing;
 
 import static edu.coeia.indexing.IndexingConstant.*;
-import edu.coeia.chat.MSNMessageReader.MSNMessage;
+import edu.coeia.chat.MSNMessage;
 import edu.coeia.chat.SkypeMessage;
 import edu.coeia.chat.YahooMessage;
 import edu.coeia.chat.YahooMessageDecoder;
