@@ -24,20 +24,18 @@ public class MSNMessage extends ChatMessage{
             final String dateTime, final String sessionId, final String from,
             final String to, final String message) {
 
+        super(from, to, dateTime, message);
+        
         this.date = date;
         this.time = time;
-        this.dateTime = dateTime;
         this.sessionId = sessionId;
-        this.from = from;
-        this.to = to;
-        this.message = message;
     }
 
     @Override
     public String toString() {
         return String.format("%s[date=%s, time=%s, sessionId=%s, from=%s, to=%s, message=%s]",
                 this.getClass().getName(), this.date, this.time, this.sessionId,
-                this.from, this.to, this.message);
+                this.getFrom(), this.getTo(), this.getMessage());
     }
 
     public String getDate() {
@@ -48,30 +46,12 @@ public class MSNMessage extends ChatMessage{
         return this.time;
     }
 
-    public String getDateTime() {
-        return this.dateTime;
-    }
-
     public String sessionId() {
         return this.sessionId;
     }
 
-    public String getTo() {
-        return this.to;
-    }
-
-    public String getFrom() {
-        return this.from;
-    }
-
-    public String getMessage() {
-        return this.message;
-    }
+    
     private final String date;
     private final String time;
-    private final String dateTime;
     private final String sessionId;
-    private final String from;
-    private final String to;
-    private final String message;
 }

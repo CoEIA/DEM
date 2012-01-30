@@ -76,7 +76,7 @@ public final class YahooChatReader implements ChatReader {
                 }
                 else {
                     yahooMsg = new YahooMessage(
-                        profileName, otherName, timeStamp, unknown1, YahooMessage.MESSAGE_PATH.DEST_TO_SOURCE,
+                        otherName, profileName, timeStamp, unknown1, YahooMessage.MESSAGE_PATH.DEST_TO_SOURCE,
                         msgLength, cipherText, unknown2);
                 }
 

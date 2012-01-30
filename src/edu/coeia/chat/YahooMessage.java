@@ -35,12 +35,14 @@ public final class YahooMessage extends ChatMessage{
     private final byte[] cipherText ;
     private final int unknown2 ;
 
-    public YahooMessage (final String pn, final String dn, final Date ts,
-            final int un1, final MESSAGE_PATH path, final int len, final byte[] ct, final int un2) {
+    public YahooMessage (final String from, final String to, final Date date,
+            final int un1, final MESSAGE_PATH path, final int len, final byte[] ct, final int un2) throws UnsupportedEncodingException {
         
-        this.profileName = pn;
-        this.destinationName = dn;
-        this.timeStamp = new Date(ts.getTime());    // defense copy
+        super(from, to, DateUtil.formatDateTime(date), new String(YahooMessageDecoder.decode(ct,from), "UTF-8"));
+        
+        this.profileName = from;
+        this.destinationName = to;
+        this.timeStamp = new Date(date.getTime());    // defense copy
         this.unknown1 = un1 ;
         this.path = path ;
         this.messageLength = len ;

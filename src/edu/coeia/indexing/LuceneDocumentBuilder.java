@@ -83,7 +83,7 @@ final class LuceneDocumentBuilder {
         doc.add(new Field(IndexingConstant.CHAT_FILE, indexer.getCaseFacade().getRelativePath(path), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_FROM, msg.getFrom(), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_TO, msg.getTo(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_TIME, msg.getDateTime() , Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.CHAT_TIME, msg.getDate() , Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_MESSAGE, msg.getMessage(), Field.Store.YES, Field.Index.ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_LENGTH, String.valueOf(msg.getMessage().length()), Field.Store.YES, Field.Index.NOT_ANALYZED));
 
@@ -102,10 +102,10 @@ final class LuceneDocumentBuilder {
         // specific lucene fileds
         doc.add(new Field(IndexingConstant.CHAT_AGENT, agent, Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_FILE, indexer.getCaseFacade().getRelativePath(indexer.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_FROM, msg.getAuther(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_TO, Utilities.getEmptyStringWhenNullString(msg.getPartner()), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.CHAT_FROM, msg.getFrom(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(new Field(IndexingConstant.CHAT_TO, Utilities.getEmptyStringWhenNullString(msg.getTo()), Field.Store.YES, Field.Index.NOT_ANALYZED));
         doc.add(new Field(IndexingConstant.CHAT_TIME, msg.getDate() , Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_MESSAGE, Utilities.getEmptyStringWhenNullString(msg.getMessageText()), Field.Store.YES, Field.Index.ANALYZED));
+        doc.add(new Field(IndexingConstant.CHAT_MESSAGE, Utilities.getEmptyStringWhenNullString(msg.getMessage()), Field.Store.YES, Field.Index.ANALYZED));
         
         return doc;
     }
