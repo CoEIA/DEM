@@ -1,6 +1,9 @@
-package edu.coeia.cases;
+package edu.coeia.main;
 
 /* import internal classes */
+import edu.coeia.managers.ApplicationManager;
+import edu.coeia.managers.LicenseManager;
+import edu.coeia.wizard.CaseWizardDialog;
 import edu.coeia.main.SmartCardDialog;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.GuiUtil;
@@ -26,6 +29,7 @@ import java.awt.EventQueue;
 
 /* import Third Party Libraries */
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+import edu.coeia.cases.Case;
 
 /*
  * CaseManagerFrame the main entry point to DEM

@@ -11,7 +11,7 @@
 package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.main.CaseFrame;
 
@@ -29,7 +29,7 @@ import javax.swing.JFrame;
  */
 public class ReportPanel extends javax.swing.JPanel {
 
-    private CaseManager caseManager ;
+    private CaseFacade caseManager ;
     private TagsManager tags;
     private CaseFrame caseFrame ;
     private Case aCase ;
@@ -529,7 +529,7 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 
 
     Case getCase() { return this.aCase; }
-    CaseManager getCaseManager() { return this.caseManager; }
+    CaseFacade getCaseManager() { return this.caseManager; }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel OptionsPanels;

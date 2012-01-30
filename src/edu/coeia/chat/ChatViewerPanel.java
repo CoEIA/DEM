@@ -11,7 +11,7 @@
 package edu.coeia.chat;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.task.ChatLoadingTask;
 import edu.coeia.task.ChatRefreshTask;
@@ -37,7 +37,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
     private final String agent;
     
     /** Creates new form ChatViewerPanel */
-    public ChatViewerPanel(final CaseManager caseManager, final String agent) {
+    public ChatViewerPanel(final CaseFacade caseManager, final String agent) {
         initComponents();
         this.aCase = caseManager.getCase();
         this.chatListModel = new DefaultListModel();

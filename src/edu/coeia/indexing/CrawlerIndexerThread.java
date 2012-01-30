@@ -13,7 +13,7 @@ package edu.coeia.indexing;
 import edu.coeia.extractors.OfficeImageExtractor;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseHistory;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.CrawlerIndexerThread.ProgressIndexData;
 import edu.coeia.util.DateUtil;
@@ -46,7 +46,7 @@ final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
     private final Case aCase ;
     private final LuceneIndex luceneIndex ;
     private final IndexingDialog parentDialog ;
-    private final CaseManager caseManager ;
+    private final CaseFacade caseManager ;
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
 
     public CrawlerIndexerThread (IndexingDialog parentDialog) throws IOException{

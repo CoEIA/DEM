@@ -4,7 +4,7 @@
  */
 package edu.coeia.indexing;
 
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.util.FilesPath;
 
@@ -69,7 +69,7 @@ public abstract class Indexer {
     public LuceneIndex getLuceneIndex() { return this.luceneIndex; }
     public ImageExtractor getImageExtractor() { return this.imageExtractor; }
     public IndexingDialog getDialog() { return this.indexingDialog ; }
-    public CaseManager getCaseManager() { return this.caseManager ; }
+    public CaseFacade getCaseManager() { return this.caseManager ; }
     
     public int getId() { return id ; }
     public void increaseId() { id++; }
@@ -89,6 +89,6 @@ public abstract class Indexer {
     
     private final ImageExtractor imageExtractor;
     private final LuceneIndex luceneIndex ;
-    private final CaseManager caseManager ;
+    private final CaseFacade caseManager ;
     private IndexingDialog indexingDialog;
 }

@@ -11,7 +11,7 @@
 package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.hash.HashCalculator;
@@ -54,7 +54,7 @@ public class SearchResultPanel extends javax.swing.JPanel {
     private final Case caseObj;
     
     private final List<Integer> documentIds = new ArrayList<Integer>();
-    private final CaseManager caseManager;
+    private final CaseFacade caseManager;
     
     /** Creates new form SearchResultPanel */
     public SearchResultPanel(JFrame parentFrame) {

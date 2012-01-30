@@ -6,7 +6,7 @@ package edu.coeia.task;
 
 import edu.coeia.multimedia.MultimediaViewerPanel;
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.util.FileUtil;
@@ -32,9 +32,9 @@ public class MultimediaLoadingTask implements Task{
     private final Case aCase;
     private final MultimediaViewerPanel panel;
     private final MultimediaViewerPanel.TYPE type;
-    private final CaseManager caseManager ;
+    private final CaseFacade caseManager ;
     
-    public MultimediaLoadingTask(final CaseManager caseManager, final MultimediaViewerPanel panel,
+    public MultimediaLoadingTask(final CaseFacade caseManager, final MultimediaViewerPanel panel,
             final MultimediaViewerPanel.TYPE type) {
         this.thread = new TaskThread(this);
         this.caseManager = caseManager ;

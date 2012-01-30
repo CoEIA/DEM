@@ -11,7 +11,7 @@
 package edu.coeia.multimedia;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.items.FileItem;
 import edu.coeia.items.ItemFactory;
@@ -61,10 +61,10 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     private int currentImageNo;
     private int currentImagePage;
     
-    private final CaseManager caseManager ;
+    private final CaseFacade caseManager ;
     
     /** Creates new form ImageViewerPanel */
-    public ImageViewerPanel(final CaseManager caseManager) {
+    public ImageViewerPanel(final CaseFacade caseManager) {
         initComponents();
         this.caseManager = caseManager;
         this.aCase = this.caseManager.getCase();

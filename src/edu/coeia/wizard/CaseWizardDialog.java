@@ -1,6 +1,7 @@
-package edu.coeia.cases;
+package edu.coeia.wizard;
 
-import edu.coeia.cases.EmailConfiguration.ONLINE_EMAIL_AGENT;
+import edu.coeia.wizard.AddEmailDialog;
+import edu.coeia.wizard.EmailConfiguration.ONLINE_EMAIL_AGENT;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.FilesPath;
@@ -41,6 +42,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
+import edu.coeia.managers.ApplicationManager;
+import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseFacade;
 
 /*
  * IndexWizard.java
@@ -420,7 +424,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addGroup(CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         CaseWizardA1Layout.setVerticalGroup(
             CaseWizardA1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -497,7 +501,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(YesMD5RadioButton)
                         .addGap(157, 157, 157)
@@ -648,7 +652,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -770,7 +774,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 2, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(indexFooterPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -891,7 +895,7 @@ public class CaseWizardDialog extends javax.swing.JDialog implements Runnable {
             .build();
 
             this.setCurrentCase(currentCase);
-            CaseManager caseManger = CaseManager.newInstance(currentCase);
+            CaseFacade caseManger = CaseFacade.newInstance(currentCase);
             if (! caseManger.createCase()) {     
                 showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
                 return;

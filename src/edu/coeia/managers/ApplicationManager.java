@@ -1,5 +1,6 @@
-package edu.coeia.cases;
+package edu.coeia.managers;
 
+import edu.coeia.cases.Case;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath ;
 

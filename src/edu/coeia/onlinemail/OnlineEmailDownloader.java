@@ -1,8 +1,8 @@
 package edu.coeia.onlinemail;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.EmailConfiguration;
-import edu.coeia.cases.EmailConfiguration.ONLINE_EMAIL_AGENT;
+import edu.coeia.wizard.EmailConfiguration;
+import edu.coeia.wizard.EmailConfiguration.ONLINE_EMAIL_AGENT;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.Utilities;

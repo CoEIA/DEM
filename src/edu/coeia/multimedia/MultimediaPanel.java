@@ -10,14 +10,14 @@
  */
 package edu.coeia.multimedia;
 
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.main.CaseFrame;
 
 import javax.swing.JFrame;
 
 public class MultimediaPanel extends javax.swing.JPanel {
     private final CaseFrame caseFrame ;
-    private final CaseManager caseManager;
+    private final CaseFacade caseManager;
 
     /** Creates new form MultimediaPanel */
     public MultimediaPanel(final JFrame frame) {

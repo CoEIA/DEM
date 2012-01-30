@@ -3,7 +3,7 @@ package edu.coeia.filesystem;
 
 import edu.coeia.hashanalysis.HashAnalysisPanel;
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.filesignature.FileSignaturePanel;
 import edu.coeia.main.CaseFrame;
 import javax.swing.JFrame;

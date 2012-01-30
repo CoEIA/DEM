@@ -5,7 +5,7 @@
 package edu.coeia.task;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.EmailConfiguration;
+import edu.coeia.wizard.EmailConfiguration;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.offlinemail.EmailBrowsingPanel;

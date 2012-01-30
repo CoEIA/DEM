@@ -10,6 +10,8 @@ package edu.coeia.cases;
  *
  */
 
+import edu.coeia.wizard.EmailConfiguration;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -147,7 +149,7 @@ public final class Case implements Serializable {
         this.evidenceSourceLocation.remove(location);
     }
     
-    static class CaseBuilder {
+    public static class CaseBuilder {
         // Requaired (constant) paramters for case
         private final String investigatorName;
         private final String description;

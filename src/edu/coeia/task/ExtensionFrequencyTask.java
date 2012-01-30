@@ -5,7 +5,7 @@
 package edu.coeia.task;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.charts.PieChartPanel;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.investigation.ExtensionFrequencyPanel;
@@ -34,9 +34,9 @@ public class ExtensionFrequencyTask implements Task{
     private final TaskThread thread;
     private final Case aCase;
     private final ExtensionFrequencyPanel panel;
-    private final CaseManager caseManager ;
+    private final CaseFacade caseManager ;
     
-    public ExtensionFrequencyTask(final CaseManager caseManager, final ExtensionFrequencyPanel panel) {
+    public ExtensionFrequencyTask(final CaseFacade caseManager, final ExtensionFrequencyPanel panel) {
         this.thread = new TaskThread(this);
         this.caseManager = caseManager;
         this.aCase = this.caseManager.getCase();

@@ -11,7 +11,7 @@ package edu.coeia.indexing;
  *
  */
 
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.util.FilesPath;
 
 import java.io.File;
@@ -30,17 +30,17 @@ import org.apache.lucene.util.Version ;
 public final class LuceneIndex {
 
     private final IndexWriter writer ;
-    private final CaseManager caseManager;
+    private final CaseFacade caseManager;
     
     /*
      * Static Factory Method 
      * Create New Instance of Lucene Indexer
      */
-    public static LuceneIndex newInstance(final CaseManager caseManager) throws IOException{ 
+    public static LuceneIndex newInstance(final CaseFacade caseManager) throws IOException{ 
         return new LuceneIndex(caseManager);
     }
     
-    private LuceneIndex (final CaseManager caseManager) throws IOException {
+    private LuceneIndex (final CaseFacade caseManager) throws IOException {
         File indexDir = new File(caseManager.getCaseInformationFileLocation());
         
         if ( !indexDir.exists() ) {
@@ -68,7 +68,7 @@ public final class LuceneIndex {
         this.writer.addDocument(document);
     }
     
-    CaseManager getCaseManager() { return this.caseManager; }
+    CaseFacade getCaseManager() { return this.caseManager; }
     IndexWriter getWriter () { return this.writer ; }
     
     int getIndexNumber () throws IOException {

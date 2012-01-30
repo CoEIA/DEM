@@ -26,13 +26,13 @@ import java.util.List;
  * @author wajdyessam
  */
 
-public final class CaseManager {
+public final class CaseFacade {
     private final Case aCase ;
     private final CaseHistoryHandler caseHistoryHandler;
-    private final CasePathHandler casePathHandler; 
+    private final CasePathMappingHandler casePathHandler; 
     
-    public static CaseManager newInstance (final Case aCase) {
-        return new CaseManager(aCase);
+    public static CaseFacade newInstance (final Case aCase) {
+        return new CaseFacade(aCase);
     }
     
     /**
@@ -122,15 +122,15 @@ public final class CaseManager {
     
     public void updateMapping(final String oldFullPath, final String newFullPath) throws IOException {
         String oldRelativePath = getRelativeMarkForPath(oldFullPath);
-        CasePathHandler.PathMapping entry = new CasePathHandler.PathMapping(oldRelativePath, newFullPath);
+        CasePathMappingHandler.PathMapping entry = new CasePathMappingHandler.PathMapping(oldRelativePath, newFullPath);
         this.casePathHandler.updateFullPath(entry);
     }
     
     public List<String> getChangedEntries() throws IOException {
-        List<CasePathHandler.PathMapping> mapping = this.casePathHandler.getChangedEntries();
+        List<CasePathMappingHandler.PathMapping> mapping = this.casePathHandler.getChangedEntries();
         List<String> fullPaths = new ArrayList<String>();
         
-        for(CasePathHandler.PathMapping pathMapping: mapping) {
+        for(CasePathMappingHandler.PathMapping pathMapping: mapping) {
             fullPaths.add(pathMapping.absolutePath);
         }
         
@@ -138,7 +138,7 @@ public final class CaseManager {
     }
     
     private String getRelativeMarkForPath(final String fullPath) throws IOException{
-        for(CasePathHandler.PathMapping entry: this.casePathHandler.getChangedEntries()) {
+        for(CasePathMappingHandler.PathMapping entry: this.casePathHandler.getChangedEntries()) {
              String data = entry.absolutePath;
              String relative = entry.relativePath;
              
@@ -267,9 +267,9 @@ public final class CaseManager {
         FileUtil.writeToFile(otherCasesGroup, this.getCasesInformationFileLocation());
     }
         
-    private CaseManager (final Case aCase) {
+    private CaseFacade (final Case aCase) {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();
-        this.casePathHandler = CasePathHandler.newInstance(this.getCaseConfigurationFileLocation());
+        this.casePathHandler = CasePathMappingHandler.newInstance(this.getCaseConfigurationFileLocation());
     }
 }

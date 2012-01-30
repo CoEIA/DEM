@@ -11,7 +11,7 @@
 package edu.coeia.viewer;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.searching.LuceneSearcher ;
@@ -51,7 +51,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private final Frame parent ;
     private final TagsManager tagManger  ;
     private final Case caseObj ;
-    private final CaseManager caseManger; 
+    private final CaseFacade caseManger; 
     
     /**
      * Lucene Document ID number list and the current id opened now

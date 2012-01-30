@@ -8,7 +8,7 @@
  *
  * Created on Jan 3, 2012, 11:13:24 AM
  */
-package edu.coeia.cases;
+package edu.coeia.main;
 
 import edu.coeia.gutil.JListUtil;
 
@@ -21,6 +21,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
+import edu.coeia.cases.CaseFacade;
 /**
  *
  * @author wajdyessam
@@ -28,11 +29,11 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog {
     private boolean result = false;
     
-    private final CaseManager caseManager; 
+    private final CaseFacade caseManager; 
     private final DefaultListModel sourcesListModel;
     
     /** Creates new form UpdatingCaseEvidenceSourceDialog */
-    public UpdatingCaseEvidenceSourceDialog(java.awt.Frame parent, boolean modal, final CaseManager caseManager) 
+    public UpdatingCaseEvidenceSourceDialog(java.awt.Frame parent, boolean modal, final CaseFacade caseManager) 
             throws IOException{
         
         super(parent, modal);

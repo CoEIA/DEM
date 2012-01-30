@@ -6,7 +6,7 @@ package edu.coeia.task;
 
 import edu.coeia.multimedia.ImageViewerPanel;
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.ImageLabel;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.multimedia.GeoTagging;
@@ -58,9 +58,9 @@ public class ImageLoadingTask implements Task{
     private final TaskThread thread;
     private final Case aCase;
     private final ImageViewerPanel panel;
-    private final CaseManager caseManager; 
+    private final CaseFacade caseManager; 
     
-    public ImageLoadingTask(final CaseManager caseManager, final ImageViewerPanel panel) {
+    public ImageLoadingTask(final CaseFacade caseManager, final ImageViewerPanel panel) {
         this.thread = new TaskThread(this);
         this.caseManager = caseManager;
         this.aCase = this.caseManager.getCase();

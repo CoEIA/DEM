@@ -5,10 +5,10 @@
 package edu.coeia.task;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.ApplicationManager;
-import edu.coeia.cases.CaseManager;
-import edu.coeia.cases.CaseManagerFrame;
-import edu.coeia.cases.UpdatingCaseEvidenceSourceDialog;
+import edu.coeia.managers.ApplicationManager;
+import edu.coeia.cases.CaseFacade;
+import edu.coeia.main.CaseManagerFrame;
+import edu.coeia.main.UpdatingCaseEvidenceSourceDialog;
 import edu.coeia.main.CaseFrame;
 
 import java.io.FileNotFoundException;
@@ -57,7 +57,7 @@ public class CaseLoaderTask implements Task {
                 // and update the file before opening the case
                 boolean caseSourceIsUptoDate = true;
                 
-                CaseManager caseManager = CaseManager.newInstance(aCase);
+                CaseFacade caseManager = CaseFacade.newInstance(aCase);
         
                 if ( caseManager.isCaseHaveChangedSource() )  {
                     caseSourceIsUptoDate = askAndUpdateNewCaseSource(caseManager);
@@ -85,7 +85,7 @@ public class CaseLoaderTask implements Task {
         }
     }
     
-    private boolean askAndUpdateNewCaseSource(final CaseManager caseManager) throws IOException {
+    private boolean askAndUpdateNewCaseSource(final CaseFacade caseManager) throws IOException {
         UpdatingCaseEvidenceSourceDialog dialog = new UpdatingCaseEvidenceSourceDialog(this.frame, true, caseManager);
         dialog.setVisible(true);
         

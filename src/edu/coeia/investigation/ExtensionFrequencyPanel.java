@@ -10,7 +10,7 @@
  */
 package edu.coeia.investigation;
 
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.searching.InvestigateDialog;
 import edu.coeia.task.ExtensionFrequencyTask;
 
@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  */
 public class ExtensionFrequencyPanel extends javax.swing.JPanel {
 
-    private CaseManager caseManager; 
+    private CaseFacade caseManager; 
     private InvestigateDialog parentDialog;
     private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     

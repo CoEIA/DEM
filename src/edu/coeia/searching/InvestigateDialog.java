@@ -10,7 +10,7 @@
  */
 package edu.coeia.searching;
 
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.investigation.CommonKeywordsPanel;
 import edu.coeia.investigation.ExtensionFrequencyPanel;
 
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class InvestigateDialog extends javax.swing.JDialog {
 
-    private final CaseManager caseManager;
+    private final CaseFacade caseManager;
     private final AdvancedSearchPanel parentPanel;
     private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
@@ -62,7 +62,7 @@ public class InvestigateDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public CaseManager getCaseManager() { return this.caseManager; }
+    public CaseFacade getCaseManager() { return this.caseManager; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane investigateTappedPane;

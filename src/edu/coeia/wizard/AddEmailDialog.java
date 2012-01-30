@@ -8,7 +8,7 @@
  *
  * Created on Dec 26, 2011, 1:51:38 PM
  */
-package edu.coeia.cases;
+package edu.coeia.wizard;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,7 +19,8 @@ import javax.swing.JOptionPane;
  *
  * @author Ahmed
  */
-public class AddEmailDialog extends javax.swing.JDialog {
+
+final class AddEmailDialog extends javax.swing.JDialog {
 
     public boolean cancelClicked = false;
 

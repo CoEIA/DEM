@@ -4,10 +4,10 @@ package edu.coeia.main;
 import edu.coeia.reports.ReportPanel;
 import edu.coeia.filesystem.FileSystemPanel;
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
-import edu.coeia.cases.CaseManagerPanel;
-import edu.coeia.cases.EmailConfiguration;
-import edu.coeia.cases.EmailConfiguration.ONLINE_EMAIL_AGENT;
+import edu.coeia.cases.CaseFacade;
+import edu.coeia.filesystem.CaseInformationPanel;
+import edu.coeia.wizard.EmailConfiguration;
+import edu.coeia.wizard.EmailConfiguration.ONLINE_EMAIL_AGENT;
 import edu.coeia.chat.ChatPanel;
 import edu.coeia.util.Utilities;
 import edu.coeia.gutil.GuiUtil ;
@@ -50,7 +50,7 @@ import java.util.logging.Logger;
  */
 
 public class CaseFrame extends javax.swing.JFrame {
-    private final CaseManager caseManager;
+    private final CaseFacade caseManager;
     private final TagsManager tagsManager ;
     
     private final String APPLICATION_NAME = "Digital Evidence Miner: ";
@@ -60,7 +60,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
     // to update the panel after direct indexing 
-    private CaseManagerPanel caseManagerPanel;
+    private CaseInformationPanel caseManagerPanel;
     private CaseSearchPanel caseSearchPanel ;
     private FileSystemPanel fileSystemPanel;
     private EmailBrowsingPanel emailPanel;
@@ -71,7 +71,7 @@ public class CaseFrame extends javax.swing.JFrame {
     
     /** Creates new form OfflineMinningFrame 
      * 
-     * @param aCase case opened in CaseManager
+     * @param aCase case opened in CaseFacade
      * @param list a list of all openings case
      */
     public CaseFrame(Case aCase, List<String> list) {
@@ -92,7 +92,7 @@ public class CaseFrame extends javax.swing.JFrame {
         /*
          * initializing class
          */
-        this.caseManager = CaseManager.newInstance(aCase) ;
+        this.caseManager = CaseFacade.newInstance(aCase) ;
         this.listOfOpeningCase = list;
         this.tagsManager = TagsManager.getTagsManager(this.caseManager.getTagDatabaseLocation());
         
@@ -114,7 +114,7 @@ public class CaseFrame extends javax.swing.JFrame {
         this.chatPanel = new ChatPanel(this);
         this.multimediaPanel = new MultimediaPanel(this);
         this.caseSearchPanel = new CaseSearchPanel(this);
-        this.caseManagerPanel = new CaseManagerPanel(this);
+        this.caseManagerPanel = new CaseInformationPanel(this);
         this.reportPanel = new ReportPanel(this);
         
         this.CardPanel.add(this.fileSystemPanel, "fileSystemCard");
@@ -693,7 +693,7 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     
     private Case getCase() { return this.caseManager.getCase() ; }
     public TagsManager getTagsManager() { return this.tagsManager; }
-    public CaseManager getCaseManager() { return this.caseManager; }
+    public CaseFacade getCaseManager() { return this.caseManager; }
     
     public void refreshTagsList() {
         this.caseManagerPanel.initializingTagsPanel();

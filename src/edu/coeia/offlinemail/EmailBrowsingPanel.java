@@ -34,7 +34,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import com.pff.PSTFile;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 
 /**
  *
@@ -47,7 +47,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     
     private final CaseFrame caseFrame ;
     private final Case aCase ;    
-    private final CaseManager caseManager ;
+    private final CaseFacade caseManager ;
     
     /** Creates new form OfflineEmailBrowsingPanel */
     public EmailBrowsingPanel(final JFrame frame) {

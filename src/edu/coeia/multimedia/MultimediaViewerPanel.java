@@ -10,7 +10,7 @@
  */
 package edu.coeia.multimedia;
 
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.task.MultimediaLoadingTask;
 
@@ -29,11 +29,11 @@ public class MultimediaViewerPanel extends javax.swing.JPanel {
 
     public enum TYPE { IMAGE, AUDIO, ARCHIVE, VIDEO };
     
-    private final CaseManager caseManager;
+    private final CaseFacade caseManager;
     private final TYPE type;
     
     /** Creates new form MultimediaViewerPanel */
-    public MultimediaViewerPanel(final CaseManager caseManager, final TYPE type) {
+    public MultimediaViewerPanel(final CaseFacade caseManager, final TYPE type) {
         this.initComponents();
         this.caseManager = caseManager;
         this.type = type;

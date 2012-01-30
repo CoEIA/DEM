@@ -10,7 +10,7 @@
  */
 package edu.coeia.searching;
 
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.items.Item;
 import edu.coeia.main.CaseFrame;
 
@@ -30,7 +30,7 @@ public class CaseSearchPanel extends javax.swing.JPanel {
     private ConnectedSearchPanel connectedSearchPanel;
     
     private final CaseFrame caseFrame ;
-    private final CaseManager caseManager ;
+    private final CaseFacade caseManager ;
     
     private List<SearchHistory> searchOptions = new ArrayList<SearchHistory>();
     
@@ -48,7 +48,7 @@ public class CaseSearchPanel extends javax.swing.JPanel {
         this.caseSearchTappedPane.add("Connected Search", connectedSearchPanel);
     }
     
-    public CaseManager getCaseManager() { return this.caseManager; }
+    public CaseFacade getCaseManager() { return this.caseManager; }
     public JFrame getParentJFrame() { return this.caseFrame ; }
     
     public void setFocusInAdvancedSearchPanel () {

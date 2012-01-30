@@ -30,7 +30,7 @@ import java.util.List;
  * @author wajdyessam
  */
 
-final class CasePathHandler {
+final class CasePathMappingHandler {
     private final List<PathMapping> casePathsMapping;
     private final String configurationFileLocation ;
     
@@ -41,11 +41,11 @@ final class CasePathHandler {
      * @param caseLocation the path to current case
      * @return new instance of case path handler
      */
-    public static CasePathHandler newInstance(final String caseLocation) {
-        return new CasePathHandler(caseLocation);
+    public static CasePathMappingHandler newInstance(final String caseLocation) {
+        return new CasePathMappingHandler(caseLocation);
     }
     
-    private CasePathHandler(final String caseConfigurationFilePath) {
+    private CasePathMappingHandler(final String caseConfigurationFilePath) {
         this.casePathsMapping = new ArrayList<PathMapping>();
         this.configurationFileLocation = caseConfigurationFilePath ;
     }

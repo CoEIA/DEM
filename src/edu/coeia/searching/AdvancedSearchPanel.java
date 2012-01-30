@@ -12,7 +12,7 @@ package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
 import edu.coeia.util.FilesPath ;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.items.Item;
 import edu.coeia.items.ItemFactory;
 import edu.coeia.searching.CaseSearchPanel.SearchHistory;
@@ -40,7 +40,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private final JFrame parentFrame ;
     private final CaseSearchPanel caseSearchPanel ;
     private final SearchResultPanel searchResultPanel ;
-    private final CaseManager caseManager ;
+    private final CaseFacade caseManager ;
     
     private final List<Integer> resultId ;
     private int currentId = 0;
@@ -490,7 +490,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     String getQueryText() { return queryTextField.getText().trim() ; }
     void setQueryTextFeildFocusable () {  this.queryTextField.requestFocusInWindow(); }
     
-    public CaseManager getCaseManager() { return this.caseManager; }
+    public CaseFacade getCaseManager() { return this.caseManager; }
     
     private void disableNotIndexedComponent () {
         if ( this.caseManager.getCase().getEvidenceSourceLocation().isEmpty() ) {

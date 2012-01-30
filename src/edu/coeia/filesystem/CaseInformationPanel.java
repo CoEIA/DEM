@@ -4,12 +4,14 @@
  */
 
 /*
- * CaseManagerPanel.java
+ * CaseInformationPanel.java
  *
  * Created on Oct 5, 2011, 11:07:42 AM
  */
-package edu.coeia.cases;
+package edu.coeia.filesystem;
 
+import edu.coeia.cases.CaseHistory;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.tags.TagsDialog;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.tags.TagsManager;
@@ -27,16 +29,16 @@ import javax.swing.JOptionPane;
  *
  * @author wajdyessam
  */
-public final class CaseManagerPanel extends javax.swing.JPanel {
+public final class CaseInformationPanel extends javax.swing.JPanel {
 
     private final CaseFrame parent ;
     private final TagsManager tagsManager ;
-    private final CaseManager caseManager ;
+    private final CaseFacade caseManager ;
     
     private int currentTagIndex;
     
-    /** Creates new form CaseManagerPanel */
-    public CaseManagerPanel(CaseFrame frame) {
+    /** Creates new form CaseInformationPanel */
+    public CaseInformationPanel(CaseFrame frame) {
         initComponents();
         
         this.parent = frame;

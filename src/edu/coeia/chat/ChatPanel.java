@@ -10,7 +10,7 @@
  */
 package edu.coeia.chat;
 
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.main.CaseFrame;
 
 import javax.swing.JFrame;
@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 public class ChatPanel extends javax.swing.JPanel {
 
     private final CaseFrame caseFrame ;
-    private final CaseManager caseManager;
+    private final CaseFacade caseManager;
     
     /** Creates new form ChatDisplayPanel */
     public ChatPanel(final JFrame frame) {

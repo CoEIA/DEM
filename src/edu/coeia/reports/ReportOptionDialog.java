@@ -11,7 +11,7 @@
 package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.util.FilesPath;
 
 import java.awt.Desktop;
@@ -34,7 +34,7 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
     private Frame frame; 
     private ProgressDialogue dialogue;
     private DatasourceXml input;
-    private CaseManager caseManager;
+    private CaseFacade caseManager;
     
     public ReportOptionDialog (Case aCase) {
          

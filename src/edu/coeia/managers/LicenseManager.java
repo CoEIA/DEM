@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.cases;
+package edu.coeia.managers;
 
 import edu.coeia.util.DateUtil ;
 

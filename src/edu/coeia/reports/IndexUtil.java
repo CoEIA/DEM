@@ -5,8 +5,8 @@
 package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
-import edu.coeia.cases.ApplicationManager;
-import edu.coeia.cases.CaseManager;
+import edu.coeia.managers.ApplicationManager;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
@@ -42,7 +42,7 @@ final class IndexUtil {
         return Collections.unmodifiableList(ApplicationManager.Manager.getCases());
     }
     
-    public static Map<String, Double> getAllFilesFrequency(final CaseManager caseManager)
+    public static Map<String, Double> getAllFilesFrequency(final CaseFacade caseManager)
             throws IOException{
         
         Map<String,Double> map = new HashMap<String,Double>();
@@ -79,14 +79,14 @@ final class IndexUtil {
         return map ;
     }
     
-    public static List<String> getAllFilesHaveAuthers(final CaseManager caseManager,
+    public static List<String> getAllFilesHaveAuthers(final CaseFacade caseManager,
             List<String> authers) throws IOException{
         List<String> files = new ArrayList<String>();
         files.addAll(getAllFilePathsHaveAuther(caseManager, authers));
         return files;
     }
     
-    public static List<String> getAllFilesBetweenSize(final CaseManager caseManager, 
+    public static List<String> getAllFilesBetweenSize(final CaseFacade caseManager, 
             final long from, final long to) throws IOException{
         List<String> files = new ArrayList<String>();
         
@@ -102,7 +102,7 @@ final class IndexUtil {
         return files;
     }
     
-    public static List<String> getAllFilesBetweenDates(final CaseManager caseManager, 
+    public static List<String> getAllFilesBetweenDates(final CaseFacade caseManager, 
             final Date from, final Date to) throws IOException{
         List<String> files = new ArrayList<String>();
         
@@ -116,7 +116,7 @@ final class IndexUtil {
         return files;
     }
     
-    public static List<String> getAllFilePaths(final CaseManager caseManager) 
+    public static List<String> getAllFilePaths(final CaseFacade caseManager) 
             throws IOException {
         
         List<String> files = new ArrayList<String>();
@@ -148,7 +148,7 @@ final class IndexUtil {
         return files;
     }
     
-    private static List<String> getAllFilePathsHaveAuther(final CaseManager caseManager, 
+    private static List<String> getAllFilePathsHaveAuther(final CaseFacade caseManager, 
             final List<String> authers) 
             throws IOException {
         
@@ -183,7 +183,7 @@ final class IndexUtil {
         return files;
     }
     
-    public static List<String> getAllAuthers(final CaseManager caseManager) 
+    public static List<String> getAllAuthers(final CaseFacade caseManager) 
             throws IOException {
         
         List<String> files = new ArrayList<String>();
