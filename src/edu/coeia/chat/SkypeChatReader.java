@@ -49,7 +49,6 @@ public class SkypeChatReader implements ChatReader {
             "from messages" ;
 
         Statement statement = connection.createStatement();
-
         ResultSet resultSet = statement.executeQuery(select);
 
         while ( resultSet.next() ) {
@@ -65,7 +64,7 @@ public class SkypeChatReader implements ChatReader {
     
     private void connectMozillaDB (String path) throws SQLException, ClassNotFoundException, InstantiationException,
     IllegalAccessException {
-        String tmp = DB_NAME + path + "\\" + FilesPath.SKYPE_DB ;
+        String tmp = DB_NAME + path ;
         Class.forName(DB_DRIVER).newInstance();
         connection = DriverManager.getConnection(tmp,DB_USER,DB_PASS);
     }

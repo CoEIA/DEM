@@ -25,7 +25,7 @@ import java.util.List;
 public final class YahooChatReader implements ChatReader {
     
     /*
-     * Gel chat Session in yahoo file (.DAT file)
+     * Get chat Session in yahoo file (.DAT file)
      *
      * @param path the path to yahoo chat file
      * @throws NullPointerException when path is null 

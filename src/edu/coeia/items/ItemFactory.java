@@ -11,6 +11,7 @@ import static edu.coeia.indexing.IndexingConstant.* ;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.lucene.document.Document;
 
 /**
