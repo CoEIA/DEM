@@ -9,7 +9,7 @@ package edu.coeia.cases;
  * @author wajdyessam
  */
 
-public class CaseHistory {
+public final class CaseHistory {
     private final String caseName ;
     private final String lastModified ;
     private final boolean isCaseIndexed ;

@@ -8,7 +8,7 @@
  *
  * Created on Jan 14, 2012, 2:27:11 PM
  */
-package edu.coeia.indexing;
+package edu.coeia.indexing.dialogs;
 
 /**
  *

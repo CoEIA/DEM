@@ -4,6 +4,7 @@
  */
 package edu.coeia.indexing;
 
+import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.util.FilesPath;

@@ -20,12 +20,12 @@ import javax.swing.JOptionPane;
  * @author Ahmed
  */
 
-final class AddEmailDialog extends javax.swing.JDialog {
+final class AddingEmailSourceDialog extends javax.swing.JDialog {
 
     public boolean cancelClicked = false;
 
     /** Creates new form NewEmailDialogue */
-    public AddEmailDialog(java.awt.Frame parent, boolean modal) {
+    public AddingEmailSourceDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 

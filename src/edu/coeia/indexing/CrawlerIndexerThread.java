@@ -10,6 +10,8 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+import edu.coeia.indexing.dialogs.IndexingDialog;
+import edu.coeia.indexing.dialogs.FileSystemCrawlingProgressPanel;
 import edu.coeia.extractors.OfficeImageExtractor;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseHistory;
@@ -34,7 +36,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
+public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
     private long sizeOfFilesInEvidenceFolder ;
     private long numberOfFilesInEvidenceFolder;
     

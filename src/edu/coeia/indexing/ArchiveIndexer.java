@@ -9,6 +9,7 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+import edu.coeia.indexing.dialogs.FileSystemCrawlingProgressPanel;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.extractors.NoneImageExtractor;
 import edu.coeia.extractors.TikaObjectExtractor;

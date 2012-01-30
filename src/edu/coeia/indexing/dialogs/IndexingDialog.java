@@ -8,11 +8,12 @@
  *
  * Created on Sep 10, 2011, 9:01:08 AM
  */
-package edu.coeia.indexing;
+package edu.coeia.indexing.dialogs;
 
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
 
+import edu.coeia.indexing.CrawlerIndexerThread;
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -155,21 +156,21 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
         progressStatusPanel.add(indexControlPanel, java.awt.BorderLayout.SOUTH);
 
-        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel27.setText("Number of Files in Index:");
 
-        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         numberOfFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
         numberOfFilesLbl.setText(" ");
 
-        bigSizeMsgLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        bigSizeMsgLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         bigSizeMsgLbl.setForeground(new java.awt.Color(255, 0, 0));
         bigSizeMsgLbl.setText(" ");
 
-        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel41.setText("Number of Files Cannot Indexed:");
 
-        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         numberOfErrorFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
         numberOfErrorFilesLbl.setText(" ");
 
@@ -315,7 +316,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         }
     }
     
-    void hideIndexingDialog() {
+    public void hideIndexingDialog() {
         this.dispose();
     }
     
@@ -324,11 +325,11 @@ public final class IndexingDialog extends javax.swing.JDialog {
         stopIndexingButton.setEnabled(!state);
     }
    
-    CaseFacade getCaseManager() { return this.caseManager; }
+    public CaseFacade getCaseManager() { return this.caseManager; }
 
-    JTable getLoggingTable () { return this.indexTable; }
-    JProgressBar getProgressBar() { return this.progressBar ; }
-    JPanel getObjectPanel() { return this.objectPanel; }
+    public JTable getLoggingTable () { return this.indexTable; }
+    public JProgressBar getProgressBar() { return this.progressBar ; }
+    public JPanel getObjectPanel() { return this.objectPanel; }
     
     public void changeProgressPanel(final JPanel newProgressPanel) {
         EventQueue.invokeLater(new Runnable() { 
@@ -342,17 +343,17 @@ public final class IndexingDialog extends javax.swing.JDialog {
         });
     }
     
-    void setTimeLabel(final String time) { this.timeLbl.setText(time); }
-    void setNumberOfFiles(final String no) { this.numberOfFilesLbl.setText(no); }
-    void setNumberOfFilesError(final String no) { this.numberOfErrorFilesLbl.setText(no); }
-    void setLastIndexTime(final String time) { this.indexDateLbl.setText(time); }
-    void setprogressBar(final int value) { this.progressBar.setValue(value); }
-    void setBigSizeLabel(final String text) { this.bigSizeMsgLbl.setText(text); }
-    void setProgressIndetermined(final boolean status) { this.progressBar.setIndeterminate(status); }
-    void setStartButtonStatus(final boolean status) { this.startIndexButton.setEnabled(status); }
-    void setStopButtonStatus(final boolean status) { this.stopIndexingButton.setEnabled(status); }
+    public void setTimeLabel(final String time) { this.timeLbl.setText(time); }
+    public void setNumberOfFiles(final String no) { this.numberOfFilesLbl.setText(no); }
+    public void setNumberOfFilesError(final String no) { this.numberOfErrorFilesLbl.setText(no); }
+    public void setLastIndexTime(final String time) { this.indexDateLbl.setText(time); }
+    public void setprogressBar(final int value) { this.progressBar.setValue(value); }
+    public void setBigSizeLabel(final String text) { this.bigSizeMsgLbl.setText(text); }
+    public void setProgressIndetermined(final boolean status) { this.progressBar.setIndeterminate(status); }
+    public void setStartButtonStatus(final boolean status) { this.startIndexButton.setEnabled(status); }
+    public void setStopButtonStatus(final boolean status) { this.stopIndexingButton.setEnabled(status); }
     
-    void clearFields() {
+    public void clearFields() {
         this.setBigSizeLabel("");
         this.setprogressBar(0);
         this.getProgressBar().setStringPainted(false);

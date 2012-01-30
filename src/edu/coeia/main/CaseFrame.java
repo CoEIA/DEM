@@ -12,7 +12,7 @@ import edu.coeia.chat.ChatPanel;
 import edu.coeia.util.Utilities;
 import edu.coeia.gutil.GuiUtil ;
 import edu.coeia.hashanalysis.HashLibraryManagerDialog;
-import edu.coeia.indexing.IndexingDialog;
+import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.internet.InternetSurfingPanel;
 import edu.coeia.multimedia.MultimediaPanel;
 import edu.coeia.offlinemail.EmailBrowsingPanel;

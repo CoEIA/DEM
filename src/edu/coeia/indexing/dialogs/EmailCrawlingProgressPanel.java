@@ -8,7 +8,7 @@
  *
  * Created on Jan 14, 2012, 2:27:04 PM
  */
-package edu.coeia.indexing;
+package edu.coeia.indexing.dialogs;
 
 import java.util.List;
 
@@ -79,7 +79,7 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
         currentFolderTextField.setEnabled(false);
         jPanel2.add(currentFolderTextField);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel1.setText("From:");
         jPanel2.add(jLabel1);
 
@@ -87,7 +87,7 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
         fromTextField.setEnabled(false);
         jPanel2.add(fromTextField);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel2.setText("To:");
         jPanel2.add(jLabel2);
 
@@ -125,7 +125,7 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
 
         attachmentsTextArea.setColumns(20);
         attachmentsTextArea.setEditable(false);
-        attachmentsTextArea.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        attachmentsTextArea.setFont(new java.awt.Font("Tahoma", 0, 12));
         attachmentsTextArea.setRows(5);
         attachmentsTextArea.setEnabled(false);
         jScrollPane2.setViewportView(attachmentsTextArea);

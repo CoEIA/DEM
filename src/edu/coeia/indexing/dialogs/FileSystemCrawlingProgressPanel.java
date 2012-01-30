@@ -8,7 +8,7 @@
  *
  * Created on Jan 14, 2012, 2:26:43 PM
  */
-package edu.coeia.indexing;
+package edu.coeia.indexing.dialogs;
 
 import java.util.List;
 
@@ -23,9 +23,9 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    void setCurrentFile(final String fileName) { this.currentFileTextField.setText(fileName); }
-    void setFileSize(final String size) { this.fileSizeTextField.setText(size); }
-    void setFileExtension(final String ext) { this.fileExtensionTextField.setText(ext) ; }
+    public void setCurrentFile(final String fileName) { this.currentFileTextField.setText(fileName); }
+    public void setFileSize(final String size) { this.fileSizeTextField.setText(size); }
+    public void setFileExtension(final String ext) { this.fileExtensionTextField.setText(ext) ; }
     
     public void setEmbeddedDocuments(final List<String> documents) {
         for(String doc: documents) {
@@ -34,7 +34,7 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel {
         }
     }
     
-    void clear() {
+    public void clear() {
         this.setFileExtension("");
         this.setCurrentFile("");
         this.setFileSize("");
@@ -94,7 +94,7 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel {
 
         embeddedDocumentsTextArea.setColumns(20);
         embeddedDocumentsTextArea.setEditable(false);
-        embeddedDocumentsTextArea.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        embeddedDocumentsTextArea.setFont(new java.awt.Font("Tahoma", 0, 12));
         embeddedDocumentsTextArea.setRows(5);
         embeddedDocumentsTextArea.setEnabled(false);
         jScrollPane1.setViewportView(embeddedDocumentsTextArea);

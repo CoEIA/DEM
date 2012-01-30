@@ -9,6 +9,7 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+import edu.coeia.indexing.dialogs.EmailCrawlingProgressPanel;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.FileUtil;

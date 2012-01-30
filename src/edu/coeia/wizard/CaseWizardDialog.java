@@ -1,6 +1,5 @@
 package edu.coeia.wizard;
 
-import edu.coeia.wizard.AddEmailDialog;
 import edu.coeia.wizard.EmailConfiguration.ONLINE_EMAIL_AGENT;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
@@ -968,7 +967,7 @@ private void ExcludeSystemFilesCheckBoxActionPerformed(java.awt.event.ActionEven
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-    AddEmailDialog dialogue = new AddEmailDialog(_parent, true);
+    AddingEmailSourceDialog dialogue = new AddingEmailSourceDialog(_parent, true);
     dialogue.setLocationRelativeTo(this);
     dialogue.setVisible(true);
 

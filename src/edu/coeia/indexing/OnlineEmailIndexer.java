@@ -4,6 +4,7 @@
  */
 package edu.coeia.indexing;
 
+import edu.coeia.indexing.dialogs.EmailCrawlingProgressPanel;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.util.FilesPath;
