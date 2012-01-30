@@ -22,19 +22,7 @@ import java.util.Date ;
 import java.util.ArrayList ;
 import java.util.List;
 
-public final class YahooMessageReader {
-
-    /*
-     * Yahoo Chat Sessions
-     * contain list of conversation between 2 user
-     * each YahooMessage represent one record in the chat (from, to , time, txt)
-     */
-    public static class YahooChatSession {
-        public String userName ;
-        public String otherName ;
-        public String path ;
-        public List<YahooMessage> messages = new ArrayList<YahooMessage>();
-    }
+public final class YahooMessageReader implements ChatReader {
     
     /*
      * Gel chat Session in yahoo file (.DAT file)
@@ -43,17 +31,13 @@ public final class YahooMessageReader {
      * @throws NullPointerException when path is null 
      * @return YahooChatSession contain  chat sessions in path
      */
-    public YahooChatSession processFile(File path) throws IOException{
+    @Override
+    public ChatSession processFile(final File path) throws Exception{
         String currentUserName = path.getParentFile().getParentFile().getParentFile().getParentFile().getName() ;
         String otherUserName   = path.getParentFile().getName();
-        List<YahooMessage> msgs = getYahooMessages(path.getAbsolutePath(), currentUserName, otherUserName);
+        List<ChatMessage> msgs = getYahooMessages(path.getAbsolutePath(), currentUserName, otherUserName);
         
-        YahooChatSession chat = new YahooChatSession();
-        chat.messages.addAll(msgs);
-        chat.userName = currentUserName;
-        chat.otherName = otherUserName;
-        chat.path = path.getAbsolutePath();
-        
+        ChatSession chat = ChatSession.newInstance(currentUserName, otherUserName, path.getAbsolutePath(), msgs);
         return chat;
     }
 
@@ -66,11 +50,11 @@ public final class YahooMessageReader {
      * @return List of YahooMesssage that contain yahoo messages
      * @throws IOException if the path/.DAT file is not found
      */
-     private List<YahooMessage> getYahooMessages (String path, String profileName,
+     private List<ChatMessage> getYahooMessages (String path, String profileName,
         String otherName ) throws IOException {
 
         DataInputStream input = new DataInputStream(new FileInputStream(new File(path)) );
-        List<YahooMessage> msgs = new ArrayList<YahooMessage>();
+        List<ChatMessage> msgs = new ArrayList<ChatMessage>();
 
         try {
             while ( true ) {

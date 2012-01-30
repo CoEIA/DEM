@@ -9,10 +9,11 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
+import edu.coeia.chat.ChatMessage;
+import edu.coeia.chat.ChatSession;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.chat.YahooMessage;
 import edu.coeia.chat.YahooMessageReader;
-import edu.coeia.chat.YahooMessageReader.YahooChatSession;
 import edu.coeia.extractors.NoneImageExtractor;
 
 import java.io.File;
@@ -42,7 +43,7 @@ final class YahooChatIndexer extends Indexer{
         
         try {
             YahooMessageReader reader = new YahooMessageReader();
-            YahooChatSession session = reader.processFile(this.getFile());
+            ChatSession session = reader.processFile(this.getFile());
             
             // this id for the .dat file, each message will have this id as parent
             int currentDocumentId = this.getId();
@@ -51,9 +52,10 @@ final class YahooChatIndexer extends Indexer{
                 new NoneImageExtractor(), this.getParentId()).doIndexing();
             
             // then index the chat seesions in this file
-            for(YahooMessage msg: session.messages) {
+            for(ChatMessage chatMessage: session.getConversations()) {
+                YahooMessage msg = (YahooMessage) chatMessage;
                 Document document = LuceneDocumentBuilder.getDocument(this, msg, currentDocumentId, 
-                        session.userName, session.otherName , session.path, CHAT_AGENT); // add parentid and parent metadata here
+                        session.getUserName(), session.getOtherName() , session.getPath(), CHAT_AGENT); // add parentid and parent metadata here
                 status = this.indexDocument(document);
             }
         }

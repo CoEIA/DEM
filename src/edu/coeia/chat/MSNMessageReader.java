@@ -11,22 +11,17 @@ package edu.coeia.chat;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 
-import java.io.IOException;
 import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element; 
 import org.w3c.dom.NodeList;
 
-import org.xml.sax.SAXException;
-
-public final class MSNMessageReader {
+public final class MSNMessageReader implements ChatReader{
 
     /*
      * Gel all chat Session in MSN folder
@@ -35,9 +30,8 @@ public final class MSNMessageReader {
      * @param path the path to XML that contain MSN chat
      * @return MSNChatSession contain all chat sessions in path
      */
-    public MSNChatSession processFile(final File path) throws ParserConfigurationException,
-            SAXException, IOException {
-
+    @Override
+    public ChatSession processFile(final File path) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = factory.newDocumentBuilder();
         Document document = documentBuilder.parse(path.getAbsolutePath());
@@ -45,11 +39,11 @@ public final class MSNMessageReader {
         String fromUser = path.getParentFile().getParentFile().getName();
         String toUser = path.getName();
 
-        return MSNChatSession.newInstance(fromUser, toUser, path.getAbsolutePath(), this.parseFile(document));
+        return ChatSession.newInstance(fromUser, toUser, path.getAbsolutePath(), this.parseFile(document));
     }
 
-    private List<MSNMessage> parseFile(final Document document) {
-        List<MSNMessage> messages = new ArrayList<MSNMessage>();
+    private List<ChatMessage> parseFile(final Document document) {
+        List<ChatMessage> messages = new ArrayList<ChatMessage>();
         Element documentElement = document.getDocumentElement();
 
         NodeList nodeList = documentElement.getElementsByTagName(MSN_ROOT_ELEMENT);
@@ -101,56 +95,6 @@ public final class MSNMessageReader {
         }
 
         return textMessage.toString();
-    }
-
-    /*
-     * MSN Chat Sessions
-     * contain list of all conversation between 2 user
-     */
-    public final static class MSNChatSession {
-
-        public static MSNChatSession newInstance(final String fromName, final String toName,
-                final String chatFilePath, final List<MSNMessage> msgs) {
-
-            return new MSNChatSession(fromName, toName, chatFilePath, msgs);
-        }
-
-        private MSNChatSession(final String fromName, final String toName,
-                final String chatFilePath, final List<MSNMessage> msgs) {
-
-            this.userName = fromName;
-            this.otherName = toName;
-            this.path = chatFilePath;
-            this.conversations = new ArrayList<MSNMessage>();
-            this.conversations.addAll(Collections.unmodifiableList(msgs));
-        }
-
-        @Override
-        public String toString() {
-            return String.format("%s\n[There are %d Conversation Between: %s and %s]\nStored in this location: %s",
-                    this.getClass().getName(), this.conversations.size(), this.userName, this.otherName, this.path);
-        }
-
-        public String getUserName() {
-            return this.userName;
-        }
-
-        public String getOtherName() {
-            return this.otherName;
-        }
-
-        public String getPath() {
-            return this.path;
-        }
-
-        public List<MSNMessage> getConversations() {
-            return Collections.unmodifiableList(this.conversations);
-        }
-        
-        private final String userName;
-        private final String otherName;
-        private final String path;
-        private final List<MSNMessage> conversations;
     }
 
     // MSN Specific XML element and attributes

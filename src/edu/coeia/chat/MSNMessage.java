@@ -11,7 +11,7 @@ package edu.coeia.chat;
  * @author wajdyessam
  */
 
-public class MSNMessage {
+public class MSNMessage extends ChatMessage{
     public static MSNMessage newInstance(final String date, final String time,
             final String dateTime, final String sessionId, final String from,
             final String to, final String message) {

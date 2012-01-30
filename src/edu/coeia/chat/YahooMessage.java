@@ -20,7 +20,7 @@ import java.util.Date ;
  * YahooMessge to represent Yahoo Chat Message between two account
  * YahooMessage is Immutable class , since there is no way to change its after constructor
  */
-public final class YahooMessage {
+public final class YahooMessage extends ChatMessage{
 
     public static enum MESSAGE_PATH { 
         SOURCE_TO_DEST, DEST_TO_SOURCE

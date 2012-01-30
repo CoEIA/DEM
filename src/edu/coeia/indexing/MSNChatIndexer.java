@@ -8,10 +8,11 @@ package edu.coeia.indexing;
  *
  * @author wajdyessam
  */
+import edu.coeia.chat.ChatMessage;
+import edu.coeia.chat.ChatSession;
 import edu.coeia.chat.MSNMessageReader;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.chat.MSNMessage;
-import edu.coeia.chat.MSNMessageReader.MSNChatSession;
 import edu.coeia.extractors.NoneImageExtractor;
 
 import java.io.File;
@@ -38,7 +39,7 @@ final class MSNChatIndexer extends Indexer {
 
         try {
             MSNMessageReader reader = new MSNMessageReader();
-            MSNChatSession session = reader.processFile(this.getFile());
+            ChatSession session = reader.processFile(this.getFile());
             
            // this id for the XML file, each message will have this id as parent
             int currentDocumentId = this.getId();
@@ -47,7 +48,8 @@ final class MSNChatIndexer extends Indexer {
             NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
                     new NoneImageExtractor(), this.getParentId()).doIndexing();
             
-            for(MSNMessage msg: session.getConversations()) {
+            for(ChatMessage chatMessage: session.getConversations()) {
+                MSNMessage msg = (MSNMessage) chatMessage;
                 Document doc = LuceneDocumentBuilder.getDocument(this, msg, currentDocumentId, 
                         session.getUserName(), session.getOtherName(), session.getPath(), CHAT_AGENT); // add parentid and parent metadata here
                 status = this.indexDocument(doc);

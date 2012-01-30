@@ -11,7 +11,7 @@ package edu.coeia.chat;
  *
  */
 
-public class SkypeMessage {
+public class SkypeMessage extends ChatMessage {
     private String auther, partner, date, messageText ;
 
     public SkypeMessage (String a, String p, String d, String m) {
