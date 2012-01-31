@@ -74,23 +74,6 @@ final public class TagsManager {
     }
     
     /**
-     * shutdown tags manager
-     */
-    public void closeManager() {
-        try {
-            this.tagsDataBase.closeDB();
-        }
-        catch (SQLException e){
-            if ( e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState()))
-                System.out.println("Derby Shutdown normally");
-            else {
-                System.out.println("Derby Did not shutdown normally");
-                e.printStackTrace();
-            }
-        }
-    }
-    
-    /**
      * check if monitor tags is different from database state
      */
     public boolean isTagsDbModified() {

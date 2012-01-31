@@ -6,6 +6,7 @@ package edu.coeia.indexing;
 
 import edu.coeia.indexing.dialogs.EmailCrawlingProgressPanel;
 import edu.coeia.extractors.ImageExtractor;
+import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.util.FilesPath;
 import edu.coeia.onlinemail.OnlineEmailDBHandler;
@@ -25,9 +26,10 @@ import org.apache.lucene.document.Document;
 final class OnlineEmailIndexer extends Indexer {
 
     public OnlineEmailIndexer(LuceneIndex luceneIndex, File file, String mimeType,
-            ImageExtractor imageExtractor) {
+            ImageExtractor imageExtractor, final IndexingDialog dialog) {
         super(luceneIndex, file, mimeType, imageExtractor);
         this.setParentId(0);
+        this.setGUIDialog(dialog);
     }
 
     @Override
@@ -85,6 +87,6 @@ final class OnlineEmailIndexer extends Indexer {
         panel.setTo(Utilities.getCommaSeparatedStringFromCollection(email.getTo()));
         panel.setHasAttachment(String.valueOf(hasAttachment));
         panel.setAttachment(email.getAttachments());
-        getDialog().changeProgressPanel(panel);
+        this.getDialog().changeProgressPanel(panel);
     }
 }

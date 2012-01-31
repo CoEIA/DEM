@@ -28,23 +28,15 @@ final class TagsDBHandler {
      * Get New Instance of Tags DB Handler
      * @param location
      * @return TagsDBHandler
-     * @throws ClassNotFoundException
-     * @throws InstantiationException
-     * @throws SQLException
-     * @throws IllegalAccessException 
      */
-    public static TagsDBHandler newInstance(String location) 
-        throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
-        
+    public static TagsDBHandler newInstance(String location) throws Exception {
         checkNull("Location Mush have a value", location);
         checkNotEmptyString("location must be not empty string", location);
         
         return new TagsDBHandler(location);
     }
     
-    private TagsDBHandler(String location) 
-        throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
-
+    private TagsDBHandler(String location) throws Exception {
         boolean isDBFound = FileUtil.isDirectoryExists(location);
         this.createDB(isDBFound, location);
     }
@@ -55,10 +47,12 @@ final class TagsDBHandler {
      */
     List<Tag> readTagsFromDataBase() {
         List<Tag> tags = new ArrayList<Tag>();
+        Connection connection = null;
         
         try {
             String select = "SELECT * FROM case_tags";
-            Statement statement = getConnection().createStatement();
+            connection = this.getConnection();
+            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(select);
             
             while ( resultSet.next() ) {
@@ -68,6 +62,9 @@ final class TagsDBHandler {
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            this.closeConnection(connection);
         }
         
         return tags;
@@ -98,17 +95,14 @@ final class TagsDBHandler {
     }
     
     private void createDB(boolean foundDB, String databasePath)
-        throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
+        throws Exception {
 
         databasePath = checkNull("database path must be not null", databasePath);
-        
         DB_URL = DB_NAME + databasePath;
         
         if (!foundDB) {
             DB_URL += ";create=true";
         }
-
-        connectDB();
 
         if (!foundDB) {
             makeDBStructure();
@@ -121,7 +115,9 @@ final class TagsDBHandler {
      * @throws SQLException 
      */
      private boolean insertTagRecord(final Tag tag)
-            throws SQLException {
+            throws Exception {
+        
+        Connection connection = this.getConnection();
         
         String s = "INSERT into case_tags values(?,?,?)";
         PreparedStatement psInsert = connection.prepareStatement(s);
@@ -133,6 +129,7 @@ final class TagsDBHandler {
         int ret = psInsert.executeUpdate();
         psInsert.close();
         
+        this.closeConnection(connection);
         return ret > 0 ;
     }
 
@@ -140,25 +137,30 @@ final class TagsDBHandler {
       * Remove Records from DataBase
       * @throws SQLException 
       */
-    private void removeTagRecords() throws SQLException{
+    private void removeTagRecords() throws Exception{
         String command = "DELETE FROM case_tags";
-        PreparedStatement update = getConnection().prepareStatement(command);
+        Connection connection = this.getConnection();
+        PreparedStatement update = connection.prepareStatement(command);
         update.executeUpdate();
+        this.closeConnection(connection);
     }
     
-    void closeDB() throws SQLException {
-        connection.close();
-        DriverManager.getConnection("jdbc:derby:;shutdown=true");
-
+    private void closeConnection(final Connection connection) {
+        try {
+            connection.close();
+        }
+        catch (SQLException e){
+            if ( e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState()))
+                System.out.println("Derby Shutdown normally");
+            else {
+                System.out.println("Derby Did not shutdown normally");
+                e.printStackTrace();
+            }
+        }
     }
 
-    private void connectDB() throws ClassNotFoundException, InstantiationException,
-            SQLException, IllegalAccessException {
-        Class.forName(DB_DRIVER).newInstance();
-        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-    }
-
-    private void makeDBStructure() throws SQLException {
+    private void makeDBStructure() throws Exception {
+        Connection connection = this.getConnection();
         Statement statement = connection.createStatement();
 
         String tagsTable =
@@ -170,10 +172,13 @@ final class TagsDBHandler {
 
         statement.execute(tagsTable);
         statement.close();
+        this.closeConnection(connection);
     }
     
-    private Connection getConnection() {
-        return connection;
+    private Connection getConnection() throws ClassNotFoundException, InstantiationException,
+            SQLException, IllegalAccessException {
+        Class.forName(DB_DRIVER).newInstance();
+        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
     }
     
     private String DB_URL;
@@ -181,5 +186,4 @@ final class TagsDBHandler {
     private final static String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
     private final static String DB_USER = "";
     private final static String DB_PASS = "";
-    private Connection connection;
 }

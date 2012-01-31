@@ -107,154 +107,103 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        progressEmail = new javax.swing.JPanel();
         progresLabelPanel = new javax.swing.JPanel();
         FromjLabel = new javax.swing.JLabel();
-        SentDatejLabel = new javax.swing.JLabel();
-        CCjLabel = new javax.swing.JLabel();
-        BCCjLabel = new javax.swing.JLabel();
-        AttachjLabel = new javax.swing.JLabel();
-        TojLabel = new javax.swing.JLabel();
-        SubjectjLabel = new javax.swing.JLabel();
         from = new javax.swing.JTextField();
+        TojLabel = new javax.swing.JLabel();
         to = new javax.swing.JTextField();
-        cc = new javax.swing.JTextField();
-        bcc = new javax.swing.JTextField();
+        SubjectjLabel = new javax.swing.JLabel();
         subject = new javax.swing.JTextField();
+        SentDatejLabel = new javax.swing.JLabel();
         sdate = new javax.swing.JTextField();
+        CCjLabel = new javax.swing.JLabel();
+        cc = new javax.swing.JTextField();
+        BCCjLabel = new javax.swing.JLabel();
+        bcc = new javax.swing.JTextField();
+        AttachjLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         attachments = new javax.swing.JTextArea();
+        pregressLabel = new javax.swing.JLabel();
         DownloadProgressBar = new javax.swing.JProgressBar();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        controllPanel = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jBtn_Pause = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Email Downloading ");
-        setResizable(false);
 
-        progressEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Email Downloading", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-        progressEmail.setLayout(new java.awt.BorderLayout());
+        progresLabelPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Downloading"));
+        progresLabelPanel.setForeground(new java.awt.Color(0, 51, 255));
+        progresLabelPanel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        progresLabelPanel.setLayout(new javax.swing.BoxLayout(progresLabelPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
-        FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
+        FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         FromjLabel.setText("From:");
-
-        SentDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        SentDatejLabel.setText("Sent Date:");
-
-        CCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        CCjLabel.setText("CC:");
-
-        BCCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        BCCjLabel.setText("BCC:");
-
-        AttachjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        AttachjLabel.setText("Attachment Files:");
-
-        TojLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        TojLabel.setText("To:");
-
-        SubjectjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        SubjectjLabel.setText("Subject:");
+        progresLabelPanel.add(FromjLabel);
 
         from.setEditable(false);
+        from.setPreferredSize(new java.awt.Dimension(20, 20));
         from.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fromActionPerformed(evt);
             }
         });
+        progresLabelPanel.add(from);
+
+        TojLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        TojLabel.setText("To:");
+        progresLabelPanel.add(TojLabel);
 
         to.setEditable(false);
+        progresLabelPanel.add(to);
 
-        cc.setEditable(false);
-
-        bcc.setEditable(false);
+        SubjectjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        SubjectjLabel.setText("Subject:");
+        progresLabelPanel.add(SubjectjLabel);
 
         subject.setEditable(false);
+        progresLabelPanel.add(subject);
+
+        SentDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        SentDatejLabel.setText("Sent Date:");
+        progresLabelPanel.add(SentDatejLabel);
 
         sdate.setEditable(false);
+        progresLabelPanel.add(sdate);
+
+        CCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CCjLabel.setText("CC:");
+        progresLabelPanel.add(CCjLabel);
+
+        cc.setEditable(false);
+        progresLabelPanel.add(cc);
+
+        BCCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
+        BCCjLabel.setText("BCC:");
+        progresLabelPanel.add(BCCjLabel);
+
+        bcc.setEditable(false);
+        progresLabelPanel.add(bcc);
+
+        AttachjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
+        AttachjLabel.setText("Attachment Files:");
+        progresLabelPanel.add(AttachjLabel);
 
         attachments.setColumns(20);
         attachments.setEditable(false);
         attachments.setRows(5);
         jScrollPane1.setViewportView(attachments);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel1.setText("Downloading Progress:");
+        progresLabelPanel.add(jScrollPane1);
 
-        javax.swing.GroupLayout progresLabelPanelLayout = new javax.swing.GroupLayout(progresLabelPanel);
-        progresLabelPanel.setLayout(progresLabelPanelLayout);
-        progresLabelPanelLayout.setHorizontalGroup(
-            progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                        .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SentDatejLabel)
-                            .addComponent(SubjectjLabel)
-                            .addComponent(BCCjLabel)
-                            .addComponent(CCjLabel)
-                            .addComponent(TojLabel)
-                            .addComponent(FromjLabel)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(progresLabelPanelLayout.createSequentialGroup()
-                        .addComponent(AttachjLabel)
-                        .addGap(40, 40, 40)))
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(DownloadProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sdate)
-                    .addComponent(subject)
-                    .addComponent(bcc)
-                    .addComponent(cc)
-                    .addComponent(to)
-                    .addComponent(from, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE))
-                .addContainerGap(37, Short.MAX_VALUE))
-        );
-        progresLabelPanelLayout.setVerticalGroup(
-            progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, progresLabelPanelLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(FromjLabel)
-                    .addComponent(from, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TojLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(to, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CCjLabel)
-                    .addComponent(cc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BCCjLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bcc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SubjectjLabel)
-                    .addComponent(subject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(SentDatejLabel)
-                    .addComponent(sdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(AttachjLabel)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(progresLabelPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(DownloadProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24))
-        );
+        pregressLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        pregressLabel.setText("Downloading Progress:");
+        progresLabelPanel.add(pregressLabel);
+        progresLabelPanel.add(DownloadProgressBar);
 
-        progressEmail.add(progresLabelPanel, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(progresLabelPanel, java.awt.BorderLayout.PAGE_START);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         jButton1.setText("Cancel");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -262,8 +211,9 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
                 jButton1ActionPerformed(evt);
             }
         });
+        controllPanel.add(jButton1);
 
-        jBtn_Pause.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBtn_Pause.setFont(new java.awt.Font("Tahoma", 1, 11));
         jBtn_Pause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/mail.png"))); // NOI18N
         jBtn_Pause.setText("Pause");
         jBtn_Pause.addActionListener(new java.awt.event.ActionListener() {
@@ -271,49 +221,10 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
                 jBtn_PauseActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(220, 220, 220)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addComponent(jBtn_Pause, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBtn_Pause, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)))
-        );
-
+        controllPanel.add(jBtn_Pause);
         jBtn_Pause.getAccessibleContext().setAccessibleName("Resume");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(progressEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 666, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(progressEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(12, 12, 12))
-        );
+        getContentPane().add(controllPanel, java.awt.BorderLayout.SOUTH);
 
         getAccessibleContext().setAccessibleName("Email Indexing");
 
@@ -355,14 +266,13 @@ private void jBtn_PauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JTextArea attachments;
     private javax.swing.JTextField bcc;
     private javax.swing.JTextField cc;
+    private javax.swing.JPanel controllPanel;
     private javax.swing.JTextField from;
     private javax.swing.JButton jBtn_Pause;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel pregressLabel;
     private javax.swing.JPanel progresLabelPanel;
-    private javax.swing.JPanel progressEmail;
     private javax.swing.JTextField sdate;
     private javax.swing.JTextField subject;
     private javax.swing.JTextField to;

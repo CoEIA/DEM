@@ -623,9 +623,9 @@ public class CaseFrame extends javax.swing.JFrame {
                     this.listOfOpeningCase.remove(caseName);
             }
 
-            if ( this.tagsManager !=  null ) {
-                this.tagsManager.closeManager();
-            }
+//            if ( this.tagsManager !=  null ) {
+//                this.tagsManager.closeManager();
+//            }
         }
         catch (Exception e){
             logger.log(Level.SEVERE, "Uncaught exception", e);

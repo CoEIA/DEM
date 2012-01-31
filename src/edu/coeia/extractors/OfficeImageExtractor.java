@@ -18,6 +18,9 @@ public final class OfficeImageExtractor implements ImageExtractor{
     @Override
     public void extractImages(Indexer indexer, File file,int parentId) {
 
+        if ( file.isDirectory() )
+            return ;
+        
         // extracting images
         TikaObjectExtractor extractor = TikaObjectExtractor.newInstance(file.getAbsolutePath(), indexer.getTmpLocation(),
             TikaObjectExtractor.OBJECT_TYPE.CONTAINER);

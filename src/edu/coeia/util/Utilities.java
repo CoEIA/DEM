@@ -270,23 +270,4 @@ public class Utilities {
         }
         return date;
     }
-
-    public static void PrintDebugMessages(Date sentDate, Date receiveDate, String from,
-            List<String> ccList, List<String> bccList, String body, String Subject) {
-
-        System.out.println("SentDate : " + sentDate);
-        System.out.println("ReceiveDate : " + receiveDate);
-        System.out.println("------------From------\n" + from);
-        System.out.println();
-        for (String d : ccList) {
-            System.out.println("------------CC------\n" + d);
-        }
-        for (String s : bccList) {
-            System.out.println("------------BCC------\n" + s);
-        }
-        System.out.println("------------Subject------\n" + Subject);
-        System.out.println("------------Body------\n" + body);
-
-
-    }
 }

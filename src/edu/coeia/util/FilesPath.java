@@ -64,7 +64,7 @@ public class FilesPath {
     public final static String ATTACHMENTS = "attachments" ;
     public final static String OFFLINE_EMAIL_ATTACHMENTS = "OFFLINE_EMAIL_ATTACHMENTS";
     
-    public final static String EMAIL_DB = "emails" ;
+    public final static String EMAIL_DB = "ONELINE_EMAILS_DATABASE" ;
     
     // log path
     public final static String APPLICATION_LOG_PATH = APPLICATION_PATH + "\\" + "LOG";

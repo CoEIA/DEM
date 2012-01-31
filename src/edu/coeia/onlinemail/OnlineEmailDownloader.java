@@ -121,11 +121,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         
         try {
             this.db = new OnlineEmailDBHandler(this.dbPath);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -353,15 +349,14 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         String from = getFrom(message);
                         String subject = Utilities.getEmptyStringWhenNullString(message.getSubject());
                         String body = Utilities.getEmptyStringWhenNullString(getText(message));
-                        // Print Debug Messages 
-                        Utilities.PrintDebugMessages(sentDate, receiveDate, from, cclist, bcclist, body, subject);
+                        
                         // Save Attachment
                         List<String> Paths = getAttachments(message);
                         // Save In DBint id, String Username, String from, List<String> to, 
                         OnlineEmailMessage msg = OnlineEmailMessage.newInstance(messageId, this.Username,
                                 from, to, bcclist, cclist, subject, body, sentDate.toString(), receiveDate.toString(), Paths, folder.getFullName());
                         db.inserteEmail(msg);
-                        db.getConnection().commit();
+                        //db.getConnection().commit();
 
                         // Publish Data To Thread
                         ProgressData PData = new ProgressData(msg);
@@ -450,17 +445,18 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         
         try {
             store.close();
-            try {
-                this.db.closeDB();
-            } catch (SQLException e) {
-                if (e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState())) {
-                    System.out.println("Derby Shutdown normally");
-                } else {
-                    System.out.println("Derby Did not shutdown normally");
-                    e.printStackTrace();
-                }
-            }
+//            try {
+//                this.db.closeDB();
+//            } catch (SQLException e) {
+//                if (e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState())) {
+//                    System.out.println("Derby Shutdown normally");
+//                } else {
+//                    System.out.println("Derby Did not shutdown normally");
+//                    e.printStackTrace();
+//                }
+//            }
         } catch (MessagingException ex) {
+            ex.printStackTrace();
             Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -648,7 +644,6 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             }
             
             Multipart multipart = (Multipart) temp.getContent();
-            System.out.println("Number of Parts: " + multipart.getCount());
             
             for (int i = 0; i < multipart.getCount(); i++) {
                 BodyPart bodyPart = multipart.getBodyPart(i);

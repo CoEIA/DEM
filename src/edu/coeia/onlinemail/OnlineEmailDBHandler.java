@@ -1,59 +1,57 @@
 package edu.coeia.onlinemail;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
+import static edu.coeia.util.PreconditionsChecker.*;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
 import java.util.ArrayList;
-import java.sql.ResultSet;
 import java.util.List;
+
+import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
-import java.io.File;
 
-import static edu.coeia.util.PreconditionsChecker.*;
 
 /**
  * EmailDatabase write EmailMessage to Email Database
  * @auther Wajdy Essam
  * @version 1.0
  */
-public class OnlineEmailDBHandler {
 
-    public OnlineEmailDBHandler(String databasePath) throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
+public final class OnlineEmailDBHandler {
+
+    public OnlineEmailDBHandler (final String databasePath) throws Exception{
         boolean isDBFound = FileUtil.isDirectoryExists(databasePath);
         this.createDB(isDBFound, databasePath);
-
     }
 
-    public void createDB(boolean nDB, String databasePath)
-            throws ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
-
+    public void createDB( boolean isFoundDatabase, String databasePath) throws Exception {
         databasePath = checkNull("database path must be not null", databasePath);
-
         DB_URL = DB_NAME + databasePath;
 
-        if (!nDB) {
+        if (!isFoundDatabase) {
             DB_URL += ";create=true";
             System.out.println("Creating Database ");
         } else {
             System.out.println("Opening Existing Database ");
         }
 
-        connectDB();
-
-        if (!nDB) {
+        if (!isFoundDatabase) {
             makeDBStructure();
         }
     }
 
     public List<OnlineEmailMessage> getAllMessages() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         String select = "SELECT * FROM emails ";
+        
+        Connection connection = this.getConnection();
+        
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(select);
         
@@ -63,43 +61,45 @@ public class OnlineEmailDBHandler {
             List<String> listPaths = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("PATH"));
             List<String> bccList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("BCC"));
             List<String> ccList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("CC"));
-
-            String subjectStream = resultSet.getString("SUBJECT");
-         //   String subject = Utilities.convertStreamToString(subjectStream);
+            List<String> toList = Utilities.getStringListFromCommaSeparatedString(resultSet.getString("TO_ADDRESS"));
             
-            String toStream = resultSet.getString("TO_ADDRESS");
-            List<String> toList = Utilities.getStringListFromCommaSeparatedString(subjectStream);
-
-            String fromStream = resultSet.getString("FROM_ADDRESS");
-          //  String from = Utilities.convertStreamToString(fromStream);
-
-            String bodyStream = resultSet.getString("BODY_MESSAGE");
-         //   String body = Utilities.convertStreamToString(bodyStream);
-
-            OnlineEmailMessage message = OnlineEmailMessage.newInstance(resultSet.getInt("EMAILID"),
-                    resultSet.getString("USERNAME"),
-                    fromStream,
+            String subject = resultSet.getString("SUBJECT");
+            String from = resultSet.getString("FROM_ADDRESS");
+            String body = resultSet.getString("BODY_MESSAGE");
+            int id = resultSet.getInt("EMAILID");
+            String userName = resultSet.getString("USERNAME");
+            String sendDate = resultSet.getString("SENT_DATE");
+            String createdDate = resultSet.getString("CREATED_DATE");
+            String folderName = resultSet.getString("Folder_Name");
+            
+            OnlineEmailMessage message = OnlineEmailMessage.newInstance(id,
+                    userName,
+                    from,
                     toList,
                     bccList,
                     ccList,
-                    subjectStream,
-                    bodyStream,
-                    resultSet.getString("SENT_DATE"),
-                    resultSet.getString("CREATED_DATE"),
-                    listPaths, resultSet.getString("Folder_Name"));
+                    subject,
+                    body,
+                    sendDate,
+                    createdDate,
+                    listPaths, 
+                    folderName);
             mEmails.add(message);
         }
 
         resultSet.close();
         statement.close();
+        
+        this.closeConnection(connection);
 
         return mEmails;
-
     }
  
-    
-    public void inserteEmail(OnlineEmailMessage msg)throws SQLException, UnsupportedEncodingException, IOException 
-    {
+    public void inserteEmail(final OnlineEmailMessage msg) throws SQLException, UnsupportedEncodingException,
+             IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        
+        Connection connection = this.getConnection();
+        
         String ccBuilder = Utilities.getCommaSeparatedStringFromCollection(msg.getCC());
         String bccBuilder = Utilities.getCommaSeparatedStringFromCollection(msg.getBCC());
         String toBuilder = Utilities.getCommaSeparatedStringFromCollection(msg.getTo());
@@ -110,19 +110,10 @@ public class OnlineEmailDBHandler {
         
         psInsert.setString(1, msg.getUsername());
         psInsert.setInt(2, msg.getId());
-        
-        //InputStream fromStream = new ByteArrayInputStream(msg.getFrom().getBytes());
         psInsert.setString(3,msg.getFrom());
-               
-        //InputStream toStream = new ByteArrayInputStream(toBuilder.getBytes());
         psInsert.setString(4, toBuilder);
-        
-       // InputStream subjectStream = new ByteArrayInputStream(msg.getSubject().getBytes());
         psInsert.setString(5, msg.getSubject());
-        
-       // InputStream bodyStream = new ByteArrayInputStream(msg.getBody().getBytes());
         psInsert.setString(6, msg.getBody());
-        
         psInsert.setString(7, msg.getReceiveDate());
         psInsert.setString(8, msg.getSentDate());
         psInsert.setString(9, ccBuilder);
@@ -132,24 +123,12 @@ public class OnlineEmailDBHandler {
 
         psInsert.executeUpdate();
         psInsert.close();
+        
+        this.closeConnection(connection);
     }
 
-    public void closeDB() throws SQLException {
-        connection.close();
-        DriverManager.getConnection("jdbc:derby:;shutdown=true");
-    }
-
-    public void connectDB() throws ClassNotFoundException, InstantiationException,
-            SQLException, IllegalAccessException {
-        Class.forName(DB_DRIVER).newInstance();
-        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-    }
-    public Connection getConnection()
-    {
-        return connection;
-    }
-
-    private void makeDBStructure() throws SQLException {
+    private void makeDBStructure() throws Exception {
+        Connection connection = getConnection();
         Statement statement_ = connection.createStatement();
 
         String emailTables =
@@ -171,13 +150,33 @@ public class OnlineEmailDBHandler {
 
         statement_.execute(emailTables);
         statement_.close();
+        
+        this.closeConnection(connection);
     }
 
- 
+    private Connection getConnection() throws ClassNotFoundException, InstantiationException,
+            SQLException, IllegalAccessException {
+        Class.forName(DB_DRIVER).newInstance();
+        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+    }
+    
+    private void closeConnection(final Connection connection) {
+        try {
+            connection.close();
+        }
+        catch (SQLException e){
+            if ( e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState()))
+                System.out.println("Derby Shutdown normally");
+            else {
+                System.out.println("Derby Did not shutdown normally");
+                e.printStackTrace();
+            }
+        }
+    }
+    
     private String DB_URL;
     private static String DB_NAME = "jdbc:derby:";
     private static String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
     private static String DB_USER = "";
     private static String DB_PASS = "";
-    private Connection connection;
 }

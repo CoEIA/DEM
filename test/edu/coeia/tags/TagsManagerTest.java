@@ -28,7 +28,7 @@ public class TagsManagerTest {
 
     @After
     public void tearDown() throws Exception {
-        tm.closeManager();
+        //tm.closeManager();
         FileUtil.removeDirectory(location);
     }
     
@@ -66,7 +66,7 @@ public class TagsManagerTest {
         assertEquals(1, tm.getTags().size());
         
         // close without saving value
-        tm.closeManager();
+        //tm.closeManager();
         tm = TagsManager.getTagsManager(location);
         assertEquals(0, tm.getTags().size());
         
@@ -75,7 +75,7 @@ public class TagsManagerTest {
         tm.addTag(Tag.newInstance("another testing", new Date(), "this is another testing"));
         tm.saveTags();
         assertEquals(2, tm.getTags().size());
-        tm.closeManager();
+        //tm.closeManager();
         
         // open again
         tm = TagsManager.getTagsManager(location);
