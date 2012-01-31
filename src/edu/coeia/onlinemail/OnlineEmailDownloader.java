@@ -138,7 +138,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                     String strIsResume = emaildialogue.getPauseButton().getText();
                     if (strIsResume.compareTo("Resume") == 0) {
                         emaildialogue.getPauseButton().setText("Pause");
-                        emaildialogue.getDownloadBar().setIndeterminate(true);
+                        emaildialogue.getDownloadProgressBar().setIndeterminate(true);
                         List<EmailConfiguration> emailInfos = emaildialogue.getCase().getEmailConfigurations();
                         for (EmailConfiguration s : emailInfos) {
                             downloadEmail(emaildialogue.getCase(), s, emaildialogue);
@@ -156,26 +156,26 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         // if hotmail
         if (config.getSource() == ONLINE_EMAIL_AGENT.HOTMAIL) {
             
-            dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
-            dialogue.m_ObjDownloader.ConnectPop3Hotmail(Username, Password);
-            dialogue.m_ObjDownloader.execute();
+            dialogue.onlineEmailDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
+            dialogue.onlineEmailDownloader.ConnectPop3Hotmail(Username, Password);
+            dialogue.onlineEmailDownloader.execute();
             dialogue.setVisible(true);
             
         }
         // if YAHOO
         if (config.getSource() == ONLINE_EMAIL_AGENT.YAHOO) {
             
-            dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
-            dialogue.m_ObjDownloader.ConnectPop3Yahoo(Username, Password);
-            dialogue.m_ObjDownloader.execute();
+            dialogue.onlineEmailDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
+            dialogue.onlineEmailDownloader.ConnectPop3Yahoo(Username, Password);
+            dialogue.onlineEmailDownloader.execute();
             dialogue.setVisible(true);
             
         }
         
         if (config.getSource() == ONLINE_EMAIL_AGENT.GMAIL) {
-            dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
-            dialogue.m_ObjDownloader.ConnectIMAP(Username, Password);
-            dialogue.m_ObjDownloader.execute();
+            dialogue.onlineEmailDownloader = new OnlineEmailDownloader(dialogue, attachmentsPath, dbPath, m_strTmpPath);
+            dialogue.onlineEmailDownloader.ConnectIMAP(Username, Password);
+            dialogue.onlineEmailDownloader.execute();
             dialogue.setVisible(true);
             
         }
@@ -426,7 +426,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             this.deleteResumeStatus();
             JOptionPane.showMessageDialog(emaildialogue, "Finished Downloading Emails", "Done", JOptionPane.INFORMATION_MESSAGE);
             emaildialogue.setVisible(false);
-            emaildialogue.getDownloadBar().setIndeterminate(false);
+            emaildialogue.getDownloadProgressBar().setIndeterminate(false);
         } else {
             if (objResume.isActive()) {
                 JOptionPane.showMessageDialog(emaildialogue, "Email downloading has been paused", "Paused", JOptionPane.INFORMATION_MESSAGE);
@@ -441,7 +441,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
             
         }
         
-        emaildialogue.getDownloadBar().setIndeterminate(false);
+        emaildialogue.getDownloadProgressBar().setIndeterminate(false);
         
         try {
             store.close();

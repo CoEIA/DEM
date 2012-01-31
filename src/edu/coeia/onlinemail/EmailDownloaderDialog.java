@@ -11,6 +11,9 @@
 package edu.coeia.onlinemail;
 
 import edu.coeia.cases.Case;
+import edu.coeia.util.FilesPath;
+import edu.coeia.wizard.EmailConfiguration;
+import edu.coeia.wizard.EmailConfiguration.ONLINE_EMAIL_AGENT;
 
 import java.io.IOException;
 
@@ -30,44 +33,75 @@ import javax.swing.JTextField;
  */
 public class EmailDownloaderDialog extends javax.swing.JDialog {
 
-    public OnlineEmailDownloader m_ObjDownloader;
-    private Case aCase ;   
-
+    OnlineEmailDownloader onlineEmailDownloader;
     
-    public EmailDownloaderDialog() throws NoSuchProviderException, MessagingException, IOException, SQLException {
+    private Case aCase ;   
+    private EmailConfiguration emailConfiguration;
 
-    }
-
-    public EmailDownloaderDialog(java.awt.Frame parent, boolean modal, Case aCase) throws SQLException, NoSuchProviderException, MessagingException, IOException, Exception {
+    public EmailDownloaderDialog(java.awt.Frame parent, boolean modal,
+            final Case aCase, final EmailConfiguration emailConfiguration) throws SQLException, NoSuchProviderException, MessagingException, IOException, Exception {
         super(parent, modal);
+        
         initComponents();
         setLocationRelativeTo(parent);        
-        DownloadProgressBar.setIndeterminate(true);
+        
+        this.DownloadProgressBar.setIndeterminate(true);
         this.aCase = aCase;
+        this.emailConfiguration = emailConfiguration;
+        
+        this.onlineEmailDownloader = new OnlineEmailDownloader(this,
+            this.aCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
+            this.aCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB,
+            this.aCase.getCaseLocation() + "\\" + FilesPath.CASE_TMP
+            );
     }
     
-    public JButton getCancelButton()
-    {
-        return this.jButton1;
+    public void start() {
+        // if hotmail
+        if (this.emailConfiguration.getSource() == ONLINE_EMAIL_AGENT.HOTMAIL) {
+            if (this.onlineEmailDownloader.ConnectPop3Hotmail(this.emailConfiguration.getUserName(), 
+                    this.emailConfiguration.getPassword())) {
+                this.onlineEmailDownloader.execute();
+                this.setVisible(true);
+            }
+        }
+        
+        if (this.emailConfiguration.getSource() == ONLINE_EMAIL_AGENT.YAHOO) {
+            if (this.onlineEmailDownloader.ConnectPop3Yahoo(this.emailConfiguration.getUserName(),
+                    this.emailConfiguration.getPassword())) {
+                this.onlineEmailDownloader.execute();
+                this.setVisible(true);
+            }
+        }
+        
+       if (this.emailConfiguration.getSource() == ONLINE_EMAIL_AGENT.GMAIL) {
+            if (this.onlineEmailDownloader.ConnectIMAP(this.emailConfiguration.getUserName(),
+                    this.emailConfiguration.getPassword())) {
+                this.onlineEmailDownloader.execute();
+                this.setVisible(true);
+            }
+        }
     }
     
-    public JButton getPauseButton()
-    {
-        return this.jBtn_Pause;
+    public OnlineEmailDownloader getOnlineEmailDownloader() {
+        return this.onlineEmailDownloader;
     }
     
-    public Case getCase()
-    {
+    public JButton getCancelButton() {
+        return this.cancelButton;
+    }
+    
+    public JButton getPauseButton(){
+        return this.pauseButton;
+    }
+    
+    public Case getCase() {
         return this.aCase;
     }
 
     public JTextField getFrom() {
         return this.from;
     }
-//    
-//    public void setFrom(final String from) {
-//        this.from.setText(from);
-//    }
 
     public JTextField getBCC() {
         return this.bcc;
@@ -80,7 +114,6 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
     public JTextField getSentDate() {
         return this.sdate;
     }
- 
 
     public JTextArea getAttachments() {
         return this.attachments;
@@ -93,8 +126,8 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
     public JTextField getTo() {
         return this.to;
     }
-    public JProgressBar getDownloadBar()
-    {
+    
+    public JProgressBar getDownloadProgressBar(){
         return this.DownloadProgressBar;
     }
 
@@ -126,52 +159,47 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         pregressLabel = new javax.swing.JLabel();
         DownloadProgressBar = new javax.swing.JProgressBar();
         controllPanel = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jBtn_Pause = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        pauseButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Email Downloading ");
 
         progresLabelPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Downloading"));
         progresLabelPanel.setForeground(new java.awt.Color(0, 51, 255));
-        progresLabelPanel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        progresLabelPanel.setFont(new java.awt.Font("Tahoma", 1, 12));
         progresLabelPanel.setLayout(new javax.swing.BoxLayout(progresLabelPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
-        FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         FromjLabel.setText("From:");
         progresLabelPanel.add(FromjLabel);
 
         from.setEditable(false);
         from.setPreferredSize(new java.awt.Dimension(20, 20));
-        from.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fromActionPerformed(evt);
-            }
-        });
         progresLabelPanel.add(from);
 
-        TojLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        TojLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         TojLabel.setText("To:");
         progresLabelPanel.add(TojLabel);
 
         to.setEditable(false);
         progresLabelPanel.add(to);
 
-        SubjectjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        SubjectjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         SubjectjLabel.setText("Subject:");
         progresLabelPanel.add(SubjectjLabel);
 
         subject.setEditable(false);
         progresLabelPanel.add(subject);
 
-        SentDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        SentDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         SentDatejLabel.setText("Sent Date:");
         progresLabelPanel.add(SentDatejLabel);
 
         sdate.setEditable(false);
         progresLabelPanel.add(sdate);
 
-        CCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         CCjLabel.setText("CC:");
         progresLabelPanel.add(CCjLabel);
 
@@ -196,33 +224,33 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
 
         progresLabelPanel.add(jScrollPane1);
 
-        pregressLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        pregressLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         pregressLabel.setText("Downloading Progress:");
         progresLabelPanel.add(pregressLabel);
         progresLabelPanel.add(DownloadProgressBar);
 
         getContentPane().add(progresLabelPanel, java.awt.BorderLayout.PAGE_START);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
-        jButton1.setText("Cancel");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        cancelButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                cancelButtonActionPerformed(evt);
             }
         });
-        controllPanel.add(jButton1);
+        controllPanel.add(cancelButton);
 
-        jBtn_Pause.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jBtn_Pause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/mail.png"))); // NOI18N
-        jBtn_Pause.setText("Pause");
-        jBtn_Pause.addActionListener(new java.awt.event.ActionListener() {
+        pauseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        pauseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/mail.png"))); // NOI18N
+        pauseButton.setText("Pause");
+        pauseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtn_PauseActionPerformed(evt);
+                pauseButtonActionPerformed(evt);
             }
         });
-        controllPanel.add(jBtn_Pause);
-        jBtn_Pause.getAccessibleContext().setAccessibleName("Resume");
+        controllPanel.add(pauseButton);
+        pauseButton.getAccessibleContext().setAccessibleName("Resume");
 
         getContentPane().add(controllPanel, java.awt.BorderLayout.SOUTH);
 
@@ -231,28 +259,18 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-private void fromActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fromActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_fromActionPerformed
-
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// TODO add your handling code here:
-    if (m_ObjDownloader!= null) {
-        m_ObjDownloader.cancel(true);
+private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+    if (onlineEmailDownloader!= null) {
+        onlineEmailDownloader.cancel(true);
         this.setVisible(false);
     }
-   
+}//GEN-LAST:event_cancelButtonActionPerformed
 
-}//GEN-LAST:event_jButton1ActionPerformed
-
-private void jBtn_PauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtn_PauseActionPerformed
-// TODO add your handling code here:
-    
-    if (m_ObjDownloader != null) {
-        m_ObjDownloader.pauseDownloading();
-       
+private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
+    if (onlineEmailDownloader != null) {
+        onlineEmailDownloader.pauseDownloading();
     }
-}//GEN-LAST:event_jBtn_PauseActionPerformed
+}//GEN-LAST:event_pauseButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AttachjLabel;
@@ -265,12 +283,12 @@ private void jBtn_PauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JLabel TojLabel;
     private javax.swing.JTextArea attachments;
     private javax.swing.JTextField bcc;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JTextField cc;
     private javax.swing.JPanel controllPanel;
     private javax.swing.JTextField from;
-    private javax.swing.JButton jBtn_Pause;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton pauseButton;
     private javax.swing.JLabel pregressLabel;
     private javax.swing.JPanel progresLabelPanel;
     private javax.swing.JTextField sdate;

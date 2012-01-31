@@ -30,7 +30,7 @@ public class FileUtilTest {
     }
     
     @Test
-    public void saveStreamTest()  throws Exception{
+    public void saveStreamTest() throws Exception{
         
         InputStream stream = new ByteArrayInputStream(new byte[] {123, 43, 53, 34} );
         FileUtil.saveObject(stream, "test.txt", "C:\\");

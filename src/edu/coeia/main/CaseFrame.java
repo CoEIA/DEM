@@ -610,8 +610,14 @@ public class CaseFrame extends javax.swing.JFrame {
         indexPanel.setLocationRelativeTo(this);
         indexPanel.setVisible(true);
         
-        caseManagerPanel.displayCaseInformationPanel();
-        caseManagerPanel.displayMutableCaseInformationPanel();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                caseManagerPanel.displayCaseInformationPanel();
+                caseManagerPanel.displayMutableCaseInformationPanel();
+            }
+        }).start();
+        
     }
     
     private void closeCaseFrame() {
@@ -622,10 +628,6 @@ public class CaseFrame extends javax.swing.JFrame {
                 if ( !caseName.isEmpty() )
                     this.listOfOpeningCase.remove(caseName);
             }
-
-//            if ( this.tagsManager !=  null ) {
-//                this.tagsManager.closeManager();
-//            }
         }
         catch (Exception e){
             logger.log(Level.SEVERE, "Uncaught exception", e);
