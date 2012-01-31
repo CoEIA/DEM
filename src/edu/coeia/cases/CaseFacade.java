@@ -80,9 +80,7 @@ public final class CaseFacade {
         List<String> otherCasesGroup = this.getOtherCases(this.aCase.getCaseName(), this.getCaseFolderLocation());
         FileUtil.writeToFile(otherCasesGroup, getCasesInformationFileLocation());
 
-        // removeHistory case history from preferences
         this.caseHistoryHandler.removeHistory(aCase.getCaseName());
-        
         return status;
     }
     

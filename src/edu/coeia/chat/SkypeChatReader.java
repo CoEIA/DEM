@@ -5,8 +5,6 @@
 
 package edu.coeia.chat;
 
-import edu.coeia.util.FilesPath;
-
 import java.io.File;
 
 import java.sql.SQLException ;
