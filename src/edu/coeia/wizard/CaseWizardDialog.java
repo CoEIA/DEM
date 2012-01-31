@@ -1,17 +1,14 @@
 package edu.coeia.wizard;
 
-import edu.coeia.wizard.EmailConfiguration.ONLINE_EMAIL_AGENT;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.FilesPath;
-import edu.coeia.onlinemail.EmailDownloaderDialog;
-import edu.coeia.onlinemail.OnlineEmailDownloader;
 import edu.coeia.managers.ApplicationManager;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.GuiUtil;
+import edu.coeia.onlinemail.DownloadEmail;
 
-import java.io.FileNotFoundException;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import javax.swing.DefaultListModel;
@@ -22,15 +19,16 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.JFrame;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Frame;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -41,7 +39,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
-
 
 /*
  * IndexWizard.java
@@ -55,11 +52,11 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 public class CaseWizardDialog extends javax.swing.JDialog{
  
     private String PATH = FilesPath.CASES_PATH;
-    private List<String> evidencePathLocations;
+    private final List<String> evidencePathLocations;
     private final DefaultListModel sourcesListModel;
     
     private boolean indexTheCase = false;   // index the case after create it
-    private final Frame parentFrame;
+    private final JFrame parentFrame;
     
     /*
      * Wizard CardLayout - Panels Names
@@ -69,7 +66,7 @@ public class CaseWizardDialog extends javax.swing.JDialog{
     private CaseFacade caseFacade; 
 
     /** Creates new form IndexWizard */
-    public CaseWizardDialog(java.awt.Frame parent, boolean modal, boolean isFullVersion) {
+    public CaseWizardDialog(JFrame parent, boolean modal, boolean isFullVersion) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
@@ -888,13 +885,16 @@ public class CaseWizardDialog extends javax.swing.JDialog{
                 return;
             }
 
+            // download emails
             for (EmailConfiguration s : emailInfos) {
                 try {
-                    downloadEmail(currentCase, s);
-                } catch (Exception ex) {
+                    DownloadEmail downloder = new DownloadEmail(currentCase, s);
+                    downloder.download(this.parentFrame);
+                } 
+                catch (Exception ex) {
                     Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } // End For Each Email Config
+            }
 
         } catch (IOException ex) {
             Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
@@ -904,39 +904,7 @@ public class CaseWizardDialog extends javax.swing.JDialog{
     public Object[][] getEmailTableData() {
         return JTableUtil.getTableData(EmailTable);
     }
-
-    public void downloadEmail(Case currentCase, EmailConfiguration config) throws Exception {
-
-        EmailDownloaderDialog dialogue = new EmailDownloaderDialog(parentFrame, true, currentCase);
-        dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue,
-                currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
-                currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB,
-                currentCase.getCaseLocation() + "\\TMP\\" 
-                );
-        
-       
-        // if hotmail
-        if (config.getSource() == ONLINE_EMAIL_AGENT.HOTMAIL) {
-            if (dialogue.m_ObjDownloader.ConnectPop3Hotmail(config.getUserName(), config.getPassword())) {
-                dialogue.m_ObjDownloader.execute();
-                dialogue.setVisible(true);
-            }
-        }
-        if (config.getSource() == ONLINE_EMAIL_AGENT.YAHOO) {
-            if (dialogue.m_ObjDownloader.ConnectPop3Yahoo(config.getUserName(), config.getPassword())) {
-                dialogue.m_ObjDownloader.execute();
-                dialogue.setVisible(true);
-            }
-        }
-        if (config.getSource() == ONLINE_EMAIL_AGENT.GMAIL) {
-            if (dialogue.m_ObjDownloader.ConnectIMAP(config.getUserName(), config.getPassword())) {
-                dialogue.m_ObjDownloader.execute();
-                dialogue.setVisible(true);
-            }
-
-        }
-
-    }
+    
 private void ExcludeSystemFilesCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcludeSystemFilesCheckBoxActionPerformed
     if (!ProgramFilesRadioButton.isVisible() && !WindowsFilesRadioButton.isVisible()) {
         ProgramFilesRadioButton.setVisible(true);

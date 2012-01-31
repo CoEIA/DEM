@@ -12,11 +12,13 @@ package edu.coeia.onlinemail;
 
 import edu.coeia.cases.Case;
 
-import java.io.File;
 import java.io.IOException;
+
 import java.sql.SQLException;
+
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
+
 import javax.swing.JButton;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;

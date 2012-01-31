@@ -7,7 +7,6 @@ import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.filesystem.CaseInformationPanel;
 import edu.coeia.wizard.EmailConfiguration;
-import edu.coeia.wizard.EmailConfiguration.ONLINE_EMAIL_AGENT;
 import edu.coeia.chat.ChatPanel;
 import edu.coeia.util.Utilities;
 import edu.coeia.gutil.GuiUtil ;
@@ -16,8 +15,7 @@ import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.internet.InternetSurfingPanel;
 import edu.coeia.multimedia.MultimediaPanel;
 import edu.coeia.offlinemail.EmailBrowsingPanel;
-import edu.coeia.onlinemail.EmailDownloaderDialog;
-import edu.coeia.onlinemail.OnlineEmailDownloader;
+import edu.coeia.onlinemail.DownloadEmail;
 import edu.coeia.searching.CaseSearchPanel;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
@@ -26,11 +24,6 @@ import edu.coeia.tags.TagsManager ;
 import java.awt.Toolkit ;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import java.sql.SQLException;
-
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
 
 import javax.swing.JOptionPane;
 
@@ -50,48 +43,44 @@ import java.util.logging.Logger;
  */
 
 public class CaseFrame extends javax.swing.JFrame {
-    private final CaseFacade caseFacade;
-    private final TagsManager tagsManager ;
     
     private final String APPLICATION_NAME = "Digital Evidence Miner: ";
     private final String applicationTitle;
-    
-    private final List<String> listOfOpeningCase ;
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
+    private final List<String> listOfOpeningCase ;
+    private final CaseFacade caseFacade;
+    private final TagsManager tagsManager ;
+            
     // to update the panel after direct indexing 
-    private CaseInformationPanel caseManagerPanel;
-    private CaseSearchPanel caseSearchPanel ;
-    private FileSystemPanel fileSystemPanel;
-    private EmailBrowsingPanel emailPanel;
-    private InternetSurfingPanel internetPanel;
-    private ChatPanel chatPanel;
-    private ReportPanel reportPanel;
-    private MultimediaPanel multimediaPanel;
+    private final CaseInformationPanel caseManagerPanel;
+    private final CaseSearchPanel caseSearchPanel ;
+    private final FileSystemPanel fileSystemPanel;
+    private final EmailBrowsingPanel emailPanel;
+    private final InternetSurfingPanel internetPanel;
+    private final ChatPanel chatPanel;
+    private final ReportPanel reportPanel;
+    private final MultimediaPanel multimediaPanel;
     
     /** Creates new form OfflineMinningFrame 
      * 
      * @param aCase case opened in CaseFacade
      * @param list a list of all openings case
      */
-    public CaseFrame(final CaseFacade caseFacade, List<String> list) {
+    public CaseFrame(final CaseFacade caseFacade, final List<String> list) {
         initComponents();
         logger.info("OfflineMining Frame Constructor, Open Case: " + caseFacade.getCase().getCaseName());
         
         /*
          * set frame resizable and set frame title
          */
-        Toolkit kit = Toolkit.getDefaultToolkit();
         this.applicationTitle = "File System Search Window";
-        this.setIconImage(kit.getImage(this.getClass().getResource("resources/dem-icon.png")));
-        this.setTitle(APPLICATION_NAME + applicationTitle);
-        this.setResizable(true);
-        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setSize(850, 650);
+        this.initFrame();
         
         /*
          * initializing class
          */
+        
         this.caseFacade = caseFacade;
         this.listOfOpeningCase = list;
         this.tagsManager = TagsManager.getTagsManager(this.caseFacade.getTagDatabaseLocation());
@@ -117,6 +106,7 @@ public class CaseFrame extends javax.swing.JFrame {
         this.caseManagerPanel = new CaseInformationPanel(this);
         this.reportPanel = new ReportPanel(this);
         
+        // set card panels
         this.CardPanel.add(this.fileSystemPanel, "fileSystemCard");
         this.CardPanel.add(this.emailPanel, "emailCard");
         this.CardPanel.add(this.internetPanel, "internetSurfingCard");
@@ -126,9 +116,9 @@ public class CaseFrame extends javax.swing.JFrame {
         this.CardPanel.add(this.caseManagerPanel, "caseManagerCard");
         this.CardPanel.add(this.reportPanel, "reportCard");
         
+        // init user interface components
         this.searchToggleButtonActionPerformed(null);
         this.setTitle(APPLICATION_NAME + "Case Manager Window");
-        
         GuiUtil.showPanel("caseManagerCard",CardPanel);
     }
     
@@ -160,7 +150,7 @@ public class CaseFrame extends javax.swing.JFrame {
         hashLibraryMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         caseIndexingMenuItem = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        reDownloadingEmailMenuItem = new javax.swing.JMenuItem();
         viewMenu = new javax.swing.JMenu();
         styleMenu = new javax.swing.JMenu();
         windowsStyleRadioButton = new javax.swing.JRadioButtonMenuItem();
@@ -303,7 +293,7 @@ public class CaseFrame extends javax.swing.JFrame {
         getContentPane().add(CardPanel, java.awt.BorderLayout.CENTER);
 
         fileMenu.setText("File");
-        fileMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        fileMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
 
         exitMenuItem.setText(" Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -316,7 +306,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jMenuBar1.add(fileMenu);
 
         jMenu1.setText("Options");
-        jMenu1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jMenu1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jMenu1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu1ActionPerformed(evt);
@@ -340,18 +330,18 @@ public class CaseFrame extends javax.swing.JFrame {
         });
         jMenu1.add(caseIndexingMenuItem);
 
-        jMenuItem1.setText("ReDownload Email");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        reDownloadingEmailMenuItem.setText("ReDownload Email");
+        reDownloadingEmailMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                reDownloadingEmailMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(reDownloadingEmailMenuItem);
 
         jMenuBar1.add(jMenu1);
 
         viewMenu.setText("View");
-        viewMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        viewMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
 
         styleMenu.setText("Application Style");
 
@@ -397,7 +387,7 @@ public class CaseFrame extends javax.swing.JFrame {
         jMenuBar1.add(viewMenu);
 
         toolsMenu.setText("Tools");
-        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
 
         windowsMenuItem.setText("Windows Information");
         windowsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -456,15 +446,7 @@ public class CaseFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void windowsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_windowsMenuItemActionPerformed
-        try {
-            List<String> data = FileUtil.readProgramOutputStream("systeminfo.exe");
-
-            WindowsInfoDialog wid = new WindowsInfoDialog(CaseFrame.this, true, data);
-            wid.setVisible(true);
-        }
-        catch (IOException e) {
-            logger.log(Level.SEVERE, "Uncaught exception", e);
-        }
+        this.displayWindowsInformation();
     }//GEN-LAST:event_windowsMenuItemActionPerformed
 
     private void recentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recentMenuItemActionPerformed
@@ -549,27 +531,6 @@ public class CaseFrame extends javax.swing.JFrame {
         dailog.setVisible(true);
     }//GEN-LAST:event_hashLibraryMenuItemActionPerformed
 
-private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        
-    List<EmailConfiguration> emailInfos = this.getCase().getEmailConfigurations();
- 
-    if (emailInfos.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "There is no Email Information", "No Email in Case", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    //FileUtil.removeDirectory(caseObj.getCaseLocation() + "\\" + FilesPath.EMAIL_DB);
-    
-    for (EmailConfiguration s : emailInfos) {
-        try {
-            downloadEmail(this.getCase(), s);
-        } 
-        catch (Exception ex) {
-            Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-}//GEN-LAST:event_jMenuItem1ActionPerformed
-
     private void windowsStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_windowsStyleRadioButtonActionPerformed
         try { 
             final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
@@ -609,38 +570,41 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             e.printStackTrace();
         }
     }//GEN-LAST:event_ravenStyleRadioButtonActionPerformed
+
+    private void reDownloadingEmailMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reDownloadingEmailMenuItemActionPerformed
+        this.emailDownloaderAction();
+    }//GEN-LAST:event_reDownloadingEmailMenuItemActionPerformed
     
-    public void downloadEmail(Case currentCase, EmailConfiguration config) throws SQLException, NoSuchProviderException, MessagingException, IOException, Exception {
-
-        EmailDownloaderDialog dialogue = new EmailDownloaderDialog(this, true, currentCase);
-        dialogue.m_ObjDownloader = new OnlineEmailDownloader(dialogue,
-                currentCase.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS,
-                currentCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB,
-                currentCase.getCaseLocation() + "\\TMP\\" 
-                );
-        
-        // if hotmail
-        if (config.getSource() == ONLINE_EMAIL_AGENT.HOTMAIL) {
-            if (dialogue.m_ObjDownloader.ConnectPop3Hotmail(config.getUserName(), config.getPassword())) {
-                dialogue.m_ObjDownloader.execute();
-                dialogue.setVisible(true);
-            }
+    private void emailDownloaderAction() {
+        List<EmailConfiguration> emailInfos = this.getCase().getEmailConfigurations();
+ 
+        if (emailInfos.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "There is no Email Information", "No Email in Case", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        if (config.getSource() == ONLINE_EMAIL_AGENT.YAHOO) {
-            if (dialogue.m_ObjDownloader.ConnectPop3Yahoo(config.getUserName(), config.getPassword())) {
-                dialogue.m_ObjDownloader.execute();
-                dialogue.setVisible(true);
-            }
-        }
-       if (config.getSource() == ONLINE_EMAIL_AGENT.GMAIL) {
-            if (dialogue.m_ObjDownloader.ConnectIMAP(config.getUserName(), config.getPassword())) {
-                dialogue.m_ObjDownloader.execute();
-                dialogue.setVisible(true);
-            }
 
+        for (EmailConfiguration s : emailInfos) {
+            try {
+                DownloadEmail downloder = new DownloadEmail(this.getCase(), s);
+                downloder.download(this);
+            } 
+            catch (Exception ex) {
+                Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
+    private void displayWindowsInformation() {
+        try {
+            List<String> data = FileUtil.readProgramOutputStream("systeminfo.exe");
+            WindowsInfoDialog wid = new WindowsInfoDialog(CaseFrame.this, true, data);
+            wid.setVisible(true);
+        }
+        catch (IOException e) {
+            logger.log(Level.SEVERE, "Uncaught exception", e);
+        }
+    }
+    
     public void showIndexDialog(boolean startIndex) {
         IndexingDialog indexPanel = new IndexingDialog(this, true, this.getCaseFacade(), startIndex);
         indexPanel.setLocationRelativeTo(this);
@@ -691,6 +655,14 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
     }
     
+    private void initFrame() {
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        this.setIconImage(kit.getImage(this.getClass().getResource("resources/dem-icon.png")));
+        this.setTitle(APPLICATION_NAME + applicationTitle);
+        this.setResizable(true);
+        this.setSize(850, 650);
+    }
+    
     private Case getCase() { return this.caseFacade.getCase() ; }
     public TagsManager getTagsManager() { return this.tagsManager; }
     public CaseFacade getCaseFacade() { return this.caseFacade; }
@@ -719,12 +691,12 @@ private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JToggleButton internetSurfingToggleButton;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JRadioButtonMenuItem ravenStyleRadioButton;
+    private javax.swing.JMenuItem reDownloadingEmailMenuItem;
     private javax.swing.JMenuItem recentMenuItem;
     private javax.swing.JToggleButton reportToggleButton;
     private javax.swing.JToggleButton searchToggleButton;
