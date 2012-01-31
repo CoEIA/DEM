@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author wajdyessam
  */
-public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
+public class EmailCrawlingProgressPanel extends javax.swing.JPanel implements PanelType {
 
     /** Creates new form OfflineEmailCrawlingProgressPanel */
     public EmailCrawlingProgressPanel() {
@@ -35,8 +35,6 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         agentTypeTextField = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        emailPathTextField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         currentFolderTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -62,14 +60,6 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
         agentTypeTextField.setText(" ");
         agentTypeTextField.setEnabled(false);
         jPanel2.add(agentTypeTextField);
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel9.setText("Email Path:");
-        jPanel2.add(jLabel9);
-
-        emailPathTextField.setText(" ");
-        emailPathTextField.setEnabled(false);
-        jPanel2.add(emailPathTextField);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel10.setText("Current Folder:");
@@ -150,7 +140,6 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     public void setAgentType(final String name) { this.agentTypeTextField.setText(name); }
-    public void setEmailPath(final String path) { this.emailPathTextField.setText(path); }
     public void setCurrentFolder(final String folder) { this.currentFolderTextField.setText(folder); }
     public void setCurrentMessageSubject(final String subject) { this.currentMessageSubjectTextField.setText(subject); }
     public void setMessageDate(final String date) { this.messageDateTextField.setText(date); }
@@ -165,12 +154,14 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
         }
     }
     
+    @Override
+    public String getType() { return "EMAIL" ; }
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField agentTypeTextField;
     private javax.swing.JTextArea attachmentsTextArea;
     private javax.swing.JTextField currentFolderTextField;
     private javax.swing.JTextField currentMessageSubjectTextField;
-    private javax.swing.JTextField emailPathTextField;
     private javax.swing.JTextField fromTextField;
     private javax.swing.JTextField hasAttachmentTextField;
     private javax.swing.JLabel jLabel1;
@@ -181,7 +172,6 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField messageDateTextField;

@@ -79,7 +79,6 @@ final class OnlineEmailIndexer extends Indexer {
 
         EmailCrawlingProgressPanel panel = new EmailCrawlingProgressPanel();
         panel.setAgentType(agent);
-        panel.setEmailPath("");
         panel.setCurrentFolder(folderName);
         panel.setCurrentMessageSubject(subject);
         panel.setMessageDate(date);

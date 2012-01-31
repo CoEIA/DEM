@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author wajdyessam
  */
-public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel {
+public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel implements PanelType{
 
     /** Creates new form FileSystemCrawlingProgressPanel */
     public FileSystemCrawlingProgressPanel() {
@@ -39,6 +39,9 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel {
         this.setCurrentFile("");
         this.setFileSize("");
     }
+    
+    @Override
+    public String getType() { return "FILE" ; }
     
     /** This method is called from within the constructor to
      * initialize the form.

@@ -216,8 +216,6 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
             
             // set dialog label
             this.parentDialog.setProgressIndetermined(false);
-            this.parentDialog.setTimeLabel(endTime);
-            this.parentDialog.setLastIndexTime(lastIndexDate);
             this.parentDialog.setStartButtonStatus(true);
             this.parentDialog.setStopButtonStatus(false);
 

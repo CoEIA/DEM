@@ -15,6 +15,7 @@ import edu.coeia.util.FilesPath;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.Tuple;
+import edu.coeia.extractors.NoneImageExtractor;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +32,6 @@ import com.pff.PSTFile;
 import com.pff.PSTFolder;
 import com.pff.PSTMessage;
 
-import edu.coeia.extractors.NoneImageExtractor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,8 +161,7 @@ final class OutlookIndexer extends Indexer{
         }
 
         EmailCrawlingProgressPanel panel = new EmailCrawlingProgressPanel();
-        panel.setAgentType("Outlook");
-        panel.setEmailPath(getFile().getAbsolutePath());
+        panel.setAgentType("Outlook: " + getFile().getAbsolutePath());
         panel.setCurrentFolder(folderName);
         panel.setCurrentMessageSubject(subject);
         panel.setMessageDate(date);
