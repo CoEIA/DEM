@@ -176,6 +176,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
 
         embeddedPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Attachments and Embedded Files"));
 
+        displayParentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274599246_text-x-log.png"))); // NOI18N
         displayParentButton.setText("Display Document Parent");
         displayParentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,6 +185,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         });
         embeddedPanel.add(displayParentButton);
 
+        displayChildsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/binary.png"))); // NOI18N
         displayChildsButton.setText("Display Document Childs");
         displayChildsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -204,7 +206,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         );
         viewerPanelLayout.setVerticalGroup(
             viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 404, Short.MAX_VALUE)
+            .addGap(0, 386, Short.MAX_VALUE)
         );
 
         getContentPane().add(viewerPanel, java.awt.BorderLayout.CENTER);
@@ -235,7 +237,14 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_viewItemButtonActionPerformed
 
     private void displayParentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayParentButtonActionPerformed
-        // TODO add your handling code here:
+        Item item = this.getItemForDocument(this.currentDocument);
+        
+        if ( item.getDocumentParentId() != 0 ) {
+            System.out.println("have parent: " + item.getDocumentParentId());
+        }
+        else {
+            System.out.println("this document have no parent");
+        }
     }//GEN-LAST:event_displayParentButtonActionPerformed
 
     private void displayChildsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayChildsButtonActionPerformed
@@ -311,27 +320,17 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     
     private void showDocumentWithIndex (final int id) {
         checkControlButtons();
-        showDocumentWithID(this.documentsId.get(id));    
+        this.currentDocument = this.getCurrentDocument(id);
+        if ( this.currentDocument != null )
+            displayDocument(this.currentDocument );    
+        else
+            System.out.println("null for doc id: " + id);
     }
     
-    private void showDocumentWithID (final int docId ) {
-        try {
-            currentDocument = this.searcher.getLuceneDocumentById(String.valueOf(docId));
-            showPanelForDocument(currentDocument);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    private Item getItermForDocument(final Document document) {
-        return ItemFactory.newInstance(document, this.caseObj);
-    }
-    
-    private void showPanelForDocument (Document document) {
+    private void displayDocument (final Document document ) {
         JPanel panel = null;
         
-        Item item = getItermForDocument(document);
+        Item item = getItemForDocument(document);
         
         if ( IndexingConstant.isFileDocument(document) ) {
             panel = new FileSourceViewerPanel(this, item);
@@ -348,6 +347,15 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         this.viewerPanel.add(panel, BorderLayout.CENTER);
         this.viewerPanel.revalidate();
     }
+        
+    private Document getCurrentDocument (final int docId ) {
+        return this.searcher.getLuceneDocumentById(String.valueOf(docId));
+    }
+    
+    private Item getItemForDocument(final Document document) {
+        return ItemFactory.newInstance(document, this.caseObj);
+    }
+    
    
     /**
      * Enable or disable back/next button depend on current list id and max list id

@@ -114,6 +114,9 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="displayParentButton">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/edu/coeia/main/resources/1274599246_text-x-log.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Display Document Parent"/>
           </Properties>
           <Events>
@@ -122,6 +125,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="displayChildsButton">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/edu/coeia/main/resources/binary.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Display Document Childs"/>
           </Properties>
           <Events>
@@ -152,7 +158,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="404" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="386" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
