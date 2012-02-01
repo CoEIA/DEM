@@ -29,8 +29,8 @@ final class FileSignatureAnalysis {
         String hex = Utilities.toHex(buffer);
         return hex;
     }
+    
     public static boolean matchesSignature(byte[] signature, File file) throws FileNotFoundException, IOException {
-
         byte[] buffer = new byte[signature.length];
         InputStream in = new FileInputStream(file);
         int n = in.read(buffer, 0, signature.length);
@@ -101,6 +101,7 @@ final class FileSignatureAnalysis {
         }
        return b;
     }
+    
     public static boolean isUnknown(File file, FileSignature fs) throws FileNotFoundException, IOException {
         // First Case, Extension in DB Table, but Signature is different
         // ext  == sign in database 

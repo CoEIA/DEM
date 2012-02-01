@@ -17,21 +17,25 @@ import edu.coeia.reports.FileSignatureReportsPanel;
 import edu.coeia.reports.RawResultFile;
 import edu.coeia.reports.ReportOptionDialog;
 import edu.coeia.util.Utilities;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+
 import org.apache.mahout.math.Arrays;
 
 /**
@@ -48,9 +52,6 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     private Thread newThrd;
     private FolderTraversar ft;
     private Case aCase;
-
-    public FileSignaturePanel() {
-    }
 
     /** Creates new form FileSignaturePanel */
     public FileSignaturePanel(Case aCase) {

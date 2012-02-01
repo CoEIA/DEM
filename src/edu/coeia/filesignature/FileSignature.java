@@ -12,7 +12,6 @@ import java.util.List;
  */
 
 final class FileSignature {
-
     private final String id;
     private final String signature;
     private final List<String> extension;
