@@ -13,6 +13,8 @@ package edu.coeia.viewer;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.items.Item;
+import edu.coeia.items.ItemFactory;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.searching.LuceneSearcher ;
 import edu.coeia.util.FileUtil;
@@ -115,7 +117,9 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         tagButton = new javax.swing.JButton();
         exportButton = new javax.swing.JButton();
         viewItemButton = new javax.swing.JButton();
-        statusPanel = new javax.swing.JPanel();
+        embeddedPanel = new javax.swing.JPanel();
+        displayParentButton = new javax.swing.JButton();
+        displayChildsButton = new javax.swing.JButton();
         viewerPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -170,20 +174,25 @@ public class SourceViewerDialog extends javax.swing.JDialog {
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.NORTH);
 
-        statusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Status"));
+        embeddedPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Attachments and Embedded Files"));
 
-        javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
-        statusPanel.setLayout(statusPanelLayout);
-        statusPanelLayout.setHorizontalGroup(
-            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 717, Short.MAX_VALUE)
-        );
-        statusPanelLayout.setVerticalGroup(
-            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        displayParentButton.setText("Display Document Parent");
+        displayParentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displayParentButtonActionPerformed(evt);
+            }
+        });
+        embeddedPanel.add(displayParentButton);
 
-        getContentPane().add(statusPanel, java.awt.BorderLayout.SOUTH);
+        displayChildsButton.setText("Display Document Childs");
+        displayChildsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displayChildsButtonActionPerformed(evt);
+            }
+        });
+        embeddedPanel.add(displayChildsButton);
+
+        getContentPane().add(embeddedPanel, java.awt.BorderLayout.SOUTH);
 
         viewerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Viewer"));
 
@@ -195,7 +204,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         );
         viewerPanelLayout.setVerticalGroup(
             viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 557, Short.MAX_VALUE)
+            .addGap(0, 404, Short.MAX_VALUE)
         );
 
         getContentPane().add(viewerPanel, java.awt.BorderLayout.CENTER);
@@ -224,6 +233,14 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private void viewItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewItemButtonActionPerformed
         this.viewDocument(this.currentDocument);
     }//GEN-LAST:event_viewItemButtonActionPerformed
+
+    private void displayParentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayParentButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_displayParentButtonActionPerformed
+
+    private void displayChildsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayChildsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_displayChildsButtonActionPerformed
 
     private void viewDocument(final Document document) {
         if ( IndexingConstant.isFileDocument(document) ) {
@@ -307,6 +324,10 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         }
     }
     
+    private Item getItermForDocument(final Document document) {
+        return ItemFactory.newInstance(document, this.caseObj);
+    }
+    
     private void showPanelForDocument (Document document) {
         JPanel panel = null;
         
@@ -364,10 +385,12 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;
+    private javax.swing.JButton displayChildsButton;
+    private javax.swing.JButton displayParentButton;
+    private javax.swing.JPanel embeddedPanel;
     private javax.swing.JButton exportButton;
     private javax.swing.JButton nextButton;
     private javax.swing.JButton previousButton;
-    private javax.swing.JPanel statusPanel;
     private javax.swing.JButton tagButton;
     private javax.swing.JButton viewItemButton;
     private javax.swing.JPanel viewerPanel;

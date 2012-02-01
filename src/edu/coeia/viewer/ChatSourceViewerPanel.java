@@ -42,55 +42,21 @@ class ChatSourceViewerPanel extends javax.swing.JPanel {
     }
 
     private void displayDocumentInformation () {        
-        try {
-            // show file properities
-            ChatItem chatItem = (ChatItem) this.item;
-            String chatAgent = "";
-            String chatPath = "";
-            String date = chatItem.getDate();
-            String from = chatItem.getFrom();
-            String to = chatItem.getTo();
-            String message = chatItem.getMessageText();
-            
-            String doc = "CHAT";
-            String docId = String.valueOf(chatItem.getDocumentId());
-            String parentId = String.valueOf(chatItem.getDocumentParentId());
-            
-            chatAgentTextField.setText(chatAgent);
-            chatPathTextField.setText(chatPath);
-            dateTextField.setText(date);
-            chatFromTextField.setText(from);
-            chatToTextField.setText(to);
-            messageTextField.setText(message);
-            
-            // show all conversatoin here
-            // by bring all the document that have parent-id as parent
-            // then display it here as converstion
-//            int count = this.searcher.searchParentById(parentId);
-//            for (int i=0; i<count; i++) {
-//                try {
-//                    Document chatDoc = this.searcher.getDocHits(i);
-//                    if ( ! chatDoc.get(IndexingConstant.DOCUMENT).equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT)))
-//                        continue ;
-//                    
-//                    String tmpChatPath = chatDoc.get(IndexingConstant.CHAT_FILE);
-//                    String tmpDate = chatDoc.get(IndexingConstant.CHAT_TIME);
-//                    String tmpFrom = chatDoc.get(IndexingConstant.CHAT_FROM);
-//                    String tmpTo = chatDoc.get(IndexingConstant.CHAT_TO);
-//                    String tmpMessage = chatDoc.get(IndexingConstant.CHAT_MESSAGE);
-//                    
-//                    // add this to table
-//                    Object[] data = {tmpFrom, tmpTo, tmpDate, tmpMessage} ;
-//                    JTableUtil.addRowToJTable(chatTable, data);
-//                }
-//                catch(Exception e) { e.printStackTrace(); }
-//            }
-            
-            chatRenderPanel.validate();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+        // show file properities
+        ChatItem chatItem = (ChatItem) this.item;
+        String chatAgent = chatItem.getChatAgent();
+        String chatPath = chatItem.getChatFilePath();
+        String date = chatItem.getDate();
+        String from = chatItem.getFrom();
+        String to = chatItem.getTo();
+        String message = chatItem.getMessageText();
+
+        chatAgentTextField.setText(chatAgent);
+        chatPathTextField.setText(chatPath);
+        dateTextField.setText(date);
+        chatFromTextField.setText(from);
+        chatToTextField.setText(to);
+        messageTextField.setText(message);
     }
         
     /** This method is called from within the constructor to
@@ -102,14 +68,6 @@ class ChatSourceViewerPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        viewPanel = new javax.swing.JPanel();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
-        chatRenderPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        chatTable = new javax.swing.JTable();
-        chatMetaDataPanel = new javax.swing.JPanel();
-        jScrollPane28 = new javax.swing.JScrollPane();
-        metaDataTextArea = new javax.swing.JTextArea();
         properitiesPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         chatAgentTextField = new javax.swing.JTextField();
@@ -125,75 +83,6 @@ class ChatSourceViewerPanel extends javax.swing.JPanel {
         chatToTextField = new javax.swing.JTextField();
 
         setLayout(new java.awt.BorderLayout());
-
-        chatRenderPanel.setLayout(new java.awt.BorderLayout());
-
-        chatTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "From", "To", "Date", "Message"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        chatTable.setFillsViewportHeight(true);
-        jScrollPane1.setViewportView(chatTable);
-
-        chatRenderPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        jTabbedPane2.addTab("Conversation", chatRenderPanel);
-
-        metaDataTextArea.setColumns(20);
-        metaDataTextArea.setFont(new java.awt.Font("Tahoma", 0, 14));
-        metaDataTextArea.setRows(5);
-        jScrollPane28.setViewportView(metaDataTextArea);
-
-        javax.swing.GroupLayout chatMetaDataPanelLayout = new javax.swing.GroupLayout(chatMetaDataPanel);
-        chatMetaDataPanel.setLayout(chatMetaDataPanelLayout);
-        chatMetaDataPanelLayout.setHorizontalGroup(
-            chatMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
-        );
-        chatMetaDataPanelLayout.setVerticalGroup(
-            chatMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
-        );
-
-        jTabbedPane2.addTab("MetaData", chatMetaDataPanel);
-
-        javax.swing.GroupLayout viewPanelLayout = new javax.swing.GroupLayout(viewPanel);
-        viewPanel.setLayout(viewPanelLayout);
-        viewPanelLayout.setHorizontalGroup(
-            viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(viewPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        viewPanelLayout.setVerticalGroup(
-            viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(viewPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        add(viewPanel, java.awt.BorderLayout.CENTER);
 
         jLabel1.setText("Chat Agent:");
 
@@ -283,10 +172,7 @@ class ChatSourceViewerPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField chatAgentTextField;
     private javax.swing.JTextField chatFromTextField;
-    private javax.swing.JPanel chatMetaDataPanel;
     private javax.swing.JTextField chatPathTextField;
-    private javax.swing.JPanel chatRenderPanel;
-    private javax.swing.JTable chatTable;
     private javax.swing.JTextField chatToTextField;
     private javax.swing.JTextField dateTextField;
     private javax.swing.JLabel jLabel1;
@@ -295,12 +181,7 @@ class ChatSourceViewerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane28;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextField messageTextField;
-    private javax.swing.JTextArea metaDataTextArea;
     private javax.swing.JPanel properitiesPanel;
-    private javax.swing.JPanel viewPanel;
     // End of variables declaration//GEN-END:variables
 }

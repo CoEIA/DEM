@@ -107,10 +107,7 @@ public class OfflineEmailSourceViewerPanel extends javax.swing.JPanel {
         viewPanel = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         messagePanel = new javax.swing.JPanel();
-        emailRenderPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        emailTable = new javax.swing.JTable();
-        emailMetaDataPanel = new javax.swing.JPanel();
+        emailHeader = new javax.swing.JPanel();
         jScrollPane28 = new javax.swing.JScrollPane();
         metaDataTextArea = new javax.swing.JTextArea();
         properitiesPanel = new javax.swing.JPanel();
@@ -136,55 +133,23 @@ public class OfflineEmailSourceViewerPanel extends javax.swing.JPanel {
         messagePanel.setLayout(new java.awt.BorderLayout());
         jTabbedPane2.addTab("Message Content", messagePanel);
 
-        emailRenderPanel.setLayout(new java.awt.BorderLayout());
-
-        emailTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "From", "To", "Date", "Message"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        emailTable.setFillsViewportHeight(true);
-        jScrollPane1.setViewportView(emailTable);
-
-        emailRenderPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        jTabbedPane2.addTab("Conversation", emailRenderPanel);
-
         metaDataTextArea.setColumns(20);
         metaDataTextArea.setFont(new java.awt.Font("Tahoma", 0, 14));
         metaDataTextArea.setRows(5);
         jScrollPane28.setViewportView(metaDataTextArea);
 
-        javax.swing.GroupLayout emailMetaDataPanelLayout = new javax.swing.GroupLayout(emailMetaDataPanel);
-        emailMetaDataPanel.setLayout(emailMetaDataPanelLayout);
-        emailMetaDataPanelLayout.setHorizontalGroup(
-            emailMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+        javax.swing.GroupLayout emailHeaderLayout = new javax.swing.GroupLayout(emailHeader);
+        emailHeader.setLayout(emailHeaderLayout);
+        emailHeaderLayout.setHorizontalGroup(
+            emailHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
         );
-        emailMetaDataPanelLayout.setVerticalGroup(
-            emailMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+        emailHeaderLayout.setVerticalGroup(
+            emailHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
         );
 
-        jTabbedPane2.addTab("MetaData", emailMetaDataPanel);
+        jTabbedPane2.addTab("Message Header", emailHeader);
 
         javax.swing.GroupLayout viewPanelLayout = new javax.swing.GroupLayout(viewPanel);
         viewPanel.setLayout(viewPanelLayout);
@@ -192,14 +157,14 @@ public class OfflineEmailSourceViewerPanel extends javax.swing.JPanel {
             viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
                 .addContainerGap())
         );
         viewPanelLayout.setVerticalGroup(
             viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -262,14 +227,14 @@ public class OfflineEmailSourceViewerPanel extends javax.swing.JPanel {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(messageTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                    .addComponent(messageDateTextFeild, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                    .addComponent(emailSourceTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                    .addComponent(emailAgentTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                    .addComponent(emailFromTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                    .addComponent(emailToTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                    .addComponent(ccTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                    .addComponent(bccTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
+                    .addComponent(messageTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(messageDateTextFeild, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(emailSourceTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(emailAgentTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(emailFromTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(emailToTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(ccTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(bccTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE))
                 .addContainerGap())
         );
         properitiesPanelLayout.setVerticalGroup(
@@ -317,10 +282,8 @@ public class OfflineEmailSourceViewerPanel extends javax.swing.JPanel {
     private javax.swing.JTextField ccTextField;
     private javax.swing.JTextField emailAgentTextField;
     private javax.swing.JTextField emailFromTextField;
-    private javax.swing.JPanel emailMetaDataPanel;
-    private javax.swing.JPanel emailRenderPanel;
+    private javax.swing.JPanel emailHeader;
     private javax.swing.JTextField emailSourceTextField;
-    private javax.swing.JTable emailTable;
     private javax.swing.JTextField emailToTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -330,7 +293,6 @@ public class OfflineEmailSourceViewerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane28;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextField messageDateTextFeild;

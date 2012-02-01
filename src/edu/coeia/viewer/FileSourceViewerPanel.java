@@ -76,7 +76,6 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
         FileMetaDataPanel = new javax.swing.JPanel();
         jScrollPane28 = new javax.swing.JScrollPane();
         metaDataTextArea = new javax.swing.JTextArea();
-        imageViewPanel = new javax.swing.JPanel();
         properitiesPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         fileNameTextField = new javax.swing.JTextField();
@@ -98,7 +97,7 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
 
         planTextArea.setColumns(20);
         planTextArea.setEditable(false);
-        planTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        planTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14));
         planTextArea.setRows(5);
         jScrollPane1.setViewportView(planTextArea);
 
@@ -110,26 +109,13 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
 
         metaDataTextArea.setColumns(20);
         metaDataTextArea.setEditable(false);
-        metaDataTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        metaDataTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14));
         metaDataTextArea.setRows(5);
         jScrollPane28.setViewportView(metaDataTextArea);
 
         FileMetaDataPanel.add(jScrollPane28, java.awt.BorderLayout.CENTER);
 
         jTabbedPane2.addTab("MetaData", FileMetaDataPanel);
-
-        javax.swing.GroupLayout imageViewPanelLayout = new javax.swing.GroupLayout(imageViewPanel);
-        imageViewPanel.setLayout(imageViewPanelLayout);
-        imageViewPanelLayout.setHorizontalGroup(
-            imageViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 687, Short.MAX_VALUE)
-        );
-        imageViewPanelLayout.setVerticalGroup(
-            imageViewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 323, Short.MAX_VALUE)
-        );
-
-        jTabbedPane2.addTab("Image", imageViewPanel);
 
         javax.swing.GroupLayout viewPanelLayout = new javax.swing.GroupLayout(viewPanel);
         viewPanel.setLayout(viewPanelLayout);
@@ -275,7 +261,6 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
     private javax.swing.JTextField fileNameTextField;
     private javax.swing.JTextField filePathTextField;
     private javax.swing.JPanel fileRenderPanel;
-    private javax.swing.JPanel imageViewPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
