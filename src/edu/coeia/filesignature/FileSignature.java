@@ -4,46 +4,47 @@
  */
 package edu.coeia.filesignature;
 
+import java.util.List;
+
 /**
  *
  * @author Ahmed
  */
-public class FileSignature {
 
-    private String Id;
-    private String Signature;
-    private String[] Extension;
-    private String Type;
+final class FileSignature {
 
-    public FileSignature() {
-    }
+    private final String id;
+    private final String signature;
+    private final List<String> extension;
+    private final String type;
 
-    public FileSignature(String Id, String Signature, String[] Extension, String Type) {
+    public FileSignature(final String Id, final String Signature,
+            final List<String> Extension, final String Type) {
 
-        this.Id = Id;
-        this.Signature = Signature;
-        this.Extension = Extension;
-        this.Type = Type;
+        this.id = Id;
+        this.signature = Signature;
+        this.extension = Extension;
+        this.type = Type;
     }
 
     public String getID() {
-        return this.Id;
+        return this.id;
     }
 
     public String getSignature() {
-        return this.Signature;
+        return this.signature;
     }
 
-    public String[] getExtension() {
-        return this.Extension;
+    public List<String> getExtension() {
+        return this.extension;
     }
 
     public String getType() {
-        return this.Type;
+        return this.type;
     }
 
+    @Override
     public String toString() {
-
-        return Id + "\n" + Signature + "\n" + Extension + "\n" + Type + "\n";
+        return id + "\n" + signature + "\n" + extension + "\n" + type + "\n";
     }
 }

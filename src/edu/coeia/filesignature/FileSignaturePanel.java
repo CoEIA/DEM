@@ -12,12 +12,10 @@ package edu.coeia.filesignature;
 
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.main.CaseFrame;
 import edu.coeia.reports.DatasourceXml;
 import edu.coeia.reports.FileSignatureReportsPanel;
 import edu.coeia.reports.RawResultFile;
 import edu.coeia.reports.ReportOptionDialog;
-import edu.coeia.reports.ReportPanel;
 import edu.coeia.util.Utilities;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +26,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultTreeModel;
@@ -73,9 +70,9 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
     }
 
     private void fillDataBaseTable() throws IOException {
-        listFiles = FileSignatureParser.ParseFile();
+        listFiles = FileSignatureParser.paserFile();
         for (FileSignature fs : listFiles) {
-            Object[] arr = {Arrays.toString(fs.getExtension()), fs.getSignature(), fs.getType(), fs.getID()};
+            Object[] arr = {Arrays.toString(fs.getExtension().toArray()), fs.getSignature(), fs.getType(), fs.getID()};
             JTableUtil.addRowToJTable(SignatureTableDB, arr);
         }
     }
@@ -113,7 +110,6 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
             if(!stop){
             if (fileObject.isDirectory() ) {
                 indent = getIndent(fileObject);
-                System.out.println(indent + fileObject.getName());
                 try {
                     File allFiles[] = fileObject.listFiles();
                     if(!stop){
@@ -124,7 +120,6 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
                     ex.printStackTrace();
                 }
             } else if (fileObject.isFile()) {
-                //System.out.println(indent + "  " + fileObject.getName());
                 TestFileAnalysis(fileObject);
             }
             }
@@ -232,23 +227,22 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         treePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         FolderListTree = new javax.swing.JTree();
-        jPanel1 = new javax.swing.JPanel();
-        AnalyzeButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         tablePanel = new javax.swing.JPanel();
-        databasePanel = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        SignatureTableDB = new javax.swing.JTable();
         resultPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         FileAnalysisTable = new javax.swing.JTable();
+        databasePanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        SignatureTableDB = new javax.swing.JTable();
+        buttonPanel = new javax.swing.JPanel();
+        analyzeButton = new javax.swing.JButton();
+        stopButton = new javax.swing.JButton();
+        generateAnalysisReportButton = new javax.swing.JButton();
+        generateDetabaseReportButton = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
         treePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select Folder"));
-        treePanel.setLayout(new java.awt.BorderLayout());
 
         jScrollPane1.setAutoscrolls(true);
 
@@ -260,98 +254,20 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         });
         jScrollPane1.setViewportView(FolderListTree);
 
-        treePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        AnalyzeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/dem-icon.png"))); // NOI18N
-        AnalyzeButton.setText("Analyse");
-        AnalyzeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AnalyzeButtonActionPerformed(evt);
-            }
-        });
-
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
-        jButton2.setText("Stop");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("Generate File Analysis Report");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Generate Database Report");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(AnalyzeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        javax.swing.GroupLayout treePanelLayout = new javax.swing.GroupLayout(treePanel);
+        treePanel.setLayout(treePanelLayout);
+        treePanelLayout.setHorizontalGroup(
+            treePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AnalyzeButton)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton1)))
+        treePanelLayout.setVerticalGroup(
+            treePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
         );
-
-        treePanel.add(jPanel1, java.awt.BorderLayout.SOUTH);
 
         add(treePanel, java.awt.BorderLayout.WEST);
 
         tablePanel.setLayout(new java.awt.BorderLayout());
-
-        databasePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("DEM FileSignature DataBase:"));
-        databasePanel.setLayout(new java.awt.BorderLayout());
-
-        SignatureTableDB.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "File Extension", "File Signature", "File Type", "File Category"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(SignatureTableDB);
-
-        databasePanel.add(jScrollPane3, java.awt.BorderLayout.CENTER);
-
-        tablePanel.add(databasePanel, java.awt.BorderLayout.CENTER);
 
         resultPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("File Analysis "));
         resultPanel.setLayout(new java.awt.BorderLayout());
@@ -378,7 +294,70 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
         tablePanel.add(resultPanel, java.awt.BorderLayout.NORTH);
 
+        databasePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("DEM FileSignature DataBase:"));
+        databasePanel.setLayout(new java.awt.BorderLayout());
+
+        SignatureTableDB.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "File Extension", "File Signature", "File Type", "File Category"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(SignatureTableDB);
+
+        databasePanel.add(jScrollPane3, java.awt.BorderLayout.CENTER);
+
+        tablePanel.add(databasePanel, java.awt.BorderLayout.CENTER);
+
         add(tablePanel, java.awt.BorderLayout.CENTER);
+
+        analyzeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/dem-icon.png"))); // NOI18N
+        analyzeButton.setText("Analyse");
+        analyzeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                analyzeButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(analyzeButton);
+
+        stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
+        stopButton.setText("Stop");
+        stopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(stopButton);
+
+        generateAnalysisReportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274599246_text-x-log.png"))); // NOI18N
+        generateAnalysisReportButton.setText("Generate File Analysis Report");
+        generateAnalysisReportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateAnalysisReportButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(generateAnalysisReportButton);
+
+        generateDetabaseReportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/binary.png"))); // NOI18N
+        generateDetabaseReportButton.setText("Generate Database Report");
+        generateDetabaseReportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateDetabaseReportButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(generateDetabaseReportButton);
+
+        add(buttonPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
     private void TestFileAnalysis(File file) {
@@ -463,13 +442,13 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
         String formatedSignatures = Utilities.getCommaSeparatedStringFromCollection(SignatureList);
         status_msg[3] = formatedSignatures;
-        Exenstions.add(Arrays.toString(fs.getExtension()));
+        Exenstions.add(Arrays.toString(fs.getExtension().toArray()));
         String formatedExtensions = Utilities.getCommaSeparatedStringFromCollection(Exenstions);
         status_msg[4] = formatedExtensions;
 
         return status_msg;
     }
-private void AnalyzeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnalyzeButtonActionPerformed
+private void analyzeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_analyzeButtonActionPerformed
 // TODO add your handling code here:
     if (selectedFile == null) {
         return;
@@ -488,7 +467,7 @@ private void AnalyzeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 
 
 
-}//GEN-LAST:event_AnalyzeButtonActionPerformed
+}//GEN-LAST:event_analyzeButtonActionPerformed
 
 private void FolderListTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_FolderListTreeValueChanged
     // TODO add your handling code here:
@@ -499,19 +478,18 @@ private void FolderListTreeValueChanged(javax.swing.event.TreeSelectionEvent evt
 
 }//GEN-LAST:event_FolderListTreeValueChanged
 
-private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
 // TODO add your handling code here:
     if (ft !=null)
     {
     ft.stop();
     stopRequested = true;
-    System.out.println("MyThread terminating.");
     }
     
 
-}//GEN-LAST:event_jButton2ActionPerformed
+}//GEN-LAST:event_stopButtonActionPerformed
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+private void generateAnalysisReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateAnalysisReportButtonActionPerformed
 // TODO add your handling code here:
   
     int rows = FileAnalysisTable.getRowCount();
@@ -526,41 +504,40 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     dialogue.SetDataSource(source);
     dialogue.RunProgressDialogue();
     
-}//GEN-LAST:event_jButton1ActionPerformed
+}//GEN-LAST:event_generateAnalysisReportButtonActionPerformed
 
-private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+private void generateDetabaseReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateDetabaseReportButtonActionPerformed
 // TODO add your handling code here:
     DatasourceXml objXmlSource = new DatasourceXml();
     objXmlSource = RawResultFile.getDatabaseSignatures(SignatureTableDB, aCase);
     ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
     dialogue.SetDataSource(objXmlSource);
     dialogue.RunProgressDialogue();
-}//GEN-LAST:event_jButton3ActionPerformed
+}//GEN-LAST:event_generateDetabaseReportButtonActionPerformed
 
     public void run() {
         ft = new FolderTraversar(selectedFile);
-        AnalyzeButton.setEnabled(false);
-        System.out.println("MyThread starting.");
+        analyzeButton.setEnabled(false);
         ft.traverse();
         JOptionPane.showMessageDialog(this, "Finished Analyzing", "Finished", JOptionPane.INFORMATION_MESSAGE);
-        AnalyzeButton.setEnabled(true);
+        analyzeButton.setEnabled(true);
 
 
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AnalyzeButton;
     private javax.swing.JTable FileAnalysisTable;
     private javax.swing.JTree FolderListTree;
     private javax.swing.JTable SignatureTableDB;
+    private javax.swing.JButton analyzeButton;
+    private javax.swing.JPanel buttonPanel;
     private javax.swing.JPanel databasePanel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton generateAnalysisReportButton;
+    private javax.swing.JButton generateDetabaseReportButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel resultPanel;
+    private javax.swing.JButton stopButton;
     private javax.swing.JPanel tablePanel;
     private javax.swing.JPanel treePanel;
     // End of variables declaration//GEN-END:variables

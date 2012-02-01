@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Ahmed
  */
-public class FileSignatureAnalysis {
+final class FileSignatureAnalysis {
 
     private static final int MAX_SIGNATURE_SIZE = 8;
 
@@ -75,7 +75,6 @@ public class FileSignatureAnalysis {
 
         boolean result = matchesSignature(fs.getSignature().getBytes(), file);
         if (result == true && res == true) {
-            System.out.println("Match File");
             b = true;
 
         } else {
@@ -95,7 +94,6 @@ public class FileSignatureAnalysis {
 
         boolean result = matchesSignature(fs.getSignature().getBytes(), file);
         if (result == false && res == true) {
-            System.out.println("Bad Signature");
             b = true;
 
         } else {
