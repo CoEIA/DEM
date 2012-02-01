@@ -320,11 +320,8 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     
     private void showDocumentWithIndex (final int id) {
         checkControlButtons();
-        this.currentDocument = this.getCurrentDocument(id);
-        if ( this.currentDocument != null )
-            displayDocument(this.currentDocument );    
-        else
-            System.out.println("null for doc id: " + id);
+        this.currentDocument = this.getCurrentDocument(this.documentsId.get(id));
+        displayDocument(this.currentDocument );    
     }
     
     private void displayDocument (final Document document ) {

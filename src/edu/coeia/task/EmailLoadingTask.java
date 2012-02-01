@@ -86,8 +86,7 @@ public class EmailLoadingTask  implements Task{
                    
                    if ( tmp.endsWith(path)) {
                         EmailItem item = (EmailItem) ItemFactory.newInstance(document, this.aCase);
-                        Object[] data = {item.getDisplayData()};
-                        JTableUtil.addRowToJTable(panel.getTable(), data);
+                        JTableUtil.addRowToJTable(panel.getTable(), item.getDisplayData());
                         ids.add(Integer.valueOf(item.getDocumentId()));
                    }
                 }
@@ -118,8 +117,7 @@ public class EmailLoadingTask  implements Task{
                    
                    if ( tmp.equals(username)) {
                         EmailItem item = (EmailItem) ItemFactory.newInstance(document, this.aCase);
-                        Object[] data = {item.getDisplayData()};
-                        JTableUtil.addRowToJTable(panel.getTable(), data);
+                        JTableUtil.addRowToJTable(panel.getTable(), item.getDisplayData());
                         ids.add(Integer.valueOf(item.getDocumentId()));
                    }
                 }
