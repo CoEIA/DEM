@@ -31,7 +31,7 @@ class ChatSourceViewerPanel extends javax.swing.JPanel {
         this.keyword = dialog.getQueryString();
         this.item = item;
         
-        displayDocumentInformation();
+        this.displayDocumentInformation();
     }
 
     private void displayDocumentInformation () {        

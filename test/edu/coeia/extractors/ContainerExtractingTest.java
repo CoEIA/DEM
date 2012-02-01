@@ -15,40 +15,40 @@ import static org.junit.Assert.*;
  */
 public class ContainerExtractingTest extends CaseBaseSource {
        
-    @Before
-    public void init() {
-        fillContainerDocuments();
-    }
-    
-   @Test
-   public void extractImagesFromDOCX() throws Exception {
-      TikaObjectExtractor.EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(containersList.get(0), OUTPUT_PATH,
-       TikaObjectExtractor.OBJECT_TYPE.CONTAINER).extract();
-      
-      assertEquals(33, handler.getLocations().size());
-   }
-   
-   @Test
-   public void extractImagesFromPPTX() throws Exception {
-       TikaObjectExtractor.EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(containersList.get(1), OUTPUT_PATH,
-       TikaObjectExtractor.OBJECT_TYPE.CONTAINER).extract();
-      
-      assertEquals(53, handler.getLocations().size());
-   }
-   
-   @Test
-   public void extractImagesFromPDF() throws Exception {
-      TikaObjectExtractor.EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(containersList.get(2), OUTPUT_PATH,
-       TikaObjectExtractor.OBJECT_TYPE.CONTAINER).extract();
-      
-      assertEquals(0, handler.getLocations().size());
-   }
-   
-   @Test
-   public void extractImageFromDOCX2() throws Exception {
-      TikaObjectExtractor.EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(containersList.get(3), OUTPUT_PATH,
-       TikaObjectExtractor.OBJECT_TYPE.CONTAINER).extract();
-      
-      assertEquals(7, handler.getLocations().size());
-   }
+//    @Before
+//    public void init() {
+//        fillContainerDocuments();
+//    }
+//    
+//   @Test
+//   public void extractImagesFromDOCX() throws Exception {
+//      TikaObjectExtractor.EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(containersList.get(0), OUTPUT_PATH,
+//       TikaObjectExtractor.OBJECT_TYPE.CONTAINER).extract();
+//      
+//      assertEquals(33, handler.getLocations().size());
+//   }
+//   
+//   @Test
+//   public void extractImagesFromPPTX() throws Exception {
+//       TikaObjectExtractor.EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(containersList.get(1), OUTPUT_PATH,
+//       TikaObjectExtractor.OBJECT_TYPE.CONTAINER).extract();
+//      
+//      assertEquals(53, handler.getLocations().size());
+//   }
+//   
+//   @Test
+//   public void extractImagesFromPDF() throws Exception {
+//      TikaObjectExtractor.EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(containersList.get(2), OUTPUT_PATH,
+//       TikaObjectExtractor.OBJECT_TYPE.CONTAINER).extract();
+//      
+//      assertEquals(0, handler.getLocations().size());
+//   }
+//   
+//   @Test
+//   public void extractImageFromDOCX2() throws Exception {
+//      TikaObjectExtractor.EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(containersList.get(3), OUTPUT_PATH,
+//       TikaObjectExtractor.OBJECT_TYPE.CONTAINER).extract();
+//      
+//      assertEquals(7, handler.getLocations().size());
+//   }
 }

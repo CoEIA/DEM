@@ -117,25 +117,25 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
         progressPanel.setLayout(new javax.swing.BoxLayout(progressPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel27.setText("Number of Files in Index:");
         progressPanel.add(jLabel27);
 
-        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         numberOfFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
         numberOfFilesLbl.setText(" ");
         progressPanel.add(numberOfFilesLbl);
 
-        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel41.setText("Number of Files Cannot Indexed:");
         progressPanel.add(jLabel41);
 
-        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         numberOfErrorFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
         numberOfErrorFilesLbl.setText(" ");
         progressPanel.add(numberOfErrorFilesLbl);
 
-        bigSizeMsgLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        bigSizeMsgLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         bigSizeMsgLbl.setForeground(new java.awt.Color(255, 0, 0));
         bigSizeMsgLbl.setText(" ");
         progressPanel.add(bigSizeMsgLbl);
@@ -143,7 +143,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
         progressStatusPanel.add(progressPanel, java.awt.BorderLayout.CENTER);
 
-        startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         startIndexButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/new-edit-find-replace.png"))); // NOI18N
         startIndexButton.setText("Start Indexing");
         startIndexButton.addActionListener(new java.awt.event.ActionListener() {
@@ -153,7 +153,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         });
         indexControlPanel.add(startIndexButton);
 
-        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         stopIndexingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         stopIndexingButton.setText("Stop Indexing");
         stopIndexingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +163,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         });
         indexControlPanel.add(stopIndexingButton);
 
-        displayLoggingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        displayLoggingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         displayLoggingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274599246_text-x-log.png"))); // NOI18N
         displayLoggingButton.setText("Display Logging");
         displayLoggingButton.addActionListener(new java.awt.event.ActionListener() {

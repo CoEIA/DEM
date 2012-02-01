@@ -126,7 +126,7 @@ final class LuceneDocumentBuilder {
         doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.CHAT)));
         doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
         doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(parentId)));
-        doc.add(getNotAnlyzedField(DOCUMENT_HASH, ""));
+        doc.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateStringHash(msg.getMessage())));
         doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.NORMAL_CHAT)));
         
         // specific lucene fileds
@@ -148,7 +148,7 @@ final class LuceneDocumentBuilder {
         doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.CHAT)));
         doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
         doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(parentId)));
-        doc.add(getNotAnlyzedField(DOCUMENT_HASH, ""));
+        doc.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateStringHash(Utilities.getEmptyStringWhenNullString(msg.getMessage()))));
         doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.NORMAL_CHAT)));
         
         // specific lucene fileds
@@ -192,7 +192,7 @@ final class LuceneDocumentBuilder {
         doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.CHAT)));
         doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
         doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(parentId)));
-        doc.add(getNotAnlyzedField(DOCUMENT_HASH, ""));
+        doc.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateStringHash(result.toString())));
         doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.NORMAL_CHAT)));
         
         // specific lucene fileds
@@ -215,7 +215,7 @@ final class LuceneDocumentBuilder {
         doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.ONLINE_EMAIL)));
         doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
         doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(indexer.getParentId())));
-        doc.add(getNotAnlyzedField(DOCUMENT_HASH, "" ));
+        doc.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateStringHash(msg.getBody())));
         doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.EMAIL_MESSAGE)));
         
         // specific document fields
@@ -285,11 +285,13 @@ final class LuceneDocumentBuilder {
         
         Document doc = new Document();
         
+        String emailHash = contentHTML.trim().isEmpty() ? contentASCII: contentHTML;
+        
         // generic document fields
         doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.OFFLINE_EMAIL)));
         doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
         doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(indexer.getParentId())));
-        doc.add(getNotAnlyzedField(DOCUMENT_HASH, "" ));
+        doc.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateStringHash(emailHash)));
         doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.EMAIL_MESSAGE)));
         
         // specific document fields

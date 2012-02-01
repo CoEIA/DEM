@@ -58,6 +58,7 @@ final class ArchiveIndexer extends Indexer {
 
             // extract and save all the archive content in destination folder
             EmbeddedObjectCollections handler = TikaObjectExtractor.newInstance(
+                    this,
                     this.getFile().getAbsolutePath(), destinationOfExtractionFiles,
                     TikaObjectExtractor.OBJECT_TYPE.ARCHIVE).extract();
 

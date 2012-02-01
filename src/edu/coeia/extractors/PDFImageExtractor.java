@@ -18,7 +18,8 @@ public final class PDFImageExtractor implements ImageExtractor {
     public void extractImages(Indexer indexer, File file,int parentId) {
         
         // extracting images
-        TikaObjectExtractor extractor = TikaObjectExtractor.newInstance(file.getAbsolutePath(), indexer.getTmpLocation(),  
+        TikaObjectExtractor extractor = TikaObjectExtractor.newInstance(indexer, 
+                file.getAbsolutePath(), indexer.getTmpLocation(),  
              TikaObjectExtractor.OBJECT_TYPE.CONTAINER);
         
         TikaObjectExtractor.EmbeddedObjectCollections handler  = null;

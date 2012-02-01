@@ -22,7 +22,8 @@ public final class OfficeImageExtractor implements ImageExtractor{
             return ;
         
         // extracting images
-        TikaObjectExtractor extractor = TikaObjectExtractor.newInstance(file.getAbsolutePath(), indexer.getTmpLocation(),
+        TikaObjectExtractor extractor = TikaObjectExtractor.newInstance(indexer, 
+                file.getAbsolutePath(), indexer.getTmpLocation(),
             TikaObjectExtractor.OBJECT_TYPE.CONTAINER);
         
         TikaObjectExtractor.EmbeddedObjectCollections handler  = null;

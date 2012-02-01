@@ -46,6 +46,21 @@ public class HashCalculator {
         return MD5HashCalculator(path);
     }
 
+    public static String calculateStringHash(final String message) {
+            StringBuilder digestString = new StringBuilder();
+        
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(message.getBytes());
+            digestString.append(Utilities.toHex(md.digest()));
+        }
+        catch(NoSuchAlgorithmException e) {
+            
+        }
+
+        return digestString.toString();
+    }
+    
     /**
      * Calculate Hash Value for directory
      */

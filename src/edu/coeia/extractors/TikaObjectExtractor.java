@@ -5,6 +5,7 @@ package edu.coeia.extractors ;
  * @author wajdyessam
  */
 
+import edu.coeia.indexing.Indexer;
 import edu.coeia.util.FileUtil;
 
 import java.io.IOException;
@@ -24,10 +25,10 @@ import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.mime.MediaType;
 
 public class TikaObjectExtractor {
-    private String filename ;
-    private String destination;
-    private OBJECT_TYPE type ;
-    
+    private final String filename ;
+    private final String destination;
+    private final OBJECT_TYPE type ;
+    private final Indexer indexer;
     /**
      * Type of Object we want to extract objects from it
      * CONTAINER mean that the object is container file (OLE2, OOXML) like DOC, DOCX...
@@ -38,8 +39,9 @@ public class TikaObjectExtractor {
     public static enum OBJECT_TYPE {CONTAINER, ARCHIVE}
     
     
-    public static TikaObjectExtractor newInstance(String file, String destination, OBJECT_TYPE type ) {
-        return new TikaObjectExtractor(file, destination, type);
+    public static TikaObjectExtractor newInstance(final Indexer indexer,
+            String file, String destination, OBJECT_TYPE type ) {
+        return new TikaObjectExtractor(indexer, file, destination, type);
     }
     
     public EmbeddedObjectCollections extract () throws Exception {
@@ -47,10 +49,11 @@ public class TikaObjectExtractor {
         return process(filename, extractor);
     }
         
-    private TikaObjectExtractor(String file, String destination, OBJECT_TYPE type) {
+    private TikaObjectExtractor(final Indexer indexer, String file, String destination, OBJECT_TYPE type) {
         this.filename = file;
         this.destination = destination;
         this.type = type ;
+        this.indexer = indexer;
     }
     
     private EmbeddedObjectCollections process(String filename, ContainerExtractor extractor) throws Exception {
@@ -139,8 +142,8 @@ public class TikaObjectExtractor {
             String newFileName = originalFilePath ;
 
             if (this.type == OBJECT_TYPE.CONTAINER ) { // extract images  from file 
-                // exported name will be the time stamp in nanosecond
-                long value =  System.nanoTime();
+                // exported name will be parent id- documentid
+                String value = indexer.getParentId() + "-" + indexer.getId();
                 newFileName = "image-" + value + ".";
                 newFileName += type.substring(type.indexOf('/')+1);
             }
