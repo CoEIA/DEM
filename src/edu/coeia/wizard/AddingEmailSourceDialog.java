@@ -68,6 +68,8 @@ final class AddingEmailSourceDialog extends javax.swing.JDialog {
 
         jLabel2.setText("Password:");
 
+        UsernameTextField.setText("s2v2012@gmail.com");
+
         OKButton.setText("OK");
         OKButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,6 +83,8 @@ final class AddingEmailSourceDialog extends javax.swing.JDialog {
                 CancelButtonActionPerformed(evt);
             }
         });
+
+        PasswordTextField.setText("s2v123456789");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

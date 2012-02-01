@@ -86,6 +86,7 @@ public class EmailLoadingTask  implements Task{
                    
                    if ( tmp.endsWith(path)) {
                          // show file properities
+                        String desciption = document.get(IndexingConstant.DOCUMENT_DESCRIPTION);
                         String emailAgent = document.get(IndexingConstant.OFFLINE_EMAIL_FOLDER_NAME);
                         String emailSource = document.get(IndexingConstant.OFFLINE_EMAIL_NAME);
                         String emailDate = document.get(IndexingConstant.OFFLINE_EMAIL_CLIENT_SUBMIT_TIME);
@@ -107,7 +108,7 @@ public class EmailLoadingTask  implements Task{
                         String user = document.get(IndexingConstant.OFFLINE_EMAIL_PATH);
                         
                         EmailItem item = new EmailItem(Integer.valueOf(id), 
-                                Integer.valueOf(parentId), hash,  emailFrom,
+                                Integer.valueOf(parentId), hash,  desciption, emailFrom,
                                 emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment,user);
                         
                         // display
@@ -146,6 +147,7 @@ public class EmailLoadingTask  implements Task{
                    
                    if ( tmp.equals(username)) {
                          // show file properities
+                        String desciption = document.get(IndexingConstant.DOCUMENT_DESCRIPTION);
                         String emailDate = document.get(IndexingConstant.ONLINE_EMAIL_RECIEVED_DATE);
                         String emailMessage = document.get(IndexingConstant.ONLINE_EMAIL_BODY);
                         String emailSubject = document.get(IndexingConstant.ONLINE_EMAIL_SUBJECT);
@@ -161,7 +163,7 @@ public class EmailLoadingTask  implements Task{
                         String user = document.get(IndexingConstant.ONLINE_EMAIL_USER_NAME);
                         
                         EmailItem item = new EmailItem(Integer.valueOf(id), 
-                                Integer.valueOf("0"), hash, emailFrom,
+                                Integer.valueOf("0"), hash, desciption, emailFrom,
                                 emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment,user);
 
                         // display data

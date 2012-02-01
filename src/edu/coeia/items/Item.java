@@ -25,10 +25,12 @@ package edu.coeia.items;
 
 public abstract class Item {
     
-    public Item(final int documentId, final int parentId, final String documentHash) {
+    public Item(final int documentId, final int parentId, final String documentHash,
+            final String documentDescription ) {
         this.documentId = documentId ;
         this.documentParentId = parentId ;
         this.documentHash = documentHash;
+        this.documentDescription = documentDescription;
     }
     
     @Override
@@ -54,11 +56,12 @@ public abstract class Item {
     public int getDocumentId() { return this.documentId; }
     public int getDocumentParentId () { return this.documentParentId ; }
     public String getDocumentHash() { return this.documentHash ; }
+    public String getDocumentDescription() { return this.documentDescription; }
     
     public abstract Object[] getDisplayData();
-    protected abstract String getDescription();
     
     protected final int documentId ;
     protected final int documentParentId;
     protected final String documentHash ;
+    protected final String documentDescription ;
 }

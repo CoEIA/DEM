@@ -10,18 +10,17 @@ package edu.coeia.items;
  */
 public final class FileItem extends Item{
     
-    public FileItem(final int documentId, final int documentParentId, final String hash,
+    public FileItem(final int documentId, final int documentParentId, final String hash, final String description,
             final String fileName, final String filePath, final String fileContent, 
             final String fileDate, final String fileMimeType) {
    
-        super(documentId, documentParentId, hash);
+        super(documentId, documentParentId, hash, description);
         
         this.fileName = fileName ;
         this.filePath = filePath; 
         this.fileContent = fileContent;
         this.fileDate = fileDate;
         this.fileMimeType = fileMimeType;
-        this.description = getDescription();
     }
     
     public String getFileName()  { return this.fileName ; }
@@ -32,24 +31,8 @@ public final class FileItem extends Item{
            
     @Override
     public Object[] getDisplayData() {
-        Object[] object = new Object[] {this.documentId, this.fileName, this.fileDate, this.description , this.filePath};
+        Object[] object = new Object[] {this.documentId, this.fileName, this.fileDate, this.documentDescription , this.filePath};
         return object;
-    }
-    
-    @Override
-    protected String getDescription() {
-        String result = "";
-        
-        if ( this.documentParentId != 0 )
-            result = "File Embedded";
-        else
-            result = "File";
-        
-        return result;
-    }
-    
-    public void setDescription(final String desc) {
-        this.description = desc;
     }
     
     private final String fileName ;
@@ -57,5 +40,4 @@ public final class FileItem extends Item{
     private final String fileContent; 
     private final String fileDate ;
     private final String fileMimeType;
-    private String description;
 }
