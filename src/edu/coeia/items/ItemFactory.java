@@ -100,10 +100,11 @@ public class ItemFactory {
         String header = "";
         String cc = document.get(ONLINE_EMAIL_CC);
         String bcc = document.get(ONLINE_EMAIL_BCC);
+        String plainContent = document.get(ONLINE_EMAIL_BODY);
         
         return new EmailItem(documentId, documentParentId, documentHash,description,
                 emailFrom, emailTo, emailSubject, emailSendDate, emailFolderName, hasAttachment,user,
-                content, header, cc, bcc);
+                content, header, cc, bcc, plainContent);
     }
     
     private static Item buildOfflineEmailItem(final Document document) {
@@ -124,13 +125,14 @@ public class ItemFactory {
         boolean hasAttachment = Boolean.valueOf(document.get(ONLINE_EMAIL_ATTACHMENT_PATH));
         
         String content = document.get(OFFLINE_EMAIL_HTML_CONTENT);
+        String plainContent = document.get(OFFLINE_EMAIL_PLAIN_CONTENT);
         String header = document.get(OFFLINE_EMAIL_HEADER);
         String cc = document.get(OFFLINE_EMAIL_DISPLAY_CC);
         String bcc = document.get(OFFLINE_EMAIL_DISPLAY_BCC);
         
         EmailItem item = new EmailItem(documentId, documentParentId, documentHash, description,
                 emailFrom, emailTo, emailSubject, emailSendDate, emailFolderName, hasAttachment, user,
-                content, header, cc, bcc);
+                content, header, cc, bcc, plainContent);
         
         return item;
     }

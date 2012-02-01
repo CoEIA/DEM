@@ -52,13 +52,16 @@ public class EmailSourceViewerPanel extends javax.swing.JPanel {
         String emailAgent = emailItem.getEmailSource();
         String emailSource = emailItem.getFolder();
         String emailDate = emailItem.getTime();
-        String emailMessage = emailItem.getContent();
+        String emailMessage = emailItem.getHTMLContent();
         String emailSubject = emailItem.getSubject();
         String emailTo = emailItem.getTo();
         String emailFrom = emailItem.getFrom();
         String emailCC = emailItem.getCC();
         String emailBCC = emailItem.getBCC();
         String messageHeader = emailItem.getHeader();
+        
+        if ( emailMessage.trim().isEmpty() ) 
+            emailMessage = emailItem.getPlainContent();
         
         this.emailAgentTextField.setText(emailAgent);
         this.emailSourceTextField.setText(emailSource);
