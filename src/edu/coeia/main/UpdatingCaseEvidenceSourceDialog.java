@@ -11,6 +11,7 @@
 package edu.coeia.main;
 
 import edu.coeia.gutil.JListUtil;
+import edu.coeia.cases.CaseFacade;
 
 import java.io.IOException;
 
@@ -21,7 +22,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
-import edu.coeia.cases.CaseFacade;
+
 /**
  *
  * @author wajdyessam
@@ -45,26 +46,6 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
         this.fillListWithNotFoundedSources();
     }
     
-    private void fillListWithNotFoundedSources() throws IOException{
-        sourcesListModel.clear();
-        
-        // fill with missing case sources
-        for(String absolutePath: this.caseFacade.getChangedEntries()) {
-             JListUtil.addToList(absolutePath, sourcesListModel, sourcesList);
-        }
-        
-        // check if all paths are fixes
-        if ( this.caseFacade.getChangedEntries().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "All Sources have been fixed", "case sources have been founded", JOptionPane.INFORMATION_MESSAGE);
-            this.result = true;
-            this.dispose();
-        }
-    }
-    
-    public boolean getResult() {
-        return this.result ;
-    }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -180,6 +161,26 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
        this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
+    
+    private void fillListWithNotFoundedSources() throws IOException{
+        sourcesListModel.clear();
+        
+        // fill with missing case sources
+        for(String absolutePath: this.caseFacade.getChangedEntries()) {
+             JListUtil.addToList(absolutePath, sourcesListModel, sourcesList);
+        }
+        
+        // check if all paths are fixes
+        if ( this.caseFacade.getChangedEntries().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "All Sources have been fixed", "case sources have been founded", JOptionPane.INFORMATION_MESSAGE);
+            this.result = true;
+            this.dispose();
+        }
+    }
+    
+    public boolean getResult() {
+        return this.result ;
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeButton;

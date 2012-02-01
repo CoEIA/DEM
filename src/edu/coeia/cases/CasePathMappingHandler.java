@@ -122,6 +122,9 @@ final class CasePathMappingHandler {
            }
        }
        
+       if ( fullPath.toString().isEmpty() )
+           return relativePath;
+       
        return fullPath.toString();
     }
     

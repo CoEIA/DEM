@@ -13,6 +13,7 @@ package edu.coeia.viewer;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.items.FileItem;
 import edu.coeia.items.Item;
 import edu.coeia.items.ItemFactory;
 import edu.coeia.main.CaseFrame;
@@ -241,6 +242,12 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         
         if ( item.getDocumentParentId() != 0 ) {
             System.out.println("have parent: " + item.getDocumentParentId());
+            Item perentItem = ItemFactory.newInstance(getCurrentDocument(item.getDocumentParentId()), caseObj);
+            System.out.println("parent id: " + perentItem.getDocumentId());
+            FileItem parentFileItem = (FileItem) perentItem;
+            
+            System.out.println("path: " + parentFileItem.getFilePath());
+            
         }
         else {
             System.out.println("this document have no parent");

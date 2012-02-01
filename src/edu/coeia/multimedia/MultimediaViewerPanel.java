@@ -121,6 +121,7 @@ public class MultimediaViewerPanel extends javax.swing.JPanel {
             MultimediaLoadingTask task = new MultimediaLoadingTask(this.caseFacade, this, type);
             task.startTask();
         } catch (Exception ex) {
+            ex.printStackTrace();
             Logger.getLogger(MultimediaViewerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_loadItemsButtonActionPerformed
