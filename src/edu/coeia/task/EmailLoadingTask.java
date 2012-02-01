@@ -8,8 +8,8 @@ import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.items.EmailItem;
+import edu.coeia.items.ItemFactory;
 import edu.coeia.offlinemail.EmailBrowsingPanel;
-import edu.coeia.util.DateUtil;
 import edu.coeia.util.FilesPath;
 
 import java.io.File;
@@ -85,39 +85,10 @@ public class EmailLoadingTask  implements Task{
                    String tmp = field.stringValue();
                    
                    if ( tmp.endsWith(path)) {
-                         // show file properities
-                        String desciption = document.get(IndexingConstant.DOCUMENT_DESCRIPTION);
-                        String emailAgent = document.get(IndexingConstant.OFFLINE_EMAIL_FOLDER_NAME);
-                        String emailSource = document.get(IndexingConstant.OFFLINE_EMAIL_NAME);
-                        String emailDate = document.get(IndexingConstant.OFFLINE_EMAIL_CLIENT_SUBMIT_TIME);
-                        String emailMessage = document.get(IndexingConstant.OFFLINE_EMAIL_HTML_CONTENT);
-                        if ( emailMessage.trim().isEmpty() ) 
-                            emailMessage = document.get(IndexingConstant.OFFLINE_EMAIL_PLAIN_CONTENT);
-
-                        String emailSubject = document.get(IndexingConstant.OFFLINE_EMAIL_SUBJECT);
-
-                        String emailTo = document.get(IndexingConstant.OFFLINE_EMAIL_DISPLAY_TO);
-                        String emailFrom = document.get(IndexingConstant.OFFLINE_EMAIL_SENT_REPRESENTING_NAME);
-                        String emailCC = document.get(IndexingConstant.OFFLINE_EMAIL_DISPLAY_CC);
-                        String emailBCC = document.get(IndexingConstant.OFFLINE_EMAIL_DISPLAY_BCC);
-                        String id = document.get(IndexingConstant.DOCUMENT_ID);
-                        String parentId = document.get(IndexingConstant.DOCUMENT_PARENT_ID);
-                        String hash = document.get(IndexingConstant.DOCUMENT_HASH);
-                        String folderName = document.get(IndexingConstant.OFFLINE_EMAIL_FOLDER_NAME);
-                        boolean hasAttachment = Boolean.valueOf(document.get(IndexingConstant.OFFLINE_EMAIL_HAS_ATTACHMENT));
-                        String user = document.get(IndexingConstant.OFFLINE_EMAIL_PATH);
-                        
-                        EmailItem item = new EmailItem(Integer.valueOf(id), 
-                                Integer.valueOf(parentId), hash,  desciption, emailFrom,
-                                emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment,user);
-                        
-                        // display
-                        Object[] data = {item.getID(), item.getFolder(), item.getFrom(),
-                            item.getTo(), item.getSubject(), item.getTime(), item.hasAttachment()};
-
+                        EmailItem item = (EmailItem) ItemFactory.newInstance(document, this.aCase);
+                        Object[] data = {item.getDisplayData()};
                         JTableUtil.addRowToJTable(panel.getTable(), data);
-                
-                        ids.add(Integer.valueOf(id));
+                        ids.add(Integer.valueOf(item.getDocumentId()));
                    }
                 }
             }
@@ -146,33 +117,10 @@ public class EmailLoadingTask  implements Task{
                    String tmp = field.stringValue();
                    
                    if ( tmp.equals(username)) {
-                         // show file properities
-                        String desciption = document.get(IndexingConstant.DOCUMENT_DESCRIPTION);
-                        String emailDate = document.get(IndexingConstant.ONLINE_EMAIL_RECIEVED_DATE);
-                        String emailMessage = document.get(IndexingConstant.ONLINE_EMAIL_BODY);
-                        String emailSubject = document.get(IndexingConstant.ONLINE_EMAIL_SUBJECT);
-
-                        String emailTo = document.get(IndexingConstant.ONLINE_EMAIL_TO);
-                        String emailFrom = document.get(IndexingConstant.ONLINE_EMAIL_FROM);
-                        String emailCC = document.get(IndexingConstant.ONLINE_EMAIL_CC);
-                        String emailBCC = document.get(IndexingConstant.ONLINE_EMAIL_BCC);
-                        String id = document.get(IndexingConstant.DOCUMENT_ID);
-                        String hash = document.get(IndexingConstant.DOCUMENT_HASH);
-                        String folderName = document.get(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
-                        boolean hasAttachment = Boolean.valueOf(document.get(IndexingConstant.ONLINE_EMAIL_ATTACHMENT_PATH));
-                        String user = document.get(IndexingConstant.ONLINE_EMAIL_USER_NAME);
-                        
-                        EmailItem item = new EmailItem(Integer.valueOf(id), 
-                                Integer.valueOf("0"), hash, desciption, emailFrom,
-                                emailTo, emailSubject, DateUtil.formatDate(emailDate), folderName, hasAttachment,user);
-
-                        // display data
-                        Object[] data = {item.getID(), item.getFolder(), item.getFrom(),
-                            item.getTo(), item.getSubject(), item.getTime(), item.hasAttachment()};
-
+                        EmailItem item = (EmailItem) ItemFactory.newInstance(document, this.aCase);
+                        Object[] data = {item.getDisplayData()};
                         JTableUtil.addRowToJTable(panel.getTable(), data);
-                        
-                        ids.add(Integer.valueOf(id));
+                        ids.add(Integer.valueOf(item.getDocumentId()));
                    }
                 }
             }

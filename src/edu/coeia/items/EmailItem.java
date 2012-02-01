@@ -13,7 +13,8 @@ public final class EmailItem extends Item{
     public EmailItem(final int documentId, final int documentParentId, final String hash,final String description,
             final String from, final String to, final String subject, 
             final String time, final String folder, final boolean hasAttachment,
-            final String emailSource) {
+            final String emailSource, final String content, final String header,
+            final String cc, final String bcc) {
         
         super(documentId, documentParentId, hash, description);
         this.from = from;
@@ -24,6 +25,10 @@ public final class EmailItem extends Item{
         this.folder = folder;
         this.hasAttachment = hasAttachment;
         this.emailSource = emailSource;
+        this.content = content;
+        this.header = header;
+        this.cc = cc;
+        this.bcc = bcc;
     }
     
     public String getFrom() { return this.from ; }
@@ -34,6 +39,10 @@ public final class EmailItem extends Item{
     public boolean hasAttachment() { return this.hasAttachment; }
     public int getID() { return this.id ; }
     public String getEmailSource() { return this.emailSource ; }
+    public String getContent() { return this.content ; }
+    public String getCC() { return this.cc ; }
+    public String getBCC() { return this.bcc; }
+    public String getHeader() { return this.header; }
           
     @Override
     public Object[] getDisplayData() {
@@ -49,4 +58,8 @@ public final class EmailItem extends Item{
     private final boolean hasAttachment;
     private final int id;
     private final String emailSource;
+    private final String content;
+    private final String cc;
+    private final String bcc;
+    private final String header;
 }

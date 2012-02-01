@@ -12,38 +12,31 @@ package edu.coeia.viewer;
 
 import edu.coeia.items.ChatItem;
 import edu.coeia.items.Item;
-import edu.coeia.items.ItemFactory;
-import edu.coeia.searching.LuceneSearcher;
 
 /**
  *
  * @author wajdyessam
  */
-class ChatSourceViewerPanel extends javax.swing.JPanel {
 
-    private String keyword ;
-    private SourceViewerDialog searchViewerDialog ;
-    private LuceneSearcher searcher ;
-    private String currentId ;
-    private Item item;
+class ChatSourceViewerPanel extends javax.swing.JPanel {
+    private final String keyword ;
+    private final SourceViewerDialog searchViewerDialog ;
+    private final Item item;
     
     /** Creates new form ChatSourceViewerPanel */
-    public ChatSourceViewerPanel(SourceViewerDialog dialog) {
+    public ChatSourceViewerPanel(SourceViewerDialog dialog, final Item item) {
         initComponents();
         
         this.searchViewerDialog = dialog;
         this.keyword = dialog.getQueryString();
-        this.searcher = dialog.getLuceneSearch();
-        this.currentId = dialog.getCurrentId() ;
-        this.item = ItemFactory.newInstance(this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)),
-                this.searchViewerDialog.getCase());
+        this.item = item;
         
         displayDocumentInformation();
     }
 
     private void displayDocumentInformation () {        
-        // show file properities
         ChatItem chatItem = (ChatItem) this.item;
+        
         String chatAgent = chatItem.getChatAgent();
         String chatPath = chatItem.getChatFilePath();
         String date = chatItem.getDate();
@@ -51,12 +44,12 @@ class ChatSourceViewerPanel extends javax.swing.JPanel {
         String to = chatItem.getTo();
         String message = chatItem.getMessageText();
 
-        chatAgentTextField.setText(chatAgent);
-        chatPathTextField.setText(chatPath);
-        dateTextField.setText(date);
-        chatFromTextField.setText(from);
-        chatToTextField.setText(to);
-        messageTextField.setText(message);
+        this.chatAgentTextField.setText(chatAgent);
+        this.chatPathTextField.setText(chatPath);
+        this.dateTextField.setText(date);
+        this.chatFromTextField.setText(from);
+        this.chatToTextField.setText(to);
+        this.messageTextField.setText(message);
     }
         
     /** This method is called from within the constructor to

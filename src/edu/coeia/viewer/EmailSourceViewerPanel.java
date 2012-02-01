@@ -6,92 +6,75 @@
 /*
  * EmailSourceViewerPanel.java
  *
- * Created on Dec 3, 2011, 2:37:27 PM
+ * Created on Jan 9, 2012, 11:11:37 AM
  */
 package edu.coeia.viewer;
 
-import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.searching.LuceneSearcher;
+import edu.coeia.items.EmailItem;
+import edu.coeia.items.Item;
 import edu.coeia.util.Utilities;
 
 import java.awt.BorderLayout;
 
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
-import org.apache.lucene.document.Document;
-
 /**
  *
  * @author wajdyessam
  */
-class OnlineEmailSourceViewerPanel extends javax.swing.JPanel {
+public class EmailSourceViewerPanel extends javax.swing.JPanel {
 
-    private Document document ;
-    
-    private String keyword ;
-    private SourceViewerDialog dialog ;
-    private LuceneSearcher searcher ;
-    private String currentId ;
-    
-    private JWebBrowser emailContentBrowser = new JWebBrowser();
+    private final String keyword ;
+    private final SourceViewerDialog dialog ;
+    private final JWebBrowser emailContentBrowser;
+    private final Item item;
     
     /** Creates new form EmailSourceViewerPanel */
-    public OnlineEmailSourceViewerPanel(SourceViewerDialog dialog) {
+    public EmailSourceViewerPanel(SourceViewerDialog dialog, final Item item) {
         initComponents();
         
         this.dialog = dialog;
         this.keyword = dialog.getQueryString();
-        this.searcher = dialog.getLuceneSearch();
-        this.currentId = dialog.getCurrentId() ;
-        
-        try {
-             this.document = this.searcher.getLuceneDocumentById(String.valueOf(this.currentId));
-             //this.parentDocument = this.searcher.getParentDocument(this.document.get(IndexingConstant.DOCUMENT_PARENT_ID));
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+        this.item = item;
         
         // add file browser
-        emailContentBrowser.setBarsVisible(false);
-        emailContentBrowser.setStatusBarVisible(false);
-        messagePanel.add(emailContentBrowser, BorderLayout.CENTER); 
+        this.emailContentBrowser = new JWebBrowser();
+        this.emailContentBrowser.setBarsVisible(false);
+        this.emailContentBrowser.setStatusBarVisible(false);
+        this.messagePanel.add(emailContentBrowser, BorderLayout.CENTER); 
         
-        displayDocumentInformation();
-    }
-    
-    private void displayDocumentInformation () {
-        try {
-            // show file properities
-            String emailAgent = this.document.get(IndexingConstant.ONLINE_EMAIL_FOLDER_NAME);
-            String emailSource = this.document.get(IndexingConstant.ONLINE_EMAIL_FROM);
-            String emailDate = this.document.get(IndexingConstant.ONLINE_EMAIL_SENT_DATE);
-            String emailMessage = this.document.get(IndexingConstant.ONLINE_EMAIL_BODY);
-            String emailSubject = this.document.get(IndexingConstant.ONLINE_EMAIL_SUBJECT);
-            
-            String emailTo = this.document.get(IndexingConstant.ONLINE_EMAIL_TO);
-            String emailFrom = this.document.get(IndexingConstant.ONLINE_EMAIL_FROM);
-            String emailCC = this.document.get(IndexingConstant.ONLINE_EMAIL_CC);
-            String emailBCC = this.document.get(IndexingConstant.ONLINE_EMAIL_BCC);
-            
-            this.emailAgentTextField.setText(emailAgent);
-            this.emailSourceTextField.setText(emailSource);
-            this.messageDateTextFeild.setText(emailDate);
-            this.messageTextField.setText(emailSubject);
-            this.emailToTextField.setText(emailTo);
-            this.emailFromTextField.setText(emailFrom);
-            this.ccTextField.setText(emailCC);
-            this.bccTextField.setText(emailBCC);
-            
-            // Show File Content
-            emailContentBrowser.setHTMLContent(Utilities.highlightString(emailMessage, this.keyword));
-            messagePanel.validate();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+        this.displayDocumentInformation();
     }
 
+    private void displayDocumentInformation () {
+        EmailItem emailItem = (EmailItem) this.item;
+        
+        String emailAgent = emailItem.getEmailSource();
+        String emailSource = emailItem.getFolder();
+        String emailDate = emailItem.getTime();
+        String emailMessage = emailItem.getContent();
+        String emailSubject = emailItem.getSubject();
+        String emailTo = emailItem.getTo();
+        String emailFrom = emailItem.getFrom();
+        String emailCC = emailItem.getCC();
+        String emailBCC = emailItem.getBCC();
+        String messageHeader = emailItem.getHeader();
+        
+        this.emailAgentTextField.setText(emailAgent);
+        this.emailSourceTextField.setText(emailSource);
+        this.messageDateTextFeild.setText(emailDate);
+        this.messageTextField.setText(emailSubject);
+        this.emailToTextField.setText(emailTo);
+        this.emailFromTextField.setText(emailFrom);
+        this.ccTextField.setText(emailCC);
+        this.bccTextField.setText(emailBCC);
+        
+        emailContentBrowser.setHTMLContent(Utilities.highlightString(emailMessage, this.keyword));
+        messagePanel.validate();
+        
+        this.emailHeaderTextArea.setText(messageHeader);
+    }
+        
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -104,12 +87,9 @@ class OnlineEmailSourceViewerPanel extends javax.swing.JPanel {
         viewPanel = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         messagePanel = new javax.swing.JPanel();
-        emailRenderPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        emailTable = new javax.swing.JTable();
-        emailMetaDataPanel = new javax.swing.JPanel();
+        emailHeaderJPanel = new javax.swing.JPanel();
         jScrollPane28 = new javax.swing.JScrollPane();
-        metaDataTextArea = new javax.swing.JTextArea();
+        emailHeaderTextArea = new javax.swing.JTextArea();
         properitiesPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         emailAgentTextField = new javax.swing.JTextField();
@@ -133,55 +113,23 @@ class OnlineEmailSourceViewerPanel extends javax.swing.JPanel {
         messagePanel.setLayout(new java.awt.BorderLayout());
         jTabbedPane2.addTab("Message Content", messagePanel);
 
-        emailRenderPanel.setLayout(new java.awt.BorderLayout());
+        emailHeaderTextArea.setColumns(20);
+        emailHeaderTextArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        emailHeaderTextArea.setRows(5);
+        jScrollPane28.setViewportView(emailHeaderTextArea);
 
-        emailTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "From", "To", "Date", "Message"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        emailTable.setFillsViewportHeight(true);
-        jScrollPane1.setViewportView(emailTable);
-
-        emailRenderPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        jTabbedPane2.addTab("Conversation", emailRenderPanel);
-
-        metaDataTextArea.setColumns(20);
-        metaDataTextArea.setFont(new java.awt.Font("Tahoma", 0, 14));
-        metaDataTextArea.setRows(5);
-        jScrollPane28.setViewportView(metaDataTextArea);
-
-        javax.swing.GroupLayout emailMetaDataPanelLayout = new javax.swing.GroupLayout(emailMetaDataPanel);
-        emailMetaDataPanel.setLayout(emailMetaDataPanelLayout);
-        emailMetaDataPanelLayout.setHorizontalGroup(
-            emailMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+        javax.swing.GroupLayout emailHeaderJPanelLayout = new javax.swing.GroupLayout(emailHeaderJPanel);
+        emailHeaderJPanel.setLayout(emailHeaderJPanelLayout);
+        emailHeaderJPanelLayout.setHorizontalGroup(
+            emailHeaderJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
         );
-        emailMetaDataPanelLayout.setVerticalGroup(
-            emailMetaDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+        emailHeaderJPanelLayout.setVerticalGroup(
+            emailHeaderJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
         );
 
-        jTabbedPane2.addTab("MetaData", emailMetaDataPanel);
+        jTabbedPane2.addTab("Message Header", emailHeaderJPanel);
 
         javax.swing.GroupLayout viewPanelLayout = new javax.swing.GroupLayout(viewPanel);
         viewPanel.setLayout(viewPanelLayout);
@@ -189,14 +137,14 @@ class OnlineEmailSourceViewerPanel extends javax.swing.JPanel {
             viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
                 .addContainerGap())
         );
         viewPanelLayout.setVerticalGroup(
             viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -259,14 +207,14 @@ class OnlineEmailSourceViewerPanel extends javax.swing.JPanel {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(messageTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(messageDateTextFeild, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(emailSourceTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(emailAgentTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(emailFromTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(emailToTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(ccTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                    .addComponent(bccTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE))
+                    .addComponent(messageTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(messageDateTextFeild, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(emailSourceTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(emailAgentTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(emailFromTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(emailToTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(ccTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(bccTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE))
                 .addContainerGap())
         );
         properitiesPanelLayout.setVerticalGroup(
@@ -314,10 +262,9 @@ class OnlineEmailSourceViewerPanel extends javax.swing.JPanel {
     private javax.swing.JTextField ccTextField;
     private javax.swing.JTextField emailAgentTextField;
     private javax.swing.JTextField emailFromTextField;
-    private javax.swing.JPanel emailMetaDataPanel;
-    private javax.swing.JPanel emailRenderPanel;
+    private javax.swing.JPanel emailHeaderJPanel;
+    private javax.swing.JTextArea emailHeaderTextArea;
     private javax.swing.JTextField emailSourceTextField;
-    private javax.swing.JTable emailTable;
     private javax.swing.JTextField emailToTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -327,13 +274,11 @@ class OnlineEmailSourceViewerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane28;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextField messageDateTextFeild;
     private javax.swing.JPanel messagePanel;
     private javax.swing.JTextField messageTextField;
-    private javax.swing.JTextArea metaDataTextArea;
     private javax.swing.JPanel properitiesPanel;
     private javax.swing.JPanel viewPanel;
     // End of variables declaration//GEN-END:variables

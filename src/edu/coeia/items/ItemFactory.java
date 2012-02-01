@@ -4,10 +4,16 @@
  */
 package edu.coeia.items;
 
+import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.cases.Case;
 import static edu.coeia.indexing.IndexingConstant.* ;
 
+import edu.coeia.searching.LuceneSearcher;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Fieldable;
 
 /**
  *
@@ -17,7 +23,7 @@ public class ItemFactory {
     
     public static Item newInstance (final Document document, final Case aCase) {       
         if ( isFileDocument(document)) {
-            return buildFileItem(document);
+            return buildFileItem(document, aCase);
         }
 
         if ( isEmailDocument(document)) {
@@ -35,7 +41,7 @@ public class ItemFactory {
         throw new UnsupportedOperationException("There is no item for this type of document");
     }
     
-    private static Item buildFileItem(final Document document) {
+    private static Item buildFileItem(final Document document, final Case aCase) {
         int documentId = Integer.parseInt(document.get(DOCUMENT_ID));
         int documentParentId = Integer.parseInt(document.get(DOCUMENT_PARENT_ID));
         String documentHash = document.get(DOCUMENT_HASH);
@@ -46,9 +52,10 @@ public class ItemFactory {
         String fileDate = document.get(FILE_DATE);
         String fileMime = document.get(FILE_MIME);
         String description = document.get(DOCUMENT_DESCRIPTION);
+        String metadata = getMetadataForFile(documentId, aCase);
         
         FileItem item = new FileItem(documentId, documentParentId, documentHash, description,
-            fileName, filePath, fileContent, fileDate, fileMime);
+            fileName, filePath, fileContent, fileDate, fileMime, metadata);
         
         return item;
     }
@@ -89,8 +96,14 @@ public class ItemFactory {
         boolean hasAttachment = Boolean.valueOf(document.get(ONLINE_EMAIL_ATTACHMENT_PATH));
         String user = document.get(ONLINE_EMAIL_USER_NAME);
         
+        String content = document.get(ONLINE_EMAIL_BODY);
+        String header = "";
+        String cc = document.get(ONLINE_EMAIL_CC);
+        String bcc = document.get(ONLINE_EMAIL_BCC);
+        
         return new EmailItem(documentId, documentParentId, documentHash,description,
-                emailFrom, emailTo, emailSubject, emailSendDate, emailFolderName, hasAttachment,user);
+                emailFrom, emailTo, emailSubject, emailSendDate, emailFolderName, hasAttachment,user,
+                content, header, cc, bcc);
     }
     
     private static Item buildOfflineEmailItem(final Document document) {
@@ -99,18 +112,56 @@ public class ItemFactory {
         String documentHash = document.get(DOCUMENT_HASH);
         String description = document.get(DOCUMENT_DESCRIPTION);
         
-        String emailSendDate = document.get(OFFLINE_EMAIL_CLIENT_SUBMIT_TIME);
+        String emailAgent = document.get(OFFLINE_EMAIL_FOLDER_NAME);
         String emailFolderName = document.get(OFFLINE_EMAIL_FOLDER_NAME);
+        String emailSource = document.get(OFFLINE_EMAIL_NAME);
+        String user = document.get(OFFLINE_EMAIL_PATH);
+        
+        String emailSendDate = document.get(OFFLINE_EMAIL_CLIENT_SUBMIT_TIME);
         String emailSubject = document.get(OFFLINE_EMAIL_SUBJECT);
         String emailFrom = document.get(OFFLINE_EMAIL_SENT_REPRESENTING_NAME);
         String emailTo = document.get(OFFLINE_EMAIL_DISPLAY_TO);
-        String emailId = document.get(OFFLINE_EMAIL_ID);
         boolean hasAttachment = Boolean.valueOf(document.get(ONLINE_EMAIL_ATTACHMENT_PATH));
-        String user = document.get(OFFLINE_EMAIL_PATH);
+        
+        String content = document.get(OFFLINE_EMAIL_HTML_CONTENT);
+        String header = document.get(OFFLINE_EMAIL_HEADER);
+        String cc = document.get(OFFLINE_EMAIL_DISPLAY_CC);
+        String bcc = document.get(OFFLINE_EMAIL_DISPLAY_BCC);
         
         EmailItem item = new EmailItem(documentId, documentParentId, documentHash, description,
-                emailFrom, emailTo, emailSubject, emailSendDate, emailFolderName, hasAttachment, user);
+                emailFrom, emailTo, emailSubject, emailSendDate, emailFolderName, hasAttachment, user,
+                content, header, cc, bcc);
         
         return item;
+    }
+    
+    private static String getMetadataForFile(int documentId, final Case aCase) {
+        StringBuilder metadataBuilder = new StringBuilder();
+        LuceneSearcher searcher = null;
+        
+        try {
+            searcher = new LuceneSearcher(aCase);
+            List<Fieldable> fields = searcher.getLuceneDocumentById(String.valueOf(documentId)).getFields();
+            
+
+            for (Fieldable field: fields) {
+                if ( !field.name().startsWith("file_") &&
+                     !field.name().equalsIgnoreCase(IndexingConstant.FILE_CONTENT)) // files in IndexingConstant start with prefix file_
+
+                    metadataBuilder.append(field.name()).append(" : " ).append(field.stringValue()).append("\n");
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(ItemFactory.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally {
+            try {
+                searcher.closeSearcher();
+            } catch (Exception ex) {
+                Logger.getLogger(ItemFactory.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return metadataBuilder.toString();
     }
 }

@@ -11,43 +11,32 @@
 package edu.coeia.viewer;
 
 import edu.coeia.util.Utilities;
-import edu.coeia.searching.LuceneSearcher;
 import edu.coeia.items.FileItem;
-import edu.coeia.items.ItemFactory;
-import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.items.Item;
 
 import java.awt.BorderLayout;
 
-import java.util.List ;
-
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
-
-import org.apache.lucene.document.Fieldable;
 
 /**
  *
  * @author wajdyessam
  */
+
 class FileSourceViewerPanel extends javax.swing.JPanel {
 
     private final JWebBrowser fileBrowser;
-    private final FileItem item;
+    private final Item item;
     private final String keyword ;
     private final SourceViewerDialog searchViewerDialog ;
-    private final LuceneSearcher searcher ;
-    private final String currentId ;
     
     /** Creates new form FileSourceViewerPanel */
-    public FileSourceViewerPanel(SourceViewerDialog dialog) {
+    public FileSourceViewerPanel(SourceViewerDialog dialog, final Item item) {
         this.initComponents();
         
         this.searchViewerDialog = dialog;
         this.keyword = dialog.getQueryString();
-        this.searcher = dialog.getLuceneSearch();
-        this.currentId = dialog.getCurrentId() ;
-        this.item = (FileItem) ItemFactory.newInstance(
-                this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)),
-                this.searchViewerDialog.getCase());
+        this.item = item;
                 
         // add file browser
         this.fileBrowser = new JWebBrowser();
@@ -85,8 +74,6 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
         dateTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         mimeTextField = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        embeddedTextField = new javax.swing.JTextField();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -130,7 +117,7 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
             viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -156,11 +143,6 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
         mimeTextField.setEditable(false);
         mimeTextField.setText(" ");
 
-        jLabel5.setText("Have Embedded:");
-
-        embeddedTextField.setEditable(false);
-        embeddedTextField.setText(" ");
-
         javax.swing.GroupLayout properitiesPanelLayout = new javax.swing.GroupLayout(properitiesPanel);
         properitiesPanel.setLayout(properitiesPanelLayout);
         properitiesPanelLayout.setHorizontalGroup(
@@ -171,12 +153,10 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(mimeTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
-                    .addComponent(embeddedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
                     .addComponent(dateTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
                     .addComponent(filePathTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
                     .addComponent(fileNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE))
@@ -201,10 +181,6 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
                 .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(properitiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(embeddedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -212,52 +188,30 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
         
     private void displayDocumentInformation () {        
-        try {
-            // show file properities
-            String fileName = this.item.getFileName();
-            String filePath = this.item.getFilePath();
-            String date = this.item.getFileDate();
-            String embedded = "";
-            String mime = this.item.getFileMimeType();
-            
-            fileNameTextField.setText(fileName);
-            filePathTextField.setText(filePath);
-            dateTextField.setText(date);
-            embeddedTextField.setText(embedded);
-            mimeTextField.setText(mime);
-            
-            // Show File Content
-            String content = this.item.getFileContent();
-            fileBrowser.setHTMLContent(Utilities.highlightString(content, this.keyword));
-            planTextArea.setText(content);
-            
-            // show matadata information for File
-            List<Fieldable> fields = this.searcher.getLuceneDocumentById(String.valueOf(this.currentId)).getFields();
-            StringBuilder metadataBuilder = new StringBuilder();
-            
-            for (Fieldable field: fields) {
-                if ( !field.name().startsWith("file_") &&
-                     !field.name().equalsIgnoreCase(IndexingConstant.FILE_CONTENT)) // files in IndexingConstant start with prefix file_
-                    
-                    metadataBuilder.append(field.name()).append(" : " ).append(field.stringValue()).append("\n");
-            }
-            
-            String metadata = metadataBuilder.toString();
-            //TODO: replace metadate view to browser or html type to support html rendering
-            //metaDataTextArea.setText(highlightString(metadata, keyword));
-            this.metaDataTextArea.setText(metadata);
+        FileItem fileItem = (FileItem) this.item;
 
-            this.fileRenderPanel.validate();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+        String fileName = fileItem.getFileName();
+        String filePath = fileItem.getFilePath();
+        String date = fileItem.getFileDate();
+        String mime = fileItem.getFileMimeType();
+        String content = fileItem.getFileContent();
+        String metadata = fileItem.getMetadata();
+
+        this.fileNameTextField.setText(fileName);
+        this.filePathTextField.setText(filePath);
+        this.dateTextField.setText(date);
+        this.mimeTextField.setText(mime);
+        this.fileBrowser.setHTMLContent(Utilities.highlightString(content, this.keyword));
+        this.planTextArea.setText(content);
+        this.metaDataTextArea.setText(metadata);
+
+        //TODO: replace metadate view to browser or html type to support html rendering
+        //metaDataTextArea.setText(highlightString(metadata, keyword));
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FileMetaDataPanel;
     private javax.swing.JTextField dateTextField;
-    private javax.swing.JTextField embeddedTextField;
     private javax.swing.JTextField fileNameTextField;
     private javax.swing.JTextField filePathTextField;
     private javax.swing.JPanel fileRenderPanel;
@@ -265,7 +219,6 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane28;
     private javax.swing.JTabbedPane jTabbedPane2;

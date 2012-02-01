@@ -331,17 +331,17 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private void showPanelForDocument (Document document) {
         JPanel panel = null;
         
+        Item item = getItermForDocument(document);
+        
         if ( IndexingConstant.isFileDocument(document) ) {
-            panel = new FileSourceViewerPanel(this);
+            panel = new FileSourceViewerPanel(this, item);
         }
         else if ( IndexingConstant.isChatDocument(document) ) {
-            panel = new ChatSourceViewerPanel(this);
+            panel = new ChatSourceViewerPanel(this, item);
         }
-        else if ( IndexingConstant.isEmailDocument(document) ) {
-            panel = new OnlineEmailSourceViewerPanel(this);
-        }
-        else if ( IndexingConstant.isOfflineEmailDocument(document) ) {
-            panel = new OfflineEmailSourceViewerPanel(this);
+        else if ( IndexingConstant.isOfflineEmailDocument(document) 
+                    || IndexingConstant.isEmailDocument(document) ) {
+            panel = new EmailSourceViewerPanel(this, item);
         }
         
         this.viewerPanel.setLayout(new BorderLayout());

@@ -37,7 +37,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTabbedPane2" pref="351" max="32767" attributes="0"/>
+                  <Component id="jTabbedPane2" pref="377" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -154,12 +154,10 @@
                       <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel3" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel5" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="mimeTextField" alignment="1" pref="598" max="32767" attributes="0"/>
-                      <Component id="embeddedTextField" alignment="1" pref="598" max="32767" attributes="0"/>
                       <Component id="dateTextField" alignment="1" pref="598" max="32767" attributes="0"/>
                       <Component id="filePathTextField" alignment="1" pref="598" max="32767" attributes="0"/>
                       <Component id="fileNameTextField" alignment="1" pref="598" max="32767" attributes="0"/>
@@ -190,11 +188,6 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="mimeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="embeddedTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -241,17 +234,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="mimeTextField">
-          <Properties>
-            <Property name="editable" type="boolean" value="false"/>
-            <Property name="text" type="java.lang.String" value=" "/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Have Embedded:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="embeddedTextField">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="text" type="java.lang.String" value=" "/>

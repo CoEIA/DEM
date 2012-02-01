@@ -12,7 +12,7 @@ public final class FileItem extends Item{
     
     public FileItem(final int documentId, final int documentParentId, final String hash, final String description,
             final String fileName, final String filePath, final String fileContent, 
-            final String fileDate, final String fileMimeType) {
+            final String fileDate, final String fileMimeType, final String metadata) {
    
         super(documentId, documentParentId, hash, description);
         
@@ -21,6 +21,7 @@ public final class FileItem extends Item{
         this.fileContent = fileContent;
         this.fileDate = fileDate;
         this.fileMimeType = fileMimeType;
+        this.metadata = metadata;
     }
     
     public String getFileName()  { return this.fileName ; }
@@ -28,7 +29,8 @@ public final class FileItem extends Item{
     public String getFileContent() { return this.fileContent ;}
     public String getFileDate() { return this.fileDate ;}
     public String getFileMimeType() { return this.fileMimeType ;}
-           
+    public String getMetadata() { return this.metadata; }
+    
     @Override
     public Object[] getDisplayData() {
         Object[] object = new Object[] {this.documentId, this.fileName, this.fileDate, this.documentDescription , this.filePath};
@@ -40,4 +42,5 @@ public final class FileItem extends Item{
     private final String fileContent; 
     private final String fileDate ;
     private final String fileMimeType;
+    private final String metadata;
 }
