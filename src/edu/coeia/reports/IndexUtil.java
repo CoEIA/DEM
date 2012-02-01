@@ -128,11 +128,11 @@ final class IndexUtil {
         for (int i=0; i<indexReader.maxDoc(); i++) {
             Document document = indexReader.document(i);
             if ( document != null ) {
-                Field field = document.getField(IndexingConstant.DOCUMENT);
+                Field field = document.getField(IndexingConstant.DOCUMENT_TYPE);
                 if ( field != null && field.stringValue() != null) {
                     String path = field.stringValue();
                    
-                    if ( path.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE)) ) {
+                    if ( path.equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.FILE)) ) {
                         String relativePath = document.get(IndexingConstant.FILE_PATH);
                         
                         if ( !relativePath.isEmpty() ) {
@@ -161,11 +161,11 @@ final class IndexUtil {
         for (int i=0; i<indexReader.maxDoc(); i++) {
             Document document = indexReader.document(i);
             if ( document != null ) {
-                Field field = document.getField(IndexingConstant.DOCUMENT);
+                Field field = document.getField(IndexingConstant.DOCUMENT_TYPE);
                 if ( field != null && field.stringValue() != null) {
                     String path = field.stringValue();
                    
-                    if ( path.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE)) ) {
+                    if ( path.equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.FILE)) ) {
                         String relativePath = document.get(IndexingConstant.FILE_PATH);
                         String auther = document.get("Author");
                         
@@ -195,11 +195,11 @@ final class IndexUtil {
         for (int i=0; i<indexReader.maxDoc(); i++) {
             Document document = indexReader.document(i);
             if ( document != null ) {
-                Field field = document.getField(IndexingConstant.DOCUMENT);
+                Field field = document.getField(IndexingConstant.DOCUMENT_TYPE);
                 if ( field != null && field.stringValue() != null) {
                     String path = field.stringValue();
                    
-                    if ( path.equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE)) ) {
+                    if ( path.equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.FILE)) ) {
                         String relativePath = document.get(IndexingConstant.FILE_PATH);
                         String auther = document.get("Author");
                         

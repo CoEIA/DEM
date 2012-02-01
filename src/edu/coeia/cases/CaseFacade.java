@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Case Manger Faced, will create, update and remove cases and their histories 
+ * Case Manger Faced will create, update and remove cases and their histories 
  * from application
  * 
  * also hide the complexity of path mapping conversion
@@ -186,13 +186,19 @@ public final class CaseFacade {
     public String getCaseArchiveOutputFolderLocation() {
         return aCase.getCaseLocation() 
                 + File.separator 
-                + FilesPath.CASE_TMP;
+                + FilesPath.CASE_ARCHIVE_EXTRACTION;
     }
     
     public String getCaseOfflineEmailAttachmentLocation() {
         return aCase.getCaseLocation() 
                 + File.separator 
                 + FilesPath.OFFLINE_EMAIL_ATTACHMENTS;
+    }
+    
+    public String getCaseOnlineEmailAttachmentLocation() {
+        return aCase.getCaseLocation()
+                + File.separator
+                + FilesPath.ONLINE_EMAIL_ATTACHMENTS;
     }
     
     public String getTagDatabaseLocation() {

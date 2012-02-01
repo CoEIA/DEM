@@ -119,7 +119,7 @@ final class OutlookIndexer extends Indexer{
             
             // index the email message
             int emailId = this.getId();
-            Document document = LuceneDocumentBuilder.getDocument(this, email, folderName, this.outlookId, filePaths);
+            Document document = LuceneDocumentBuilder.getDocumentForOfflineEmailMessage(this, email, folderName, this.outlookId, filePaths);
             this.indexDocument(document);
             
             // index the attachments paths, with email id as the parent
@@ -142,7 +142,8 @@ final class OutlookIndexer extends Indexer{
         }
     }
     
-    private void updateGuiWithAttachmentsName(final PSTMessage email, final String folderName, final List<Tuple<String, PSTAttachment>> attachmentsName) {
+    private void updateGuiWithAttachmentsName(final PSTMessage email,
+            final String folderName, final List<Tuple<String, PSTAttachment>> attachmentsName) {
         String subject = "";
         String date = "";
         String sentRepresentingName = "";

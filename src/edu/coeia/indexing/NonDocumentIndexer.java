@@ -50,7 +50,8 @@ final class NonDocumentIndexer extends Indexer{
                     TikaExtractor.EXTRACT_TYPE.METADATA);
             
             Map<String, String> metadata = extractor.getMetadata();
-            Document doc = LuceneDocumentBuilder.getDocument(this, "", metadata); // add parentid and parent metadata here
+            Document doc = LuceneDocumentBuilder.getDocumentForFile(
+                    this, "", metadata); // add parentid and parent metadata here
             status = this.indexDocument(doc);
         }
         catch(Exception e){

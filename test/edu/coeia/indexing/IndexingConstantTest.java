@@ -17,16 +17,16 @@ public class IndexingConstantTest {
 
     @Test
     public void testDocumentType() {
-        assertEquals("FILE", IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE));
+        assertEquals("FILE", IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.FILE));
     }
     
     @Test
     public void testDocumentType2() {
-        assertEquals("CHAT", IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT));
+        assertEquals("CHAT", IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.CHAT));
     }
     
     @Test
     public void testDocumentTypeFromString() {
-        assertEquals(IndexingConstant.DOCUMENT_TYPE.CHAT, IndexingConstant.getDocumentType("CHAT"));
+        assertEquals(IndexingConstant.DOCUMENT_GENERAL_TYPE.CHAT, IndexingConstant.fromStringToDocumentGeneralType("CHAT"));
     }
 }

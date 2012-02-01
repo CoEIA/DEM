@@ -25,7 +25,7 @@ import java.io.File;
 
 import org.apache.lucene.document.Document;
 
-public class ChatIndexer extends Indexer{
+final class ChatIndexer extends Indexer{
     private final CHAT_TYPE type;
     
     public static enum CHAT_TYPE { MSN, YAHOO, SKYPE };
@@ -73,21 +73,21 @@ public class ChatIndexer extends Indexer{
         
         if ( this.type == CHAT_TYPE.MSN ) {
             MSNMessage msg = (MSNMessage) chatMessage;
-            Document document = LuceneDocumentBuilder.getDocument(this, msg, currentDocumentId, 
+            Document document = LuceneDocumentBuilder.getDocumentForMSNMessage(this, msg, currentDocumentId, 
                 session.getUserName(), session.getOtherName(), session.getPath(), type.name()); // add parentid and parent metadata here
             
             return document;
         }
         else if ( this.type == CHAT_TYPE.YAHOO ) {
             YahooMessage msg = (YahooMessage) chatMessage;
-            Document document = LuceneDocumentBuilder.getDocument(this, msg, currentDocumentId, 
+            Document document = LuceneDocumentBuilder.getDocumentForYahooMessage(this, msg, currentDocumentId, 
                 session.getUserName(), session.getOtherName() , session.getPath(), type.name()); // add parentid and parent metadata here
             
             return document;
         }
 
         SkypeMessage msg = (SkypeMessage) chatMessage;
-        Document document = LuceneDocumentBuilder.getDocument(this, msg, currentDocumentId, type.name());
+        Document document = LuceneDocumentBuilder.getDocumentForSkypeMessage(this, msg, currentDocumentId, type.name());
         return document;
     }
     

@@ -159,7 +159,7 @@ public class ImageLoadingTask implements Task{
                     
                     if (isImage(documentExtension) ) {
                         String path = document.get(IndexingConstant.FILE_PATH);
-                        if ( path.contains(this.aCase.getCaseName() + File.separator + FilesPath.CASE_TMP) ) 
+                        if ( path.contains(this.aCase.getCaseName() + File.separator + FilesPath.CASE_ARCHIVE_EXTRACTION) ) 
                             fullpath = path;
                         else
                             fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
@@ -200,7 +200,7 @@ public class ImageLoadingTask implements Task{
                     
                     if (isImage(documentExtension) ) {
                         String path = document.get(IndexingConstant.FILE_PATH);
-                        if ( path.contains(this.aCase.getCaseName() + File.separator + FilesPath.CASE_TMP) ) 
+                        if ( path.contains(this.aCase.getCaseName() + File.separator + FilesPath.CASE_ARCHIVE_EXTRACTION) ) 
                             fullpath = path;
                         else
                             fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));

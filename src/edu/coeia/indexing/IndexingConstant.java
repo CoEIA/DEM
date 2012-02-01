@@ -25,12 +25,27 @@ public class IndexingConstant {
         throw new AssertionError();
     }
     
-    public static enum DOCUMENT_TYPE {FILE, CHAT, ONLINE_EMAIL, OFFLINE_EMAIL};
+    public static enum DOCUMENT_GENERAL_TYPE {
+        FILE,
+        CHAT,
+        ONLINE_EMAIL,
+        OFFLINE_EMAIL
+    };
+    
+    public static enum DOCUMENT_DESCRIPTION_TYPE  {
+        NORMAL_FILE,
+        EMBEDDED_FILE,
+        NORMAL_CHAT,
+        EMAIL_MESSAGE,
+        EMAIL_ATTACHMENT,
+        IMAGE,
+        EMBEDDED_IMAGE
+    };
     
     /**
      * return string representation for this enum
      */
-    public static String getDocumentType(DOCUMENT_TYPE type) {
+    public static <E extends Enum<E>> String fromDocumentTypeToString(final E type) {
         return type.toString();
     }
     
@@ -39,8 +54,12 @@ public class IndexingConstant {
      * @param value
      * @return 
      */
-    public static DOCUMENT_TYPE getDocumentType(final String value) {
-        return DOCUMENT_TYPE.valueOf(value);
+    public static DOCUMENT_GENERAL_TYPE fromStringToDocumentGeneralType(final String value) {
+        return DOCUMENT_GENERAL_TYPE.valueOf(value);
+    }
+    
+    public static DOCUMENT_DESCRIPTION_TYPE fromStringToDocumentDescription(final String value) {
+        return DOCUMENT_DESCRIPTION_TYPE.valueOf(value);
     }
     
     /**
@@ -52,10 +71,11 @@ public class IndexingConstant {
     /**
      * Constant for any Document in Lucene index
      */
-    public static final String DOCUMENT = "DOCUMENT" ;          // type of this document
+    public static final String DOCUMENT_TYPE = "DOCUMENT" ;          // the general type of this document
     public static final String DOCUMENT_ID = "DOCUMENT_ID" ;    // id of the document in the index
     public static final String DOCUMENT_PARENT_ID = "DOCUMENT_PARENT_ID"; // id of the parent of this document
     public static final String DOCUMENT_HASH = "DOCUMENT_HASH" ; // md5 hash for any document in index
+    public static final String DOCUMENT_DESCRIPTION = "DOCUMENT_DESCRIPTION";   // describe the specific type of this object
     
     /**
      * constants for all files and images
@@ -134,22 +154,22 @@ public class IndexingConstant {
        
     
     public static boolean isFileDocument(final Document document) {
-        return document.get(IndexingConstant.DOCUMENT)
-                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE));
+        return document.get(IndexingConstant.DOCUMENT_TYPE)
+                .equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.FILE));
     }
     
     public static boolean isChatDocument(final Document document) {
-        return document.get(IndexingConstant.DOCUMENT)
-                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT));
+        return document.get(IndexingConstant.DOCUMENT_TYPE)
+                .equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.CHAT));
     }
    
     public static boolean isEmailDocument(final Document document) {
-        return document.get(IndexingConstant.DOCUMENT)
-                .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL));
+        return document.get(IndexingConstant.DOCUMENT_TYPE)
+                .equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.ONLINE_EMAIL));
     }
     
     public static boolean isOfflineEmailDocument(final Document document) {
-        return document.get(IndexingConstant.DOCUMENT)
-            .equals(IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.OFFLINE_EMAIL));
+        return document.get(IndexingConstant.DOCUMENT_TYPE)
+            .equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.OFFLINE_EMAIL));
     }
 }

@@ -45,7 +45,8 @@ final class DocumentIndexer extends Indexer {
             String bodyText = extractor.getContent();
             Map<String, String> metadata = extractor.getMetadata();
             
-            Document doc = LuceneDocumentBuilder.getDocument(this, bodyText, metadata); // add parentid and parent metadata here
+            Document doc = LuceneDocumentBuilder.getDocumentForFile(
+                    this, bodyText, metadata); // add parentid and parent metadata here
             status = this.indexDocument(doc);
         }
         catch(Exception e){

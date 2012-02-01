@@ -24,16 +24,16 @@ public class FilesPath {
     private final static String USER_HOME = System.getProperty("user.home");
 
     // the path for offline mining project
-    public final static String APPLICATION_PATH = USER_HOME + "\\" + "Application Data\\" + "CoEIA_Forensics";
+    public final static String APPLICATION_PATH = USER_HOME + File.separator + "Application Data\\" + "CoEIA_Forensics";
 
     // the path for cases (indexed folders) in offline mining project
-    public final static String CASES_PATH = APPLICATION_PATH + "\\" + "CASES" ;
+    public final static String CASES_PATH = APPLICATION_PATH + File.separator + "CASES" ;
 
     // the path for tmp files used in project
-    public final static String TMP_PATH = APPLICATION_PATH + "\\" + "TMP" ;
+    public final static String TMP_PATH = APPLICATION_PATH + File.separator + "TMP" ;
     
     // the path for hash library 
-    public final static String HASH_LIBRARY_PATH = APPLICATION_PATH + "\\" + "HASH_LIBRARY" ;
+    public final static String HASH_LIBRARY_PATH = APPLICATION_PATH + File.separator + "HASH_LIBRARY" ;
     public final static String HASH_SET_EXTENSION = ".HASH_SET";
     
     // extension for DEM case
@@ -52,22 +52,21 @@ public class FilesPath {
     public final static String IMAGES_PATH = "IMAGES" ;
     
     // path for storing case tmp folder
-    public final static String CASE_TMP = "TMP" ;
+    public final static String CASE_ARCHIVE_EXTRACTION = "CASE_ARCHIVE_EXTRACTION" ;
     
     // path for storing case configuaration
     public final static String CASE_CONFIG = "config.dat";
     
     // path for storing case Tags
-    public final static String CASE_TAGS = "Tags" ;
+    public final static String CASE_TAGS = "CASE_TAGS" ;
     
     // path for storing emails in database and attachments in separate folder
-    public final static String ATTACHMENTS = "attachments" ;
+    public final static String ONLINE_EMAIL_ATTACHMENTS = "ONLINE_EMAIL_ATTACHMENTS" ;
     public final static String OFFLINE_EMAIL_ATTACHMENTS = "OFFLINE_EMAIL_ATTACHMENTS";
-    
     public final static String EMAIL_DB = "ONELINE_EMAILS_DATABASE" ;
     
     // log path
-    public final static String APPLICATION_LOG_PATH = APPLICATION_PATH + "\\" + "LOG";
+    public final static String APPLICATION_LOG_PATH = APPLICATION_PATH + File.separator + "LOG";
     
     // INDEXES_INFO contain name and path of all creating indexs
     public static final String INDEXES_INFO = APPLICATION_PATH + "\\INDEXES.txt" ;

@@ -29,7 +29,7 @@ public abstract class Indexer {
         this.imageExtractor = imageExtractor;
         this.caseLocation = this.caseFacade.getCase().getCaseLocation();
         this.imagesLocation = this.caseLocation + "\\" + FilesPath.IMAGES_PATH;
-        this.tmpLocation = this.caseLocation + "\\" + FilesPath.CASE_TMP;
+        this.tmpLocation = this.caseLocation + "\\" + FilesPath.CASE_ARCHIVE_EXTRACTION;
         this.luceneIndex = luceneIndex ;
     }
     

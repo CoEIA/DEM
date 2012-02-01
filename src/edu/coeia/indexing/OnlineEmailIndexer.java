@@ -42,7 +42,7 @@ final class OnlineEmailIndexer extends Indexer {
 
             for (OnlineEmailMessage msg : AllMsgs) {
                 try {
-                    Document doc = LuceneDocumentBuilder.getDocument(this, msg);
+                    Document doc = LuceneDocumentBuilder.getDocumentForOnlineEmailMessage(this, msg);
 
                     if (doc != null) {
                         this.updateGUI(msg);
@@ -51,7 +51,7 @@ final class OnlineEmailIndexer extends Indexer {
                         this.indexDocument(doc);
 
                         for (String sAttachments : msg.getAttachments()) {
-                            File attachmentPath = new File(this.getCaseLocation() + "\\" + FilesPath.ATTACHMENTS + "\\" + sAttachments);
+                            File attachmentPath = new File(this.getCaseLocation() + "\\" + FilesPath.ONLINE_EMAIL_ATTACHMENTS + "\\" + sAttachments);
                             this.getLuceneIndex().indexFile(attachmentPath, currentId , this.getDialog());
                         }
                     }

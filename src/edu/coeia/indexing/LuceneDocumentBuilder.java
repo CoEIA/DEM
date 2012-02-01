@@ -10,7 +10,7 @@ import edu.coeia.chat.SkypeMessage;
 import edu.coeia.chat.YahooMessage;
 import edu.coeia.chat.YahooMessageDecoder;
 import edu.coeia.hash.HashCalculator;
-import edu.coeia.indexing.IndexingConstant.DOCUMENT_TYPE;
+import edu.coeia.indexing.IndexingConstant.DOCUMENT_GENERAL_TYPE;
 import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
@@ -37,80 +37,133 @@ import org.apache.lucene.document.Field;
  */
 final class LuceneDocumentBuilder {
     
-    public static Document getDocument(Indexer indexer, String content, Map<String, String> metadata) {
+    private static boolean insideOfflineEmailAttachmentFolder(final Indexer indexer) {
+        return indexer.getFile().getAbsolutePath().contains(indexer.getCaseFacade().getCaseOfflineEmailAttachmentLocation());
+    }
+    
+    private static boolean insideOnlineEmailAttachmentFolder(final Indexer indexer) {
+        return indexer.getFile().getAbsolutePath().contains(indexer.getCaseFacade().getCaseOnlineEmailAttachmentLocation());
+    }
+        
+    // provide lucene document for images format (JPEG, PNG.. etc)
+    public static Document getDocumentForImage(final Indexer indexer, Map<String, String> metadata) {
+        
         Document doc = new Document();
         
-        // generic document fields
-        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(indexer.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(indexer.getParentId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, HashCalculator.calculateFileHash(indexer.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        DOCUMENT_DESCRIPTION_TYPE type = indexer.getParentId() != 0 ? DOCUMENT_DESCRIPTION_TYPE.EMBEDDED_IMAGE: DOCUMENT_DESCRIPTION_TYPE.IMAGE;
+        
+        if ( insideOfflineEmailAttachmentFolder(indexer) || insideOnlineEmailAttachmentFolder(indexer) )
+            type = DOCUMENT_DESCRIPTION_TYPE.EMAIL_ATTACHMENT;
+        
+        // generic lucene fileds
+        doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.FILE)));
+        doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
+        doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(indexer.getParentId())));
+        doc.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateFileHash(indexer.getFile().getAbsolutePath())));
+        doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(type)));
+        
+        // specfic document fields
+        doc.add(getNotAnlyzedField(FILE_PATH, indexer.getCaseFacade().getRelativePath(indexer.getFile().getPath())));
+        doc.add(getNotAnlyzedField(FILE_NAME, indexer.getFile().getName()));
+        doc.add(getNotAnlyzedField(FILE_DATE, DateTools.timeToString(indexer.getFile().lastModified(), DateTools.Resolution.MINUTE)));
+        doc.add(getNotAnlyzedField(FILE_MIME, FileUtil.getExtension(indexer.getFile())));
+
+        // unknown image metadata extracted by Tika
+        for(Map.Entry<String, String> entry: metadata.entrySet()) {
+            String name =  entry.getKey();
+            String value = entry.getValue();
+            
+            doc.add(getAnalyzedField(name, value));
+        }
+        
+        return doc;
+    }
+    
+    public static Document getDocumentForFile(Indexer indexer, String content, Map<String, String> metadata) {
+        Document doc = new Document();
+        
+        DOCUMENT_DESCRIPTION_TYPE type = indexer.getParentId() != 0 ? DOCUMENT_DESCRIPTION_TYPE.EMBEDDED_FILE: DOCUMENT_DESCRIPTION_TYPE.NORMAL_FILE;
+        
+        if ( insideOfflineEmailAttachmentFolder(indexer) || insideOnlineEmailAttachmentFolder(indexer) )
+            type = DOCUMENT_DESCRIPTION_TYPE.EMAIL_ATTACHMENT;
+                
+        // generic lucene fileds
+        doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.FILE)));
+        doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
+        doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(indexer.getParentId())));
+        doc.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateFileHash(indexer.getFile().getAbsolutePath())));
+        doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(type)));
         
         // specific document fields
         String path = indexer.getCaseFacade().getRelativePath(indexer.getFile().getPath());
         if ( path.isEmpty() )
             path = indexer.getFile().getAbsolutePath(); // this is for file inside TMP, we cannot get relative path for it
-        
-        doc.add(new Field(IndexingConstant.FILE_PATH, path , Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.FILE_NAME, indexer.getFile().getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(indexer.getFile().lastModified(), DateTools.Resolution.MINUTE),Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.FILE_CONTENT, content, Field.Store.YES, Field.Index.ANALYZED));
-        doc.add(new Field(IndexingConstant.FILE_MIME, FileUtil.getExtension(indexer.getFile()), Field.Store.YES, Field.Index.NOT_ANALYZED) );
+
+        doc.add(getNotAnlyzedField(FILE_PATH, path));
+        doc.add(getNotAnlyzedField(FILE_NAME, indexer.getFile().getName()));
+        doc.add(getNotAnlyzedField(FILE_DATE, DateTools.timeToString(indexer.getFile().lastModified(), DateTools.Resolution.MINUTE)));
+        doc.add(getNotAnlyzedField(FILE_MIME, FileUtil.getExtension(indexer.getFile())));
+        doc.add(getAnalyzedField(FILE_CONTENT, content));
         
         // unkown metadata extracted by Tika
         for(Map.Entry<String, String> entry: metadata.entrySet()) {
             String name =  Utilities.getEmptyStringWhenNullString(entry.getKey());
             String value = Utilities.getEmptyStringWhenNullString(entry.getValue());
 
-            doc.add(new Field(name, value, Field.Store.YES, Field.Index.ANALYZED)); 
+            doc.add(getAnalyzedField(name, value));
         }
         
         return doc;
     }
     
-    public static Document getDocument(Indexer indexer, MSNMessage msg, int parentId, String profileName, String destinationName, String path, 
-            String agent) {
+    public static Document getDocumentForMSNMessage(
+            Indexer indexer, MSNMessage msg, int parentId, 
+            String profileName, String destinationName, String path, final String agent) {
+            
         Document doc = new Document();
 
-       // genric lucene fileds
-        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(indexer.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, "", Field.Store.YES, Field.Index.NOT_ANALYZED));
+        // generic lucene fileds
+        doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.CHAT)));
+        doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
+        doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(parentId)));
+        doc.add(getNotAnlyzedField(DOCUMENT_HASH, ""));
+        doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.NORMAL_CHAT)));
         
         // specific lucene fileds
-        doc.add(new Field(IndexingConstant.CHAT_AGENT, agent, Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_FILE, indexer.getCaseFacade().getRelativePath(path), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_FROM, msg.getFrom(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_TO, msg.getTo(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_TIME, msg.getDate() , Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_MESSAGE, msg.getMessage(), Field.Store.YES, Field.Index.ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_LENGTH, String.valueOf(msg.getMessage().length()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-
-        return doc;
-    }
-    
-    public static Document getDocument(Indexer indexer, SkypeMessage msg, int parentId, final String agent) {
-        Document doc = new Document();
-        
-        // genric lucene fileds
-        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(indexer.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, "", Field.Store.YES, Field.Index.NOT_ANALYZED));
-        
-        // specific lucene fileds
-        doc.add(new Field(IndexingConstant.CHAT_AGENT, agent, Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_FILE, indexer.getCaseFacade().getRelativePath(indexer.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_FROM, msg.getFrom(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_TO, Utilities.getEmptyStringWhenNullString(msg.getTo()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_TIME, msg.getDate() , Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_MESSAGE, Utilities.getEmptyStringWhenNullString(msg.getMessage()), Field.Store.YES, Field.Index.ANALYZED));
+        doc.add(getNotAnlyzedField(CHAT_AGENT, agent));
+        doc.add(getNotAnlyzedField(CHAT_FILE, indexer.getCaseFacade().getRelativePath(path)));
+        doc.add(getNotAnlyzedField(CHAT_FROM, msg.getFrom()));
+        doc.add(getNotAnlyzedField(CHAT_TO, msg.getTo()));
+        doc.add(getNotAnlyzedField(CHAT_TIME, msg.getDate()));
+        doc.add(getNotAnlyzedField(CHAT_LENGTH, String.valueOf(msg.getMessage().length())));
+        doc.add(getAnalyzedField(CHAT_MESSAGE, msg.getMessage()));
         
         return doc;
     }
     
-    public static Document getDocument(Indexer indexer, YahooMessage msg, int parentId,
+    public static Document getDocumentForSkypeMessage(Indexer indexer, SkypeMessage msg, int parentId, final String agent) {
+        Document doc = new Document();
+        
+        // generic lucene fileds
+        doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.CHAT)));
+        doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
+        doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(parentId)));
+        doc.add(getNotAnlyzedField(DOCUMENT_HASH, ""));
+        doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.NORMAL_CHAT)));
+        
+        // specific lucene fileds
+        doc.add(getNotAnlyzedField(CHAT_AGENT, agent));
+        doc.add(getNotAnlyzedField(CHAT_FILE, indexer.getCaseFacade().getRelativePath(indexer.getFile().getAbsolutePath())));
+        doc.add(getNotAnlyzedField(CHAT_FROM, msg.getFrom()));
+        doc.add(getNotAnlyzedField(CHAT_TO, Utilities.getEmptyStringWhenNullString(msg.getTo())));
+        doc.add(getNotAnlyzedField(CHAT_TIME, msg.getDate()));
+        doc.add(getNotAnlyzedField(CHAT_LENGTH, String.valueOf(msg.getMessage().length())));
+        doc.add(getAnalyzedField(CHAT_MESSAGE, Utilities.getEmptyStringWhenNullString(msg.getMessage())));
+        
+        return doc;
+    }
+    
+    public static Document getDocumentForYahooMessage(Indexer indexer, YahooMessage msg, int parentId,
             String profileName, String destinationName, String path, final String agent) {
         Document doc = new Document();
         
@@ -135,34 +188,35 @@ final class LuceneDocumentBuilder {
         catch(UnsupportedEncodingException e) {
         }
         
-        // genric lucene fileds
-        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.CHAT), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(indexer.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, "", Field.Store.YES, Field.Index.NOT_ANALYZED));
+        // generic lucene fileds
+        doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.CHAT)));
+        doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
+        doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(parentId)));
+        doc.add(getNotAnlyzedField(DOCUMENT_HASH, ""));
+        doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.NORMAL_CHAT)));
         
         // specific lucene fileds
-        doc.add(new Field(IndexingConstant.CHAT_AGENT, agent, Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_FILE, indexer.getCaseFacade().getRelativePath(path), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_FROM, from, Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_TO, to, Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_TIME, DateUtil.formatDateTime(msg.getTimeStamp()) , Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_MESSAGE, result.toString(), Field.Store.YES, Field.Index.ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_LENGTH, String.valueOf(msg.getMessageLength()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.CHAT_MESSAGE_PATH, msg.getMessagePath().toString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(getNotAnlyzedField(CHAT_AGENT, agent));
+        doc.add(getNotAnlyzedField(CHAT_FILE, indexer.getCaseFacade().getRelativePath(path)));
+        doc.add(getNotAnlyzedField(CHAT_FROM, from));
+        doc.add(getNotAnlyzedField(CHAT_TO, to));
+        doc.add(getNotAnlyzedField(CHAT_TIME, DateUtil.formatDateTime(msg.getTimeStamp())));
+        doc.add(getNotAnlyzedField(CHAT_LENGTH, String.valueOf(msg.getMessageLength())));
+        doc.add(getAnalyzedField(CHAT_MESSAGE, result.toString()));
+        doc.add(getNotAnlyzedField(CHAT_MESSAGE_PATH,  msg.getMessagePath().toString()));
         
         return doc;
     }
     
-    public static Document getDocument(Indexer indexer, OnlineEmailMessage msg) {
+    public static Document getDocumentForOnlineEmailMessage(Indexer indexer, OnlineEmailMessage msg) {
         Document doc = new Document();
 
         // generic document fields
-        //TODO: make hash of message
-        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(indexer.getParentId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(indexer.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.ONLINE_EMAIL), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, "", Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.ONLINE_EMAIL)));
+        doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
+        doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(indexer.getParentId())));
+        doc.add(getNotAnlyzedField(DOCUMENT_HASH, "" ));
+        doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.EMAIL_MESSAGE)));
         
         // specific document fields
         doc.add(new Field(IndexingConstant.ONLINE_EMAIL_USER_NAME, msg.getUsername(), Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -194,7 +248,7 @@ final class LuceneDocumentBuilder {
         return doc;
     }
     
-    public static Document getDocument(Indexer indexer, final PSTMessage email, 
+    public static Document getDocumentForOfflineEmailMessage(Indexer indexer, final PSTMessage email, 
             final String folderName, int parentId, final List<String> attachmentPaths) throws PSTException, IOException {
         int id = email.getDescriptorNode().descriptorIdentifier;
         String contentHTML = Utilities.getEmptyStringWhenNullString(email.getBodyHTML());
@@ -232,10 +286,11 @@ final class LuceneDocumentBuilder {
         Document doc = new Document();
         
         // generic document fields
-        doc.add(new Field(DOCUMENT_ID, String.valueOf(indexer.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(DOCUMENT, getDocumentType(DOCUMENT_TYPE.OFFLINE_EMAIL), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(DOCUMENT_PARENT_ID, String.valueOf(parentId), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(DOCUMENT_HASH, "", Field.Store.YES, Field.Index.NOT_ANALYZED));
+        doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.OFFLINE_EMAIL)));
+        doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
+        doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(indexer.getParentId())));
+        doc.add(getNotAnlyzedField(DOCUMENT_HASH, "" ));
+        doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.EMAIL_MESSAGE)));
         
         // specific document fields
         doc.add(getNotAnlyzedField(OFFLINE_EMAIL_PATH, indexer.getCaseFacade().getRelativePath(indexer.getFile().getAbsolutePath())));
@@ -295,7 +350,7 @@ final class LuceneDocumentBuilder {
     }
     
     private static Field getNotAnlyzedField(final String field, final String value) {
-        return new Field(field,value, Field.Store.YES, Field.Index.NOT_ANALYZED);
+        return new Field(field, value, Field.Store.YES, Field.Index.NOT_ANALYZED);
     }
     
     private static Field getAnalyzedField(final String field, final String value) {

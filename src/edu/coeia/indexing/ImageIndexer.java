@@ -51,7 +51,7 @@ final class ImageIndexer extends Indexer{
                     TikaExtractor.EXTRACT_TYPE.METADATA);
             Map<String, String> metadata = extractor.getMetadata();
             
-            Document doc = getDocument(this.getFile(), metadata);
+            Document doc = LuceneDocumentBuilder.getDocumentForImage(this, metadata);
             status = this.indexDocument(doc);
         }
         catch(Exception e) {
@@ -61,29 +61,5 @@ final class ImageIndexer extends Indexer{
         return status;
     }
     
-    // provide lucene document for images format (JPEG, PNG.. etc)
-    private Document getDocument(File file, Map<String, String> metadata) {
-        Document doc = new Document();
-        
-        // generic document fileds
-        doc.add(new Field(IndexingConstant.DOCUMENT_ID, String.valueOf(this.getId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT, IndexingConstant.getDocumentType(IndexingConstant.DOCUMENT_TYPE.FILE), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_PARENT_ID, String.valueOf(this.getParentId()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.DOCUMENT_HASH, HashCalculator.calculateFileHash(this.getFile().getAbsolutePath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        
-        // specfic document fields
-        doc.add(new Field(IndexingConstant.FILE_PATH, this.getCaseFacade().getRelativePath(this.getFile().getPath()), Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.FILE_NAME, file.getName() , Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.FILE_DATE, DateTools.timeToString(file.lastModified(), DateTools.Resolution.MINUTE),Field.Store.YES, Field.Index.NOT_ANALYZED));
-        doc.add(new Field(IndexingConstant.FILE_MIME, FileUtil.getExtension(file), Field.Store.YES, Field.Index.NOT_ANALYZED) );
 
-        // unknown image metadata extracted by Tika
-        for(Map.Entry<String, String> entry: metadata.entrySet()) {
-            String name =  entry.getKey();
-            String value = entry.getValue();
-            doc.add(new Field(name, value, Field.Store.YES, Field.Index.ANALYZED)); 
-        }
-        
-        return doc;
-    }
 }

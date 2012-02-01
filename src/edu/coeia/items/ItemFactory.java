@@ -58,9 +58,9 @@ public class ItemFactory {
             try {
                 searcher = new LuceneSearcher(aCase);
                 Document parentDocuemnt = searcher.getLuceneDocumentById(document.get(DOCUMENT_PARENT_ID));
-                DOCUMENT_TYPE  type = IndexingConstant.getDocumentType(parentDocuemnt.get(IndexingConstant.DOCUMENT));
+                DOCUMENT_GENERAL_TYPE  type = IndexingConstant.fromStringToDocumentGeneralType(parentDocuemnt.get(IndexingConstant.DOCUMENT_TYPE));
                 
-                if ( type == DOCUMENT_TYPE.OFFLINE_EMAIL ) 
+                if ( type == DOCUMENT_GENERAL_TYPE.OFFLINE_EMAIL ) 
                     description = "Email Attachment";
                 else {
                     description = "File Embedded";
