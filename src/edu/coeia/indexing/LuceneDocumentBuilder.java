@@ -62,8 +62,12 @@ final class LuceneDocumentBuilder {
         doc.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateFileHash(indexer.getFile().getAbsolutePath())));
         doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(type)));
         
-        // specfic document fields
-        doc.add(getNotAnlyzedField(FILE_PATH, indexer.getCaseFacade().getRelativePath(indexer.getFile().getPath())));
+        // specific document fields
+        String path = indexer.getCaseFacade().getRelativePath(indexer.getFile().getPath());
+        if ( path.isEmpty() )
+            path = indexer.getFile().getAbsolutePath(); // this is for file inside TMP, we cannot get relative path for it
+
+        doc.add(getNotAnlyzedField(FILE_PATH, path));
         doc.add(getNotAnlyzedField(FILE_NAME, indexer.getFile().getName()));
         doc.add(getNotAnlyzedField(FILE_DATE, DateTools.timeToString(indexer.getFile().lastModified(), DateTools.Resolution.MINUTE)));
         doc.add(getNotAnlyzedField(FILE_MIME, FileUtil.getExtension(indexer.getFile())));

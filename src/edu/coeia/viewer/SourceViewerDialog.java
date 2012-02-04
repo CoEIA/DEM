@@ -207,7 +207,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         );
         viewerPanelLayout.setVerticalGroup(
             viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 487, Short.MAX_VALUE)
+            .addGap(0, 507, Short.MAX_VALUE)
         );
 
         getContentPane().add(viewerPanel, java.awt.BorderLayout.CENTER);
@@ -346,8 +346,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             panel = new EmailSourceViewerPanel(this, item);
         }
         else if ( IndexingConstant.isImageDocument(document) ) {
-            System.out.println("image selected");
-            return ;
+            panel = new ImageSourceViewerPanel(this, item);
         }
         
         this.viewerPanel.setLayout(new BorderLayout());
