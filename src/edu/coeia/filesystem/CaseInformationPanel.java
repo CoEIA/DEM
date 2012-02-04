@@ -16,7 +16,6 @@ import edu.coeia.tags.TagsDialog;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.tags.TagsManager;
 import edu.coeia.tags.Tag ;
-import edu.coeia.hash.HashVerifier;
 import edu.coeia.util.DateUtil;
 
 import java.awt.Toolkit;
@@ -105,12 +104,6 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         caseTagsButtonsPanel = new javax.swing.JPanel();
         newTagsButton = new javax.swing.JButton();
         removeTagsButton = new javax.swing.JButton();
-        caseControllerPanel = new javax.swing.JPanel();
-        caseHashVerifyPanel = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        caseHashValueTextField = new javax.swing.JTextField();
-        verifyButton = new javax.swing.JButton();
-        caseSavePanel = new javax.swing.JPanel();
         saveCaseButton = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
@@ -350,11 +343,11 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tagDateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+                        .addComponent(tagDateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
                     .addGroup(caseTagVeiwerPanelLayout.createSequentialGroup()
                         .addComponent(caseTagControllerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
                         .addComponent(currentTagLabel)))
                 .addContainerGap())
         );
@@ -398,15 +391,27 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
             }
         });
 
+        saveCaseButton.setText("Save...");
+        saveCaseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveCaseButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout caseTagsButtonsPanelLayout = new javax.swing.GroupLayout(caseTagsButtonsPanel);
         caseTagsButtonsPanel.setLayout(caseTagsButtonsPanelLayout);
         caseTagsButtonsPanelLayout.setHorizontalGroup(
             caseTagsButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(caseTagsButtonsPanelLayout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addGroup(caseTagsButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(newTagsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(removeTagsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(caseTagsButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(caseTagsButtonsPanelLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(caseTagsButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(newTagsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                            .addComponent(removeTagsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)))
+                    .addGroup(caseTagsButtonsPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(saveCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         caseTagsButtonsPanelLayout.setVerticalGroup(
@@ -416,7 +421,9 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
                 .addComponent(newTagsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(removeTagsButton)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(saveCaseButton)
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         caseTagsPanel.add(caseTagsButtonsPanel, java.awt.BorderLayout.EAST);
@@ -424,74 +431,6 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         tagsLogsPanel.add(caseTagsPanel, java.awt.BorderLayout.PAGE_START);
 
         add(tagsLogsPanel, java.awt.BorderLayout.CENTER);
-
-        caseControllerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Case Controller"));
-        caseControllerPanel.setLayout(new java.awt.BorderLayout());
-
-        jLabel9.setText("Case Hash Value:");
-
-        caseHashValueTextField.setText(" ");
-
-        verifyButton.setText("Verifey");
-        verifyButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                verifyButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout caseHashVerifyPanelLayout = new javax.swing.GroupLayout(caseHashVerifyPanel);
-        caseHashVerifyPanel.setLayout(caseHashVerifyPanelLayout);
-        caseHashVerifyPanelLayout.setHorizontalGroup(
-            caseHashVerifyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(caseHashVerifyPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(caseHashValueTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(verifyButton)
-                .addContainerGap())
-        );
-        caseHashVerifyPanelLayout.setVerticalGroup(
-            caseHashVerifyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(caseHashVerifyPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(caseHashVerifyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(caseHashValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(verifyButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        caseControllerPanel.add(caseHashVerifyPanel, java.awt.BorderLayout.CENTER);
-
-        saveCaseButton.setText("Save  Case");
-        saveCaseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveCaseButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout caseSavePanelLayout = new javax.swing.GroupLayout(caseSavePanel);
-        caseSavePanel.setLayout(caseSavePanelLayout);
-        caseSavePanelLayout.setHorizontalGroup(
-            caseSavePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caseSavePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(saveCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        caseSavePanelLayout.setVerticalGroup(
-            caseSavePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caseSavePanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(saveCaseButton)
-                .addContainerGap())
-        );
-
-        caseControllerPanel.add(caseSavePanel, java.awt.BorderLayout.EAST);
-
-        add(caseControllerPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
     private void newTagsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newTagsButtonActionPerformed
@@ -506,19 +445,6 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         this.removeTag();
     }//GEN-LAST:event_removeTagsButtonActionPerformed
 
-    private void verifyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verifyButtonActionPerformed
-        String hash = this.caseHashValueTextField.getText().trim();
-        if ( !hash.isEmpty() )
-            HashVerifier.newInstance(this.parent, hash, this.caseFacade.getCase().getEvidenceSourceLocation().get(0)).start();
-        else
-            JOptionPane.showMessageDialog(this, "Please enter the original hash value",
-                    "Missing Hash Value", JOptionPane.ERROR_MESSAGE);
-    }//GEN-LAST:event_verifyButtonActionPerformed
-
-    private void saveCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCaseButtonActionPerformed
-        saveCaseModifications();
-    }//GEN-LAST:event_saveCaseButtonActionPerformed
-
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         showNextTag();
     }//GEN-LAST:event_nextButtonActionPerformed
@@ -526,6 +452,10 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
     private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
         showPreviousTag();
     }//GEN-LAST:event_prevButtonActionPerformed
+
+    private void saveCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveCaseButtonActionPerformed
+        this.saveCaseModifications();
+    }//GEN-LAST:event_saveCaseButtonActionPerformed
 
     /**
      * Save case modifications
@@ -691,16 +621,12 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel caseControllerPanel;
     private javax.swing.JTextField caseDescriptionTextField;
-    private javax.swing.JTextField caseHashValueTextField;
-    private javax.swing.JPanel caseHashVerifyPanel;
     private javax.swing.JPanel caseInformationPanel;
     private javax.swing.JPanel caseLogsPanel;
     private javax.swing.JTable caseLogsTable;
     private javax.swing.JTextField caseNameTextField;
     private javax.swing.JTextField casePathTextField;
-    private javax.swing.JPanel caseSavePanel;
     private javax.swing.JTextField caseSizeTextField;
     private javax.swing.JTextArea caseSourcesTextView;
     private javax.swing.JPanel caseTagControllerPanel;
@@ -726,7 +652,6 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -740,6 +665,5 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
     private javax.swing.JTextField tagDateTextField;
     private javax.swing.JTextField tagNameTextField;
     private javax.swing.JPanel tagsLogsPanel;
-    private javax.swing.JButton verifyButton;
     // End of variables declaration//GEN-END:variables
 }

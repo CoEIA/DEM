@@ -1,6 +1,7 @@
 
 package edu.coeia.main;
 
+import edu.coeia.verification.CaseVerificationDialog;
 import edu.coeia.reports.ReportPanel;
 import edu.coeia.filesystem.FileSystemPanel;
 import edu.coeia.cases.Case;
@@ -148,6 +149,7 @@ public class CaseFrame extends javax.swing.JFrame {
         exitMenuItem = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         hashLibraryMenuItem = new javax.swing.JMenuItem();
+        caseVerificationMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         caseIndexingMenuItem = new javax.swing.JMenuItem();
         reDownloadingEmailMenuItem = new javax.swing.JMenuItem();
@@ -320,6 +322,14 @@ public class CaseFrame extends javax.swing.JFrame {
             }
         });
         jMenu1.add(hashLibraryMenuItem);
+
+        caseVerificationMenuItem.setText("Case Verification");
+        caseVerificationMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                caseVerificationMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(caseVerificationMenuItem);
         jMenu1.add(jSeparator3);
 
         caseIndexingMenuItem.setText("Case Indexing");
@@ -574,6 +584,11 @@ public class CaseFrame extends javax.swing.JFrame {
     private void reDownloadingEmailMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reDownloadingEmailMenuItemActionPerformed
         this.emailDownloaderAction();
     }//GEN-LAST:event_reDownloadingEmailMenuItemActionPerformed
+
+    private void caseVerificationMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caseVerificationMenuItemActionPerformed
+        CaseVerificationDialog dialog = new CaseVerificationDialog(this, true);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_caseVerificationMenuItemActionPerformed
     
     private void emailDownloaderAction() {
         List<EmailConfiguration> emailInfos = this.getCase().getEmailConfigurations();
@@ -680,6 +695,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem businessStyleRadioButton;
     private javax.swing.JMenuItem caseIndexingMenuItem;
     private javax.swing.JToggleButton caseManagerToggleButton;
+    private javax.swing.JMenuItem caseVerificationMenuItem;
     private javax.swing.JToggleButton chatToggleButton;
     private javax.swing.JRadioButtonMenuItem dustStyleRadioButton;
     private javax.swing.JToggleButton emailToggleButton;

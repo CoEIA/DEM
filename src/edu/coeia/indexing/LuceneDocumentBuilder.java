@@ -9,7 +9,7 @@ import edu.coeia.chat.MSNMessage;
 import edu.coeia.chat.SkypeMessage;
 import edu.coeia.chat.YahooMessage;
 import edu.coeia.chat.YahooMessageDecoder;
-import edu.coeia.hash.HashCalculator;
+import edu.coeia.util.HashCalculator;
 import edu.coeia.indexing.IndexingConstant.DOCUMENT_GENERAL_TYPE;
 import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.util.DateUtil;

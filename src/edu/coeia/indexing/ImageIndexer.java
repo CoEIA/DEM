@@ -11,7 +11,7 @@ package edu.coeia.indexing;
 
 import edu.coeia.extractors.TikaExtractor;
 import edu.coeia.extractors.ImageExtractor;
-import edu.coeia.hash.HashCalculator;
+import edu.coeia.util.HashCalculator;
 import edu.coeia.util.FileUtil;
 import java.io.File ;
 

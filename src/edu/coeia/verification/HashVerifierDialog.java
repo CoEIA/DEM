@@ -8,7 +8,7 @@
  *
  * Created on Nov 22, 2011, 10:47:06 AM
  */
-package edu.coeia.hash;
+package edu.coeia.verification;
 
 import javax.swing.JProgressBar;
 
@@ -55,7 +55,7 @@ final class HashVerifierDialog extends javax.swing.JDialog {
         stopButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Case Verifier");
+        setTitle("Evidence Files Verification");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Scanning Progress"));
 

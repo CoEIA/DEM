@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.hash;
+package edu.coeia.util;
 
 /**
  *
@@ -64,7 +64,7 @@ public class HashCalculator {
     /**
      * Calculate Hash Value for directory
      */
-    final static class DirectoryHash {
+    public final static class DirectoryHash {
         private final MessageDigest digest ;
         
         public static DirectoryHash newInstance() {

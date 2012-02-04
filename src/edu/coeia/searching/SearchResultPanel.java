@@ -14,7 +14,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.hash.HashCalculator;
+import edu.coeia.util.HashCalculator;
 import edu.coeia.hashanalysis.HashItem;
 import edu.coeia.hashanalysis.HashSetDialog;
 import edu.coeia.indexing.IndexingConstant;

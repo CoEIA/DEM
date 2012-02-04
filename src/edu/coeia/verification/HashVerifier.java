@@ -2,16 +2,20 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.hash;
+package edu.coeia.verification;
+
+import edu.coeia.util.HashCalculator;
 
 import java.io.File;
+
 import javax.swing.SwingWorker;
 import javax.swing.JFrame; 
+import javax.swing.JOptionPane;
 
 import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import javax.swing.JOptionPane;
+
 
 /**
  * Hash Verifier will check if the current hash value submitted by user is
