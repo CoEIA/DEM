@@ -203,14 +203,14 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "File Name", "File Path", "Date", "Hash Value"
+                "ID", "File Name", "Date", "Type", "File Path"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -325,14 +325,14 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "File Name", "File Path", "Date", "Hash Value"
+                "ID", "File Name", "Date", "Type", "File Path"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

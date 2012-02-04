@@ -30,7 +30,7 @@ import org.apache.lucene.document.Field;
  * @author wajdyessam
  */
 public class CaseDuplicationTask implements Task{
-        private final TaskThread thread;
+    private final TaskThread thread;
     private final Case aCase;
     private final HashAnalysisPanel panel;
     
