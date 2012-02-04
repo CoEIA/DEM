@@ -72,7 +72,14 @@ public class EmailSourceViewerPanel extends javax.swing.JPanel {
         this.ccTextField.setText(emailCC);
         this.bccTextField.setText(emailBCC);
         
-        emailContentBrowser.setHTMLContent(Utilities.highlightString(emailMessage, this.keyword));
+        String filteredMessage = "";
+        if ( this.keyword.isEmpty() )
+            filteredMessage = emailMessage.trim();
+        else
+            filteredMessage = Utilities.highlightString(emailMessage.trim(), this.keyword);
+        
+        emailContentBrowser.setHTMLContent(filteredMessage);
+        
         messagePanel.validate();
         
         this.emailHeaderTextArea.setText(messageHeader);

@@ -247,7 +247,6 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             FileItem parentFileItem = (FileItem) perentItem;
             
             System.out.println("path: " + parentFileItem.getFilePath());
-            
         }
         else {
             System.out.println("this document have no parent");
