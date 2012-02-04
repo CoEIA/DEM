@@ -18,6 +18,8 @@ import edu.coeia.task.EmailLoadingTask;
 import edu.coeia.task.EmailRefreshTask;
 import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
+import edu.coeia.cases.CaseFacade;
+import edu.coeia.gutil.LabelCellRenderer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,9 +34,9 @@ import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.TableColumn;
 
 import com.pff.PSTFile;
-import edu.coeia.cases.CaseFacade;
 
 /**
  *
@@ -76,6 +78,9 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                 }
             }
         );
+        
+        TableColumn tableColumn = this.emailsTable.getColumnModel().getColumn(3);
+        tableColumn.setCellRenderer(new LabelCellRenderer());
     }
 
     /** This method is called from within the constructor to
