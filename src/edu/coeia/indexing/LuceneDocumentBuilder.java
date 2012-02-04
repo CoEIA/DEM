@@ -56,7 +56,7 @@ final class LuceneDocumentBuilder {
             type = DOCUMENT_DESCRIPTION_TYPE.EMAIL_ATTACHMENT;
         
         // generic lucene fileds
-        doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.FILE)));
+        doc.add(getNotAnlyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.IMAGE)));
         doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
         doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(indexer.getParentId())));
         doc.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateFileHash(indexer.getFile().getAbsolutePath())));

@@ -213,7 +213,7 @@ public class JTableUtil {
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
         tableModel.addRow(data);
     }
-    
+        
     public static boolean isDoubleClick(MouseEvent evt) {
         return evt.getClickCount() == 2;
     }

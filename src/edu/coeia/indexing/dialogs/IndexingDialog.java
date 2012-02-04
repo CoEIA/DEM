@@ -143,6 +143,10 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
         progressStatusPanel.add(progressPanel, java.awt.BorderLayout.CENTER);
 
+        indexPanel.add(progressStatusPanel, java.awt.BorderLayout.NORTH);
+
+        indexControlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
         startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         startIndexButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/new-edit-find-replace.png"))); // NOI18N
         startIndexButton.setText("Start Indexing");
@@ -173,12 +177,12 @@ public final class IndexingDialog extends javax.swing.JDialog {
         });
         indexControlPanel.add(displayLoggingButton);
 
-        progressStatusPanel.add(indexControlPanel, java.awt.BorderLayout.SOUTH);
-
-        indexPanel.add(progressStatusPanel, java.awt.BorderLayout.NORTH);
+        indexPanel.add(indexControlPanel, java.awt.BorderLayout.CENTER);
 
         loggingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "logging", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         loggingPanel.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(452, 100));
 
         indexTable.setAutoCreateRowSorter(true);
         indexTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -192,7 +196,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
         loggingPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        indexPanel.add(loggingPanel, java.awt.BorderLayout.CENTER);
+        indexPanel.add(loggingPanel, java.awt.BorderLayout.SOUTH);
 
         getContentPane().add(indexPanel, java.awt.BorderLayout.CENTER);
 

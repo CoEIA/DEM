@@ -77,7 +77,7 @@ final class IndexerFactory {
              
             // images type
             else if ( isImage(mime) )
-                indexer = NonDocumentIndexer.newInstance(luceneIndex, file, mime, new ExternalImageExtractor(), parentId); 
+                indexer = ImageIndexer.newInstance(luceneIndex, file, mime, new ExternalImageExtractor(), parentId); 
             
             // Unkown file Format
             else

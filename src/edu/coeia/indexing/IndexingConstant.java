@@ -29,7 +29,8 @@ public class IndexingConstant {
         FILE,
         CHAT,
         ONLINE_EMAIL,
-        OFFLINE_EMAIL
+        OFFLINE_EMAIL,
+        IMAGE
     };
     
     public static enum DOCUMENT_DESCRIPTION_TYPE  {
@@ -171,5 +172,10 @@ public class IndexingConstant {
     public static boolean isOfflineEmailDocument(final Document document) {
         return document.get(IndexingConstant.DOCUMENT_TYPE)
             .equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.OFFLINE_EMAIL));
+    }
+    
+    public static boolean isImageDocument(final Document document) {
+        return document.get(IndexingConstant.DOCUMENT_TYPE)
+                .equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.IMAGE));
     }
 }

@@ -11,17 +11,12 @@ package edu.coeia.indexing;
 
 import edu.coeia.extractors.TikaExtractor;
 import edu.coeia.extractors.ImageExtractor;
-import edu.coeia.util.HashCalculator;
-import edu.coeia.util.FileUtil;
+
 import java.io.File ;
 
-import java.io.IOException;
 import java.util.Map;
 
-import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document ;
-import org.apache.lucene.document.Field ;
-import org.apache.lucene.index.CorruptIndexException;
 
 
 final class ImageIndexer extends Indexer{

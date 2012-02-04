@@ -163,7 +163,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
 
         caseSourcesTextView.setColumns(20);
         caseSourcesTextView.setEditable(false);
-        caseSourcesTextView.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        caseSourcesTextView.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         caseSourcesTextView.setRows(5);
         jScrollPane2.setViewportView(caseSourcesTextView);
 
@@ -171,7 +171,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
 
         emailSourcesTextArea.setColumns(20);
         emailSourcesTextArea.setEditable(false);
-        emailSourcesTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        emailSourcesTextArea.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         emailSourcesTextArea.setRows(5);
         jScrollPane4.setViewportView(emailSourcesTextArea);
 

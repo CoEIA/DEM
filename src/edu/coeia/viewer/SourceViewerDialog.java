@@ -345,6 +345,10 @@ public class SourceViewerDialog extends javax.swing.JDialog {
                     || IndexingConstant.isEmailDocument(document) ) {
             panel = new EmailSourceViewerPanel(this, item);
         }
+        else if ( IndexingConstant.isImageDocument(document) ) {
+            System.out.println("image selected");
+            return ;
+        }
         
         this.viewerPanel.setLayout(new BorderLayout());
         this.viewerPanel.add(panel, BorderLayout.CENTER);
