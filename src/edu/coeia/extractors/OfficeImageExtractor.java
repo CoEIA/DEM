@@ -29,7 +29,7 @@ public final class OfficeImageExtractor implements ImageExtractor{
         TikaObjectExtractor.EmbeddedObjectCollections handler  = null;
         try {
             handler = extractor.extract();
-                    // index the images using ImageIndexer
+            
             for(TikaObjectExtractor.ExtractedObjectInfo location: handler.getLocations()) {
                 try {
                     indexer.getLuceneIndex().indexFile(new File(location.getFileNewPath()), parentId, indexer.getDialog());

@@ -4,6 +4,11 @@
  */
 package edu.coeia.items;
 
+import edu.coeia.indexing.IndexingConstant;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
 /**
  *
  * @author wajdyessam
@@ -48,10 +53,21 @@ public final class EmailItem extends Item{
           
     @Override
     public Object[] getDisplayData() {
-        Object[] object = new Object[] {this.documentId, this.folder, this.time, this.documentDescription, this.emailSource};
+        Object[] object = new Object[] {this.documentId, this.folder, this.time, this.getLabel(), this.emailSource};   
         return object;
     }
     
+    private JLabel getLabel() {
+        ImageIcon icon  = null;
+        
+        if ( this.documentDescription.equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_DESCRIPTION_TYPE.EMAIL_MESSAGE)) )
+            icon = new ImageIcon(getClass().getResource("/edu/coeia/main/resources/email_16.png"));
+        else if ( this.documentDescription.equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_DESCRIPTION_TYPE.EMAIL_ATTACHMENT)) ) 
+            icon = new ImageIcon(getClass().getResource("/edu/coeia/main/resources/attachment_16.png"));
+        
+        return new JLabel(this.documentDescription, icon,SwingConstants.LEFT);
+    }
+        
     private final String from;
     private final String to;
     private final String subject;

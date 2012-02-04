@@ -4,6 +4,11 @@
  */
 package edu.coeia.items;
 
+import edu.coeia.indexing.IndexingConstant;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
 /**
  *
  * @author wajdyessam
@@ -33,8 +38,23 @@ public final class FileItem extends Item{
     
     @Override
     public Object[] getDisplayData() {
-        Object[] object = new Object[] {this.documentId, this.fileName, this.fileDate, this.documentDescription , this.filePath};
+        Object[] object = new Object[] {this.documentId, this.fileName, this.fileDate,  this.getLabel() , this.filePath};
         return object;
+    }
+    
+    private JLabel getLabel() {
+        ImageIcon icon  = null;
+        
+        if ( this.documentDescription.equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_DESCRIPTION_TYPE.NORMAL_FILE)) )
+            icon = new ImageIcon(getClass().getResource("/edu/coeia/main/resources/file_16.png"));
+        else if ( this.documentDescription.equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_DESCRIPTION_TYPE.EMBEDDED_FILE)) ) 
+            icon = new ImageIcon(getClass().getResource("/edu/coeia/main/resources/zip_16.png"));
+        else if ( this.documentDescription.equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_DESCRIPTION_TYPE.IMAGE)) ) 
+            icon = new ImageIcon(getClass().getResource("/edu/coeia/main/resources/image_16.png"));
+        else if ( this.documentDescription.equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_DESCRIPTION_TYPE.EMBEDDED_IMAGE)) ) 
+            icon = new ImageIcon(getClass().getResource("/edu/coeia/main/resources/embedded_image_16.png"));
+        
+        return new JLabel(this.documentDescription, icon,SwingConstants.LEFT);
     }
     
     private final String fileName ;

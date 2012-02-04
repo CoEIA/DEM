@@ -10,11 +10,9 @@
  */
 package edu.coeia.viewer;
 
-import edu.coeia.util.Utilities;
 import edu.coeia.items.FileItem;
 import edu.coeia.items.Item;
 
-import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -46,7 +44,6 @@ public class ImageSourceViewerPanel extends javax.swing.JPanel {
         String filePath = fileItem.getFilePath();
         String date = fileItem.getFileDate();
         String mime = fileItem.getFileMimeType();
-        String content = fileItem.getFileContent();
         String metadata = fileItem.getMetadata();
 
         this.fileNameTextField.setText(fileName);
@@ -55,11 +52,8 @@ public class ImageSourceViewerPanel extends javax.swing.JPanel {
         this.mimeTextField.setText(mime);
         
         this.imageRenderPanel.removeAll();
-        this.imageRenderPanel.add(new JScrollPane(new JLabel(fileName, new ImageIcon(filePath), SwingConstants.LEADING)));
+        this.imageRenderPanel.add(new JScrollPane(new JLabel(fileName, new ImageIcon(filePath), SwingConstants.CENTER)));
         this.metaDataTextArea.setText(metadata);
-
-        //TODO: replace metadate view to browser or html type to support html rendering
-        //metaDataTextArea.setText(highlightString(metadata, keyword));
     }
         
     /** This method is called from within the constructor to

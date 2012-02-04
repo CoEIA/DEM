@@ -144,10 +144,10 @@ public class CaseFrame extends javax.swing.JFrame {
         imageViewerToggleButton = new javax.swing.JToggleButton();
         reportToggleButton = new javax.swing.JToggleButton();
         CardPanel = new javax.swing.JPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        mainMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        optionsMenu = new javax.swing.JMenu();
         hashLibraryMenuItem = new javax.swing.JMenuItem();
         caseVerificationMenuItem = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
@@ -305,15 +305,10 @@ public class CaseFrame extends javax.swing.JFrame {
         });
         fileMenu.add(exitMenuItem);
 
-        jMenuBar1.add(fileMenu);
+        mainMenuBar.add(fileMenu);
 
-        jMenu1.setText("Options");
-        jMenu1.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jMenu1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu1ActionPerformed(evt);
-            }
-        });
+        optionsMenu.setText("Options");
+        optionsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
 
         hashLibraryMenuItem.setText("Hash Library");
         hashLibraryMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -321,7 +316,7 @@ public class CaseFrame extends javax.swing.JFrame {
                 hashLibraryMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(hashLibraryMenuItem);
+        optionsMenu.add(hashLibraryMenuItem);
 
         caseVerificationMenuItem.setText("Case Verification");
         caseVerificationMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -329,8 +324,8 @@ public class CaseFrame extends javax.swing.JFrame {
                 caseVerificationMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(caseVerificationMenuItem);
-        jMenu1.add(jSeparator3);
+        optionsMenu.add(caseVerificationMenuItem);
+        optionsMenu.add(jSeparator3);
 
         caseIndexingMenuItem.setText("Case Indexing");
         caseIndexingMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -338,7 +333,7 @@ public class CaseFrame extends javax.swing.JFrame {
                 caseIndexingMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(caseIndexingMenuItem);
+        optionsMenu.add(caseIndexingMenuItem);
 
         reDownloadingEmailMenuItem.setText("ReDownload Email");
         reDownloadingEmailMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -346,9 +341,9 @@ public class CaseFrame extends javax.swing.JFrame {
                 reDownloadingEmailMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(reDownloadingEmailMenuItem);
+        optionsMenu.add(reDownloadingEmailMenuItem);
 
-        jMenuBar1.add(jMenu1);
+        mainMenuBar.add(optionsMenu);
 
         viewMenu.setText("View");
         viewMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -394,7 +389,7 @@ public class CaseFrame extends javax.swing.JFrame {
 
         viewMenu.add(styleMenu);
 
-        jMenuBar1.add(viewMenu);
+        mainMenuBar.add(viewMenu);
 
         toolsMenu.setText("Tools");
         toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -424,7 +419,7 @@ public class CaseFrame extends javax.swing.JFrame {
         });
         toolsMenu.add(viewLogMenuItem);
 
-        jMenuBar1.add(toolsMenu);
+        mainMenuBar.add(toolsMenu);
 
         aboutMenu.setText("About");
         aboutMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -446,9 +441,9 @@ public class CaseFrame extends javax.swing.JFrame {
         });
         aboutMenu.add(aboutMenuItem);
 
-        jMenuBar1.add(aboutMenu);
+        mainMenuBar.add(aboutMenu);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(mainMenuBar);
 
         getAccessibleContext().setAccessibleName("DEM");
 
@@ -512,9 +507,6 @@ public class CaseFrame extends javax.swing.JFrame {
             logger.log(Level.SEVERE, "Exception When Opening Folder", e);
         }
     }//GEN-LAST:event_viewLogMenuItemActionPerformed
-
-    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
-    }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void caseIndexingMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caseIndexingMenuItemActionPerformed
         showIndexDialog(false);
@@ -707,12 +699,12 @@ public class CaseFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem helpMenuItem;
     private javax.swing.JToggleButton imageViewerToggleButton;
     private javax.swing.JToggleButton internetSurfingToggleButton;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenuBar mainMenuBar;
+    private javax.swing.JMenu optionsMenu;
     private javax.swing.JRadioButtonMenuItem ravenStyleRadioButton;
     private javax.swing.JMenuItem reDownloadingEmailMenuItem;
     private javax.swing.JMenuItem recentMenuItem;

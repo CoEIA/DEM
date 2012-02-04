@@ -22,6 +22,8 @@ import edu.coeia.main.CaseFrame;
 import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.InputEvent;
 
 import java.io.IOException;
@@ -30,6 +32,7 @@ import javax.swing.JTable;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
+import javax.swing.JLabel;
 
 import java.util.List; 
 import java.util.logging.Logger;
@@ -38,6 +41,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
+import javax.swing.SwingConstants;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import org.apache.lucene.document.Document;
 
 /**
@@ -63,6 +69,9 @@ public class SearchResultPanel extends javax.swing.JPanel {
         this.parentFrame = parentFrame;
         this.caseObj  = ((CaseFrame) this.parentFrame).getCaseFacade().getCase();
         this.caseFacade = ((CaseFrame) this.parentFrame).getCaseFacade();
+        
+        TableColumn tableColumn = this.searchTable.getColumnModel().getColumn(3);
+        tableColumn.setCellRenderer(new LabelCellRenderer());
     }
 
     /** This method is called from within the constructor to
@@ -236,6 +245,32 @@ public class SearchResultPanel extends javax.swing.JPanel {
         this.documentIds.addAll(Collections.unmodifiableList(ids));
     }
     
+    private class LabelCellRenderer extends JLabel implements TableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+            boolean hasFocus, int row, int column) {
+            
+            JLabel lbl = (JLabel) value;
+            this.setText(lbl.getText());
+            this.setIcon(lbl.getIcon());
+            this.setVerticalTextPosition(SwingConstants.BOTTOM);
+            this.setHorizontalTextPosition(SwingConstants.CENTER);
+            
+            lbl.setOpaque(true);
+                    
+            if (isSelected) {
+                lbl.setBackground(table.getSelectionBackground());
+                lbl.setForeground(table.getSelectionForeground());
+            } else {
+                lbl.setBackground(table.getBackground());
+                lbl.setForeground(table.getForeground());
+            }
+
+            return lbl;
+            
+        }
+    }
+            
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel22;
     private javax.swing.JScrollPane jScrollPane1;

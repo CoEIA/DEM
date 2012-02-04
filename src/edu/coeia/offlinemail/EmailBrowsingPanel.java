@@ -112,7 +112,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
 
         jScrollPane1.setViewportView(emailSourceJList);
 
-        loadEmailSourceButton.setText("Load Selecte dEmail Source");
+        loadEmailSourceButton.setText("Load Selected Email Source");
         loadEmailSourceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadEmailSourceButtonActionPerformed(evt);

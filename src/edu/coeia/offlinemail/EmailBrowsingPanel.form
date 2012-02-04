@@ -69,7 +69,7 @@
         </Container>
         <Component class="javax.swing.JButton" name="loadEmailSourceButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Load Selecte dEmail Source"/>
+            <Property name="text" type="java.lang.String" value="Load Selected Email Source"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loadEmailSourceButtonActionPerformed"/>

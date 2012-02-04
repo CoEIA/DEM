@@ -55,6 +55,4 @@ final class ImageIndexer extends Indexer{
         
         return status;
     }
-    
-
 }

@@ -14,9 +14,9 @@ import edu.coeia.multimedia.GeoTagging.GPSData;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.Tuple;
 import edu.coeia.util.Utilities;
-
 import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
+
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
@@ -27,7 +27,6 @@ import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.JList;

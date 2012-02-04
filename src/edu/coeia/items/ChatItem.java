@@ -4,6 +4,9 @@
  */
 package edu.coeia.items;
 
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
 /**
  *
  * @author wajdyessam
@@ -27,7 +30,10 @@ public final class ChatItem extends Item {
                 
     @Override
     public Object[] getDisplayData() {
-        Object[] object = new Object[] {this.documentId, this.from, this.date, this.documentDescription, this.to};
+        Object[] object = new Object[] {this.documentId, this.from, this.date, 
+            new JLabel(this.documentDescription, new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/chat_16.png")),
+                    SwingConstants.LEFT),
+            this.to};
         return object;
     }
        

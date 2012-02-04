@@ -48,9 +48,10 @@ import org.apache.lucene.document.Document;
  * @author wajdyessam
  */
 public class SourceViewerDialog extends javax.swing.JDialog {
-    private String keyword ;
     private LuceneSearcher searcher ;
     private Document currentDocument ;
+    
+    private final String keyword ;
     private final Frame parent ;
     private final TagsManager tagManger  ;
     private final Case caseObj ;
