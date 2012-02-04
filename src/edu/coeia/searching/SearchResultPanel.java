@@ -22,7 +22,6 @@ import edu.coeia.main.CaseFrame;
 import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.InputEvent;
 
@@ -33,6 +32,9 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import java.util.List; 
 import java.util.logging.Logger;
@@ -41,9 +43,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-import javax.swing.SwingConstants;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 import org.apache.lucene.document.Document;
 
 /**

@@ -10,9 +10,7 @@
  */
 package edu.coeia.searching;
 
-import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.items.FileItem;
 import edu.coeia.items.Item;
 
 import java.util.ArrayList;
@@ -253,15 +251,8 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
         
         List<Integer> ids = new ArrayList<Integer>();
         for(Item item: items) {
-           FileItem fileItem = (FileItem) item;
-           
-           Object[] data = {
-               fileItem.getDocumentId(), fileItem.getFilePath(),fileItem.getFileDate(),
-               "FILE", fileItem.getFileName()
-           };
-           
-           JTableUtil.addRowToJTable(this.searchResultPanel.getSearchTable(), data);
-           ids.add(fileItem.getDocumentId());
+           JTableUtil.addRowToJTable(this.searchResultPanel.getSearchTable(), item.getDisplayData());
+           ids.add(item.getDocumentId());
         }
         
         // set keywords and documentids
