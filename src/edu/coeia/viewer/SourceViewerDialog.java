@@ -207,7 +207,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         );
         viewerPanelLayout.setVerticalGroup(
             viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addGap(0, 487, Short.MAX_VALUE)
         );
 
         getContentPane().add(viewerPanel, java.awt.BorderLayout.CENTER);
