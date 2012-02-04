@@ -14,6 +14,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.util.FilesPath ;
 import edu.coeia.gutil.JTableUtil;
+import edu.coeia.gutil.LabelCellRenderer;
 import edu.coeia.util.HashCalculator;
 import edu.coeia.hashanalysis.HashItem;
 import edu.coeia.hashanalysis.HashSetDialog;
@@ -22,7 +23,6 @@ import edu.coeia.main.CaseFrame;
 import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
 
-import java.awt.Component;
 import java.awt.event.InputEvent;
 
 import java.io.IOException;
@@ -31,9 +31,6 @@ import javax.swing.JTable;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import java.util.List; 
@@ -242,32 +239,6 @@ public class SearchResultPanel extends javax.swing.JPanel {
     void setResultIds(final List<Integer> ids) {
         this.documentIds.clear();
         this.documentIds.addAll(Collections.unmodifiableList(ids));
-    }
-    
-    private class LabelCellRenderer extends JLabel implements TableCellRenderer {
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-            boolean hasFocus, int row, int column) {
-            
-            JLabel lbl = (JLabel) value;
-            this.setText(lbl.getText());
-            this.setIcon(lbl.getIcon());
-            this.setVerticalTextPosition(SwingConstants.BOTTOM);
-            this.setHorizontalTextPosition(SwingConstants.CENTER);
-            
-            lbl.setOpaque(true);
-                    
-            if (isSelected) {
-                lbl.setBackground(table.getSelectionBackground());
-                lbl.setForeground(table.getSelectionForeground());
-            } else {
-                lbl.setBackground(table.getBackground());
-                lbl.setForeground(table.getForeground());
-            }
-
-            return lbl;
-            
-        }
     }
             
     // Variables declaration - do not modify//GEN-BEGIN:variables

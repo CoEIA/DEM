@@ -42,6 +42,8 @@ import org.apache.lucene.document.Document ;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.coeia.gutil.LabelCellRenderer;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -71,6 +73,12 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         catch(Exception e) {
             e.printStackTrace();
         }
+        
+        TableColumn tableColumn = this.matchedTable.getColumnModel().getColumn(3);
+        tableColumn.setCellRenderer(new LabelCellRenderer());
+        
+        TableColumn tableColumn2 = this.caseDuplicationResultTable.getColumnModel().getColumn(3);
+        tableColumn2.setCellRenderer(new LabelCellRenderer());
     }
 
     /** This method is called from within the constructor to

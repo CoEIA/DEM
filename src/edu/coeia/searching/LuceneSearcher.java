@@ -42,7 +42,7 @@ public class LuceneSearcher {
     protected IndexSearcher searcher ;
     protected TopDocs results ;
     
-    private final int MAX_RESULT = 1000;
+    private final int MAX_RESULT = 5000;
     
     public LuceneSearcher (final Case currentCase) throws Exception {
         File caseLocation = new File (currentCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
