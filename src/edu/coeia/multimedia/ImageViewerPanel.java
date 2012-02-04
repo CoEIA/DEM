@@ -12,9 +12,9 @@ package edu.coeia.multimedia;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.items.FileItem;
 import edu.coeia.items.ItemFactory;
+import edu.coeia.main.CaseFrame;
 import edu.coeia.searching.LuceneSearcher;
 import edu.coeia.task.ImageLoadingTask;
 
@@ -23,6 +23,7 @@ import java.awt.Component;
 import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +41,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.JPanel;
 
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Fieldable;
 
 /**
  *
@@ -62,12 +62,16 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     private int currentImagePage;
     
     private final CaseFacade caseFacade ;
+    private final List<Integer> currentIds; 
+    private final CaseFrame caseFrame; 
     
     /** Creates new form ImageViewerPanel */
-    public ImageViewerPanel(final CaseFacade caseFacade) {
+    public ImageViewerPanel(final CaseFacade caseFacade, final CaseFrame caseFrame) {
         initComponents();
         this.caseFacade = caseFacade;
         this.aCase = this.caseFacade.getCase();
+        this.currentIds = new ArrayList<Integer>();
+        this.caseFrame = caseFrame;
         this.setImageViewerOptions();
         this.nextLabel.setEnabled(false);
         this.backLabel.setEnabled(false);
@@ -414,19 +418,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
             String fileName = item.getFileName();
             String filePath = item.getFilePath();
             String date = item.getFileDate();
-
-            // show matadata information for File
-            List<Fieldable> fields = searcher.getLuceneDocumentById(String.valueOf(selectedImage.getId())).getFields();
-            StringBuilder metadataBuilder = new StringBuilder();
-            
-            for (Fieldable field: fields) {
-                if ( !field.name().startsWith("file_") &&
-                     !field.name().equalsIgnoreCase(IndexingConstant.FILE_CONTENT)) // files in IndexingConstant start with prefix file_
-                    
-                    metadataBuilder.append(field.name()).append(" : " ).append(field.stringValue()).append("\n");
-            }
-            
-            String metadata = metadataBuilder.toString();
+            String metadata = item.getMetadata();
             
             this.imagePathTextField.setText(filePath);
             this.imageSizeTextField.setText(fileName);
@@ -594,6 +586,12 @@ public class ImageViewerPanel extends javax.swing.JPanel {
         }
     }
 
+    public void setIds(final List<Integer> ids) {
+        this.currentIds.clear();
+        this.currentIds.addAll(ids);
+    }
+    
+    public List<Integer> getIds() { return Collections.unmodifiableList(this.currentIds); }
     public JPanel getRenderPanel() { return this.renderPanel;  }
     public int getScaleFactor() { return this.SCALE_FACTOR; }
     public int getPadFactor() { return this.PAD_FACTOR ; }
@@ -607,6 +605,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     public boolean isImageSizeIsComputed() { return this.isImageSizeIsComputed; }
     public void setImageSizeFlag() { this.isImageSizeIsComputed = true; }
     public void setTotalNumberOfImages(int total) { this.totalNumberOfImages = total; }
+    public CaseFrame getCaseFrame() { return this.caseFrame ; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ImageOptionPanel;

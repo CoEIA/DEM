@@ -15,10 +15,13 @@ import edu.coeia.util.FilesPath;
 import edu.coeia.util.Tuple;
 import edu.coeia.util.Utilities;
 
+import edu.coeia.viewer.SearchResultParamter;
+import edu.coeia.viewer.SourceViewerDialog;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
@@ -94,6 +97,8 @@ public class ImageLoadingTask implements Task{
         this.panel.checkImageControllingButtons();
         
         List<ImageViewerPanel.ImageIconWithDocumentId> icons = new ArrayList<ImageViewerPanel.ImageIconWithDocumentId>();
+        List<Integer> ids = new ArrayList<Integer>();
+        
         for(Tuple<String, Integer> document: images) {
             try {
                 String image = document.getA();
@@ -104,11 +109,15 @@ public class ImageLoadingTask implements Task{
                 BufferedImage scaledImage = createThumbnail(bufferedImage);
                 ImageViewerPanel.ImageIconWithDocumentId icon = new ImageViewerPanel.ImageIconWithDocumentId(scaledImage, imageFile.getName(), id);
                 icons.add(icon);
+                
+                ids.add(id);
             }
             catch(Exception e) {
                 System.out.println(document.getA() + " cannot be veweing");
             }
         }
+        
+        panel.setIds(ids);
         
         final ImageViewerPanel.FilteredList  list = new ImageViewerPanel.FilteredList(this.panel.getFilterTextField());
         list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -128,6 +137,20 @@ public class ImageLoadingTask implements Task{
         }
         
         list.update();
+        
+        list.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                if ( event.getClickCount() == 2 ) {
+                    ImageViewerPanel.ImageIconWithDocumentId document = (ImageViewerPanel.ImageIconWithDocumentId) list.getSelectedValue();
+                    int id = document.getId();
+                    SearchResultParamter searchResultParamter = new SearchResultParamter("", id, panel.getIds());
+                    SourceViewerDialog dialog = new SourceViewerDialog(panel.getCaseFrame(), true, searchResultParamter);
+                    dialog.setVisible(true);
+                }
+            }
+        });
+        
         JScrollPane pane = new JScrollPane (list, 
              ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
              ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -153,11 +176,10 @@ public class ImageLoadingTask implements Task{
                 Field field = document.getField(IndexingConstant.FILE_MIME);
                 
                 if (field != null && field.stringValue() != null) {
-                    String documentExtension = field.stringValue();
                     String fullpath = "";
                     int id = Integer.parseInt(document.get(IndexingConstant.DOCUMENT_ID));
                     
-                    if (isImage(documentExtension) ) {
+                    if (IndexingConstant.isImageDocument(document)) {
                         String path = document.get(IndexingConstant.FILE_PATH);
                         if ( path.contains(this.aCase.getCaseName() + File.separator + FilesPath.CASE_ARCHIVE_EXTRACTION) ) 
                             fullpath = path;
@@ -195,10 +217,9 @@ public class ImageLoadingTask implements Task{
                 Field field = document.getField(IndexingConstant.FILE_MIME);
                 
                 if (field != null && field.stringValue() != null) {
-                    String documentExtension = field.stringValue();
                     String fullpath = "";
                     
-                    if (isImage(documentExtension) ) {
+                    if ( IndexingConstant.isImageDocument(document) ) {
                         String path = document.get(IndexingConstant.FILE_PATH);
                         if ( path.contains(this.aCase.getCaseName() + File.separator + FilesPath.CASE_ARCHIVE_EXTRACTION) ) 
                             fullpath = path;
@@ -220,11 +241,6 @@ public class ImageLoadingTask implements Task{
     private BufferedImage createThumbnail(BufferedImage img) {
         img = Scalr.resize(img, this.panel.getScaleFactor());
         return pad(img, this.panel.getPadFactor());
-    }
-        
-    private boolean isImage(String extension) {
-        String[] extensions = {"jpg", "jpeg", "bmp", "gif", "tif", "png","psd"};
-        return Arrays.asList(extensions).contains(extension);
     }
     
     private void showPopupOpen (MouseEvent event) {

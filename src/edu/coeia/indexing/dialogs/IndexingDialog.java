@@ -107,6 +107,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         setTitle("Case Indexing Window");
 
         indexPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        indexPanel.setMaximumSize(new java.awt.Dimension(550, 2147483647));
         indexPanel.setLayout(new java.awt.BorderLayout());
 
         progressStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Case", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
