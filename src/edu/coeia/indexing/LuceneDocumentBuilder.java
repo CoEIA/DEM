@@ -108,6 +108,7 @@ final class LuceneDocumentBuilder {
         doc.add(getNotAnlyzedField(FILE_DATE, DateTools.timeToString(indexer.getFile().lastModified(), DateTools.Resolution.MINUTE)));
         doc.add(getNotAnlyzedField(FILE_MIME, FileUtil.getExtension(indexer.getFile())));
         doc.add(getAnalyzedField(FILE_CONTENT, content));
+        content = null;
         
         // unkown metadata extracted by Tika
         for(Map.Entry<String, String> entry: metadata.entrySet()) {

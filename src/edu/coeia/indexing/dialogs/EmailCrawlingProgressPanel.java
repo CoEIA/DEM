@@ -51,6 +51,8 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel implements Pa
         jScrollPane2 = new javax.swing.JScrollPane();
         attachmentsTextArea = new javax.swing.JTextArea();
 
+        setLayout(new java.awt.BorderLayout());
+
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
@@ -122,21 +124,7 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel implements Pa
 
         jPanel2.add(jScrollPane2);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
-                .addGap(10, 10, 10))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     public void setAgentType(final String name) { this.agentTypeTextField.setText(name); }

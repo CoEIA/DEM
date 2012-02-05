@@ -17,6 +17,7 @@ import edu.coeia.items.Item;
 import edu.coeia.items.ItemFactory;
 import edu.coeia.searching.SearcherThread.ProgressSearchData;
 
+import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,6 +27,7 @@ import java.util.Date ;
 import java.util.List ;
 import java.util.ArrayList ;
 
+import javax.swing.JOptionPane;
 import org.apache.lucene.document.Document;
 
 class SearcherThread extends SwingWorker<String,ProgressSearchData> {
@@ -48,6 +50,9 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     @Override
     public String doInBackground() {
         try {
+            this.panel.getSearchTable().setEnabled(false);
+            this.panel.getSearchTable().setForeground(Color.GRAY);
+            
             this.aCase = this.panel.getCaseFacade().getCase();
             this.searcher = new LuceneSearcher(this.aCase);
             
@@ -57,24 +62,21 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             this.time = end-start ;
            
             this.resultIds = new ArrayList<Integer>();
-
+            
             for (int i=0 ; i<this.count; i++) {
                 try {
                     Document document = this.searcher.getDocHits(i);
+                    Item item = ItemFactory.newInstance(document, this.aCase);
                     resultIds.add(Integer.parseInt(document.get(IndexingConstant.DOCUMENT_ID)));
-                    publish(new ProgressSearchData(i, document));
+                    publish(new ProgressSearchData(i, item));
                 }
                 catch(Exception e) { 
                     e.printStackTrace();
                 }
             }
 
-            try {
-                this.searcher.closeSearcher();
-            } catch (Exception ex) {
-                Logger.getLogger(SearcherThread.class.getName()).log(Level.SEVERE, null, ex);
-                ex.printStackTrace();
-            }
+            this.searcher.closeSearcher();
+            
         } catch (Exception ex) {
            ex.printStackTrace();
         }
@@ -88,6 +90,10 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         this.panel.setResultTableText(this.queryString);
         this.panel.setSearchTableFocusable();
         this.panel.getSearchProgressBar().setIndeterminate(false);
+        this.panel.getSearchTable().setEnabled(true);
+        this.panel.getSearchTable().setForeground(Color.BLACK);
+        
+        JOptionPane.showMessageDialog(this.panel, "Searching process is complete");
     }
     
     @Override
@@ -96,21 +102,20 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             return; 
                 
         for(ProgressSearchData pd: chunks) {
-            Item item = ItemFactory.newInstance(pd.getDocument(), this.aCase);
-            JTableUtil.addRowToJTable(this.panel.getSearchTable(), item.getDisplayData());
+            JTableUtil.addRowToJTable(this.panel.getSearchTable(), pd.getItem().getDisplayData());
         }
     }
     
     class ProgressSearchData {
         private final int count ;
-        private final Document document ;
+        private final Item item ;
 
-        public ProgressSearchData (int count, Document doc) {
+        public ProgressSearchData (int count, Item item) {
             this.count = count ;
-            this.document = doc;
+            this.item = item;
         }
 
         int getCount () { return this.count  ; }
-        Document getDocument () { return this.document ; }
+        Item getItem () { return this.item ; }
     }
 }

@@ -48,6 +48,7 @@ final class DocumentIndexer extends Indexer {
             Document doc = LuceneDocumentBuilder.getDocumentForFile(
                     this, bodyText, metadata); // add parentid and parent metadata here
             status = this.indexDocument(doc);
+            bodyText = null;
         }
         catch(Exception e){
             throw new UnsupportedOperationException(e.getMessage());
