@@ -241,7 +241,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
     
     private void stopIndexerThread() throws IOException {
         if ( indexerThread != null) {
-            indexerThread.clearFields();
+            this.clearFields();
             indexerThread.stopIndexingThread();
         }
     }

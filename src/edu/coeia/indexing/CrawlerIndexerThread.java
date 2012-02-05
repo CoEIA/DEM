@@ -253,7 +253,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
         }
     }
 
-    public void clearFields() {
+    private void clearFields() {
         this.parentDialog.clearFields();
     }
     
