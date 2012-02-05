@@ -231,15 +231,6 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
             this.parentDialog.setProgressIndetermined(false);
             this.parentDialog.setStartButtonStatus(true);
             this.parentDialog.setStopButtonStatus(false);
-
-            // save case history & close the index
-            if ( indexStatus ) {
-                CaseHistory history = CaseHistory.newInstance(
-                        this.aCase.getCaseName(), new Date().toString(), true, this.numberOfFilesIndexed, 
-                        this.sizeOfFilesInEvidenceFolder);
-
-                this.caseFacade.setCaseHistory(history);
-            }
             this.parentDialog.hideIndexingDialog();
         }
         catch(InterruptedException e) {}
@@ -253,6 +244,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
         }
         finally {
             try {
+                saveHistory();
                 clearFields();
                 closeIndex();
             } catch (IOException ex) {
@@ -269,6 +261,14 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
         this.cancel(true);
     }
     
+    private void saveHistory() {
+        CaseHistory history = CaseHistory.newInstance(
+            this.aCase.getCaseName(), new Date().toString(), true, this.numberOfFilesIndexed, 
+            this.sizeOfFilesInEvidenceFolder);
+
+        this.caseFacade.setCaseHistory(history);
+    }
+
     private void closeIndex () throws IOException {
         this.luceneIndex.closeIndex();
     }
