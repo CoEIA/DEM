@@ -569,7 +569,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
 
             ImageIconWithDocumentId icon = (ImageIconWithDocumentId) value;
 
-            this.setText(icon.getDescription());
+            //this.setText(icon.getDescription());
             this.setIcon(icon);
             this.setVerticalTextPosition(SwingConstants.BOTTOM);
             this.setHorizontalTextPosition(SwingConstants.CENTER);
