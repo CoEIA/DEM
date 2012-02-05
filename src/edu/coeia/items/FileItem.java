@@ -53,6 +53,8 @@ public final class FileItem extends Item{
             icon = new ImageIcon(getClass().getResource("/edu/coeia/main/resources/image_16.png"));
         else if ( this.documentDescription.equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_DESCRIPTION_TYPE.EMBEDDED_IMAGE)) ) 
             icon = new ImageIcon(getClass().getResource("/edu/coeia/main/resources/embedded_image_16.png"));
+        else if ( this.documentDescription.equals(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_DESCRIPTION_TYPE.EMAIL_ATTACHMENT))) 
+            icon = new ImageIcon(getClass().getResource("/edu/coeia/main/resources/attachment_16.png"));
         
         return new JLabel(this.documentDescription, icon,SwingConstants.LEFT);
     }

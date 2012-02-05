@@ -33,7 +33,7 @@ public class IndexingConstant {
         IMAGE
     };
     
-    public static enum DOCUMENT_DESCRIPTION_TYPE  {
+    public static enum DOCUMENT_DESCRIPTION_TYPE {
         NORMAL_FILE,
         EMBEDDED_FILE,
         NORMAL_CHAT,

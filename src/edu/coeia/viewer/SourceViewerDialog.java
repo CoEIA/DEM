@@ -121,7 +121,6 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         viewItemButton = new javax.swing.JButton();
         embeddedPanel = new javax.swing.JPanel();
         displayParentButton = new javax.swing.JButton();
-        displayChildsButton = new javax.swing.JButton();
         viewerPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -187,15 +186,6 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         });
         embeddedPanel.add(displayParentButton);
 
-        displayChildsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/binary.png"))); // NOI18N
-        displayChildsButton.setText("Display Document Childs");
-        displayChildsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                displayChildsButtonActionPerformed(evt);
-            }
-        });
-        embeddedPanel.add(displayChildsButton);
-
         getContentPane().add(embeddedPanel, java.awt.BorderLayout.SOUTH);
 
         viewerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Viewer"));
@@ -253,10 +243,6 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             System.out.println("this document have no parent");
         }
     }//GEN-LAST:event_displayParentButtonActionPerformed
-
-    private void displayChildsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayChildsButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_displayChildsButtonActionPerformed
 
     private void viewDocument(final Document document) {
         if ( IndexingConstant.isFileDocument(document) ) {
@@ -400,7 +386,6 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;
-    private javax.swing.JButton displayChildsButton;
     private javax.swing.JButton displayParentButton;
     private javax.swing.JPanel embeddedPanel;
     private javax.swing.JButton exportButton;

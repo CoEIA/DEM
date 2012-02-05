@@ -126,7 +126,7 @@ final class OutlookIndexer extends Indexer{
             for(String path: filePaths) {
                 try {
                     File file = new File(path);
-                    boolean status = this.getLuceneIndex().indexFile(file, emailId, this.getDialog());
+                    boolean status = this.getLuceneIndex().indexFile(file, emailId, null);
                 }
                 catch(Exception e) {
                     e.printStackTrace();
