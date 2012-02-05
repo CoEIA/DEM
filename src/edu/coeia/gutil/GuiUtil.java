@@ -4,6 +4,8 @@
  */
 package edu.coeia.gutil;
 
+import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseManagerFrame;
 import edu.coeia.util.GUIFileFilter ;
 
 import javax.swing.JButton;
@@ -35,6 +37,12 @@ public class GuiUtil {
     public static void changeLookAndFeel (final String lookName, JFrame frame ) throws Exception  {
         UIManager.setLookAndFeel(lookName);
         SwingUtilities.updateComponentTreeUI(frame);
+        frame.pack();
+        
+        CaseFrame caseFrame = (CaseFrame) frame;
+        CaseManagerFrame parent = caseFrame.getParentFrame();
+        SwingUtilities.updateComponentTreeUI(parent);
+        parent.pack();
     }
     
     public static void showPopup (java.awt.event.MouseEvent event) {

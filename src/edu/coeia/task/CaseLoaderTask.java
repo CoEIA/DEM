@@ -27,7 +27,7 @@ public class CaseLoaderTask implements Task {
     private final boolean startIndex;
     private final CaseFacade caseFacade ;
     
-    public CaseLoaderTask(final CaseManagerFrame frame,
+    public CaseLoaderTask( final CaseManagerFrame frame,
             final CaseFacade caseFacade, final boolean indexNow) {
         
         this.thread = new TaskThread(this);
@@ -60,8 +60,6 @@ public class CaseLoaderTask implements Task {
                 // check here for case evience chnaging
                 // and update the file before opening the case
                 boolean caseSourceIsUptoDate = true;
-                
-                CaseFacade caseFacade = CaseFacade.newInstance(aCase);
         
                 if ( caseFacade.isCaseHaveChangedSource() )  {
                     caseSourceIsUptoDate = askAndUpdateNewCaseSource(caseFacade);
@@ -70,7 +68,8 @@ public class CaseLoaderTask implements Task {
                 if ( caseSourceIsUptoDate ) {                    
                     ApplicationManager.Manager.addCase(caseName);
 
-                    CaseFrame mainFrame = new CaseFrame(this.caseFacade, ApplicationManager.Manager.getList());
+                    CaseFrame mainFrame = new CaseFrame(this.frame, 
+                            this.caseFacade, ApplicationManager.Manager.getList());
                     mainFrame.setLocationRelativeTo(this.frame);
                     mainFrame.setVisible(true);
                     

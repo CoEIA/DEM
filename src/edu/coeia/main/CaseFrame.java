@@ -49,6 +49,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private final String applicationTitle;
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
+    private final CaseManagerFrame parentFrame; 
     private final List<String> listOfOpeningCase ;
     private final CaseFacade caseFacade;
     private final TagsManager tagsManager ;
@@ -68,7 +69,7 @@ public class CaseFrame extends javax.swing.JFrame {
      * @param aCase case opened in CaseFacade
      * @param list a list of all openings case
      */
-    public CaseFrame(final CaseFacade caseFacade, final List<String> list) {
+    public CaseFrame(final CaseManagerFrame frame, final CaseFacade caseFacade, final List<String> list) {
         initComponents();
         logger.info("OfflineMining Frame Constructor, Open Case: " + caseFacade.getCase().getCaseName());
         
@@ -76,6 +77,7 @@ public class CaseFrame extends javax.swing.JFrame {
          * set frame resizable and set frame title
          */
         this.applicationTitle = "File System Search Window";
+        this.parentFrame = frame;
         this.initFrame();
         
         /*
@@ -675,6 +677,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private Case getCase() { return this.caseFacade.getCase() ; }
     public TagsManager getTagsManager() { return this.tagsManager; }
     public CaseFacade getCaseFacade() { return this.caseFacade; }
+    public CaseManagerFrame getParentFrame() { return this.parentFrame; }
     
     public void refreshTagsList() {
         this.caseManagerPanel.initializingTagsPanel();
