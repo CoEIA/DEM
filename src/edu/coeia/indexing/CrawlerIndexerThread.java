@@ -72,10 +72,15 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
     }
     
     private void checkForRemovingOldStatus() {
-        FileUtil.removeDirectoryContent(this.caseFacade.getIndexFolderLocation());
-        FileUtil.removeDirectoryContent(this.caseFacade.getCaseArchiveOutputFolderLocation());
-        FileUtil.removeDirectoryContent(this.caseFacade.getImageFolderLocation());
-        FileUtil.removeDirectoryContent(this.caseFacade.getCaseOfflineEmailAttachmentLocation());
+        try {
+            FileUtil.removeDirectoryContent(this.caseFacade.getIndexFolderLocation());
+            FileUtil.removeDirectoryContent(this.caseFacade.getCaseArchiveOutputFolderLocation());
+            FileUtil.removeDirectoryContent(this.caseFacade.getImageFolderLocation());
+            FileUtil.removeDirectoryContent(this.caseFacade.getCaseOfflineEmailAttachmentLocation());
+            this.caseFacade.updateMappingFile();
+        } catch (IOException ex) {
+            Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
         
     /**

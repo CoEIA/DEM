@@ -9,7 +9,7 @@ package edu.coeia.searching;
  * @author wajdyessam
  */
 
-final class SearchScope {
+public final class SearchScope {
     
     private final boolean fileSystemContent ;
     private final boolean fileSystemMetadata ;

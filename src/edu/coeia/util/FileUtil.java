@@ -276,11 +276,7 @@ public final class FileUtil {
         return getExtension(new File(f));
     }   
     
-    public static String getExtension (final File file) {
-//        if ( !file.exists() || file.isDirectory() ) {
-//           throw new IllegalArgumentException("the file should be existed in the system");
-//        }
-        
+    public static String getExtension (final File file) {        
         int index = file.getName().lastIndexOf(".");
         if ( index < 0 )
             return "";

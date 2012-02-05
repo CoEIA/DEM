@@ -77,7 +77,6 @@ public class ChatRefreshTask implements Task{
             if ( document != null ) {
                 Field field = document.getField(IndexingConstant.CHAT_FILE);
                 if ( field != null && field.stringValue() != null) {
-
                    if ( document.getField(IndexingConstant.CHAT_AGENT).stringValue().equals(panel.getAgent())) {
                        String chatFile = field.stringValue();
                        final File path = new File(chatFile);
