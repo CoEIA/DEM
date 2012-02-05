@@ -233,7 +233,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private void startIndexerThread () throws IOException{
         resettingButtons(false);
         JTableUtil.removeAllRows(indexTable);
-        
+
         // starting thread
         indexerThread = new CrawlerIndexerThread(this);
         indexerThread.execute();

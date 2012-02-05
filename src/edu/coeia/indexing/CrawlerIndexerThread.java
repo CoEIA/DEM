@@ -63,6 +63,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
     
     @Override
     public String doInBackground() {
+        this.checkForRemovingOldStatus();
         long start = new Date().getTime();
         this.indexStatus = startCrawling();
         long end = new Date().getTime();
@@ -70,6 +71,13 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
         return String.valueOf(totalTimeOfIndexingProcess);
     }
     
+    private void checkForRemovingOldStatus() {
+        FileUtil.removeDirectoryContent(this.caseFacade.getIndexFolderLocation());
+        FileUtil.removeDirectoryContent(this.caseFacade.getCaseArchiveOutputFolderLocation());
+        FileUtil.removeDirectoryContent(this.caseFacade.getImageFolderLocation());
+        FileUtil.removeDirectoryContent(this.caseFacade.getCaseOfflineEmailAttachmentLocation());
+    }
+        
     /**
      * crawling case sources and index each of them
      * 

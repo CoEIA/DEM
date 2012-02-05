@@ -203,6 +203,20 @@ public final class FileUtil {
 
         return dirPath.delete() ;
     }
+    
+    public static void removeDirectoryContent(final String directoryName) {
+        File directory = new File(directoryName);
+        
+        if ( directory.isDirectory() ) {
+            for(File file: directory.listFiles()) {
+                if ( file.isDirectory() )
+                    removeDirectoryContent(file.getAbsolutePath());
+                else {
+                    file.delete();
+                }
+            }
+        }
+    }
 
     /**
      * remove file from system
