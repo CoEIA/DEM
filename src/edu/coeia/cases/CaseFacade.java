@@ -275,6 +275,8 @@ public final class CaseFacade {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();
         this.casePathHandler = CasePathMappingHandler.newInstance(this.getCaseConfigurationFileLocation());
-        this.updateMappingFile();
+        
+        if ( FileUtil.isFileFound(this.getCaseConfigurationFileLocation()))
+            this.updateMappingFile();
     }
 }

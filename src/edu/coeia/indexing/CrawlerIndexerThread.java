@@ -23,6 +23,7 @@ import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 import edu.coeia.util.SizeUtil;
 
+import java.awt.EventQueue;
 import javax.swing.SwingWorker ;
 import javax.swing.JOptionPane;
 
@@ -243,13 +244,18 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
              Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, e);
         }
         finally {
-            try {
-                saveHistory();
-                clearFields();
-                closeIndex();
-            } catch (IOException ex) {
-                Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            EventQueue.invokeLater(new Runnable() { 
+               @Override
+               public void run() {
+                try {
+                    saveHistory();
+                    clearFields();
+                    closeIndex();
+                } catch (IOException ex) {
+                    Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
+               }
+            });
         }
     }
 

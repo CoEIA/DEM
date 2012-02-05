@@ -897,6 +897,7 @@ public class CaseWizardDialog extends javax.swing.JDialog{
             }
 
         } catch (IOException ex) {
+            ex.printStackTrace();
             Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_finishButtonActionPerformed
