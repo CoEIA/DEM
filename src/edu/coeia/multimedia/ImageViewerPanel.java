@@ -378,6 +378,9 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadImageButtonActionPerformed
+        this.currentImageNo = 0;
+        this.currentImagePage = 0;
+        
         ImageLoadingTask task = new ImageLoadingTask(this.caseFacade, this);
         task.startTask();
     }//GEN-LAST:event_loadImageButtonActionPerformed
@@ -414,7 +417,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
             LuceneSearcher searcher = new LuceneSearcher(this.aCase);
             Document currentDocument = searcher.getLuceneDocumentById(String.valueOf(selectedImage.getId()));
             
-            FileItem item = (FileItem) ItemFactory.newInstance(currentDocument, aCase);
+            FileItem item = (FileItem) ItemFactory.newInstance(currentDocument, caseFacade);
             String fileName = item.getFileName();
             String filePath = item.getFilePath();
             String date = item.getFileDate();

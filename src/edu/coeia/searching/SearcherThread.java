@@ -11,6 +11,7 @@ package edu.coeia.searching;
  */
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant ;
 import edu.coeia.items.Item;
@@ -35,7 +36,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     private int count = 0 ;
     private String queryString ;
     
-    private Case aCase;
+    private CaseFacade caseFacade;
     private LuceneSearcher searcher ;
     private AdvancedSearchPanel panel ;
     private SearchScope searchScope; 
@@ -44,6 +45,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     public SearcherThread (AdvancedSearchPanel panel) {
         this.queryString = panel.getQueryText();
         this.panel = panel ;
+        this.caseFacade = this.panel.getCaseFacade();
         this.searchScope = panel.getSearchScope() ;
     }
     
@@ -52,9 +54,8 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         try {
             this.panel.getSearchTable().setEnabled(false);
             this.panel.getSearchTable().setForeground(Color.GRAY);
-            
-            this.aCase = this.panel.getCaseFacade().getCase();
-            this.searcher = new LuceneSearcher(this.aCase);
+
+            this.searcher = new LuceneSearcher(this.panel.getCaseFacade().getCase());
             
             long start = new Date().getTime();
             this.count = searcher.search(queryString, this.searchScope);
@@ -66,7 +67,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             for (int i=0 ; i<this.count; i++) {
                 try {
                     Document document = this.searcher.getDocHits(i);
-                    Item item = ItemFactory.newInstance(document, this.aCase);
+                    Item item = ItemFactory.newInstance(document, this.caseFacade);
                     resultIds.add(Integer.parseInt(document.get(IndexingConstant.DOCUMENT_ID)));
                     publish(new ProgressSearchData(i, item));
                 }

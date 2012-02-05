@@ -31,7 +31,7 @@ public final class CaseFacade {
     private final CaseHistoryHandler caseHistoryHandler;
     private final CasePathMappingHandler casePathHandler; 
     
-    public static CaseFacade newInstance (final Case aCase) {
+    public static CaseFacade newInstance (final Case aCase) throws IOException {
         return new CaseFacade(aCase);
     }
     
@@ -271,9 +271,10 @@ public final class CaseFacade {
         FileUtil.writeToFile(otherCasesGroup, this.getCasesInformationFileLocation());
     }
         
-    private CaseFacade (final Case aCase) {
+    private CaseFacade (final Case aCase) throws IOException {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();
         this.casePathHandler = CasePathMappingHandler.newInstance(this.getCaseConfigurationFileLocation());
+        this.updateMappingFile();
     }
 }

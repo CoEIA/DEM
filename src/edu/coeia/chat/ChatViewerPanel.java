@@ -34,6 +34,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
     private final Case aCase;
     private final DefaultListModel chatListModel;
     private final String agent;
+    private final CaseFacade caseFacade ;
     
     /** Creates new form ChatViewerPanel */
     public ChatViewerPanel(final CaseFacade caseFacade, final String agent) {
@@ -41,6 +42,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
         this.aCase = caseFacade.getCase();
         this.chatListModel = new DefaultListModel();
         this.agent = agent;
+        this.caseFacade = caseFacade ;
         
         this.filterTable.getDocument().addDocumentListener(new DocumentListener() { 
             public void changedUpdate(DocumentEvent e){ doFilter(); }
@@ -201,6 +203,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
     public DefaultListModel getListModel() { return this.chatListModel; }
     public String getAgent() { return this.agent; }
     public JTable getTable() { return this.chatTable; }
+    public CaseFacade getCaseFacade() { return this.caseFacade; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList chatJList;

@@ -68,7 +68,7 @@ public class ChatLoadingTask implements Task{
                 if ( field != null && field.stringValue() != null) {
                     
                    if ( field.stringValue().endsWith(fileName)) {
-                       ChatItem item = (ChatItem) ItemFactory.newInstance(document, aCase);
+                       ChatItem item = (ChatItem) ItemFactory.newInstance(document, panel.getCaseFacade());
                        Object[] data = new Object[] {item.getFrom(), item.getTo(), item.getMessageText(),
                             item.getDate()};
                        JTableUtil.addRowToJTable(panel.getTable(), data);

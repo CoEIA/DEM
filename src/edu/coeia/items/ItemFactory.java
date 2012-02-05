@@ -6,6 +6,7 @@ package edu.coeia.items;
 
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.searching.LuceneSearcher;
 import static edu.coeia.indexing.IndexingConstant.* ;
 
@@ -22,9 +23,9 @@ import org.apache.lucene.document.Fieldable;
  */
 public class ItemFactory {
     
-    public static Item newInstance (final Document document, final Case aCase) {       
+    public static Item newInstance (final Document document, final CaseFacade caseFacade) {       
         if ( isFileDocument(document)) {
-            return buildFileItem(document, aCase);
+            return buildFileItem(document, caseFacade);
         }
 
         if ( isEmailDocument(document)) {
@@ -40,13 +41,13 @@ public class ItemFactory {
         }
         
         if ( isImageDocument(document) ) {
-            return buildImageItem(document, aCase);
+            return buildImageItem(document, caseFacade);
         }
         
         throw new UnsupportedOperationException("There is no item for this type of document");
     }
     
-    private static Item buildImageItem(final Document document, final Case aCase) {
+    private static Item buildImageItem(final Document document, final CaseFacade caseFacade) {
         int documentId = Integer.parseInt(document.get(DOCUMENT_ID));
         int documentParentId = Integer.parseInt(document.get(DOCUMENT_PARENT_ID));
         String documentHash = document.get(DOCUMENT_HASH);
@@ -57,7 +58,9 @@ public class ItemFactory {
         String fileDate = document.get(FILE_DATE);
         String fileMime = document.get(FILE_MIME);
         String description = document.get(DOCUMENT_DESCRIPTION);
-        String metadata = getMetadataForFile(documentId, aCase);
+        String metadata = getMetadataForFile(documentId, caseFacade.getCase());
+        
+        filePath = caseFacade.getFullPath(filePath);
         
         FileItem item = new FileItem(documentId, documentParentId, documentHash, description,
             fileName, filePath, fileContent, fileDate, fileMime, metadata);
@@ -65,7 +68,7 @@ public class ItemFactory {
         return item;
     }
     
-    private static Item buildFileItem(final Document document, final Case aCase) {
+    private static Item buildFileItem(final Document document, final CaseFacade caseFacade) {
         int documentId = Integer.parseInt(document.get(DOCUMENT_ID));
         int documentParentId = Integer.parseInt(document.get(DOCUMENT_PARENT_ID));
         String documentHash = document.get(DOCUMENT_HASH);
@@ -76,7 +79,9 @@ public class ItemFactory {
         String fileDate = document.get(FILE_DATE);
         String fileMime = document.get(FILE_MIME);
         String description = document.get(DOCUMENT_DESCRIPTION);
-        String metadata = getMetadataForFile(documentId, aCase);
+        String metadata = getMetadataForFile(documentId, caseFacade.getCase());
+        
+        filePath = caseFacade.getFullPath(filePath);
         
         FileItem item = new FileItem(documentId, documentParentId, documentHash, description,
             fileName, filePath, fileContent, fileDate, fileMime, metadata);

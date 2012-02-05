@@ -19,6 +19,7 @@ import edu.coeia.viewer.SourceViewerDialog;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -150,10 +151,15 @@ public class ImageLoadingTask implements Task{
             }
         });
         
-        JScrollPane pane = new JScrollPane (list, 
-             ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
-             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        this.panel.getRenderPanel().add(pane, BorderLayout.CENTER);
+        EventQueue.invokeLater(new Runnable() { 
+            @Override
+            public void run() {
+                JScrollPane pane = new JScrollPane (list, 
+                     ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, 
+                     ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                panel.getRenderPanel().add(pane, BorderLayout.CENTER);
+            }
+        });
     }
         
     private List<Tuple<String, Integer> > loadItems(int from, int size) throws IOException {

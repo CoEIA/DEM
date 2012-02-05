@@ -55,7 +55,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     private final Frame parent ;
     private final TagsManager tagManger  ;
     private final Case caseObj ;
-    private final CaseFacade caseManger; 
+    private final CaseFacade caseFacade; 
     
     /**
      * Lucene Document ID number list and the current id opened now
@@ -76,7 +76,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         this.parent = parent ;
         this.tagManger = ((CaseFrame) this.parent).getTagsManager();
         this.caseObj  = ((CaseFrame) this.parent).getCaseFacade().getCase();
-        this.caseManger = ((CaseFrame) this.parent).getCaseFacade();
+        this.caseFacade = ((CaseFrame) this.parent).getCaseFacade();
         this.keyword = searchViewer.getKeyword();
 
         try {
@@ -233,7 +233,8 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         
         if ( item.getDocumentParentId() != 0 ) {
             System.out.println("have parent: " + item.getDocumentParentId());
-            Item perentItem = ItemFactory.newInstance(getCurrentDocument(item.getDocumentParentId()), caseObj);
+            Item perentItem = ItemFactory.newInstance(getCurrentDocument(item.getDocumentParentId()),
+                    this.caseFacade);
             System.out.println("parent id: " + perentItem.getDocumentId());
             FileItem parentFileItem = (FileItem) perentItem;
             
@@ -248,7 +249,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         if ( IndexingConstant.isFileDocument(document) ) {
             try {
                 String filePath = document.get(IndexingConstant.FILE_PATH);
-                String fullPath = this.caseManger.getFullPath(filePath);
+                String fullPath = this.caseFacade.getFullPath(filePath);
                 this.openFile(fullPath);
             } catch (IOException ex) {
                 Logger.getLogger(SourceViewerDialog.class.getName()).log(Level.SEVERE, null, ex);
@@ -303,7 +304,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
             if ( result == JFileChooser.APPROVE_OPTION ) {
                 File file = fileChooser.getSelectedFile();
                 try {
-                    String fullPath = this.caseManger.getFullPath(filePath);
+                    String fullPath = this.caseFacade.getFullPath(filePath);
                     FileUtil.saveObject(new FileInputStream(fullPath), file.getAbsolutePath());
                 }
                 catch(Exception e) { e.printStackTrace(); }
@@ -346,7 +347,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     }
     
     private Item getItemForDocument(final Document document) {
-        return ItemFactory.newInstance(document, this.caseObj);
+        return ItemFactory.newInstance(document, this.caseFacade);
     }
     
    

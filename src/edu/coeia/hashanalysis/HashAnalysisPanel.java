@@ -42,6 +42,7 @@ import org.apache.lucene.document.Document ;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.LabelCellRenderer;
 import javax.swing.table.TableColumn;
 
@@ -56,12 +57,14 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
     private final List<MatchingResult> hashLibraryDuplicationResult;   // contain the result of hash library duplication anaylsis
     private final Multimap<String, String> caseDuplicationsMap;      // contain the result of case duplication analysis
     private final JFrame parentFrame;
+    private final CaseFacade caseFacade;
     
     /** Creates new form HashAnalysisPanel */
     public HashAnalysisPanel(final JPanel parentPanel) {
         initComponents();
         
         this.aCase =  ((FileSystemPanel) parentPanel).getCase();
+        this.caseFacade = ((FileSystemPanel) parentPanel).getCaseFrame().getCaseFacade();
         this.parentFrame = ( (FileSystemPanel) parentPanel).getCaseFrame();
         this.hashCategories = new ArrayList<HashCategory>();
         this.hashLibraryDuplicationResult = new ArrayList<MatchingResult>();
@@ -404,7 +407,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         
         MatchingResult result = this.hashLibraryDuplicationResult.get(row);
         for(Document document: result.matchingDocuments) {
-            Item item = ItemFactory.newInstance(document, this.aCase);
+            Item item = ItemFactory.newInstance(document, this.caseFacade);
             JTableUtil.addRowToJTable(this.matchedTable, item.getDisplayData());
         }
     }//GEN-LAST:event_analysisResultTableMouseClicked
@@ -427,7 +430,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
             Collection<String> documentsId = this.caseDuplicationsMap.get(key);
             for(String documentId: documentsId) {
                 Document document = searcher.getLuceneDocumentById(documentId);
-                Item item = ItemFactory.newInstance(document, this.aCase);
+                Item item = ItemFactory.newInstance(document, this.caseFacade);
                 JTableUtil.addRowToJTable(this.caseDuplicationResultTable, item.getDisplayData());
             }
             

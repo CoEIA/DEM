@@ -399,6 +399,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     public JList getList() { return this.emailSourceJList ;}
     public DefaultListModel getModel() { return this.emailSourcrListModel ; }
     public JTable getTable() { return this.emailsTable; }
+    public CaseFacade getCaseFacade() { return this.caseFacade ; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox correlationComboBox;
