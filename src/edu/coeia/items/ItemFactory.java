@@ -154,6 +154,9 @@ public class ItemFactory {
         String cc = document.get(OFFLINE_EMAIL_DISPLAY_CC);
         String bcc = document.get(OFFLINE_EMAIL_DISPLAY_BCC);
         
+        if ( user.trim().isEmpty() )
+            user = emailSource;
+        
         EmailItem item = new EmailItem(documentId, documentParentId, documentHash, description,
                 emailFrom, emailTo, emailSubject, emailSendDate, emailFolderName, hasAttachment, user,
                 content, header, cc, bcc, plainContent);

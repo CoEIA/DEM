@@ -53,7 +53,7 @@ public final class EmailItem extends Item{
           
     @Override
     public Object[] getDisplayData() {
-        Object[] object = new Object[] {this.documentId, this.folder, this.time, this.getLabel(), this.emailSource};   
+        Object[] object = new Object[] {this.documentId, this.subject, this.time, this.getLabel(), this.folder};   
         return object;
     }
     
