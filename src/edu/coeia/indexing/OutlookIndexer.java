@@ -129,7 +129,7 @@ final class OutlookIndexer extends Indexer{
                     boolean status = this.getLuceneIndex().indexFile(file, emailId, null);
                 }
                 catch(Exception e) {
-                    e.printStackTrace();
+                    //TODO: update gui with these error file
                     System.out.println("cannot index the attachment: " + path);
                 }
             }

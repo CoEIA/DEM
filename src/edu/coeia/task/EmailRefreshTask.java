@@ -14,9 +14,10 @@ import edu.coeia.util.FilesPath;
 import java.io.File;
 import java.io.IOException;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
+import java.util.Set;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexReader;
@@ -63,8 +64,8 @@ public class EmailRefreshTask implements Task{
         }
     }
     
-    private List<String> getOfflineEmailsPaths() throws IOException {
-        List<String> offlineEmailPaths = new ArrayList<String>();
+    private Set<String> getOfflineEmailsPaths() throws IOException {
+        Set<String> offlineEmailPaths = new HashSet<String>();
         
         String indexDir = this.aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
