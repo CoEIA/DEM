@@ -57,11 +57,11 @@ public class EmailLoadingTask  implements Task{
     }
     
     private void loadEmail() throws Exception {
-        if ( isOfflineEmailSelected() ) {
+        if ( this.panel.isOfflineEmailSelected() ) {
             String relativePath = String.valueOf(this.panel.getList().getSelectedValue());
             this.getAllMessaageInOfflineEmailPath(relativePath);
         }
-        else if ( isOnlineEmailSelected() ) {
+        else if ( this.panel.isOnlineEmailSelected() ) {
             String username = String.valueOf(this.panel.getList().getSelectedValue());
             this.getAllMessageInOnlineEmailPath(username);
         }
@@ -126,24 +126,5 @@ public class EmailLoadingTask  implements Task{
         
         this.panel.setResultIds(ids);
         indexReader.close();
-    }
-        
-    private boolean isOfflineEmailSelected() {
-        Object selectedValue = this.panel.getList().getSelectedValue();
-        if ( selectedValue == null )
-            return false;
-        
-        return String.valueOf(this.panel.getList().getSelectedValue()).endsWith(".pst") ||
-               String.valueOf(this.panel.getList().getSelectedValue()).endsWith("ost");
-        
-    }
-    
-    private boolean isOnlineEmailSelected() {
-        Object selectedValue = this.panel.getList().getSelectedValue();
-        if ( selectedValue == null )
-            return false;
-        
-        String value = String.valueOf(selectedValue);
-        return !value.endsWith(".pst") && !value.endsWith("ost");
     }
 }

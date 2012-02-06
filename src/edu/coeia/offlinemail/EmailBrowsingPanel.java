@@ -10,20 +10,21 @@
  */
 package edu.coeia.offlinemail;
 
+import edu.coeia.main.CaseFrame;
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.main.CaseFrame;
-import edu.coeia.task.EmailLoadingTask;
-import edu.coeia.task.EmailRefreshTask;
+import edu.coeia.gutil.LabelCellRenderer;
+import edu.coeia.gutil.GuiUtil;
 import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
-import edu.coeia.cases.CaseFacade;
-import edu.coeia.gutil.LabelCellRenderer;
+import edu.coeia.task.EmailLoadingTask;
+import edu.coeia.task.EmailRefreshTask;
+import edu.coeia.task.EmailProcessingTask;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,6 +51,8 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     private final CaseFrame caseFrame ;
     private final Case aCase ;    
     private final CaseFacade caseFacade ;
+
+    public enum EMAIL_PROCESSING_TYPE { INBOX, SEND_ITEM, FREQUENCY } ;
     
     /** Creates new form OfflineEmailBrowsingPanel */
     public EmailBrowsingPanel(final JFrame frame) {
@@ -92,28 +95,34 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        loadingPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         emailSourceJList = new javax.swing.JList();
         loadEmailSourceButton = new javax.swing.JButton();
         refreshEmailSourceButton = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        vewingPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         emailsTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         filterEmailsTextField = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        statisticsPanel = new javax.swing.JPanel();
         factorSelectionPanel = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
-        correlationComboBox = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        typeComboBox = new javax.swing.JComboBox();
+        processEmailButton = new javax.swing.JButton();
+        visualizationButton = new javax.swing.JButton();
+        cardsPanel = new javax.swing.JPanel();
+        messagesResultPanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        messageResultTable = new javax.swing.JTable();
+        messagesDateResultPanel = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        messagesDateResultTable = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Sources"));
+        loadingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Sources"));
 
         jScrollPane1.setViewportView(emailSourceJList);
 
@@ -131,37 +140,37 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout loadingPanelLayout = new javax.swing.GroupLayout(loadingPanel);
+        loadingPanel.setLayout(loadingPanelLayout);
+        loadingPanelLayout.setHorizontalGroup(
+            loadingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(loadingPanelLayout.createSequentialGroup()
+                .addGroup(loadingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(loadEmailSourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(refreshEmailSourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+        loadingPanelLayout.setVerticalGroup(
+            loadingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loadingPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(refreshEmailSourceButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loadEmailSourceButton))
         );
 
-        add(jPanel1, java.awt.BorderLayout.WEST);
+        add(loadingPanel, java.awt.BorderLayout.WEST);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Content"));
+        vewingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Content"));
 
         emailsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Folder Name", "From", "To", "Subject", "Date", "Has Attachment"
+                "ID", "Subject", "From", "To", "Folder Name", "Date", "Has Attachment"
             }
         ) {
             Class[] types = new Class [] {
@@ -199,7 +208,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(filterEmailsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                .addComponent(filterEmailsTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -212,36 +221,70 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout vewingPanelLayout = new javax.swing.GroupLayout(vewingPanel);
+        vewingPanel.setLayout(vewingPanelLayout);
+        vewingPanelLayout.setHorizontalGroup(
+            vewingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(vewingPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(vewingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        vewingPanelLayout.setVerticalGroup(
+            vewingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, vewingPanelLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        add(jPanel2, java.awt.BorderLayout.CENTER);
+        add(vewingPanel, java.awt.BorderLayout.CENTER);
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Statistics"));
+        statisticsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Statistics"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        factorSelectionPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(0, 70, 213));
+        jLabel20.setText("Statistics For:");
+        factorSelectionPanel.add(jLabel20);
+
+        typeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Inbox", "Send Items", "Frequency" }));
+        typeComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typeComboBoxActionPerformed(evt);
+            }
+        });
+        factorSelectionPanel.add(typeComboBox);
+
+        processEmailButton.setText("Process Email");
+        processEmailButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                processEmailButtonActionPerformed(evt);
+            }
+        });
+        factorSelectionPanel.add(processEmailButton);
+
+        visualizationButton.setText("Visualization");
+        visualizationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visualizationButtonActionPerformed(evt);
+            }
+        });
+        factorSelectionPanel.add(visualizationButton);
+
+        cardsPanel.setLayout(new java.awt.CardLayout());
+
+        messagesResultPanel.setLayout(new java.awt.BorderLayout());
+
+        messageResultTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Sender", "Reciever", "Number of Messages"
+                "From", "To", "# No of Messages"
             }
         ) {
             Class[] types = new Class [] {
@@ -259,41 +302,61 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setFillsViewportHeight(true);
-        jScrollPane3.setViewportView(jTable1);
+        messageResultTable.setFillsViewportHeight(true);
+        jScrollPane3.setViewportView(messageResultTable);
 
-        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel20.setForeground(new java.awt.Color(0, 70, 213));
-        jLabel20.setText("Statistics For:");
-        factorSelectionPanel.add(jLabel20);
+        messagesResultPanel.add(jScrollPane3, java.awt.BorderLayout.CENTER);
 
-        correlationComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Inbox Folder", "Send Items Folder", "Messages Domain Name ", "Messages Origin Country", "Messages Frequency" }));
-        factorSelectionPanel.add(correlationComboBox);
+        cardsPanel.add(messagesResultPanel, "messageCard");
 
-        jButton1.setText("Process Email");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        messagesDateResultPanel.setLayout(new java.awt.BorderLayout());
+
+        messagesDateResultTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "From", "To", "Month/Year", "#No of Messages"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        factorSelectionPanel.add(jButton1);
+        messagesDateResultTable.setFillsViewportHeight(true);
+        jScrollPane4.setViewportView(messagesDateResultTable);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE)
-            .addComponent(factorSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE)
+        messagesDateResultPanel.add(jScrollPane4, java.awt.BorderLayout.CENTER);
+
+        cardsPanel.add(messagesDateResultPanel, "messageDateCard");
+
+        javax.swing.GroupLayout statisticsPanelLayout = new javax.swing.GroupLayout(statisticsPanel);
+        statisticsPanel.setLayout(statisticsPanelLayout);
+        statisticsPanelLayout.setHorizontalGroup(
+            statisticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statisticsPanelLayout.createSequentialGroup()
+                .addComponent(cardsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 568, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(factorSelectionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addComponent(factorSelectionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+        statisticsPanelLayout.setVerticalGroup(
+            statisticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(factorSelectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+            .addComponent(cardsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
         );
 
-        add(jPanel4, java.awt.BorderLayout.SOUTH);
+        add(statisticsPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadEmailSourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadEmailSourceButtonActionPerformed
@@ -317,9 +380,9 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_emailsTableMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.processEmail();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void processEmailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_processEmailButtonActionPerformed
+        this.processEmail(this.getSelectedProcessingType());
+    }//GEN-LAST:event_processEmailButtonActionPerformed
 
     private void refreshEmailSourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshEmailSourceButtonActionPerformed
         // fill email source
@@ -331,53 +394,67 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_refreshEmailSourceButtonActionPerformed
 
-    private void processEmail() {
-        // from date to date
-        String from = new Date().toString();
-        String to   = new Date().toString();
+    private void typeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeComboBoxActionPerformed
+        EMAIL_PROCESSING_TYPE type = this.getSelectedProcessingType();
 
-      // if ( !isOfflineEmailSelected() )
-          // return;
-       
-        String path = String.valueOf(this.emailSourceJList.getSelectedValue());
-        
-        try {
-            path = this.caseFacade.getFullPath(path);
-        
-            PSTFile pstFile = new PSTFile(path);
-
-            int selectedIndex = correlationComboBox.getSelectedIndex();
-
-            switch ( selectedIndex ) {
-                case 0 :
-                    showVisualization(from, to, pstFile, path, "Inbox Visualization...",
-                            "Inbox", EmailVisualizationThread.FolderType.INBOX);
-                    break;
-
-                case 1 :
-                    showVisualization(from, to, pstFile, path, "Sent Items Visualization...",
-                            "Sent Items", EmailVisualizationThread.FolderType.SENT);
-                    break;
-
-                case 2 :
-                    showVisualization(from, to, pstFile, path, "Email Service Provider Visualization...",
-                            "ESP", EmailVisualizationThread.FolderType.ESP);
-                    break;
-
-                case 3 :
-                    showVisualization(from, to, pstFile, path, "Location Visualization...",
-                            "Location", EmailVisualizationThread.FolderType.LOCATION);
-                    break;
-
-                case 4 :
-                    showVisualization(from, to, pstFile, path, "Messages Communication Visualization...",
-                            "Frequency", EmailVisualizationThread.FolderType.FREQUENCY);
-                    break;
-            }
-        } 
-        catch (Exception e){
-           e.printStackTrace();
+        if ( type == EMAIL_PROCESSING_TYPE.INBOX ||
+                type == EMAIL_PROCESSING_TYPE.SEND_ITEM) {
+            GuiUtil.showPanel("messageCard", this.cardsPanel);
         }
+        else {
+            GuiUtil.showPanel("messageDateCard", this.cardsPanel);
+        }
+    }//GEN-LAST:event_typeComboBoxActionPerformed
+
+    private void visualizationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizationButtonActionPerformed
+        this.doVisualization();
+    }//GEN-LAST:event_visualizationButtonActionPerformed
+
+    private void doVisualization() {
+        
+    }
+    
+    private EMAIL_PROCESSING_TYPE getSelectedProcessingType() {
+        String value = String.valueOf(this.typeComboBox.getSelectedItem());
+        EMAIL_PROCESSING_TYPE type;  
+        
+        if ( value.equalsIgnoreCase("Inbox") ) {
+           type =  EMAIL_PROCESSING_TYPE.INBOX;
+        }
+        else if ( value.equalsIgnoreCase("Send Items")) {
+            type = EMAIL_PROCESSING_TYPE.SEND_ITEM;
+        }
+        else {
+            type = EMAIL_PROCESSING_TYPE.FREQUENCY;
+        }
+        
+        return type;
+    }
+    
+    private void processEmail(final EMAIL_PROCESSING_TYPE type) {
+        JTableUtil.removeAllRows(this.messageResultTable);
+        JTableUtil.removeAllRows(this.messagesDateResultTable);
+        
+        EmailProcessingTask task = new EmailProcessingTask(type, this);
+        task.startTask();
+    }
+    
+    public boolean isOfflineEmailSelected() {
+        Object selectedValue = this.getList().getSelectedValue();
+        if ( selectedValue == null )
+            return false;
+        
+        return String.valueOf(this.getList().getSelectedValue()).endsWith(".pst") ||
+               String.valueOf(this.getList().getSelectedValue()).endsWith(".ost");
+    }
+    
+    public boolean isOnlineEmailSelected() {
+        Object selectedValue = this.getList().getSelectedValue();
+        if ( selectedValue == null )
+            return false;
+        
+        String value = String.valueOf(selectedValue);
+        return !value.endsWith(".pst") && !value.endsWith(".ost");
     }
     
     private void showVisualization (String from, String to, PSTFile pst,
@@ -399,26 +476,34 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     public JList getList() { return this.emailSourceJList ;}
     public DefaultListModel getModel() { return this.emailSourcrListModel ; }
     public JTable getTable() { return this.emailsTable; }
+    public JTable getEmailProcessingTable() { return this.messageResultTable; }
+    public JTable getEmailDateProcessingTable() { return this.messagesDateResultTable; }
     public CaseFacade getCaseFacade() { return this.caseFacade ; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox correlationComboBox;
+    private javax.swing.JPanel cardsPanel;
     private javax.swing.JList emailSourceJList;
     private javax.swing.JTable emailsTable;
     private javax.swing.JPanel factorSelectionPanel;
     private javax.swing.JTextField filterEmailsTextField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton loadEmailSourceButton;
+    private javax.swing.JPanel loadingPanel;
+    private javax.swing.JTable messageResultTable;
+    private javax.swing.JPanel messagesDateResultPanel;
+    private javax.swing.JTable messagesDateResultTable;
+    private javax.swing.JPanel messagesResultPanel;
+    private javax.swing.JButton processEmailButton;
     private javax.swing.JButton refreshEmailSourceButton;
+    private javax.swing.JPanel statisticsPanel;
+    private javax.swing.JComboBox typeComboBox;
+    private javax.swing.JPanel vewingPanel;
+    private javax.swing.JButton visualizationButton;
     // End of variables declaration//GEN-END:variables
 }

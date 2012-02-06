@@ -152,7 +152,8 @@ public final class FileUtil {
             }
         }
         finally {
-            outputStream.close();
+            if ( outputStream != null )
+                outputStream.close();
         }
     }
         
