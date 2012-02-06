@@ -10,8 +10,8 @@ package edu.coeia.offlinemail;
  * @author wajdyessam
  */
 
-import edu.coeia.offlinemail.MessageFrequencyDialog;
-import edu.coeia.offlinemail.CorrelationDialog;
+import edu.coeia.visualization.MessageFrequencyDialog;
+import edu.coeia.visualization.CorrelationDialog;
 import com.pff.PSTFile;
 import edu.coeia.offlinemail.EmailHandler;
 import edu.coeia.gutil.InfiniteProgressPanel;
@@ -141,9 +141,13 @@ public class EmailVisualizationThread extends SwingWorker<String, ProgressEmailV
                     JOptionPane.showMessageDialog(null, "Cannot handling this email", "there is problem with this email type", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
-                    CorrelationDialog cd = new CorrelationDialog(frame, true, data,userName,folderName);
-                    cd.setVisible(true);
-                    cd.releaseMemory();
+                    try {
+                        CorrelationDialog cd = new CorrelationDialog(frame, true, data,userName,folderName);
+                        cd.setVisible(true);
+                        cd.releaseMemory();
+                    } catch (Exception ex) {
+                        Logger.getLogger(EmailVisualizationThread.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 break;
 

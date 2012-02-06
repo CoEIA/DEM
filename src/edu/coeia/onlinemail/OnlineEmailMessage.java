@@ -1,6 +1,5 @@
 package edu.coeia.onlinemail;
 
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 

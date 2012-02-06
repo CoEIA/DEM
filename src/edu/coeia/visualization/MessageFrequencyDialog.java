@@ -9,7 +9,7 @@
  * Created on Jul 4, 2010, 1:33:06 PM
  */
 
-package edu.coeia.offlinemail;
+package edu.coeia.visualization;
 
 /**
  *
@@ -23,6 +23,8 @@ import java.awt.Toolkit ;
 import com.pff.PSTFile ;
 
 import edu.coeia.gutil.InfiniteProgressPanel;
+import edu.coeia.offlinemail.EmailVisualizationThread;
+import edu.coeia.offlinemail.Message;
 import java.util.ArrayList ;
 import javax.swing.JPanel;
 

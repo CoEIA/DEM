@@ -9,18 +9,20 @@
  * Created on May 25, 2010, 9:30:26 AM
  */
 
-package edu.coeia.offlinemail;
+package edu.coeia.visualization;
 
 import edu.coeia.charts.BarChartPanel;
 import edu.coeia.util.FilesPath ;
 
 import java.awt.BorderLayout;
+import java.awt.Toolkit ;
 
 import java.util.Set ;
 import java.util.Iterator ;
 import java.util.Map ;
 import java.util.WeakHashMap ;
 import java.util.SortedSet ;
+import java.util.TreeSet;
 
 import javax.xml.stream.XMLStreamException ;
 
@@ -28,8 +30,6 @@ import java.io.FileNotFoundException;
 import java.io.File ;
 import java.io.IOException ;
 
-import java.awt.Toolkit ;
-import java.util.TreeSet;
 import javax.swing.JComboBox;
 
 /**
@@ -38,7 +38,7 @@ import javax.swing.JComboBox;
  *
  */
 
-public class CorrelationDialog extends javax.swing.JDialog {
+public final class CorrelationDialog extends javax.swing.JDialog {
     private Map<String,Integer> data  ;
     private Map<String,Double> doubleMap  ;
     private Map<String,Integer> tmpIntMap    ;
@@ -50,11 +50,11 @@ public class CorrelationDialog extends javax.swing.JDialog {
     private final static int PAGE_ONE = 1 ;
     private final static int PAGE_TWO = 2 ;
     private int page = PAGE_ONE;
-    private int first, last;
     
     /** Creates new form CorrelationDialog */
-    public CorrelationDialog(java.awt.Frame parent, boolean modal,Map<String,Integer> t,String user,
-            String type ) {
+    public CorrelationDialog(java.awt.Frame parent,
+            boolean modal,Map<String,Integer> t,String user,
+            String type ) throws Exception{
 
         super(parent, modal);
         this.data = t ;
@@ -69,16 +69,8 @@ public class CorrelationDialog extends javax.swing.JDialog {
 
         initComponents();
         
-        try {
-            showGraph(data);
-            fillBox();
-        }
-        catch (XMLStreamException e){
-            e.printStackTrace();
-        }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
+        showGraph(data);
+        fillBox();
     }
     
     /** This method is called from within the constructor to
@@ -279,8 +271,6 @@ public class CorrelationDialog extends javax.swing.JDialog {
             valueBox.addItem(value);
         }
 
-        first = set.first();
-        last  = set.last();
         set.clear();
     }
     

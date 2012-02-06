@@ -280,12 +280,6 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                     Message[] mCurrentMessages = folder.getMessages();
                     
                     if (folder instanceof com.sun.mail.pop3.POP3Folder) {
-                        /* FetchProfile fp = new FetchProfile();
-                        String strMsgId =((com.sun.mail.pop3.POP3Folder)folder).getUID(mCurrentMessages[mCurrentMessages.length-1]);
-                        strMsgId = objResume.getMessageId();
-                        fp.add(strMsgId);
-                        folder.fetch(messages, fp);
-                         * */
                         int lLastMsgId = mCurrentMessages.length;
                         int iMsgId = iMessageCounter = Integer.parseInt(objResume.getMessageId());
                         messages = ((com.sun.mail.pop3.POP3Folder) folder).getMessages((int) iMsgId, (int) lLastMsgId);
@@ -351,7 +345,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         String body = Utilities.getEmptyStringWhenNullString(getText(message));
                         
                         // Save Attachment
-                        List<String> Paths = getAttachments(message);
+                        List<String> Paths = getAttachments(message, messageId);
                         // Save In DBint id, String Username, String from, List<String> to, 
                         OnlineEmailMessage msg = OnlineEmailMessage.newInstance(messageId, this.Username,
                                 from, to, bcclist, cclist, subject, body, sentDate.toString(), receiveDate.toString(), Paths, folder.getFullName());
@@ -445,16 +439,6 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         
         try {
             store.close();
-//            try {
-//                this.db.closeDB();
-//            } catch (SQLException e) {
-//                if (e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState())) {
-//                    System.out.println("Derby Shutdown normally");
-//                } else {
-//                    System.out.println("Derby Did not shutdown normally");
-//                    e.printStackTrace();
-//                }
-//            }
         } catch (MessagingException ex) {
             ex.printStackTrace();
             Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
@@ -489,10 +473,6 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         }
         
         field.setText(buffer.toString());
-    }
-    
-    public void pauseDownloading(boolean vbtrue) {
-        
     }
     
     public boolean ConnectPop3Hotmail(String UserName, String Password) {
@@ -629,7 +609,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         return addressList;
     }
     
-    private List<String> getAttachments(Message temp) throws IOException, MessagingException {
+    private List<String> getAttachments(Message temp, int id) throws IOException, MessagingException {
         
         attachments = new ArrayList<String>();
         Object objRef = null;
@@ -657,12 +637,10 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                 if (is == null) {
                     continue;
                 }
+                
+                filename = id + "-" + filename;
                 System.out.println("file name" + filename);
-                try {
-                    FileUtil.saveObject(bodyPart.getInputStream(), filename, attachmentsPath);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                FileUtil.saveObject(bodyPart.getInputStream(), filename, attachmentsPath);
                 attachments.add(filename);
             }
         } catch (MessagingException ex) {

@@ -14,7 +14,7 @@ import edu.coeia.detector.UsersDetector;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.FilesPath ;
-import edu.coeia.offlinemail.CorrelationDialog;
+import edu.coeia.visualization.CorrelationDialog;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.util.FileUtil;
