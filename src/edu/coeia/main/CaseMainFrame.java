@@ -21,6 +21,7 @@ import edu.coeia.searching.CaseSearchPanel;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.ApplicationConstants;
 import edu.coeia.tags.TagsManager ;
+import edu.coeia.util.DEMLogger;
 import edu.coeia.util.SystemConstant;
 
 import java.awt.Toolkit ;
@@ -35,7 +36,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
+/**
+ * For Historical Memo :)
  * OfflineMinningFrame.java
  *
  * @author wajdyessam
@@ -44,15 +46,16 @@ import java.util.logging.Logger;
  * 
  */
 
-public class CaseFrame extends javax.swing.JFrame {
-    private final String applicationTitle;
-    private static final Logger logger = Logger.getLogger(edu.coeia.util.ApplicationConstants.LOG_NAMESPACE);
+public class CaseMainFrame extends javax.swing.JFrame {
+    
+    private static final Logger logger =  DEMLogger.getLogger(CaseMainFrame.class);
     
     private final CaseManagerFrame parentFrame; 
     private final List<String> listOfOpeningCase ;
     private final CaseFacade caseFacade;
     private final TagsManager tagsManager ;
-            
+    private final String applicationTitle;
+    
     // to update the panel after direct indexing 
     private final CaseInformationPanel caseManagerPanel;
     private final CaseSearchPanel caseSearchPanel ;
@@ -68,7 +71,7 @@ public class CaseFrame extends javax.swing.JFrame {
      * @param aCase case opened in CaseFacade
      * @param list a list of all openings case
      */
-    public CaseFrame(final CaseManagerFrame frame, final CaseFacade caseFacade, final List<String> list) {
+    public CaseMainFrame(final CaseManagerFrame frame, final CaseFacade caseFacade, final List<String> list) {
         initComponents();
         logger.info("OfflineMining Frame Constructor, Open Case: " + caseFacade.getCase().getCaseName());
         
@@ -309,7 +312,7 @@ public class CaseFrame extends javax.swing.JFrame {
         mainMenuBar.add(fileMenu);
 
         optionsMenu.setText("Options");
-        optionsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        optionsMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         hashLibraryMenuItem.setText("Hash Library");
         hashLibraryMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -347,7 +350,7 @@ public class CaseFrame extends javax.swing.JFrame {
         mainMenuBar.add(optionsMenu);
 
         viewMenu.setText("View");
-        viewMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        viewMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         styleMenu.setText("Application Style");
 
@@ -456,7 +459,7 @@ public class CaseFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_windowsMenuItemActionPerformed
 
     private void recentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recentMenuItemActionPerformed
-        RecentDialog rd = new RecentDialog(CaseFrame.this, true);
+        RecentDialog rd = new RecentDialog(CaseMainFrame.this, true);
         rd.setVisible(true);
     }//GEN-LAST:event_recentMenuItemActionPerformed
     
@@ -573,7 +576,7 @@ public class CaseFrame extends javax.swing.JFrame {
                 downloder.download(this);
             } 
             catch (Exception ex) {
-                Logger.getLogger(CaseFrame.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CaseMainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -581,7 +584,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private void displayWindowsInformation() {
         try {
             List<String> data = FileUtil.readProgramOutputStream("systeminfo.exe");
-            WindowsInfoDialog wid = new WindowsInfoDialog(CaseFrame.this, true, data);
+            WindowsInfoDialog wid = new WindowsInfoDialog(CaseMainFrame.this, true, data);
             wid.setVisible(true);
         }
         catch (IOException e) {

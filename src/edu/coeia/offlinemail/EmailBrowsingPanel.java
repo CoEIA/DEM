@@ -10,7 +10,7 @@
  */
 package edu.coeia.offlinemail;
 
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.InfiniteProgressPanel;
@@ -48,7 +48,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     private final DefaultListModel emailSourcrListModel;
     private final List<Integer> documentIds = new ArrayList<Integer>();;
     
-    private final CaseFrame caseFrame ;
+    private final CaseMainFrame caseFrame ;
     private final Case aCase ;    
     private final CaseFacade caseFacade ;
 
@@ -58,7 +58,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     public EmailBrowsingPanel(final JFrame frame) {
         initComponents();
         this.emailSourcrListModel = new DefaultListModel();
-        this.caseFrame = (CaseFrame) frame;
+        this.caseFrame = (CaseMainFrame) frame;
         this.caseFacade = this.caseFrame.getCaseFacade();
         this.aCase =  this.caseFrame.getCaseFacade().getCase();
         

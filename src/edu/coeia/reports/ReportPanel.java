@@ -13,7 +13,7 @@ package edu.coeia.reports;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.GuiUtil;
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 
 import edu.coeia.tags.TagsManager;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class ReportPanel extends javax.swing.JPanel {
 
     private CaseFacade caseFacade ;
     private TagsManager tags;
-    private CaseFrame caseFrame ;
+    private CaseMainFrame caseFrame ;
     private Case aCase ;
     
     public ReportPanel() { 
@@ -41,7 +41,7 @@ public class ReportPanel extends javax.swing.JPanel {
     public ReportPanel(final JFrame frame) {
         initComponents();
 
-        this.caseFrame = (CaseFrame) frame;
+        this.caseFrame = (CaseMainFrame) frame;
         this.aCase =  this.caseFrame.getCaseFacade().getCase();
         this.caseFacade = this.caseFrame.getCaseFacade();
         this.tags = this.caseFrame.getTagsManager(); 

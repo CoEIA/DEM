@@ -14,7 +14,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.items.FileItem;
 import edu.coeia.items.ItemFactory;
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 import edu.coeia.searching.LuceneSearcher;
 import edu.coeia.task.ImageLoadingTask;
 
@@ -63,10 +63,10 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     
     private final CaseFacade caseFacade ;
     private final List<Integer> currentIds; 
-    private final CaseFrame caseFrame; 
+    private final CaseMainFrame caseFrame; 
     
     /** Creates new form ImageViewerPanel */
-    public ImageViewerPanel(final CaseFacade caseFacade, final CaseFrame caseFrame) {
+    public ImageViewerPanel(final CaseFacade caseFacade, final CaseMainFrame caseFrame) {
         initComponents();
         this.caseFacade = caseFacade;
         this.aCase = this.caseFacade.getCase();
@@ -608,7 +608,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     public boolean isImageSizeIsComputed() { return this.isImageSizeIsComputed; }
     public void setImageSizeFlag() { this.isImageSizeIsComputed = true; }
     public void setTotalNumberOfImages(int total) { this.totalNumberOfImages = total; }
-    public CaseFrame getCaseFrame() { return this.caseFrame ; }
+    public CaseMainFrame getCaseFrame() { return this.caseFrame ; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ImageOptionPanel;

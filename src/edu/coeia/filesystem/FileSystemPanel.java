@@ -5,7 +5,7 @@ import edu.coeia.hashanalysis.HashAnalysisPanel;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.filesignature.FileSignaturePanel;
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 import javax.swing.JFrame;
 
 /*
@@ -19,14 +19,14 @@ import javax.swing.JFrame;
 
 public class FileSystemPanel extends javax.swing.JPanel {
     
-    private final CaseFrame caseFrame ;
+    private final CaseMainFrame caseFrame ;
     private final Case aCase ;
     
     /** Creates new form FileSystemPanel */
     public FileSystemPanel(final JFrame parentFrame) {
         initComponents();
 
-        this.caseFrame = (CaseFrame) parentFrame;
+        this.caseFrame = (CaseMainFrame) parentFrame;
         this.aCase = this.caseFrame.getCaseFacade().getCase();
         
         //SearchFileSystemPanel searchPanel = new SearchFileSystemPanel(aIndex, parentFrame);
@@ -45,7 +45,7 @@ public class FileSystemPanel extends javax.swing.JPanel {
         //((SearchFileSystemPanel)fileSystemTappedPane.getComponentAt(0)).setSearchKeyword(text);
     }
     
-    public CaseFrame getCaseFrame() { return this.caseFrame ; }
+    public CaseMainFrame getCaseFrame() { return this.caseFrame ; }
     public Case getCase() { return this.aCase ; }
     
     /** This method is called from within the constructor to

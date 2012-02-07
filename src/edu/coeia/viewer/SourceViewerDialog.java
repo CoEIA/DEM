@@ -16,7 +16,7 @@ import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.items.FileItem;
 import edu.coeia.items.Item;
 import edu.coeia.items.ItemFactory;
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 import edu.coeia.searching.LuceneSearcher ;
 import edu.coeia.util.FileUtil;
 import edu.coeia.tags.Tag;
@@ -74,9 +74,9 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         this.setLocationRelativeTo(this.parent);
         
         this.parent = parent ;
-        this.tagManger = ((CaseFrame) this.parent).getTagsManager();
-        this.caseObj  = ((CaseFrame) this.parent).getCaseFacade().getCase();
-        this.caseFacade = ((CaseFrame) this.parent).getCaseFacade();
+        this.tagManger = ((CaseMainFrame) this.parent).getTagsManager();
+        this.caseObj  = ((CaseMainFrame) this.parent).getCaseFacade().getCase();
+        this.caseFacade = ((CaseMainFrame) this.parent).getCaseFacade();
         this.keyword = searchViewer.getKeyword();
 
         try {
@@ -290,7 +290,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         
         if ( tag !=  null ) {
             this.tagManger.addTag(tag);
-            ((CaseFrame)this.parent).refreshTagsList();
+            ((CaseMainFrame)this.parent).refreshTagsList();
         }
     }
     

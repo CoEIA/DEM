@@ -11,7 +11,7 @@
 package edu.coeia.verification;
 
 import edu.coeia.gutil.JListUtil;
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 
 import java.util.List;
 
@@ -26,13 +26,13 @@ import javax.swing.JOptionPane;
 public final class CaseVerificationDialog extends javax.swing.JDialog {
 
     /** Creates new form CaseVerificationDialog */
-    private final CaseFrame caseFrame ;
+    private final CaseMainFrame caseFrame ;
     private final DefaultListModel evidenceModel;
     
     public CaseVerificationDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.caseFrame = (CaseFrame) parent;
+        this.caseFrame = (CaseMainFrame) parent;
         this.setLocationRelativeTo(parent);
         this.evidenceModel = new DefaultListModel();
         this.fillEvidenceList();

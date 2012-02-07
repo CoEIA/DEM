@@ -12,7 +12,7 @@ package edu.coeia.searching;
 
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.items.Item;
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +29,7 @@ public class CaseSearchPanel extends javax.swing.JPanel {
     private AdvancedSearchPanel  advancedSearchPanel;
     private ConnectedSearchPanel connectedSearchPanel;
     
-    private final CaseFrame caseFrame ;
+    private final CaseMainFrame caseFrame ;
     private final CaseFacade caseFacade ;
     
     private List<SearchHistory> searchOptions = new ArrayList<SearchHistory>();
@@ -38,7 +38,7 @@ public class CaseSearchPanel extends javax.swing.JPanel {
     public CaseSearchPanel(final JFrame frame) {
         initComponents();
         
-        this.caseFrame = (CaseFrame) frame;
+        this.caseFrame = (CaseMainFrame) frame;
         this.caseFacade =  this.caseFrame.getCaseFacade();
         
         // add tapped pane

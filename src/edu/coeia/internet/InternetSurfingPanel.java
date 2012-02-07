@@ -16,7 +16,7 @@ import edu.coeia.util.Utilities;
 import edu.coeia.util.ApplicationConstants ;
 import edu.coeia.visualization.CorrelationDialog;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 import edu.coeia.util.FileUtil;
 
 import java.awt.Desktop ;
@@ -63,14 +63,14 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     private final static Logger logger = Logger.getLogger(ApplicationConstants.LOG_NAMESPACE);
     private JFileChooser fileChooser ;       
     
-    private final CaseFrame caseFrame ;
+    private final CaseMainFrame caseFrame ;
     private final Case aCase ;
     
     /** Creates new form InternetSurfingPanel */
     public InternetSurfingPanel(final JFrame frame) {
         initComponents();
         
-        this.caseFrame = (CaseFrame) frame;
+        this.caseFrame = (CaseMainFrame) frame;
         this.aCase =  this.caseFrame.getCaseFacade().getCase();
         
         // configure file chooser to select files (txt)

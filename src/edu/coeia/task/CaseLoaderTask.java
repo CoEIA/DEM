@@ -9,7 +9,7 @@ import edu.coeia.managers.ApplicationManager;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.main.CaseManagerFrame;
 import edu.coeia.main.UpdatingCaseEvidenceSourceDialog;
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -55,8 +55,6 @@ public class CaseLoaderTask implements Task {
     private void loadCase () throws FileNotFoundException, IOException, ClassNotFoundException, Exception{
         if ( caseName != null ) {
             if ( !ApplicationManager.Manager.isRunningCase(caseName)) {
-                Case aCase = ApplicationManager.Manager.getCaseFromCaseName(caseName);
-
                 // check here for case evience chnaging
                 // and update the file before opening the case
                 boolean caseSourceIsUptoDate = true;
@@ -68,7 +66,7 @@ public class CaseLoaderTask implements Task {
                 if ( caseSourceIsUptoDate ) {                    
                     ApplicationManager.Manager.addCase(caseName);
 
-                    CaseFrame mainFrame = new CaseFrame(this.frame, 
+                    CaseMainFrame mainFrame = new CaseMainFrame(this.frame, 
                             this.caseFacade, ApplicationManager.Manager.getList());
                     mainFrame.setLocationRelativeTo(this.frame);
                     mainFrame.setVisible(true);

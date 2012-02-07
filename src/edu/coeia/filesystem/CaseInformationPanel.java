@@ -14,7 +14,7 @@ import edu.coeia.cases.CaseHistory;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.tags.TagsDialog;
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 import edu.coeia.tags.TagsManager;
 import edu.coeia.tags.Tag ;
 import edu.coeia.util.DateUtil;
@@ -33,7 +33,7 @@ import javax.swing.JOptionPane;
  */
 public final class CaseInformationPanel extends javax.swing.JPanel {
 
-    private final CaseFrame parent ;
+    private final CaseMainFrame parent ;
     private final TagsManager tagsManager ;
     private final CaseFacade caseFacade ;
     
@@ -42,7 +42,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
     private DefaultListModel emailSourcesModel;
     
     /** Creates new form CaseInformationPanel */
-    public CaseInformationPanel(CaseFrame frame) {
+    public CaseInformationPanel(CaseMainFrame frame) {
         initComponents();
         
         this.parent = frame;

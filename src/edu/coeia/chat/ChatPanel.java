@@ -11,7 +11,7 @@
 package edu.coeia.chat;
 
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 
 import javax.swing.JFrame;
 
@@ -21,14 +21,14 @@ import javax.swing.JFrame;
  */
 public class ChatPanel extends javax.swing.JPanel {
 
-    private final CaseFrame caseFrame ;
+    private final CaseMainFrame caseFrame ;
     private final CaseFacade caseFacade;
     
     /** Creates new form ChatDisplayPanel */
     public ChatPanel(final JFrame frame) {
         initComponents();
         
-        this.caseFrame = (CaseFrame) frame;
+        this.caseFrame = (CaseMainFrame) frame;
         this.caseFacade =  this.caseFrame.getCaseFacade();
         
         // add three panels

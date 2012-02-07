@@ -4,7 +4,7 @@
  */
 package edu.coeia.gutil;
 
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 import edu.coeia.main.CaseManagerFrame;
 import edu.coeia.util.GUIFileFilter ;
 
@@ -45,7 +45,7 @@ public class GuiUtil {
         }
         
 //        UIManager.setLookAndFeel(lookName);
-//        CaseFrame caseFrame = (CaseFrame) frame;
+//        CaseMainFrame caseFrame = (CaseMainFrame) frame;
 //        CaseManagerFrame parent = caseFrame.getParentFrame();
 //        SwingUtilities.updateComponentTreeUI(parent);
 //        parent.pack();

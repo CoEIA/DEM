@@ -19,7 +19,7 @@ import edu.coeia.util.HashCalculator;
 import edu.coeia.hashanalysis.HashItem;
 import edu.coeia.hashanalysis.HashSetDialog;
 import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.main.CaseFrame;
+import edu.coeia.main.CaseMainFrame;
 import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
 
@@ -63,8 +63,8 @@ public class SearchResultPanel extends javax.swing.JPanel {
         initComponents();
 
         this.parentFrame = parentFrame;
-        this.caseObj  = ((CaseFrame) this.parentFrame).getCaseFacade().getCase();
-        this.caseFacade = ((CaseFrame) this.parentFrame).getCaseFacade();
+        this.caseObj  = ((CaseMainFrame) this.parentFrame).getCaseFacade().getCase();
+        this.caseFacade = ((CaseMainFrame) this.parentFrame).getCaseFacade();
         
         TableColumn tableColumn = this.searchTable.getColumnModel().getColumn(3);
         tableColumn.setCellRenderer(new LabelCellRenderer());
