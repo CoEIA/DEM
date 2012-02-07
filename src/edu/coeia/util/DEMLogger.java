@@ -62,7 +62,7 @@ public class DEMLogger {
             
             ConsoleHandler consoleHandler = new ConsoleHandler();    
             
-            String fileName = FilesPath.APPLICATION_LOG_PATH + File.separator
+            String fileName = ApplicationConstants.APPLICATION_LOG_PATH + File.separator
                     + String.format("DEM_%s.log", DateUtil.formatDateForLogFileName(new Date()));
             FileHandler fileHandler = new FileHandler(fileName, true);
             

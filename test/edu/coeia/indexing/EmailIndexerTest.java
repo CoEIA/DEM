@@ -9,7 +9,7 @@ import org.apache.lucene.store.FSDirectory ;
 import org.apache.lucene.util.Version ;
 
 import edu.coeia.cases.Case;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.io.FileNotFoundException ;
 import java.io.File;

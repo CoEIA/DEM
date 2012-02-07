@@ -10,7 +10,7 @@ package edu.coeia.offlinemail;
  * @author wajdyessam
  */
 
-import edu.coeia.util.FilesPath ;
+import edu.coeia.util.ApplicationConstants ;
 
 import java.io.File ;
 
@@ -69,7 +69,7 @@ public class PSTSearcher {
 //        return hits.length();
 
         //Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_20);
-        Analyzer analyzer = new StopAnalyzer(Version.LUCENE_20,  new File(FilesPath.STOP_WORD_FILE));
+        Analyzer analyzer = new StopAnalyzer(Version.LUCENE_20,  new File(ApplicationConstants.STOP_WORD_FILE));
 
         QueryParser parser = new QueryParser(Version.LUCENE_20, field.Value(), analyzer);
         Query query = parser.parse(queryString) ;
@@ -84,7 +84,7 @@ public class PSTSearcher {
     }
 
     public int searchInbox() throws Exception {
-//        Analyzer analyzer = new StopAnalyzer(Version.LUCENE_20,  new File(FilesPath.STOP_WORD_FILE));
+//        Analyzer analyzer = new StopAnalyzer(Version.LUCENE_20,  new File(ApplicationConstants.STOP_WORD_FILE));
 
 //        QueryParser parser = new QueryParser(Version.LUCENE_20,"", analyzer);
 //        Query query = parser.parse(queryString) ;

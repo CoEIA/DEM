@@ -8,7 +8,7 @@ import edu.coeia.indexing.dialogs.EmailCrawlingProgressPanel;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.onlinemail.OnlineEmailMessage;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 import edu.coeia.onlinemail.OnlineEmailDBHandler;
 import edu.coeia.util.Utilities;
 
@@ -51,7 +51,7 @@ final class OnlineEmailIndexer extends Indexer {
                         this.indexDocument(doc);
 
                         for (String sAttachments : msg.getAttachments()) {
-                            File attachmentPath = new File(this.getCaseLocation() + "\\" + FilesPath.ONLINE_EMAIL_ATTACHMENTS + "\\" + sAttachments);
+                            File attachmentPath = new File(this.getCaseLocation() + "\\" + ApplicationConstants.ONLINE_EMAIL_ATTACHMENTS + "\\" + sAttachments);
                             this.getLuceneIndex().indexFile(attachmentPath, currentId , this.getDialog());
                         }
                     }

@@ -10,7 +10,7 @@
  */
 package edu.coeia.searching;
 
-import edu.coeia.util.FilesPath ;
+import edu.coeia.util.ApplicationConstants ;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.items.Item;
 import edu.coeia.items.ItemFactory;
@@ -44,7 +44,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private final List<Integer> resultId ;
     private int currentId = 0;
      
-    private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
+    private final static Logger logger = Logger.getLogger(ApplicationConstants.LOG_NAMESPACE);
     
     /** Creates new form AdvancedSearchPanel */
     public AdvancedSearchPanel(JPanel parentPanel) {

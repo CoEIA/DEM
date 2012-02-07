@@ -2,7 +2,7 @@ package edu.coeia.wizard;
 
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 import edu.coeia.managers.ApplicationManager;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
@@ -51,7 +51,7 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
 public class CaseWizardDialog extends javax.swing.JDialog{
  
-    private String PATH = FilesPath.CASES_PATH;
+    private String PATH = ApplicationConstants.CASES_PATH;
     private final List<String> evidencePathLocations;
     private final DefaultListModel sourcesListModel;
     

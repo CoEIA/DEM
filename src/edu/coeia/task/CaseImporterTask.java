@@ -8,7 +8,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.managers.ApplicationManager;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.main.CaseManagerFrame;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 import edu.coeia.util.GUIFileFilter;
 import edu.coeia.util.ZipUtil;
 
@@ -35,7 +35,7 @@ public class CaseImporterTask implements Task{
     @Override
     public void startTask() {
         final GUIFileFilter SWING_DEM_FILTER = new GUIFileFilter("DEM CASE", 
-            FilesPath.DEM_CASE_EXTENSION);
+            ApplicationConstants.DEM_CASE_EXTENSION);
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(SWING_DEM_FILTER);
@@ -75,7 +75,7 @@ public class CaseImporterTask implements Task{
         Case aCase = ApplicationManager.Manager.getCase(line);
         aCase.setCaseLocation(path);
         
-        String prefLocation = aCase.getCaseLocation() + File.separator +  FilesPath.DEM_CASE_PREFERENCE;
+        String prefLocation = aCase.getCaseLocation() + File.separator +  ApplicationConstants.DEM_CASE_PREFERENCE;
         CaseFacade caseManger = CaseFacade.newInstance(aCase);
         caseManger.updateCase(aCase.getCaseName(), path);
         caseManger.importHistory(prefLocation);

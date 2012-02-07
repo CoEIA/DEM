@@ -4,7 +4,7 @@
  */
 package edu.coeia.detector;
 
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.util.List;
 import java.util.ArrayList ;
@@ -30,7 +30,7 @@ public class YahooDetector implements AutoDetection{
         List<String> yahooPaths = new ArrayList<String>();
         File[] roots = File.listRoots();
 
-        if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
+        if (ApplicationConstants.getOSType() == ApplicationConstants.OS_TYPE.XP) {
             for (File file : roots) {
                 String filePath = file.getAbsolutePath() + "\\" + "Program Files\\Yahoo!\\Messenger\\Profiles";
                 File yahooDir = new File(filePath);

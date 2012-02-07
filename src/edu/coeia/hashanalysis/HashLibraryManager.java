@@ -6,7 +6,7 @@ package edu.coeia.hashanalysis;
 
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.GUIFileFilter;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -89,7 +89,7 @@ final class HashLibraryManager {
      * @return the list of file in this folder 
      */
     public static List<HashCategory> getHashCategories() throws Exception {
-        String hashLocation = FilesPath.HASH_LIBRARY_PATH ;
+        String hashLocation = ApplicationConstants.HASH_LIBRARY_PATH ;
         
         List<File> files = FileUtil.getFilesInDirectory(hashLocation, hashExtensionFilter);
         List<HashCategory> categories = new ArrayList<HashCategory>();
@@ -108,8 +108,8 @@ final class HashLibraryManager {
      * @return full path of hash category location
      */
     public static String getPathForHashCategory(final String categoryName) {
-        return FilesPath.HASH_LIBRARY_PATH + "\\" + categoryName + 
-               FilesPath.HASH_SET_EXTENSION;
+        return ApplicationConstants.HASH_LIBRARY_PATH + "\\" + categoryName + 
+               ApplicationConstants.HASH_SET_EXTENSION;
     }
     
     /**
@@ -139,7 +139,7 @@ final class HashLibraryManager {
     private final static FileFilter hashExtensionFilter = new FileFilter() {
         @Override
         public boolean accept(File file) {
-            return file.isFile() && file.getAbsolutePath().endsWith(FilesPath.HASH_SET_EXTENSION);
+            return file.isFile() && file.getAbsolutePath().endsWith(ApplicationConstants.HASH_SET_EXTENSION);
         }
     };
     
@@ -147,5 +147,5 @@ final class HashLibraryManager {
      * this is swing filter to accept files with extension .HASH_SET
      */
     public final static GUIFileFilter SWING_HASH_EXTENSION_FILTER = new GUIFileFilter("DEM HASH SET", 
-            FilesPath.HASH_SET_EXTENSION);
+            ApplicationConstants.HASH_SET_EXTENSION);
 }

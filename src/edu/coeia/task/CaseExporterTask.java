@@ -6,7 +6,7 @@ package edu.coeia.task;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 import edu.coeia.util.ZipUtil;
 
 import java.io.File;
@@ -30,7 +30,7 @@ public class CaseExporterTask implements Task{
     @Override
     public void startTask() {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setSelectedFile(new File(aCase.getCaseName() + FilesPath.DEM_CASE_EXTENSION) );
+        fileChooser.setSelectedFile(new File(aCase.getCaseName() + ApplicationConstants.DEM_CASE_EXTENSION) );
 
         int result = fileChooser.showSaveDialog(null);
         if ( result == JFileChooser.APPROVE_OPTION ) {
@@ -52,7 +52,7 @@ public class CaseExporterTask implements Task{
     private void exportCaseAction() throws Exception { 
         String caseName = this.file.getAbsolutePath();
 
-        String prefLocation = this.aCase.getCaseLocation() + File.separator +  FilesPath.DEM_CASE_PREFERENCE;
+        String prefLocation = this.aCase.getCaseLocation() + File.separator +  ApplicationConstants.DEM_CASE_PREFERENCE;
         CaseFacade caseFacade = CaseFacade.newInstance(aCase);
         caseFacade.exportHistory(this.aCase.getCaseName(), prefLocation);
 

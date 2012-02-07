@@ -13,7 +13,7 @@ package edu.coeia.indexing;
 
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,7 +52,7 @@ public final class LuceneIndex {
       
         // using stop analyzer
         this.writer = new IndexWriter(FSDirectory.open(indexDir), new StopAnalyzer(Version.LUCENE_20, 
-                    new File(FilesPath.STOP_WORD_FILE)),
+                    new File(ApplicationConstants.STOP_WORD_FILE)),
                     true, IndexWriter.MaxFieldLength.UNLIMITED);
 
 	this.writer.setUseCompoundFile(false);

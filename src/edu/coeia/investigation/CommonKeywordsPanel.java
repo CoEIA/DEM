@@ -52,7 +52,7 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
     private InvestigateDialog parentDialog;
     private AdvancedSearchPanel advancedSearchPanel;
     
-    private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
+    private final static Logger logger = Logger.getLogger(edu.coeia.util.ApplicationConstants.LOG_NAMESPACE);
     private Thread thread;
     
     /** Creates new form CommonKeywordsPanel */

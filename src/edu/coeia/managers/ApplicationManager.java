@@ -2,7 +2,7 @@ package edu.coeia.managers;
 
 import edu.coeia.cases.Case;
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.FilesPath ;
+import edu.coeia.util.ApplicationConstants ;
 
 import java.io.File ;
 import java.io.FileNotFoundException;
@@ -47,7 +47,7 @@ public enum ApplicationManager {
     public List<Case> getCases() throws FileNotFoundException, IOException, ClassNotFoundException{
         List<Case> cases = new ArrayList<Case>();
         
-        File indexesInfo = new File(FilesPath.INDEXES_INFO);
+        File indexesInfo = new File(ApplicationConstants.INDEXES_INFO);
         List<String> casesPath  = FileUtil.getFileContentInList(indexesInfo);
 
         for(String path: casesPath) {
@@ -71,7 +71,7 @@ public enum ApplicationManager {
      * @return IndexInformation 
      */
     public Case getCaseFromCaseName (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
-        File indexesInfo = new File(FilesPath.INDEXES_INFO);
+        File indexesInfo = new File(ApplicationConstants.INDEXES_INFO);
         List<String> indexesInfoContent  = FileUtil.getFileContentInList(indexesInfo);
 
         for(String path: indexesInfoContent) {
@@ -91,7 +91,7 @@ public enum ApplicationManager {
     public boolean caseExists(String caseName) throws FileNotFoundException, IOException, 
             ClassNotFoundException  {
         
-        File casesInfo = new File(FilesPath.INDEXES_INFO);
+        File casesInfo = new File(ApplicationConstants.INDEXES_INFO);
         List<String> casesInfoContent = FileUtil.getFileContentInList(casesInfo);
 
         for (String path : casesInfoContent) {
@@ -118,7 +118,7 @@ public enum ApplicationManager {
     }
 
     public String getCasesPath() {
-        return FilesPath.CASES_PATH;
+        return ApplicationConstants.CASES_PATH;
     }
     
     
@@ -129,10 +129,10 @@ public enum ApplicationManager {
     private boolean isApplicationHaveMissingFiles() {
         boolean status = true;
         
-        File root = new File(FilesPath.APPLICATION_PATH);
-        File cases = new File(FilesPath.CASES_PATH);
-        File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        File hashLibraryFile = new File(FilesPath.HASH_LIBRARY_PATH);
+        File root = new File(ApplicationConstants.APPLICATION_PATH);
+        File cases = new File(ApplicationConstants.CASES_PATH);
+        File indexesInfo = new File(ApplicationConstants.INDEXES_INFO);
+        File hashLibraryFile = new File(ApplicationConstants.HASH_LIBRARY_PATH);
         
         if (root.exists())
             status = false;
@@ -154,7 +154,7 @@ public enum ApplicationManager {
      * @return 
      */
     private boolean isApplicationFolderExists() {
-        File root = new File(FilesPath.APPLICATION_PATH);
+        File root = new File(ApplicationConstants.APPLICATION_PATH);
         return ( root.exists() );
     }
     
@@ -163,12 +163,12 @@ public enum ApplicationManager {
      * @throws IOException 
      */
     private void createApplicationFoldersStructure () throws IOException{
-        File root = new File(FilesPath.APPLICATION_PATH);
-        File cases = new File(FilesPath.CASES_PATH);
-        File indexesInfo = new File(FilesPath.INDEXES_INFO);
-        File tmpFile = new File(FilesPath.TMP_PATH);
-        File logFile = new File(FilesPath.APPLICATION_LOG_PATH);
-        File hashLibraryFile = new File(FilesPath.HASH_LIBRARY_PATH);
+        File root = new File(ApplicationConstants.APPLICATION_PATH);
+        File cases = new File(ApplicationConstants.CASES_PATH);
+        File indexesInfo = new File(ApplicationConstants.INDEXES_INFO);
+        File tmpFile = new File(ApplicationConstants.TMP_PATH);
+        File logFile = new File(ApplicationConstants.APPLICATION_LOG_PATH);
+        File hashLibraryFile = new File(ApplicationConstants.HASH_LIBRARY_PATH);
         
         if  ( ! root.exists() )
             root.mkdir();   // make offline folder in applicationData
@@ -189,8 +189,8 @@ public enum ApplicationManager {
             hashLibraryFile.mkdir();
          
         // create tmp files
-        new File(FilesPath.HIS_TMP).createNewFile();
-        new File(FilesPath.PASS_TMP).createNewFile();
-        new File(FilesPath.CORRE_FILE).createNewFile();
+        new File(ApplicationConstants.HIS_TMP).createNewFile();
+        new File(ApplicationConstants.PASS_TMP).createNewFile();
+        new File(ApplicationConstants.CORRE_FILE).createNewFile();
     }
 }

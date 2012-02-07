@@ -12,7 +12,7 @@ package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.awt.Desktop;
 import java.awt.Frame;
@@ -173,7 +173,7 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
     private  void generateReport(final DatasourceXml objXmlSource) {
         try {
             
-            File file = new File(FilesPath.TEMPLATES+objXmlSource.m_strJasperFile);//"\\filesystem_report.jasper");
+            File file = new File(ApplicationConstants.TEMPLATES+objXmlSource.m_strJasperFile);//"\\filesystem_report.jasper");
             String strJasperFile = file.getAbsolutePath(); //"C:/Users/Farhan/Desktop/projects/DEM/templates/filesystem_report.jasper";
             String strReportOutputPath = aCase.getCaseLocation()+DisclosureReport.REPORTFOLDER;
             String strReportName = objXmlSource.m_strReportName;//"filesystem";

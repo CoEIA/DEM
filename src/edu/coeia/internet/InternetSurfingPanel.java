@@ -13,7 +13,7 @@ import edu.coeia.detector.FirefoxDetector;
 import edu.coeia.detector.UsersDetector;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
-import edu.coeia.util.FilesPath ;
+import edu.coeia.util.ApplicationConstants ;
 import edu.coeia.visualization.CorrelationDialog;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.main.CaseFrame;
@@ -60,7 +60,7 @@ import java.net.URISyntaxException ;
  */
 
 public class InternetSurfingPanel extends javax.swing.JPanel {
-    private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
+    private final static Logger logger = Logger.getLogger(ApplicationConstants.LOG_NAMESPACE);
     private JFileChooser fileChooser ;       
     
     private final CaseFrame caseFrame ;
@@ -1497,7 +1497,7 @@ private void ffViewHTMLReportButtonActionPerformed(java.awt.event.ActionEvent ev
             ArrayList<String> data = new ArrayList<String>();
             data.add(result.toString());
             
-            FileUtil.writeToFile(data, FilesPath.FF_REPORT);
+            FileUtil.writeToFile(data, ApplicationConstants.FF_REPORT);
             
             // lunch browser
             Desktop desktop = null;
@@ -1505,7 +1505,7 @@ private void ffViewHTMLReportButtonActionPerformed(java.awt.event.ActionEvent ev
                 desktop = Desktop.getDesktop();
 
                 if ( desktop.isSupported(Desktop.Action.OPEN) ) {
-                    desktop.open(new File(FilesPath.FF_REPORT));
+                    desktop.open(new File(ApplicationConstants.FF_REPORT));
                 }
             }
         }
@@ -1613,8 +1613,8 @@ private void webHistoryButton1ActionPerformed(java.awt.event.ActionEvent evt) {/
         
        try {
            String userPath = (String) ieComboBox.getSelectedItem() ;
-           if ( FilesPath.isValidPath(userPath, FilesPath.IE_HISTORY) ) {
-               String path = FilesPath.getIEHistoryPath(userPath);
+           if ( ApplicationConstants.isValidPath(userPath, ApplicationConstants.IE_HISTORY) ) {
+               String path = ApplicationConstants.getIEHistoryPath(userPath);
 
                fillIEWebHistoryTable(path);
 
@@ -1648,8 +1648,8 @@ private void bookmarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
 
        try {
            String userPath = (String) ieComboBox.getSelectedItem() ;
-           if ( FilesPath.isValidPath(userPath, FilesPath.IE_FAVORITE) ) {
-               String path = FilesPath.getIEFavoritePath(userPath);
+           if ( ApplicationConstants.isValidPath(userPath, ApplicationConstants.IE_FAVORITE) ) {
+               String path = ApplicationConstants.getIEFavoritePath(userPath);
 
                fillIEBookmarkTable(path);
 
@@ -1678,8 +1678,8 @@ private void cookiesButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
         resetInternetSurfing(IESearchField,IEFilterComboBox);
         try {
             String userPath = (String) ieComboBox.getSelectedItem() ;
-            if ( FilesPath.isValidPath(userPath, FilesPath.IE_COOKIES) ) {
-                String path = FilesPath.getIECookiesPath(userPath);
+            if ( ApplicationConstants.isValidPath(userPath, ApplicationConstants.IE_COOKIES) ) {
+                String path = ApplicationConstants.getIECookiesPath(userPath);
                 System.out.println("cookies path: " + path);
 
                 fillIECookiesTable(path);
@@ -1709,8 +1709,8 @@ private void cacheButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         resetInternetSurfing(IESearchField,IEFilterComboBox);
         try {
             String userPath = (String) ieComboBox.getSelectedItem() ;
-            if ( FilesPath.isValidPath(userPath, FilesPath.IE_CACHE) ) {
-                String path = FilesPath.getIECachePath(userPath);
+            if ( ApplicationConstants.isValidPath(userPath, ApplicationConstants.IE_CACHE) ) {
+                String path = ApplicationConstants.getIECachePath(userPath);
                 //System.out.println("cache: " + path);
 
                 fillIECacheTable(path);
@@ -1739,7 +1739,7 @@ private void logginsButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
         // reset IE text field
         resetInternetSurfing(IESearchField,IEFilterComboBox);
         try {
-            String p = FilesPath.getIEPassword();
+            String p = ApplicationConstants.getIEPassword();
             System.out.println("loggin: " + p);
 
             fillIELogginsTable(p);
@@ -1922,11 +1922,11 @@ private void ffComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
         ArrayList<InternetSummaryDate> result = new ArrayList<InternetSummaryDate>();
 
-        if ( FilesPath.isValidPath(userPath, FilesPath.IE_HISTORY) ) {
-            String path = FilesPath.getIEHistoryPath(userPath);
+        if ( ApplicationConstants.isValidPath(userPath, ApplicationConstants.IE_HISTORY) ) {
+            String path = ApplicationConstants.getIEHistoryPath(userPath);
 
             IEHandler ieHandler = new IEHandler();
-            ArrayList<String> rows = ieHandler.readProgramOutputFile(path,FilesPath.HIS_TMP);
+            ArrayList<String> rows = ieHandler.readProgramOutputFile(path,ApplicationConstants.HIS_TMP);
 
             for (int i=0 ; i<rows.size() ; i++) {
                  String[] str = rows.get(i).split("\t");
@@ -2166,7 +2166,7 @@ private void ffComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
     public void fillIEWebHistoryTable (String path) throws IOException, InterruptedException {
         IEHandler ieHandler = new IEHandler();
-        ArrayList<String> rows = ieHandler.readProgramOutputFile(path,FilesPath.HIS_TMP);
+        ArrayList<String> rows = ieHandler.readProgramOutputFile(path,ApplicationConstants.HIS_TMP);
 
         // remove old data
         if ( IEWebHistoryTable.getModel().getRowCount() > 0 )
@@ -2199,7 +2199,7 @@ private void ffComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
     public void fillIELogginsTable (String path) throws IOException, InterruptedException {
         IEHandler ieHandler = new IEHandler();
-        ArrayList<String> pass = ieHandler.readProgramOutputFile(path,FilesPath.PASS_TMP);
+        ArrayList<String> pass = ieHandler.readProgramOutputFile(path,ApplicationConstants.PASS_TMP);
 
         // remove old data
         if ( IELogginsTable.getModel().getRowCount() > 0 )

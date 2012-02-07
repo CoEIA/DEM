@@ -11,7 +11,7 @@
 package edu.coeia.hashanalysis;
 
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -285,7 +285,7 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
         if ( result == JFileChooser.APPROVE_OPTION ) {
             File file = fileChooser.getSelectedFile();
             
-            String filePath = FilesPath.HASH_LIBRARY_PATH + "\\" + file.getName();
+            String filePath = ApplicationConstants.HASH_LIBRARY_PATH + "\\" + file.getName();
             FileUtil.saveObject(new FileInputStream(file), filePath);
         }
     }
@@ -294,7 +294,7 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
         String filePath = HashLibraryManager.getPathForHashCategory(hashCategory.getName());
         
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setSelectedFile(new File(hashCategory.getName() + FilesPath.HASH_SET_EXTENSION));
+        fileChooser.setSelectedFile(new File(hashCategory.getName() + ApplicationConstants.HASH_SET_EXTENSION));
         
         int result = fileChooser.showSaveDialog(this.parent);
         if ( result == JFileChooser.APPROVE_OPTION ) {

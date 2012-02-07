@@ -12,7 +12,7 @@
 package edu.coeia.visualization;
 
 import edu.coeia.charts.BarChartPanel;
-import edu.coeia.util.FilesPath ;
+import edu.coeia.util.ApplicationConstants ;
 
 import java.awt.BorderLayout;
 import java.awt.Toolkit ;
@@ -43,7 +43,7 @@ public final class CorrelationDialog extends javax.swing.JDialog {
     private Map<String,Double> doubleMap  ;
     private Map<String,Integer> tmpIntMap    ;
     
-    private File fileName = new File(FilesPath.CORRE_FILE);
+    private File fileName = new File(ApplicationConstants.CORRE_FILE);
     private String user ;
     private String type ;
 

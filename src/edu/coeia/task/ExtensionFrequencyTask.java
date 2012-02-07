@@ -10,7 +10,7 @@ import edu.coeia.charts.PieChartPanel;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.investigation.ExtensionFrequencyPanel;
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,7 +68,7 @@ public class ExtensionFrequencyTask implements Task{
     public Map<String,Double> getExtensionFreq () throws IOException {
         Map<String,Double> map = new HashMap<String,Double>();
         
-        String indexDir = this.aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         

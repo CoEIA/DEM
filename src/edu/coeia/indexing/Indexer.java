@@ -7,7 +7,7 @@ package edu.coeia.indexing;
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.extractors.ImageExtractor;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.io.File ;
 import java.io.IOException;
@@ -28,8 +28,8 @@ public abstract class Indexer {
         this.imageCache = this.caseFacade.getCase().getCacheImages();
         this.imageExtractor = imageExtractor;
         this.caseLocation = this.caseFacade.getCase().getCaseLocation();
-        this.imagesLocation = this.caseLocation + "\\" + FilesPath.IMAGES_PATH;
-        this.tmpLocation = this.caseLocation + "\\" + FilesPath.CASE_ARCHIVE_EXTRACTION;
+        this.imagesLocation = this.caseLocation + "\\" + ApplicationConstants.IMAGES_PATH;
+        this.tmpLocation = this.caseLocation + "\\" + ApplicationConstants.CASE_ARCHIVE_EXTRACTION;
         this.luceneIndex = luceneIndex ;
     }
     

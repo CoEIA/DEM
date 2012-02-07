@@ -4,7 +4,7 @@ package edu.coeia.offlinemail;
 
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
-import edu.coeia.util.FilesPath ;
+import edu.coeia.util.ApplicationConstants ;
 import edu.coeia.util.GUIFileFilter ;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.InfiniteProgressPanel;
@@ -68,7 +68,7 @@ import org.apache.lucene.document.Document;
 
 public class EmailPanel extends javax.swing.JPanel {
 
-    private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
+    private static final Logger logger = Logger.getLogger(edu.coeia.util.ApplicationConstants.LOG_NAMESPACE);
     private Case index;
     private PSTFile pstFile ;
      
@@ -871,7 +871,7 @@ private void locationTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FI
         ArrayList<String> aList = new ArrayList<String>();
         
         try {
-            File indexLocation = new File (index.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
+            File indexLocation = new File (index.getCaseLocation() + "\\" + ApplicationConstants.INDEX_PATH);
             PSTSearcher pSearcher = new PSTSearcher(indexLocation);
             int len = pSearcher.search(emailSearchTextField.getText().trim(), PSTSearcher.SearchField.CONTENT);
             System.out.println("length of search = " + len);

@@ -11,7 +11,7 @@ import edu.coeia.gutil.ImageLabel;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.multimedia.GeoTagging;
 import edu.coeia.multimedia.GeoTagging.GPSData;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 import edu.coeia.util.Tuple;
 import edu.coeia.util.Utilities;
 import edu.coeia.viewer.SearchResultParamter;
@@ -165,7 +165,7 @@ public class ImageLoadingTask implements Task{
     private List<Tuple<String, Integer> > loadItems(int from, int size) throws IOException {
         List<Tuple<String, Integer> > files = new ArrayList<Tuple<String, Integer> >();
         
-        String indexDir = this.aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
@@ -186,7 +186,7 @@ public class ImageLoadingTask implements Task{
                     
                     if (IndexingConstant.isImageDocument(document)) {
                         String path = document.get(IndexingConstant.FILE_PATH);
-                        if ( path.contains(this.aCase.getCaseName() + File.separator + FilesPath.CASE_ARCHIVE_EXTRACTION) ) 
+                        if ( path.contains(this.aCase.getCaseName() + File.separator + ApplicationConstants.CASE_ARCHIVE_EXTRACTION) ) 
                             fullpath = path;
                         else
                             fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
@@ -211,7 +211,7 @@ public class ImageLoadingTask implements Task{
     
     private int getNumberOfImages() throws IOException {
         int counter = 0;
-        String indexDir = this.aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
                             
@@ -226,7 +226,7 @@ public class ImageLoadingTask implements Task{
                     
                     if ( IndexingConstant.isImageDocument(document) ) {
                         String path = document.get(IndexingConstant.FILE_PATH);
-                        if ( path.contains(this.aCase.getCaseName() + File.separator + FilesPath.CASE_ARCHIVE_EXTRACTION) ) 
+                        if ( path.contains(this.aCase.getCaseName() + File.separator + ApplicationConstants.CASE_ARCHIVE_EXTRACTION) ) 
                             fullpath = path;
                         else
                             fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));

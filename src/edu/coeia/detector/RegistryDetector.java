@@ -4,7 +4,7 @@
  */
 package edu.coeia.detector;
 
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.util.List;
 import java.util.ArrayList ;
@@ -29,7 +29,7 @@ public class RegistryDetector implements AutoDetection {
         ArrayList<String> msnPath = new ArrayList<String>();
         File[] roots = File.listRoots();
 
-        if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
+        if (ApplicationConstants.getOSType() == ApplicationConstants.OS_TYPE.XP) {
             for (File file : roots) {
                 String filePath = file.getAbsolutePath() + "\\" + "WINDOWS\\system32";
                 File osFile = new File(filePath);

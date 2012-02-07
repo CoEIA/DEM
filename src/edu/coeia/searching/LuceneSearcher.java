@@ -13,7 +13,7 @@ package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
 import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.util.FilesPath ;
+import edu.coeia.util.ApplicationConstants ;
 
 import java.io.File ;
 
@@ -45,7 +45,7 @@ public class LuceneSearcher {
     private final int MAX_RESULT = 5000;
     
     public LuceneSearcher (final Case currentCase) throws Exception {
-        File caseLocation = new File (currentCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH);
+        File caseLocation = new File (currentCase.getCaseLocation() + "\\" + ApplicationConstants.INDEX_PATH);
         
         fsDir = FSDirectory.open(caseLocation);
         indexReader = IndexReader.open(fsDir, true);
@@ -54,7 +54,7 @@ public class LuceneSearcher {
     
     public int search (String queryString, SearchScope luceneFields) throws Exception {
         // using stop analyzer in search
-        Analyzer analyzer = new StopAnalyzer(Version.LUCENE_20,  new File(FilesPath.STOP_WORD_FILE));
+        Analyzer analyzer = new StopAnalyzer(Version.LUCENE_20,  new File(ApplicationConstants.STOP_WORD_FILE));
         
         String[] fields = getSupportedFileds(luceneFields);
         

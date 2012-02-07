@@ -12,7 +12,7 @@
 package edu.coeia.main;
 
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.FilesPath ;
+import edu.coeia.util.ApplicationConstants ;
 
 import java.util.List;
 
@@ -150,7 +150,7 @@ public class SmartCardDialog extends javax.swing.JDialog {
         boolean data = false;
 
         try {
-            List<String> output = FileUtil.readProgramOutputStream(FilesPath.SMART_CARD_PROGRAM + " s");
+            List<String> output = FileUtil.readProgramOutputStream(ApplicationConstants.SMART_CARD_PROGRAM + " s");
             data = Boolean.valueOf(output.get(0));
         }
         catch (Exception e){
@@ -162,7 +162,7 @@ public class SmartCardDialog extends javax.swing.JDialog {
    
     private void decreaseNumber () {
          try {
-           FileUtil.readProgramOutputStream(FilesPath.SMART_CARD_PROGRAM + " d");
+           FileUtil.readProgramOutputStream(ApplicationConstants.SMART_CARD_PROGRAM + " d");
         }
         catch (Exception e){
         }
@@ -172,7 +172,7 @@ public class SmartCardDialog extends javax.swing.JDialog {
         int data = -1;
 
         try {
-            List<String> output = FileUtil.readProgramOutputStream(FilesPath.SMART_CARD_PROGRAM + " n");
+            List<String> output = FileUtil.readProgramOutputStream(ApplicationConstants.SMART_CARD_PROGRAM + " n");
             data = Integer.valueOf(output.get(0));
         }
         catch (Exception e){

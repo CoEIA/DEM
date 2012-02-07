@@ -8,7 +8,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.chat.ChatViewerPanel;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.awt.EventQueue;
 
@@ -64,7 +64,7 @@ public class ChatRefreshTask implements Task{
     }
     
     private Set<String> getChatFilePath() throws IOException{
-        String indexDir = aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
+        String indexDir = aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         Set<String> aList = new HashSet<String>();

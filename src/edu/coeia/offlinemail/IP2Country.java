@@ -20,7 +20,7 @@ package edu.coeia.offlinemail;
  * database for ip number from: http://ip-to-country.webhosting.info
 */
 
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 import java.sql.Connection ;
 import java.sql.DriverManager ;
 import java.sql.Statement ;
@@ -86,7 +86,7 @@ public class IP2Country {
 
     //public static final String DB_URL = "countries.db" ;
 
-    private static final String DB_NAME = "jdbc:sqlite:" + FilesPath.IP_DB ;
+    private static final String DB_NAME = "jdbc:sqlite:" + ApplicationConstants.IP_DB ;
     private static final String DB_DRIVER = "org.sqlite.JDBC";
     private static final String DB_USER = "" ;
     private static final String DB_PASS = "" ;

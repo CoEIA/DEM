@@ -9,7 +9,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.hashanalysis.HashAnalysisPanel;
 import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.io.File;
 
@@ -91,7 +91,7 @@ public class CaseDuplicationTask implements Task{
     }
         
     private void fillCaseDuplicationMap() throws Exception {
-        String indexDir = this.aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         

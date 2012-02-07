@@ -20,7 +20,7 @@ import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.CrawlerIndexerThread.ProgressIndexData;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 import edu.coeia.util.SizeUtil;
 
 import java.awt.EventQueue;
@@ -50,7 +50,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
     private final LuceneIndex luceneIndex ;
     private final IndexingDialog parentDialog ;
     private final CaseFacade caseFacade ;
-    private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
+    private static final Logger logger = Logger.getLogger(edu.coeia.util.ApplicationConstants.LOG_NAMESPACE);
 
     public CrawlerIndexerThread (final IndexingDialog parentDialog) throws IOException{
         this.caseFacade = parentDialog.getCaseFacade();
@@ -183,7 +183,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
     }
     
     private void doEmailCrawling() {
-        File dbPath = new File(this.aCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB );
+        File dbPath = new File(this.aCase.getCaseLocation() + "\\" + ApplicationConstants.EMAIL_DB );
         logger.log(Level.INFO, "Email Indexing in Folder: " +  dbPath);
         OnlineEmailIndexer emailIndexer = new OnlineEmailIndexer(this.luceneIndex, dbPath, "", new OfficeImageExtractor(), this.parentDialog);
         logger.log(Level.INFO, "Email Indexing Status: " +  emailIndexer.doIndexing());

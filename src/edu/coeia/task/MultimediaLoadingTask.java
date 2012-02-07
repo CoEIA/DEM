@@ -10,7 +10,7 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,7 +59,7 @@ public class MultimediaLoadingTask implements Task{
     }
     
     private void loadItems() throws IOException {
-        String indexDir = this.aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
                             

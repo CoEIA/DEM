@@ -9,7 +9,7 @@ import edu.coeia.wizard.EmailConfiguration;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.offlinemail.EmailBrowsingPanel;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.awt.EventQueue;
 import java.io.File;
@@ -77,7 +77,7 @@ public class EmailRefreshTask implements Task{
     private Set<String> getOfflineEmailsPaths() throws IOException {
         Set<String> offlineEmailPaths = new HashSet<String>();
         
-        String indexDir = this.aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         int max = indexReader.maxDoc();

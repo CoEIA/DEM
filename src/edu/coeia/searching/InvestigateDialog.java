@@ -24,7 +24,7 @@ public class InvestigateDialog extends javax.swing.JDialog {
 
     private final CaseFacade caseFacade;
     private final AdvancedSearchPanel parentPanel;
-    private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
+    private final static Logger logger = Logger.getLogger(edu.coeia.util.ApplicationConstants.LOG_NAMESPACE);
     
     /** Creates new form InvestigateDialog */
     public InvestigateDialog(java.awt.Frame parent, boolean modal, AdvancedSearchPanel panel) {

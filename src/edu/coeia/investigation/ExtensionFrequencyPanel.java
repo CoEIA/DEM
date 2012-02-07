@@ -29,7 +29,7 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
 
     private CaseFacade caseFacade; 
     private InvestigateDialog parentDialog;
-    private final static Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
+    private final static Logger logger = Logger.getLogger(edu.coeia.util.ApplicationConstants.LOG_NAMESPACE);
     
     /** Creates new form ExtensionFrequencyPanel */
     public ExtensionFrequencyPanel(InvestigateDialog dialog) {

@@ -12,7 +12,7 @@ import java.io.File ;
  * @author wajdyessam
  */
 
-public class FilesPath {
+public final class ApplicationConstants {
     
     // logging general namespace
     public final static String LOG_NAMESPACE = "DEM_NAMESPACE";

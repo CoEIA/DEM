@@ -7,7 +7,7 @@ package edu.coeia.task;
 import edu.coeia.cases.Case;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.investigation.CommonKeywordsPanel;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +54,7 @@ public class CommonKeywordsTask implements Task{
     
     // get terms and frequncy for all terms in docuemnts
     public Map<String,Integer> getAllTermFreqFromBody ()  throws IOException {
-        String indexDir = this.aCase.getCaseLocation() + File.separator + FilesPath.INDEX_PATH;
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         

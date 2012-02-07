@@ -10,7 +10,7 @@ package edu.coeia.cases;
  */
 
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 import org.junit.Test;
 import static org.junit.Assert.* ;
 import org.junit.Before ;
@@ -27,7 +27,7 @@ public class CasePathHandlerTest {
         pathHandler.add(new File("C:\\data"));
         pathHandler.saveConfiguration();
         assertEquals(1, pathHandler.reloadFileMapping().size());
-        FileUtil.removeFile(casePath + File.separator + FilesPath.CASE_CONFIG);
+        FileUtil.removeFile(casePath + File.separator + ApplicationConstants.CASE_CONFIG);
     }
     
     @Test
@@ -38,7 +38,7 @@ public class CasePathHandlerTest {
         pathHandler.add(new File("C:\\docs"));
         pathHandler.saveConfiguration();
         assertEquals(2, pathHandler.reloadFileMapping().size());
-        FileUtil.removeFile(casePath + File.separator + FilesPath.CASE_CONFIG);
+        FileUtil.removeFile(casePath + File.separator + ApplicationConstants.CASE_CONFIG);
     }
     
     @Test
@@ -48,7 +48,7 @@ public class CasePathHandlerTest {
         pathHandler.add(new File("C:\\notexistingfolder"));
         pathHandler.saveConfiguration();
         assertEquals(1, pathHandler.getChangedEntries().size());
-        FileUtil.removeFile(casePath + File.separator + FilesPath.CASE_CONFIG);
+        FileUtil.removeFile(casePath + File.separator + ApplicationConstants.CASE_CONFIG);
     }
     
     @Test
@@ -62,7 +62,7 @@ public class CasePathHandlerTest {
         pathHandler.add(new File("C:\\docs"));
         pathHandler.saveConfiguration();
         assertEquals(3, pathHandler.getChangedEntries().size());
-        FileUtil.removeFile(casePath + File.separator + FilesPath.CASE_CONFIG);
+        FileUtil.removeFile(casePath + File.separator + ApplicationConstants.CASE_CONFIG);
     }
     
     @Test

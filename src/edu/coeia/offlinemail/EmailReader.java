@@ -35,7 +35,7 @@ public class EmailReader {
     private static InfiniteProgressPanel panel ;
     private static int counter = 0 ;
 
-    private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
+    private static final Logger logger = Logger.getLogger(edu.coeia.util.ApplicationConstants.LOG_NAMESPACE);
     private static boolean status = false;
     
     public static ArrayList<MessageHeader> getInstance(PSTFile pst, String p, InfiniteProgressPanel pnl) {    

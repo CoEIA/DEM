@@ -12,7 +12,7 @@ package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.util.FilesPath ;
+import edu.coeia.util.ApplicationConstants ;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.LabelCellRenderer;
 import edu.coeia.util.HashCalculator;
@@ -48,7 +48,7 @@ import org.apache.lucene.document.Document;
  */
 public class SearchResultPanel extends javax.swing.JPanel {
 
-    private final static Logger logger = Logger.getLogger(FilesPath.LOG_NAMESPACE);
+    private final static Logger logger = Logger.getLogger(ApplicationConstants.LOG_NAMESPACE);
     
     private String keyword ;
     

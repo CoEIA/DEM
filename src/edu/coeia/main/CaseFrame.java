@@ -19,7 +19,7 @@ import edu.coeia.offlinemail.EmailBrowsingPanel;
 import edu.coeia.onlinemail.DownloadEmail;
 import edu.coeia.searching.CaseSearchPanel;
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 import edu.coeia.tags.TagsManager ;
 import edu.coeia.util.SystemConstant;
 
@@ -46,7 +46,7 @@ import java.util.logging.Logger;
 
 public class CaseFrame extends javax.swing.JFrame {
     private final String applicationTitle;
-    private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
+    private static final Logger logger = Logger.getLogger(edu.coeia.util.ApplicationConstants.LOG_NAMESPACE);
     
     private final CaseManagerFrame parentFrame; 
     private final List<String> listOfOpeningCase ;
@@ -502,7 +502,7 @@ public class CaseFrame extends javax.swing.JFrame {
 
     private void viewLogMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewLogMenuItemActionPerformed
         try {
-            Utilities.selectObjectInExplorer(FilesPath.APPLICATION_LOG_PATH);
+            Utilities.selectObjectInExplorer(ApplicationConstants.APPLICATION_LOG_PATH);
         }
         catch(Exception e) {
             logger.log(Level.SEVERE, "Exception When Opening Folder", e);

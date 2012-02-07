@@ -9,7 +9,7 @@ package edu.coeia.util;
  * @author wajdyessam
  */
 
-public class SystemConstant {
+public final class SystemConstant {
     
     // application name
     public final static String APPLICATION_NAME = "Digital Evidence Miner: ";
@@ -45,6 +45,7 @@ public class SystemConstant {
     // java home path
     public final static String JRE_HOME = System.getProperty("java.home");
     
+    /** look and feel constant */
     public final static String DUSK_LOOK_AND_FEEL = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
     public final static String RAVEN_LOOK_AND_FEEL = "org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel";
     public final static String BUSINESS_LOOK_AND_FEEL = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";

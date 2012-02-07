@@ -11,7 +11,7 @@
 package edu.coeia.onlinemail;
 
 import edu.coeia.cases.Case;
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 import edu.coeia.wizard.EmailConfiguration;
 import edu.coeia.wizard.EmailConfiguration.ONLINE_EMAIL_AGENT;
 
@@ -50,9 +50,9 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         this.emailConfiguration = emailConfiguration;
         
         this.onlineEmailDownloader = new OnlineEmailDownloader(this,
-            this.aCase.getCaseLocation() + "\\" + FilesPath.ONLINE_EMAIL_ATTACHMENTS,
-            this.aCase.getCaseLocation() + "\\" + FilesPath.EMAIL_DB,
-            this.aCase.getCaseLocation() + "\\" + FilesPath.CASE_ARCHIVE_EXTRACTION
+            this.aCase.getCaseLocation() + "\\" + ApplicationConstants.ONLINE_EMAIL_ATTACHMENTS,
+            this.aCase.getCaseLocation() + "\\" + ApplicationConstants.EMAIL_DB,
+            this.aCase.getCaseLocation() + "\\" + ApplicationConstants.CASE_ARCHIVE_EXTRACTION
             );
     }
     

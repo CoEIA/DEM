@@ -4,7 +4,7 @@
  */
 package edu.coeia.detector;
 
-import edu.coeia.util.FilesPath;
+import edu.coeia.util.ApplicationConstants;
 
 import java.util.List;
 import java.util.ArrayList ;
@@ -23,7 +23,7 @@ public class FirefoxDetector implements AutoDetection{
         List<String> resultPath = new ArrayList<String>();
          File[] roots = File.listRoots();
 
-        if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
+        if (ApplicationConstants.getOSType() == ApplicationConstants.OS_TYPE.XP) {
             for (String s : path) {
                 String filePath = s + "\\" + "Documents and Settings";
                 File osFile = new File(filePath);
@@ -83,7 +83,7 @@ public class FirefoxDetector implements AutoDetection{
         ArrayList<String> ffPaths = new ArrayList<String>();
         File[] roots = File.listRoots();
 
-        if (FilesPath.getOSType() == FilesPath.OS_TYPE.XP) {
+        if (ApplicationConstants.getOSType() == ApplicationConstants.OS_TYPE.XP) {
             for (File file : roots) {
                 String filePath = file.getAbsolutePath() + "\\" + "Documents and Settings";
                 File osFile = new File(filePath);
