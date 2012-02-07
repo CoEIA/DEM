@@ -665,7 +665,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                  * that charset in the java.lang.String constructor
                  * to convert the byte array into a String.
                  */
-                s = Utilities.convertStreamToString(is);
+                s = FileUtil.convertStreamToString(is);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

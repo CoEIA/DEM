@@ -26,6 +26,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.DocumentEvent;
@@ -301,7 +302,12 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
     }// </editor-fold>//GEN-END:initComponents
 
     private void tagSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagSelectButtonActionPerformed
-        generateTextCloud(); 
+        try {
+            generateTextCloud();
+        } 
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_tagSelectButtonActionPerformed
 
     private void tagsExcludeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagsExcludeTextFieldActionPerformed
@@ -338,7 +344,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
     }
         
-    private void generateTextCloud() {
+    private void generateTextCloud() throws IOException {
         try {
             CaseFacade caseFacade = CaseFacade.newInstance(this.caseObj);
             if ( ! caseFacade.getCaseHistory().getIsCaseIndexed() ) {

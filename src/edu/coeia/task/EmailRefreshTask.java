@@ -11,6 +11,7 @@ import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.offlinemail.EmailBrowsingPanel;
 import edu.coeia.util.FilesPath;
 
+import java.awt.EventQueue;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,6 +19,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexReader;
@@ -55,13 +58,20 @@ public class EmailRefreshTask implements Task{
     }
     
     private void fillTable() throws IOException {
-        for(String path: this.getOfflineEmailsPaths()) {
-            JListUtil.addToList(path, panel.getModel(), panel.getList());
-        }
+        final Set<String> paths = getOfflineEmailsPaths();
+        
+        EventQueue.invokeLater(new Runnable() { 
+            @Override
+            public void run() {
+                for(String path: paths) {
+                    JListUtil.addToList(path, panel.getModel(), panel.getList());
+                }
 
-        for(EmailConfiguration config: this.aCase.getEmailConfigurations()) {
-            JListUtil.addToList(config.getUserName(), panel.getModel(), panel.getList());
-        }
+                for(EmailConfiguration config: aCase.getEmailConfigurations()) {
+                    JListUtil.addToList(config.getUserName(), panel.getModel(), panel.getList());
+                }
+            }
+        });
     }
     
     private Set<String> getOfflineEmailsPaths() throws IOException {

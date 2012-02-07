@@ -14,12 +14,12 @@ import edu.coeia.offlinemail.EmailBrowsingPanel.EMAIL_PROCESSING_TYPE;
 import java.io.File;
 import java.io.IOException;
 
-import java.text.ParseException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -59,7 +59,7 @@ public class EmailProcessingTask implements Task{
         return this.thread.isCancelledThread();
     }
     
-    private void loadEmail() throws Exception {
+    private void loadEmail() {
         if ( this.panel.isOfflineEmailSelected() ) {
             String relativePath = String.valueOf(this.panel.getList().getSelectedValue());
             this.getAllMessageInEmailSource(relativePath, IndexingConstant.OFFLINE_EMAIL_PATH);
@@ -70,55 +70,69 @@ public class EmailProcessingTask implements Task{
         }
     }
     
-    private void getAllMessageInEmailSource(final String value, final String constant) throws IOException, ParseException {
-        List<Integer> ids = new ArrayList<Integer>();
-        
-        Directory dir = FSDirectory.open(new File(this.panel.getCaseFacade().getIndexFolderLocation()));
-        IndexReader indexReader = IndexReader.open(dir);
-        Map<Entry, Integer> messageCounter = new HashMap<Entry, Integer>();
-        
-        for (int i=0; i<indexReader.maxDoc(); i++) {
-            if ( this.isCancelledTask() )
-                break ;
-                     
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(constant);
-                if ( field != null && field.stringValue() != null) {
-                   String tmp = field.stringValue();
-                   
-                   if ( tmp.endsWith(value)) {
-                        EmailItem item = (EmailItem) ItemFactory.newInstance(document, panel.getCaseFacade());
-                        
-                        if ( checkingItemType(item) ) {
-                            Entry entry = new Entry(item.getFrom(), item.getTo(), item.getTime());
+    private void getAllMessageInEmailSource(final String value, final String constant) {
+        try {
+            List<Integer> ids = new ArrayList<Integer>();
+            
+            Directory dir = FSDirectory.open(new File(this.panel.getCaseFacade().getIndexFolderLocation()));
+            IndexReader indexReader = IndexReader.open(dir);
+            Map<Entry, Integer> messageCounter = new HashMap<Entry, Integer>();
+            
+            for (int i=0; i<indexReader.maxDoc(); i++) {
+                if ( this.isCancelledTask() ) {
+                    System.out.println("cancelling");
+                    break ;
+                }
+                         
+                Document document = indexReader.document(i);
+                
+                if ( document != null ) {
+                    Field field = document.getField(constant);
+                    if ( field != null && field.stringValue() != null) {
+                       String tmp = field.stringValue();
+                       
+                       if ( tmp.endsWith(value)) {
+                            EmailItem item = (EmailItem) ItemFactory.newInstance(document, panel.getCaseFacade());
                             
-                            Integer indexNo = messageCounter.get(entry);
+                            String to = "";
+                            if ( item.getTo() == null || item.getTo().trim().isEmpty() )
+                                to = value;
+                            else
+                                to = item.getTo();
                             
-                            if ( indexNo == null ) {
-                                messageCounter.put(entry, 1);
-                            }
-                            else {
-                                messageCounter.put(entry, indexNo+1);
-                            }
+                            if ( checkingItemType(item) ) {
+                                Entry entry = new Entry(item.getFrom(), to, item.getTime());
+                                
+                                Integer indexNo = messageCounter.get(entry);
+                                
+                                if ( indexNo == null ) {
+                                    messageCounter.put(entry, 1);
+                                }
+                                else {
+                                    messageCounter.put(entry, indexNo+1);
+                                }
 
-                            ids.add(Integer.valueOf(item.getDocumentId()));
-                        }
-                   }
+                                ids.add(Integer.valueOf(item.getDocumentId()));
+                            }
+                       }
+                    }
                 }
             }
-        }
-        
-        indexReader.close();
-        
-        if ( this.type == EMAIL_PROCESSING_TYPE.INBOX || this.type == EMAIL_PROCESSING_TYPE.SEND_ITEM)
-            addResultToTable(messageCounter);
-        else
-            addDateResultToTable(messageCounter);
+            
+            indexReader.close();
+            
+            if ( this.type == EMAIL_PROCESSING_TYPE.INBOX || this.type == EMAIL_PROCESSING_TYPE.SEND_ITEM)
+                addResultToTable(messageCounter);
+            else
+                addDateResultToTable(messageCounter);
 
-        
-        messageCounter.clear();
-        messageCounter = null;
+            
+            messageCounter.clear();
+            messageCounter = null;
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(EmailProcessingTask.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void addResultToTable(final Map<Entry, Integer> messageCounter) {

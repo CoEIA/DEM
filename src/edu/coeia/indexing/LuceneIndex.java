@@ -102,7 +102,10 @@ public final class LuceneIndex {
             throw new UnsupportedOperationException(e.getMessage());
         }
         catch(UnsupportedOperationException e){
-            throw new UnsupportedOperationException(e.getMessage());
+            //throw new UnsupportedOperationException(e.getMessage());
+            dialog.addErrorMessage(file, e.getMessage());
         }
+        
+        return false;
     }
 }

@@ -14,10 +14,12 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.CrawlerIndexerThread;
 
+import edu.coeia.util.FileUtil;
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import java.io.File;
 import java.io.IOException;
 
 import java.util.logging.Level;
@@ -280,6 +282,11 @@ public final class IndexingDialog extends javax.swing.JDialog {
                 currentPanel = oldType;
             }
         });
+    }
+    
+    public void addErrorMessage(final File filePath, final String message) {
+        Object[] data = { FileUtil.getExtension(filePath.getPath()), filePath.getPath(), message};
+        JTableUtil.addRowToJTable(this.getLoggingTable(), data);
     }
     
     public void setNumberOfFiles(final String no) { this.numberOfFilesLbl.setText(no); }

@@ -15,7 +15,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.gutil.LabelCellRenderer;
+//import edu.coeia.gutil.LabelCellRenderer;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
@@ -82,8 +82,8 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             }
         );
         
-        TableColumn tableColumn = this.emailsTable.getColumnModel().getColumn(3);
-        tableColumn.setCellRenderer(new LabelCellRenderer());
+//        TableColumn tableColumn = this.emailsTable.getColumnModel().getColumn(3);
+//        tableColumn.setCellRenderer(new LabelCellRenderer());
     }
 
     /** This method is called from within the constructor to

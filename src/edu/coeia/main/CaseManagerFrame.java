@@ -31,11 +31,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.EventQueue;
 
-/* import Third Party Libraries */
-import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-
 /*
- * CaseManagerFrame the main entry point to DEM
+ * CaseManagerFrame the main window in DEM
  * 
  * @author Wajdy Essam
  * Created on 16/07/2010, 01:09:17 م
@@ -60,13 +57,17 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     /**
      * Logger Object
      */
-    private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
+    private static final Logger logger = DEMLogger.getLogger(CaseManagerFrame.class);
+    
+    /**
+     * Default Theme used by Case Manager Frame
+     */
+    private static final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
     
     /** Creates new form CaseManagerFrame */
     public CaseManagerFrame() {
         initComponents(); // put swing components
         initJFrame();    // set size and location and title
-        DEMLogger.logging(logger);      // write log
         checkBetaLicense(); // check for expiration if beta license
         readCases();     // read cases into table
     }
@@ -274,7 +275,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             this.createNewCaseAction();
         }
         catch (Exception e){
-            e.printStackTrace();
+            logger.severe(String.format("Exception - Cannot Create The Case: %s", e.getMessage()));
         }
     }//GEN-LAST:event_newCaseButtonActionPerformed
 
@@ -330,7 +331,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
                     "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
         }
         catch(Exception e) {
-            e.printStackTrace();
+            logger.severe(String.format("Exception - Cannot Export The Case: %s", e.getMessage()));
         }
     }
     
@@ -350,7 +351,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
                     "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
         }
         catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(String.format("Exception - Cannot Load The Case: %s", e.getMessage()));
             JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
                 JOptionPane.ERROR_MESSAGE);
         }
@@ -368,6 +369,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             return ;
         }
         catch (Exception e){
+            logger.severe(String.format("Exception - Cannot Openining The Case: %s", e.getMessage()));
             JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
                 JOptionPane.ERROR_MESSAGE);
         }
@@ -415,7 +417,10 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             }
             catch(Exception e){
                 logger.severe("Cannot Index the case directly after create it");
-                e.printStackTrace();
+                logger.severe(String.format
+                            ("Exception - Cannot Load the Case After Creation: %s",
+                            e.getMessage())
+                        );
             }
         }
     }
@@ -427,7 +432,8 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
      */
     private void checkBetaLicense() {
         if ( ! licenseManager.isFullVersion() && licenseManager.isExpireNow() ) {
-            JOptionPane.showMessageDialog(this, "Your software has been expired!","please purchase the full version...",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Your software has been expired!",
+                    "please purchase the full version...",JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         }
     }
@@ -438,12 +444,12 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
      *  Save Application time when close JFrame (window close event)
      */
     private void initJFrame() {
-        try { 
-             GuiUtil.changeLookAndFeel(lookAndFeelName, this);  // set look and feel to windows look 
+        try {
+            GuiUtil.changeLookAndFeel(lookAndFeelName, this);  // set look and feel to windows look
+        } catch (Exception ex) {
+            Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch (Exception e){
-        }
-
+        
         /** set application in middle of screen **/
         Toolkit kit = Toolkit.getDefaultToolkit() ;
         Dimension screenSize = kit.getScreenSize() ;
@@ -487,7 +493,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
                     });
                 } 
                 catch (Exception ex) {
-                    Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
+                   logger.severe("Cannot reading the list of cases");
                 }
             }
         }).start();
@@ -521,20 +527,9 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         task.startTask();
     }
     
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        NativeInterface.open(); // used for swing DJ Library
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CaseManagerFrame().setVisible(true);
-            }
-        });
-    }
+
     
-    private static final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel caseManagerButtonsPanel;

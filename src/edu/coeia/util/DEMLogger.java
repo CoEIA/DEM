@@ -4,6 +4,8 @@
  */
 package edu.coeia.util;
 
+import java.io.File;
+
 import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.ConsoleHandler;
@@ -18,6 +20,17 @@ import java.util.logging.Logger;
  * @author wajdyessam
  */
 public class DEMLogger {
+   /**
+     * Return a Logger whose name follows a specific naming convention.
+     * 
+     * <P>The conventional Logger names are taken as
+     * <tt>aClass.getPackage().getName()</tt>
+     */
+    public static Logger getLogger(Class<?> aClass) {
+        return Logger.getLogger(aClass.getPackage().getName());
+    }
+
+    
     /**
      * logging
      * open new log or write to existed one
@@ -49,7 +62,8 @@ public class DEMLogger {
             
             ConsoleHandler consoleHandler = new ConsoleHandler();    
             
-            String fileName = FilesPath.APPLICATION_LOG_PATH + "\\" + String.format("DEM_%s.log", DateUtil.formatDateForLogFileName(new Date()));
+            String fileName = FilesPath.APPLICATION_LOG_PATH + File.separator
+                    + String.format("DEM_%s.log", DateUtil.formatDateForLogFileName(new Date()));
             FileHandler fileHandler = new FileHandler(fileName, true);
             
             consoleHandler.setFormatter(new CustomeFormatter());

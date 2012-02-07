@@ -57,6 +57,19 @@ public final class EmailItem extends Item{
         return object;
     }
     
+    public Object[] getFullDisplayData() {
+        Object[] data = new Object[] { 
+            this.documentId,
+            this.subject,
+            this.from,
+            this.to,
+            this.folder,
+            this.time,
+            this.hasAttachment
+        };
+        return data;
+    }
+    
     private JLabel getLabel() {
         ImageIcon icon  = null;
         

@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Logger;
 
 /**
@@ -226,15 +225,6 @@ public class Utilities {
         return (false);
     }
 
-    /**
-     * Return a Logger whose name follows a specific naming convention.
-     * 
-     * <P>The conventional Logger names are taken as
-     * <tt>aClass.getPackage().getName()</tt>
-     */
-    public static Logger getLogger(Class<?> aClass) {
-        return Logger.getLogger(aClass.getPackage().getName());
-    }
 
     /**
      * Return <tt>true</tt> only if <tt>aText</tt> is not null,
@@ -249,25 +239,12 @@ public class Utilities {
         return aText != null && !aText.isEmpty();
     }
 
-    public static String convertStreamToString(InputStream is) {
-        String result = "";
-        if (is == null) {
-            return result;
-        }
-
-        Scanner sc = new Scanner(is);
-        try {
-            result = sc.useDelimiter("\\A").next();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return result;
-    }
-
     public static Date checkDate(Date date) {
         if (date == null) {
             return new Date();
         }
         return date;
     }
+    
+    private static final Logger fLogger = DEMLogger.getLogger(Utilities.class);
 }

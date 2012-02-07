@@ -10,7 +10,6 @@ import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.items.EmailItem;
 import edu.coeia.items.ItemFactory;
 import edu.coeia.offlinemail.EmailBrowsingPanel;
-import edu.coeia.util.FilesPath;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,18 +58,18 @@ public class EmailLoadingTask  implements Task{
     private void loadEmail() throws Exception {
         if ( this.panel.isOfflineEmailSelected() ) {
             String relativePath = String.valueOf(this.panel.getList().getSelectedValue());
-            this.getAllMessaageInOfflineEmailPath(relativePath);
+            this.getAllEmailMessages(relativePath, IndexingConstant.OFFLINE_EMAIL_PATH);
         }
         else if ( this.panel.isOnlineEmailSelected() ) {
             String username = String.valueOf(this.panel.getList().getSelectedValue());
-            this.getAllMessageInOnlineEmailPath(username);
+            this.getAllEmailMessages(username, IndexingConstant.ONLINE_EMAIL_USER_NAME);
         }
     }
     
-    private void getAllMessaageInOfflineEmailPath(final String path) throws IOException, ParseException {
+    private void getAllEmailMessages(final String path, final String constant) throws IOException, ParseException {
         List<Integer> ids = new ArrayList<Integer>();
         
-        String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
+        String indexDir = this.panel.getCaseFacade().getIndexFolderLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
@@ -80,44 +79,13 @@ public class EmailLoadingTask  implements Task{
                      
             Document document = indexReader.document(i);
             if ( document != null ) {
-                Field field = document.getField(IndexingConstant.OFFLINE_EMAIL_PATH);
+                Field field = document.getField(constant);
                 if ( field != null && field.stringValue() != null) {
                    String tmp = field.stringValue();
                    
                    if ( tmp.endsWith(path)) {
                         EmailItem item = (EmailItem) ItemFactory.newInstance(document, panel.getCaseFacade());
-                        JTableUtil.addRowToJTable(panel.getTable(), item.getDisplayData());
-                        ids.add(Integer.valueOf(item.getDocumentId()));
-                   }
-                }
-            }
-        }
-        
-        this.panel.setResultIds(ids);
-        indexReader.close();
-    }
-        
-    
-    private void getAllMessageInOnlineEmailPath(final String username) throws IOException, ParseException {
-        List<Integer> ids = new ArrayList<Integer>();
-        
-        String indexDir = this.aCase.getCaseLocation() + "\\" + FilesPath.INDEX_PATH;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        
-        for (int i=0; i<indexReader.maxDoc(); i++) {
-            if ( this.isCancelledTask() )
-                return ;
-                        
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(IndexingConstant.ONLINE_EMAIL_USER_NAME);
-                if ( field != null && field.stringValue() != null) {
-                   String tmp = field.stringValue();
-                   
-                   if ( tmp.equals(username)) {
-                        EmailItem item = (EmailItem) ItemFactory.newInstance(document, panel.getCaseFacade());
-                        JTableUtil.addRowToJTable(panel.getTable(), item.getDisplayData());
+                        JTableUtil.addRowToJTable(panel.getTable(), item.getFullDisplayData());
                         ids.add(Integer.valueOf(item.getDocumentId()));
                    }
                 }

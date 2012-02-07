@@ -32,12 +32,14 @@ import java.util.List ;
 import java.util.ArrayList ;
 import java.util.Arrays;
 import java.util.Scanner ;
+import java.util.logging.Logger;
 
 /*
  * Noninstantiable utility class
+ * contain a collection of methods for maniulation of text files
  */
+
 public final class FileUtil {
-    
     /*
      * Suppress default constructor for noninstantiability
      */
@@ -45,6 +47,41 @@ public final class FileUtil {
         throw new AssertionError();
     }
 
+    /**
+     * Return the full content of <tt>stream</tt> as <tt>String</tt>
+     * 
+     * <p>If <tt>stream</tt> has no content or null stream, then return 
+     * an empty <tt>String</tt>
+     * 
+     * @param stream the input stream that hold the data 
+     * @return string hold the content of the <tt>stream</tt>
+     */
+    public static String convertStreamToString(final InputStream stream) {
+        StringBuilder result = new StringBuilder();
+        
+        if ( stream == null )
+            return result.toString();
+        
+        try {
+            BufferedReader input = new BufferedReader(new InputStreamReader(stream));
+            try {
+                String line = null;
+                while ( (line = input.readLine()) != null ) {
+                    result.append(line);
+                    result.append("\n");
+                }
+            }
+            finally {
+                input.close();
+            }
+        }
+        catch(IOException e) {
+            fLogger.severe(String.format("Cannot Read Input Stream: %s", stream));
+        }
+        
+        return result.toString();
+    }
+    
     /**
      * Generic Method to write any serializable object to file
      * @param <T> object type, must be implement Serializable interface
@@ -324,4 +361,6 @@ public final class FileUtil {
         
         return files;
     }
+    
+    private static final Logger fLogger = DEMLogger.getLogger(FileUtil.class);
 }

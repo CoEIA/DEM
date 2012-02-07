@@ -14,6 +14,8 @@ import edu.coeia.util.ZipUtil;
 
 import java.io.File;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
@@ -46,8 +48,13 @@ public class CaseImporterTask implements Task{
     }
     
     @Override
-    public void doTask() throws Exception {
-        importCaseAction();
+    public void doTask() {
+        try {
+            importCaseAction();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Logger.getLogger(CaseImporterTask.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override

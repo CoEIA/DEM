@@ -34,15 +34,16 @@ public class GuiUtil {
     /*
      * Change the look and Feel
      */
-    public static void changeLookAndFeel (final String lookName, JFrame frame ) throws Exception  {
+    public static void changeLookAndFeel (final String lookName, final JFrame frame ) throws Exception  {
         UIManager.setLookAndFeel(lookName);
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
         
-        CaseFrame caseFrame = (CaseFrame) frame;
-        CaseManagerFrame parent = caseFrame.getParentFrame();
-        SwingUtilities.updateComponentTreeUI(parent);
-        parent.pack();
+//        UIManager.setLookAndFeel(lookName);
+//        CaseFrame caseFrame = (CaseFrame) frame;
+//        CaseManagerFrame parent = caseFrame.getParentFrame();
+//        SwingUtilities.updateComponentTreeUI(parent);
+//        parent.pack();
     }
     
     public static void showPopup (java.awt.event.MouseEvent event) {

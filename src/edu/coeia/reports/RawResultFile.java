@@ -90,7 +90,7 @@ public class RawResultFile {
         return sourceXml;
     }
 
-    public static DatasourceXml getCasesXmlFile(List<Case> cases, Case currentCase) {
+    public static DatasourceXml getCasesXmlFile(List<Case> cases, Case currentCase) throws IOException {
 
         String mainRawfilePath = currentCase.getCaseLocation() + "\\RAW";
         String cookedReportFolder = currentCase.getCaseLocation() + "\\Reports";

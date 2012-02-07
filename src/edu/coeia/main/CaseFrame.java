@@ -44,8 +44,6 @@ import java.util.logging.Logger;
  */
 
 public class CaseFrame extends javax.swing.JFrame {
-    
-    private final String APPLICATION_NAME = "Digital Evidence Miner: ";
     private final String applicationTitle;
     private static final Logger logger = Logger.getLogger(edu.coeia.util.FilesPath.LOG_NAMESPACE);
     
@@ -121,7 +119,7 @@ public class CaseFrame extends javax.swing.JFrame {
         
         // init user interface components
         this.searchToggleButtonActionPerformed(null);
-        this.setTitle(APPLICATION_NAME + "Case Manager Window");
+        this.setTitle(FilesPath.APPLICATION_NAME + "Case Manager Window");
         GuiUtil.showPanel("caseManagerCard",CardPanel);
     }
     
@@ -478,27 +476,27 @@ public class CaseFrame extends javax.swing.JFrame {
 
     private void fileSystemToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemToggleButtonActionPerformed
         GuiUtil.showPanel("fileSystemCard",CardPanel);
-        this.setTitle(APPLICATION_NAME + "File System Search Window");
+        this.setTitle(FilesPath.APPLICATION_NAME + "File System Search Window");
     }//GEN-LAST:event_fileSystemToggleButtonActionPerformed
 
     private void emailToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailToggleButtonActionPerformed
        GuiUtil.showPanel("emailCard",CardPanel);
-       this.setTitle(APPLICATION_NAME + "Email Search Window");
+       this.setTitle(FilesPath.APPLICATION_NAME + "Email Search Window");
     }//GEN-LAST:event_emailToggleButtonActionPerformed
 
     private void internetSurfingToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_internetSurfingToggleButtonActionPerformed
        GuiUtil.showPanel("internetSurfingCard",CardPanel);
-       this.setTitle(APPLICATION_NAME + "Internet Surfing Search Window");
+       this.setTitle(FilesPath.APPLICATION_NAME + "Internet Surfing Search Window");
     }//GEN-LAST:event_internetSurfingToggleButtonActionPerformed
 
     private void chatToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatToggleButtonActionPerformed
         GuiUtil.showPanel("chatCard",CardPanel);
-        this.setTitle(APPLICATION_NAME + "Instance Chat Search Window");
+        this.setTitle(FilesPath.APPLICATION_NAME + "Instance Chat Search Window");
     }//GEN-LAST:event_chatToggleButtonActionPerformed
 
     private void imageViewerToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageViewerToggleButtonActionPerformed
          GuiUtil.showPanel("MultimediaViewer", CardPanel);
-         this.setTitle(APPLICATION_NAME + "Multimedeia Viewer Window");
+         this.setTitle(FilesPath.APPLICATION_NAME + "Multimedeia Viewer Window");
     }//GEN-LAST:event_imageViewerToggleButtonActionPerformed
 
     private void viewLogMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewLogMenuItemActionPerformed
@@ -516,18 +514,18 @@ public class CaseFrame extends javax.swing.JFrame {
 
     private void searchToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchToggleButtonActionPerformed
        GuiUtil.showPanel("searchCard",CardPanel);
-       this.setTitle(APPLICATION_NAME + "Search Window");
+       this.setTitle(FilesPath.APPLICATION_NAME + "Search Window");
        this.caseSearchPanel.setFocusInAdvancedSearchPanel();
     }//GEN-LAST:event_searchToggleButtonActionPerformed
 
     private void caseManagerToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caseManagerToggleButtonActionPerformed
        GuiUtil.showPanel("caseManagerCard",CardPanel);
-       this.setTitle(APPLICATION_NAME + "Case Manager Window");
+       this.setTitle(FilesPath.APPLICATION_NAME + "Case Manager Window");
     }//GEN-LAST:event_caseManagerToggleButtonActionPerformed
 
     private void reportToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportToggleButtonActionPerformed
        GuiUtil.showPanel("reportCard",CardPanel);
-       this.setTitle(APPLICATION_NAME + "Report Manager Window");
+       this.setTitle(FilesPath.APPLICATION_NAME + "Report Manager Window");
     }//GEN-LAST:event_reportToggleButtonActionPerformed
 
     private void hashLibraryMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashLibraryMenuItemActionPerformed
@@ -669,7 +667,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private void initFrame() {
         Toolkit kit = Toolkit.getDefaultToolkit();
         this.setIconImage(kit.getImage(this.getClass().getResource("resources/dem-icon.png")));
-        this.setTitle(APPLICATION_NAME + applicationTitle);
+        this.setTitle(FilesPath.APPLICATION_NAME + applicationTitle);
         this.setResizable(true);
         this.setSize(850, 650);
     }
