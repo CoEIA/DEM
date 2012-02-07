@@ -11,7 +11,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,-21,0,0,2,-25"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,20,0,0,2,-13"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -35,7 +35,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jLabel9" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel6" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel7" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel10" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -49,17 +49,17 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane4" pref="163" max="32767" attributes="0"/>
-                      <Component id="jScrollPane2" alignment="1" pref="163" max="32767" attributes="0"/>
-                      <Component id="caseSizeTextField" alignment="1" pref="163" max="32767" attributes="0"/>
-                      <Component id="caseDescriptionTextField" alignment="1" pref="163" max="32767" attributes="0"/>
-                      <Component id="itemIndexedTextField" alignment="1" pref="163" max="32767" attributes="0"/>
-                      <Component id="indexedTextField" alignment="1" pref="163" max="32767" attributes="0"/>
-                      <Component id="casePathTextField" alignment="1" pref="163" max="32767" attributes="0"/>
-                      <Component id="lastModifiedTextField" alignment="1" pref="163" max="32767" attributes="0"/>
-                      <Component id="createdDateTextField" alignment="1" pref="163" max="32767" attributes="0"/>
-                      <Component id="createdByTextField" alignment="1" pref="163" max="32767" attributes="0"/>
-                      <Component id="caseNameTextField" alignment="1" pref="163" max="32767" attributes="0"/>
+                      <Component id="jScrollPane5" alignment="0" pref="172" max="32767" attributes="0"/>
+                      <Component id="jScrollPane6" pref="172" max="32767" attributes="0"/>
+                      <Component id="caseSizeTextField" alignment="1" pref="172" max="32767" attributes="0"/>
+                      <Component id="caseDescriptionTextField" alignment="1" pref="172" max="32767" attributes="0"/>
+                      <Component id="itemIndexedTextField" alignment="1" pref="172" max="32767" attributes="0"/>
+                      <Component id="indexedTextField" alignment="1" pref="172" max="32767" attributes="0"/>
+                      <Component id="casePathTextField" alignment="1" pref="172" max="32767" attributes="0"/>
+                      <Component id="lastModifiedTextField" alignment="1" pref="172" max="32767" attributes="0"/>
+                      <Component id="createdDateTextField" alignment="1" pref="172" max="32767" attributes="0"/>
+                      <Component id="createdByTextField" alignment="1" pref="172" max="32767" attributes="0"/>
+                      <Component id="caseNameTextField" alignment="1" pref="172" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -113,15 +113,16 @@
                       <Component id="caseSizeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jScrollPane6" min="-2" pref="90" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" min="-2" pref="72" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jScrollPane5" min="-2" pref="87" max="-2" attributes="0"/>
+                      <Component id="jLabel9" min="-2" max="-2" attributes="1"/>
                   </Group>
+                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -231,46 +232,30 @@
             <Property name="text" type="java.lang.String" value="Case Sources:"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane2">
-          <AuxValues>
-            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-          </AuxValues>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JTextArea" name="caseSourcesTextView">
-              <Properties>
-                <Property name="columns" type="int" value="20"/>
-                <Property name="editable" type="boolean" value="false"/>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="0"/>
-                </Property>
-                <Property name="rows" type="int" value="5"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
             <Property name="text" type="java.lang.String" value="Email Sources:"/>
           </Properties>
         </Component>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+        <Container class="javax.swing.JScrollPane" name="jScrollPane5">
           <AuxValues>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTextArea" name="emailSourcesTextArea">
-              <Properties>
-                <Property name="columns" type="int" value="20"/>
-                <Property name="editable" type="boolean" value="false"/>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="0"/>
-                </Property>
-                <Property name="rows" type="int" value="5"/>
-              </Properties>
+            <Component class="javax.swing.JList" name="emailSourcesList">
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane6">
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JList" name="caseSourcesList">
             </Component>
           </SubComponents>
         </Container>
@@ -380,12 +365,12 @@
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="tagDateTextField" pref="149" max="32767" attributes="0"/>
+                                      <Component id="tagDateTextField" pref="152" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="jScrollPane3" alignment="0" pref="279" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane3" alignment="0" pref="282" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="caseTagControllerPanel" min="-2" pref="124" max="-2" attributes="0"/>
-                                      <EmptySpace pref="138" max="32767" attributes="0"/>
+                                      <EmptySpace pref="141" max="32767" attributes="0"/>
                                       <Component id="currentTagLabel" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>

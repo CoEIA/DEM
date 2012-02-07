@@ -12,17 +12,19 @@ package edu.coeia.filesystem;
 
 import edu.coeia.cases.CaseHistory;
 import edu.coeia.cases.CaseFacade;
+import edu.coeia.gutil.JListUtil;
 import edu.coeia.tags.TagsDialog;
 import edu.coeia.main.CaseFrame;
 import edu.coeia.tags.TagsManager;
 import edu.coeia.tags.Tag ;
 import edu.coeia.util.DateUtil;
-
 import edu.coeia.wizard.EmailConfiguration;
+
 import java.awt.Toolkit;
 
 import java.util.List ;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -36,6 +38,8 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
     private final CaseFacade caseFacade ;
     
     private int currentTagIndex;
+    private DefaultListModel filsSystemSourcesModel;
+    private DefaultListModel emailSourcesModel;
     
     /** Creates new form CaseInformationPanel */
     public CaseInformationPanel(CaseFrame frame) {
@@ -45,6 +49,9 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         this.tagsManager = frame.getTagsManager() ;
         this.caseFacade = frame.getCaseFacade();
                 
+        this.filsSystemSourcesModel = new DefaultListModel();
+        this.emailSourcesModel = new DefaultListModel();
+        
         // initializing tags panel
         this.initializingTagsPanel();
         
@@ -82,11 +89,11 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         caseSizeTextField = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        caseSourcesTextView = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        emailSourcesTextArea = new javax.swing.JTextArea();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        emailSourcesList = new javax.swing.JList();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        caseSourcesList = new javax.swing.JList();
         tagsLogsPanel = new javax.swing.JPanel();
         caseLogsPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -161,19 +168,11 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
 
         jLabel11.setText("Case Sources:");
 
-        caseSourcesTextView.setColumns(20);
-        caseSourcesTextView.setEditable(false);
-        caseSourcesTextView.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        caseSourcesTextView.setRows(5);
-        jScrollPane2.setViewportView(caseSourcesTextView);
-
         jLabel9.setText("Email Sources:");
 
-        emailSourcesTextArea.setColumns(20);
-        emailSourcesTextArea.setEditable(false);
-        emailSourcesTextArea.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        emailSourcesTextArea.setRows(5);
-        jScrollPane4.setViewportView(emailSourcesTextArea);
+        jScrollPane5.setViewportView(emailSourcesList);
+
+        jScrollPane6.setViewportView(caseSourcesList);
 
         javax.swing.GroupLayout caseInformationPanelLayout = new javax.swing.GroupLayout(caseInformationPanel);
         caseInformationPanel.setLayout(caseInformationPanelLayout);
@@ -194,17 +193,17 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(caseSizeTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(caseDescriptionTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(itemIndexedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(indexedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(casePathTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(lastModifiedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(createdDateTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(createdByTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(caseNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addComponent(caseSizeTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addComponent(caseDescriptionTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addComponent(itemIndexedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addComponent(indexedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addComponent(casePathTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addComponent(lastModifiedTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addComponent(createdDateTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addComponent(createdByTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addComponent(caseNameTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)))
         );
         caseInformationPanelLayout.setVerticalGroup(
             caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,13 +245,14 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
                     .addComponent(jLabel10)
                     .addComponent(caseSizeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel9)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(caseInformationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addGap(24, 24, 24))
         );
 
         add(caseInformationPanel, java.awt.BorderLayout.WEST);
@@ -355,11 +355,11 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tagDateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                        .addComponent(tagDateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
                     .addGroup(caseTagVeiwerPanelLayout.createSequentialGroup()
                         .addComponent(caseTagControllerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
                         .addComponent(currentTagLabel)))
                 .addContainerGap())
         );
@@ -611,20 +611,14 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         this.createdByTextField.setText(this.caseFacade.getCase().getInvestigatorName());
         this.casePathTextField.setText(this.caseFacade.getCase().getCaseLocation());
         this.caseDescriptionTextField.setText(this.caseFacade.getCase().getDescription());
-        
-        StringBuilder paths = new StringBuilder();
-        for(String doc: this.caseFacade.getCase().getEvidenceSourceLocation())
-            paths.append(doc).append("\n");
-        
-        this.caseSourcesTextView.setText(paths.toString());   // clear the field and append new data
-        
-        StringBuilder emailSources = new StringBuilder();
-        for(EmailConfiguration emailConfiguration: this.caseFacade.getCase().getEmailConfigurations()) {
-            emailSources.append(emailConfiguration.getUserName());
-            emailSources.append("\n");
+       
+        for(String doc: this.caseFacade.getCase().getEvidenceSourceLocation()) {
+            JListUtil.addToList(doc, this.filsSystemSourcesModel, this.caseSourcesList);
         }
         
-        this.emailSourcesTextArea.setText(emailSources.toString());
+        for(EmailConfiguration emailConfiguration: this.caseFacade.getCase().getEmailConfigurations()) {
+            JListUtil.addToList(emailConfiguration.getUserName(), this.emailSourcesModel, this.emailSourcesList);
+        }
     }
     
     /**
@@ -648,7 +642,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
     private javax.swing.JTextField caseNameTextField;
     private javax.swing.JTextField casePathTextField;
     private javax.swing.JTextField caseSizeTextField;
-    private javax.swing.JTextArea caseSourcesTextView;
+    private javax.swing.JList caseSourcesList;
     private javax.swing.JPanel caseTagControllerPanel;
     private javax.swing.JPanel caseTagVeiwerPanel;
     private javax.swing.JPanel caseTagsButtonsPanel;
@@ -657,7 +651,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
     private javax.swing.JTextField createdByTextField;
     private javax.swing.JTextField createdDateTextField;
     private javax.swing.JLabel currentTagLabel;
-    private javax.swing.JTextArea emailSourcesTextArea;
+    private javax.swing.JList emailSourcesList;
     private javax.swing.JTextField indexedTextField;
     private javax.swing.JTextField itemIndexedTextField;
     private javax.swing.JLabel jLabel1;
@@ -675,9 +669,9 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTextField lastModifiedTextField;
     private javax.swing.JButton newTagsButton;
     private javax.swing.JButton nextButton;
