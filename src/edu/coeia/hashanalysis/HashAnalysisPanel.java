@@ -23,6 +23,8 @@ import edu.coeia.reports.RawResultFile;
 import edu.coeia.reports.ReportOptionDialog;
 import edu.coeia.task.CaseDuplicationTask;
 import edu.coeia.task.HashLibraryDuplicationTask;
+import edu.coeia.cases.CaseFacade;
+import edu.coeia.gutil.LabelCellRenderer;
 
 import java.util.Collections;
 import java.util.ArrayList;
@@ -37,14 +39,12 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JList;
+import javax.swing.table.TableColumn;
 
 import org.apache.lucene.document.Document ;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import edu.coeia.cases.CaseFacade;
-import edu.coeia.gutil.LabelCellRenderer;
-import javax.swing.table.TableColumn;
 
 /**
  *

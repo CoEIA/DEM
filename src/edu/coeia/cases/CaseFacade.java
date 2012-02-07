@@ -30,6 +30,7 @@ public final class CaseFacade {
     private final Case aCase ;
     private final CaseHistoryHandler caseHistoryHandler;
     private final CasePathMappingHandler casePathHandler; 
+    private final CaseAuditing caseLogging;
     
     public static CaseFacade newInstance (final Case aCase) throws IOException {
         return new CaseFacade(aCase);
@@ -271,10 +272,15 @@ public final class CaseFacade {
         FileUtil.writeToFile(otherCasesGroup, this.getCasesInformationFileLocation());
     }
         
+    public void log(final String message) {
+        this.caseLogging.auditing(null);
+    }
+    
     private CaseFacade (final Case aCase) throws IOException {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();
         this.casePathHandler = CasePathMappingHandler.newInstance(this.getCaseConfigurationFileLocation());
+        this.caseLogging = new CaseAuditing(aCase.getCaseName());
         
         if ( FileUtil.isFileFound(this.getCaseConfigurationFileLocation()))
             this.updateMappingFile();
