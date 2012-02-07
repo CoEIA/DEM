@@ -21,6 +21,7 @@ import edu.coeia.searching.CaseSearchPanel;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.FilesPath;
 import edu.coeia.tags.TagsManager ;
+import edu.coeia.util.SystemConstant;
 
 import java.awt.Toolkit ;
 import java.awt.event.WindowAdapter;
@@ -119,7 +120,7 @@ public class CaseFrame extends javax.swing.JFrame {
         
         // init user interface components
         this.searchToggleButtonActionPerformed(null);
-        this.setTitle(FilesPath.APPLICATION_NAME + "Case Manager Window");
+        this.setTitle(SystemConstant.APPLICATION_NAME + "Case Manager Window");
         GuiUtil.showPanel("caseManagerCard",CardPanel);
     }
     
@@ -476,27 +477,27 @@ public class CaseFrame extends javax.swing.JFrame {
 
     private void fileSystemToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemToggleButtonActionPerformed
         GuiUtil.showPanel("fileSystemCard",CardPanel);
-        this.setTitle(FilesPath.APPLICATION_NAME + "File System Search Window");
+        this.setTitle(SystemConstant.APPLICATION_NAME + "File System Search Window");
     }//GEN-LAST:event_fileSystemToggleButtonActionPerformed
 
     private void emailToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailToggleButtonActionPerformed
        GuiUtil.showPanel("emailCard",CardPanel);
-       this.setTitle(FilesPath.APPLICATION_NAME + "Email Search Window");
+       this.setTitle(SystemConstant.APPLICATION_NAME + "Email Search Window");
     }//GEN-LAST:event_emailToggleButtonActionPerformed
 
     private void internetSurfingToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_internetSurfingToggleButtonActionPerformed
        GuiUtil.showPanel("internetSurfingCard",CardPanel);
-       this.setTitle(FilesPath.APPLICATION_NAME + "Internet Surfing Search Window");
+       this.setTitle(SystemConstant.APPLICATION_NAME + "Internet Surfing Search Window");
     }//GEN-LAST:event_internetSurfingToggleButtonActionPerformed
 
     private void chatToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatToggleButtonActionPerformed
         GuiUtil.showPanel("chatCard",CardPanel);
-        this.setTitle(FilesPath.APPLICATION_NAME + "Instance Chat Search Window");
+        this.setTitle(SystemConstant.APPLICATION_NAME + "Instance Chat Search Window");
     }//GEN-LAST:event_chatToggleButtonActionPerformed
 
     private void imageViewerToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageViewerToggleButtonActionPerformed
          GuiUtil.showPanel("MultimediaViewer", CardPanel);
-         this.setTitle(FilesPath.APPLICATION_NAME + "Multimedeia Viewer Window");
+         this.setTitle(SystemConstant.APPLICATION_NAME + "Multimedeia Viewer Window");
     }//GEN-LAST:event_imageViewerToggleButtonActionPerformed
 
     private void viewLogMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewLogMenuItemActionPerformed
@@ -514,18 +515,18 @@ public class CaseFrame extends javax.swing.JFrame {
 
     private void searchToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchToggleButtonActionPerformed
        GuiUtil.showPanel("searchCard",CardPanel);
-       this.setTitle(FilesPath.APPLICATION_NAME + "Search Window");
+       this.setTitle(SystemConstant.APPLICATION_NAME + "Search Window");
        this.caseSearchPanel.setFocusInAdvancedSearchPanel();
     }//GEN-LAST:event_searchToggleButtonActionPerformed
 
     private void caseManagerToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caseManagerToggleButtonActionPerformed
        GuiUtil.showPanel("caseManagerCard",CardPanel);
-       this.setTitle(FilesPath.APPLICATION_NAME + "Case Manager Window");
+       this.setTitle(SystemConstant.APPLICATION_NAME + "Case Manager Window");
     }//GEN-LAST:event_caseManagerToggleButtonActionPerformed
 
     private void reportToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportToggleButtonActionPerformed
        GuiUtil.showPanel("reportCard",CardPanel);
-       this.setTitle(FilesPath.APPLICATION_NAME + "Report Manager Window");
+       this.setTitle(SystemConstant.APPLICATION_NAME + "Report Manager Window");
     }//GEN-LAST:event_reportToggleButtonActionPerformed
 
     private void hashLibraryMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashLibraryMenuItemActionPerformed
@@ -534,43 +535,19 @@ public class CaseFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_hashLibraryMenuItemActionPerformed
 
     private void windowsStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_windowsStyleRadioButtonActionPerformed
-        try { 
-            final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
-            GuiUtil.changeLookAndFeel(lookAndFeelName, this);  // set look and feel to windows look 
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        GuiUtil.changeLookAndFeel(SystemConstant.WINDOWS_LOOK_AND_FEEL, this);
     }//GEN-LAST:event_windowsStyleRadioButtonActionPerformed
 
     private void businessStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_businessStyleRadioButtonActionPerformed
-        try { 
-            final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceBusinessLookAndFeel";
-            GuiUtil.changeLookAndFeel(lookAndFeelName, this);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        GuiUtil.changeLookAndFeel(SystemConstant.BUSINESS_LOOK_AND_FEEL, this);
     }//GEN-LAST:event_businessStyleRadioButtonActionPerformed
 
     private void dustStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dustStyleRadioButtonActionPerformed
-        try { 
-            final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceDustLookAndFeel";
-            GuiUtil.changeLookAndFeel(lookAndFeelName, this); 
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        GuiUtil.changeLookAndFeel(SystemConstant.DUSK_LOOK_AND_FEEL, this); 
     }//GEN-LAST:event_dustStyleRadioButtonActionPerformed
 
     private void ravenStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ravenStyleRadioButtonActionPerformed
-        try { 
-            final String lookAndFeelName = "org.jvnet.substance.skin.SubstanceRavenGraphiteLookAndFeel";
-            GuiUtil.changeLookAndFeel(lookAndFeelName, this); 
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        GuiUtil.changeLookAndFeel(SystemConstant.RAVEN_LOOK_AND_FEEL, this); 
     }//GEN-LAST:event_ravenStyleRadioButtonActionPerformed
 
     private void reDownloadingEmailMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reDownloadingEmailMenuItemActionPerformed
@@ -667,7 +644,7 @@ public class CaseFrame extends javax.swing.JFrame {
     private void initFrame() {
         Toolkit kit = Toolkit.getDefaultToolkit();
         this.setIconImage(kit.getImage(this.getClass().getResource("resources/dem-icon.png")));
-        this.setTitle(FilesPath.APPLICATION_NAME + applicationTitle);
+        this.setTitle(SystemConstant.APPLICATION_NAME + applicationTitle);
         this.setResizable(true);
         this.setSize(850, 650);
     }

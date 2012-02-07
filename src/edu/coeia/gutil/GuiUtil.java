@@ -34,10 +34,15 @@ public class GuiUtil {
     /*
      * Change the look and Feel
      */
-    public static void changeLookAndFeel (final String lookName, final JFrame frame ) throws Exception  {
-        UIManager.setLookAndFeel(lookName);
-        SwingUtilities.updateComponentTreeUI(frame);
-        frame.pack();
+    public static void changeLookAndFeel (final String lookName, final JFrame frame ){
+        try {
+            UIManager.setLookAndFeel(lookName);
+            SwingUtilities.updateComponentTreeUI(frame);
+            frame.pack();
+        }
+        catch(Exception e) {
+            
+        }
         
 //        UIManager.setLookAndFeel(lookName);
 //        CaseFrame caseFrame = (CaseFrame) frame;

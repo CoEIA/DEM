@@ -14,6 +14,7 @@ import edu.coeia.task.CaseRemoverTask;
 import edu.coeia.task.CaseLoaderTask;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
+import edu.coeia.util.SystemConstant;
 
 /* import sun classes */
 import java.io.FileNotFoundException;
@@ -22,7 +23,6 @@ import java.io.IOException;
 import javax.swing.JOptionPane ;
 
 import java.util.List ;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.awt.Toolkit ;
@@ -58,11 +58,6 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
      * Logger Object
      */
     private static final Logger logger = DEMLogger.getLogger(CaseManagerFrame.class);
-    
-    /**
-     * Default Theme used by Case Manager Frame
-     */
-    private static final String lookAndFeelName = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" ;
     
     /** Creates new form CaseManagerFrame */
     public CaseManagerFrame() {
@@ -444,11 +439,8 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
      *  Save Application time when close JFrame (window close event)
      */
     private void initJFrame() {
-        try {
-            GuiUtil.changeLookAndFeel(lookAndFeelName, this);  // set look and feel to windows look
-        } catch (Exception ex) {
-            Logger.getLogger(CaseManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        /** set look and feel to windows look */
+        GuiUtil.changeLookAndFeel(SystemConstant.WINDOWS_LOOK_AND_FEEL, this);  
         
         /** set application in middle of screen **/
         Toolkit kit = Toolkit.getDefaultToolkit() ;
@@ -526,11 +518,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         CaseLoaderTask task = new CaseLoaderTask(this, facade, startIndex);
         task.startTask();
     }
-    
 
-    
-
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel caseManagerButtonsPanel;
     private javax.swing.JPanel caseManagerDataPanel;

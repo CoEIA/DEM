@@ -17,43 +17,8 @@ public class FilesPath {
     // logging general namespace
     public final static String LOG_NAMESPACE = "DEM_NAMESPACE";
     
-    // application name
-    public final static String APPLICATION_NAME = "Digital Evidence Miner: ";
-    
-    // application version
-    public final static String APPLICATION_VERSION = "2";
-    
-    // application and version
-    public final static String APPLICATION_NAME_VERSION = APPLICATION_NAME 
-            + APPLICATION_VERSION;
-    
-    // auther name
-    public final static String AUTHER = "COEIA";
-    
-    // current user name
-    public final static String USER_NAME = System.getProperty("user.name");
-
-    // user home directory
-    public final static String USER_HOME = System.getProperty("user.home");
-    
-    // user working directory
-    public final static String USER_DIRECTORY = System.getProperty("user.dir");
-    
-    // operating system version
-    public final static String OS_NAME = System.getProperty("os.name");
-    
-    // operating system version
-    public final static String OS_VERSION = System.getProperty("os.version");
-    
-    // java run time version
-    public final static String JRE_VERSION = System.getProperty("java.version");
-    
-    // java home path
-    public final static String JRE_HOME = System.getProperty("java.home");
-    
-    
     // the path for offline mining project
-    public final static String APPLICATION_PATH = USER_HOME + File.separator + "Application Data\\" + "CoEIA_Forensics";
+    public final static String APPLICATION_PATH = SystemConstant.USER_HOME + File.separator + "Application Data\\" + "CoEIA_Forensics";
 
     // the path for cases (indexed folders) in offline mining project
     public final static String CASES_PATH = APPLICATION_PATH + File.separator + "CASES" ;
@@ -106,7 +71,7 @@ public class FilesPath {
 
    
     //***************************************** need to remove
-    public static final String RECENT = "C:\\Documents and Settings\\" + USER_NAME + "\\Recent";
+    public static final String RECENT = "C:\\Documents and Settings\\" + SystemConstant.USER_NAME + "\\Recent";
     //*****************************************
 
     public static final String IP_DB = "tools\\countries.db" ;
@@ -184,7 +149,7 @@ public class FilesPath {
     public static enum OS_TYPE { XP , SEVEN } ;
     
     public static OS_TYPE getOSType () {
-        if ( OS_NAME.startsWith("Windows 7"))
+        if ( SystemConstant.OS_NAME.startsWith("Windows 7"))
             return OS_TYPE.SEVEN ;
         else
             return OS_TYPE.XP ;
