@@ -17,6 +17,7 @@ import edu.coeia.tags.TagsDialog;
 import edu.coeia.main.CaseMainFrame;
 import edu.coeia.tags.TagsManager;
 import edu.coeia.tags.Tag ;
+import edu.coeia.util.DEMLogger;
 import edu.coeia.util.DateUtil;
 import edu.coeia.wizard.EmailConfiguration;
 
@@ -24,6 +25,7 @@ import java.awt.Toolkit;
 
 import java.util.List ;
 
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -40,6 +42,8 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
     private int currentTagIndex;
     private DefaultListModel filsSystemSourcesModel;
     private DefaultListModel emailSourcesModel;
+    
+    private final static Logger logger = DEMLogger.getLogger(CaseInformationPanel.class);
     
     /** Creates new form CaseInformationPanel */
     public CaseInformationPanel(CaseMainFrame frame) {
@@ -58,6 +62,8 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         // update case information panel
         this.displayCaseInformationPanel();
         this.displayMutableCaseInformationPanel();
+        
+        logger.info("building case information panel");
     }
 
     /** This method is called from within the constructor to

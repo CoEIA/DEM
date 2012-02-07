@@ -4,8 +4,6 @@
  */
 package edu.coeia.gutil;
 
-import edu.coeia.main.CaseMainFrame;
-import edu.coeia.main.CaseManagerFrame;
 import edu.coeia.util.GUIFileFilter ;
 
 import javax.swing.JButton;
@@ -18,6 +16,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import java.awt.CardLayout ;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -80,5 +80,18 @@ public class GuiUtil {
 
         popup.add(btn);
         table.setComponentPopupMenu(popup);
+    }
+    
+    public static void showErrorMessage(final JComponent parent,
+            final String message, 
+            final String title ) {
+        
+        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public static void showInformationMessage(final JComponent parent, 
+            final String messge, final String title) {
+        
+        JOptionPane.showMessageDialog(parent, messge, title, JOptionPane.INFORMATION_MESSAGE);
     }
 }

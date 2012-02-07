@@ -24,6 +24,7 @@ import edu.coeia.tags.TagsManager ;
 import edu.coeia.util.DEMLogger;
 import edu.coeia.util.SystemConstant;
 
+import java.awt.EventQueue;
 import java.awt.Toolkit ;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -53,7 +54,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
     private final CaseManagerFrame parentFrame; 
     private final List<String> listOfOpeningCase ;
     private final CaseFacade caseFacade;
-    private final TagsManager tagsManager ;
+    private TagsManager tagsManager ;
     private final String applicationTitle;
     
     // to update the panel after direct indexing 
@@ -88,7 +89,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
         
         this.caseFacade = caseFacade;
         this.listOfOpeningCase = list;
-        this.tagsManager = TagsManager.getTagsManager(this.caseFacade.getTagDatabaseLocation());
+        this.loadTags();
         
         /**
          * Remove Case Name From the list when Frame Closed
@@ -108,8 +109,8 @@ public class CaseMainFrame extends javax.swing.JFrame {
         this.chatPanel = new ChatPanel(this);
         this.multimediaPanel = new MultimediaPanel(this);
         this.caseSearchPanel = new CaseSearchPanel(this);
-        this.caseManagerPanel = new CaseInformationPanel(this);
         this.reportPanel = new ReportPanel(this);
+        this.caseManagerPanel = new CaseInformationPanel(this);
         
         // set card panels
         this.CardPanel.add(this.fileSystemPanel, "fileSystemCard");
@@ -561,6 +562,17 @@ public class CaseMainFrame extends javax.swing.JFrame {
         CaseVerificationDialog dialog = new CaseVerificationDialog(this, true);
         dialog.setVisible(true);
     }//GEN-LAST:event_caseVerificationMenuItemActionPerformed
+    
+    private void loadTags() {
+        tagsManager = TagsManager.getTagsManager(caseFacade.getTagDatabaseLocation());
+        logger.info("loading tags complete");
+//        new Thread(new Runnable() { 
+//            @Override
+//            public void run() {
+//                tagsManager = TagsManager.getTagsManager(caseFacade.getTagDatabaseLocation());
+//            }
+//        }).start();
+    }
     
     private void emailDownloaderAction() {
         List<EmailConfiguration> emailInfos = this.getCase().getEmailConfigurations();
