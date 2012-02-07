@@ -502,7 +502,7 @@ public class CaseFrame extends javax.swing.JFrame {
 
     private void viewLogMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewLogMenuItemActionPerformed
         try {
-            Utilities.selectObjectInExplorer(ApplicationConstants.APPLICATION_LOG_PATH);
+            Utilities.selectObjectInExplorer(ApplicationConstants.APPLICATION_LOG_FILE);
         }
         catch(Exception e) {
             logger.log(Level.SEVERE, "Exception When Opening Folder", e);

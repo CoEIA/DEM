@@ -45,7 +45,7 @@ public class LuceneSearcher {
     private final int MAX_RESULT = 5000;
     
     public LuceneSearcher (final Case currentCase) throws Exception {
-        File caseLocation = new File (currentCase.getCaseLocation() + "\\" + ApplicationConstants.INDEX_PATH);
+        File caseLocation = new File (currentCase.getCaseLocation() + "\\" + ApplicationConstants.CASE_INDEX_FOLDER);
         
         fsDir = FSDirectory.open(caseLocation);
         indexReader = IndexReader.open(fsDir, true);

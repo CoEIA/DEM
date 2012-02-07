@@ -294,7 +294,7 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
         String filePath = HashLibraryManager.getPathForHashCategory(hashCategory.getName());
         
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setSelectedFile(new File(hashCategory.getName() + ApplicationConstants.HASH_SET_EXTENSION));
+        fileChooser.setSelectedFile(new File(hashCategory.getName() + ApplicationConstants.CASE_HASH_SET_EXTENSION));
         
         int result = fileChooser.showSaveDialog(this.parent);
         if ( result == JFileChooser.APPROVE_OPTION ) {

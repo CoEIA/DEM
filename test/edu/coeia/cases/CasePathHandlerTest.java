@@ -27,7 +27,7 @@ public class CasePathHandlerTest {
         pathHandler.add(new File("C:\\data"));
         pathHandler.saveConfiguration();
         assertEquals(1, pathHandler.reloadFileMapping().size());
-        FileUtil.removeFile(casePath + File.separator + ApplicationConstants.CASE_CONFIG);
+        FileUtil.removeFile(casePath + File.separator + ApplicationConstants.CASE_CONFIG_FILE);
     }
     
     @Test
@@ -38,7 +38,7 @@ public class CasePathHandlerTest {
         pathHandler.add(new File("C:\\docs"));
         pathHandler.saveConfiguration();
         assertEquals(2, pathHandler.reloadFileMapping().size());
-        FileUtil.removeFile(casePath + File.separator + ApplicationConstants.CASE_CONFIG);
+        FileUtil.removeFile(casePath + File.separator + ApplicationConstants.CASE_CONFIG_FILE);
     }
     
     @Test
@@ -48,7 +48,7 @@ public class CasePathHandlerTest {
         pathHandler.add(new File("C:\\notexistingfolder"));
         pathHandler.saveConfiguration();
         assertEquals(1, pathHandler.getChangedEntries().size());
-        FileUtil.removeFile(casePath + File.separator + ApplicationConstants.CASE_CONFIG);
+        FileUtil.removeFile(casePath + File.separator + ApplicationConstants.CASE_CONFIG_FILE);
     }
     
     @Test
@@ -62,7 +62,7 @@ public class CasePathHandlerTest {
         pathHandler.add(new File("C:\\docs"));
         pathHandler.saveConfiguration();
         assertEquals(3, pathHandler.getChangedEntries().size());
-        FileUtil.removeFile(casePath + File.separator + ApplicationConstants.CASE_CONFIG);
+        FileUtil.removeFile(casePath + File.separator + ApplicationConstants.CASE_CONFIG_FILE);
     }
     
     @Test

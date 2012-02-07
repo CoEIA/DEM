@@ -47,7 +47,7 @@ public enum ApplicationManager {
     public List<Case> getCases() throws FileNotFoundException, IOException, ClassNotFoundException{
         List<Case> cases = new ArrayList<Case>();
         
-        File indexesInfo = new File(ApplicationConstants.INDEXES_INFO);
+        File indexesInfo = new File(ApplicationConstants.APPLICATION_CASES_FILE);
         List<String> casesPath  = FileUtil.getFileContentInList(indexesInfo);
 
         for(String path: casesPath) {
@@ -71,7 +71,7 @@ public enum ApplicationManager {
      * @return IndexInformation 
      */
     public Case getCaseFromCaseName (String indexName) throws FileNotFoundException, IOException, ClassNotFoundException {
-        File indexesInfo = new File(ApplicationConstants.INDEXES_INFO);
+        File indexesInfo = new File(ApplicationConstants.APPLICATION_CASES_FILE);
         List<String> indexesInfoContent  = FileUtil.getFileContentInList(indexesInfo);
 
         for(String path: indexesInfoContent) {
@@ -91,7 +91,7 @@ public enum ApplicationManager {
     public boolean caseExists(String caseName) throws FileNotFoundException, IOException, 
             ClassNotFoundException  {
         
-        File casesInfo = new File(ApplicationConstants.INDEXES_INFO);
+        File casesInfo = new File(ApplicationConstants.APPLICATION_CASES_FILE);
         List<String> casesInfoContent = FileUtil.getFileContentInList(casesInfo);
 
         for (String path : casesInfoContent) {
@@ -131,7 +131,7 @@ public enum ApplicationManager {
         
         File root = new File(ApplicationConstants.APPLICATION_PATH);
         File cases = new File(ApplicationConstants.CASES_PATH);
-        File indexesInfo = new File(ApplicationConstants.INDEXES_INFO);
+        File indexesInfo = new File(ApplicationConstants.APPLICATION_CASES_FILE);
         File hashLibraryFile = new File(ApplicationConstants.HASH_LIBRARY_PATH);
         
         if (root.exists())
@@ -165,9 +165,9 @@ public enum ApplicationManager {
     private void createApplicationFoldersStructure () throws IOException{
         File root = new File(ApplicationConstants.APPLICATION_PATH);
         File cases = new File(ApplicationConstants.CASES_PATH);
-        File indexesInfo = new File(ApplicationConstants.INDEXES_INFO);
+        File indexesInfo = new File(ApplicationConstants.APPLICATION_CASES_FILE);
         File tmpFile = new File(ApplicationConstants.TMP_PATH);
-        File logFile = new File(ApplicationConstants.APPLICATION_LOG_PATH);
+        File logFile = new File(ApplicationConstants.APPLICATION_LOG_FILE);
         File hashLibraryFile = new File(ApplicationConstants.HASH_LIBRARY_PATH);
         
         if  ( ! root.exists() )

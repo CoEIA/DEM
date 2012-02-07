@@ -183,7 +183,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
     }
     
     private void doEmailCrawling() {
-        File dbPath = new File(this.aCase.getCaseLocation() + "\\" + ApplicationConstants.EMAIL_DB );
+        File dbPath = new File(this.aCase.getCaseLocation() + "\\" + ApplicationConstants.EMAIL_DB_FOLDER );
         logger.log(Level.INFO, "Email Indexing in Folder: " +  dbPath);
         OnlineEmailIndexer emailIndexer = new OnlineEmailIndexer(this.luceneIndex, dbPath, "", new OfficeImageExtractor(), this.parentDialog);
         logger.log(Level.INFO, "Email Indexing Status: " +  emailIndexer.doIndexing());

@@ -30,7 +30,7 @@ public class CaseExporterTask implements Task{
     @Override
     public void startTask() {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setSelectedFile(new File(aCase.getCaseName() + ApplicationConstants.DEM_CASE_EXTENSION) );
+        fileChooser.setSelectedFile(new File(aCase.getCaseName() + ApplicationConstants.CASE_EXPORT_EXTENSION) );
 
         int result = fileChooser.showSaveDialog(null);
         if ( result == JFileChooser.APPROVE_OPTION ) {
@@ -52,7 +52,7 @@ public class CaseExporterTask implements Task{
     private void exportCaseAction() throws Exception { 
         String caseName = this.file.getAbsolutePath();
 
-        String prefLocation = this.aCase.getCaseLocation() + File.separator +  ApplicationConstants.DEM_CASE_PREFERENCE;
+        String prefLocation = this.aCase.getCaseLocation() + File.separator +  ApplicationConstants.CASE_PREFERENCE_EXTENSION;
         CaseFacade caseFacade = CaseFacade.newInstance(aCase);
         caseFacade.exportHistory(this.aCase.getCaseName(), prefLocation);
 

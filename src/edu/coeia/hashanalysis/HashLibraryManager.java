@@ -109,7 +109,7 @@ final class HashLibraryManager {
      */
     public static String getPathForHashCategory(final String categoryName) {
         return ApplicationConstants.HASH_LIBRARY_PATH + "\\" + categoryName + 
-               ApplicationConstants.HASH_SET_EXTENSION;
+               ApplicationConstants.CASE_HASH_SET_EXTENSION;
     }
     
     /**
@@ -139,7 +139,7 @@ final class HashLibraryManager {
     private final static FileFilter hashExtensionFilter = new FileFilter() {
         @Override
         public boolean accept(File file) {
-            return file.isFile() && file.getAbsolutePath().endsWith(ApplicationConstants.HASH_SET_EXTENSION);
+            return file.isFile() && file.getAbsolutePath().endsWith(ApplicationConstants.CASE_HASH_SET_EXTENSION);
         }
     };
     
@@ -147,5 +147,5 @@ final class HashLibraryManager {
      * this is swing filter to accept files with extension .HASH_SET
      */
     public final static GUIFileFilter SWING_HASH_EXTENSION_FILTER = new GUIFileFilter("DEM HASH SET", 
-            ApplicationConstants.HASH_SET_EXTENSION);
+            ApplicationConstants.CASE_HASH_SET_EXTENSION);
 }

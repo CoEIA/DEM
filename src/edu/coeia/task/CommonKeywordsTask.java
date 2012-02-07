@@ -54,7 +54,7 @@ public class CommonKeywordsTask implements Task{
     
     // get terms and frequncy for all terms in docuemnts
     public Map<String,Integer> getAllTermFreqFromBody ()  throws IOException {
-        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         

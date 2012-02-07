@@ -64,7 +64,7 @@ public class ChatRefreshTask implements Task{
     }
     
     private Set<String> getChatFilePath() throws IOException{
-        String indexDir = aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
+        String indexDir = aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         Set<String> aList = new HashSet<String>();

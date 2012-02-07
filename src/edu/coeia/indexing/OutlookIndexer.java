@@ -181,7 +181,7 @@ final class OutlookIndexer extends Indexer{
     
     private List<String> saveAndGetEmailAttachmentsPath(final List<Tuple<String, PSTAttachment>> attachmentsName) 
             throws PSTException, IOException {
-        File storingPath = new File(this.getCaseLocation() + "\\" + ApplicationConstants.OFFLINE_EMAIL_ATTACHMENTS);
+        File storingPath = new File(this.getCaseLocation() + "\\" + ApplicationConstants.OFFLINE_EMAIL_ATTACHMENTS_FOLDER);
         
         List<String> filePaths = new ArrayList<String>();
         

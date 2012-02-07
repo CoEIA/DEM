@@ -91,7 +91,7 @@ public class CaseDuplicationTask implements Task{
     }
         
     private void fillCaseDuplicationMap() throws Exception {
-        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         

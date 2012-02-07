@@ -165,7 +165,7 @@ public class ImageLoadingTask implements Task{
     private List<Tuple<String, Integer> > loadItems(int from, int size) throws IOException {
         List<Tuple<String, Integer> > files = new ArrayList<Tuple<String, Integer> >();
         
-        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
@@ -186,7 +186,7 @@ public class ImageLoadingTask implements Task{
                     
                     if (IndexingConstant.isImageDocument(document)) {
                         String path = document.get(IndexingConstant.FILE_PATH);
-                        if ( path.contains(this.aCase.getCaseName() + File.separator + ApplicationConstants.CASE_ARCHIVE_EXTRACTION) ) 
+                        if ( path.contains(this.aCase.getCaseName() + File.separator + ApplicationConstants.CASE_ARCHIVE_FOLDER) ) 
                             fullpath = path;
                         else
                             fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
@@ -211,7 +211,7 @@ public class ImageLoadingTask implements Task{
     
     private int getNumberOfImages() throws IOException {
         int counter = 0;
-        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
                             
@@ -226,7 +226,7 @@ public class ImageLoadingTask implements Task{
                     
                     if ( IndexingConstant.isImageDocument(document) ) {
                         String path = document.get(IndexingConstant.FILE_PATH);
-                        if ( path.contains(this.aCase.getCaseName() + File.separator + ApplicationConstants.CASE_ARCHIVE_EXTRACTION) ) 
+                        if ( path.contains(this.aCase.getCaseName() + File.separator + ApplicationConstants.CASE_ARCHIVE_FOLDER) ) 
                             fullpath = path;
                         else
                             fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));

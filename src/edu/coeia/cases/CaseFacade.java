@@ -150,7 +150,7 @@ public final class CaseFacade {
     
     // case paths getter methods
     public String getCasesInformationFileLocation() {
-        return ApplicationConstants.INDEXES_INFO;
+        return ApplicationConstants.APPLICATION_CASES_FILE;
     }
     
     public String getCaseFolderLocation() { 
@@ -160,57 +160,57 @@ public final class CaseFacade {
     public String getIndexFolderLocation() { 
         return aCase.getCaseLocation() 
                 + File.separator 
-                + ApplicationConstants.INDEX_PATH;
+                + ApplicationConstants.CASE_INDEX_FOLDER;
     }
     
     public String getImageFolderLocation() {
         return aCase.getCaseLocation() 
                 +  File.separator 
-                + ApplicationConstants.IMAGES_PATH;
+                + ApplicationConstants.CASE_IMAGES_FOLDER;
     }
     
     public String getCaseInformationFileLocation() {
         return aCase.getCaseLocation() 
                 + File.separator 
                 + aCase.getCaseName() 
-                + ApplicationConstants.DEM_CASE_INFO_EXTENSION;
+                + ApplicationConstants.CASE_SERIALIZED_INFORMATION_EXTENSION;
     }
     
     public String getCaseLogFileLocation() {
         return aCase.getCaseLocation() 
                 + File.separator 
                 + aCase.getCaseName() 
-                + ApplicationConstants.DEM_CASE_LOG_EXTENSION;
+                + ApplicationConstants.CASE_LOG_EXTENSION;
     }
     
     public String getCaseArchiveOutputFolderLocation() {
         return aCase.getCaseLocation() 
                 + File.separator 
-                + ApplicationConstants.CASE_ARCHIVE_EXTRACTION;
+                + ApplicationConstants.CASE_ARCHIVE_FOLDER;
     }
     
     public String getCaseOfflineEmailAttachmentLocation() {
         return aCase.getCaseLocation() 
                 + File.separator 
-                + ApplicationConstants.OFFLINE_EMAIL_ATTACHMENTS;
+                + ApplicationConstants.OFFLINE_EMAIL_ATTACHMENTS_FOLDER;
     }
     
     public String getCaseOnlineEmailAttachmentLocation() {
         return aCase.getCaseLocation()
                 + File.separator
-                + ApplicationConstants.ONLINE_EMAIL_ATTACHMENTS;
+                + ApplicationConstants.ONLINE_EMAIL_ATTACHMENTS_FOLDER;
     }
     
     public String getTagDatabaseLocation() {
         return this.aCase.getCaseLocation() 
                 + File.separator 
-                + ApplicationConstants.CASE_TAGS;
+                + ApplicationConstants.CASE_TAGS_FOLDER;
     }
     
     public String getCaseConfigurationFileLocation() {
         return this.aCase.getCaseLocation()
                 + File.separator
-                + ApplicationConstants.CASE_CONFIG;
+                + ApplicationConstants.CASE_CONFIG_FILE;
     }
     
     public Case getCase() { return this.aCase; }

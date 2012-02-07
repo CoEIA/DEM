@@ -68,7 +68,7 @@ public class ExtensionFrequencyTask implements Task{
     public Map<String,Double> getExtensionFreq () throws IOException {
         Map<String,Double> map = new HashMap<String,Double>();
         
-        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.INDEX_PATH;
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         

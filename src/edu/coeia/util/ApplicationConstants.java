@@ -17,56 +17,81 @@ public final class ApplicationConstants {
     // logging general namespace
     public final static String LOG_NAMESPACE = "DEM_NAMESPACE";
     
+    // Application Constants
+    private final static String APPLICATION_FOLDER = "CoEIA_Forensics";
+    private final static String WINDOWS_APP_FOLDER = "Application Data";
+    private final static String CASEES_FOLDER = "CASES";
+    private final static String APPLICATION_TMP_FOLDER = "TMP";
+    private final static String HASH_LIBRARY_FOLDER = "HASH_LIBRARY";
+    
     // the path for offline mining project
-    public final static String APPLICATION_PATH = SystemConstant.USER_HOME + File.separator + "Application Data\\" + "CoEIA_Forensics";
+    public final static String APPLICATION_PATH = 
+            SystemConstant.USER_HOME 
+            + File.separator 
+            + WINDOWS_APP_FOLDER 
+            + File.separator
+            + APPLICATION_FOLDER;
 
     // the path for cases (indexed folders) in offline mining project
-    public final static String CASES_PATH = APPLICATION_PATH + File.separator + "CASES" ;
+    public final static String CASES_PATH = APPLICATION_PATH 
+            + File.separator 
+            + CASEES_FOLDER ;
 
     // the path for tmp files used in project
-    public final static String TMP_PATH = APPLICATION_PATH + File.separator + "TMP" ;
+    public final static String TMP_PATH = APPLICATION_PATH 
+            + File.separator 
+            + APPLICATION_TMP_FOLDER ;
     
     // the path for hash library 
-    public final static String HASH_LIBRARY_PATH = APPLICATION_PATH + File.separator + "HASH_LIBRARY" ;
-    public final static String HASH_SET_EXTENSION = ".HASH_SET";
-    
-    // extension for DEM case
-    public final static String DEM_CASE_EXTENSION = ".DEM_CASE";
-    
-    // extension for DEM case preference file
-    public final static String DEM_CASE_PREFERENCE = "CASE.pref";
-    
-    // extension for case LOG file
-    public final static String DEM_CASE_LOG_EXTENSION = ".LOG";
-    
-    // extension for case information file .DAT
-    public final static String DEM_CASE_INFO_EXTENSION = ".DAT";
-    
-    // path for storing case images
-    public final static String IMAGES_PATH = "IMAGES" ;
-    
-    // path for storing case tmp folder
-    public final static String CASE_ARCHIVE_EXTRACTION = "CASE_ARCHIVE_EXTRACTION" ;
-    
-    // path for storing case configuaration
-    public final static String CASE_CONFIG = "config.dat";
-    
-    // path for storing case Tags
-    public final static String CASE_TAGS = "CASE_TAGS" ;
-    
-    // path for storing emails in database and attachments in separate folder
-    public final static String ONLINE_EMAIL_ATTACHMENTS = "ONLINE_EMAIL_ATTACHMENTS" ;
-    public final static String OFFLINE_EMAIL_ATTACHMENTS = "OFFLINE_EMAIL_ATTACHMENTS";
-    public final static String EMAIL_DB = "ONELINE_EMAILS_DATABASE" ;
+    public final static String HASH_LIBRARY_PATH = APPLICATION_PATH 
+            + File.separator 
+            + HASH_LIBRARY_FOLDER;
     
     // log path
-    public final static String APPLICATION_LOG_PATH = APPLICATION_PATH + File.separator + "LOG";
+    public final static String APPLICATION_LOG_FILE = APPLICATION_PATH
+            + File.separator 
+            + "LOG";
     
-    // INDEXES_INFO contain name and path of all creating indexs
-    public static final String INDEXES_INFO = APPLICATION_PATH + "\\INDEXES.txt" ;
+    // APPLICATION_CASES_FILE contain name and path of all creating indexs
+    public static final String APPLICATION_CASES_FILE = 
+            APPLICATION_PATH 
+            + File.separator
+            + "INDEXES.txt" ;
+    
+    // hash set extension
+    public final static String CASE_HASH_SET_EXTENSION = ".HASH_SET";
+    
+    // extension for DEM case
+    public final static String CASE_EXPORT_EXTENSION = ".DEM_CASE";
+    
+    // extension for DEM case preference file
+    public final static String CASE_PREFERENCE_EXTENSION = "CASE.pref";
+    
+    // extension for case LOG file
+    public final static String CASE_LOG_EXTENSION = ".LOG";
+    
+    // extension for case information file .DAT
+    public final static String CASE_SERIALIZED_INFORMATION_EXTENSION = ".DAT";
+    
+    // path for storing case images
+    public final static String CASE_IMAGES_FOLDER = "IMAGES" ;
+    
+    // path for storing case tmp folder
+    public final static String CASE_ARCHIVE_FOLDER = "CASE_ARCHIVE_EXTRACTION" ;
+    
+    // path for storing case configuaration
+    public final static String CASE_CONFIG_FILE = "config.dat";
+    
+    // path for storing case Tags
+    public final static String CASE_TAGS_FOLDER = "CASE_TAGS" ;
+    
+    // path for storing emails in database and attachments in separate folder
+    public final static String ONLINE_EMAIL_ATTACHMENTS_FOLDER = "ONLINE_EMAIL_ATTACHMENTS" ;
+    public final static String OFFLINE_EMAIL_ATTACHMENTS_FOLDER = "OFFLINE_EMAIL_ATTACHMENTS";
+    public final static String EMAIL_DB_FOLDER = "ONELINE_EMAILS_DATABASE" ;
 
     // index folder for any case have this name
-    public static final String INDEX_PATH = "THE_INDEX" ;
+    public static final String CASE_INDEX_FOLDER = "THE_INDEX" ;
 
 
    
