@@ -8,7 +8,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.chat.ChatViewerPanel;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 
 import java.awt.EventQueue;
 

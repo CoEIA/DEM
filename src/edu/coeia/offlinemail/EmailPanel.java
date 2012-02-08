@@ -4,7 +4,7 @@ package edu.coeia.offlinemail;
 
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
-import edu.coeia.util.ApplicationConstants ;
+import edu.coeia.constants.ApplicationConstants ;
 import edu.coeia.util.GUIFileFilter ;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.InfiniteProgressPanel;
@@ -68,7 +68,7 @@ import org.apache.lucene.document.Document;
 
 public class EmailPanel extends javax.swing.JPanel {
 
-    private static final Logger logger = Logger.getLogger(edu.coeia.util.ApplicationConstants.LOG_NAMESPACE);
+    private static final Logger logger = Logger.getLogger(edu.coeia.constants.ApplicationConstants.LOG_NAMESPACE);
     private Case index;
     private PSTFile pstFile ;
      

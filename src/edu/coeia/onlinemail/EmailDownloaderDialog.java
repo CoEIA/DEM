@@ -11,7 +11,7 @@
 package edu.coeia.onlinemail;
 
 import edu.coeia.cases.Case;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.wizard.EmailConfiguration;
 import edu.coeia.wizard.EmailConfiguration.ONLINE_EMAIL_AGENT;
 

@@ -10,7 +10,7 @@ package edu.coeia.cases;
  */
 
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 import org.junit.Test;
 import static org.junit.Assert.* ;
 import org.junit.Before ;

@@ -6,7 +6,7 @@ package edu.coeia.task;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.util.ZipUtil;
 
 import java.io.File;

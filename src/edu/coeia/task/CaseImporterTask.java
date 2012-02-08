@@ -8,7 +8,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.managers.ApplicationManager;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.main.CaseManagerFrame;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.util.GUIFileFilter;
 import edu.coeia.util.ZipUtil;
 

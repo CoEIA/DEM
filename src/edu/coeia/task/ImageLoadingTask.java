@@ -11,7 +11,7 @@ import edu.coeia.gutil.ImageLabel;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.multimedia.GeoTagging;
 import edu.coeia.multimedia.GeoTagging.GPSData;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.util.Tuple;
 import edu.coeia.util.Utilities;
 import edu.coeia.viewer.SearchResultParamter;

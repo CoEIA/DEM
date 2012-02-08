@@ -12,7 +12,7 @@
 package edu.coeia.main;
 
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.ApplicationConstants ;
+import edu.coeia.constants.ApplicationConstants ;
 
 import java.util.List;
 

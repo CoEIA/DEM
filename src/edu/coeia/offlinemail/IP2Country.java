@@ -20,7 +20,7 @@ package edu.coeia.offlinemail;
  * database for ip number from: http://ip-to-country.webhosting.info
 */
 
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 import java.sql.Connection ;
 import java.sql.DriverManager ;
 import java.sql.Statement ;

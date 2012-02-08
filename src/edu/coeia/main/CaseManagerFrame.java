@@ -14,7 +14,7 @@ import edu.coeia.task.CaseRemoverTask;
 import edu.coeia.task.CaseLoaderTask;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.util.SystemConstant;
+import edu.coeia.constants.SystemConstant;
 
 /* import sun classes */
 import java.io.FileNotFoundException;

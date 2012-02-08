@@ -47,7 +47,7 @@ public class EmailVisualizationThread extends SwingWorker<String, ProgressEmailV
     HashMap<String, Integer> data;
     ArrayList<Message> inboxDate, outboxDate, persons;
     
-    private static final Logger logger = Logger.getLogger(edu.coeia.util.ApplicationConstants.LOG_NAMESPACE);
+    private static final Logger logger = Logger.getLogger(edu.coeia.constants.ApplicationConstants.LOG_NAMESPACE);
 
     public EmailVisualizationThread (JFrame frame, InfiniteProgressPanel i, String folderName, PSTFile testPST,  String path,
             String from, String to, FolderType type) {

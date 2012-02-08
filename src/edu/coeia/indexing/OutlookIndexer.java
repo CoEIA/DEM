@@ -11,7 +11,7 @@ package edu.coeia.indexing;
 
 import edu.coeia.indexing.dialogs.EmailCrawlingProgressPanel;
 import edu.coeia.extractors.ImageExtractor;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.Tuple;

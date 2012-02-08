@@ -4,7 +4,7 @@
  */
 package edu.coeia.cases;
 
-import edu.coeia.util.SystemConstant;
+import edu.coeia.constants.SystemConstant;
 import java.io.IOException;
 
 import java.util.Date;
@@ -16,10 +16,13 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 /**
- *
+ * This class represent the set of actions that the user can make of case
+ * it will log each of these action in log file
+ * 
  * @author wajdyessam
  */
-public class CaseAuditing {
+
+final class CaseAuditing {
     private final static Logger logger = Logger.getLogger("AUDITING");
     private final Case aCase ;
     private final String logPath;

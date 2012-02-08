@@ -13,7 +13,7 @@ package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
 import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.util.ApplicationConstants ;
+import edu.coeia.constants.ApplicationConstants ;
 
 import java.io.File ;
 

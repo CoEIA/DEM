@@ -5,7 +5,7 @@
 package edu.coeia.cases;
 
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 
 import java.io.File;
 import java.io.FileNotFoundException;

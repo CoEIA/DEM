@@ -13,7 +13,7 @@ package edu.coeia.indexing;
 
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 
 import java.io.File;
 import java.io.IOException;

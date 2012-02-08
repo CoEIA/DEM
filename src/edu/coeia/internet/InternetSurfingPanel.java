@@ -13,7 +13,7 @@ import edu.coeia.detector.FirefoxDetector;
 import edu.coeia.detector.UsersDetector;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
-import edu.coeia.util.ApplicationConstants ;
+import edu.coeia.constants.ApplicationConstants ;
 import edu.coeia.visualization.CorrelationDialog;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.main.CaseMainFrame;

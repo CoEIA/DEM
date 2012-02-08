@@ -8,7 +8,7 @@ import edu.coeia.indexing.dialogs.EmailCrawlingProgressPanel;
 import edu.coeia.extractors.ImageExtractor;
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.onlinemail.OnlineEmailMessage;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.onlinemail.OnlineEmailDBHandler;
 import edu.coeia.util.Utilities;
 

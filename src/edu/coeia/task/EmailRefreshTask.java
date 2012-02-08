@@ -9,7 +9,7 @@ import edu.coeia.wizard.EmailConfiguration;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.offlinemail.EmailBrowsingPanel;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 
 import java.awt.EventQueue;
 import java.io.File;

@@ -2,7 +2,7 @@ package edu.coeia.wizard;
 
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.managers.ApplicationManager;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;

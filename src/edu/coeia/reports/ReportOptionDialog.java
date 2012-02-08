@@ -12,7 +12,7 @@ package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 
 import java.awt.Desktop;
 import java.awt.Frame;

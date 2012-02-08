@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package edu.coeia.util;
+package edu.coeia.constants;
 
 import java.io.File ;
 

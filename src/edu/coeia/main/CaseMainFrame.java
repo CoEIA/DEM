@@ -19,10 +19,10 @@ import edu.coeia.offlinemail.EmailBrowsingPanel;
 import edu.coeia.onlinemail.DownloadEmail;
 import edu.coeia.searching.CaseSearchPanel;
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.tags.TagsManager ;
 import edu.coeia.util.DEMLogger;
-import edu.coeia.util.SystemConstant;
+import edu.coeia.constants.SystemConstant;
 
 import java.awt.EventQueue;
 import java.awt.Toolkit ;

@@ -2,7 +2,7 @@ package edu.coeia.managers;
 
 import edu.coeia.cases.Case;
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.ApplicationConstants ;
+import edu.coeia.constants.ApplicationConstants ;
 
 import java.io.File ;
 import java.io.FileNotFoundException;

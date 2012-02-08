@@ -12,7 +12,7 @@
 package edu.coeia.visualization;
 
 import edu.coeia.charts.BarChartPanel;
-import edu.coeia.util.ApplicationConstants ;
+import edu.coeia.constants.ApplicationConstants ;
 
 import java.awt.BorderLayout;
 import java.awt.Toolkit ;

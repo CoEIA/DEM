@@ -12,7 +12,7 @@ package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.util.ApplicationConstants ;
+import edu.coeia.constants.ApplicationConstants ;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.LabelCellRenderer;
 import edu.coeia.util.HashCalculator;

@@ -5,7 +5,7 @@
 package edu.coeia.main;
 
 import edu.coeia.util.DEMLogger;
-import edu.coeia.util.SystemConstant;
+import edu.coeia.constants.SystemConstant;
 
 import java.util.logging.Logger;
 

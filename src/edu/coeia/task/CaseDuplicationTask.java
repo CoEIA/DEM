@@ -9,7 +9,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.hashanalysis.HashAnalysisPanel;
 import edu.coeia.indexing.IndexingConstant;
-import edu.coeia.util.ApplicationConstants;
+import edu.coeia.constants.ApplicationConstants;
 
 import java.io.File;
 
