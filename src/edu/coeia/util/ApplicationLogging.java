@@ -5,14 +5,13 @@
 package edu.coeia.util;
 
 import edu.coeia.constants.ApplicationConstants;
+
 import java.io.File;
 
 import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
@@ -20,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author wajdyessam
  */
-public class DEMLogger {
+public final class ApplicationLogging {
    /**
      * Return a Logger whose name follows a specific naming convention.
      * 
@@ -28,16 +27,15 @@ public class DEMLogger {
      * <tt>aClass.getPackage().getName()</tt>
      */
     public static Logger getLogger(Class<?> aClass) {
-        return Logger.getLogger(aClass.getPackage().getName());
+        return setupLogger(Logger.getLogger(aClass.getPackage().getName()));
     }
-
     
     /**
      * logging
      * open new log or write to existed one
      * Set Application Logging (Console and File)
      */
-    public static void logging(final Logger logger) {
+    private static Logger setupLogger(final Logger logger) {
         try {
             class CustomeFormatter extends Formatter{
                  @Override
@@ -59,22 +57,24 @@ public class DEMLogger {
                  }
             }
             
-            LogManager.getLogManager().reset();
-            
-            ConsoleHandler consoleHandler = new ConsoleHandler();    
+            logger.setUseParentHandlers(false);
             
             String fileName = ApplicationConstants.APPLICATION_LOG_FILE + File.separator
                     + String.format("DEM_%s.log", DateUtil.formatDateForLogFileName(new Date()));
+            
             FileHandler fileHandler = new FileHandler(fileName, true);
+            ConsoleHandler consoleHandler = new ConsoleHandler();   
             
             consoleHandler.setFormatter(new CustomeFormatter());
             fileHandler.setFormatter(new CustomeFormatter());
             
             logger.addHandler(fileHandler);
             logger.addHandler(consoleHandler);
-            
-            logger.log(Level.INFO, "DEM Main Frame");
         }
-        catch (Exception e ) {}
+        catch (Exception e ) {
+            logger.severe("Cannot be initializing logger with custome handler");
+        }
+        
+        return logger;
     }
 }

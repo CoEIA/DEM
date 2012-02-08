@@ -4,7 +4,7 @@
  */
 package edu.coeia.main;
 
-import edu.coeia.util.DEMLogger;
+import edu.coeia.util.ApplicationLogging;
 import edu.coeia.constants.SystemConstant;
 
 import java.util.logging.Logger;
@@ -48,5 +48,5 @@ public class ApplicationLauncher {
         });
     }
     
-    private static final Logger logger = DEMLogger.getLogger(ApplicationLauncher.class);
+    private static final Logger logger = ApplicationLogging.getLogger(ApplicationLauncher.class);
 }

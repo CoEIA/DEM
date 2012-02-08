@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -248,5 +247,5 @@ public class Utilities {
         return date;
     }
     
-    private static final Logger fLogger = DEMLogger.getLogger(Utilities.class);
+    private static final Logger fLogger = ApplicationLogging.getLogger(Utilities.class);
 }

@@ -15,7 +15,9 @@ public enum AuditingMessages {
     NEW_CASE("User Make New Case"),
     DELETE_CASE("User Delete the Case"),
     IMPORT_CASE("User Import Case"),
-    EXPORT_CASE("User Export Case");
+    EXPORT_CASE("User Export Case"),
+    
+    SAVE_TAGS("User Save Tags");
 
     AuditingMessages (final String desc) {
         this.description = desc;

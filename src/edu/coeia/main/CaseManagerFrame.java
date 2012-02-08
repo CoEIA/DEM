@@ -7,7 +7,7 @@ import edu.coeia.wizard.CaseWizardDialog;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.DateUtil;
-import edu.coeia.util.DEMLogger;
+import edu.coeia.util.ApplicationLogging;
 import edu.coeia.task.CaseExporterTask;
 import edu.coeia.task.CaseImporterTask;
 import edu.coeia.task.CaseRemoverTask;
@@ -57,7 +57,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     /**
      * Logger Object
      */
-    private static final Logger logger = DEMLogger.getLogger(CaseManagerFrame.class);
+    private static final Logger logger = ApplicationLogging.getLogger(CaseManagerFrame.class);
     
     /** Creates new form CaseManagerFrame */
     public CaseManagerFrame() {

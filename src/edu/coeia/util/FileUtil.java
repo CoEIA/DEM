@@ -362,5 +362,5 @@ public final class FileUtil {
         return files;
     }
     
-    private static final Logger fLogger = DEMLogger.getLogger(FileUtil.class);
+    private static final Logger fLogger = ApplicationLogging.getLogger(FileUtil.class);
 }

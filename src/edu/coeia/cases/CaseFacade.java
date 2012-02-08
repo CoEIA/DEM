@@ -6,6 +6,7 @@ package edu.coeia.cases;
 
 import edu.coeia.util.FileUtil;
 import edu.coeia.constants.ApplicationConstants;
+import edu.coeia.constants.AuditingMessages;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -272,8 +273,8 @@ public final class CaseFacade {
         FileUtil.writeToFile(otherCasesGroup, this.getCasesInformationFileLocation());
     }
         
-    public void audit(final String message) {
-        this.caseLogging.auditing(message);
+    public void audit(final AuditingMessages message) {
+        this.caseLogging.auditing(message.toString());
     }
     
     private CaseFacade (final Case aCase) throws IOException {

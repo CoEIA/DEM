@@ -10,6 +10,8 @@ import edu.coeia.filesystem.CaseInformationPanel;
 import edu.coeia.wizard.EmailConfiguration;
 import edu.coeia.chat.ChatPanel;
 import edu.coeia.util.Utilities;
+import edu.coeia.util.FileUtil;
+import edu.coeia.util.ApplicationLogging;
 import edu.coeia.gutil.GuiUtil ;
 import edu.coeia.hashanalysis.HashLibraryManagerDialog;
 import edu.coeia.indexing.dialogs.IndexingDialog;
@@ -18,11 +20,10 @@ import edu.coeia.multimedia.MultimediaPanel;
 import edu.coeia.offlinemail.EmailBrowsingPanel;
 import edu.coeia.onlinemail.DownloadEmail;
 import edu.coeia.searching.CaseSearchPanel;
-import edu.coeia.util.FileUtil;
 import edu.coeia.constants.ApplicationConstants;
-import edu.coeia.tags.TagsManager ;
-import edu.coeia.util.DEMLogger;
+import edu.coeia.constants.AuditingMessages;
 import edu.coeia.constants.SystemConstant;
+import edu.coeia.tags.TagsManager ;
 
 import java.awt.EventQueue;
 import java.awt.Toolkit ;
@@ -49,7 +50,7 @@ import java.util.logging.Logger;
 
 public class CaseMainFrame extends javax.swing.JFrame {
     
-    private static final Logger logger =  DEMLogger.getLogger(CaseMainFrame.class);
+    private static final Logger logger =  ApplicationLogging.getLogger(CaseMainFrame.class);
     
     private final CaseManagerFrame parentFrame; 
     private final List<String> listOfOpeningCase ;
@@ -75,7 +76,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
     public CaseMainFrame(final CaseManagerFrame frame, final CaseFacade caseFacade, final List<String> list) {
         initComponents();
         logger.info("OfflineMining Frame Constructor, Open Case: " + caseFacade.getCase().getCaseName());
-        caseFacade.audit("This is first line in case main frame");
+        caseFacade.audit(AuditingMessages.OPEN_CASE);
         
         /*
          * set frame resizable and set frame title
