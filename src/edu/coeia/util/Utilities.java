@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -89,12 +90,13 @@ public class Utilities {
     }
 
     public static List<String> getStringListFromCommaSeparatedString(String input) {
-        List<String> list = Collections.emptyList();
+        List<String> list = new ArrayList<String>();
 
         if (!input.isEmpty()) {
             String[] toArray = input.split(",");
-            list = Arrays.asList(toArray);
+            list.addAll(Arrays.asList(toArray));
         }
+        
         return list;
     }
     

@@ -40,7 +40,7 @@ public class DEMLogger {
         try {
             class CustomeFormatter extends Formatter{
                  @Override
-                 public String format(LogRecord record){
+                 public synchronized String format(LogRecord record){
                      StringBuilder row = new StringBuilder();
                      String level = record.getLevel().getName();
                      String className = record.getSourceClassName();

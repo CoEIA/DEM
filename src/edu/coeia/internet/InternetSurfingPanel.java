@@ -1572,13 +1572,13 @@ private void loadFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 //        fillDownloadTable(path_combo);
 //        fillLogginsTable(path_combo);
 //    } catch (SQLException e) {
-//        logger.log(Level.SEVERE, "Uncaught exception", e);
+//        logger.audit(Level.SEVERE, "Uncaught exception", e);
 //    } catch (ClassNotFoundException e) {
-//        logger.log(Level.SEVERE, "Uncaught exception", e);
+//        logger.audit(Level.SEVERE, "Uncaught exception", e);
 //    } catch (InstantiationException e) {
-//        logger.log(Level.SEVERE, "Uncaught exception", e);
+//        logger.audit(Level.SEVERE, "Uncaught exception", e);
 //    } catch (IllegalAccessException e) {
-//        logger.log(Level.SEVERE, "Uncaught exception", e);
+//        logger.audit(Level.SEVERE, "Uncaught exception", e);
 //    }
 
     FirefoxDetector detector = new FirefoxDetector();

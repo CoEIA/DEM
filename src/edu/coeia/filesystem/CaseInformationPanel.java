@@ -13,18 +13,25 @@ package edu.coeia.filesystem;
 import edu.coeia.cases.CaseHistory;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JListUtil;
+import edu.coeia.gutil.JTableUtil;
 import edu.coeia.tags.TagsDialog;
 import edu.coeia.main.CaseMainFrame;
 import edu.coeia.tags.TagsManager;
 import edu.coeia.tags.Tag ;
 import edu.coeia.util.DEMLogger;
 import edu.coeia.util.DateUtil;
+import edu.coeia.util.FileUtil;
+import edu.coeia.util.Utilities;
 import edu.coeia.wizard.EmailConfiguration;
 
+import java.awt.EventQueue;
 import java.awt.Toolkit;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List ;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -62,6 +69,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         // update case information panel
         this.displayCaseInformationPanel();
         this.displayMutableCaseInformationPanel();
+        this.loadCaseAuditing();
         
         logger.info("building case information panel");
     }
@@ -270,20 +278,17 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
 
         caseLogsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Date", "By", "Description"
+                "Investigator Name", "User Name", "Time Stamp", "Case Name", "Action"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -475,6 +480,32 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         this.saveCaseModifications();
     }//GEN-LAST:event_saveCaseButtonActionPerformed
 
+    private void loadCaseAuditing() {
+        Thread loadingThread = new Thread(new Runnable() { 
+            @Override
+            public void run() {
+                try {
+                    final List<String> lines = FileUtil.getFileContentInList(
+                            new File(caseFacade.getCaseLogFileLocation()));
+                    EventQueue.invokeLater(new Runnable() { 
+                        @Override
+                        public void run() {
+                          for(String line: lines) {
+                              JTableUtil.addRowToJTable(caseLogsTable, 
+                                      Utilities.getStringListFromCommaSeparatedString(line)
+                                      .toArray());
+                          }  
+                        }
+                    });
+                } catch (Exception ex) {
+                    Logger.getLogger(CaseInformationPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        loadingThread.start();
+    }
+    
     /**
      * Save case modifications
      */

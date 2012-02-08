@@ -75,7 +75,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
     public CaseMainFrame(final CaseManagerFrame frame, final CaseFacade caseFacade, final List<String> list) {
         initComponents();
         logger.info("OfflineMining Frame Constructor, Open Case: " + caseFacade.getCase().getCaseName());
-        caseFacade.log("This is first line in case main frame");
+        caseFacade.audit("This is first line in case main frame");
         
         /*
          * set frame resizable and set frame title

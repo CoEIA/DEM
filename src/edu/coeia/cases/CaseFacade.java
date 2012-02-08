@@ -272,15 +272,15 @@ public final class CaseFacade {
         FileUtil.writeToFile(otherCasesGroup, this.getCasesInformationFileLocation());
     }
         
-    public void log(final String message) {
-        this.caseLogging.auditing(null);
+    public void audit(final String message) {
+        this.caseLogging.auditing(message);
     }
     
     private CaseFacade (final Case aCase) throws IOException {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();
         this.casePathHandler = CasePathMappingHandler.newInstance(this.getCaseConfigurationFileLocation());
-        this.caseLogging = new CaseAuditing(aCase.getCaseName());
+        this.caseLogging = new CaseAuditing(this.aCase, this.getCaseLogFileLocation());
         
         if ( FileUtil.isFileFound(this.getCaseConfigurationFileLocation()))
             this.updateMappingFile();
