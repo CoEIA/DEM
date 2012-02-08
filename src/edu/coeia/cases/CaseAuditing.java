@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  */
 
 final class CaseAuditing {
-    private final static Logger logger = Logger.getLogger("AUDITING");
+    private final static Logger logger = Logger.getLogger("DEM_AUDITING");
     private final Case aCase ;
     private final String logPath;
     

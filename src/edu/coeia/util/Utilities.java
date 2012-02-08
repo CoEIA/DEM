@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Static convenience methods for common tasks, which eliminate code duplication
@@ -246,6 +245,4 @@ public class Utilities {
         }
         return date;
     }
-    
-    private static final Logger fLogger = ApplicationLogging.getLogger(Utilities.class);
 }

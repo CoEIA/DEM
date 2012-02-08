@@ -12,11 +12,12 @@ package edu.coeia.chat;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
+import edu.coeia.constants.AuditingMessages;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.task.ChatLoadingTask;
 import edu.coeia.task.ChatRefreshTask;
+import edu.coeia.util.ApplicationLogging;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
@@ -35,6 +36,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
     private final DefaultListModel chatListModel;
     private final String agent;
     private final CaseFacade caseFacade ;
+    private final static Logger logger = ApplicationLogging.getLogger();
     
     /** Creates new form ChatViewerPanel */
     public ChatViewerPanel(final CaseFacade caseFacade, final String agent) {
@@ -173,13 +175,14 @@ public class ChatViewerPanel extends javax.swing.JPanel {
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         try {
+            this.caseFacade.audit(AuditingMessages.REFRESHING_CHAT);
             this.chatListModel.removeAllElements();
             
             ChatRefreshTask task = new ChatRefreshTask(aCase, this);
             task.startTask();
             
         } catch (Exception ex) {
-            Logger.getLogger(ChatViewerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            logger.severe(String.format("Cannot refreshing chat: %s", ex.getMessage()));
         }
     }//GEN-LAST:event_refreshButtonActionPerformed
 
@@ -190,11 +193,13 @@ public class ChatViewerPanel extends javax.swing.JPanel {
             if (row == - 1)
                 return;
             
+            this.caseFacade.audit(AuditingMessages.LOADING_CHAT);
             String path = String.valueOf(this.chatJList.getSelectedValue());
             ChatLoadingTask task = new ChatLoadingTask(aCase, this, path);
             task.startTask();
         } catch (Exception ex) {
-            Logger.getLogger(ChatViewerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            logger.severe(String.format("Cannot loding chat item $s, Exception is %s",
+                    String.valueOf(this.chatJList.getSelectedValue()), ex.getMessage()));
         }   
     }//GEN-LAST:event_loadItemButtonActionPerformed
 

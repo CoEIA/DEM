@@ -17,8 +17,11 @@ public enum AuditingMessages {
     IMPORT_CASE("User Import Case"),
     EXPORT_CASE("User Export Case"),
     
-    SAVE_TAGS("User Save Tags");
-
+    SAVE_TAGS("User Save Tags"),
+    
+    REFRESHING_CHAT("User press chat refresh button"),
+    LOADING_CHAT("User load chat sessions to view");
+    
     AuditingMessages (final String desc) {
         this.description = desc;
     }

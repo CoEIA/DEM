@@ -76,7 +76,7 @@ public final class FileUtil {
             }
         }
         catch(IOException e) {
-            fLogger.severe(String.format("Cannot Read Input Stream: %s", stream));
+            logger.severe(String.format("Cannot Read Input Stream: %s", stream));
         }
         
         return result.toString();
@@ -362,5 +362,5 @@ public final class FileUtil {
         return files;
     }
     
-    private static final Logger fLogger = ApplicationLogging.getLogger(FileUtil.class);
+    private final static Logger logger = ApplicationLogging.getLogger();
 }

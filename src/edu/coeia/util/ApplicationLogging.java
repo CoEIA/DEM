@@ -20,14 +20,21 @@ import java.util.logging.Logger;
  * @author wajdyessam
  */
 public final class ApplicationLogging {
+    
+    private static final Logger DEM_LOGGER = Logger.getLogger("DEM_LOGGER");
+    
+    static {
+        setupLogger();
+    }
+    
    /**
      * Return a Logger whose name follows a specific naming convention.
      * 
      * <P>The conventional Logger names are taken as
      * <tt>aClass.getPackage().getName()</tt>
      */
-    public static Logger getLogger(Class<?> aClass) {
-        return setupLogger(Logger.getLogger(aClass.getPackage().getName()));
+    public static Logger getLogger() {
+        return DEM_LOGGER;
     }
     
     /**
@@ -35,7 +42,7 @@ public final class ApplicationLogging {
      * open new log or write to existed one
      * Set Application Logging (Console and File)
      */
-    private static Logger setupLogger(final Logger logger) {
+    private static void setupLogger() {
         try {
             class CustomeFormatter extends Formatter{
                  @Override
@@ -51,30 +58,28 @@ public final class ApplicationLogging {
                      row.append(level);
                      row.append("] ");
                      row.append(className).append(".").append(methodName);
-                     row.append(" ").append(time).append(" Message (").append(message).append(" )\n");
+                     row.append(" ").append(time).append(" (").append(message).append(" )\n");
                      
                      return row.toString();
                  }
             }
             
-            logger.setUseParentHandlers(false);
+            DEM_LOGGER.setUseParentHandlers(false);
             
-            String fileName = ApplicationConstants.APPLICATION_LOG_FILE + File.separator
-                    + String.format("DEM_%s.log", DateUtil.formatDateForLogFileName(new Date()));
+            String pattern = "log%g.out";
+            String fileName = ApplicationConstants.APPLICATION_LOG_FILE + File.separator + pattern;
             
-            FileHandler fileHandler = new FileHandler(fileName, true);
+            FileHandler fileHandler = new FileHandler(fileName, 100000, 10);
             ConsoleHandler consoleHandler = new ConsoleHandler();   
             
             consoleHandler.setFormatter(new CustomeFormatter());
             fileHandler.setFormatter(new CustomeFormatter());
             
-            logger.addHandler(fileHandler);
-            logger.addHandler(consoleHandler);
+            DEM_LOGGER.addHandler(fileHandler);
+            DEM_LOGGER.addHandler(consoleHandler);
         }
         catch (Exception e ) {
-            logger.severe("Cannot be initializing logger with custome handler");
+            DEM_LOGGER.severe(String.format("Cannot be initializing logger with custome handler", e.getMessage()));
         }
-        
-        return logger;
     }
 }

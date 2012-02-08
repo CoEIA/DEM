@@ -50,7 +50,7 @@ import java.util.logging.Logger;
 
 public class CaseMainFrame extends javax.swing.JFrame {
     
-    private static final Logger logger =  ApplicationLogging.getLogger(CaseMainFrame.class);
+    private final static Logger logger = ApplicationLogging.getLogger();
     
     private final CaseManagerFrame parentFrame; 
     private final List<String> listOfOpeningCase ;

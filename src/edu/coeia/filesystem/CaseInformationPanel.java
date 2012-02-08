@@ -50,7 +50,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
     private DefaultListModel filsSystemSourcesModel;
     private DefaultListModel emailSourcesModel;
     
-    private final static Logger logger = ApplicationLogging.getLogger(CaseInformationPanel.class);
+    private final static Logger logger = ApplicationLogging.getLogger();
     
     /** Creates new form CaseInformationPanel */
     public CaseInformationPanel(CaseMainFrame frame) {

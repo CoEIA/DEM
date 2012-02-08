@@ -57,7 +57,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     /**
      * Logger Object
      */
-    private static final Logger logger = ApplicationLogging.getLogger(CaseManagerFrame.class);
+    private final static Logger logger = ApplicationLogging.getLogger();
     
     /** Creates new form CaseManagerFrame */
     public CaseManagerFrame() {

@@ -48,5 +48,5 @@ public class ApplicationLauncher {
         });
     }
     
-    private static final Logger logger = ApplicationLogging.getLogger(ApplicationLauncher.class);
+    private final static Logger logger = ApplicationLogging.getLogger();
 }
