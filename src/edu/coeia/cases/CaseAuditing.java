@@ -16,7 +16,7 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 /**
- * This class represent the set of actions that the user can make of case
+ * This class represent the set of actions that the user can make on case
  * it will log each of these action in log file
  * 
  * @author wajdyessam
@@ -27,13 +27,12 @@ final class CaseAuditing {
     private final Case aCase ;
     private final String logPath;
     
-    public CaseAuditing(final Case aCase, final String path) throws IOException {
+    public CaseAuditing(final Case aCase, final String path) {
         this.aCase = aCase;
         this.logPath = path;
-        this.setupHandling();
     }
     
-    private void setupHandling() throws IOException {
+    public void init() throws IOException {
         logger.setUseParentHandlers(false);
         logger.setLevel(Level.ALL);
         

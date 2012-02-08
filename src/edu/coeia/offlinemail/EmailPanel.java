@@ -3,7 +3,6 @@ package edu.coeia.offlinemail;
 
 
 import edu.coeia.gutil.GuiUtil;
-import edu.coeia.util.Utilities;
 import edu.coeia.constants.ApplicationConstants ;
 import edu.coeia.util.GUIFileFilter ;
 import edu.coeia.cases.Case;
@@ -16,7 +15,6 @@ import java.awt.event.InputEvent;
 import javax.swing.JFileChooser ;
 import javax.swing.JOptionPane ;
 import javax.swing.JTable ;
-import javax.swing.RowFilter ;
 import javax.swing.table.TableRowSorter ;
 import javax.swing.table.TableModel ;
 import javax.swing.tree.DefaultMutableTreeNode ;
@@ -55,7 +53,7 @@ import com.pff.PSTObject ;
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 import com.toedter.calendar.JDateChooser;
 import edu.coeia.gutil.JTableUtil;
-import org.apache.lucene.document.Document;
+import edu.coeia.util.ApplicationLogging;
 
 /*
  * EmailPanel.java
@@ -68,7 +66,8 @@ import org.apache.lucene.document.Document;
 
 public class EmailPanel extends javax.swing.JPanel {
 
-    private static final Logger logger = Logger.getLogger(edu.coeia.constants.ApplicationConstants.LOG_NAMESPACE);
+    private final static Logger logger = ApplicationLogging.getLogger();
+    
     private Case index;
     private PSTFile pstFile ;
      

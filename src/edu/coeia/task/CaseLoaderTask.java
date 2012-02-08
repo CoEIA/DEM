@@ -4,7 +4,6 @@
  */
 package edu.coeia.task;
 
-import edu.coeia.cases.Case;
 import edu.coeia.managers.ApplicationManager;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.main.CaseManagerFrame;

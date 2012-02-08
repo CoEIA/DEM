@@ -22,6 +22,7 @@ import edu.coeia.searching.AdvancedSearchPanel;
 import edu.coeia.searching.InvestigateDialog;
 import edu.coeia.task.CommonKeywordsTask;
 
+import edu.coeia.util.ApplicationLogging;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -52,7 +53,7 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
     private InvestigateDialog parentDialog;
     private AdvancedSearchPanel advancedSearchPanel;
     
-    private final static Logger logger = Logger.getLogger(edu.coeia.constants.ApplicationConstants.LOG_NAMESPACE);
+    private final static Logger logger = ApplicationLogging.getLogger();
     private Thread thread;
     
     /** Creates new form CommonKeywordsPanel */

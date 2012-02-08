@@ -14,8 +14,8 @@ import java.io.File ;
 
 public final class ApplicationConstants {
     
-    // logging general namespace
-    public final static String LOG_NAMESPACE = "DEM_NAMESPACE";
+//    // logging general namespace
+//    public final static String LOG_NAMESPACE = "DEM_NAMESPACE";
     
     // Application Constants
     private final static String APPLICATION_FOLDER = "CoEIA_Forensics";
@@ -24,7 +24,6 @@ public final class ApplicationConstants {
     private final static String APPLICATION_TMP_FOLDER = "TMP";
     private final static String HASH_LIBRARY_FOLDER = "HASH_LIBRARY";
     
-    // the path for offline mining project
     public final static String APPLICATION_PATH = 
             SystemConstant.USER_HOME 
             + File.separator 
@@ -78,6 +77,9 @@ public final class ApplicationConstants {
     
     // path for storing case tmp folder
     public final static String CASE_ARCHIVE_FOLDER = "CASE_ARCHIVE_EXTRACTION" ;
+    
+    // path for case logs
+    public final static String CASE_AUDITING_FOLDER = "CASE_AUDITING";
     
     // path for storing case configuaration
     public final static String CASE_CONFIG_FILE = "config.dat";

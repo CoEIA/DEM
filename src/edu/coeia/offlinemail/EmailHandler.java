@@ -32,6 +32,7 @@ import com.pff.PSTFile ;
 import com.pff.PSTException ;
 import com.pff.PSTObject ;
 
+import edu.coeia.util.ApplicationLogging;
 import java.io.IOException ;
 
 public class EmailHandler {
@@ -39,7 +40,7 @@ public class EmailHandler {
     private PSTFile pstFile ;
     private String path ;
 
-    private final static Logger logger = Logger.getLogger(edu.coeia.constants.ApplicationConstants.LOG_NAMESPACE);
+    private final static Logger logger = ApplicationLogging.getLogger();
 
     public EmailHandler (PSTFile pst, String path) {
         pstFile = pst ;

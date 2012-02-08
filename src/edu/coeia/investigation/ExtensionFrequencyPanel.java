@@ -14,6 +14,7 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.searching.InvestigateDialog;
 import edu.coeia.task.ExtensionFrequencyTask;
 
+import edu.coeia.util.ApplicationLogging;
 import java.awt.BorderLayout;
 
 import javax.swing.JOptionPane;
@@ -29,7 +30,7 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
 
     private CaseFacade caseFacade; 
     private InvestigateDialog parentDialog;
-    private final static Logger logger = Logger.getLogger(edu.coeia.constants.ApplicationConstants.LOG_NAMESPACE);
+    private final static Logger logger = ApplicationLogging.getLogger();
     
     /** Creates new form ExtensionFrequencyPanel */
     public ExtensionFrequencyPanel(InvestigateDialog dialog) {

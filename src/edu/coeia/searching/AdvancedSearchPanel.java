@@ -15,6 +15,7 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.items.Item;
 import edu.coeia.items.ItemFactory;
 import edu.coeia.searching.CaseSearchPanel.SearchHistory;
+import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.DateUtil;
 
 import javax.swing.JProgressBar;
@@ -44,7 +45,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     private final List<Integer> resultId ;
     private int currentId = 0;
      
-    private final static Logger logger = Logger.getLogger(ApplicationConstants.LOG_NAMESPACE);
+    private final static Logger logger = ApplicationLogging.getLogger();
     
     /** Creates new form AdvancedSearchPanel */
     public AdvancedSearchPanel(JPanel parentPanel) {

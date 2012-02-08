@@ -31,7 +31,7 @@ public final class CaseFacade {
     private final Case aCase ;
     private final CaseHistoryHandler caseHistoryHandler;
     private final CasePathMappingHandler casePathHandler; 
-    private final CaseAuditing caseLogging;
+    private final CaseAuditing caseAuditing;
     
     public static CaseFacade newInstance (final Case aCase) throws IOException {
         return new CaseFacade(aCase);
@@ -178,9 +178,15 @@ public final class CaseFacade {
                 + ApplicationConstants.CASE_SERIALIZED_INFORMATION_EXTENSION;
     }
     
-    public String getCaseLogFileLocation() {
+    public String getCaseLogFolderLocation() {
         return aCase.getCaseLocation() 
-                + File.separator 
+            + File.separator 
+            + ApplicationConstants.CASE_AUDITING_FOLDER;
+    }
+    
+    public String getCaseLogFileLocation() {
+        return this.getCaseLogFolderLocation()
+                + File.separator
                 + aCase.getCaseName() 
                 + ApplicationConstants.CASE_LOG_EXTENSION;
     }
@@ -250,11 +256,15 @@ public final class CaseFacade {
         FileUtil.createFolder(this.getImageFolderLocation());   // IMAGE folder
         FileUtil.createFolder(this.getCaseArchiveOutputFolderLocation());   // ARCHIVE folder
         FileUtil.createFolder(this.getCaseOfflineEmailAttachmentLocation()); // OFFLINE Email Attachments
+        FileUtil.createFolder(this.getCaseLogFolderLocation());
         
         // create LOG and information (.DAT) file and Configuration File (mapping file)
         FileUtil.createFile(this.getCaseLogFileLocation());
         FileUtil.createFile(this.getCaseInformationFileLocation()); 
         FileUtil.createFile(this.getCaseConfigurationFileLocation());
+        
+        // initialize case auditing
+        this.caseAuditing.init();
     }
     
     private void addCaseMappingInformation() throws IOException {
@@ -274,16 +284,19 @@ public final class CaseFacade {
     }
         
     public void audit(final AuditingMessages message) {
-        this.caseLogging.auditing(message.toString());
+        this.caseAuditing.auditing(message.toString());
     }
     
     private CaseFacade (final Case aCase) throws IOException {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();
         this.casePathHandler = CasePathMappingHandler.newInstance(this.getCaseConfigurationFileLocation());
-        this.caseLogging = new CaseAuditing(this.aCase, this.getCaseLogFileLocation());
+        this.caseAuditing = new CaseAuditing(this.aCase, this.getCaseLogFileLocation());
         
         if ( FileUtil.isFileFound(this.getCaseConfigurationFileLocation()))
             this.updateMappingFile();
+        
+        if ( FileUtil.isFileFound(this.getCaseLogFileLocation()))
+            this.caseAuditing.init();
     }
 }

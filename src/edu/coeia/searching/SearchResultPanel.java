@@ -12,7 +12,6 @@ package edu.coeia.searching;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.constants.ApplicationConstants ;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.LabelCellRenderer;
 import edu.coeia.util.HashCalculator;
@@ -20,6 +19,7 @@ import edu.coeia.hashanalysis.HashItem;
 import edu.coeia.hashanalysis.HashSetDialog;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.main.CaseMainFrame;
+import edu.coeia.util.ApplicationLogging;
 import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
 
@@ -48,7 +48,7 @@ import org.apache.lucene.document.Document;
  */
 public class SearchResultPanel extends javax.swing.JPanel {
 
-    private final static Logger logger = Logger.getLogger(ApplicationConstants.LOG_NAMESPACE);
+    private final static Logger logger = ApplicationLogging.getLogger();
     
     private String keyword ;
     

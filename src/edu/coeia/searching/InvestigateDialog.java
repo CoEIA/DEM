@@ -14,6 +14,7 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.investigation.CommonKeywordsPanel;
 import edu.coeia.investigation.ExtensionFrequencyPanel;
 
+import edu.coeia.util.ApplicationLogging;
 import java.util.logging.Logger;
 
 /**
@@ -24,7 +25,7 @@ public class InvestigateDialog extends javax.swing.JDialog {
 
     private final CaseFacade caseFacade;
     private final AdvancedSearchPanel parentPanel;
-    private final static Logger logger = Logger.getLogger(edu.coeia.constants.ApplicationConstants.LOG_NAMESPACE);
+    private final static Logger logger = ApplicationLogging.getLogger();
     
     /** Creates new form InvestigateDialog */
     public InvestigateDialog(java.awt.Frame parent, boolean modal, AdvancedSearchPanel panel) {

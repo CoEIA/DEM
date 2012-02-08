@@ -21,6 +21,7 @@ import edu.coeia.indexing.CrawlerIndexerThread.ProgressIndexData;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 import edu.coeia.constants.ApplicationConstants;
+import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.SizeUtil;
 
 import java.awt.EventQueue;
@@ -50,7 +51,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
     private final LuceneIndex luceneIndex ;
     private final IndexingDialog parentDialog ;
     private final CaseFacade caseFacade ;
-    private static final Logger logger = Logger.getLogger(edu.coeia.constants.ApplicationConstants.LOG_NAMESPACE);
+    private final static Logger logger = ApplicationLogging.getLogger();
 
     public CrawlerIndexerThread (final IndexingDialog parentDialog) throws IOException{
         this.caseFacade = parentDialog.getCaseFacade();

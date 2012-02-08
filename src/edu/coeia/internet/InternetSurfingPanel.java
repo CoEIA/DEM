@@ -17,6 +17,7 @@ import edu.coeia.constants.ApplicationConstants ;
 import edu.coeia.visualization.CorrelationDialog;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.main.CaseMainFrame;
+import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.FileUtil;
 
 import java.awt.Desktop ;
@@ -60,7 +61,7 @@ import java.net.URISyntaxException ;
  */
 
 public class InternetSurfingPanel extends javax.swing.JPanel {
-    private final static Logger logger = Logger.getLogger(ApplicationConstants.LOG_NAMESPACE);
+    private final static Logger logger = ApplicationLogging.getLogger();
     private JFileChooser fileChooser ;       
     
     private final CaseMainFrame caseFrame ;

@@ -22,6 +22,7 @@ import java.io.IOException ;
 
 import edu.coeia.gutil.InfiniteProgressPanel ;
 
+import edu.coeia.util.ApplicationLogging;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,7 +36,8 @@ public class EmailReader {
     private static InfiniteProgressPanel panel ;
     private static int counter = 0 ;
 
-    private static final Logger logger = Logger.getLogger(edu.coeia.constants.ApplicationConstants.LOG_NAMESPACE);
+    private final static Logger logger = ApplicationLogging.getLogger();
+    
     private static boolean status = false;
     
     public static ArrayList<MessageHeader> getInstance(PSTFile pst, String p, InfiniteProgressPanel pnl) {    

@@ -1,10 +1,10 @@
 package edu.coeia.onlinemail;
 
 import edu.coeia.cases.Case;
+import edu.coeia.util.ApplicationLogging;
 import edu.coeia.wizard.EmailConfiguration;
 import edu.coeia.wizard.EmailConfiguration.ONLINE_EMAIL_AGENT;
 import edu.coeia.util.FileUtil;
-import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.util.Utilities;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -64,10 +64,11 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
     private String Username;
     private String Password;
     private ResumeState objResume;
+    
     /**
      * Logger Object
      */
-    private static final Logger logger = Logger.getLogger(edu.coeia.constants.ApplicationConstants.LOG_NAMESPACE);
+    private final static Logger logger = ApplicationLogging.getLogger();
 
     /**
      * static factory that read all message from user account and store it in list
