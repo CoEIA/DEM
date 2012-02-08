@@ -69,7 +69,7 @@ public class EmailLoadingTask  implements Task{
     private void getAllEmailMessages(final String path, final String constant) throws IOException, ParseException {
         List<Integer> ids = new ArrayList<Integer>();
         
-        String indexDir = this.panel.getCaseFacade().getIndexFolderLocation();
+        String indexDir = this.panel.getCaseFacade().getCaseIndexFolderLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         

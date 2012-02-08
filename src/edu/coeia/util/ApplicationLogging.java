@@ -67,7 +67,7 @@ public final class ApplicationLogging {
             DEM_LOGGER.setUseParentHandlers(false);
             
             String pattern = "log%g.out";
-            String fileName = ApplicationConstants.APPLICATION_LOG_FILE + File.separator + pattern;
+            String fileName = ApplicationConstants.APPLICATION_LOG_PATH + File.separator + pattern;
             
             FileHandler fileHandler = new FileHandler(fileName, 100000, 10);
             ConsoleHandler consoleHandler = new ConsoleHandler();   

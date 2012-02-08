@@ -167,7 +167,7 @@ public enum ApplicationManager {
         File cases = new File(ApplicationConstants.CASES_PATH);
         File indexesInfo = new File(ApplicationConstants.APPLICATION_CASES_FILE);
         File tmpFile = new File(ApplicationConstants.TMP_PATH);
-        File logFile = new File(ApplicationConstants.APPLICATION_LOG_FILE);
+        File logFile = new File(ApplicationConstants.APPLICATION_LOG_PATH);
         File hashLibraryFile = new File(ApplicationConstants.HASH_LIBRARY_PATH);
         
         if  ( ! root.exists() )

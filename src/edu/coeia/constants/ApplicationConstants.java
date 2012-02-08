@@ -14,16 +14,32 @@ import java.io.File ;
 
 public final class ApplicationConstants {
     
-//    // logging general namespace
-//    public final static String LOG_NAMESPACE = "DEM_NAMESPACE";
-    
-    // Application Constants
+    /** Application folders/Files name Constants */
     private final static String APPLICATION_FOLDER = "CoEIA_Forensics";
     private final static String WINDOWS_APP_FOLDER = "Application Data";
     private final static String CASEES_FOLDER = "CASES";
     private final static String APPLICATION_TMP_FOLDER = "TMP";
     private final static String HASH_LIBRARY_FOLDER = "HASH_LIBRARY";
+    private final static String APPLICATION_LOG_FOLDER = "LOG";
+    private final static String CASES_INFORMATION_FILE = "INDEXES.txt";
     
+    /** Case Folders/Files name and extension */
+    public final static String CASE_HASH_SET_EXTENSION = ".HASH_SET";
+    public final static String CASE_EXPORT_EXTENSION = ".DEM_CASE";
+    public final static String CASE_PREFERENCE_EXTENSION = "CASE.pref";
+    public final static String CASE_AUDITING_EXTENSION = ".LOG";
+    public final static String CASE_SERIALIZED_INFORMATION_EXTENSION = ".DAT";
+    public final static String CASE_IMAGES_FOLDER = "IMAGES" ;
+    public final static String CASE_ARCHIVE_FOLDER = "CASE_ARCHIVE_EXTRACTION" ;
+    public final static String CASE_AUDITING_FOLDER = "CASE_AUDITING";
+    public final static String CASE_CONFIG_FILE = "config.dat";
+    public final static String CASE_TAGS_FOLDER = "CASE_TAGS" ;
+    public final static String ONLINE_EMAIL_ATTACHMENTS_FOLDER = "ONLINE_EMAIL_ATTACHMENTS" ;
+    public final static String OFFLINE_EMAIL_ATTACHMENTS_FOLDER = "OFFLINE_EMAIL_ATTACHMENTS";
+    public final static String CASE_EMAIL_DB_FOLDER = "ONELINE_EMAILS_DATABASE" ;
+    public static final String CASE_INDEX_FOLDER = "THE_INDEX" ;
+    
+    // DEM path in user system
     public final static String APPLICATION_PATH = 
             SystemConstant.USER_HOME 
             + File.separator 
@@ -31,12 +47,12 @@ public final class ApplicationConstants {
             + File.separator
             + APPLICATION_FOLDER;
 
-    // the path for cases (indexed folders) in offline mining project
+    // cases folder
     public final static String CASES_PATH = APPLICATION_PATH 
             + File.separator 
             + CASEES_FOLDER ;
 
-    // the path for tmp files used in project
+    // tmp path 
     public final static String TMP_PATH = APPLICATION_PATH 
             + File.separator 
             + APPLICATION_TMP_FOLDER ;
@@ -46,56 +62,15 @@ public final class ApplicationConstants {
             + File.separator 
             + HASH_LIBRARY_FOLDER;
     
-    // log path
-    public final static String APPLICATION_LOG_FILE = APPLICATION_PATH
+    // application logging path
+    public final static String APPLICATION_LOG_PATH = APPLICATION_PATH
             + File.separator 
-            + "LOG";
+            + APPLICATION_LOG_FOLDER;
     
     // APPLICATION_CASES_FILE contain name and path of all creating indexs
-    public static final String APPLICATION_CASES_FILE = 
-            APPLICATION_PATH 
+    public static final String APPLICATION_CASES_FILE = APPLICATION_PATH 
             + File.separator
-            + "INDEXES.txt" ;
-    
-    // hash set extension
-    public final static String CASE_HASH_SET_EXTENSION = ".HASH_SET";
-    
-    // extension for DEM case
-    public final static String CASE_EXPORT_EXTENSION = ".DEM_CASE";
-    
-    // extension for DEM case preference file
-    public final static String CASE_PREFERENCE_EXTENSION = "CASE.pref";
-    
-    // extension for case LOG file
-    public final static String CASE_LOG_EXTENSION = ".LOG";
-    
-    // extension for case information file .DAT
-    public final static String CASE_SERIALIZED_INFORMATION_EXTENSION = ".DAT";
-    
-    // path for storing case images
-    public final static String CASE_IMAGES_FOLDER = "IMAGES" ;
-    
-    // path for storing case tmp folder
-    public final static String CASE_ARCHIVE_FOLDER = "CASE_ARCHIVE_EXTRACTION" ;
-    
-    // path for case logs
-    public final static String CASE_AUDITING_FOLDER = "CASE_AUDITING";
-    
-    // path for storing case configuaration
-    public final static String CASE_CONFIG_FILE = "config.dat";
-    
-    // path for storing case Tags
-    public final static String CASE_TAGS_FOLDER = "CASE_TAGS" ;
-    
-    // path for storing emails in database and attachments in separate folder
-    public final static String ONLINE_EMAIL_ATTACHMENTS_FOLDER = "ONLINE_EMAIL_ATTACHMENTS" ;
-    public final static String OFFLINE_EMAIL_ATTACHMENTS_FOLDER = "OFFLINE_EMAIL_ATTACHMENTS";
-    public final static String EMAIL_DB_FOLDER = "ONELINE_EMAILS_DATABASE" ;
-
-    // index folder for any case have this name
-    public static final String CASE_INDEX_FOLDER = "THE_INDEX" ;
-
-
+            + CASES_INFORMATION_FILE;
    
     //***************************************** need to remove
     public static final String RECENT = "C:\\Documents and Settings\\" + SystemConstant.USER_NAME + "\\Recent";

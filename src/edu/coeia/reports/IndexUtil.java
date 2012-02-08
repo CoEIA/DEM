@@ -47,7 +47,7 @@ final class IndexUtil {
         
         Map<String,Double> map = new HashMap<String,Double>();
         
-        String indexDir = caseFacade.getIndexFolderLocation();
+        String indexDir = caseFacade.getCaseIndexFolderLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
@@ -121,7 +121,7 @@ final class IndexUtil {
         
         List<String> files = new ArrayList<String>();
         
-        String indexDir = caseFacade.getIndexFolderLocation();
+        String indexDir = caseFacade.getCaseIndexFolderLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
@@ -154,7 +154,7 @@ final class IndexUtil {
         
         List<String> files = new ArrayList<String>();
         
-        String indexDir = caseFacade.getIndexFolderLocation();
+        String indexDir = caseFacade.getCaseIndexFolderLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
@@ -188,7 +188,7 @@ final class IndexUtil {
         
         List<String> files = new ArrayList<String>();
         
-        String indexDir = caseFacade.getIndexFolderLocation();
+        String indexDir = caseFacade.getCaseIndexFolderLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         

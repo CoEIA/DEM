@@ -486,7 +486,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
             public void run() {
                 try {
                     final List<String> lines = FileUtil.getFileContentInList(
-                            new File(caseFacade.getCaseLogFileLocation()));
+                            new File(caseFacade.getCaseAuditingFileLocation()));
                     EventQueue.invokeLater(new Runnable() { 
                         @Override
                         public void run() {

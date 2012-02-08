@@ -75,9 +75,9 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
     
     private void checkForRemovingOldStatus() {
         try {
-            FileUtil.removeDirectoryContent(this.caseFacade.getIndexFolderLocation());
+            FileUtil.removeDirectoryContent(this.caseFacade.getCaseIndexFolderLocation());
             FileUtil.removeDirectoryContent(this.caseFacade.getCaseArchiveOutputFolderLocation());
-            FileUtil.removeDirectoryContent(this.caseFacade.getImageFolderLocation());
+            FileUtil.removeDirectoryContent(this.caseFacade.getCaseImageFolderLocation());
             FileUtil.removeDirectoryContent(this.caseFacade.getCaseOfflineEmailAttachmentLocation());
             this.caseFacade.updateMappingFile();
         } catch (IOException ex) {
@@ -184,7 +184,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
     }
     
     private void doEmailCrawling() {
-        File dbPath = new File(this.aCase.getCaseLocation() + "\\" + ApplicationConstants.EMAIL_DB_FOLDER );
+        File dbPath = new File(this.aCase.getCaseLocation() + "\\" + ApplicationConstants.CASE_EMAIL_DB_FOLDER );
         logger.log(Level.INFO, "Email Indexing in Folder: " +  dbPath);
         OnlineEmailIndexer emailIndexer = new OnlineEmailIndexer(this.luceneIndex, dbPath, "", new OfficeImageExtractor(), this.parentDialog);
         logger.log(Level.INFO, "Email Indexing Status: " +  emailIndexer.doIndexing());

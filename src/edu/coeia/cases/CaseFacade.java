@@ -149,8 +149,6 @@ public final class CaseFacade {
         return "";
     }
         
-    
-    // case paths getter methods
     public String getCasesInformationFileLocation() {
         return ApplicationConstants.APPLICATION_CASES_FILE;
     }
@@ -159,13 +157,13 @@ public final class CaseFacade {
         return this.aCase.getCaseLocation();
     }
     
-    public String getIndexFolderLocation() { 
+    public String getCaseIndexFolderLocation() { 
         return aCase.getCaseLocation() 
                 + File.separator 
                 + ApplicationConstants.CASE_INDEX_FOLDER;
     }
     
-    public String getImageFolderLocation() {
+    public String getCaseImageFolderLocation() {
         return aCase.getCaseLocation() 
                 +  File.separator 
                 + ApplicationConstants.CASE_IMAGES_FOLDER;
@@ -178,17 +176,17 @@ public final class CaseFacade {
                 + ApplicationConstants.CASE_SERIALIZED_INFORMATION_EXTENSION;
     }
     
-    public String getCaseLogFolderLocation() {
+    public String getCaseAuditingFolderLocation() {
         return aCase.getCaseLocation() 
             + File.separator 
             + ApplicationConstants.CASE_AUDITING_FOLDER;
     }
     
-    public String getCaseLogFileLocation() {
-        return this.getCaseLogFolderLocation()
+    public String getCaseAuditingFileLocation() {
+        return this.getCaseAuditingFolderLocation()
                 + File.separator
                 + aCase.getCaseName() 
-                + ApplicationConstants.CASE_LOG_EXTENSION;
+                + ApplicationConstants.CASE_AUDITING_EXTENSION;
     }
     
     public String getCaseArchiveOutputFolderLocation() {
@@ -252,14 +250,14 @@ public final class CaseFacade {
         
     private void createCaseFoldersStructure () throws IOException {
         FileUtil.createFolder(this.getCaseFolderLocation());    // CASE Parent Folder
-        FileUtil.createFolder(this.getIndexFolderLocation());   // INDEX folder
-        FileUtil.createFolder(this.getImageFolderLocation());   // IMAGE folder
+        FileUtil.createFolder(this.getCaseIndexFolderLocation());   // INDEX folder
+        FileUtil.createFolder(this.getCaseImageFolderLocation());   // IMAGE folder
         FileUtil.createFolder(this.getCaseArchiveOutputFolderLocation());   // ARCHIVE folder
         FileUtil.createFolder(this.getCaseOfflineEmailAttachmentLocation()); // OFFLINE Email Attachments
-        FileUtil.createFolder(this.getCaseLogFolderLocation());
+        FileUtil.createFolder(this.getCaseAuditingFolderLocation());
         
         // create LOG and information (.DAT) file and Configuration File (mapping file)
-        FileUtil.createFile(this.getCaseLogFileLocation());
+        FileUtil.createFile(this.getCaseAuditingFileLocation());
         FileUtil.createFile(this.getCaseInformationFileLocation()); 
         FileUtil.createFile(this.getCaseConfigurationFileLocation());
         
@@ -291,12 +289,12 @@ public final class CaseFacade {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();
         this.casePathHandler = CasePathMappingHandler.newInstance(this.getCaseConfigurationFileLocation());
-        this.caseAuditing = new CaseAuditing(this.aCase, this.getCaseLogFileLocation());
+        this.caseAuditing = new CaseAuditing(this.aCase, this.getCaseAuditingFileLocation());
         
         if ( FileUtil.isFileFound(this.getCaseConfigurationFileLocation()))
             this.updateMappingFile();
         
-        if ( FileUtil.isFileFound(this.getCaseLogFileLocation()))
+        if ( FileUtil.isFileFound(this.getCaseAuditingFileLocation()))
             this.caseAuditing.init();
     }
 }

@@ -74,7 +74,7 @@ public class EmailProcessingTask implements Task{
         try {
             List<Integer> ids = new ArrayList<Integer>();
             
-            Directory dir = FSDirectory.open(new File(this.panel.getCaseFacade().getIndexFolderLocation()));
+            Directory dir = FSDirectory.open(new File(this.panel.getCaseFacade().getCaseIndexFolderLocation()));
             IndexReader indexReader = IndexReader.open(dir);
             Map<Entry, Integer> messageCounter = new HashMap<Entry, Integer>();
             
