@@ -89,7 +89,7 @@ final class HashLibraryManager {
      * @return the list of file in this folder 
      */
     public static List<HashCategory> getHashCategories() throws Exception {
-        String hashLocation = ApplicationConstants.HASH_LIBRARY_PATH ;
+        String hashLocation = ApplicationConstants.APPLICATION_HASH_LIBRARY_PATH ;
         
         List<File> files = FileUtil.getFilesInDirectory(hashLocation, hashExtensionFilter);
         List<HashCategory> categories = new ArrayList<HashCategory>();
@@ -108,7 +108,7 @@ final class HashLibraryManager {
      * @return full path of hash category location
      */
     public static String getPathForHashCategory(final String categoryName) {
-        return ApplicationConstants.HASH_LIBRARY_PATH + "\\" + categoryName + 
+        return ApplicationConstants.APPLICATION_HASH_LIBRARY_PATH + "\\" + categoryName + 
                ApplicationConstants.CASE_HASH_SET_EXTENSION;
     }
     

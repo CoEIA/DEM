@@ -50,7 +50,7 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         this.emailConfiguration = emailConfiguration;
         
         this.onlineEmailDownloader = new OnlineEmailDownloader(this,
-            this.aCase.getCaseLocation() + "\\" + ApplicationConstants.ONLINE_EMAIL_ATTACHMENTS_FOLDER,
+            this.aCase.getCaseLocation() + "\\" + ApplicationConstants.CASE_ONLINE_EMAIL_ATTACHMENTS_FOLDER,
             this.aCase.getCaseLocation() + "\\" + ApplicationConstants.CASE_EMAIL_DB_FOLDER,
             this.aCase.getCaseLocation() + "\\" + ApplicationConstants.CASE_ARCHIVE_FOLDER
             );

@@ -198,13 +198,13 @@ public final class CaseFacade {
     public String getCaseOfflineEmailAttachmentLocation() {
         return aCase.getCaseLocation() 
                 + File.separator 
-                + ApplicationConstants.OFFLINE_EMAIL_ATTACHMENTS_FOLDER;
+                + ApplicationConstants.CASE_OFFLINE_EMAIL_ATTACHMENTS_FOLDER;
     }
     
     public String getCaseOnlineEmailAttachmentLocation() {
         return aCase.getCaseLocation()
                 + File.separator
-                + ApplicationConstants.ONLINE_EMAIL_ATTACHMENTS_FOLDER;
+                + ApplicationConstants.CASE_ONLINE_EMAIL_ATTACHMENTS_FOLDER;
     }
     
     public String getTagDatabaseLocation() {

@@ -16,8 +16,8 @@ package edu.coeia.main;
  * @author wajdyessam
  */
 
+import edu.coeia.constants.OpreatingSystemConstants;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.constants.ApplicationConstants ;
 import edu.coeia.internet.IEHandler ;
 
 import java.util.ArrayList ;
@@ -40,7 +40,7 @@ public class RecentDialog extends javax.swing.JDialog {
 
     private void fillTable () {
         ArrayList<String> filesName = new ArrayList<String>();
-        String path = ApplicationConstants.RECENT ;
+        String path = OpreatingSystemConstants.RECENT ;
         IEHandler.getFiles(new File(path) , filesName);
         SimpleDateFormat sdf = new SimpleDateFormat("d/m/yyyy    hh:mm:ss");
 

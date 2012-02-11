@@ -14,6 +14,7 @@ import edu.coeia.detector.UsersDetector;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.constants.ApplicationConstants ;
+import edu.coeia.constants.OpreatingSystemConstants;
 import edu.coeia.visualization.CorrelationDialog;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.main.CaseMainFrame;
@@ -1614,8 +1615,8 @@ private void webHistoryButton1ActionPerformed(java.awt.event.ActionEvent evt) {/
         
        try {
            String userPath = (String) ieComboBox.getSelectedItem() ;
-           if ( ApplicationConstants.isValidPath(userPath, ApplicationConstants.IE_HISTORY) ) {
-               String path = ApplicationConstants.getIEHistoryPath(userPath);
+           if ( OpreatingSystemConstants.isValidPath(userPath, OpreatingSystemConstants.IE_HISTORY) ) {
+               String path = OpreatingSystemConstants.getIEHistoryPath(userPath);
 
                fillIEWebHistoryTable(path);
 
@@ -1649,8 +1650,8 @@ private void bookmarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
 
        try {
            String userPath = (String) ieComboBox.getSelectedItem() ;
-           if ( ApplicationConstants.isValidPath(userPath, ApplicationConstants.IE_FAVORITE) ) {
-               String path = ApplicationConstants.getIEFavoritePath(userPath);
+           if ( OpreatingSystemConstants.isValidPath(userPath, OpreatingSystemConstants.IE_FAVORITE) ) {
+               String path = OpreatingSystemConstants.getIEFavoritePath(userPath);
 
                fillIEBookmarkTable(path);
 
@@ -1679,8 +1680,8 @@ private void cookiesButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
         resetInternetSurfing(IESearchField,IEFilterComboBox);
         try {
             String userPath = (String) ieComboBox.getSelectedItem() ;
-            if ( ApplicationConstants.isValidPath(userPath, ApplicationConstants.IE_COOKIES) ) {
-                String path = ApplicationConstants.getIECookiesPath(userPath);
+            if ( OpreatingSystemConstants.isValidPath(userPath, OpreatingSystemConstants.IE_COOKIES) ) {
+                String path = OpreatingSystemConstants.getIECookiesPath(userPath);
                 System.out.println("cookies path: " + path);
 
                 fillIECookiesTable(path);
@@ -1710,8 +1711,8 @@ private void cacheButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         resetInternetSurfing(IESearchField,IEFilterComboBox);
         try {
             String userPath = (String) ieComboBox.getSelectedItem() ;
-            if ( ApplicationConstants.isValidPath(userPath, ApplicationConstants.IE_CACHE) ) {
-                String path = ApplicationConstants.getIECachePath(userPath);
+            if ( OpreatingSystemConstants.isValidPath(userPath, OpreatingSystemConstants.IE_CACHE) ) {
+                String path = OpreatingSystemConstants.getIECachePath(userPath);
                 //System.out.println("cache: " + path);
 
                 fillIECacheTable(path);
@@ -1740,7 +1741,7 @@ private void logginsButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GE
         // reset IE text field
         resetInternetSurfing(IESearchField,IEFilterComboBox);
         try {
-            String p = ApplicationConstants.getIEPassword();
+            String p = OpreatingSystemConstants.getIEPassword();
             System.out.println("loggin: " + p);
 
             fillIELogginsTable(p);
@@ -1923,8 +1924,8 @@ private void ffComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
         ArrayList<InternetSummaryDate> result = new ArrayList<InternetSummaryDate>();
 
-        if ( ApplicationConstants.isValidPath(userPath, ApplicationConstants.IE_HISTORY) ) {
-            String path = ApplicationConstants.getIEHistoryPath(userPath);
+        if ( OpreatingSystemConstants.isValidPath(userPath, OpreatingSystemConstants.IE_HISTORY) ) {
+            String path = OpreatingSystemConstants.getIEHistoryPath(userPath);
 
             IEHandler ieHandler = new IEHandler();
             ArrayList<String> rows = ieHandler.readProgramOutputFile(path,ApplicationConstants.HIS_TMP);

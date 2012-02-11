@@ -14,12 +14,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.main.CaseMainFrame;
-
 import edu.coeia.tags.TagsManager;
-import java.io.IOException;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
@@ -141,7 +136,7 @@ public class ReportPanel extends javax.swing.JPanel {
         ReportOptionsPanel.setLayout(ReportOptionsPanelLayout);
         ReportOptionsPanelLayout.setHorizontalGroup(
             ReportOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
         );
         ReportOptionsPanelLayout.setVerticalGroup(
             ReportOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,7 +294,7 @@ public class ReportPanel extends javax.swing.JPanel {
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
                     .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
-                .addGap(201, 201, 201))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -376,8 +371,8 @@ public class ReportPanel extends javax.swing.JPanel {
         fileSystemPanelLayout.setHorizontalGroup(
             fileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fileSystemPanelLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(201, Short.MAX_VALUE))
         );
         fileSystemPanelLayout.setVerticalGroup(
             fileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -415,7 +410,7 @@ public class ReportPanel extends javax.swing.JPanel {
                             .addComponent(jRadioButton4)
                             .addComponent(jRadioButton3)
                             .addComponent(jRadioButton5))))
-                .addContainerGap(323, Short.MAX_VALUE))
+                .addContainerGap(319, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

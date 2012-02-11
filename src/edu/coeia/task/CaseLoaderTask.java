@@ -65,8 +65,7 @@ public class CaseLoaderTask implements Task {
                 if ( caseSourceIsUptoDate ) {                    
                     ApplicationManager.Manager.addCase(caseName);
 
-                    CaseMainFrame mainFrame = new CaseMainFrame(this.frame, 
-                            this.caseFacade, ApplicationManager.Manager.getList());
+                    CaseMainFrame mainFrame = new CaseMainFrame(this.frame, this.caseFacade);
                     mainFrame.setLocationRelativeTo(this.frame);
                     mainFrame.setVisible(true);
                     

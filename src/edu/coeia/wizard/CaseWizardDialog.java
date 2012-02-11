@@ -51,7 +51,7 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
 
 public class CaseWizardDialog extends javax.swing.JDialog{
  
-    private String PATH = ApplicationConstants.CASES_PATH;
+    private String PATH = ApplicationConstants.APPLICATION_CASES_PATH;
     private final List<String> evidencePathLocations;
     private final DefaultListModel sourcesListModel;
     

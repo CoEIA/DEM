@@ -23,6 +23,7 @@ import edu.coeia.searching.CaseSearchPanel;
 import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.constants.AuditingMessages;
 import edu.coeia.constants.SystemConstant;
+import edu.coeia.managers.ApplicationManager;
 import edu.coeia.tags.TagsManager ;
 
 import java.awt.EventQueue;
@@ -53,7 +54,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
     private final static Logger logger = ApplicationLogging.getLogger();
     
     private final CaseManagerFrame parentFrame; 
-    private final List<String> listOfOpeningCase ;
     private final CaseFacade caseFacade;
     private TagsManager tagsManager ;
     private final String applicationTitle;
@@ -73,7 +73,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
      * @param aCase case opened in CaseFacade
      * @param list a list of all openings case
      */
-    public CaseMainFrame(final CaseManagerFrame frame, final CaseFacade caseFacade, final List<String> list) {
+    public CaseMainFrame(final CaseManagerFrame frame, final CaseFacade caseFacade) {
         initComponents();
         logger.info("OfflineMining Frame Constructor, Open Case: " + caseFacade.getCase().getCaseName());
         caseFacade.audit(AuditingMessages.OPEN_CASE);
@@ -90,7 +90,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
          */
         
         this.caseFacade = caseFacade;
-        this.listOfOpeningCase = list;
         this.loadTags();
         
         /**
@@ -627,7 +626,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
                 String caseName = this.getCase().getCaseName() ;
 
                 if ( !caseName.isEmpty() )
-                    this.listOfOpeningCase.remove(caseName);
+                    ApplicationManager.Manager.removeCaseFromOpeningCase(caseName);
             }
         }
         catch (Exception e){

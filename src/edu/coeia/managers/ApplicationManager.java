@@ -58,14 +58,6 @@ public enum ApplicationManager {
         return cases;
     }
 
-    public Case getCase(String line) throws IOException, ClassNotFoundException {
-        String name = line.split("-")[0].trim();
-        String path = line.substring(line.indexOf("-") + 1).trim();
-
-        Case aIndex = FileUtil.readObject(new File(path + "\\" + name + ".DAT"));
-        return aIndex;
-    }
-    
     /*
      * Get index path from index name 
      * @return IndexInformation 
@@ -82,6 +74,14 @@ public enum ApplicationManager {
         }
 
         return null ;
+    }
+    
+    public Case getCase(String line) throws IOException, ClassNotFoundException {
+        String name = line.split("-")[0].trim();
+        String path = line.substring(line.indexOf("-") + 1).trim();
+
+        Case aIndex = FileUtil.readObject(new File(path + "\\" + name + ".DAT"));
+        return aIndex;
     }
     
     /*
@@ -105,8 +105,8 @@ public enum ApplicationManager {
         return false;
     }
     
-    public List<String> getList () {
-        return this.listOfOpeningCase ;
+    public void removeCaseFromOpeningCase(final String caseName) {
+        this.listOfOpeningCase.remove(caseName);
     }
     
     public void addCase (String caseName) {
@@ -118,7 +118,7 @@ public enum ApplicationManager {
     }
 
     public String getCasesPath() {
-        return ApplicationConstants.CASES_PATH;
+        return ApplicationConstants.APPLICATION_CASES_PATH;
     }
     
     
@@ -130,9 +130,9 @@ public enum ApplicationManager {
         boolean status = true;
         
         File root = new File(ApplicationConstants.APPLICATION_PATH);
-        File cases = new File(ApplicationConstants.CASES_PATH);
+        File cases = new File(ApplicationConstants.APPLICATION_CASES_PATH);
         File indexesInfo = new File(ApplicationConstants.APPLICATION_CASES_FILE);
-        File hashLibraryFile = new File(ApplicationConstants.HASH_LIBRARY_PATH);
+        File hashLibraryFile = new File(ApplicationConstants.APPLICATION_HASH_LIBRARY_PATH);
         
         if (root.exists())
             status = false;
@@ -164,11 +164,11 @@ public enum ApplicationManager {
      */
     private void createApplicationFoldersStructure () throws IOException{
         File root = new File(ApplicationConstants.APPLICATION_PATH);
-        File cases = new File(ApplicationConstants.CASES_PATH);
+        File cases = new File(ApplicationConstants.APPLICATION_CASES_PATH);
         File indexesInfo = new File(ApplicationConstants.APPLICATION_CASES_FILE);
-        File tmpFile = new File(ApplicationConstants.TMP_PATH);
+        File tmpFile = new File(ApplicationConstants.APPLICATION_TMP_PATH);
         File logFile = new File(ApplicationConstants.APPLICATION_LOG_PATH);
-        File hashLibraryFile = new File(ApplicationConstants.HASH_LIBRARY_PATH);
+        File hashLibraryFile = new File(ApplicationConstants.APPLICATION_HASH_LIBRARY_PATH);
         
         if  ( ! root.exists() )
             root.mkdir();   // make offline folder in applicationData
