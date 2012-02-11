@@ -23,6 +23,7 @@ import edu.coeia.util.ApplicationLogging;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -46,22 +47,22 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
     private final Case caseObj;
     private final InvestigateDialog parentDialog;
     private final AdvancedSearchPanel advancedSearchPanel;
-    private final static Logger logger = ApplicationLogging.getLogger();
     private final CaseFacade caseFacade ;
+    
+    private final static Logger logger = ApplicationLogging.getLogger();
     
     /** Creates new form CommonKeywordsPanel */
     public CommonKeywordsPanel(final InvestigateDialog dialog, final AdvancedSearchPanel panel) {
         initComponents();
 
         this.parentDialog = dialog;
-        this.caseObj = this.parentDialog.getCaseFacade().getCase();
+        this.caseFacade = dialog.getCaseFacade();
+        this.caseObj = dialog.getCaseFacade().getCase();
         this.advancedSearchPanel = panel;
-        this.caseFacade = this.parentDialog.getCaseFacade();
-        
-        JTableUtil.setTableAlignmentValue(cloudsTable, 1);
-
         this.tagsPanel.setLayout(new WrapLayout());
         this.cloudsFilterTextField.getDocument().addDocumentListener(new CloudsInputListener());
+        
+        JTableUtil.setTableAlignmentValue(cloudsTable, 1);
     }
 
     /** This method is called from within the constructor to
@@ -317,29 +318,11 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
         for (Tag tag : tags) {
             JLabel lbl = new JLabel(tag.getName());
             lbl.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, tag.getWeightInt()));
-            lbl.addMouseListener(new MouseAdapter() {
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    JLabel m = (JLabel) e.getSource();
-                    doSearch(m.getText());
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    JLabel m = (JLabel) e.getSource();
-                    doSearch(m.getText());
-                }
-
-                public void doSearch(String text) {
-                    advancedSearchPanel.setQueryText(text);
-                    closeDialog();
-                }
-            });
-
+            lbl.addMouseListener(new CloudLabelAction());
             lbl.setToolTipText(tag.getName() + " repeated: " + tag.getScoreInt());
             lbl.setForeground(java.awt.Color.BLUE.darker());
             lbl.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            
             this.tagsPanel.add(lbl);
         }
         
@@ -365,6 +348,25 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
 //        jButton1.setEnabled(true);
 //    }
 
+    private class CloudLabelAction extends MouseAdapter {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            JLabel m = (JLabel) e.getSource();
+            doSearch(m.getText());
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            JLabel m = (JLabel) e.getSource();
+            doSearch(m.getText());
+        }
+
+        public void doSearch(String text) {
+            advancedSearchPanel.setQueryText(text);
+            closeDialog();
+        }
+    }
+    
     private class CloudsInputListener implements DocumentListener {
         public void changedUpdate(DocumentEvent e) {
             filterCloudTable();
@@ -373,6 +375,7 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
         public void removeUpdate(DocumentEvent e) {
             filterCloudTable();
         }
+        
         public void insertUpdate(DocumentEvent e) {
             filterCloudTable();
         }
