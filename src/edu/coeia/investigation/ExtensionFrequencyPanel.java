@@ -13,8 +13,8 @@ package edu.coeia.investigation;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.searching.InvestigateDialog;
 import edu.coeia.task.ExtensionFrequencyTask;
-
 import edu.coeia.util.ApplicationLogging;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JOptionPane;
@@ -38,7 +38,6 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
         
         this.caseFacade = dialog.getCaseFacade();
         this.parentDialog = dialog;
-        this.disableNotIndexedComponent();
     }
 
     /** This method is called from within the constructor to
@@ -83,12 +82,6 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
         indexVisualizingPiePanel.removeAll();
         indexVisualizingPiePanel.add(panel, BorderLayout.CENTER);
         indexVisualizingPiePanel.revalidate();
-    }
-
-    private void disableNotIndexedComponent() {
-        if (!this.caseFacade.getCase().doIndexingAfterCaseCreation()) {
-            indexVisulizingButton.setEnabled(false);
-        }
     }
     
     private void generateVisualization() {;

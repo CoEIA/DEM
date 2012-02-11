@@ -23,7 +23,6 @@ import edu.coeia.util.ApplicationLogging;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -298,6 +297,8 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
             return ;
         }
 
+        JTableUtil.removeAllRows(cloudsTable);
+        
         CommonKeywordsTask task = new CommonKeywordsTask(caseObj, this);
         task.startTask();
         
@@ -312,7 +313,6 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
     }
     
     public void renderTags(final List<Tag> tags) {
-        JTableUtil.removeAllRows(cloudsTable);
         this.tagsPanel.removeAll();
             
         for (Tag tag : tags) {
