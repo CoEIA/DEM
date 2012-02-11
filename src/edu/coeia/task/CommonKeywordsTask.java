@@ -10,17 +10,16 @@ import edu.coeia.investigation.CommonKeywordsPanel;
 import edu.coeia.constants.ApplicationConstants;
 
 import edu.coeia.gutil.JTableUtil;
-import groovy.model.DefaultTableModel;
 import java.io.File;
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import java.util.Set;
-import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
@@ -52,13 +51,55 @@ public class CommonKeywordsTask implements Task{
     
     @Override
     public void doTask() throws Exception {
-        Map<String, Integer> commonKeywordsMap = this.getAllTermFreqFromBody();
+        Map<String, Integer> commonKeywordsMap = this.getAllTermFreqFromItems();
         this.setTags(commonKeywordsMap);
     }
     
     @Override
     public boolean isCancelledTask() {
         return this.thread.isCancelledThread();
+    }
+    
+    public Map<String, Integer> getAllTermFreqFromItems() throws IOException {
+        Map<String,Integer> map = new HashMap<String,Integer>();
+        
+        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
+        Directory dir = FSDirectory.open(new File(indexDir));
+        IndexReader indexReader = IndexReader.open(dir);
+        TermEnum terms = indexReader.terms();
+        
+        while(terms.next()) {
+            if ( isCancelledTask() )
+                return map;
+            
+            Term term = terms.term();
+            
+            if ( this.isAllowedFeild(term.field().trim()) ) { 
+                String termText = term.text();
+                int frequency = indexReader.docFreq(term);
+
+                map.put(termText, frequency);
+            }
+        }
+        
+        indexReader.close();
+        return map;
+    }
+    
+    private boolean isAllowedFeild(final String fieldName) {
+        if ( fieldName.equals(IndexingConstant.FILE_CONTENT ) )
+            return true;
+        
+        if ( fieldName.equals(IndexingConstant.CHAT_MESSAGE) )
+            return true;
+        
+        if ( fieldName.equals(IndexingConstant.OFFLINE_EMAIL_HTML_CONTENT))
+            return true;
+        
+        if ( fieldName.equals(IndexingConstant.ONLINE_EMAIL_BODY))
+            return true;
+        
+        return false;
     }
     
     // get terms and frequncy for all terms in docuemnts
@@ -76,7 +117,7 @@ public class CommonKeywordsTask implements Task{
             
             Term currentTerm = te.term();
 
-            if ( ! currentTerm.field().equals(IndexingConstant.FILE_CONTENT))
+            if ( ! currentTerm.field().equals(IndexingConstant.FILE_CONTENT) )
                 continue ;
 
             String termText = currentTerm.text();
@@ -89,7 +130,7 @@ public class CommonKeywordsTask implements Task{
         return map ;
     }
     
-    private void setTags(Map<String, Integer> tagsMap) {
+    private void setTags(final Map<String, Integer> tagsMap) {
 
         int excludeNumber = Integer.parseInt(this.panel.getTagsExclude().getText().trim());
         int tagsNumber = Integer.parseInt(this.panel.getTagsNumber().getText().trim());

@@ -326,7 +326,8 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
             this.tagsPanel.add(lbl);
         }
         
-        this.tagsPanel.repaint();
+        this.tagsPanel.validate();
+        this.tagsPanel.revalidate();
     }
     
     private void closeDialog() {
