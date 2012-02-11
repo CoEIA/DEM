@@ -56,44 +56,4 @@ public class UsersDetector implements AutoDetection {
 
         return resultPath;
     }
-    
-    @Override
-    public List<String> getFilesInCurrentSystem() {
-        ArrayList<String> iePaths = new ArrayList<String>();
-        File[] roots = File.listRoots();
-
-        if (OpreatingSystemConstants.getOSType() == OpreatingSystemConstants.OS_TYPE.XP) {
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "Documents and Settings";
-                File osFile = new File(filePath);
-
-                if (osFile.exists()) {
-                    File[] files = osFile.listFiles();
-
-                    for (File userFile : files) {
-                        if (!userFile.isHidden() && userFile.canRead()) {
-                            iePaths.add(userFile.getAbsolutePath());
-                        }
-                    }
-                }
-            }
-        } else {
-            for (File file : roots) {
-                String filePath = file.getAbsolutePath() + "\\" + "Users";
-                File osFile = new File(filePath);
-
-                if (osFile.exists()) {
-                    File[] files = osFile.listFiles();
-
-                    for (File userFile : files) {
-                        if (!userFile.isHidden() && userFile.canRead()) {
-                            iePaths.add(userFile.getAbsolutePath());
-                        }
-                    }
-                }
-            }
-        }
-
-        return iePaths;
-    }
 }
