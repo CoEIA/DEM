@@ -127,8 +127,8 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
         
         if ( path.isDirectory() && path.canRead() ) {
             File[] files = path.listFiles();
-               
-            try {
+            
+            if ( files != null ) {
                 for(File file: files) {
                     this.checkForThreadCancelling();
 
@@ -146,14 +146,6 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
                         }
                     }
                 }
-            }
-            // to prevent NullPointerException casued by accessing
-            // folder we have no permission to acess (files array will contain null value)
-            catch(Exception e) { 
-                //TODO: show in logging table that the current folder
-                // cannot be indexed becuase of permission problem
-                //e.printStackTrace();
-                Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }

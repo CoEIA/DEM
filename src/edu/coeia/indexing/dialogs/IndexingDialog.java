@@ -270,7 +270,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
                 String oldType = newProgressPanel.getType();
                 getObjectPanel().removeAll();
                 getObjectPanel().add((JPanel) newProgressPanel);
-                getObjectPanel().setSize(507, getObjectPanel().getHeight());
+                //getObjectPanel().setSize(507, getObjectPanel().getHeight());
                 getObjectPanel().revalidate();
                 getObjectPanel().repaint();
                 
