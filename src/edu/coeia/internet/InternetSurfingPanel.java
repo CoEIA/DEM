@@ -21,14 +21,15 @@ import edu.coeia.util.FileUtil;
 
 import java.awt.Desktop ;
 import java.awt.event.InputEvent;
-
 import java.awt.event.MouseEvent;
+
 import javax.swing.JTextField ;
 import javax.swing.JComboBox ;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JFrame ;
 import javax.swing.event.DocumentEvent ;
 import javax.swing.event.DocumentListener ;
+import javax.swing.JTable;
 
 import java.io.File ;
 import java.io.IOException ;
@@ -41,8 +42,6 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 import java.sql.SQLException ;
-import javax.swing.JTable;
-
 
 /*
  * InternetSurfingPanel.java
@@ -1251,18 +1250,11 @@ private void logginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIR
     this.showPopUpForTableIfEnabled(this.logginsTable, evt);
 }//GEN-LAST:event_logginsTableMouseReleased
 
-    private void showPopUpForTableIfEnabled(final JTable table, final MouseEvent event) {
-        if ( (event.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( table.isEnabled() )
-                GuiUtil.showPopup(event);
-        }
-    }
-    
 private void ffViewHTMLReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ffViewHTMLReportButtonActionPerformed
         StringBuilder result = new StringBuilder();
         String path = (String) ffComboBox.getSelectedItem() + "\\" ;
         String userName = Utilities.getFireFoxUserName(path);
-
+            
         try {
             // get top visited host
             MozillaHandler mozillaHandler = new MozillaHandler();
@@ -1946,6 +1938,13 @@ private void ffComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
     }
     
+    private void showPopUpForTableIfEnabled(final JTable table, final MouseEvent event) {
+        if ( (event.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
+            if ( table.isEnabled() )
+                GuiUtil.showPopup(event);
+        }
+    }
+        
     private class MozillaInputListener implements DocumentListener {
         public void changedUpdate(DocumentEvent e){filterMozillaTables();}
         public void removeUpdate (DocumentEvent e){filterMozillaTables();}

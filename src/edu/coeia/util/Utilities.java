@@ -151,6 +151,9 @@ public class Utilities {
     public static String filterLine(String line) {
         StringBuilder result = new StringBuilder();
 
+        if ( line == null )
+            return result.toString();
+        
         for (int i = 0; i < line.length(); i++) {
             if (i % 60 == 0) {
                 result.append("<br></br>");
