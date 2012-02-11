@@ -102,34 +102,6 @@ public class CommonKeywordsTask implements Task{
         return false;
     }
     
-    // get terms and frequncy for all terms in docuemnts
-    public Map<String,Integer> getAllTermFreqFromBody ()  throws IOException {
-        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        
-        Map<String,Integer> map = new HashMap<String,Integer>();
-        TermEnum te = indexReader.terms(new Term(IndexingConstant.FILE_CONTENT,"") );
-
-        while ( te.next() ) {
-            if ( isCancelledTask() )
-                return map;
-            
-            Term currentTerm = te.term();
-
-            if ( ! currentTerm.field().equals(IndexingConstant.FILE_CONTENT) )
-                continue ;
-
-            String termText = currentTerm.text();
-            int frequency   = indexReader.docFreq(currentTerm);
-
-            map.put(termText,frequency);
-        }
-
-        te.close();
-        return map ;
-    }
-    
     private void setTags(final Map<String, Integer> tagsMap) {
 
         int excludeNumber = Integer.parseInt(this.panel.getTagsExclude().getText().trim());
