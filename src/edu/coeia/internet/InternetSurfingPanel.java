@@ -6,8 +6,6 @@
 
 package edu.coeia.internet;
 
-
-import edu.coeia.util.GUIFileFilter;
 import edu.coeia.cases.Case;
 import edu.coeia.detector.FirefoxDetector;
 import edu.coeia.detector.UsersDetector;
@@ -22,18 +20,12 @@ import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.FileUtil;
 
 import java.awt.Desktop ;
-import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 
-import javax.swing.JButton;
-import javax.swing.JPopupMenu;
-import javax.swing.JFileChooser ;
+import java.awt.event.MouseEvent;
 import javax.swing.JTextField ;
 import javax.swing.JComboBox ;
-import javax.swing.JOptionPane ;
-import javax.swing.JTable ;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.ListSelectionModel ;
 import javax.swing.JFrame ;
 import javax.swing.event.DocumentEvent ;
 import javax.swing.event.DocumentListener ;
@@ -49,8 +41,8 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 import java.sql.SQLException ;
+import javax.swing.JTable;
 
-import java.net.URISyntaxException ;
 
 /*
  * InternetSurfingPanel.java
@@ -62,9 +54,7 @@ import java.net.URISyntaxException ;
  */
 
 public class InternetSurfingPanel extends javax.swing.JPanel {
-    private final static Logger logger = ApplicationLogging.getLogger();
-    private JFileChooser fileChooser ;       
-    
+    private final static Logger logger = ApplicationLogging.getLogger();   
     private final CaseMainFrame caseFrame ;
     private final Case aCase ;
     
@@ -75,22 +65,9 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         this.caseFrame = (CaseMainFrame) frame;
         this.aCase =  this.caseFrame.getCaseFacade().getCase();
         
-        // configure file chooser to select files (txt)
-        fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new GUIFileFilter("Text Files (*.txt)", "txt"));
-        
-        mozillaSearchField.getDocument().addDocumentListener(new MozillaInputListener());
-        IESearchField.getDocument().addDocumentListener(new IEInputListener());                  
-        
-        // set ff & IE data to thier combobox
-//        for (String ffPath: index.getFFPath() )
-//            ffComboBox.addItem(ffPath);
-//
-//        for (String iePath: index.getIePath())
-//            ieComboBox.addItem(iePath);      
-        
-        disableNotIndexedComponent();
+        this.mozillaSearchField.getDocument().addDocumentListener(new MozillaInputListener());
+        this.IESearchField.getDocument().addDocumentListener(new IEInputListener());                  
+        this.disableNotIndexedComponent();
     }
 
     /** This method is called from within the constructor to
@@ -1161,298 +1138,126 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
 
 private void ffSummaryButttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ffSummaryButttonActionPerformed
         GuiUtil.showPanel("ffSummaryCard",mozillaResultPanel);
-
-        // reset mozilla text field
         resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
-
-         try {
-            // get profile path
+        try {
             String path = (String) ffComboBox.getSelectedItem() + "\\" ;
-
-//            // remove all data in tables
-//            if ( topHostTable.getModel().getRowCount() > 0 )
-//                Utilities.removeAllRows(topHostTable);
-//            if ( topURLTable.getModel().getRowCount() > 0 )
-//                Utilities.removeAllRows(topURLTable);
-//            if ( searchEngineTable.getModel().getRowCount() > 0)
-//                Utilities.removeAllRows(searchEngineTable);
-
-            // fill summary data
             fillTopHostTable(path);
             fillTopURLTable(path);
             fillSearchEngineTable(path);
-            
-            // Pack the all columns of the table
-//            int margin = 1;
-//            Utilities.packColumns(topHostTable, margin);
-//            Utilities.packColumns(topURLTable, margin);
-//            Utilities.packColumns(searchEngineTable, margin);
-         }
-       catch (SQLException e){
-           e.printStackTrace();
-       }
-       catch (ClassNotFoundException e){
-           e.printStackTrace();
-       }
-       catch (InstantiationException e){
-           e.printStackTrace();
-       }
-       catch (IllegalAccessException e){
-           e.printStackTrace();
-       }
+        }
+        catch (Exception e){
+           logger.severe(String.format("error in firefox summary %s", e.getMessage()));
+        }
 }//GEN-LAST:event_ffSummaryButttonActionPerformed
 
 private void webHistoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_webHistoryButtonActionPerformed
         GuiUtil.showPanel("webHistoryCard",mozillaResultPanel);
-
-        // reset mozilla text field
         resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
-
-        // read web history and add it to table
          try {
              String path = (String) ffComboBox.getSelectedItem() + "\\" ;
              fillWebHistoryTable(path);
-
-//            // Pack the all columns of the table
-//            int margin = 1;
-//            Utilities.packColumns(webHistoryTable, margin);
-            
          }
-       catch (SQLException e){
-//              e.printStackTrace();
-//             JOptionPane.showMessageDialog(this, "Please Close FireFox Browser Right Now and Try Again",
-//                     "FireFox Browser Already Running", JOptionPane.ERROR_MESSAGE);
-//             return ;
+        catch (Exception e){
            logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (ClassNotFoundException e){
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (InstantiationException e){
-            logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (IllegalAccessException e){
-            logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
+        }
 }//GEN-LAST:event_webHistoryButtonActionPerformed
 
 private void bookmarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookmarButtonActionPerformed
         GuiUtil.showPanel("bookmarkCard",mozillaResultPanel);
-
-        // reset mozilla text field
         resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
-        
-        // read bookmar and add it to table
         try {
             String path = (String) ffComboBox.getSelectedItem() + "\\" ;
             fillBookmarkTable(path);
-//
-//            // Pack the all columns of the table
-//            int margin = 1;
-//            Utilities.packColumns(bookmarkTable, margin);
-            
         }
-       catch (SQLException e){
-//              e.printStackTrace();
-//             JOptionPane.showMessageDialog(this, "Please Close FireFox Browser Right Now and Try Again",
-//                     "FireFox Browser Already Running", JOptionPane.ERROR_MESSAGE);
-//             return ;
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (ClassNotFoundException e){
-             //e.printStackTrace();
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (InstantiationException e){
-            //e.printStackTrace();
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (IllegalAccessException e){
-            //e.printStackTrace();
+       catch (Exception e){
            logger.log(Level.SEVERE, "Uncaught exception", e);
        }
 }//GEN-LAST:event_bookmarButtonActionPerformed
 
 private void cookiesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cookiesButtonActionPerformed
        GuiUtil.showPanel("cookiesCard",mozillaResultPanel);
-
-       // reset mozilla text field
-        resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
-        
-       // fill cookies table
+       resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
        try {
            String path = (String) ffComboBox.getSelectedItem() + "\\" ;
            fillCookiesTable(path);
-
-//           // Pack the all columns of the table
-//           int margin = 1;
-//           Utilities.packColumns(cookiesTable, margin);
        }
-       catch (SQLException e){
-//              e.printStackTrace();
-//             JOptionPane.showMessageDialog(this, "Please Close FireFox Browser Right Now and Try Again",
-//                     "FireFox Browser Already Running", JOptionPane.ERROR_MESSAGE);
-//             return ;
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (ClassNotFoundException e){
-             //e.printStackTrace();
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (InstantiationException e){
-            //e.printStackTrace();
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (IllegalAccessException e){
-            //e.printStackTrace();
+       catch (Exception e){
            logger.log(Level.SEVERE, "Uncaught exception", e);
        }
 }//GEN-LAST:event_cookiesButtonActionPerformed
 
 private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadButtonActionPerformed
        GuiUtil.showPanel("downloadCard",mozillaResultPanel);
-
-        // reset mozilla text field
         resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
-        
-       // fill download table
        try{
            String path = (String) ffComboBox.getSelectedItem() + "\\" ;
            fillDownloadTable(path);
-
-           // Pack the all columns of the table
-           //int margin = 1;
-           //Utilities.packColumns(downloadTable, margin);
-
            JTableUtil.scrollToVisible(downloadTable, 0, 0);
        }
-       catch (SQLException e){
-//              e.printStackTrace();
-//             JOptionPane.showMessageDialog(this, "Please Close FireFox Browser Right Now and Try Again",
-//                     "FireFox Browser Already Running", JOptionPane.ERROR_MESSAGE);
-//             return ;
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (ClassNotFoundException e){
-             //e.printStackTrace();
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (InstantiationException e){
-            //e.printStackTrace();
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (IllegalAccessException e){
-            //e.printStackTrace();
+       catch (Exception e){
            logger.log(Level.SEVERE, "Uncaught exception", e);
        }
 }//GEN-LAST:event_downloadButtonActionPerformed
 
 private void logginsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logginsButtonActionPerformed
        GuiUtil.showPanel("logginsCard",mozillaResultPanel);
-
-       // reset mozilla text field
-        resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
-        
-       // fill loggins table
+       resetInternetSurfing(mozillaSearchField,mozillaFilterComboBox);
        try {
            String path = (String) ffComboBox.getSelectedItem() + "\\" ;
            fillLogginsTable(path);
-
-//           // Pack the all columns of the table
-//           int margin = 1;
-//           Utilities.packColumns(logginsTable, margin);
        }
-       catch (SQLException e){
-//              e.printStackTrace();
-//             JOptionPane.showMessageDialog(this, "Please Close FireFox Browser Right Now and Try Again",
-//                     "FireFox Browser Already Running", JOptionPane.ERROR_MESSAGE);
-//             return ;
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (ClassNotFoundException e){
-             //e.printStackTrace();
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (InstantiationException e){
-            //e.printStackTrace();
-           logger.log(Level.SEVERE, "Uncaught exception", e);
-       }
-       catch (IllegalAccessException e){
-            //e.printStackTrace();
+       catch (Exception e){
            logger.log(Level.SEVERE, "Uncaught exception", e);
        }
 }//GEN-LAST:event_logginsButtonActionPerformed
 
 private void webHistoryTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_webHistoryTableMousePressed
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( webHistoryTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.webHistoryTable, evt);
 }//GEN-LAST:event_webHistoryTableMousePressed
 
 private void webHistoryTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_webHistoryTableMouseReleased
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( webHistoryTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.webHistoryTable, evt);
 }//GEN-LAST:event_webHistoryTableMouseReleased
 
 private void bookmarkTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bookmarkTableMousePressed
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( bookmarkTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.bookmarkTable, evt);
 }//GEN-LAST:event_bookmarkTableMousePressed
 
 private void bookmarkTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bookmarkTableMouseReleased
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( bookmarkTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.bookmarkTable, evt);   
 }//GEN-LAST:event_bookmarkTableMouseReleased
 
 private void cookiesTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cookiesTableMousePressed
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( cookiesTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.cookiesTable, evt);
 }//GEN-LAST:event_cookiesTableMousePressed
 
 private void cookiesTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cookiesTableMouseReleased
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( cookiesTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.cookiesTable, evt);
 }//GEN-LAST:event_cookiesTableMouseReleased
 
 private void downloadTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_downloadTableMousePressed
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( downloadTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.downloadTable, evt);
 }//GEN-LAST:event_downloadTableMousePressed
 
 private void downloadTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_downloadTableMouseReleased
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( downloadTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.downloadTable, evt);
 }//GEN-LAST:event_downloadTableMouseReleased
 
 private void logginsTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logginsTableMousePressed
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( logginsTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.logginsTable, evt);
 }//GEN-LAST:event_logginsTableMousePressed
 
 private void logginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logginsTableMouseReleased
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( logginsTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.logginsTable, evt);
 }//GEN-LAST:event_logginsTableMouseReleased
 
+    private void showPopUpForTableIfEnabled(final JTable table, final MouseEvent event) {
+        if ( (event.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
+            if ( table.isEnabled() )
+                GuiUtil.showPopup(event);
+        }
+    }
+    
 private void ffViewHTMLReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ffViewHTMLReportButtonActionPerformed
         StringBuilder result = new StringBuilder();
         String path = (String) ffComboBox.getSelectedItem() + "\\" ;
@@ -1565,31 +1370,15 @@ private void mozillaFilterComboBoxActionPerformed(java.awt.event.ActionEvent evt
 }//GEN-LAST:event_mozillaFilterComboBoxActionPerformed
 
 private void loadFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadFFButtonActionPerformed
-    // String path_combo = (String) ffComboBox.getSelectedItem() + "\\";
-
-//    try {
-//        fillWebHistoryTable(path_combo);
-//        fillBookmarkTable(path_combo);
-//        fillCookiesTable(path_combo);
-//        fillDownloadTable(path_combo);
-//        fillLogginsTable(path_combo);
-//    } catch (SQLException e) {
-//        logger.audit(Level.SEVERE, "Uncaught exception", e);
-//    } catch (ClassNotFoundException e) {
-//        logger.audit(Level.SEVERE, "Uncaught exception", e);
-//    } catch (InstantiationException e) {
-//        logger.audit(Level.SEVERE, "Uncaught exception", e);
-//    } catch (IllegalAccessException e) {
-//        logger.audit(Level.SEVERE, "Uncaught exception", e);
-//    }
 
     FirefoxDetector detector = new FirefoxDetector();
     List<String> ffPaths = detector.getFilesInPathInternet(aCase.getEvidenceSourceLocation());
     
     if (ffPaths.isEmpty()) {
-        showErrorMessage("Cannot Found Any FireFox Files", "Error");
+        GuiUtil.showErrorMessage(this, "Cannot Found Any FireFox Files", "Error");
         return;
     }
+    
     ffSummaryButtton.setEnabled(true);
     bookmarButton.setEnabled(true);
     cookiesButton.setEnabled(true);
@@ -1598,12 +1387,9 @@ private void loadFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     webHistoryButton.setEnabled(true);
     
     for (String path : ffPaths) {
-        System.out.println(path);
         ffComboBox.addItem(path);
     }
-    
-    
-        
+
         
 }//GEN-LAST:event_loadFFButtonActionPerformed
 
@@ -1777,73 +1563,43 @@ private void IEFilterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//
 }//GEN-LAST:event_IEFilterComboBoxActionPerformed
 
 private void IEWebHistoryTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IEWebHistoryTableMousePressed
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( IEWebHistoryTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.IEWebHistoryTable, evt);
 }//GEN-LAST:event_IEWebHistoryTableMousePressed
 
 private void IEWebHistoryTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IEWebHistoryTableMouseReleased
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( IEWebHistoryTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.IEWebHistoryTable, evt);
 }//GEN-LAST:event_IEWebHistoryTableMouseReleased
 
 private void IEBookmarkTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IEBookmarkTableMousePressed
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( IEBookmarkTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.IEBookmarkTable, evt);
 }//GEN-LAST:event_IEBookmarkTableMousePressed
 
 private void IEBookmarkTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IEBookmarkTableMouseReleased
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( IEBookmarkTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.IEBookmarkTable, evt);
 }//GEN-LAST:event_IEBookmarkTableMouseReleased
 
 private void IECookiesTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IECookiesTableMousePressed
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( IECookiesTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.IECookiesTable, evt);
 }//GEN-LAST:event_IECookiesTableMousePressed
 
 private void IECookiesTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IECookiesTableMouseReleased
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( IECookiesTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.IECookiesTable, evt);
 }//GEN-LAST:event_IECookiesTableMouseReleased
 
 private void IECacheTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IECacheTableMousePressed
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( IECacheTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.IECacheTable, evt);
 }//GEN-LAST:event_IECacheTableMousePressed
 
 private void IECacheTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IECacheTableMouseReleased
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( IECacheTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.IECacheTable, evt);
 }//GEN-LAST:event_IECacheTableMouseReleased
 
 private void IELogginsTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IELogginsTableMousePressed
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( IELogginsTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.IELogginsTable, evt);
 }//GEN-LAST:event_IELogginsTableMousePressed
 
 private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IELogginsTableMouseReleased
-        if ( (evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( IELogginsTable.isEnabled() )
-                showPopup(evt);
-        }
+    this.showPopUpForTableIfEnabled(this.IELogginsTable, evt);
 }//GEN-LAST:event_IELogginsTableMouseReleased
 
     private void loadIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadIEButtonActionPerformed
@@ -1853,7 +1609,7 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
         List<String> iePaths = detector.getFilesInPathInternet(aCase.getEvidenceSourceLocation());
 
         if (iePaths.isEmpty()) {
-            showErrorMessage("Cannot Found Any IE Files","Error");
+            GuiUtil.showErrorMessage(this, "Cannot Found Any IE Files","Error");
             return;
         }
         cacheButton.setEnabled(true);
@@ -1867,9 +1623,8 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
         
       
     }//GEN-LAST:event_loadIEButtonActionPerformed
-  private void showErrorMessage(String msg, String title) {       
-        JOptionPane.showMessageDialog(this, msg, title, JOptionPane.ERROR_MESSAGE);
-    }
+
+    
 private void ffComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ffComboBoxActionPerformed
 // TODO add your handling code here:
 }//GEN-LAST:event_ffComboBoxActionPerformed
@@ -1943,33 +1698,6 @@ private void ffComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
 
         return result ;
-    }
-
-    private void showPopup (java.awt.event.MouseEvent event) {
-        final JTable table = (JTable) event.getSource();
-        JPopupMenu popup = new JPopupMenu();
-        JButton btn = new JButton("Export to CSV File");
-        
-        btn.addActionListener( new java.awt.event.ActionListener() {
-            public void actionPerformed (java.awt.event.ActionEvent event) {
-                try {
-                    GUIFileFilter ffFilter = new GUIFileFilter("Comma Seperated Value","CSV");
-                    fileChooser.setFileFilter(ffFilter);
-
-                    int result = fileChooser.showSaveDialog(null);
-
-                    if ( result == JFileChooser.APPROVE_OPTION) {
-                        String name = fileChooser.getSelectedFile().getAbsolutePath();
-                        JTableUtil.exportJTable(table,name);
-                    }
-                }
-                catch (Exception e){
-                }
-            }
-        });
-
-        popup.add(btn);
-        table.setComponentPopupMenu(popup);
     }
 
     public void fillWebHistoryTable (String path) throws SQLException,ClassNotFoundException, InstantiationException,
@@ -2255,92 +1983,6 @@ private void ffComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private void resetInternetSurfing (JTextField f, JComboBox box){
         f.setText("");
         box.setSelectedIndex(0);
-    }
-
-    private void showPopupWithLunch (java.awt.event.MouseEvent event) {
-        final JTable table = (JTable) event.getSource();
-        JPopupMenu popup = new JPopupMenu();
-
-        // select table row with right click
-        // get the coordinates of the mouse click
-        java.awt.Point p = event.getPoint();
-
-        // get the row index that contains that coordinate
-        int rowNumber = table.rowAtPoint( p );
-
-        // Get the ListSelectionModel of the JTable
-        ListSelectionModel model = table.getSelectionModel();
-
-        // set the selected interval of rows. Using the "rowNumber"
-        // variable for the beginning and end selects only that one row.
-        model.setSelectionInterval( rowNumber, rowNumber );
-
-        // add export item
-        JButton btn = new JButton("Export to CSV File");
-        btn.addActionListener( new java.awt.event.ActionListener() {
-            public void actionPerformed (java.awt.event.ActionEvent event) {
-                try {
-                    GUIFileFilter ffFilter = new GUIFileFilter("Comma Seperated Value","CSV");
-                    fileChooser.setFileFilter(ffFilter);
-
-                    int result = fileChooser.showSaveDialog(null);
-
-                    if ( result == JFileChooser.APPROVE_OPTION) {
-                        String name = fileChooser.getSelectedFile().getAbsolutePath();
-                        JTableUtil.exportJTable(table,name);
-                    }
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        // add copy item
-        JButton copyBtn = new JButton("Copy URL");
-        copyBtn.addActionListener( new java.awt.event.ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                int row = table.getSelectedRow();
-                String data = (String) table.getValueAt(row, 0);
-                Utilities.setToClipBoard(data);
-            }
-        });
-
-        // add lunch browser
-        JButton lunchBtn = new JButton("Lunch Browser");
-        lunchBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed (ActionEvent event){
-                Desktop desktop = null ;
-
-                if (Desktop.isDesktopSupported()) {
-                    desktop = Desktop.getDesktop();
-
-                    if ( desktop.isSupported(Desktop.Action.BROWSE) ) {
-                        try {
-                            int row = table.getSelectedRow();
-                            String data = (String) table.getValueAt(row, 0);
-               
-                            java.net.URI uri = new java.net.URI(data);
-                            desktop.browse(uri);
-                        }
-                        catch (URISyntaxException e) {
-                            e.printStackTrace();
-                        }
-                        catch (IOException e){
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
-        
-
-        popup.add(btn);
-        popup.add(copyBtn);
-        popup.add(lunchBtn);
-        
-        table.setComponentPopupMenu(popup);
     }
 
     private void disableNotIndexedComponent () {

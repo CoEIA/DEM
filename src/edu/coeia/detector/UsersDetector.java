@@ -96,8 +96,4 @@ public class UsersDetector implements AutoDetection {
 
         return iePaths;
     }
-
-    public List<String> getFilesInPath(String path) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

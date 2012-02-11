@@ -11,7 +11,6 @@ package edu.coeia.internet;
  *
  */
 
-
 import java.sql.Connection ;
 import java.sql.DriverManager ;
 import java.sql.Statement ;
@@ -265,8 +264,6 @@ public class MozillaHandler {
     }
 
     private Connection connection ;
-    
-    //private static final String path = FilesPath.MOZILLA_PATH ;
 
     public static final String PLCASES_DB =  "places.sqlite" ;
     public static final String COOKIES_DB =  "cookies.sqlite" ;

@@ -51,6 +51,10 @@ final class IndexerFactory {
                 indexer = getChatIndexer(luceneIndex, file);
             }
             
+            else if ( isInternetPath(file.getAbsolutePath()) )  {
+                indexer = getInternetIndexer(luceneIndex, file);
+            }
+            
             // if its outlook file, then call offline email indexer
             else if ( isOutlookFile(mime, file.getAbsolutePath()) ) {
                 indexer = OutlookIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor());
@@ -90,6 +94,10 @@ final class IndexerFactory {
         return indexer;
     }
     
+    public static boolean isInternetPath(final String path) {
+        return isValidIEFile(path) || isValidFirefoxFile(path);
+    }
+    
     public static boolean isChatPath(String path) {
         return isValidMSNChatFile(path) 
                 || isValidSkypeChatFile(path) 
@@ -122,6 +130,25 @@ final class IndexerFactory {
         }
         
         return indexer;
+    }
+    
+    private static Indexer getInternetIndexer(final LuceneIndex index, final File file) {
+        String path = file.getAbsolutePath();
+        Indexer indexer = null;
+        
+        return indexer;
+    }
+    
+    private static boolean isValidIEFile(final String path) {
+        return false;
+    }
+    
+    private static boolean isValidFirefoxFile(final String path) {
+        return 
+            ( path.contains("\\Application Data\\Mozilla\\Firefox\\Profiles") ||
+                path.contains( "\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles") ) &&
+            path.endsWith(".default") &&
+            new File(path).isDirectory() ;
     }
     
     /**

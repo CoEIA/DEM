@@ -38,6 +38,7 @@ public class MSNMessage extends ChatMessage{
                 this.getFrom(), this.getTo(), this.getMessage());
     }
 
+    @Override
     public String getDate() {
         return this.date;
     }

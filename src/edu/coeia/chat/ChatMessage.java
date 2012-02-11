@@ -8,7 +8,8 @@ package edu.coeia.chat;
  *
  * @author wajdyessam
  */
-public class ChatMessage {
+
+public abstract class ChatMessage {
     private final String from;
     private final String to;
     private final String date; 
