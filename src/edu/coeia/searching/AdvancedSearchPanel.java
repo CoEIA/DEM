@@ -10,7 +10,6 @@
  */
 package edu.coeia.searching;
 
-import edu.coeia.constants.ApplicationConstants ;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.items.Item;
 import edu.coeia.items.ItemFactory;

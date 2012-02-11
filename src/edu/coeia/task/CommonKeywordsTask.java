@@ -9,17 +9,26 @@ import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.investigation.CommonKeywordsPanel;
 import edu.coeia.constants.ApplicationConstants;
 
+import edu.coeia.gutil.JTableUtil;
+import groovy.model.DefaultTableModel;
 import java.io.File;
 import java.io.IOException;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import java.util.Set;
+import java.util.logging.Level;
+import javax.swing.JOptionPane;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermEnum;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.mcavallo.opencloud.Cloud;
+import org.mcavallo.opencloud.Tag;
 
 /**
  *
@@ -44,7 +53,7 @@ public class CommonKeywordsTask implements Task{
     @Override
     public void doTask() throws Exception {
         Map<String, Integer> commonKeywordsMap = this.getAllTermFreqFromBody();
-        this.panel.setTags(commonKeywordsMap);
+        this.setTags(commonKeywordsMap);
     }
     
     @Override
@@ -78,5 +87,67 @@ public class CommonKeywordsTask implements Task{
 
         te.close();
         return map ;
+    }
+    
+    private void setTags(Map<String, Integer> tagsMap) {
+
+        int excludeNumber = Integer.parseInt(this.panel.getTagsExclude().getText().trim());
+        int tagsNumber = Integer.parseInt(this.panel.getTagsNumber().getText().trim());
+
+        if (excludeNumber < 0) {
+            JOptionPane.showMessageDialog(this.panel, 
+                    "number is not correct", "please enter valid integer", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (tagsNumber < 0) {
+            JOptionPane.showMessageDialog(this.panel, 
+                    "number is not correct", "please enter valid integer", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (tagsNumber > tagsMap.size()) {
+            JOptionPane.showMessageDialog(this.panel, "number is greater than words in index",
+                    "Too Much Input", JOptionPane.ERROR_MESSAGE);
+            this.panel.getTagsNumber().setText((tagsMap.size() / 3) + "");
+            return;
+        }
+        
+        // create cloud
+        Cloud cloud = new Cloud();
+        cloud.setMaxWeight(50.0);
+        cloud.setThreshold(excludeNumber); //show just tags with this number
+        cloud.setMaxTagsToDisplay(tagsNumber);
+
+        Set set = tagsMap.entrySet();
+        Iterator itr = set.iterator();
+        while (itr.hasNext()) {
+            Map.Entry me = (Map.Entry) itr.next();
+
+            String text = (String) me.getKey();
+            int value = (Integer) me.getValue();
+
+            Object[] data = new Object[]{text, value};
+            JTableUtil.addRowToJTable(this.panel.getCloudTable(), data);
+            Tag tag = new Tag(text, value);
+            tag.setLink("Term: " + text + " Frequnecy: " + value);
+            tag.setScore(value);
+
+            cloud.addTag(tag);
+        }
+
+        List<Tag> tags = null;
+
+        if (this.panel.getTagsDisplayMode().getSelectedIndex() == 0) {
+            tags = cloud.tags(new Tag.NameComparatorAsc());
+        } else if (this.panel.getTagsDisplayMode().getSelectedIndex() == 1) {
+            tags = cloud.tags(new Tag.NameComparatorDesc());
+        } else if (this.panel.getTagsDisplayMode().getSelectedIndex() == 2) {
+            tags = cloud.tags(new Tag.ScoreComparatorAsc());
+        } else if (this.panel.getTagsDisplayMode().getSelectedIndex() == 3) {
+            tags = cloud.tags(new Tag.ScoreComparatorDesc());
+        }
+        
+        this.panel.renderTags(tags);
     }
 }

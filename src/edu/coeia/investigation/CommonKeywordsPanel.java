@@ -15,46 +15,39 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.WrapLayout;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.reports.DatasourceXml;
-import edu.coeia.reports.RawResultFile;
-import edu.coeia.reports.ReportOptionDialog;
 import edu.coeia.searching.AdvancedSearchPanel;
 import edu.coeia.searching.InvestigateDialog;
 import edu.coeia.task.CommonKeywordsTask;
-
 import edu.coeia.util.ApplicationLogging;
-import java.awt.event.InputEvent;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import java.io.IOException;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.JLabel;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import java.util.List;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-import org.mcavallo.opencloud.Cloud;
 import org.mcavallo.opencloud.Tag;
+
 /**
  *
  * @author wajdyessam
  */
-public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable {
 
-    private Case caseObj;
-    private InvestigateDialog parentDialog;
-    private AdvancedSearchPanel advancedSearchPanel;
-    
+public class CommonKeywordsPanel extends javax.swing.JPanel {
+    private final Case caseObj;
+    private final InvestigateDialog parentDialog;
+    private final AdvancedSearchPanel advancedSearchPanel;
     private final static Logger logger = ApplicationLogging.getLogger();
-    private Thread thread;
+    private final CaseFacade caseFacade ;
     
     /** Creates new form CommonKeywordsPanel */
     public CommonKeywordsPanel(final InvestigateDialog dialog, final AdvancedSearchPanel panel) {
@@ -63,13 +56,12 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
         this.parentDialog = dialog;
         this.caseObj = this.parentDialog.getCaseFacade().getCase();
         this.advancedSearchPanel = panel;
+        this.caseFacade = this.parentDialog.getCaseFacade();
         
         JTableUtil.setTableAlignmentValue(cloudsTable, 1);
 
-        tagsPanel.setLayout(new WrapLayout());
-        cloudsFilterTextField.getDocument().addDocumentListener(new CloudsInputListener());
-        
-        this.disableNotIndexedComponent();
+        this.tagsPanel.setLayout(new WrapLayout());
+        this.cloudsFilterTextField.getDocument().addDocumentListener(new CloudsInputListener());
     }
 
     /** This method is called from within the constructor to
@@ -91,7 +83,6 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
         tagsExcludeTextField = new javax.swing.JTextField();
         jLabel37 = new javax.swing.JLabel();
         tagsDisplayComboBox = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jScrollPane10 = new javax.swing.JScrollPane();
@@ -129,23 +120,11 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
         jLabel36.setText("Exclude Keywords Less Than:");
 
         tagsExcludeTextField.setText("1");
-        tagsExcludeTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tagsExcludeTextFieldActionPerformed(evt);
-            }
-        });
 
         jLabel37.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel37.setText("Display Type:");
 
         tagsDisplayComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Alphabetically Sort - Ascending", "Alphabetically Sort - descending ", "Score Sort - Ascending", "Score Sort - descending" }));
-
-        jButton1.setText("Generate Report");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -164,31 +143,23 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
                         .addComponent(jLabel36)
                         .addGap(18, 18, 18)
                         .addComponent(tagsExcludeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(tagsDisplayComboBox, 0, 324, Short.MAX_VALUE))
+                    .addComponent(tagsDisplayComboBox, 0, 357, Short.MAX_VALUE))
                 .addGap(19, 19, 19)
                 .addComponent(tagSelectButton))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                .addGap(494, 494, 494)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel15Layout.createSequentialGroup()
-                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabel2)
-                            .addComponent(tagsNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel36)
-                            .addComponent(tagsExcludeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel37)
-                            .addComponent(tagsDisplayComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(tagSelectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel2)
+                    .addComponent(tagsNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel36)
+                    .addComponent(tagsExcludeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel37)
+                    .addComponent(tagsDisplayComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addComponent(tagSelectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         textCloudsPanel.add(jPanel15, java.awt.BorderLayout.NORTH);
@@ -212,7 +183,7 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
 
         jScrollPane22.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        cloudsTable.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        cloudsTable.setFont(new java.awt.Font("Tahoma", 1, 11));
         cloudsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -259,18 +230,18 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
+                    .addComponent(jScrollPane22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 729, Short.MAX_VALUE)
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addComponent(jLabel33)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cloudsFilterTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)))
+                        .addComponent(cloudsFilterTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel19Layout.setVerticalGroup(
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
@@ -285,13 +256,13 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -307,128 +278,42 @@ public class CommonKeywordsPanel extends javax.swing.JPanel implements Runnable 
             generateTextCloud();
         } 
         catch(Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Cannot Generate Tag Clouds", e);
         }
     }//GEN-LAST:event_tagSelectButtonActionPerformed
 
-    private void tagsExcludeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tagsExcludeTextFieldActionPerformed
-
-    }//GEN-LAST:event_tagsExcludeTextFieldActionPerformed
-
     private void cloudsTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cloudsTableMousePressed
-        showPopUp(evt);
+        GuiUtil.showPopUpForTableIfEnabled(this.cloudsTable, evt);
     }//GEN-LAST:event_cloudsTableMousePressed
 
     private void cloudsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cloudsTableMouseReleased
-        showPopUp(evt);
+        GuiUtil.showPopUpForTableIfEnabled(this.cloudsTable, evt);
     }//GEN-LAST:event_cloudsTableMouseReleased
-
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// TODO add your handling code here:
-    int rows = cloudsTable.getRowCount();
-    if (rows <= 0) {
-        JOptionPane.showMessageDialog(this, "No Analaysis has been Performed", " Error Generating Report", JOptionPane.INFORMATION_MESSAGE);
-        return;
-    }
-    thread = new Thread(this);
-    thread.start();
- 
-
-}//GEN-LAST:event_jButton1ActionPerformed
-
-    
-    private void showPopUp(java.awt.event.MouseEvent evt) {
-        if ((evt.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0) {
-            if (cloudsTable.isEnabled()) {
-                GuiUtil.showPopup(evt);
-            }
-        }
-    }
         
-    private void generateTextCloud() throws IOException {
-        try {
-            CaseFacade caseFacade = CaseFacade.newInstance(this.caseObj);
-            if ( ! caseFacade.getCaseHistory().getIsCaseIndexed() ) {
-                JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
-                        "Case is not indexed",JOptionPane.ERROR_MESSAGE );
-                return ;
-            }
-
-            // remove data
-            JTableUtil.removeAllRows(cloudsTable);
-            tagsPanel.removeAll();
-
-            CommonKeywordsTask task = new CommonKeywordsTask(caseObj, this);
-            task.startTask();
-            
-            tagsPanel.repaint();
-        } catch (NumberFormatException n) {
-            JOptionPane.showMessageDialog(this, "number is not correct",
-                    "integer number is no correct", JOptionPane.ERROR_MESSAGE);
-            logger.log(Level.SEVERE, "Uncaught exception", n);
+    private void generateTextCloud(){
+        if ( !caseFacade.getCaseHistory().getIsCaseIndexed() ) {
+            JOptionPane.showMessageDialog(this, "please do the indexing operation first before do any operation",
+                    "Case is not indexed",JOptionPane.ERROR_MESSAGE );
+            return ;
         }
+
+        CommonKeywordsTask task = new CommonKeywordsTask(caseObj, this);
+        task.startTask();
+        
+//        try {
+//
+//            
+//        } catch (NumberFormatException n) {
+//            JOptionPane.showMessageDialog(this, "number is not correct",
+//                    "integer number is no correct", JOptionPane.ERROR_MESSAGE);
+//            logger.log(Level.SEVERE, "Uncaught exception", n);
+//        }
     }
     
-    public void setTags(Map<String, Integer> tagsMap) {
-        int excludeNumber = Integer.parseInt(tagsExcludeTextField.getText().trim());
-        int tagsNumber = Integer.parseInt(tagsNumberTextField.getText().trim());
-
-        if (excludeNumber < 0) {
-            logger.log(Level.INFO, "exlude number less than zero");
-            JOptionPane.showMessageDialog(this, "number is not correct", "please enter valid integer", JOptionPane.ERROR_MESSAGE);
-
-            return;
-        }
-
-        if (tagsNumber < 0) {
-            logger.log(Level.INFO, "tags number less than zero");
-            JOptionPane.showMessageDialog(this, "number is not correct", "please enter valid integer", JOptionPane.ERROR_MESSAGE);
-
-            return;
-        }
-
-        if (tagsNumber > tagsMap.size()) {
-            JOptionPane.showMessageDialog(this, "number is greater than words in index",
-                    "Too Much Input", JOptionPane.ERROR_MESSAGE);
-            tagsNumberTextField.setText((tagsMap.size() / 3) + "");
-            return;
-        }
-
-        // create cloud
-        Cloud cloud = new Cloud();
-        cloud.setMaxWeight(50.0);
-        cloud.setThreshold(excludeNumber); //show just tags with this number
-        cloud.setMaxTagsToDisplay(tagsNumber);
-
-        Set set = tagsMap.entrySet();
-        Iterator itr = set.iterator();
-        while (itr.hasNext()) {
-            Map.Entry me = (Map.Entry) itr.next();
-
-            String text = (String) me.getKey();
-            int value = (Integer) me.getValue();
-
-            ((DefaultTableModel) cloudsTable.getModel()).addRow(new Object[]{text, value});
-
-            Tag tag = new Tag(text, value);
-            tag.setLink("Term: " + text + " Frequnecy: " + value);
-            tag.setScore(value);
-
-            cloud.addTag(tag);
-        }
-
-        List<Tag> tags = null;
-
-        if (tagsDisplayComboBox.getSelectedIndex() == 0) {
-            tags = cloud.tags(new Tag.NameComparatorAsc());
-        } else if (tagsDisplayComboBox.getSelectedIndex() == 1) {
-            tags = cloud.tags(new Tag.NameComparatorDesc());
-        } else if (tagsDisplayComboBox.getSelectedIndex() == 2) {
-            tags = cloud.tags(new Tag.ScoreComparatorAsc());
-        } else if (tagsDisplayComboBox.getSelectedIndex() == 3) {
-            tags = cloud.tags(new Tag.ScoreComparatorDesc());
-        }
-
+    public void renderTags(final List<Tag> tags) {
+        JTableUtil.removeAllRows(cloudsTable);
+        this.tagsPanel.removeAll();
+            
         for (Tag tag : tags) {
             JLabel lbl = new JLabel(tag.getName());
             lbl.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, tag.getWeightInt()));
@@ -455,30 +340,30 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             lbl.setToolTipText(tag.getName() + " repeated: " + tag.getScoreInt());
             lbl.setForeground(java.awt.Color.BLUE.darker());
             lbl.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-            tagsPanel.add(lbl);
-            lbl = null;
+            this.tagsPanel.add(lbl);
         }
+        
+        this.tagsPanel.repaint();
     }
-
+    
     private void closeDialog() {
         this.parentDialog.dispose();
     }
     
-    public void filterCloudTable() {
+    private void filterCloudTable() {
         String text = cloudsFilterTextField.getText().trim();
         JTableUtil.filterTable(cloudsTable, text);
     }
 
-    public void run() {
-        
-        jButton1.setEnabled(false);
-        DatasourceXml objXmlSource = new DatasourceXml();
-        objXmlSource = RawResultFile.getTextClouds(cloudsTable, caseObj);
-        ReportOptionDialog dialogue = new ReportOptionDialog(caseObj);
-        dialogue.SetDataSource(objXmlSource);
-        dialogue.RunProgressDialogue();
-        jButton1.setEnabled(true);
-    }
+//    public void run() {
+//        jButton1.setEnabled(false);
+//        DatasourceXml objXmlSource = new DatasourceXml();
+//        objXmlSource = RawResultFile.getTextClouds(cloudsTable, caseObj);
+//        ReportOptionDialog dialogue = new ReportOptionDialog(caseObj);
+//        dialogue.SetDataSource(objXmlSource);
+//        dialogue.RunProgressDialogue();
+//        jButton1.setEnabled(true);
+//    }
 
     private class CloudsInputListener implements DocumentListener {
         public void changedUpdate(DocumentEvent e) {
@@ -493,18 +378,15 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
     }
     
-    private void disableNotIndexedComponent() {
-//        if (caseObj.getDocumentInIndex().isEmpty()) {
-//            tagSelectButton.setEnabled(false);
-//            cloudsTable.setEnabled(false);
-//        }
-    }
+    public JComboBox getTagsDisplayMode() { return this.tagsDisplayComboBox; }
+    public JTextField getTagsNumber() { return this.tagsNumberTextField; }
+    public JTextField getTagsExclude() { return this.tagsExcludeTextField; }
+    public JTable getCloudTable() { return this.cloudsTable; }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cloudsFilterTextField;
     private javax.swing.JTable cloudsTable;
     private javax.swing.JPanel commonKeywordPanel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel36;

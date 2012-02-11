@@ -23,6 +23,8 @@ import java.awt.CardLayout ;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import java.net.URISyntaxException;
@@ -53,6 +55,13 @@ public class GuiUtil {
         }
     }
     
+    public static void showPopUpForTableIfEnabled(final JTable table, final MouseEvent event) {
+        if ( (event.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
+            if ( table.isEnabled() )
+                GuiUtil.showPopup(event);
+        }
+    }
+        
     public static void showPopup (java.awt.event.MouseEvent event) {
         final JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);

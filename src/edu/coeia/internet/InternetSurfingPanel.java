@@ -20,8 +20,6 @@ import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.FileUtil;
 
 import java.awt.Desktop ;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JTextField ;
 import javax.swing.JComboBox ;
@@ -29,7 +27,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JFrame ;
 import javax.swing.event.DocumentEvent ;
 import javax.swing.event.DocumentListener ;
-import javax.swing.JTable;
 
 import java.io.File ;
 import java.io.IOException ;
@@ -1211,43 +1208,43 @@ private void logginsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_logginsButtonActionPerformed
 
 private void webHistoryTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_webHistoryTableMousePressed
-    this.showPopUpForTableIfEnabled(this.webHistoryTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.webHistoryTable, evt);
 }//GEN-LAST:event_webHistoryTableMousePressed
 
 private void webHistoryTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_webHistoryTableMouseReleased
-    this.showPopUpForTableIfEnabled(this.webHistoryTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.webHistoryTable, evt);
 }//GEN-LAST:event_webHistoryTableMouseReleased
 
 private void bookmarkTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bookmarkTableMousePressed
-    this.showPopUpForTableIfEnabled(this.bookmarkTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.bookmarkTable, evt);
 }//GEN-LAST:event_bookmarkTableMousePressed
 
 private void bookmarkTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bookmarkTableMouseReleased
-    this.showPopUpForTableIfEnabled(this.bookmarkTable, evt);   
+    GuiUtil.showPopUpForTableIfEnabled(this.bookmarkTable, evt);   
 }//GEN-LAST:event_bookmarkTableMouseReleased
 
 private void cookiesTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cookiesTableMousePressed
-    this.showPopUpForTableIfEnabled(this.cookiesTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.cookiesTable, evt);
 }//GEN-LAST:event_cookiesTableMousePressed
 
 private void cookiesTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cookiesTableMouseReleased
-    this.showPopUpForTableIfEnabled(this.cookiesTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.cookiesTable, evt);
 }//GEN-LAST:event_cookiesTableMouseReleased
 
 private void downloadTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_downloadTableMousePressed
-    this.showPopUpForTableIfEnabled(this.downloadTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.downloadTable, evt);
 }//GEN-LAST:event_downloadTableMousePressed
 
 private void downloadTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_downloadTableMouseReleased
-    this.showPopUpForTableIfEnabled(this.downloadTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.downloadTable, evt);
 }//GEN-LAST:event_downloadTableMouseReleased
 
 private void logginsTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logginsTableMousePressed
-    this.showPopUpForTableIfEnabled(this.logginsTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.logginsTable, evt);
 }//GEN-LAST:event_logginsTableMousePressed
 
 private void logginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logginsTableMouseReleased
-    this.showPopUpForTableIfEnabled(this.logginsTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.logginsTable, evt);
 }//GEN-LAST:event_logginsTableMouseReleased
 
 private void ffViewHTMLReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ffViewHTMLReportButtonActionPerformed
@@ -1555,43 +1552,43 @@ private void IEFilterComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//
 }//GEN-LAST:event_IEFilterComboBoxActionPerformed
 
 private void IEWebHistoryTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IEWebHistoryTableMousePressed
-    this.showPopUpForTableIfEnabled(this.IEWebHistoryTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.IEWebHistoryTable, evt);
 }//GEN-LAST:event_IEWebHistoryTableMousePressed
 
 private void IEWebHistoryTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IEWebHistoryTableMouseReleased
-    this.showPopUpForTableIfEnabled(this.IEWebHistoryTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.IEWebHistoryTable, evt);
 }//GEN-LAST:event_IEWebHistoryTableMouseReleased
 
 private void IEBookmarkTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IEBookmarkTableMousePressed
-    this.showPopUpForTableIfEnabled(this.IEBookmarkTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.IEBookmarkTable, evt);
 }//GEN-LAST:event_IEBookmarkTableMousePressed
 
 private void IEBookmarkTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IEBookmarkTableMouseReleased
-    this.showPopUpForTableIfEnabled(this.IEBookmarkTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.IEBookmarkTable, evt);
 }//GEN-LAST:event_IEBookmarkTableMouseReleased
 
 private void IECookiesTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IECookiesTableMousePressed
-    this.showPopUpForTableIfEnabled(this.IECookiesTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.IECookiesTable, evt);
 }//GEN-LAST:event_IECookiesTableMousePressed
 
 private void IECookiesTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IECookiesTableMouseReleased
-    this.showPopUpForTableIfEnabled(this.IECookiesTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.IECookiesTable, evt);
 }//GEN-LAST:event_IECookiesTableMouseReleased
 
 private void IECacheTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IECacheTableMousePressed
-    this.showPopUpForTableIfEnabled(this.IECacheTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.IECacheTable, evt);
 }//GEN-LAST:event_IECacheTableMousePressed
 
 private void IECacheTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IECacheTableMouseReleased
-    this.showPopUpForTableIfEnabled(this.IECacheTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.IECacheTable, evt);
 }//GEN-LAST:event_IECacheTableMouseReleased
 
 private void IELogginsTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IELogginsTableMousePressed
-    this.showPopUpForTableIfEnabled(this.IELogginsTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.IELogginsTable, evt);
 }//GEN-LAST:event_IELogginsTableMousePressed
 
 private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IELogginsTableMouseReleased
-    this.showPopUpForTableIfEnabled(this.IELogginsTable, evt);
+    GuiUtil.showPopUpForTableIfEnabled(this.IELogginsTable, evt);
 }//GEN-LAST:event_IELogginsTableMouseReleased
 
     private void loadIEButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadIEButtonActionPerformed
@@ -1935,13 +1932,6 @@ private void ffComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                  object[j] = str[j] ;
             
             ( (DefaultTableModel) IELogginsTable.getModel() ).addRow(object);
-        }
-    }
-    
-    private void showPopUpForTableIfEnabled(final JTable table, final MouseEvent event) {
-        if ( (event.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK ) != 0 ) {
-            if ( table.isEnabled() )
-                GuiUtil.showPopup(event);
         }
     }
         
