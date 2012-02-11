@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.FileHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -27,6 +28,8 @@ final class CaseAuditing {
     private final Case aCase ;
     private final String logPath;
     
+    private FileHandler fileHandler;
+    
     public CaseAuditing(final Case aCase, final String path) {
         this.aCase = aCase;
         this.logPath = path;
@@ -36,7 +39,7 @@ final class CaseAuditing {
         logger.setUseParentHandlers(false);
         logger.setLevel(Level.ALL);
         
-        FileHandler fileHandler = new FileHandler(this.logPath, true);
+        fileHandler = new FileHandler(this.logPath, true);
         fileHandler.setFormatter(new AuditingFormatter());
         logger.addHandler(fileHandler);
     }
@@ -68,6 +71,12 @@ final class CaseAuditing {
             buffer.append("\n");
 
             return buffer.toString();
+        }
+    }
+    
+    public void close() {
+        for(Handler handler: logger.getHandlers()) {
+            handler.close();
         }
     }
 }

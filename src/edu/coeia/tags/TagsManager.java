@@ -35,7 +35,7 @@ final public class TagsManager {
      * @param dbLocation is the database location inside the case
      * @return TagsManager for this case
      */
-    public static TagsManager getTagsManager(String dbLocation) {
+    public static TagsManager getTagsManager(String dbLocation) throws Exception {
         checkNull("Case location must have a value", dbLocation);
         checkNotEmptyString("Case Location must not be empty string", dbLocation);
         
@@ -99,17 +99,11 @@ final public class TagsManager {
      * private constructor
      * create new database and then read tags to tags list
      */
-    private TagsManager(String dbLocation) {
+    private TagsManager(String dbLocation) throws Exception {
         this.tags = new ArrayList<Tag>();
         this.tagsCopy = new ArrayList<Tag>();
         
-        try {
-            this.tagsDataBase = TagsDBHandler.newInstance(dbLocation);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        
+        this.tagsDataBase = TagsDBHandler.newInstance(dbLocation);
         this.tags.addAll(this.tagsDataBase.readTagsFromDataBase());
         this.updateMonitorChangingList();
     }

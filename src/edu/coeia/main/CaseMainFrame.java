@@ -565,14 +565,18 @@ public class CaseMainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_caseVerificationMenuItemActionPerformed
     
     private void loadTags() {
-        tagsManager = TagsManager.getTagsManager(caseFacade.getTagDatabaseLocation());
-        logger.info("loading tags complete");
-//        new Thread(new Runnable() { 
-//            @Override
-//            public void run() {
-//                tagsManager = TagsManager.getTagsManager(caseFacade.getTagDatabaseLocation());
-//            }
-//        }).start();
+        try {
+            tagsManager = TagsManager.getTagsManager(caseFacade.getTagDatabaseLocation());
+            logger.info("loading tags complete");
+    //        new Thread(new Runnable() { 
+    //            @Override
+    //            public void run() {
+    //                tagsManager = TagsManager.getTagsManager(caseFacade.getTagDatabaseLocation());
+    //        }).start();
+    //        }).start();
+        } catch (Exception ex) {
+            Logger.getLogger(CaseMainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void emailDownloaderAction() {

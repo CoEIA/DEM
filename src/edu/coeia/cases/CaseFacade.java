@@ -77,6 +77,8 @@ public final class CaseFacade {
      * @throws Exception 
      */
     public boolean removeCase() throws Exception {
+        this.caseAuditing.close();
+        
         boolean status = FileUtil.removeDirectory(this.getCaseFolderLocation());
         
         List<String> otherCasesGroup = this.getOtherCases(this.aCase.getCaseName(), this.getCaseFolderLocation());

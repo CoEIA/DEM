@@ -8,24 +8,25 @@ import edu.coeia.cases.Case;
 import edu.coeia.indexing.IndexingConstant;
 import edu.coeia.investigation.CommonKeywordsPanel;
 import edu.coeia.constants.ApplicationConstants;
-
 import edu.coeia.gutil.JTableUtil;
+
 import java.io.File;
 import java.io.IOException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import java.util.Set;
+
 import javax.swing.JOptionPane;
+
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermEnum;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+
 import org.mcavallo.opencloud.Cloud;
 import org.mcavallo.opencloud.Tag;
 
