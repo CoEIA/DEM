@@ -63,6 +63,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         this.loggingAppearanceFlag = false;
         this.caseFacade = caseFacade;
         this.showLoggingPanel(this.loggingAppearanceFlag);
+        this.pack();
         
         // set start and end button
         resettingButtons(true);
