@@ -11,18 +11,8 @@
 package edu.coeia.reports;
 
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.reports.panels.ReportGenerator;
-
 import edu.coeia.task.ReportGeneratorTask;
-import java.awt.Desktop;
-import java.awt.EventQueue;
-
-import java.io.File;
-
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 
@@ -131,40 +121,6 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         ReportGenerator generator = (ReportGenerator) centerReportPanel;
         ReportGeneratorTask task = new ReportGeneratorTask(caseFacade, this, generator);
         task.startTask();
-        
-//        Thread thread  = new Thread(new Runnable() { 
-//            @Override
-//            public void run() {
-//                try {
-//                    //final ProgressDialogue dialogue = new ProgressDialogue(reportPanel.getCaseFrame(), true);
-//                    
-//                    EventQueue.invokeLater(new Runnable() { 
-//                        @Override
-//                        public void run() {
-//                            // open the document here
-//                            ProgressDialogue dialogue = new ProgressDialogue(reportPanel.getCaseFrame(), true);
-//                            dialogue.setVisible(true);
-//                        }
-//                    });
-//                    
-//                    ReportGenerator generator = (ReportGenerator) centerReportPanel;
-//                    generateReport(generator.generateReport());
-//                    
-////                    EventQueue.invokeLater(new Runnable() { 
-////                        @Override
-////                        public void run() {
-////                            if ( !dialogue.getStatus() )
-////                                dialogue.setVisible(false);
-////                        }
-////                    });
-//                    
-//                } catch (Exception ex) {
-//                    Logger.getLogger(ReportOptionDialog.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        });
-//        
-//        thread.start();
     }
     
     private void setCenterPanel(JPanel panel) {
@@ -173,8 +129,6 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         this.centerPanel.revalidate();
         this.repaint();
     }
-    
-
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cencelButton;

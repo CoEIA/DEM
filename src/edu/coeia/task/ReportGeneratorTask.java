@@ -12,10 +12,11 @@ import edu.coeia.reports.ReportOptionDialog;
 import edu.coeia.reports.panels.ReportGenerator;
 
 import java.awt.Desktop;
-
 import java.awt.EventQueue;
+
 import java.io.File;
 import java.io.IOException;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
