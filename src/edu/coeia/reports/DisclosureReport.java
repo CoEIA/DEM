@@ -37,17 +37,16 @@ public class DisclosureReport {
     public static String REPORTFOLDER = "\\Reports\\";
 
     public enum REPORT_TYPE {
-
         PDF, WORD, HTML, RTF, CSV, XLS, XML
     };
 
     public enum DATASOURCE_TYPE {
-
         XML, MYSQL, CSV
     };
+    
     private REPORT_TYPE m_ReportType = REPORT_TYPE.PDF;
-    ;
-   private DATASOURCE_TYPE m_DataSource = DATASOURCE_TYPE.XML;
+    
+    private DATASOURCE_TYPE m_DataSource = DATASOURCE_TYPE.XML;
 
     public void setRootXPath(String m_strRootXPath) {
         this.m_strRootXPath = m_strRootXPath;

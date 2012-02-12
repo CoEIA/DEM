@@ -38,6 +38,8 @@ public final class ApplicationConstants {
     public final static String CASE_OFFLINE_EMAIL_ATTACHMENTS_FOLDER = "OFFLINE_EMAIL_ATTACHMENTS";
     public final static String CASE_EMAIL_DB_FOLDER = "ONELINE_EMAILS_DATABASE" ;
     public final static String CASE_INDEX_FOLDER = "THE_INDEX" ;
+    public final static String CASE_ROW_REPORT_FOLDER = "RAW";
+    public final static String CASE_REPORTS_FOLDER = "Reports";
     
     // DEM path in user system
     public final static String APPLICATION_PATH = 

@@ -6,10 +6,13 @@ package edu.coeia.reports.panels;
 
 import edu.coeia.reports.DatasourceXml;
 
+import java.io.IOException;
+
 /**
  *
  * @author wajdyessam
  */
+
 public interface ReportGenerator {
-    public DatasourceXml generateReport();
+    public DatasourceXml generateReport() throws IOException;
 }

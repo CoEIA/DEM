@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  */
 public class FilesReportPanel extends javax.swing.JPanel implements ReportGenerator{
 
-    private ReportPanel reportPanel ;
+    private final ReportPanel reportPanel ;
     
     /** Creates new form ListAllFilesReportPanel */
     public FilesReportPanel(ReportPanel panel) {
@@ -33,17 +33,14 @@ public class FilesReportPanel extends javax.swing.JPanel implements ReportGenera
     }
 
     @Override
-    public DatasourceXml generateReport() {
+    public DatasourceXml generateReport() throws IOException {
         DatasourceXml objXmlSource =new DatasourceXml();
         
-        try {
-            objXmlSource = RawResultFile.getFileSystemXmlFile(
+        objXmlSource = 
+                RawResultFile.getFileSystemXmlFile(
                     IndexUtil.getAllFilePaths(this.reportPanel.getCaseFacade())
-            ,this.reportPanel.getCase());
-        } catch (IOException ex) {
-            Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+                    ,this.reportPanel.getCase()
+                );
         return objXmlSource;
     }
         

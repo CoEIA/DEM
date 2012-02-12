@@ -6,6 +6,7 @@ package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
+import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.tags.Tag;
 import edu.coeia.tags.TagsManager;
@@ -32,8 +33,9 @@ public class RawResultFile {
 
     public static DatasourceXml getExtensionFrequencyXmlFile(Map<String, Double> map, Case currentCase) {
         // iterator over map
-        String mainRawfilePath = currentCase.getCaseLocation() + "\\RAW";
-        String cookedReportFolder = currentCase.getCaseLocation() + "\\Reports";
+        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
+        
         DatasourceXml sourceXml = new DatasourceXml();
         if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
             FileUtil.createFolder(mainRawfilePath);
@@ -96,8 +98,9 @@ public class RawResultFile {
 
     public static DatasourceXml getCasesXmlFile(List<Case> cases, Case currentCase) throws IOException {
 
-        String mainRawfilePath = currentCase.getCaseLocation() + "\\RAW";
-        String cookedReportFolder = currentCase.getCaseLocation() + "\\Reports";
+        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
+        
         DatasourceXml sourceXml = new DatasourceXml();
         sourceXml.m_strJasperFile = "\\cases_report.jasper";
         sourceXml.m_strXPath = "/dem/cases/case";
@@ -151,9 +154,10 @@ public class RawResultFile {
         return sourceXml;
     }
 
-    public static DatasourceXml getFileSystemXmlFile(List<String> list, Case cases) {
-        String mainRawfilePath = cases.getCaseLocation() + "\\RAW";
-        String cookedReportFolder = cases.getCaseLocation() + "\\Reports";
+    public static DatasourceXml getFileSystemXmlFile(List<String> list, Case currentCase) {
+        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
+        
         DatasourceXml sourceXml = new DatasourceXml();
 
         if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
@@ -171,12 +175,12 @@ public class RawResultFile {
         String strOutputPath = mainRawfilePath + "\\filesystem.xml";
         String retOutput = "";
 
-        String strLocation = cases.getCaseLocation();
+        String strLocation = currentCase.getCaseLocation();
         strLocation = strLocation.replace(':', '\\');
 
         String strCaseXml = "<dem><case>"
-                + "<name>" + cases.getCaseName() + "</name>"
-                + "<author>" + cases.getDescription() + "</author>"
+                + "<name>" + currentCase.getCaseName() + "</name>"
+                + "<author>" + currentCase.getDescription() + "</author>"
                 + "<source> " + strLocation + "</source>"
                 + "</case>";
 
@@ -229,9 +233,10 @@ public class RawResultFile {
         return sourceXml;
     }
 
-    public static DatasourceXml getTaggedItems(TagsManager tags, Case cases) {
-        String mainRawfilePath = cases.getCaseLocation() + "\\RAW";
-        String cookedReportFolder = cases.getCaseLocation() + "\\Reports";
+    public static DatasourceXml getTaggedItems(TagsManager tags, Case currentCase) {
+        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
+        
         DatasourceXml sourceXml = new DatasourceXml();
 
         if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
@@ -252,8 +257,8 @@ public class RawResultFile {
 
 
         String strCaseXml = "<dem><case>"
-                + "<name>" + cases.getCaseName() + "</name>"
-                + "<author>" + cases.getDescription() + "</author>"
+                + "<name>" + currentCase.getCaseName() + "</name>"
+                + "<author>" + currentCase.getDescription() + "</author>"
                 + "<source> </source>"
                 + "</case><filetags>";
 
@@ -282,9 +287,10 @@ public class RawResultFile {
         return sourceXml;
     }
 
-    public static DatasourceXml getSignatureItems(JTable Table, Case cases) {
-        String mainRawfilePath = cases.getCaseLocation() + "\\RAW";
-        String cookedReportFolder = cases.getCaseLocation() + "\\Reports";
+    public static DatasourceXml getSignatureItems(JTable Table, Case currentCase) {
+        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
+        
         DatasourceXml sourceXml = new DatasourceXml();
 
         if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
@@ -340,9 +346,10 @@ public class RawResultFile {
         return sourceXml;
     }
 
-    public static DatasourceXml getDatabaseSignatures(JTable Table, Case cases) {
-        String mainRawfilePath = cases.getCaseLocation() + "\\RAW";
-        String cookedReportFolder = cases.getCaseLocation() + "\\Reports";
+    public static DatasourceXml getDatabaseSignatures(JTable Table, Case currentCase) {
+        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
+        
         DatasourceXml sourceXml = new DatasourceXml();
 
         if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
@@ -399,9 +406,10 @@ public class RawResultFile {
         return sourceXml;
     }
 
-    public static DatasourceXml getHashAnalysisHashLibrary(JTable Table, Case cases) {
-        String mainRawfilePath = cases.getCaseLocation() + "\\RAW";
-        String cookedReportFolder = cases.getCaseLocation() + "\\Reports";
+    public static DatasourceXml getHashAnalysisHashLibrary(JTable Table, Case currentCase) {
+        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
+        
         DatasourceXml sourceXml = new DatasourceXml();
 
         if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
@@ -458,9 +466,10 @@ public class RawResultFile {
         return sourceXml;
     }
 
-    public static DatasourceXml getHashAnalysisinCase(JTable Table, Case cases) {
-        String mainRawfilePath = cases.getCaseLocation() + "\\RAW";
-        String cookedReportFolder = cases.getCaseLocation() + "\\Reports";
+    public static DatasourceXml getHashAnalysisinCase(JTable Table, Case currentCase) {
+        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
+        
         DatasourceXml sourceXml = new DatasourceXml();
 
         if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
@@ -517,9 +526,10 @@ public class RawResultFile {
         return sourceXml;
     }
 
-    public static DatasourceXml getTextClouds(JTable Table, Case cases) {
-        String mainRawfilePath = cases.getCaseLocation() + "\\RAW";
-        String cookedReportFolder = cases.getCaseLocation() + "\\Reports";
+    public static DatasourceXml getTextClouds(JTable Table, Case currentCase) {
+        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
+        
         DatasourceXml sourceXml = new DatasourceXml();
 
         if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
