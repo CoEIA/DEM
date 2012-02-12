@@ -66,7 +66,7 @@ public class FilesAutherReportPanel extends javax.swing.JPanel implements Report
          try {
             xmlSource = RawResultFile.getFileSystemXmlFile(
                     IndexUtil.getAllFilesHaveAuthers(this.reportPanel.getCaseFacade(), authers)
-            ,this.reportPanel.getCase());
+            ,this.reportPanel.getCaseFacade());
         } catch (IOException ex) {
             Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }

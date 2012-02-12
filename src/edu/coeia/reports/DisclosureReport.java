@@ -34,7 +34,6 @@ public class DisclosureReport {
     public String getFinalFile() {
         return m_strFinalFile;
     }
-    public static String REPORTFOLDER = "\\Reports\\";
 
     public enum REPORT_TYPE {
         PDF, WORD, HTML, RTF, CSV, XLS, XML

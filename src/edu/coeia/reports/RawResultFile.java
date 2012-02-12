@@ -12,12 +12,12 @@ import edu.coeia.tags.Tag;
 import edu.coeia.tags.TagsManager;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
+import edu.coeia.util.SizeUtil;
 
 import java.io.File;
 import java.io.IOException;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -154,26 +154,19 @@ public class RawResultFile {
         return sourceXml;
     }
 
-    public static DatasourceXml getFileSystemXmlFile(List<String> list, Case currentCase) {
-        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
+    public static DatasourceXml getFileSystemXmlFile(final List<String> dataList,
+            final CaseFacade caseFacade) throws IOException {
+        Case currentCase = caseFacade.getCase();
         
         DatasourceXml sourceXml = new DatasourceXml();
-
-        if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
-            FileUtil.createFolder(mainRawfilePath);
-        }
-
-        if (!FileUtil.isDirectoryExists(cookedReportFolder)) {
-            FileUtil.createFolder(cookedReportFolder);
-        }
-
-        sourceXml.m_strJasperFile = "\\filesystem_report.jasper";
-        sourceXml.m_strXPath = "/dem/detail/effectivefiles/file";
-        sourceXml.m_strReportName = "filesystem";
-
-        String strOutputPath = mainRawfilePath + "\\filesystem.xml";
-        String retOutput = "";
+        
+        sourceXml.m_strJasperFile = ApplicationConstants.FILE_SYSTEM_JASPER_FILE;
+        sourceXml.m_strXPath = ApplicationConstants.FILE_SYSTEM_X_PATH;
+        sourceXml.m_strReportName = ApplicationConstants.FILE_SYSTEM_REPORT_NAME;
+        sourceXml.m_strXmlPath = caseFacade.getCaseRawReportFolderLocation() 
+                + File.separator + ApplicationConstants.FILE_SYSTEM_XML_FILE;
+        
+        StringBuilder result = new StringBuilder();
 
         String strLocation = currentCase.getCaseLocation();
         strLocation = strLocation.replace(':', '\\');
@@ -184,51 +177,48 @@ public class RawResultFile {
                 + "<source> " + strLocation + "</source>"
                 + "</case>";
 
-        String files = "";
+        StringBuilder files = new StringBuilder();
 
-        Iterator<String> iterator = list.iterator();
         int icounter = 1;
-        while (iterator.hasNext()) {
-            String strPath = iterator.next();
+        for(String strPath: dataList) {
             File file = new File(strPath);
             strPath.replace(':', '/');
 
-            long filesize = file.length();
-            long filesizeInKB = filesize / 1024;
-
-
+            long filesizeInKB = (long) SizeUtil.toKB((double)file.length());
             Date date = new Date(file.lastModified());
-            int mid = strPath.lastIndexOf(".");
-            String ext = strPath.substring(mid + 1, strPath.length());
-            files +=
-                    "<file>"
-                    + "<sno>" + icounter + "</sno>"
-                    + "<path>" + strPath + "</path>"
-                    + "<size>" + filesizeInKB + "kb</size>"
-                    + "<moddate>" + date + "</moddate>"
-                    + "<extension>" + ext + "</extension>"
-                    + "</file>";
+            String ext = FileUtil.getExtension(file);
+             
+            files.append("<file>")
+                .append("<sno>")
+                .append(icounter)
+                .append("</sno>")
+                .append("<path>")
+                .append(strPath)
+                .append("</path>")
+                .append("<size>")
+                .append(filesizeInKB)
+                .append("kb</size>")
+                .append("<moddate>")
+                .append(date)
+                .append("</moddate>")
+                .append("<extension>")
+                .append(ext)
+                .append("</extension>")
+                .append("</file>");
+            
             icounter++;
         }
 
-        retOutput = strCaseXml
-                + "<detail>"
-                + "<effectivefiles>"
-                + files
-                + "</effectivefiles>"
-                + "</detail>"
-                + "</dem>";
+        result.append(strCaseXml)
+                .append("<detail>")
+                .append("<effectivefiles>")
+                .append(files)
+                .append("</effectivefiles>")
+                .append("</detail>")
+                .append("</dem>");
 
-        try {
-
-            File file = new File(strOutputPath);
-            FileUtils.writeStringToFile(file, retOutput);
-        } catch (IOException e) {
-            e.printStackTrace();
-            strOutputPath = "";
-        }
-
-        sourceXml.m_strXmlPath = strOutputPath;
+        File file = new File(sourceXml.m_strXmlPath);
+        FileUtils.writeStringToFile(file, result.toString());
 
         return sourceXml;
     }

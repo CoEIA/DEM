@@ -14,9 +14,8 @@ import edu.coeia.reports.ReportPanel;
 import edu.coeia.reports.DatasourceXml;
 import edu.coeia.reports.IndexUtil;
 import edu.coeia.reports.RawResultFile;
+
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -39,7 +38,7 @@ public class FilesReportPanel extends javax.swing.JPanel implements ReportGenera
         objXmlSource = 
                 RawResultFile.getFileSystemXmlFile(
                     IndexUtil.getAllFilePaths(this.reportPanel.getCaseFacade())
-                    ,this.reportPanel.getCase()
+                    ,this.reportPanel.getCaseFacade()
                 );
         return objXmlSource;
     }

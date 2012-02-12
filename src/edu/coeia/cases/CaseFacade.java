@@ -209,6 +209,24 @@ public final class CaseFacade {
                 + ApplicationConstants.CASE_ONLINE_EMAIL_ATTACHMENTS_FOLDER;
     }
     
+    public String getCaseRawReportFolderLocation() {
+        return aCase.getCaseLocation()
+                + File.separator
+                + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+    }
+    
+    public String getCaseReportFolderLocation() {
+        return aCase.getCaseLocation() 
+                + File.separator 
+                + ApplicationConstants.CASE_REPORTS_FOLDER;
+    }
+    
+    public String getCaseReportsFolderLocation() {
+        return aCase.getCaseLocation()
+                + File.separator
+                + ApplicationConstants.REPORTS_FOLDER;
+    }
+    
     public String getTagDatabaseLocation() {
         return this.aCase.getCaseLocation() 
                 + File.separator 
@@ -257,6 +275,8 @@ public final class CaseFacade {
         FileUtil.createFolder(this.getCaseArchiveOutputFolderLocation());   // ARCHIVE folder
         FileUtil.createFolder(this.getCaseOfflineEmailAttachmentLocation()); // OFFLINE Email Attachments
         FileUtil.createFolder(this.getCaseAuditingFolderLocation());
+        FileUtil.createFolder(this.getCaseRawReportFolderLocation());
+        FileUtil.createFolder(this.getCaseReportFolderLocation());
         
         // create LOG and information (.DAT) file and Configuration File (mapping file)
         FileUtil.createFile(this.getCaseAuditingFileLocation());

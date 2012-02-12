@@ -15,7 +15,9 @@ import edu.coeia.reports.DatasourceXml;
 import edu.coeia.reports.IndexUtil;
 import edu.coeia.reports.RawResultFile;
 import edu.coeia.util.SizeUtil;
+
 import java.io.IOException;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,7 +46,7 @@ public class FilesSizeReportPanel extends javax.swing.JPanel implements ReportGe
             objXmlSource = RawResultFile.getFileSystemXmlFile(
                     IndexUtil.getAllFilesBetweenSize(this.reportPanel.getCaseFacade(),
                     from, to)
-            ,this.reportPanel.getCase());
+            ,this.reportPanel.getCaseFacade());
         } catch (IOException ex) {
             Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -10,7 +10,6 @@
  */
 package edu.coeia.reports;
 
-import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.ApplicationConstants;
 
@@ -27,18 +26,13 @@ import javax.swing.JPanel;
  */
 public class ReportOptionDialog extends javax.swing.JDialog {
 
-    private JPanel centerReportPanel ;
-    private ReportPanel reportPanel; 
-    private Case aCase; 
-    private Frame frame; 
+    private final JPanel centerReportPanel ;
+    private final ReportPanel reportPanel; 
+    private final CaseFacade caseFacade;
+    
     private ProgressDialogue dialogue;
     private DatasourceXml input;
-    private CaseFacade caseFacade;
     
-    public ReportOptionDialog (Case aCase) {
-        this.aCase = aCase;
-    }
-
     /** Creates new form ReportOptionDialog */
     public ReportOptionDialog(java.awt.Frame parent, boolean modal, JPanel panel,
             ReportPanel reportPanel) {
@@ -48,9 +42,8 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         this.centerReportPanel = panel;
         this.reportPanel = reportPanel;
         this.caseFacade = this.reportPanel.getCaseFacade();
-        this.aCase = this.reportPanel.getCase();
 
-        this.setCenterPanel(panel);
+        this.setCenterPanel(this.centerReportPanel);
         this.pack();
         this.setLocationRelativeTo(parent);
     }
@@ -146,7 +139,7 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         });
         
         thread.start();
-        frame = new Frame("Waiting");  
+        Frame frame = new Frame("Waiting");  
         dialogue = new ProgressDialogue(frame, true);
         dialogue.getProgressBar().setIndeterminate(true);
         dialogue.setLocationRelativeTo(this);
@@ -168,15 +161,16 @@ public class ReportOptionDialog extends javax.swing.JDialog {
     
     private  void generateReport(final DatasourceXml objXmlSource) {
         try {
-            File file = new File(ApplicationConstants.TEMPLATES+objXmlSource.m_strJasperFile);//"\\filesystem_report.jasper");
-            String strJasperFile = file.getAbsolutePath(); //"C:/Users/Farhan/Desktop/projects/DEM/templates/filesystem_report.jasper";
-            String strReportOutputPath = aCase.getCaseLocation()+DisclosureReport.REPORTFOLDER;
-            String strReportName = objXmlSource.m_strReportName;//"filesystem";
+            File file = new File(ApplicationConstants.TEMPLATES_FOLDER 
+                    + File.separator + objXmlSource.m_strJasperFile);
+            
+            String strJasperFile = file.getAbsolutePath();
+            String strReportOutputPath = this.caseFacade.getCaseReportsFolderLocation();
             
             DisclosureReport disReport = new DisclosureReport(
                     strJasperFile,
                     objXmlSource.m_strXmlPath,
-                    strReportOutputPath,strReportName);
+                    strReportOutputPath,objXmlSource.m_strReportName);
             
             disReport.setOutputFileExtension(DisclosureReport.REPORT_TYPE.PDF);
             disReport.setRootXPath(objXmlSource.m_strXPath);//"/dem/detail/effectivefiles/file");

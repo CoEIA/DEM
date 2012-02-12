@@ -12,10 +12,6 @@ package edu.coeia.filesignature;
 
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.reports.DatasourceXml;
-import edu.coeia.reports.panels.FileSignatureReportsPanel;
-import edu.coeia.reports.RawResultFile;
-import edu.coeia.reports.ReportOptionDialog;
 import edu.coeia.util.Utilities;
 
 import java.io.File;
@@ -493,27 +489,27 @@ private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 private void generateAnalysisReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateAnalysisReportButtonActionPerformed
 // TODO add your handling code here:
   
-    int rows = FileAnalysisTable.getRowCount();
-    if (rows <=0) 
-    {
-      JOptionPane.showMessageDialog(this, "No Analaysis has been Performed", " Error Generating Report", JOptionPane.INFORMATION_MESSAGE);  
-      return;
-    }
-    FileSignatureReportsPanel report = new FileSignatureReportsPanel();
-    DatasourceXml source = report.generateReport(FileAnalysisTable, aCase );
-    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
-    dialogue.SetDataSource(source);
-    dialogue.RunProgressDialogue();
+//    int rows = FileAnalysisTable.getRowCount();
+//    if (rows <=0) 
+//    {
+//      JOptionPane.showMessageDialog(this, "No Analaysis has been Performed", " Error Generating Report", JOptionPane.INFORMATION_MESSAGE);  
+//      return;
+//    }
+//    FileSignatureReportsPanel report = new FileSignatureReportsPanel();
+//    DatasourceXml source = report.generateReport(FileAnalysisTable, aCase );
+//    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
+//    dialogue.SetDataSource(source);
+//    dialogue.RunProgressDialogue();
     
 }//GEN-LAST:event_generateAnalysisReportButtonActionPerformed
 
 private void generateDetabaseReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateDetabaseReportButtonActionPerformed
-// TODO add your handling code here:
-    DatasourceXml objXmlSource = new DatasourceXml();
-    objXmlSource = RawResultFile.getDatabaseSignatures(SignatureTableDB, aCase);
-    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
-    dialogue.SetDataSource(objXmlSource);
-    dialogue.RunProgressDialogue();
+//// TODO add your handling code here:
+//    DatasourceXml objXmlSource = new DatasourceXml();
+//    objXmlSource = RawResultFile.getDatabaseSignatures(SignatureTableDB, aCase);
+//    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
+//    dialogue.SetDataSource(objXmlSource);
+//    dialogue.RunProgressDialogue();
 }//GEN-LAST:event_generateDetabaseReportButtonActionPerformed
 
     public void run() {

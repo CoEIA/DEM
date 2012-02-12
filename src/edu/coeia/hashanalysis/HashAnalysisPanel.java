@@ -18,9 +18,6 @@ import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.searching.LuceneSearcher;
 import edu.coeia.filesystem.FileSystemPanel;
-import edu.coeia.reports.DatasourceXml;
-import edu.coeia.reports.RawResultFile;
-import edu.coeia.reports.ReportOptionDialog;
 import edu.coeia.task.CaseDuplicationTask;
 import edu.coeia.task.HashLibraryDuplicationTask;
 import edu.coeia.cases.CaseFacade;
@@ -34,7 +31,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 import javax.swing.JTable;
@@ -442,31 +438,31 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-    int rows = analysisResultTable.getRowCount();
-    if (rows <= 0) {
-        JOptionPane.showMessageDialog(this, "No Analaysis has been Performed", " Error Generating Report", JOptionPane.INFORMATION_MESSAGE);
-        return;
-    }
-    DatasourceXml objXmlSource = new DatasourceXml();
-    objXmlSource = RawResultFile.getHashAnalysisHashLibrary(analysisResultTable, aCase);
-    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
-    dialogue.SetDataSource(objXmlSource);
-    dialogue.RunProgressDialogue();
+//    int rows = analysisResultTable.getRowCount();
+//    if (rows <= 0) {
+//        JOptionPane.showMessageDialog(this, "No Analaysis has been Performed", " Error Generating Report", JOptionPane.INFORMATION_MESSAGE);
+//        return;
+//    }
+//    DatasourceXml objXmlSource = new DatasourceXml();
+//    objXmlSource = RawResultFile.getHashAnalysisHashLibrary(analysisResultTable, aCase);
+//    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
+//    dialogue.SetDataSource(objXmlSource);
+//    dialogue.RunProgressDialogue();
 }//GEN-LAST:event_jButton1ActionPerformed
 
 private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-// TODO add your handling code here:
-    
-    int rows = caseDuplicationResultTable.getRowCount();
-    if (rows <= 0) {
-        JOptionPane.showMessageDialog(this, "No Analaysis has been Performed", " Error Generating Report", JOptionPane.INFORMATION_MESSAGE);
-        return;
-    }
-    DatasourceXml objXmlSource = new DatasourceXml();
-    objXmlSource = RawResultFile.getHashAnalysisinCase(caseDuplicationResultTable, aCase);
-    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
-    dialogue.SetDataSource(objXmlSource);
-    dialogue.RunProgressDialogue();
+//// TODO add your handling code here:
+//    
+//    int rows = caseDuplicationResultTable.getRowCount();
+//    if (rows <= 0) {
+//        JOptionPane.showMessageDialog(this, "No Analaysis has been Performed", " Error Generating Report", JOptionPane.INFORMATION_MESSAGE);
+//        return;
+//    }
+//    DatasourceXml objXmlSource = new DatasourceXml();
+//    objXmlSource = RawResultFile.getHashAnalysisinCase(caseDuplicationResultTable, aCase);
+//    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
+//    dialogue.SetDataSource(objXmlSource);
+//    dialogue.RunProgressDialogue();
 }//GEN-LAST:event_jButton2ActionPerformed
 
     private void caseDuplicationResultTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_caseDuplicationResultTableMouseClicked
