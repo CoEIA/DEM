@@ -14,11 +14,13 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.reports.panels.ReportGenerator;
 
+import edu.coeia.task.ReportGeneratorTask;
 import java.awt.Desktop;
-import java.awt.Frame;
+import java.awt.EventQueue;
 
 import java.io.File;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -125,29 +127,44 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         this.doTask();
     }//GEN-LAST:event_generateButtonActionPerformed
         
-    private void doTask() {
-        Thread thread  = new Thread(new Runnable() { 
-            @Override
-            public void run() {
-                try {
-                    // open the document here
-                    ReportGenerator generator = (ReportGenerator) centerReportPanel;
-                    generateReport(generator.generateReport());
-                } catch (Exception ex) {
-                    Logger.getLogger(ReportOptionDialog.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+    private void doTask()  {
+        ReportGenerator generator = (ReportGenerator) centerReportPanel;
+        ReportGeneratorTask task = new ReportGeneratorTask(caseFacade, this, generator);
+        task.startTask();
         
-        thread.start();
-        Frame frame = new Frame("Waiting");  
-        ProgressDialogue dialogue = new ProgressDialogue(frame, true);
-        dialogue.getProgressBar().setIndeterminate(true);
-        dialogue.setLocationRelativeTo(this);
-        dialogue.setVisible(true);
-        
-        // the close this window
-        frame.setVisible(false);
+//        Thread thread  = new Thread(new Runnable() { 
+//            @Override
+//            public void run() {
+//                try {
+//                    //final ProgressDialogue dialogue = new ProgressDialogue(reportPanel.getCaseFrame(), true);
+//                    
+//                    EventQueue.invokeLater(new Runnable() { 
+//                        @Override
+//                        public void run() {
+//                            // open the document here
+//                            ProgressDialogue dialogue = new ProgressDialogue(reportPanel.getCaseFrame(), true);
+//                            dialogue.setVisible(true);
+//                        }
+//                    });
+//                    
+//                    ReportGenerator generator = (ReportGenerator) centerReportPanel;
+//                    generateReport(generator.generateReport());
+//                    
+////                    EventQueue.invokeLater(new Runnable() { 
+////                        @Override
+////                        public void run() {
+////                            if ( !dialogue.getStatus() )
+////                                dialogue.setVisible(false);
+////                        }
+////                    });
+//                    
+//                } catch (Exception ex) {
+//                    Logger.getLogger(ReportOptionDialog.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        });
+//        
+//        thread.start();
     }
     
     private void setCenterPanel(JPanel panel) {
@@ -157,30 +174,7 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         this.repaint();
     }
     
-    private void generateReport(final DatasourceXml objXmlSource) throws Exception {
-        File file = new File(ApplicationConstants.TEMPLATES_FOLDER 
-                + File.separator + objXmlSource.m_strJasperFile);
 
-        String strJasperFile = file.getAbsolutePath();
-        String strReportOutputPath = this.caseFacade.getCaseReportFolderLocation();
-
-        DisclosureReport disReport = new DisclosureReport(
-                strJasperFile,
-                objXmlSource.m_strXmlPath,
-                strReportOutputPath,objXmlSource.m_strReportName);
-
-        disReport.setOutputFileExtension(DisclosureReport.REPORT_TYPE.PDF);
-        disReport.setRootXPath(objXmlSource.m_strXPath);
-        disReport.Generate();
-
-        if ((new File(disReport.getFinalFile())).exists()){
-            File pdf = new File(disReport.getFinalFile());
-            Desktop.getDesktop().open(pdf);
-            System.out.println(disReport.getFinalFile());
-        } 
-        else
-            System.out.println("File is not exists");
-    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cencelButton;

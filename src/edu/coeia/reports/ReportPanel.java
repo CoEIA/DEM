@@ -306,7 +306,8 @@ public class ReportPanel extends javax.swing.JPanel {
 
     public Case getCase() { return this.aCase; }
     public CaseFacade getCaseFacade() { return this.caseFacade; }
-        
+    public JFrame getCaseFrame() { return (JFrame) this.caseFrame; }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel OptionsPanels;
     private javax.swing.JPanel ReportOptionsPanel;

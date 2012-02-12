@@ -20,10 +20,14 @@ import javax.swing.JProgressBar;
 
 public class ProgressDialogue extends javax.swing.JDialog {
 
+    private boolean status = false;
+    
     /** Creates new form ProgressDialogue */
     public ProgressDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(parent);
+        this.jProgressBar1.setIndeterminate(true);
     }
 
     /** This method is called from within the constructor to
@@ -82,12 +86,12 @@ public class ProgressDialogue extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
 private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-    this.setVisible(false);
+    this.dispose();
+    status = true;
 }//GEN-LAST:event_cancelButtonActionPerformed
 
-    public JProgressBar getProgressBar() {
-        return this.jProgressBar1;
-    }
+    
+    public boolean getStatus() { return this.status ; }
     
     /**
      * @param args the command line arguments

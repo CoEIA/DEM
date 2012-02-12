@@ -30,7 +30,8 @@ public class FileSignatureReportsPanel extends javax.swing.JPanel {
     }
     
     public DatasourceXml generateReport(JTable table, final CaseFacade caseFacade) throws IOException {
-        return RawResultFile.getSignatureItems(table, caseFacade);
+        //return RawResultFile.getSignatureItems(table, caseFacade);
+        return null;
     }
     /** This method is called from within the constructor to
      * initialize the form.
