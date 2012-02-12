@@ -40,8 +40,7 @@ public final class ApplicationConstants {
     public final static String CASE_INDEX_FOLDER = "THE_INDEX" ;
     public final static String CASE_ROW_REPORT_FOLDER = "RAW";
     public final static String CASE_REPORTS_FOLDER = "Reports";
-    public static final String TEMPLATES_FOLDER = "templates";
-    public static final String REPORTS_FOLDER = "Reports\\";
+    public final static String TEMPLATES_FOLDER = "templates";
     
     // DEM path in user system
     public final static String APPLICATION_PATH = 
@@ -90,10 +89,19 @@ public final class ApplicationConstants {
     public static final String IE_CACHE_PROGRAM = "tools\\IECacheList.exe";
     public static final String IE_PASSWORD_PROGRAM = "tools\\iepv.exe" ;
     
-    // file system report file name
+    // reports constants
     public static final String FILE_SYSTEM_JASPER_FILE = "filesystem_report.jasper";
     public static final String FILE_SYSTEM_X_PATH = "/dem/detail/effectivefiles/file";
     public static final String FILE_SYSTEM_REPORT_NAME = "filesystem";
     public static final String FILE_SYSTEM_XML_FILE = "filesystem.xml";
     
+    public static final String FILE_EXTENSION_JASPER_FILE = "fileextension_report.jasper";
+    public static final String FILE_EXTENSION_X_PATH = "/dem/detail/effectiveextensions/ext";
+    public static final String FILE_EXTENSION_REPORT_NAME = "fileextension";
+    public static final String FILE_EXTENSION_XML_FILE = "fileextension.xml";
+    
+    public static final String CASES_JASPER_FILE = "cases_report.jasper";
+    public static final String CASES_X_PATH = "/dem/cases/case";
+    public static final String CASES_REPORT_NAME = "cases";
+    public static final String CASES_XML_FILE = "cases.xml";
 }

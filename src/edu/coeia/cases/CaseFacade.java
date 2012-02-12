@@ -221,12 +221,6 @@ public final class CaseFacade {
                 + ApplicationConstants.CASE_REPORTS_FOLDER;
     }
     
-    public String getCaseReportsFolderLocation() {
-        return aCase.getCaseLocation()
-                + File.separator
-                + ApplicationConstants.REPORTS_FOLDER;
-    }
-    
     public String getTagDatabaseLocation() {
         return this.aCase.getCaseLocation() 
                 + File.separator 

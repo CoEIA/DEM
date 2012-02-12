@@ -14,9 +14,10 @@ import edu.coeia.reports.ReportPanel;
 import edu.coeia.reports.DatasourceXml;
 import edu.coeia.reports.IndexUtil;
 import edu.coeia.reports.RawResultFile;
+
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import java.util.Map;
 
 /**
  *
@@ -33,19 +34,9 @@ public class FilesExtensionReportPanel extends javax.swing.JPanel implements Rep
     }
 
     @Override
-    public DatasourceXml generateReport() {
-         DatasourceXml objXmlSource = new DatasourceXml();
-        
-        try {
-            objXmlSource = RawResultFile.getExtensionFrequencyXmlFile(
-                    IndexUtil.getAllFilesFrequency(this.reportPanel.getCaseFacade()),
-                    this.reportPanel.getCase());
-        } 
-        catch (IOException ex) {
-            Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return objXmlSource;
+    public DatasourceXml generateReport() throws IOException {       
+        Map<String, Double> extensions = IndexUtil.getAllFilesFrequency(this.reportPanel.getCaseFacade());
+        return RawResultFile.getExtensionFrequencyXmlFile(extensions, this.reportPanel.getCaseFacade());
     }
         
     /** This method is called from within the constructor to

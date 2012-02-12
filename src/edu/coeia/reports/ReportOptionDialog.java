@@ -12,11 +12,15 @@ package edu.coeia.reports;
 
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.ApplicationConstants;
+import edu.coeia.reports.panels.ReportGenerator;
 
 import java.awt.Desktop;
 import java.awt.Frame;
 
 import java.io.File;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 
@@ -29,9 +33,6 @@ public class ReportOptionDialog extends javax.swing.JDialog {
     private final JPanel centerReportPanel ;
     private final ReportPanel reportPanel; 
     private final CaseFacade caseFacade;
-    
-    private ProgressDialogue dialogue;
-    private DatasourceXml input;
     
     /** Creates new form ReportOptionDialog */
     public ReportOptionDialog(java.awt.Frame parent, boolean modal, JPanel panel,
@@ -123,29 +124,30 @@ public class ReportOptionDialog extends javax.swing.JDialog {
     private void generateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateButtonActionPerformed
         this.doTask();
     }//GEN-LAST:event_generateButtonActionPerformed
-
-    public void RunProgressDialogue(){
-        this.doTask();
-    }
         
     private void doTask() {
         Thread thread  = new Thread(new Runnable() { 
             @Override
             public void run() {
-                // open the document here
-                generateReport(input);
-                dialogue.setVisible(false);
+                try {
+                    // open the document here
+                    ReportGenerator generator = (ReportGenerator) centerReportPanel;
+                    generateReport(generator.generateReport());
+                } catch (Exception ex) {
+                    Logger.getLogger(ReportOptionDialog.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         
         thread.start();
         Frame frame = new Frame("Waiting");  
-        dialogue = new ProgressDialogue(frame, true);
+        ProgressDialogue dialogue = new ProgressDialogue(frame, true);
         dialogue.getProgressBar().setIndeterminate(true);
         dialogue.setLocationRelativeTo(this);
         dialogue.setVisible(true);
+        
         // the close this window
-        this.setVisible(false);
+        frame.setVisible(false);
     }
     
     private void setCenterPanel(JPanel panel) {
@@ -155,41 +157,31 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         this.repaint();
     }
     
-    public void SetDataSource(DatasourceXml input){
-        this.input = input;
+    private void generateReport(final DatasourceXml objXmlSource) throws Exception {
+        File file = new File(ApplicationConstants.TEMPLATES_FOLDER 
+                + File.separator + objXmlSource.m_strJasperFile);
+
+        String strJasperFile = file.getAbsolutePath();
+        String strReportOutputPath = this.caseFacade.getCaseReportFolderLocation();
+
+        DisclosureReport disReport = new DisclosureReport(
+                strJasperFile,
+                objXmlSource.m_strXmlPath,
+                strReportOutputPath,objXmlSource.m_strReportName);
+
+        disReport.setOutputFileExtension(DisclosureReport.REPORT_TYPE.PDF);
+        disReport.setRootXPath(objXmlSource.m_strXPath);
+        disReport.Generate();
+
+        if ((new File(disReport.getFinalFile())).exists()){
+            File pdf = new File(disReport.getFinalFile());
+            Desktop.getDesktop().open(pdf);
+            System.out.println(disReport.getFinalFile());
+        } 
+        else
+            System.out.println("File is not exists");
     }
     
-    private  void generateReport(final DatasourceXml objXmlSource) {
-        try {
-            File file = new File(ApplicationConstants.TEMPLATES_FOLDER 
-                    + File.separator + objXmlSource.m_strJasperFile);
-            
-            String strJasperFile = file.getAbsolutePath();
-            String strReportOutputPath = this.caseFacade.getCaseReportsFolderLocation();
-            
-            DisclosureReport disReport = new DisclosureReport(
-                    strJasperFile,
-                    objXmlSource.m_strXmlPath,
-                    strReportOutputPath,objXmlSource.m_strReportName);
-            
-            disReport.setOutputFileExtension(DisclosureReport.REPORT_TYPE.PDF);
-            disReport.setRootXPath(objXmlSource.m_strXPath);//"/dem/detail/effectivefiles/file");
-            disReport.Generate();
-            
-            if ((new File(disReport.getFinalFile())).exists()){
-                File pdf = new File(disReport.getFinalFile());
-                Desktop.getDesktop().open(pdf);
-                System.out.println(disReport.getFinalFile());
-            } 
-            else
-                System.out.println("File is not exists");
-        }
-        catch(Exception ex) {
-            System.out.println("CAUSE: " + ex.getCause());
-            System.out.println("MESSAGE" + ex.getMessage());
-        }
-    }
-        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cencelButton;
     private javax.swing.JPanel centerPanel;

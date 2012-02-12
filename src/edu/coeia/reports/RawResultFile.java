@@ -31,155 +31,53 @@ import org.apache.commons.io.FileUtils;
  */
 public class RawResultFile {
 
-    public static DatasourceXml getExtensionFrequencyXmlFile(Map<String, Double> map, Case currentCase) {
-        // iterator over map
-        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
+    public static DatasourceXml getExtensionFrequencyXmlFile(final Map<String, Double> map, 
+            final CaseFacade caseFacade) throws IOException {
         
         DatasourceXml sourceXml = new DatasourceXml();
-        if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
-            FileUtil.createFolder(mainRawfilePath);
-        }
+        sourceXml.m_strJasperFile = ApplicationConstants.FILE_EXTENSION_JASPER_FILE;
+        sourceXml.m_strXPath = ApplicationConstants.FILE_EXTENSION_X_PATH;
+        sourceXml.m_strReportName = ApplicationConstants.FILE_EXTENSION_REPORT_NAME;
+        sourceXml.m_strXmlPath =  caseFacade.getCaseRawReportFolderLocation() + File.separator + ApplicationConstants.FILE_EXTENSION_XML_FILE;
 
-        if (!FileUtil.isDirectoryExists(cookedReportFolder)) {
-            FileUtil.createFolder(cookedReportFolder);
-        }
-
-        sourceXml.m_strJasperFile = "\\fileextension_report.jasper";
-        sourceXml.m_strXPath = "/dem/detail/effectiveextensions/ext";
-        sourceXml.m_strReportName = "fileextension";
-
-        String strOutputPath = mainRawfilePath + "\\fileextension.xml";
-        String retOutput = "";
-        String strLocation = currentCase.getCaseLocation();
-        String strCaseXml = "<dem><case>"
-                + "<name>" + currentCase.getCaseName() + "</name>"
-                + "<author>" + currentCase.getDescription() + "</author>"
-                + "<source> " + strLocation + "</source>"
-                + "</case>";
-
-        String filesdata = "";
+        StringBuilder filesdata = new StringBuilder();
         int icounter = 1;
+        
         for (Map.Entry<String, Double> entry : map.entrySet()) {
             String extension = entry.getKey();
             double frequecy = entry.getValue();
 
             // operations here...
-            filesdata +=
-                    "<ext>"
-                    + "<sno>" + icounter + "</sno>"
-                    + "<extension>" + extension + "</extension>"
-                    + "<frequency>" + frequecy + "</frequency>"
-                    + "</ext>";
+            filesdata.append("<ext>" + "<sno>")
+                .append(icounter)
+                .append("</sno>" + "<extension>")
+                .append(extension)
+                .append("</extension>" + "<frequency>")
+                .append(frequecy)
+                .append("</frequency>"+ "</ext>");
+            
             icounter++;
         }
 
-        retOutput = strCaseXml
-                + "<detail>"
-                + "<effectiveextensions>"
-                + filesdata
-                + "</effectiveextensions>"
-                + "</detail>"
-                + "</dem>";
-
-        try {
-
-            File file = new File(strOutputPath);
-            FileUtils.writeStringToFile(file, retOutput);
-        } catch (IOException e) {
-            e.printStackTrace();
-            strOutputPath = "";
-        }
-
-        sourceXml.m_strXmlPath = strOutputPath;
-
-        return sourceXml;
-    }
-
-    public static DatasourceXml getCasesXmlFile(List<Case> cases, Case currentCase) throws IOException {
-
-        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
+        String retOutput = getFullXMLTags(getGenericCaseInformation(caseFacade.getCase()), filesdata.toString());
+        File file = new File(sourceXml.m_strXmlPath);
+        FileUtils.writeStringToFile(file, retOutput);
         
-        DatasourceXml sourceXml = new DatasourceXml();
-        sourceXml.m_strJasperFile = "\\cases_report.jasper";
-        sourceXml.m_strXPath = "/dem/cases/case";
-        sourceXml.m_strReportName = "cases";
-
-        if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
-            FileUtil.createFolder(mainRawfilePath);
-        }
-
-        if (!FileUtil.isDirectoryExists(cookedReportFolder)) {
-            FileUtil.createFolder(cookedReportFolder);
-        }
-
-        String strOutputPath = mainRawfilePath + "\\cases.xml";
-        String retOutput = "";
-        String strLocation = currentCase.getCaseLocation();
-        String strCaseXml = "<dem><cases>";
-        String casess = "";
-
-        for (Case aCase : cases) {
-            String caseName = aCase.getCaseName();
-            String caseLocation = aCase.getCaseLocation();
-            caseLocation = caseLocation.replace(':', '\\');
-            String caseCreatingTime = DateUtil.formatedDateWithTime(aCase.getCreateTime());
-            String caseAuther = aCase.getInvestigatorName();
-            String caseDescription = aCase.getDescription();
-            long caseSize = CaseFacade.newInstance(aCase).getCaseHistory().getCaseSize();
-            casess += "<case>"
-                    + "<path>" + caseLocation + "</path>"
-                    + "<creator>" + caseAuther + "</creator>"
-                    + "<name>" + caseName + "</name>"
-                    + "<description>" + caseDescription + "</description>"
-                    + "<size>" + caseSize + "</size>"
-                    + "<date>" + caseCreatingTime + "</date>"
-                    + "</case>";
-            // operations here
-        }
-
-        strCaseXml += casess + "</cases></dem>";
-
-        try {
-            File file = new File(strOutputPath);
-            FileUtils.writeStringToFile(file, strCaseXml);
-        } catch (IOException e) {
-            e.printStackTrace();
-            strOutputPath = "";
-        }
-
-        sourceXml.m_strXmlPath = strOutputPath;
-
         return sourceXml;
     }
-
+    
     public static DatasourceXml getFileSystemXmlFile(final List<String> dataList,
             final CaseFacade caseFacade) throws IOException {
-        Case currentCase = caseFacade.getCase();
-        
+
         DatasourceXml sourceXml = new DatasourceXml();
-        
         sourceXml.m_strJasperFile = ApplicationConstants.FILE_SYSTEM_JASPER_FILE;
         sourceXml.m_strXPath = ApplicationConstants.FILE_SYSTEM_X_PATH;
         sourceXml.m_strReportName = ApplicationConstants.FILE_SYSTEM_REPORT_NAME;
-        sourceXml.m_strXmlPath = caseFacade.getCaseRawReportFolderLocation() 
-                + File.separator + ApplicationConstants.FILE_SYSTEM_XML_FILE;
-        
-        StringBuilder result = new StringBuilder();
-
-        String strLocation = currentCase.getCaseLocation();
-        strLocation = strLocation.replace(':', '\\');
-
-        String strCaseXml = "<dem><case>"
-                + "<name>" + currentCase.getCaseName() + "</name>"
-                + "<author>" + currentCase.getDescription() + "</author>"
-                + "<source> " + strLocation + "</source>"
-                + "</case>";
-
+        sourceXml.m_strXmlPath = caseFacade.getCaseRawReportFolderLocation() + File.separator + ApplicationConstants.FILE_SYSTEM_XML_FILE;
+                
         StringBuilder files = new StringBuilder();
-
         int icounter = 1;
+        
         for(String strPath: dataList) {
             File file = new File(strPath);
             strPath.replace(':', '/');
@@ -209,33 +107,56 @@ public class RawResultFile {
             icounter++;
         }
 
-        result.append(strCaseXml)
-                .append("<detail>")
-                .append("<effectivefiles>")
-                .append(files)
-                .append("</effectivefiles>")
-                .append("</detail>")
-                .append("</dem>");
+        String retOutput = getFullXMLTags(getGenericCaseInformation(caseFacade.getCase()), files.toString());
+        File file = new File(sourceXml.m_strXmlPath);
+        FileUtils.writeStringToFile(file, retOutput);
+
+        return sourceXml;
+    }
+        
+    public static DatasourceXml getCasesXmlFile(final List<Case> cases, final CaseFacade caseFacade) throws IOException {
+        DatasourceXml sourceXml = new DatasourceXml();
+        
+        sourceXml.m_strJasperFile = ApplicationConstants.CASES_JASPER_FILE;
+        sourceXml.m_strXPath = ApplicationConstants.CASES_X_PATH;
+        sourceXml.m_strReportName = ApplicationConstants.CASES_REPORT_NAME;
+        sourceXml.m_strXmlPath = caseFacade.getCaseRawReportFolderLocation() + File.separator + ApplicationConstants.CASES_XML_FILE;
+        
+        String strCaseXml = "<dem><cases>";
+        StringBuilder casesBuffer = new StringBuilder();
+
+        for (Case aCase : cases) {
+            String caseLocation = aCase.getCaseLocation().replace(':', '\\');
+            String caseCreatingTime = DateUtil.formatedDateWithTime(aCase.getCreateTime()); 
+            long caseSize = CaseFacade.newInstance(aCase).getCaseHistory().getCaseSize();
+            
+            casesBuffer.append("<case>" + "<path>")
+                    .append(caseLocation)
+                    .append("</path>" + "<creator>")
+                    .append(aCase.getInvestigatorName())
+                    .append("</creator>" + "<name>")
+                    .append( aCase.getCaseName())
+                    .append("</name>" + "<description>")
+                    .append(aCase.getDescription())
+                    .append("</description>" + "<size>")
+                    .append(caseSize)
+                    .append("</size>" + "<date>")
+                    .append(caseCreatingTime)
+                    .append("</date>" + "</case>");
+        }
+
+        strCaseXml += casesBuffer.toString() + "</cases></dem>";
 
         File file = new File(sourceXml.m_strXmlPath);
-        FileUtils.writeStringToFile(file, result.toString());
+        FileUtils.writeStringToFile(file, strCaseXml);
 
         return sourceXml;
     }
 
-    public static DatasourceXml getTaggedItems(TagsManager tags, Case currentCase) {
+    public static DatasourceXml getTaggedItems(TagsManager tags, Case currentCase) throws IOException {
         String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
         
         DatasourceXml sourceXml = new DatasourceXml();
-
-        if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
-            FileUtil.createFolder(mainRawfilePath);
-        }
-
-        if (!FileUtil.isDirectoryExists(cookedReportFolder)) {
-            FileUtil.createFolder(cookedReportFolder);
-        }
 
         sourceXml.m_strJasperFile = "\\taggeditems_report.jasper";
         sourceXml.m_strXPath = "/dem/filetags/tag";
@@ -263,33 +184,17 @@ public class RawResultFile {
 
         strCaseXml += "</filetags></dem>";
 
-        try {
-
-            File file = new File(strOutputPath);
-            FileUtils.writeStringToFile(file, strCaseXml);
-        } catch (IOException e) {
-            e.printStackTrace();
-            strOutputPath = "";
-        }
-
+        File file = new File(strOutputPath);
+        FileUtils.writeStringToFile(file, strCaseXml);
         sourceXml.m_strXmlPath = strOutputPath;
 
         return sourceXml;
     }
 
-    public static DatasourceXml getSignatureItems(JTable Table, Case currentCase) {
+    public static DatasourceXml getSignatureItems(JTable Table, Case currentCase) throws IOException {
         String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
         
         DatasourceXml sourceXml = new DatasourceXml();
-
-        if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
-            FileUtil.createFolder(mainRawfilePath);
-        }
-
-        if (!FileUtil.isDirectoryExists(cookedReportFolder)) {
-            FileUtil.createFolder(cookedReportFolder);
-        }
 
         sourceXml.m_strJasperFile = "\\filesignature_report.jasper";
         sourceXml.m_strXPath = "/filesign/sign";
@@ -322,33 +227,17 @@ public class RawResultFile {
         strCaseXml += "</filesign>";
 
 
-        try {
-
-            File file = new File(strOutputPath);
-            FileUtils.writeStringToFile(file, strCaseXml);
-        } catch (IOException e) {
-            e.printStackTrace();
-            strOutputPath = "";
-        }
-
+        File file = new File(strOutputPath);
+        FileUtils.writeStringToFile(file, strCaseXml);
         sourceXml.m_strXmlPath = strOutputPath;
 
         return sourceXml;
     }
 
-    public static DatasourceXml getDatabaseSignatures(JTable Table, Case currentCase) {
+    public static DatasourceXml getDatabaseSignatures(JTable Table, Case currentCase) throws IOException {
         String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
         
         DatasourceXml sourceXml = new DatasourceXml();
-
-        if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
-            FileUtil.createFolder(mainRawfilePath);
-        }
-
-        if (!FileUtil.isDirectoryExists(cookedReportFolder)) {
-            FileUtil.createFolder(cookedReportFolder);
-        }
 
         sourceXml.m_strJasperFile = "\\databasesignature_report.jasper";
         sourceXml.m_strXPath = "/filedb/db";
@@ -382,33 +271,18 @@ public class RawResultFile {
         strCaseXml += "</filedb>";
 
 
-        try {
-
-            File file = new File(strOutputPath);
-            FileUtils.writeStringToFile(file, strCaseXml);
-        } catch (IOException e) {
-            e.printStackTrace();
-            strOutputPath = "";
-        }
+        File file = new File(strOutputPath);
+        FileUtils.writeStringToFile(file, strCaseXml);
 
         sourceXml.m_strXmlPath = strOutputPath;
 
         return sourceXml;
     }
 
-    public static DatasourceXml getHashAnalysisHashLibrary(JTable Table, Case currentCase) {
+    public static DatasourceXml getHashAnalysisHashLibrary(JTable Table, Case currentCase) throws IOException {
         String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
         
         DatasourceXml sourceXml = new DatasourceXml();
-
-        if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
-            FileUtil.createFolder(mainRawfilePath);
-        }
-
-        if (!FileUtil.isDirectoryExists(cookedReportFolder)) {
-            FileUtil.createFolder(cookedReportFolder);
-        }
 
         sourceXml.m_strJasperFile = "\\hashanalysis_report.jasper";
         sourceXml.m_strXPath = "/hashfile/file";
@@ -442,33 +316,17 @@ public class RawResultFile {
         strCaseXml += "</hashfile>";
 
 
-        try {
-
-            File file = new File(strOutputPath);
-            FileUtils.writeStringToFile(file, strCaseXml);
-        } catch (IOException e) {
-            e.printStackTrace();
-            strOutputPath = "";
-        }
-
+        File file = new File(strOutputPath);
+        FileUtils.writeStringToFile(file, strCaseXml);
         sourceXml.m_strXmlPath = strOutputPath;
 
         return sourceXml;
     }
 
-    public static DatasourceXml getHashAnalysisinCase(JTable Table, Case currentCase) {
+    public static DatasourceXml getHashAnalysisinCase(JTable Table, Case currentCase) throws IOException {
         String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
         
         DatasourceXml sourceXml = new DatasourceXml();
-
-        if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
-            FileUtil.createFolder(mainRawfilePath);
-        }
-
-        if (!FileUtil.isDirectoryExists(cookedReportFolder)) {
-            FileUtil.createFolder(cookedReportFolder);
-        }
 
         sourceXml.m_strJasperFile = "\\hashanalysis_incase_report.jasper";
         sourceXml.m_strXPath = "/hashfile/file";
@@ -502,33 +360,18 @@ public class RawResultFile {
         strCaseXml += "</hashfile>";
 
 
-        try {
-
-            File file = new File(strOutputPath);
-            FileUtils.writeStringToFile(file, strCaseXml);
-        } catch (IOException e) {
-            e.printStackTrace();
-            strOutputPath = "";
-        }
+        File file = new File(strOutputPath);
+        FileUtils.writeStringToFile(file, strCaseXml);
 
         sourceXml.m_strXmlPath = strOutputPath;
 
         return sourceXml;
     }
 
-    public static DatasourceXml getTextClouds(JTable Table, Case currentCase) {
+    public static DatasourceXml getTextClouds(JTable Table, Case currentCase) throws IOException {
         String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-        String cookedReportFolder = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_REPORTS_FOLDER;
         
         DatasourceXml sourceXml = new DatasourceXml();
-
-        if (!FileUtil.isDirectoryExists(mainRawfilePath)) {
-            FileUtil.createFolder(mainRawfilePath);
-        }
-
-        if (!FileUtil.isDirectoryExists(cookedReportFolder)) {
-            FileUtil.createFolder(cookedReportFolder);
-        }
 
         sourceXml.m_strJasperFile = "\\commonfrequency.jasper";
         sourceXml.m_strXPath = "/wordclouds/cloud";
@@ -561,17 +404,35 @@ public class RawResultFile {
         strCaseXml += "</wordclouds>";
 
 
-        try {
-
-            File file = new File(strOutputPath);
-            FileUtils.writeStringToFile(file, strCaseXml);
-        } catch (IOException e) {
-            e.printStackTrace();
-            strOutputPath = "";
-        }
+        File file = new File(strOutputPath);
+        FileUtils.writeStringToFile(file, strCaseXml);
 
         sourceXml.m_strXmlPath = strOutputPath;
 
         return sourceXml;
+    }
+    
+    private static String getGenericCaseInformation(final Case currentCase) {
+        String result = "<dem><case>"
+                + "<name>" + currentCase.getCaseName() + "</name>"
+                + "<author>" + currentCase.getDescription() + "</author>"
+                + "<source> " +  currentCase.getCaseLocation() + "</source>"
+                + "</case>";
+        
+        return result;
+    }
+    
+    private static String getFullXMLTags(final String header, final String data) {
+        StringBuilder result = new StringBuilder();
+        
+        result.append(header)
+            .append("<detail>")
+            .append("<effectivefiles>")
+            .append(data)
+            .append("</effectivefiles>")
+            .append("</detail>")
+            .append("</dem>");
+            
+        return result.toString();
     }
 }

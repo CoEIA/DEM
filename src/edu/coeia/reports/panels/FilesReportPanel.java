@@ -17,6 +17,8 @@ import edu.coeia.reports.RawResultFile;
 
 import java.io.IOException;
 
+import java.util.List;
+
 /**
  *
  * @author wajdyessam
@@ -33,14 +35,8 @@ public class FilesReportPanel extends javax.swing.JPanel implements ReportGenera
 
     @Override
     public DatasourceXml generateReport() throws IOException {
-        DatasourceXml objXmlSource =new DatasourceXml();
-        
-        objXmlSource = 
-                RawResultFile.getFileSystemXmlFile(
-                    IndexUtil.getAllFilePaths(this.reportPanel.getCaseFacade())
-                    ,this.reportPanel.getCaseFacade()
-                );
-        return objXmlSource;
+        List<String> filesPath = IndexUtil.getAllFilePaths(this.reportPanel.getCaseFacade());
+        return RawResultFile.getFileSystemXmlFile(filesPath, this.reportPanel.getCaseFacade());
     }
         
     /** This method is called from within the constructor to

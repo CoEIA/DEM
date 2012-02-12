@@ -12,7 +12,6 @@ import java.io.File;
 
 import java.util.HashMap;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -27,14 +26,6 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 
 public class DisclosureReport {
 
-    private String m_strJasperCompiledFile,
-            m_strDataSourceFile, m_strOutputFilePath, m_strOutputFileName, m_strRootXPath;
-    private String m_strFinalFile;
-
-    public String getFinalFile() {
-        return m_strFinalFile;
-    }
-
     public enum REPORT_TYPE {
         PDF, WORD, HTML, RTF, CSV, XLS, XML
     };
@@ -43,9 +34,27 @@ public class DisclosureReport {
         XML, MYSQL, CSV
     };
     
-    private REPORT_TYPE m_ReportType = REPORT_TYPE.PDF;
+    private String m_strJasperCompiledFile;
+    private String m_strDataSourceFile;
+    private String m_strOutputFilePath;
+    private String m_strOutputFileName;
+    private String m_strRootXPath;
+    private String m_strFinalFile;
     
+    private REPORT_TYPE m_ReportType = REPORT_TYPE.PDF;
     private DATASOURCE_TYPE m_DataSource = DATASOURCE_TYPE.XML;
+    
+    public DisclosureReport(String v_jasperCompiledFile, String v_XmlDataFile,
+            String v_OutputFilePath, String v_OutputFileName) {
+        this.m_strDataSourceFile = v_XmlDataFile;
+        m_strJasperCompiledFile = v_jasperCompiledFile;
+        m_strOutputFilePath = v_OutputFilePath;
+        m_strOutputFileName = v_OutputFileName;
+    }
+        
+    public String getFinalFile() {
+        return m_strFinalFile;
+    }
 
     public void setRootXPath(String m_strRootXPath) {
         this.m_strRootXPath = m_strRootXPath;
@@ -95,14 +104,6 @@ public class DisclosureReport {
         return m_strOutputFilePath;
     }
 
-    public DisclosureReport(String v_jasperCompiledFile, String v_XmlDataFile,
-            String v_OutputFilePath, String v_OutputFileName) {
-        this.m_strDataSourceFile = v_XmlDataFile;
-        m_strJasperCompiledFile = v_jasperCompiledFile;
-        m_strOutputFilePath = v_OutputFilePath;
-        m_strOutputFileName = v_OutputFileName;
-    }
-
     public void Generate() throws Exception {
         if (m_strOutputFileName.isEmpty()
                 || m_strJasperCompiledFile.isEmpty()
@@ -133,74 +134,55 @@ public class DisclosureReport {
             throw new Exception("Root XPath is required.");
         }
 
-        try {
-            HashMap hm = new HashMap();
-            File file = new File(m_strDataSourceFile);
+        HashMap hm = new HashMap();
+        File file = new File(m_strDataSourceFile);
 
-            if (!file.canRead()) {
-                throw new Exception("Unable to read XML data source file.");
-            }
-
-            JRXmlDataSource jrxmlds = new JRXmlDataSource(file, m_strRootXPath);
-            exportOutputFile(JasperFillManager.fillReport(m_strJasperCompiledFile, hm, jrxmlds));
-        } catch (JRException ex) {
-            System.out.println("CAUSE: " + ex.getCause());
-            System.out.println("MESSAGE" + ex.getMessage());
-            System.out.println("LOCAL MESSAGE" + ex.getLocalizedMessage());
-            ex.printStackTrace();
-            throw new Exception(ex.getMessage());
+        if (!file.canRead()) {
+            throw new Exception("Unable to read XML data source file.");
         }
 
+        JRXmlDataSource jrxmlds = new JRXmlDataSource(file, m_strRootXPath);
+        exportOutputFile(JasperFillManager.fillReport(m_strJasperCompiledFile, hm, jrxmlds));
     }
 
     private void exportOutputFile(JasperPrint v_jsPrint) throws Exception {
         String ext;
-
         JRExporter exporter = null;
-
-        try {
-            switch (m_ReportType) {
-                case PDF:
-                    ext = ".pdf";
-                    exporter = new JRPdfExporter();
-                    break;
-                case CSV:
-                    ext = ".csv";
-                    exporter = new JRCsvExporter();
-                    break;
-                case XML:
-                    ext = ".xml";
-                    exporter = new JRXmlExporter();
-                    break;
-                case HTML:
-                    ext = ".html";
-                    exporter = new JRHtmlExporter();
-                    break;
-                case WORD:
-                    ext = ".docx";
-                    exporter = new JRDocxExporter();
-                    break;
-                case RTF:
-                    ext = ".rtf";
-                    exporter = new JRRtfExporter();
-                    break;
-                default:
-                    ext = ".pdf";
-                    exporter = new JRPdfExporter();
-            }
-
-            String strFinalOutput = m_strOutputFilePath + "\\" + m_strOutputFileName + ext;
-            exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, strFinalOutput);
-            exporter.setParameter(JRExporterParameter.JASPER_PRINT, v_jsPrint);
-            exporter.exportReport();
-            System.out.println("Created file: " + strFinalOutput);
-            m_strFinalFile = strFinalOutput;
-        } catch (JRException ex) {
-            System.out.println("CAUSE: " + ex.getCause());
-            System.out.println("MESSAGE" + ex.getMessage());
-            System.out.println("LOCAL MESSAGE" + ex.getLocalizedMessage());
-            ex.printStackTrace();
-            throw new Exception(ex.getMessage());
+        switch (m_ReportType) {
+            case PDF:
+                ext = ".pdf";
+                exporter = new JRPdfExporter();
+                break;
+            case CSV:
+                ext = ".csv";
+                exporter = new JRCsvExporter();
+                break;
+            case XML:
+                ext = ".xml";
+                exporter = new JRXmlExporter();
+                break;
+            case HTML:
+                ext = ".html";
+                exporter = new JRHtmlExporter();
+                break;
+            case WORD:
+                ext = ".docx";
+                exporter = new JRDocxExporter();
+                break;
+            case RTF:
+                ext = ".rtf";
+                exporter = new JRRtfExporter();
+                break;
+            default:
+                ext = ".pdf";
+                exporter = new JRPdfExporter();
         }
+
+        String strFinalOutput = m_strOutputFilePath + "\\" + m_strOutputFileName + ext;
+        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, strFinalOutput);
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT, v_jsPrint);
+        exporter.exportReport();
+        System.out.println("Created file: " + strFinalOutput);
+        m_strFinalFile = strFinalOutput;
     }
 }

@@ -10,12 +10,16 @@
  */
 package edu.coeia.reports.panels;
 
+import edu.coeia.cases.Case;
 import edu.coeia.reports.ReportPanel;
 import edu.coeia.reports.DatasourceXml;
 import edu.coeia.reports.IndexUtil;
 import edu.coeia.reports.RawResultFile;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,20 +38,16 @@ public class CasesReportPanel extends javax.swing.JPanel implements ReportGenera
     }
 
     @Override
-    public DatasourceXml generateReport() {
-
-        DatasourceXml xmlSource= new DatasourceXml();
+    public DatasourceXml generateReport() throws IOException, FileNotFoundException {
+        DatasourceXml xml = null;
         try {
-            xmlSource = RawResultFile.getCasesXmlFile(IndexUtil.getAllCases(),this.reportPanel.getCase());
-        } 
-        catch (IOException ex) {
-            Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex) {
+            List<Case> cases = IndexUtil.getAllCases();
+            xml =  RawResultFile.getCasesXmlFile(cases, this.reportPanel.getCaseFacade());
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(CasesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return xmlSource;
+        return xml;
     }
     
     /** This method is called from within the constructor to
