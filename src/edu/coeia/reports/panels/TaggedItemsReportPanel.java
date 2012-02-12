@@ -14,17 +14,17 @@ import edu.coeia.reports.ReportPanel;
 import edu.coeia.reports.DatasourceXml;
 import edu.coeia.reports.RawResultFile;
 import edu.coeia.tags.TagsManager;
+
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Ahmed
  */
 public class TaggedItemsReportPanel extends javax.swing.JPanel implements ReportGenerator {
-    private ReportPanel reportPanel ;
-    private TagsManager tags;
+    private final ReportPanel reportPanel ;
+    private final TagsManager tags;
+    
     /** Creates new form TaggedItemsReportPanel */
     public TaggedItemsReportPanel(ReportPanel panel, TagsManager manager) {
         initComponents();
@@ -66,14 +66,7 @@ public class TaggedItemsReportPanel extends javax.swing.JPanel implements Report
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 
-    public DatasourceXml generateReport() {
-        DatasourceXml objXmlSource = new DatasourceXml();
-        try {
-            objXmlSource = RawResultFile.getTaggedItems(tags, this.reportPanel.getCase());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return objXmlSource;
+    public DatasourceXml generateReport() throws IOException {
+        return RawResultFile.getTaggedItems(tags, this.reportPanel.getCaseFacade());
     }
 }

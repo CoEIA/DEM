@@ -7,7 +7,6 @@ package edu.coeia.reports;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.ApplicationConstants;
-import edu.coeia.gutil.JTableUtil;
 import edu.coeia.tags.Tag;
 import edu.coeia.tags.TagsManager;
 import edu.coeia.util.DateUtil;
@@ -20,8 +19,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JTable;
 
 import org.apache.commons.io.FileUtils;
 
@@ -122,9 +119,9 @@ public class RawResultFile {
         sourceXml.m_strReportName = ApplicationConstants.CASES_REPORT_NAME;
         sourceXml.m_strXmlPath = caseFacade.getCaseRawReportFolderLocation() + File.separator + ApplicationConstants.CASES_XML_FILE;
         
-        String strCaseXml = "<dem><cases>";
         StringBuilder casesBuffer = new StringBuilder();
-
+        casesBuffer.append("<dem><cases>");
+        
         for (Case aCase : cases) {
             String caseLocation = aCase.getCaseLocation().replace(':', '\\');
             String caseCreatingTime = DateUtil.formatedDateWithTime(aCase.getCreateTime()); 
@@ -144,273 +141,265 @@ public class RawResultFile {
                     .append(caseCreatingTime)
                     .append("</date>" + "</case>");
         }
-
-        strCaseXml += casesBuffer.toString() + "</cases></dem>";
-
+        
+        casesBuffer.append("</cases></dem>");
+        
         File file = new File(sourceXml.m_strXmlPath);
-        FileUtils.writeStringToFile(file, strCaseXml);
+        FileUtils.writeStringToFile(file, casesBuffer.toString());
 
         return sourceXml;
     }
 
-    public static DatasourceXml getTaggedItems(TagsManager tags, Case currentCase) throws IOException {
-        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-        
+    public static DatasourceXml getTaggedItems(TagsManager tags, final CaseFacade caseFacade) throws IOException {
         DatasourceXml sourceXml = new DatasourceXml();
-
-        sourceXml.m_strJasperFile = "\\taggeditems_report.jasper";
-        sourceXml.m_strXPath = "/dem/filetags/tag";
-        sourceXml.m_strReportName = "taggeditems";
-
-        String strOutputPath = mainRawfilePath + "\\taggeditems.xml";
-
+        
+        sourceXml.m_strJasperFile = ApplicationConstants.TAGS_JASPER_FILE;
+        sourceXml.m_strXPath = ApplicationConstants.TAGS_X_PATH;
+        sourceXml.m_strReportName = ApplicationConstants.TAGS_REPORT_NAME;
+        sourceXml.m_strXmlPath = caseFacade.getCaseRawReportFolderLocation() + File.separator + ApplicationConstants.TAGS_XML_FILE;
+        
         List<Tag> taggeditems = tags.getTags();
 
-
-        String strCaseXml = "<dem><case>"
-                + "<name>" + currentCase.getCaseName() + "</name>"
-                + "<author>" + currentCase.getDescription() + "</author>"
-                + "<source> </source>"
-                + "</case><filetags>";
-
-
-        for (Tag t : taggeditems) {
-
-            strCaseXml += "<tag><name>" + t.getName() + "</name>"
-                    + "<moddate>" + t.getDate() + "</moddate>"
-                    + "<message>" + t.getMessage() + "</message>"
-                    + "</tag>";
-        }
-
-        strCaseXml += "</filetags></dem>";
-
-        File file = new File(strOutputPath);
-        FileUtils.writeStringToFile(file, strCaseXml);
-        sourceXml.m_strXmlPath = strOutputPath;
-
-        return sourceXml;
-    }
-
-    public static DatasourceXml getSignatureItems(JTable Table, Case currentCase) throws IOException {
-        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+        StringBuilder result = new StringBuilder();
         
-        DatasourceXml sourceXml = new DatasourceXml();
-
-        sourceXml.m_strJasperFile = "\\filesignature_report.jasper";
-        sourceXml.m_strXPath = "/filesign/sign";
-        sourceXml.m_strReportName = "filesignature";
-
-        String strOutputPath = mainRawfilePath + "\\filesignature.xml";
-
-        Object[][] data = JTableUtil.getTableData(Table);
-
-
-        int r = Table.getRowCount();
-        int c = Table.getColumnCount();
-
-        for (int i = 0; i < r; i++) {
-            for (int x = 0; x < c; x++) {
-                if (data[i][x] == null) {
-                    data[i][x] = new String();
-                }
-            }
-        }
-        String strCaseXml = "<filesign>";
-        for (int i = 0; i < r; i++) {
-            strCaseXml += "<sign><filename>" + data[i][0] + "</filename>"
-                    + "<status>" + data[i][2] + "</status>"
-                    + "<suspected>" + data[i][3] + "</suspected>"
-                    + "<fileextensions>" + data[i][4] + "</fileextensions>"
-                    + "<signatures>" + data[i][1] + "</signatures>"
-                    + "</sign>";
-        }
-        strCaseXml += "</filesign>";
-
-
-        File file = new File(strOutputPath);
-        FileUtils.writeStringToFile(file, strCaseXml);
-        sourceXml.m_strXmlPath = strOutputPath;
-
-        return sourceXml;
-    }
-
-    public static DatasourceXml getDatabaseSignatures(JTable Table, Case currentCase) throws IOException {
-        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+        result.append(getGenericCaseInformation(caseFacade.getCase()));
+        result.append("<filetags>");
         
-        DatasourceXml sourceXml = new DatasourceXml();
-
-        sourceXml.m_strJasperFile = "\\databasesignature_report.jasper";
-        sourceXml.m_strXPath = "/filedb/db";
-        sourceXml.m_strReportName = "databasesignatures";
-
-        String strOutputPath = mainRawfilePath + "\\databasesignatures.xml";
-
-        Object[][] data = JTableUtil.getTableData(Table);
-
-
-        int r = Table.getRowCount();
-        int c = Table.getColumnCount();
-
-        for (int i = 0; i < r; i++) {
-            for (int x = 0; x < c; x++) {
-                if (data[i][x] == null) {
-                    data[i][x] = new String();
-                }
-            }
+        for (Tag tag : taggeditems) {
+            result.append("<tag><name>")
+                    .append(tag.getName())
+                    .append("</name>" + "<moddate>")
+                    .append(tag.getDate())
+                    .append("</moddate>" + "<message>")
+                    .append(tag.getMessage())
+                    .append("</message>" + "</tag>");
         }
 
-
-        String strCaseXml = "<filedb>";
-        for (int i = 0; i < r; i++) {
-            strCaseXml += "<db><fileext>" + data[i][0] + "</fileext>"
-                    + "<filesign>" + data[i][1] + "</filesign>"
-                    + "<filetype>" + data[i][2] + "</filetype>"
-                    + "<filecatg>" + data[i][3] + "</filecatg>"
-                    + "</db>";
-        }
-        strCaseXml += "</filedb>";
-
-
-        File file = new File(strOutputPath);
-        FileUtils.writeStringToFile(file, strCaseXml);
-
-        sourceXml.m_strXmlPath = strOutputPath;
-
-        return sourceXml;
-    }
-
-    public static DatasourceXml getHashAnalysisHashLibrary(JTable Table, Case currentCase) throws IOException {
-        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+        result.append("</filetags></dem>");
         
-        DatasourceXml sourceXml = new DatasourceXml();
-
-        sourceXml.m_strJasperFile = "\\hashanalysis_report.jasper";
-        sourceXml.m_strXPath = "/hashfile/file";
-        sourceXml.m_strReportName = "hashanalysis_report";
-
-        String strOutputPath = mainRawfilePath + "\\hashanalysis_report.xml";
-
-        Object[][] data = JTableUtil.getTableData(Table);
-
-
-        int r = Table.getRowCount();
-        int c = Table.getColumnCount();
-
-        for (int i = 0; i < r; i++) {
-            for (int x = 0; x < c; x++) {
-                if (data[i][x] == null) {
-                    data[i][x] = new String();
-                }
-            }
-        }
-
-
-        String strCaseXml = "<hashfile>";
-        for (int i = 0; i < r; i++) {
-            strCaseXml += "<file><filename>" + data[i][0] + "</filename>"
-                    + "<filepath>" + data[i][1] + "</filepath>"
-                    + "<hashset>" + data[i][2] + "</hashset>"
-                    + "<hashvalue>" + data[i][3] + "</hashvalue>"
-                    + "</file>";
-        }
-        strCaseXml += "</hashfile>";
-
-
-        File file = new File(strOutputPath);
-        FileUtils.writeStringToFile(file, strCaseXml);
-        sourceXml.m_strXmlPath = strOutputPath;
+        File file = new File(sourceXml.m_strXmlPath);
+        FileUtils.writeStringToFile(file, result.toString());
 
         return sourceXml;
     }
 
-    public static DatasourceXml getHashAnalysisinCase(JTable Table, Case currentCase) throws IOException {
-        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-        
-        DatasourceXml sourceXml = new DatasourceXml();
-
-        sourceXml.m_strJasperFile = "\\hashanalysis_incase_report.jasper";
-        sourceXml.m_strXPath = "/hashfile/file";
-        sourceXml.m_strReportName = "hashanalysis_incase_report";
-
-        String strOutputPath = mainRawfilePath + "\\hashanalysis_incase_report.xml";
-
-        Object[][] data = JTableUtil.getTableData(Table);
-
-
-        int r = Table.getRowCount();
-        int c = Table.getColumnCount();
-
-        for (int i = 0; i < r; i++) {
-            for (int x = 0; x < c; x++) {
-                if (data[i][x] == null) {
-                    data[i][x] = new String();
-                }
-            }
-        }
-
-
-        String strCaseXml = "<hashfile>";
-        for (int i = 0; i < r; i++) {
-            strCaseXml += "<file><filename>" + data[i][0] + "</filename>"
-                    + "<filepath>" + data[i][1] + "</filepath>"
-                    + "<date>" + data[i][2] + "</date>"
-                    + "<hashvalue>" + data[i][3] + "</hashvalue>"
-                    + "</file>";
-        }
-        strCaseXml += "</hashfile>";
-
-
-        File file = new File(strOutputPath);
-        FileUtils.writeStringToFile(file, strCaseXml);
-
-        sourceXml.m_strXmlPath = strOutputPath;
-
-        return sourceXml;
-    }
-
-    public static DatasourceXml getTextClouds(JTable Table, Case currentCase) throws IOException {
-        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-        
-        DatasourceXml sourceXml = new DatasourceXml();
-
-        sourceXml.m_strJasperFile = "\\commonfrequency.jasper";
-        sourceXml.m_strXPath = "/wordclouds/cloud";
-        sourceXml.m_strReportName = "commonfrequency";
-
-        String strOutputPath = mainRawfilePath + "\\commonfrequency_report.xml";
-
-        Object[][] data = JTableUtil.getTableData(Table);
-
-
-        int r = Table.getRowCount();
-        int c = Table.getColumnCount();
-
-        for (int i = 0; i < r; i++) {
-            for (int x = 0; x < c; x++) {
-                if (data[i][x] == null) {
-                    data[i][x] = new String();
-                }
-            }
-        }
-
-
-        String strCaseXml = "<wordclouds>";
-        for (int i = 0; i < r; i++) {
-            strCaseXml += "<cloud><word>" + data[i][0] + "</word>"
-                    + "<frequency>" + data[i][1] + "</frequency>"
-                    + "</cloud>";
-
-        }
-        strCaseXml += "</wordclouds>";
-
-
-        File file = new File(strOutputPath);
-        FileUtils.writeStringToFile(file, strCaseXml);
-
-        sourceXml.m_strXmlPath = strOutputPath;
-
-        return sourceXml;
-    }
+//    public static DatasourceXml getSignatureItems(final JTable Table, final CaseFacade caseFacade) throws IOException {
+//        DatasourceXml sourceXml = new DatasourceXml();
+//        
+//        sourceXml.m_strJasperFile = ApplicationConstants.TAGS_JASPER_FILE;
+//        sourceXml.m_strXPath = ApplicationConstants.TAGS_X_PATH;
+//        sourceXml.m_strReportName = ApplicationConstants.TAGS_REPORT_NAME;
+//        sourceXml.m_strXmlPath = caseFacade.getCaseRawReportFolderLocation() + File.separator + ApplicationConstants.TAGS_XML_FILE;
+//        
+//
+//        Object[][] data = JTableUtil.getTableData(Table);
+//
+//
+//        int r = Table.getRowCount();
+//        int c = Table.getColumnCount();
+//
+//        for (int i = 0; i < r; i++) {
+//            for (int x = 0; x < c; x++) {
+//                if (data[i][x] == null) {
+//                    data[i][x] = new String();
+//                }
+//            }
+//        }
+//        String strCaseXml = "<filesign>";
+//        for (int i = 0; i < r; i++) {
+//            strCaseXml += "<sign><filename>" + data[i][0] + "</filename>"
+//                    + "<status>" + data[i][2] + "</status>"
+//                    + "<suspected>" + data[i][3] + "</suspected>"
+//                    + "<fileextensions>" + data[i][4] + "</fileextensions>"
+//                    + "<signatures>" + data[i][1] + "</signatures>"
+//                    + "</sign>";
+//        }
+//        strCaseXml += "</filesign>";
+//
+//
+//        File file = new File(sourceXml.m_strXmlPath);
+//        FileUtils.writeStringToFile(file, strCaseXml);
+//
+//        return sourceXml;
+//    }
+//
+//    public static DatasourceXml getDatabaseSignatures(JTable Table, Case currentCase) throws IOException {
+//        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+//        
+//        DatasourceXml sourceXml = new DatasourceXml();
+//
+//        sourceXml.m_strJasperFile = "\\databasesignature_report.jasper";
+//        sourceXml.m_strXPath = "/filedb/db";
+//        sourceXml.m_strReportName = "databasesignatures";
+//
+//        String strOutputPath = mainRawfilePath + "\\databasesignatures.xml";
+//
+//        Object[][] data = JTableUtil.getTableData(Table);
+//
+//
+//        int r = Table.getRowCount();
+//        int c = Table.getColumnCount();
+//
+//        for (int i = 0; i < r; i++) {
+//            for (int x = 0; x < c; x++) {
+//                if (data[i][x] == null) {
+//                    data[i][x] = new String();
+//                }
+//            }
+//        }
+//
+//
+//        String strCaseXml = "<filedb>";
+//        for (int i = 0; i < r; i++) {
+//            strCaseXml += "<db><fileext>" + data[i][0] + "</fileext>"
+//                    + "<filesign>" + data[i][1] + "</filesign>"
+//                    + "<filetype>" + data[i][2] + "</filetype>"
+//                    + "<filecatg>" + data[i][3] + "</filecatg>"
+//                    + "</db>";
+//        }
+//        strCaseXml += "</filedb>";
+//
+//
+//        File file = new File(strOutputPath);
+//        FileUtils.writeStringToFile(file, strCaseXml);
+//
+//        sourceXml.m_strXmlPath = strOutputPath;
+//
+//        return sourceXml;
+//    }
+//
+//    public static DatasourceXml getHashAnalysisHashLibrary(JTable Table, Case currentCase) throws IOException {
+//        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+//        
+//        DatasourceXml sourceXml = new DatasourceXml();
+//
+//        sourceXml.m_strJasperFile = "\\hashanalysis_report.jasper";
+//        sourceXml.m_strXPath = "/hashfile/file";
+//        sourceXml.m_strReportName = "hashanalysis_report";
+//
+//        String strOutputPath = mainRawfilePath + "\\hashanalysis_report.xml";
+//
+//        Object[][] data = JTableUtil.getTableData(Table);
+//
+//
+//        int r = Table.getRowCount();
+//        int c = Table.getColumnCount();
+//
+//        for (int i = 0; i < r; i++) {
+//            for (int x = 0; x < c; x++) {
+//                if (data[i][x] == null) {
+//                    data[i][x] = new String();
+//                }
+//            }
+//        }
+//
+//
+//        String strCaseXml = "<hashfile>";
+//        for (int i = 0; i < r; i++) {
+//            strCaseXml += "<file><filename>" + data[i][0] + "</filename>"
+//                    + "<filepath>" + data[i][1] + "</filepath>"
+//                    + "<hashset>" + data[i][2] + "</hashset>"
+//                    + "<hashvalue>" + data[i][3] + "</hashvalue>"
+//                    + "</file>";
+//        }
+//        strCaseXml += "</hashfile>";
+//
+//
+//        File file = new File(strOutputPath);
+//        FileUtils.writeStringToFile(file, strCaseXml);
+//        sourceXml.m_strXmlPath = strOutputPath;
+//
+//        return sourceXml;
+//    }
+//
+//    public static DatasourceXml getHashAnalysisinCase(JTable Table, Case currentCase) throws IOException {
+//        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+//        
+//        DatasourceXml sourceXml = new DatasourceXml();
+//
+//        sourceXml.m_strJasperFile = "\\hashanalysis_incase_report.jasper";
+//        sourceXml.m_strXPath = "/hashfile/file";
+//        sourceXml.m_strReportName = "hashanalysis_incase_report";
+//
+//        String strOutputPath = mainRawfilePath + "\\hashanalysis_incase_report.xml";
+//
+//        Object[][] data = JTableUtil.getTableData(Table);
+//
+//
+//        int r = Table.getRowCount();
+//        int c = Table.getColumnCount();
+//
+//        for (int i = 0; i < r; i++) {
+//            for (int x = 0; x < c; x++) {
+//                if (data[i][x] == null) {
+//                    data[i][x] = new String();
+//                }
+//            }
+//        }
+//
+//
+//        String strCaseXml = "<hashfile>";
+//        for (int i = 0; i < r; i++) {
+//            strCaseXml += "<file><filename>" + data[i][0] + "</filename>"
+//                    + "<filepath>" + data[i][1] + "</filepath>"
+//                    + "<date>" + data[i][2] + "</date>"
+//                    + "<hashvalue>" + data[i][3] + "</hashvalue>"
+//                    + "</file>";
+//        }
+//        strCaseXml += "</hashfile>";
+//
+//
+//        File file = new File(strOutputPath);
+//        FileUtils.writeStringToFile(file, strCaseXml);
+//
+//        sourceXml.m_strXmlPath = strOutputPath;
+//
+//        return sourceXml;
+//    }
+//
+//    public static DatasourceXml getTextClouds(JTable Table, Case currentCase) throws IOException {
+//        String mainRawfilePath = currentCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+//        
+//        DatasourceXml sourceXml = new DatasourceXml();
+//
+//        sourceXml.m_strJasperFile = "\\commonfrequency.jasper";
+//        sourceXml.m_strXPath = "/wordclouds/cloud";
+//        sourceXml.m_strReportName = "commonfrequency";
+//
+//        String strOutputPath = mainRawfilePath + "\\commonfrequency_report.xml";
+//
+//        Object[][] data = JTableUtil.getTableData(Table);
+//
+//
+//        int r = Table.getRowCount();
+//        int c = Table.getColumnCount();
+//
+//        for (int i = 0; i < r; i++) {
+//            for (int x = 0; x < c; x++) {
+//                if (data[i][x] == null) {
+//                    data[i][x] = new String();
+//                }
+//            }
+//        }
+//
+//
+//        String strCaseXml = "<wordclouds>";
+//        for (int i = 0; i < r; i++) {
+//            strCaseXml += "<cloud><word>" + data[i][0] + "</word>"
+//                    + "<frequency>" + data[i][1] + "</frequency>"
+//                    + "</cloud>";
+//
+//        }
+//        strCaseXml += "</wordclouds>";
+//
+//
+//        File file = new File(strOutputPath);
+//        FileUtils.writeStringToFile(file, strCaseXml);
+//
+//        sourceXml.m_strXmlPath = strOutputPath;
+//
+//        return sourceXml;
+//    }
     
     private static String getGenericCaseInformation(final Case currentCase) {
         String result = "<dem><case>"

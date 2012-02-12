@@ -104,4 +104,14 @@ public final class ApplicationConstants {
     public static final String CASES_X_PATH = "/dem/cases/case";
     public static final String CASES_REPORT_NAME = "cases";
     public static final String CASES_XML_FILE = "cases.xml";
+    
+    public static final String TAGS_JASPER_FILE = "taggeditems_report.jasper";
+    public static final String TAGS_X_PATH = "/dem/filetags/tag";
+    public static final String TAGS_REPORT_NAME = "taggeditems";
+    public static final String TAGS_XML_FILE = "taggeditems.xml";
+    
+    public static final String SIGNATURE_RESULT_JASPER_FILE = "filesignature_report.jasper";
+    public static final String SIGNATURE_RESULT_X_PATH = "/filesign/sign";
+    public static final String SIGNATURE_RESULT_REPORT_NAME = "filesignature";
+    public static final String SIGNATURE_RESULT_XML_FILE = "filesignature.xml";
 }

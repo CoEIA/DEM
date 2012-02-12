@@ -10,9 +10,11 @@
  */
 package edu.coeia.reports.panels;
 
-import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.reports.DatasourceXml;
 import edu.coeia.reports.RawResultFile;
+
+import java.io.IOException;
 import javax.swing.JTable;
 
 /**
@@ -24,19 +26,11 @@ public class FileSignatureReportsPanel extends javax.swing.JPanel {
    
     /** Creates new form FileSignatureReportsPanel */
     public FileSignatureReportsPanel(   ) {
-        initComponents();
-        
-              
+        initComponents(); 
     }
-    public DatasourceXml generateReport(JTable table, Case aCase) {
-        DatasourceXml objXmlSource = new DatasourceXml();
-        try {
-            objXmlSource = RawResultFile.getSignatureItems(table, aCase);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        return objXmlSource;
+    
+    public DatasourceXml generateReport(JTable table, final CaseFacade caseFacade) throws IOException {
+        return RawResultFile.getSignatureItems(table, caseFacade);
     }
     /** This method is called from within the constructor to
      * initialize the form.
