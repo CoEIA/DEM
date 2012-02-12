@@ -103,13 +103,12 @@ public final class IndexingDialog extends javax.swing.JDialog {
         indexPanel = new javax.swing.JPanel();
         objectPanel = new javax.swing.JPanel();
         progressStatusPanel = new javax.swing.JPanel();
-        progressPanel = new javax.swing.JPanel();
+        bigSizeMsgLbl = new javax.swing.JLabel();
+        progressBar = new javax.swing.JProgressBar();
         jLabel27 = new javax.swing.JLabel();
         numberOfFilesLbl = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
         numberOfErrorFilesLbl = new javax.swing.JLabel();
-        bigSizeMsgLbl = new javax.swing.JLabel();
-        progressBar = new javax.swing.JProgressBar();
         indexControlPanel = new javax.swing.JPanel();
         startIndexButton = new javax.swing.JButton();
         stopIndexingButton = new javax.swing.JButton();
@@ -129,35 +128,31 @@ public final class IndexingDialog extends javax.swing.JDialog {
         indexPanel.add(objectPanel);
 
         progressStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Case", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-        progressStatusPanel.setLayout(new java.awt.BorderLayout());
+        progressStatusPanel.setLayout(new javax.swing.BoxLayout(progressStatusPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
-        progressPanel.setLayout(new javax.swing.BoxLayout(progressPanel, javax.swing.BoxLayout.PAGE_AXIS));
-
-        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel27.setText("Number of Files in Index:");
-        progressPanel.add(jLabel27);
-
-        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
-        numberOfFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
-        numberOfFilesLbl.setText(" ");
-        progressPanel.add(numberOfFilesLbl);
-
-        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel41.setText("Number of Files Cannot Indexed:");
-        progressPanel.add(jLabel41);
-
-        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
-        numberOfErrorFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
-        numberOfErrorFilesLbl.setText(" ");
-        progressPanel.add(numberOfErrorFilesLbl);
-
-        bigSizeMsgLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
+        bigSizeMsgLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         bigSizeMsgLbl.setForeground(new java.awt.Color(255, 0, 0));
         bigSizeMsgLbl.setText(" ");
-        progressPanel.add(bigSizeMsgLbl);
-        progressPanel.add(progressBar);
+        progressStatusPanel.add(bigSizeMsgLbl);
+        progressStatusPanel.add(progressBar);
 
-        progressStatusPanel.add(progressPanel, java.awt.BorderLayout.CENTER);
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel27.setText("Number of Files in Index:");
+        progressStatusPanel.add(jLabel27);
+
+        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        numberOfFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
+        numberOfFilesLbl.setText(" ");
+        progressStatusPanel.add(numberOfFilesLbl);
+
+        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel41.setText("Number of Files Cannot Indexed:");
+        progressStatusPanel.add(jLabel41);
+
+        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        numberOfErrorFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
+        numberOfErrorFilesLbl.setText(" ");
+        progressStatusPanel.add(numberOfErrorFilesLbl);
 
         indexPanel.add(progressStatusPanel);
 
@@ -242,7 +237,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
     private void showLoggingPanel(boolean flag) {
         this.loggingPanel.setVisible(flag);
-        this.pack();
+        //this.pack();
     }
     
     private void startIndexerThread () throws IOException{
@@ -347,7 +342,6 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private javax.swing.JLabel numberOfFilesLbl;
     private javax.swing.JPanel objectPanel;
     private javax.swing.JProgressBar progressBar;
-    private javax.swing.JPanel progressPanel;
     private javax.swing.JPanel progressStatusPanel;
     private javax.swing.JButton startIndexButton;
     private javax.swing.JButton stopIndexingButton;
