@@ -15,7 +15,6 @@ import com.toedter.calendar.JDateChooser;
 import edu.coeia.reports.DatasourceXml;
 import edu.coeia.reports.IndexUtil;
 import edu.coeia.reports.RawResultFile;
-import edu.coeia.reports.ReportGenerator;
 import java.awt.BorderLayout;
 import java.io.IOException;
 import java.util.Date;

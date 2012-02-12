@@ -15,7 +15,6 @@ import edu.coeia.gutil.JListUtil;
 import edu.coeia.reports.DatasourceXml;
 import edu.coeia.reports.IndexUtil;
 import edu.coeia.reports.RawResultFile;
-import edu.coeia.reports.ReportGenerator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

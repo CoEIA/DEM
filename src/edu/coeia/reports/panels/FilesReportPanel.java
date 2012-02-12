@@ -14,7 +14,6 @@ import edu.coeia.reports.ReportPanel;
 import edu.coeia.reports.DatasourceXml;
 import edu.coeia.reports.IndexUtil;
 import edu.coeia.reports.RawResultFile;
-import edu.coeia.reports.ReportGenerator;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

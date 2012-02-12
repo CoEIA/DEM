@@ -14,7 +14,6 @@ import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.main.CaseMainFrame;
-import edu.coeia.reports.ReportOptionDialog;
 import edu.coeia.reports.panels.CasesReportPanel;
 import edu.coeia.reports.panels.FilesAutherReportPanel;
 import edu.coeia.reports.panels.FilesExtensionReportPanel;
@@ -32,13 +31,10 @@ import javax.swing.JFrame;
  */
 public class ReportPanel extends javax.swing.JPanel {
 
-    private CaseFacade caseFacade ;
-    private TagsManager tags;
-    private CaseMainFrame caseFrame ;
-    private Case aCase ;
-    
-    public ReportPanel() { 
-    }
+    private final CaseFacade caseFacade ;
+    private final TagsManager tags;
+    private final CaseMainFrame caseFrame ;
+    private final Case aCase ;
 
     /** Creates new form ReportPanel */
     public ReportPanel(final JFrame frame) {
@@ -64,7 +60,6 @@ public class ReportPanel extends javax.swing.JPanel {
         ReportOptionsPanel = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jToolBar4 = new javax.swing.JToolBar();
-        reportConfigurationButton = new javax.swing.JButton();
         fileSystemOptionButton = new javax.swing.JButton();
         OptionsPanels = new javax.swing.JPanel();
         fileSystemPanel = new javax.swing.JPanel();
@@ -82,31 +77,7 @@ public class ReportPanel extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         casesButton = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jLabel12 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
-        jLabel14 = new javax.swing.JLabel();
-        jButton7 = new javax.swing.JButton();
-        jLabel15 = new javax.swing.JLabel();
-        jButton8 = new javax.swing.JButton();
-        jLabel16 = new javax.swing.JLabel();
-        jButton9 = new javax.swing.JButton();
-        jLabel17 = new javax.swing.JLabel();
-        jButton10 = new javax.swing.JButton();
-        reportConfigPanel = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
-        jRadioButton5 = new javax.swing.JRadioButton();
+        taggedItemsButton = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -116,18 +87,6 @@ public class ReportPanel extends javax.swing.JPanel {
         jToolBar4.setFloatable(false);
         jToolBar4.setOrientation(javax.swing.JToolBar.VERTICAL);
         jToolBar4.setRollover(true);
-
-        reportConfigurationButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/finish.png"))); // NOI18N
-        reportConfigurationButton.setText("Report Configuration");
-        reportConfigurationButton.setFocusable(false);
-        reportConfigurationButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        reportConfigurationButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        reportConfigurationButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reportConfigurationButtonActionPerformed(evt);
-            }
-        });
-        jToolBar4.add(reportConfigurationButton);
 
         fileSystemOptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/view_text.png"))); // NOI18N
         fileSystemOptionButton.setText("File System Option");
@@ -213,60 +172,19 @@ public class ReportPanel extends javax.swing.JPanel {
 
         jLabel8.setText("Report about all tagged items in the case");
 
-        jButton1.setText("Options...");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        taggedItemsButton.setText("Options...");
+        taggedItemsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                taggedItemsButtonActionPerformed(evt);
             }
         });
-
-        jLabel9.setText("Report about File Signature");
-
-        jButton2.setText("Report");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jLabel10.setText("Report about DEM Database of Signatures");
-
-        jButton3.setText("Options...");
-
-        jLabel11.setText("Report about hash library");
-
-        jButton4.setText("Report");
-
-        jLabel12.setText("Report about duplicated files in Case");
-
-        jButton5.setText("Report");
-
-        jLabel13.setText("Report about FireFox ");
-
-        jButton6.setText("Report");
-
-        jLabel14.setText("Report about Keywords frequency word");
-
-        jButton7.setText("Options...");
-
-        jLabel15.setText("Report about Common Keywords Clouds");
-
-        jButton8.setText("Options...");
-
-        jLabel16.setText("Report about searching indexed words");
-
-        jButton9.setText("Options...");
-
-        jLabel17.setText("Report about duplicated files in hash library");
-
-        jButton10.setText("Report");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -274,34 +192,16 @@ public class ReportPanel extends javax.swing.JPanel {
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel17))
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(taggedItemsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(filesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(fileExtensionButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(filesSizeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(filesDateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(fileAuthersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(casesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                    .addComponent(casesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -334,44 +234,8 @@ public class ReportPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jButton3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(jButton10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jButton6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(jButton7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(jButton8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel16)
-                    .addComponent(jButton9))
-                .addContainerGap())
+                    .addComponent(taggedItemsButton))
+                .addGap(272, 272, 272))
         );
 
         javax.swing.GroupLayout fileSystemPanelLayout = new javax.swing.GroupLayout(fileSystemPanel);
@@ -380,77 +244,16 @@ public class ReportPanel extends javax.swing.JPanel {
             fileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fileSystemPanelLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(197, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         fileSystemPanelLayout.setVerticalGroup(
             fileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fileSystemPanelLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         OptionsPanels.add(fileSystemPanel, "fileSystemCard");
-
-        reportConfigPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Report Panel"));
-
-        jLabel1.setText("Select the type of report do you want:");
-
-        buttonGroup2.add(jRadioButton3);
-        jRadioButton3.setText("PDF Report");
-
-        buttonGroup2.add(jRadioButton4);
-        jRadioButton4.setText("HTML Report");
-
-        buttonGroup2.add(jRadioButton5);
-        jRadioButton5.setText("MS-WORD Report");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jRadioButton4)
-                            .addComponent(jRadioButton3)
-                            .addComponent(jRadioButton5))))
-                .addContainerGap(319, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton5)
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout reportConfigPanelLayout = new javax.swing.GroupLayout(reportConfigPanel);
-        reportConfigPanel.setLayout(reportConfigPanelLayout);
-        reportConfigPanelLayout.setHorizontalGroup(
-            reportConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(reportConfigPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        reportConfigPanelLayout.setVerticalGroup(
-            reportConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(reportConfigPanelLayout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(382, Short.MAX_VALUE))
-        );
-
-        OptionsPanels.add(reportConfigPanel, "reportCard");
 
         add(OptionsPanels, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -491,45 +294,15 @@ public class ReportPanel extends javax.swing.JPanel {
         dialog.setVisible(true);
     }//GEN-LAST:event_casesButtonActionPerformed
 
-    private void reportConfigurationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportConfigurationButtonActionPerformed
-        GuiUtil.showPanel("reportCard", this.OptionsPanels);
-    }//GEN-LAST:event_reportConfigurationButtonActionPerformed
+    private void taggedItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taggedItemsButtonActionPerformed
+        ReportOptionDialog dialog = new ReportOptionDialog(this.caseFrame, true,
+                new TaggedItemsReportPanel(this, tags),this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_taggedItemsButtonActionPerformed
 
     private void fileSystemOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemOptionButtonActionPerformed
-        GuiUtil.showPanel("fileSystemCard", this.OptionsPanels);
+        GuiUtil.showPanel("fileSystemCard", this.OptionsPanels);     
     }//GEN-LAST:event_fileSystemOptionButtonActionPerformed
-
-    private void emailOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailOptionButtonActionPerformed
-
-    }//GEN-LAST:event_emailOptionButtonActionPerformed
-
-    private void browserOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browserOptionButtonActionPerformed
-
-    }//GEN-LAST:event_browserOptionButtonActionPerformed
-
-    private void instanceChatOptionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_instanceChatOptionButtonActionPerformed
-
-    }//GEN-LAST:event_instanceChatOptionButtonActionPerformed
-
-    private void reportGenerationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportGenerationButtonActionPerformed
-   
-    }//GEN-LAST:event_reportGenerationButtonActionPerformed
-
-    private void reportGeneratorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportGeneratorButtonActionPerformed
-        
-    }//GEN-LAST:event_reportGeneratorButtonActionPerformed
-
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// TODO add your handling code here:
-        ReportOptionDialog dialog = new ReportOptionDialog(this.caseFrame, true,
-            new TaggedItemsReportPanel(this, tags),this);
-        dialog.setVisible(true);
-}//GEN-LAST:event_jButton1ActionPerformed
-
-private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_jButton2ActionPerformed
-
 
     public Case getCase() { return this.aCase; }
     public CaseFacade getCaseFacade() { return this.caseFacade; }
@@ -547,25 +320,6 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JButton filesButton;
     private javax.swing.JButton filesDateButton;
     private javax.swing.JButton filesSizeButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -573,15 +327,9 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JToolBar jToolBar4;
-    private javax.swing.JPanel reportConfigPanel;
-    private javax.swing.JButton reportConfigurationButton;
+    private javax.swing.JButton taggedItemsButton;
     // End of variables declaration//GEN-END:variables
 }
