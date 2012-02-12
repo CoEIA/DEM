@@ -4,48 +4,40 @@
  */
 
 /*
- * ListAllCasesReportPanel.java
+ * FileSignatureReportsPanel.java
  *
- * Created on Jan 14, 2012, 7:57:20 AM
+ * Created on Jan 21, 2012, 8:51:02 AM
  */
-package edu.coeia.reports;
+package edu.coeia.reports.panels;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import edu.coeia.cases.Case;
+import edu.coeia.reports.DatasourceXml;
+import edu.coeia.reports.RawResultFile;
+import javax.swing.JTable;
 
 /**
  *
- * @author wajdyessam
+ * @author Ahmed
  */
-public class CasesReportPanel extends javax.swing.JPanel implements ReportGenerator{
+public class FileSignatureReportsPanel extends javax.swing.JPanel {
 
-    private ReportPanel reportPanel ;
-    
-    /** Creates new form ListAllCasesReportPanel */
-    public CasesReportPanel(ReportPanel panel) {
+   
+    /** Creates new form FileSignatureReportsPanel */
+    public FileSignatureReportsPanel(   ) {
         initComponents();
-        this.reportPanel = panel;
-    }
-
-    @Override
-    public DatasourceXml generateReport() {
-
-        DatasourceXml xmlSource= new DatasourceXml();
-        try {
-            xmlSource = RawResultFile.getCasesXmlFile(IndexUtil.getAllCases(),this.reportPanel.getCase());
-        } 
-        catch (IOException ex) {
-            Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex) {
-            Logger.getLogger(CasesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
-        return xmlSource;
+              
     }
-    
+    public DatasourceXml generateReport(JTable table, Case aCase) {
+        DatasourceXml objXmlSource = new DatasourceXml();
+        try {
+            objXmlSource = RawResultFile.getSignatureItems(table, aCase);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return objXmlSource;
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -57,23 +49,25 @@ public class CasesReportPanel extends javax.swing.JPanel implements ReportGenera
 
         jLabel1 = new javax.swing.JLabel();
 
-        jLabel1.setText("this report will display all the cases information with its create time and the auther");
+        jLabel1.setText("This report lists file signatures analysis inside the case.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 394, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 131, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(40, 40, 40)
                 .addComponent(jLabel1)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

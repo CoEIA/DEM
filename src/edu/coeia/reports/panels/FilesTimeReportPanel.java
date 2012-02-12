@@ -8,9 +8,14 @@
  *
  * Created on Jan 14, 2012, 8:17:44 AM
  */
-package edu.coeia.reports;
+package edu.coeia.reports.panels;
 
+import edu.coeia.reports.ReportPanel;
 import com.toedter.calendar.JDateChooser;
+import edu.coeia.reports.DatasourceXml;
+import edu.coeia.reports.IndexUtil;
+import edu.coeia.reports.RawResultFile;
+import edu.coeia.reports.ReportGenerator;
 import java.awt.BorderLayout;
 import java.io.IOException;
 import java.util.Date;

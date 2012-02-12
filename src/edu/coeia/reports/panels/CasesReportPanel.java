@@ -4,12 +4,18 @@
  */
 
 /*
- * ListAllFilesReportPanel.java
+ * ListAllCasesReportPanel.java
  *
- * Created on Jan 14, 2012, 7:44:49 AM
+ * Created on Jan 14, 2012, 7:57:20 AM
  */
-package edu.coeia.reports;
+package edu.coeia.reports.panels;
 
+import edu.coeia.reports.ReportPanel;
+import edu.coeia.reports.DatasourceXml;
+import edu.coeia.reports.IndexUtil;
+import edu.coeia.reports.RawResultFile;
+import edu.coeia.reports.ReportGenerator;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,31 +24,33 @@ import java.util.logging.Logger;
  *
  * @author wajdyessam
  */
-public class FilesReportPanel extends javax.swing.JPanel implements ReportGenerator{
+public class CasesReportPanel extends javax.swing.JPanel implements ReportGenerator{
 
     private ReportPanel reportPanel ;
     
-    /** Creates new form ListAllFilesReportPanel */
-    public FilesReportPanel(ReportPanel panel) {
+    /** Creates new form ListAllCasesReportPanel */
+    public CasesReportPanel(ReportPanel panel) {
         initComponents();
         this.reportPanel = panel;
     }
 
     @Override
     public DatasourceXml generateReport() {
-        DatasourceXml objXmlSource =new DatasourceXml();
-        
+
+        DatasourceXml xmlSource= new DatasourceXml();
         try {
-            objXmlSource = RawResultFile.getFileSystemXmlFile(
-                    IndexUtil.getAllFilePaths(this.reportPanel.getCaseFacade())
-            ,this.reportPanel.getCase());
-        } catch (IOException ex) {
+            xmlSource = RawResultFile.getCasesXmlFile(IndexUtil.getAllCases(),this.reportPanel.getCase());
+        } 
+        catch (IOException ex) {
             Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        catch (ClassNotFoundException ex) {
+            Logger.getLogger(CasesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        return objXmlSource;
+        return xmlSource;
     }
-        
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -53,11 +61,8 @@ public class FilesReportPanel extends javax.swing.JPanel implements ReportGenera
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
 
-        jLabel1.setText("This report will listting all the files inside the case and its size and the creation");
-
-        jLabel2.setText("date for each file");
+        jLabel1.setText("this report will display all the cases information with its create time and the auther");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -65,23 +70,18 @@ public class FilesReportPanel extends javax.swing.JPanel implements ReportGenera
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }

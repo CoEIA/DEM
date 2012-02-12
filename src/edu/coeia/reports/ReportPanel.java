@@ -14,6 +14,14 @@ import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.main.CaseMainFrame;
+import edu.coeia.reports.ReportOptionDialog;
+import edu.coeia.reports.panels.CasesReportPanel;
+import edu.coeia.reports.panels.FilesAutherReportPanel;
+import edu.coeia.reports.panels.FilesExtensionReportPanel;
+import edu.coeia.reports.panels.FilesReportPanel;
+import edu.coeia.reports.panels.FilesSizeReportPanel;
+import edu.coeia.reports.panels.FilesTimeReportPanel;
+import edu.coeia.reports.panels.TaggedItemsReportPanel;
 import edu.coeia.tags.TagsManager;
 
 import javax.swing.JFrame;
@@ -372,7 +380,7 @@ public class ReportPanel extends javax.swing.JPanel {
             fileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fileSystemPanelLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addContainerGap(197, Short.MAX_VALUE))
         );
         fileSystemPanelLayout.setVerticalGroup(
             fileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -523,8 +531,8 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_jButton2ActionPerformed
 
 
-    Case getCase() { return this.aCase; }
-    CaseFacade getCaseFacade() { return this.caseFacade; }
+    public Case getCase() { return this.aCase; }
+    public CaseFacade getCaseFacade() { return this.caseFacade; }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel OptionsPanels;

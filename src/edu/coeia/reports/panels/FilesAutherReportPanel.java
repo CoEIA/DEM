@@ -8,9 +8,14 @@
  *
  * Created on Jan 14, 2012, 8:17:57 AM
  */
-package edu.coeia.reports;
+package edu.coeia.reports.panels;
 
+import edu.coeia.reports.ReportPanel;
 import edu.coeia.gutil.JListUtil;
+import edu.coeia.reports.DatasourceXml;
+import edu.coeia.reports.IndexUtil;
+import edu.coeia.reports.RawResultFile;
+import edu.coeia.reports.ReportGenerator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

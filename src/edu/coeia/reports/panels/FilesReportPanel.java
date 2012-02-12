@@ -4,12 +4,17 @@
  */
 
 /*
- * ListAllExtensionsReportPanel.java
+ * ListAllFilesReportPanel.java
  *
- * Created on Jan 14, 2012, 8:14:03 AM
+ * Created on Jan 14, 2012, 7:44:49 AM
  */
-package edu.coeia.reports;
+package edu.coeia.reports.panels;
 
+import edu.coeia.reports.ReportPanel;
+import edu.coeia.reports.DatasourceXml;
+import edu.coeia.reports.IndexUtil;
+import edu.coeia.reports.RawResultFile;
+import edu.coeia.reports.ReportGenerator;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,26 +23,25 @@ import java.util.logging.Logger;
  *
  * @author wajdyessam
  */
-public class FilesExtensionReportPanel extends javax.swing.JPanel implements ReportGenerator{
+public class FilesReportPanel extends javax.swing.JPanel implements ReportGenerator{
 
     private ReportPanel reportPanel ;
     
-    /** Creates new form ListAllExtensionsReportPanel */
-    public FilesExtensionReportPanel(ReportPanel panel) {
+    /** Creates new form ListAllFilesReportPanel */
+    public FilesReportPanel(ReportPanel panel) {
         initComponents();
         this.reportPanel = panel;
     }
 
     @Override
     public DatasourceXml generateReport() {
-         DatasourceXml objXmlSource = new DatasourceXml();
+        DatasourceXml objXmlSource =new DatasourceXml();
         
         try {
-            objXmlSource = RawResultFile.getExtensionFrequencyXmlFile(
-                    IndexUtil.getAllFilesFrequency(this.reportPanel.getCaseFacade()),
-                    this.reportPanel.getCase());
-        } 
-        catch (IOException ex) {
+            objXmlSource = RawResultFile.getFileSystemXmlFile(
+                    IndexUtil.getAllFilePaths(this.reportPanel.getCaseFacade())
+            ,this.reportPanel.getCase());
+        } catch (IOException ex) {
             Logger.getLogger(FilesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -56,9 +60,9 @@ public class FilesExtensionReportPanel extends javax.swing.JPanel implements Rep
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        jLabel1.setText("this report will display the frequency of all files extensions inside the case");
+        jLabel1.setText("This report will listting all the files inside the case and its size and the creation");
 
-        jLabel2.setText("also will display pie chart to visualize the result ");
+        jLabel2.setText("date for each file");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -69,22 +73,20 @@ public class FilesExtensionReportPanel extends javax.swing.JPanel implements Rep
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
-
-
 }

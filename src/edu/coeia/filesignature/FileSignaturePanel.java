@@ -13,7 +13,7 @@ package edu.coeia.filesignature;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.reports.DatasourceXml;
-import edu.coeia.reports.FileSignatureReportsPanel;
+import edu.coeia.reports.panels.FileSignatureReportsPanel;
 import edu.coeia.reports.RawResultFile;
 import edu.coeia.reports.ReportOptionDialog;
 import edu.coeia.util.Utilities;
