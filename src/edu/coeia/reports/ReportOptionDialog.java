@@ -25,22 +25,18 @@ import javax.swing.JPanel;
  *
  * @author wajdyessam
  */
-public class ReportOptionDialog extends javax.swing.JDialog implements Runnable {
+public class ReportOptionDialog extends javax.swing.JDialog {
 
     private JPanel centerReportPanel ;
     private ReportPanel reportPanel; 
     private Case aCase; 
-    private Thread thread;
     private Frame frame; 
     private ProgressDialogue dialogue;
     private DatasourceXml input;
     private CaseFacade caseFacade;
     
     public ReportOptionDialog (Case aCase) {
-         
         this.aCase = aCase;
-        
-
     }
 
     /** Creates new form ReportOptionDialog */
@@ -130,24 +126,25 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
     private void cencelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cencelButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_cencelButtonActionPerformed
-
-    public  void RunProgressDialogue()
-    {
-     
-        thread = new Thread(this);
-        thread.start();
-        frame = new Frame("Waiting");
-        dialogue = new ProgressDialogue(frame, true);
-        dialogue.getProgressBar().setIndeterminate(true);
-        dialogue.setLocationRelativeTo(this);
-        dialogue.setVisible(true);
-        // the close this window
-        this.setVisible(false);
-        
-    }
+  
     private void generateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateButtonActionPerformed
+        this.doTask();
+    }//GEN-LAST:event_generateButtonActionPerformed
+
+    public void RunProgressDialogue(){
+        this.doTask();
+    }
         
-        thread  = new Thread(this);
+    private void doTask() {
+        Thread thread  = new Thread(new Runnable() { 
+            @Override
+            public void run() {
+                // open the document here
+                generateReport(input);
+                dialogue.setVisible(false);
+            }
+        });
+        
         thread.start();
         frame = new Frame("Waiting");  
         dialogue = new ProgressDialogue(frame, true);
@@ -156,38 +153,36 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
         dialogue.setVisible(true);
         // the close this window
         this.setVisible(false);
-    }//GEN-LAST:event_generateButtonActionPerformed
-
+    }
+    
     private void setCenterPanel(JPanel panel) {
         this.centerPanel.removeAll();
         this.centerPanel.add(panel);
         this.centerPanel.revalidate();
         this.repaint();
     }
-    public void SetDataSource(DatasourceXml input)
-    {
+    
+    public void SetDataSource(DatasourceXml input){
         this.input = input;
-        
     }
     
     private  void generateReport(final DatasourceXml objXmlSource) {
         try {
-            
             File file = new File(ApplicationConstants.TEMPLATES+objXmlSource.m_strJasperFile);//"\\filesystem_report.jasper");
             String strJasperFile = file.getAbsolutePath(); //"C:/Users/Farhan/Desktop/projects/DEM/templates/filesystem_report.jasper";
             String strReportOutputPath = aCase.getCaseLocation()+DisclosureReport.REPORTFOLDER;
             String strReportName = objXmlSource.m_strReportName;//"filesystem";
             
-            DisclosureReport disReport = new DisclosureReport(strJasperFile,
-                                                              objXmlSource.m_strXmlPath,
-                                                              strReportOutputPath,strReportName);
+            DisclosureReport disReport = new DisclosureReport(
+                    strJasperFile,
+                    objXmlSource.m_strXmlPath,
+                    strReportOutputPath,strReportName);
             
             disReport.setOutputFileExtension(DisclosureReport.REPORT_TYPE.PDF);
             disReport.setRootXPath(objXmlSource.m_strXPath);//"/dem/detail/effectivefiles/file");
             disReport.Generate();
             
-            if ((new File(disReport.getFinalFile())).exists())
-            {
+            if ((new File(disReport.getFinalFile())).exists()){
                 File pdf = new File(disReport.getFinalFile());
                 Desktop.getDesktop().open(pdf);
                 System.out.println(disReport.getFinalFile());
@@ -195,8 +190,7 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
             else
                 System.out.println("File is not exists");
         }
-        catch(Exception ex)
-        {
+        catch(Exception ex) {
             System.out.println("CAUSE: " + ex.getCause());
             System.out.println("MESSAGE" + ex.getMessage());
         }
@@ -210,11 +204,4 @@ public class ReportOptionDialog extends javax.swing.JDialog implements Runnable 
     private javax.swing.JPanel headerPanel;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
-
-    public void run() {
-        
-        // open the document here
-        generateReport(input);
-        dialogue.setVisible(false);
-    }
 }

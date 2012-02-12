@@ -11,13 +11,17 @@ import edu.coeia.tags.Tag;
 import edu.coeia.tags.TagsManager;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
+
 import java.io.File;
 import java.io.IOException;
+
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.JTable;
+
 import org.apache.commons.io.FileUtils;
 
 /**

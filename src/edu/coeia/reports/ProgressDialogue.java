@@ -8,6 +8,7 @@
  *
  * Created on Jan 16, 2012, 9:23:42 AM
  */
+
 package edu.coeia.reports;
 
 import javax.swing.JProgressBar;
@@ -16,7 +17,8 @@ import javax.swing.JProgressBar;
  *
  * @author Ahmed
  */
-public class ProgressDialogue extends javax.swing.JDialog  {
+
+public class ProgressDialogue extends javax.swing.JDialog {
 
     /** Creates new form ProgressDialogue */
     public ProgressDialogue(java.awt.Frame parent, boolean modal) {
@@ -34,20 +36,20 @@ public class ProgressDialogue extends javax.swing.JDialog  {
     private void initComponents() {
 
         jProgressBar1 = new javax.swing.JProgressBar();
-        jButton1 = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
-        jButton1.setText("Cancel");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                cancelButtonActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14));
         jLabel1.setText("Please Wait for Generating the Report");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -61,7 +63,7 @@ public class ProgressDialogue extends javax.swing.JDialog  {
             .addComponent(jProgressBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(253, 253, 253)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(239, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -72,30 +74,27 @@ public class ProgressDialogue extends javax.swing.JDialog  {
                 .addGap(11, 11, 11)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// TODO add your handling code here:
+private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
     this.setVisible(false);
-}//GEN-LAST:event_jButton1ActionPerformed
+}//GEN-LAST:event_cancelButtonActionPerformed
 
     public JProgressBar getProgressBar() {
-
         return this.jProgressBar1;
     }
+    
     /**
      * @param args the command line arguments
      */
-  
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JProgressBar jProgressBar1;
     // End of variables declaration//GEN-END:variables
-
 }

@@ -8,8 +8,8 @@ package edu.coeia.reports;
  *
  * @author Farhan
  */
+
 public class DatasourceXml {
-    
     public String m_strXmlPath;
     public String m_strXPath;
     public String m_strJasperFile;

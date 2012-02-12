@@ -8,9 +8,10 @@ package edu.coeia.reports;
  *
  * @author Farhan
  */
-
 import java.io.File;
+
 import java.util.HashMap;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -25,27 +26,33 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 
 public class DisclosureReport {
-    
-   private String m_strJasperCompiledFile, m_strDataSourceFile , m_strOutputFilePath, m_strOutputFileName , m_strRootXPath;
-   private String m_strFinalFile;
+
+    private String m_strJasperCompiledFile,
+            m_strDataSourceFile, m_strOutputFilePath, m_strOutputFileName, m_strRootXPath;
+    private String m_strFinalFile;
 
     public String getFinalFile() {
         return m_strFinalFile;
     }
+    public static String REPORTFOLDER = "\\Reports\\";
 
-   public static String REPORTFOLDER = "\\Reports\\";
-   
-   public enum REPORT_TYPE {PDF,WORD,HTML,RTF,CSV,XLS,XML};
-   public enum DATASOURCE_TYPE {XML,MYSQL,CSV};
-   
-   private REPORT_TYPE m_ReportType=REPORT_TYPE.PDF;;
+    public enum REPORT_TYPE {
+
+        PDF, WORD, HTML, RTF, CSV, XLS, XML
+    };
+
+    public enum DATASOURCE_TYPE {
+
+        XML, MYSQL, CSV
+    };
+    private REPORT_TYPE m_ReportType = REPORT_TYPE.PDF;
+    ;
    private DATASOURCE_TYPE m_DataSource = DATASOURCE_TYPE.XML;
 
-   
     public void setRootXPath(String m_strRootXPath) {
         this.m_strRootXPath = m_strRootXPath;
     }
-    
+
     public void setDataSource(DATASOURCE_TYPE m_DataSource) {
         this.m_DataSource = m_DataSource;
     }
@@ -89,120 +96,108 @@ public class DisclosureReport {
     public String getOutputFilePath() {
         return m_strOutputFilePath;
     }
-    
-    public DisclosureReport(String v_jasperCompiledFile,String v_XmlDataFile,
-                            String v_OutputFilePath,String v_OutputFileName)
-    {
-         this.m_strDataSourceFile   = v_XmlDataFile;
-         m_strJasperCompiledFile = v_jasperCompiledFile;
-         m_strOutputFilePath     = v_OutputFilePath;
-         m_strOutputFileName     = v_OutputFileName;
+
+    public DisclosureReport(String v_jasperCompiledFile, String v_XmlDataFile,
+            String v_OutputFilePath, String v_OutputFileName) {
+        this.m_strDataSourceFile = v_XmlDataFile;
+        m_strJasperCompiledFile = v_jasperCompiledFile;
+        m_strOutputFilePath = v_OutputFilePath;
+        m_strOutputFileName = v_OutputFileName;
     }
-    
-    public void Generate() throws Exception
-    {
-        if(m_strOutputFileName.isEmpty() || 
-           m_strJasperCompiledFile.isEmpty() ||
-           m_strOutputFilePath.isEmpty() ||
-           m_strDataSourceFile.isEmpty()     
-                ) 
-        {
+
+    public void Generate() throws Exception {
+        if (m_strOutputFileName.isEmpty()
+                || m_strJasperCompiledFile.isEmpty()
+                || m_strOutputFilePath.isEmpty()
+                || m_strDataSourceFile.isEmpty()) {
             throw new Exception("One of the parameter for file output is empty.");
         }
-        
-        switch(m_DataSource)
-        {
+
+        switch (m_DataSource) {
             case XML:
                 GenerateByXML();
                 break;
-                
+
             case CSV:
                 break;
-                
+
             case MYSQL:
                 break;
-                
+
             default:
-               GenerateByXML();
+                GenerateByXML();
         }
-                
+
     }
-    
-    private void GenerateByXML() throws Exception 
-    {
-         if(this.m_strRootXPath.isEmpty())
-             throw new Exception("Root XPath is required.");
-        
-         try
-         {
-              HashMap hm = new HashMap();  
-              File file  = new File(m_strDataSourceFile);
 
-              if(!file.canRead())
-                  throw new Exception("Unable to read XML data source file.");
+    private void GenerateByXML() throws Exception {
+        if (this.m_strRootXPath.isEmpty()) {
+            throw new Exception("Root XPath is required.");
+        }
 
-              JRXmlDataSource jrxmlds = new JRXmlDataSource(file,m_strRootXPath);   
-              exportOutputFile(JasperFillManager.fillReport(m_strJasperCompiledFile,hm,jrxmlds)) ;             
-          }
-          catch (JRException ex)
-          {
+        try {
+            HashMap hm = new HashMap();
+            File file = new File(m_strDataSourceFile);
+
+            if (!file.canRead()) {
+                throw new Exception("Unable to read XML data source file.");
+            }
+
+            JRXmlDataSource jrxmlds = new JRXmlDataSource(file, m_strRootXPath);
+            exportOutputFile(JasperFillManager.fillReport(m_strJasperCompiledFile, hm, jrxmlds));
+        } catch (JRException ex) {
             System.out.println("CAUSE: " + ex.getCause());
             System.out.println("MESSAGE" + ex.getMessage());
             System.out.println("LOCAL MESSAGE" + ex.getLocalizedMessage());
             ex.printStackTrace();
             throw new Exception(ex.getMessage());
-          }
-         
+        }
+
     }
-    
-    private void exportOutputFile(JasperPrint v_jsPrint) throws Exception
-    {
+
+    private void exportOutputFile(JasperPrint v_jsPrint) throws Exception {
         String ext;
-       
+
         JRExporter exporter = null;
-       
-        try
-        {
-            switch(m_ReportType)
-            {
+
+        try {
+            switch (m_ReportType) {
                 case PDF:
                     ext = ".pdf";
                     exporter = new JRPdfExporter();
                     break;
                 case CSV:
-                    ext= ".csv";
+                    ext = ".csv";
                     exporter = new JRCsvExporter();
                     break;
                 case XML:
-                    ext= ".xml";
+                    ext = ".xml";
                     exporter = new JRXmlExporter();
                     break;
                 case HTML:
-                    ext= ".html";
+                    ext = ".html";
                     exporter = new JRHtmlExporter();
                     break;
                 case WORD:
-                    ext=".docx";
+                    ext = ".docx";
                     exporter = new JRDocxExporter();
                     break;
                 case RTF:
-                    ext=".rtf";
+                    ext = ".rtf";
                     exporter = new JRRtfExporter();
                     break;
                 default:
                     ext = ".pdf";
                     exporter = new JRPdfExporter();
             }
-        
-            String strFinalOutput = m_strOutputFilePath+"\\"+m_strOutputFileName+ext;
-            exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,strFinalOutput);
-            exporter.setParameter(JRExporterParameter.JASPER_PRINT,v_jsPrint);
+
+            String strFinalOutput = m_strOutputFilePath + "\\" + m_strOutputFileName + ext;
+            exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, strFinalOutput);
+            exporter.setParameter(JRExporterParameter.JASPER_PRINT, v_jsPrint);
             exporter.exportReport();
             System.out.println("Created file: " + strFinalOutput);
             m_strFinalFile = strFinalOutput;
-        }
-        catch (JRException ex)
-        {
+        } catch (JRException ex) {
             System.out.println("CAUSE: " + ex.getCause());
             System.out.println("MESSAGE" + ex.getMessage());
             System.out.println("LOCAL MESSAGE" + ex.getLocalizedMessage());
