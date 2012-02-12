@@ -77,15 +77,11 @@ final class OnlineEmailIndexer extends Indexer {
         String folderName = email.getFolderName();
         String agent = email.getUsername();
 
-        EmailCrawlingProgressPanel panel = new EmailCrawlingProgressPanel();
-        panel.setAgentType(agent);
-        panel.setCurrentFolder(folderName);
-        panel.setCurrentMessageSubject(subject);
-        panel.setMessageDate(date);
-        panel.setFrom(email.getFrom());
-        panel.setTo(Utilities.getCommaSeparatedStringFromCollection(email.getTo()));
-        panel.setHasAttachment(String.valueOf(hasAttachment));
-        panel.setAttachment(email.getAttachments());
-        this.getDialog().changeProgressPanel(panel);
+        EmailCrawlingProgressPanel.EmailCrawlingData data = new EmailCrawlingProgressPanel.EmailCrawlingData(
+                agent, folderName, subject, date, String.valueOf(hasAttachment), 
+                email.getFrom(), Utilities.getCommaSeparatedStringFromCollection(email.getTo()), email.getAttachments()
+        );
+        
+        getDialog().showEmailPanel(data);
     }
 }

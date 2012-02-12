@@ -31,6 +31,7 @@ import javax.swing.JOptionPane;
 import java.io.File ;
 import java.io.IOException ;
 
+import java.util.ArrayList;
 import java.util.Date ;
 import java.util.List ;
 import java.util.concurrent.CancellationException;
@@ -195,13 +196,15 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
                 this.parentDialog.setNumberOfFilesError(String.valueOf(this.numberOfFilesCannotIndexed));
             }
             else {
-                // set gui panel to reflect that this is file object
-                FileSystemCrawlingProgressPanel panel = new FileSystemCrawlingProgressPanel();
-                panel.setCurrentFile(pd.getPath());
-                panel.setFileSize(SizeUtil.getSize(pd.getPath()));
-                panel.setFileExtension(FileUtil.getExtension(pd.getPath()));
-                
-                this.parentDialog.changeProgressPanel(panel);
+                FileSystemCrawlingProgressPanel.FileSystemCrawlerData data = new FileSystemCrawlingProgressPanel.FileSystemCrawlerData(
+                        pd.getPath(),
+                        SizeUtil.getSize(pd.getPath()),
+                        FileUtil.getExtension(pd.getPath()),
+                        new Date(new File(pd.getPath()).lastModified()).toString(),
+                        new ArrayList<String>()
+                );
+
+                this.parentDialog.showFileSystemPanel(data);
                 this.parentDialog.setNumberOfFiles(String.valueOf(pd.getIndexCount()));
                 this.parentDialog.setBigSizeLabel(pd.getSizeMsg());
             }

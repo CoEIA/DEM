@@ -10,6 +10,8 @@
  */
 package edu.coeia.indexing.dialogs;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,6 +28,7 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel implemen
     public void setCurrentFile(final String fileName) { this.currentFileTextField.setText(fileName); }
     public void setFileSize(final String size) { this.fileSizeTextField.setText(size); }
     public void setFileExtension(final String ext) { this.fileExtensionTextField.setText(ext) ; }
+    public void setFileDate(final String date) { this.fileDateTextField.setText(date); }
     
     public void setEmbeddedDocuments(final List<String> documents) {
         for(String doc: documents) {
@@ -43,6 +46,31 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel implemen
     @Override
     public String getType() { return "FILE" ; }
     
+    public static class FileSystemCrawlerData {
+        private final String fileName;
+        private final String fileSize;
+        private final String fileExtension;
+        private final String fileDate;
+        private final List<String> embeddedDocs;
+        
+        public FileSystemCrawlerData(final String fileName, final String fileSize, 
+                final String fileExtension, final String fileDate,
+                final List<String> embeddedDocs) {
+            this.fileName = fileName;
+            this.fileSize = fileSize;
+            this.fileExtension = fileExtension;
+            this.fileDate = fileDate;
+            this.embeddedDocs = new ArrayList<String>();
+            this.embeddedDocs.addAll(Collections.unmodifiableList(embeddedDocs));
+        }
+        
+        public String getFileName() { return this.fileName; }
+        public String getFileSize() { return this.fileSize; }
+        public String getFileExtension() { return this.fileExtension; }
+        public String getFileDate() { return this.fileDate ;}
+        public List<String> getEmbeddedDocuments() {  return Collections.unmodifiableList(this.embeddedDocs); }
+    }
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -59,15 +87,17 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel implemen
         fileSizeTextField = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         fileExtensionTextField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        fileDateTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         embeddedDocumentsTextArea = new javax.swing.JTextArea();
 
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel26.setText("Current File:");
         jPanel1.add(jLabel26);
 
@@ -83,13 +113,20 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel implemen
         fileSizeTextField.setEnabled(false);
         jPanel1.add(fileSizeTextField);
 
-        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel28.setText("File Extension:");
         jPanel1.add(jLabel28);
 
         fileExtensionTextField.setText(" ");
         fileExtensionTextField.setEnabled(false);
         jPanel1.add(fileExtensionTextField);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText("File Last Modification Date:");
+        jPanel1.add(jLabel2);
+
+        fileDateTextField.setEditable(false);
+        jPanel1.add(fileDateTextField);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel1.setText("Embedded Documents:");
@@ -104,15 +141,17 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel implemen
 
         jPanel1.add(jScrollPane1);
 
-        add(jPanel1, java.awt.BorderLayout.CENTER);
+        add(jPanel1);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField currentFileTextField;
     private javax.swing.JTextArea embeddedDocumentsTextArea;
+    private javax.swing.JTextField fileDateTextField;
     private javax.swing.JTextField fileExtensionTextField;
     private javax.swing.JTextField fileSizeTextField;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;

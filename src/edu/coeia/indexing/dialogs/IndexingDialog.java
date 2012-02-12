@@ -11,10 +11,12 @@
 package edu.coeia.indexing.dialogs;
 
 import edu.coeia.cases.CaseFacade;
+import edu.coeia.gutil.GuiUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.CrawlerIndexerThread;
 import edu.coeia.util.FileUtil;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -40,6 +42,9 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private CrawlerIndexerThread indexerThread ;
     private boolean loggingAppearanceFlag;
     
+    private final EmailCrawlingProgressPanel emailCrawlingPanel ;
+    private final FileSystemCrawlingProgressPanel fileSystemCrawlingPanel;
+    
     /** Creates new form IndexingDialog */
     public IndexingDialog(java.awt.Frame parent, boolean modal,
             final CaseFacade caseFacade, boolean startIndexNow) {
@@ -47,6 +52,14 @@ public final class IndexingDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
        
+        this.emailCrawlingPanel = new EmailCrawlingProgressPanel();
+        this.fileSystemCrawlingPanel = new FileSystemCrawlingProgressPanel();
+        
+        this.objectPanel.add(this.emailCrawlingPanel, "EMAIL");
+        this.objectPanel.add(this.fileSystemCrawlingPanel, "FILE");
+        
+        GuiUtil.showPanel("FILE", this.objectPanel);
+        
         this.loggingAppearanceFlag = false;
         this.caseFacade = caseFacade;
         this.showLoggingPanel(this.loggingAppearanceFlag);
@@ -88,8 +101,8 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         indexPanel = new javax.swing.JPanel();
-        progressStatusPanel = new javax.swing.JPanel();
         objectPanel = new javax.swing.JPanel();
+        progressStatusPanel = new javax.swing.JPanel();
         progressPanel = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         numberOfFilesLbl = new javax.swing.JLabel();
@@ -110,13 +123,13 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
         indexPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         indexPanel.setMaximumSize(new java.awt.Dimension(550, 2147483647));
-        indexPanel.setLayout(new java.awt.BorderLayout());
+        indexPanel.setLayout(new javax.swing.BoxLayout(indexPanel, javax.swing.BoxLayout.PAGE_AXIS));
+
+        objectPanel.setLayout(new java.awt.CardLayout());
+        indexPanel.add(objectPanel);
 
         progressStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Case", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         progressStatusPanel.setLayout(new java.awt.BorderLayout());
-
-        objectPanel.setLayout(new java.awt.BorderLayout());
-        progressStatusPanel.add(objectPanel, java.awt.BorderLayout.NORTH);
 
         progressPanel.setLayout(new javax.swing.BoxLayout(progressPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
@@ -146,7 +159,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
         progressStatusPanel.add(progressPanel, java.awt.BorderLayout.CENTER);
 
-        indexPanel.add(progressStatusPanel, java.awt.BorderLayout.NORTH);
+        indexPanel.add(progressStatusPanel);
 
         indexControlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -160,7 +173,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         });
         indexControlPanel.add(startIndexButton);
 
-        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         stopIndexingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         stopIndexingButton.setText("Stop Indexing");
         stopIndexingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -170,7 +183,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         });
         indexControlPanel.add(stopIndexingButton);
 
-        displayLoggingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        displayLoggingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         displayLoggingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274599246_text-x-log.png"))); // NOI18N
         displayLoggingButton.setText("Display Logging");
         displayLoggingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -180,7 +193,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         });
         indexControlPanel.add(displayLoggingButton);
 
-        indexPanel.add(indexControlPanel, java.awt.BorderLayout.CENTER);
+        indexPanel.add(indexControlPanel);
 
         loggingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "logging", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         loggingPanel.setLayout(new java.awt.BorderLayout());
@@ -199,7 +212,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
         loggingPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        indexPanel.add(loggingPanel, java.awt.BorderLayout.SOUTH);
+        indexPanel.add(loggingPanel);
 
         getContentPane().add(indexPanel, java.awt.BorderLayout.CENTER);
 
@@ -261,25 +274,34 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
     public JTable getLoggingTable () { return this.indexTable; }
     public JProgressBar getProgressBar() { return this.progressBar ; }
-    public JPanel getObjectPanel() { return this.objectPanel; }
     
-    public void changeProgressPanel(final PanelType newProgressPanel) {
+    public void showFileSystemPanel(final FileSystemCrawlingProgressPanel.FileSystemCrawlerData data) {
         EventQueue.invokeLater(new Runnable() { 
             @Override
-            public void run() {     
-                String oldType = newProgressPanel.getType();
-                getObjectPanel().removeAll();
-                getObjectPanel().add((JPanel) newProgressPanel);
-                //getObjectPanel().setSize(507, getObjectPanel().getHeight());
-                getObjectPanel().revalidate();
-                getObjectPanel().repaint();
-                
-                if ( currentPanel.isEmpty() )
-                    showLoggingPanel(loggingAppearanceFlag);
-                else if ( !currentPanel.equals(oldType))
-                    showLoggingPanel(loggingAppearanceFlag);
-                   
-                currentPanel = oldType;
+            public void run() {
+                fileSystemCrawlingPanel.setCurrentFile(data.getFileName());
+                fileSystemCrawlingPanel.setFileExtension(data.getFileExtension());
+                fileSystemCrawlingPanel.setFileSize(data.getFileSize());
+                fileSystemCrawlingPanel.setFileDate(data.getFileDate());
+                fileSystemCrawlingPanel.setEmbeddedDocuments(data.getEmbeddedDocuments());
+                GuiUtil.showPanel("FILE", objectPanel);
+            }
+        });
+    }
+    
+    public void showEmailPanel(final EmailCrawlingProgressPanel.EmailCrawlingData data) {
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                emailCrawlingPanel.setAgentType(data.getAgentType());
+                emailCrawlingPanel.setCurrentFolder(data.getCurrentFolder());
+                emailCrawlingPanel.setCurrentMessageSubject(data.getSubject());
+                emailCrawlingPanel.setMessageDate(data.getDate());
+                emailCrawlingPanel.setHasAttachment(data.getHasAttachment());
+                emailCrawlingPanel.setFrom(data.getFrom());
+                emailCrawlingPanel.setTo(data.getTo());
+                emailCrawlingPanel.setAttachment(data.getAttachments());
+                GuiUtil.showPanel("EMAIL", objectPanel);
             }
         });
     }
@@ -309,7 +331,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
     // used to pack the GUI when new type of 
     // panel used in indexing process
     // so the gui will increase/decrease automaticlly
-    private String currentPanel = "";
+    //private String currentPanel = "";
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bigSizeMsgLbl;

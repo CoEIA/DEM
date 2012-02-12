@@ -21,6 +21,7 @@ import edu.coeia.util.SizeUtil;
 import java.io.File ;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 final class ArchiveIndexer extends Indexer {
@@ -83,17 +84,19 @@ final class ArchiveIndexer extends Indexer {
     }
     
     private void updateGUI(final EmbeddedObjectCollections handler) {
-        FileSystemCrawlingProgressPanel panel = new FileSystemCrawlingProgressPanel();
-        panel.setCurrentFile(getFile().getPath());
-        panel.setFileSize(SizeUtil.getSize(getFile().getPath()));
-        panel.setFileExtension(FileUtil.getExtension(getFile().getPath()));
-        
-        List<String> files = new ArrayList<String>();
+        List<String> embeddedDocs = new ArrayList<String>();
         for(ExtractedObjectInfo info: handler.getLocations()) {
-            files.add(info.getFileName());
+            embeddedDocs.add(info.getFileName());
         }
         
-        panel.setEmbeddedDocuments(files);
-        getDialog().changeProgressPanel(panel);
+        FileSystemCrawlingProgressPanel.FileSystemCrawlerData data = new FileSystemCrawlingProgressPanel.FileSystemCrawlerData(
+                this.getFile().getAbsolutePath(),
+                SizeUtil.getSize(getFile().getPath()),
+                FileUtil.getExtension(getFile().getPath()),
+                new Date(getFile().lastModified()).toString(),
+                embeddedDocs
+        );
+        
+        getDialog().showFileSystemPanel(data);
     }
 }

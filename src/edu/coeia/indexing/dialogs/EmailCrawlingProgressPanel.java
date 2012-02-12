@@ -10,6 +10,8 @@
  */
 package edu.coeia.indexing.dialogs;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -51,7 +53,7 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel implements Pa
         jScrollPane2 = new javax.swing.JScrollPane();
         attachmentsTextArea = new javax.swing.JTextArea();
 
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
@@ -124,7 +126,7 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel implements Pa
 
         jPanel2.add(jScrollPane2);
 
-        add(jPanel2, java.awt.BorderLayout.CENTER);
+        add(jPanel2);
     }// </editor-fold>//GEN-END:initComponents
 
     public void setAgentType(final String name) { this.agentTypeTextField.setText(name); }
@@ -145,6 +147,39 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel implements Pa
     @Override
     public String getType() { return "EMAIL" ; }
         
+    public static class EmailCrawlingData {
+        private final String agentType;
+        private final String currentFolder;
+        private final String subject;
+        private final String date;
+        private final String hasAttachment;
+        private final String from;
+        private final String to;
+        private final List<String> attachments;
+        
+        public EmailCrawlingData(final String agentType, final String currentFolder,
+                final String subject, final String date, final String hasAttachment,
+                final String from, final String to, final List<String> attachments) {
+            this.agentType = agentType;
+            this.currentFolder = currentFolder;
+            this.subject = subject;
+            this.date = date;
+            this.hasAttachment = hasAttachment;
+            this.from = from;
+            this.to = to;
+            this.attachments = new ArrayList<String>();
+            this.attachments.addAll(Collections.unmodifiableList(attachments));
+        }
+        
+        public String getAgentType() { return this.agentType; }
+        public String getCurrentFolder() { return this.currentFolder; }
+        public String getSubject() { return this.subject; }
+        public String getDate() { return this.date; }
+        public String getHasAttachment() { return this.hasAttachment ;}
+        public String getFrom() { return this.from ; }
+        public String getTo() { return this.to; }
+        public List<String> getAttachments() { return Collections.unmodifiableList(this.attachments); }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField agentTypeTextField;
     private javax.swing.JTextArea attachmentsTextArea;

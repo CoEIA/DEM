@@ -161,22 +161,18 @@ final class OutlookIndexer extends Indexer{
             System.out.println("Exception in outlook gui update!!!");
         }
 
-        EmailCrawlingProgressPanel panel = new EmailCrawlingProgressPanel();
-        panel.setAgentType("Outlook: " + getFile().getAbsolutePath());
-        panel.setCurrentFolder(folderName);
-        panel.setCurrentMessageSubject(subject);
-        panel.setMessageDate(date);
-        panel.setHasAttachment(String.valueOf(hasAttachment));
-        panel.setFrom(sentRepresentingName);
-        panel.setTo(displayTo);
-
         List<String> names = new ArrayList<String>();
         for(Tuple<String, PSTAttachment> pair: attachmentsName) {
             names.add(pair.getA());
         }
-        panel.setAttachment(names);
 
-        getDialog().changeProgressPanel(panel);
+        String agent = "Outlook: " + getFile().getAbsolutePath();
+        EmailCrawlingProgressPanel.EmailCrawlingData data = new EmailCrawlingProgressPanel.EmailCrawlingData(
+                agent, folderName, subject, date, String.valueOf(hasAttachment), 
+                sentRepresentingName, displayTo, names
+        );
+        
+        getDialog().showEmailPanel(data);
     }
     
     private List<String> saveAndGetEmailAttachmentsPath(final List<Tuple<String, PSTAttachment>> attachmentsName) 
