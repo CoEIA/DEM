@@ -206,10 +206,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
                 JOptionPane.showMessageDialog(this.parentDialog, "Indexing Process Completed Successfully","Indexing Process Is Completed",
                     JOptionPane.INFORMATION_MESSAGE);
             
-            // set dialog label
-            this.parentDialog.setProgressIndetermined(false);
-            this.parentDialog.setStartButtonStatus(true);
-            this.parentDialog.setStopButtonStatus(false);
+            this.clearFields();
             this.parentDialog.hideIndexingDialog();
         }
         catch(InterruptedException e) {}
@@ -218,25 +215,29 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
                     JOptionPane.ERROR_MESSAGE);
         }
         catch(ExecutionException e) {
-            e.printStackTrace();
              Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, e);
         }
         finally {
-            EventQueue.invokeLater(new Runnable() { 
+            updateHistory();
+        }
+    }
+
+    private void updateHistory() {
+        new Thread( 
+            new Runnable() { 
                @Override
                public void run() {
                 try {
                     saveHistory();
-                    clearFields();
                     closeIndex();
                 } catch (IOException ex) {
                     Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
                }
-            });
-        }
+            }
+        ).start();
     }
-
+    
     private void clearFields() {
         this.parentDialog.clearFields();
     }
