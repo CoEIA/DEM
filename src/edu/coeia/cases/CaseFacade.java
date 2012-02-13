@@ -150,90 +150,6 @@ public final class CaseFacade {
         
         return "";
     }
-        
-    public String getCasesInformationFileLocation() {
-        return ApplicationConstants.APPLICATION_CASES_FILE;
-    }
-    
-    public String getCaseFolderLocation() { 
-        return this.aCase.getCaseLocation();
-    }
-    
-    public String getCaseIndexFolderLocation() { 
-        return aCase.getCaseLocation() 
-                + File.separator 
-                + ApplicationConstants.CASE_INDEX_FOLDER;
-    }
-    
-    public String getCaseImageFolderLocation() {
-        return aCase.getCaseLocation() 
-                +  File.separator 
-                + ApplicationConstants.CASE_IMAGES_FOLDER;
-    }
-    
-    public String getCaseInformationFileLocation() {
-        return aCase.getCaseLocation() 
-                + File.separator 
-                + aCase.getCaseName() 
-                + ApplicationConstants.CASE_SERIALIZED_INFORMATION_EXTENSION;
-    }
-    
-    public String getCaseAuditingFolderLocation() {
-        return aCase.getCaseLocation() 
-            + File.separator 
-            + ApplicationConstants.CASE_AUDITING_FOLDER;
-    }
-    
-    public String getCaseAuditingFileLocation() {
-        return this.getCaseAuditingFolderLocation()
-                + File.separator
-                + aCase.getCaseName() 
-                + ApplicationConstants.CASE_AUDITING_EXTENSION;
-    }
-    
-    public String getCaseArchiveOutputFolderLocation() {
-        return aCase.getCaseLocation() 
-                + File.separator 
-                + ApplicationConstants.CASE_ARCHIVE_FOLDER;
-    }
-    
-    public String getCaseOfflineEmailAttachmentLocation() {
-        return aCase.getCaseLocation() 
-                + File.separator 
-                + ApplicationConstants.CASE_OFFLINE_EMAIL_ATTACHMENTS_FOLDER;
-    }
-    
-    public String getCaseOnlineEmailAttachmentLocation() {
-        return aCase.getCaseLocation()
-                + File.separator
-                + ApplicationConstants.CASE_ONLINE_EMAIL_ATTACHMENTS_FOLDER;
-    }
-    
-    public String getCaseRawReportFolderLocation() {
-        return aCase.getCaseLocation()
-                + File.separator
-                + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
-    }
-    
-    public String getCaseReportFolderLocation() {
-        return aCase.getCaseLocation() 
-                + File.separator 
-                + ApplicationConstants.CASE_REPORTS_FOLDER;
-    }
-    
-    public String getTagDatabaseLocation() {
-        return this.aCase.getCaseLocation() 
-                + File.separator 
-                + ApplicationConstants.CASE_TAGS_FOLDER;
-    }
-    
-    public String getCaseConfigurationFileLocation() {
-        return this.aCase.getCaseLocation()
-                + File.separator
-                + ApplicationConstants.CASE_CONFIG_FILE;
-    }
-    
-    public Case getCase() { return this.aCase; }
     
     private List<String> getOtherCases(final String name, final String path) throws FileNotFoundException {
         List<String> originalCases = FileUtil.getFileContentInList(new File(getCasesInformationFileLocation()));
@@ -313,4 +229,95 @@ public final class CaseFacade {
         if ( FileUtil.isFileFound(this.getCaseAuditingFileLocation()))
             this.caseAuditing.init();
     }
+    
+        
+    public String getCasesInformationFileLocation() {
+        return ApplicationConstants.APPLICATION_CASES_FILE;
+    }
+    
+    public String getCaseFolderLocation() { 
+        return this.aCase.getCaseLocation();
+    }
+    
+    public String getCaseIndexFolderLocation() { 
+        return aCase.getCaseLocation() 
+                + File.separator 
+                + ApplicationConstants.CASE_INDEX_FOLDER;
+    }
+    
+    public String getCaseImageFolderLocation() {
+        return aCase.getCaseLocation() 
+                +  File.separator 
+                + ApplicationConstants.CASE_IMAGES_FOLDER;
+    }
+    
+    public String getCaseInformationFileLocation() {
+        return aCase.getCaseLocation() 
+                + File.separator 
+                + aCase.getCaseName() 
+                + ApplicationConstants.CASE_SERIALIZED_INFORMATION_EXTENSION;
+    }
+    
+    public String getCaseAuditingFolderLocation() {
+        return aCase.getCaseLocation() 
+            + File.separator 
+            + ApplicationConstants.CASE_AUDITING_FOLDER;
+    }
+    
+    public String getCaseAuditingFileLocation() {
+        return this.getCaseAuditingFolderLocation()
+                + File.separator
+                + aCase.getCaseName() 
+                + ApplicationConstants.CASE_AUDITING_EXTENSION;
+    }
+    
+    public String getCaseArchiveOutputFolderLocation() {
+        return aCase.getCaseLocation() 
+                + File.separator 
+                + ApplicationConstants.CASE_ARCHIVE_FOLDER;
+    }
+    
+    public String getCaseOfflineEmailAttachmentLocation() {
+        return aCase.getCaseLocation() 
+                + File.separator 
+                + ApplicationConstants.CASE_OFFLINE_EMAIL_ATTACHMENTS_FOLDER;
+    }
+    
+    public String getCaseOnlineEmailAttachmentLocation() {
+        return aCase.getCaseLocation()
+                + File.separator
+                + ApplicationConstants.CASE_ONLINE_EMAIL_ATTACHMENTS_FOLDER;
+    }
+    
+    public String getCaseOnlineDatabaseLocation() {
+        return aCase.getCaseLocation()
+                + File.separator
+                + ApplicationConstants.CASE_EMAIL_DB_FOLDER;
+    }
+    
+    public String getCaseRawReportFolderLocation() {
+        return aCase.getCaseLocation()
+                + File.separator
+                + ApplicationConstants.CASE_ROW_REPORT_FOLDER;
+    }
+    
+    public String getCaseReportFolderLocation() {
+        return aCase.getCaseLocation() 
+                + File.separator 
+                + ApplicationConstants.CASE_REPORTS_FOLDER;
+    }
+    
+    public String getTagDatabaseLocation() {
+        return this.aCase.getCaseLocation() 
+                + File.separator 
+                + ApplicationConstants.CASE_TAGS_FOLDER;
+    }
+    
+    public String getCaseConfigurationFileLocation() {
+        return this.aCase.getCaseLocation()
+                + File.separator
+                + ApplicationConstants.CASE_CONFIG_FILE;
+    }
+    
+    public Case getCase() { return this.aCase; }
 }

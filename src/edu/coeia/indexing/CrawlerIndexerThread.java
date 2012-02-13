@@ -18,7 +18,6 @@ import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.SizeUtil;
 import edu.coeia.util.ApplicationLogging;
-import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.extractors.OfficeImageExtractor;
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.indexing.dialogs.FileSystemCrawlingProgressPanel;
@@ -62,7 +61,6 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
         this.luceneIndex = LuceneIndex.newInstance(this.caseFacade);
         this.parentDialog.setNumberOfFilesError("0");
         this.parentDialog.setProgressIndetermined(true);
-        logger.log(Level.INFO, "Create Lucene Indexer Instance");
     }
     
     @Override
@@ -112,8 +110,13 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
             
             status = true;
         }
-        catch(Exception e){
-           logger.log(Level.SEVERE, "Stopping Indexing Process", e);
+        catch(IOException e){
+           logger.log(Level.SEVERE, "Cannot Write Evience path in the index", e);
+           status = false;
+        }
+        catch(CancellationException e) {
+            logger.log(Level.INFO, "Indexing Stopped By User");
+            status = true;
         }
         
         return status;
@@ -123,9 +126,9 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
         this.luceneIndex.writeEvidenceLocation(paths);
     }
     
-    private void doDirectoryCrawling(File path) {
+    private void doDirectoryCrawling(final File path) throws CancellationException{
         this.checkForThreadCancelling();
-        logger.log(Level.INFO, "Indexing Folder: " + path.getAbsolutePath());
+        logger.log(Level.INFO, String.format("Crawling Folder: %s", path.getAbsolutePath()));
         
         if ( path.isDirectory() && path.canRead() ) {
             File[] files = path.listFiles();
@@ -144,7 +147,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
                             long size = file.length();
                             this.numberOfFilesInEvidenceFolder++;
                             this.sizeOfFilesInEvidenceFolder += size; 
-                            logger.log(Level.INFO, "File Indexing Successfully: " + file.getAbsolutePath());
+                            logger.log(Level.INFO, String.format("File Indexing Successfully: %s", file.getAbsolutePath()));
                         }
                     }
                 }
@@ -177,11 +180,19 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
         return status;
     }
     
-    private void doEmailCrawling() {
-        File dbPath = new File(this.aCase.getCaseLocation() + "\\" + ApplicationConstants.CASE_EMAIL_DB_FOLDER );
-        logger.log(Level.INFO, "Email Indexing in Folder: " +  dbPath);
-        OnlineEmailIndexer emailIndexer = new OnlineEmailIndexer(this.luceneIndex, dbPath, "", new OfficeImageExtractor(), this.parentDialog);
-        logger.log(Level.INFO, "Email Indexing Status: " +  emailIndexer.doIndexing());
+    private void updateGUIStatus() {
+        
+    }
+    
+    private void doEmailCrawling() throws CancellationException{
+        File dbPath = new File(this.caseFacade.getCaseOnlineDatabaseLocation());
+        
+        logger.log(Level.INFO, String.format("Crawling Email In: %s", dbPath));
+        
+        OnlineEmailIndexer emailIndexer = new OnlineEmailIndexer(this.luceneIndex, dbPath, "",
+                new OfficeImageExtractor(), this.parentDialog);
+        
+        logger.log(Level.INFO, String.format("Email Indexing Status: %s", emailIndexer.doIndexing()));
     }
     
     @Override

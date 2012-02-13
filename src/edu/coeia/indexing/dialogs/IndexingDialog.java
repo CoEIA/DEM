@@ -197,7 +197,11 @@ public final class IndexingDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startIndexButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startIndexButtonActionPerformed
-        startCrawling();
+        try {
+            startIndexerThread();
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_startIndexButtonActionPerformed
 
     private void stopIndexingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopIndexingButtonActionPerformed
@@ -273,38 +277,6 @@ public final class IndexingDialog extends javax.swing.JDialog {
         this.setStopButtonStatus(false);
     }
     
-    private void addCardsPanel() {
-        this.objectPanel.add(this.emailCrawlingPanel, EMAIL_PANEL);
-        this.objectPanel.add(this.fileSystemCrawlingPanel, FILE_PANEL);
-    }
-    
-    private void hideLoggingPanel() {
-        this.loggingAppearanceFlag = false;
-        this.showLoggingPanel(this.loggingAppearanceFlag);
-        this.pack();
-    }
-    
-    private void closeCralwingWhenCloseTheWindow() {
-        this.addWindowListener( new WindowAdapter() {
-            @Override
-            public void windowClosed (WindowEvent event){
-                try {
-                    stopIndexerThread();
-                    hideIndexingDialog();
-                } catch (IOException ex) {
-                    logger.log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-    }
-    
-    private void startCrawling() {
-       try {
-            startIndexerThread();
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
-        }
-    }
     
     private void showLoggingPanel(boolean flag) {
         this.loggingPanel.setVisible(flag);
@@ -323,7 +295,6 @@ public final class IndexingDialog extends javax.swing.JDialog {
         if ( indexerThread != null) {
             this.clearFields();
             indexerThread.stopIndexingThread();
-            indexerThread = null;
         }
     }
     
