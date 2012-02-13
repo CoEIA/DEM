@@ -14,6 +14,7 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.CrawlerIndexerThread;
+import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.FileUtil;
 
 import java.awt.EventQueue;
@@ -37,11 +38,16 @@ public final class IndexingDialog extends javax.swing.JDialog {
 
     private final CaseFacade caseFacade;
     
+    private final EmailCrawlingProgressPanel emailCrawlingPanel ;
+    private final FileSystemCrawlingProgressPanel fileSystemCrawlingPanel;
+    
+    private final static String EMAIL_PANEL = "EMAIL";
+    private final static String FILE_PANEL = "FILE";
+    
     private CrawlerIndexerThread indexerThread ;
     private boolean loggingAppearanceFlag;
     
-    private final EmailCrawlingProgressPanel emailCrawlingPanel ;
-    private final FileSystemCrawlingProgressPanel fileSystemCrawlingPanel;
+    private final static Logger logger = ApplicationLogging.getLogger();
     
     /** Creates new form IndexingDialog */
     public IndexingDialog(java.awt.Frame parent, boolean modal,
@@ -49,47 +55,24 @@ public final class IndexingDialog extends javax.swing.JDialog {
         
         super(parent, modal);
         initComponents();
-       
+        
         this.emailCrawlingPanel = new EmailCrawlingProgressPanel();
         this.fileSystemCrawlingPanel = new FileSystemCrawlingProgressPanel();
-        
-        this.objectPanel.add(this.emailCrawlingPanel, "EMAIL");
-        this.objectPanel.add(this.fileSystemCrawlingPanel, "FILE");
-        
-        GuiUtil.showPanel("FILE", this.objectPanel);
-        
-        this.loggingAppearanceFlag = false;
         this.caseFacade = caseFacade;
-        this.showLoggingPanel(this.loggingAppearanceFlag);
-        this.pack();
         
-        // set start and end button
-        resettingButtons(true);
+        this.addCardsPanel();
+        GuiUtil.showPanel(FILE_PANEL, this.objectPanel);
         
-        // close thread if the thread running and user close the window
-        this.addWindowListener( new WindowAdapter() {
-            @Override
-            public void windowClosed (WindowEvent event){
-                try {
-                    stopIndexerThread();
-                    hideIndexingDialog();
-                } catch (IOException ex) {
-                    Logger.getLogger(IndexingDialog.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+        this.hideLoggingPanel();
+        this.resettingButtons(true);
         
-        // if user select start indexing when finish case creation
-        // then start indexing direct
+        this.closeCralwingWhenCloseTheWindow();
+        
         if ( startIndexNow ) {
-            try {
-                startIndexerThread();
-            } catch (IOException ex) {
-                Logger.getLogger(IndexingDialog.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            this.startCrawling();
         }
     }
-
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -136,19 +119,19 @@ public final class IndexingDialog extends javax.swing.JDialog {
         progressStatusPanel.add(progressBar);
 
         jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel27.setText("Number of Files in Index:");
+        jLabel27.setText("Number of Items in Index:");
         progressStatusPanel.add(jLabel27);
 
-        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         numberOfFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
         numberOfFilesLbl.setText(" ");
         progressStatusPanel.add(numberOfFilesLbl);
 
         jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel41.setText("Number of Files Cannot Indexed:");
+        jLabel41.setText("Number of Items Cannot Indexed:");
         progressStatusPanel.add(jLabel41);
 
-        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
         numberOfErrorFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
         numberOfErrorFilesLbl.setText(" ");
         progressStatusPanel.add(numberOfErrorFilesLbl);
@@ -167,7 +150,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         });
         indexControlPanel.add(startIndexButton);
 
-        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        stopIndexingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         stopIndexingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         stopIndexingButton.setText("Stop Indexing");
         stopIndexingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -177,7 +160,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         });
         indexControlPanel.add(stopIndexingButton);
 
-        displayLoggingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        displayLoggingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         displayLoggingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274599246_text-x-log.png"))); // NOI18N
         displayLoggingButton.setText("Display Logging");
         displayLoggingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -214,18 +197,14 @@ public final class IndexingDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startIndexButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startIndexButtonActionPerformed
-        try {
-            startIndexerThread();
-        } catch (IOException ex) {
-            Logger.getLogger(IndexingDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        startCrawling();
     }//GEN-LAST:event_startIndexButtonActionPerformed
 
     private void stopIndexingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopIndexingButtonActionPerformed
         try {
             stopIndexerThread();
         } catch (IOException ex) {
-            Logger.getLogger(IndexingDialog.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_stopIndexingButtonActionPerformed
 
@@ -233,41 +212,10 @@ public final class IndexingDialog extends javax.swing.JDialog {
         this.loggingAppearanceFlag = !loggingAppearanceFlag;
         this.showLoggingPanel(loggingAppearanceFlag);
     }//GEN-LAST:event_displayLoggingButtonActionPerformed
-
-    private void showLoggingPanel(boolean flag) {
-        this.loggingPanel.setVisible(flag);
-        //this.pack();
-    }
-    
-    private void startIndexerThread () throws IOException{
-        resettingButtons(false);
-        JTableUtil.removeAllRows(indexTable);
-
-        // starting thread
-        indexerThread = new CrawlerIndexerThread(this);
-        indexerThread.execute();
-    }
-    
-    private void stopIndexerThread() throws IOException {
-        if ( indexerThread != null) {
-            this.clearFields();
-            indexerThread.stopIndexingThread();
-        }
-    }
-    
+   
     public void hideIndexingDialog() {
         this.dispose();
     }
-    
-    private void resettingButtons(boolean state) {
-        startIndexButton.setEnabled(state);
-        stopIndexingButton.setEnabled(!state);
-    }
-   
-    public CaseFacade getCaseFacade() { return this.caseFacade; }
-
-    public JTable getLoggingTable () { return this.indexTable; }
-    public JProgressBar getProgressBar() { return this.progressBar ; }
     
     public void showFileSystemPanel(final FileSystemCrawlingProgressPanel.FileSystemCrawlerData data) {
         EventQueue.invokeLater(new Runnable() { 
@@ -278,7 +226,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
                 fileSystemCrawlingPanel.setFileSize(data.getFileSize());
                 fileSystemCrawlingPanel.setFileDate(data.getFileDate());
                 fileSystemCrawlingPanel.setEmbeddedDocuments(data.getEmbeddedDocuments());
-                GuiUtil.showPanel("FILE", objectPanel);
+                GuiUtil.showPanel(FILE_PANEL, objectPanel);
             }
         });
     }
@@ -295,7 +243,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
                 emailCrawlingPanel.setFrom(data.getFrom());
                 emailCrawlingPanel.setTo(data.getTo());
                 emailCrawlingPanel.setAttachment(data.getAttachments());
-                GuiUtil.showPanel("EMAIL", objectPanel);
+                GuiUtil.showPanel(EMAIL_PANEL, objectPanel);
             }
         });
     }
@@ -304,7 +252,10 @@ public final class IndexingDialog extends javax.swing.JDialog {
         Object[] data = { FileUtil.getExtension(filePath.getPath()), filePath.getPath(), message};
         JTableUtil.addRowToJTable(this.getLoggingTable(), data);
     }
-    
+   
+    public CaseFacade getCaseFacade() { return this.caseFacade; }
+    public JTable getLoggingTable () { return this.indexTable; }
+    public JProgressBar getProgressBar() { return this.progressBar ; }
     public void setNumberOfFiles(final String no) { this.numberOfFilesLbl.setText(no); }
     public void setNumberOfFilesError(final String no) { this.numberOfErrorFilesLbl.setText(no); }
     public void setprogressBar(final int value) { this.progressBar.setValue(value); }
@@ -322,10 +273,64 @@ public final class IndexingDialog extends javax.swing.JDialog {
         this.setStopButtonStatus(false);
     }
     
-    // used to pack the GUI when new type of 
-    // panel used in indexing process
-    // so the gui will increase/decrease automaticlly
-    //private String currentPanel = "";
+    private void addCardsPanel() {
+        this.objectPanel.add(this.emailCrawlingPanel, EMAIL_PANEL);
+        this.objectPanel.add(this.fileSystemCrawlingPanel, FILE_PANEL);
+    }
+    
+    private void hideLoggingPanel() {
+        this.loggingAppearanceFlag = false;
+        this.showLoggingPanel(this.loggingAppearanceFlag);
+        this.pack();
+    }
+    
+    private void closeCralwingWhenCloseTheWindow() {
+        this.addWindowListener( new WindowAdapter() {
+            @Override
+            public void windowClosed (WindowEvent event){
+                try {
+                    stopIndexerThread();
+                    hideIndexingDialog();
+                } catch (IOException ex) {
+                    logger.log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+    
+    private void startCrawling() {
+       try {
+            startIndexerThread();
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void showLoggingPanel(boolean flag) {
+        this.loggingPanel.setVisible(flag);
+    }
+    
+    private void startIndexerThread () throws IOException{
+        resettingButtons(false);
+        JTableUtil.removeAllRows(indexTable);
+
+        // starting thread
+        indexerThread = new CrawlerIndexerThread(this);
+        indexerThread.execute();
+    }
+    
+    private void stopIndexerThread() throws IOException {
+        if ( indexerThread != null) {
+            this.clearFields();
+            indexerThread.stopIndexingThread();
+            indexerThread = null;
+        }
+    }
+    
+    private void resettingButtons(boolean state) {
+        startIndexButton.setEnabled(state);
+        stopIndexingButton.setEnabled(!state);
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bigSizeMsgLbl;

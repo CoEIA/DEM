@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author wajdyessam
  */
-public class EmailCrawlingProgressPanel extends javax.swing.JPanel implements PanelType {
+public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
 
     /** Creates new form OfflineEmailCrawlingProgressPanel */
     public EmailCrawlingProgressPanel() {
@@ -143,9 +143,6 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel implements Pa
             this.attachmentsTextArea.append("\n");
         }
     }
-    
-    @Override
-    public String getType() { return "EMAIL" ; }
         
     public static class EmailCrawlingData {
         private final String agentType;

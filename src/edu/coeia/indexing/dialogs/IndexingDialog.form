@@ -81,7 +81,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Number of Files in Index:"/>
+                <Property name="text" type="java.lang.String" value="Number of Items in Index:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="numberOfFilesLbl">
@@ -100,7 +100,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="11" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Number of Files Cannot Indexed:"/>
+                <Property name="text" type="java.lang.String" value="Number of Items Cannot Indexed:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="numberOfErrorFilesLbl">

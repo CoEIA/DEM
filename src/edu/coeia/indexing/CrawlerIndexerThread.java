@@ -10,21 +10,22 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
-import edu.coeia.indexing.dialogs.IndexingDialog;
-import edu.coeia.indexing.dialogs.FileSystemCrawlingProgressPanel;
-import edu.coeia.extractors.OfficeImageExtractor;
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseHistory;
 import edu.coeia.cases.CaseFacade;
+import edu.coeia.cases.CaseHistory;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.indexing.CrawlerIndexerThread.ProgressIndexData;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
-import edu.coeia.constants.ApplicationConstants;
-import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.SizeUtil;
+import edu.coeia.util.ApplicationLogging;
+import edu.coeia.constants.ApplicationConstants;
+import edu.coeia.extractors.OfficeImageExtractor;
+import edu.coeia.indexing.dialogs.IndexingDialog;
+import edu.coeia.indexing.dialogs.FileSystemCrawlingProgressPanel;
+import edu.coeia.indexing.CrawlerIndexerThread.ProgressIndexData;
 
 import java.awt.EventQueue;
+
 import javax.swing.SwingWorker ;
 import javax.swing.JOptionPane;
 
@@ -34,10 +35,10 @@ import java.io.IOException ;
 import java.util.ArrayList;
 import java.util.Date ;
 import java.util.List ;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
 
 public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
     private long sizeOfFilesInEvidenceFolder ;
