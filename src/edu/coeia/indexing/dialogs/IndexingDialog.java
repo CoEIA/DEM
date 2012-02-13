@@ -72,6 +72,39 @@ public final class IndexingDialog extends javax.swing.JDialog {
             this.startCrawling();
         }
     }
+
+    private void addCardsPanel() {
+        this.objectPanel.add(this.emailCrawlingPanel, EMAIL_PANEL);
+        this.objectPanel.add(this.fileSystemCrawlingPanel, FILE_PANEL);
+    }
+    
+    private void hideLoggingPanel() {
+        this.loggingAppearanceFlag = false;
+        this.showLoggingPanel(this.loggingAppearanceFlag);
+        this.pack();
+    }
+    
+    private void closeCralwingWhenCloseTheWindow() {
+        this.addWindowListener( new WindowAdapter() {
+            @Override
+            public void windowClosed (WindowEvent event){
+                try {
+                    stopIndexerThread();
+                    hideIndexingDialog();
+                } catch (IOException ex) {
+                    logger.log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+    
+    private void startCrawling() {
+       try {
+            startIndexerThread();
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
+    }
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -276,7 +309,6 @@ public final class IndexingDialog extends javax.swing.JDialog {
         this.setStartButtonStatus(true);
         this.setStopButtonStatus(false);
     }
-    
     
     private void showLoggingPanel(boolean flag) {
         this.loggingPanel.setVisible(flag);
