@@ -155,7 +155,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         jLabel27.setText("Number of Items in Index:");
         progressStatusPanel.add(jLabel27);
 
-        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
+        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         numberOfFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
         numberOfFilesLbl.setText(" ");
         progressStatusPanel.add(numberOfFilesLbl);
@@ -164,7 +164,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         jLabel41.setText("Number of Items Cannot Indexed:");
         progressStatusPanel.add(jLabel41);
 
-        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11));
+        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         numberOfErrorFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
         numberOfErrorFilesLbl.setText(" ");
         progressStatusPanel.add(numberOfErrorFilesLbl);
@@ -213,11 +213,28 @@ public final class IndexingDialog extends javax.swing.JDialog {
         indexTable.setAutoCreateRowSorter(true);
         indexTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+
             },
             new String [] {
-                "File Type", "File Path", "Indexing Status"
+                "Item Type", "Item Data", "Error Message"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        indexTable.setFillsViewportHeight(true);
         jScrollPane1.setViewportView(indexTable);
 
         loggingPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -254,8 +271,39 @@ public final class IndexingDialog extends javax.swing.JDialog {
         this.dispose();
     }
     
+    /**
+     * Update the GUI label
+     * 
+     * this code can be work from EDT and other Threads
+     * 
+     * @param numberOfItemsIndexed
+     * @param noItemsCannotIndexed 
+     */
+    public void updateLabel(final int numberOfItemsIndexed, final int noItemsCannotIndexed,
+            final String bigSizeMessage) {
+        Runnable task = new Runnable() {
+          @Override
+          public void run() {
+              numberOfFilesLbl.setText(String.valueOf(numberOfItemsIndexed));
+              numberOfErrorFilesLbl.setText(String.valueOf(noItemsCannotIndexed));
+              bigSizeMsgLbl.setText(bigSizeMessage);
+          }
+        };
+        
+        if ( EventQueue.isDispatchThread() )
+            task.run();
+        else
+            EventQueue.invokeLater(task);
+    }
+    
+    /**
+     * Change the current panel in card to file system crawling panel
+     * this method can be called form any methods including EDT
+     * 
+     * @param data 
+     */
     public void showFileSystemPanel(final FileSystemCrawlingProgressPanel.FileSystemCrawlerData data) {
-        EventQueue.invokeLater(new Runnable() { 
+        Runnable task = new Runnable() { 
             @Override
             public void run() {
                 fileSystemCrawlingPanel.setCurrentFile(data.getFileName());
@@ -265,9 +313,15 @@ public final class IndexingDialog extends javax.swing.JDialog {
                 fileSystemCrawlingPanel.setEmbeddedDocuments(data.getEmbeddedDocuments());
                 GuiUtil.showPanel(FILE_PANEL, objectPanel);
             }
-        });
+        };
+        
+        if ( EventQueue.isDispatchThread())
+            task.run();
+        else
+            EventQueue.invokeLater(task);
     }
     
+    // called from other threads, must workin on EDT
     public void showEmailPanel(final EmailCrawlingProgressPanel.EmailCrawlingData data) {
         EventQueue.invokeLater(new Runnable() {
             @Override
@@ -285,9 +339,33 @@ public final class IndexingDialog extends javax.swing.JDialog {
         });
     }
     
+    /**
+     * Add Error Message to table
+     * 
+     * this method can be called from other thread or EDT thread
+     * so it check if its not in EDT then add the task in the EDT
+     * 
+     * @param filePath
+     * @param message 
+     */
     public void addErrorMessage(final File filePath, final String message) {
-        Object[] data = { FileUtil.getExtension(filePath.getPath()), filePath.getPath(), message};
-        JTableUtil.addRowToJTable(this.getLoggingTable(), data);
+        Runnable task = new Runnable() { 
+            @Override
+            public void run() {
+                Object[] data = { 
+                    FileUtil.getExtension(filePath.getPath()), 
+                    filePath.getPath(), 
+                    message
+                };
+                
+                JTableUtil.addRowToJTable(getLoggingTable(), data);    
+            }
+        };
+        
+        if ( EventQueue.isDispatchThread() )
+            task.run();
+        else
+            EventQueue.invokeLater(task);
     }
    
     public CaseFacade getCaseFacade() { return this.caseFacade; }
@@ -301,7 +379,9 @@ public final class IndexingDialog extends javax.swing.JDialog {
     public void setStartButtonStatus(final boolean status) { this.startIndexButton.setEnabled(status); }
     public void setStopButtonStatus(final boolean status) { this.stopIndexingButton.setEnabled(status); }
     
+    
     public void clearFields() {
+        assert EventQueue.isDispatchThread();
         this.setBigSizeLabel("");
         this.setprogressBar(0);
         this.getProgressBar().setStringPainted(false);

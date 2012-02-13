@@ -13,7 +13,6 @@ package edu.coeia.indexing;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.cases.CaseHistory;
-import edu.coeia.gutil.JTableUtil;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.SizeUtil;
@@ -21,7 +20,6 @@ import edu.coeia.util.ApplicationLogging;
 import edu.coeia.extractors.OfficeImageExtractor;
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.indexing.dialogs.FileSystemCrawlingProgressPanel;
-import edu.coeia.indexing.CrawlerIndexerThread.ProgressIndexData;
 
 import java.awt.EventQueue;
 
@@ -39,7 +37,7 @@ import java.util.logging.Logger;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
-public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndexData> {
+public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
     private long sizeOfFilesInEvidenceFolder ;
     private long numberOfFilesInEvidenceFolder;
     
@@ -141,47 +139,47 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
                         doDirectoryCrawling(file);
                     }
                     else if ( file.isFile() && file.canRead()) {
-                        boolean status = doFileCrawling(file);
-                        
-                        if (status) {
-                            long size = file.length();
-                            this.numberOfFilesInEvidenceFolder++;
-                            this.sizeOfFilesInEvidenceFolder += size; 
-                            logger.log(Level.INFO, String.format("File Indexing Successfully: %s", file.getAbsolutePath()));
-                        }
+                        this.updateGUIWithFileStatus(file);
+                        this.doFileCrawling(file);
                     }
                 }
             }
         }
     }
     
-    private boolean doFileCrawling(final File path) {
+    private void updateGUIWithFileStatus(final File path) {
         long size = path.length();
-        
-        // if file size more than 3 MB then show size message to indicate that indexing will take some time
         String msg = size > 3145728 ? "This file will take some minutes to index, please wait..." : " " ;
-
-        // publish file progress (update labels)
-        publish(new ProgressIndexData( numberOfFilesInEvidenceFolder,numberOfFilesIndexed, 
-                path.getAbsolutePath(), "" , ProgressIndexData.TYPE.LABEL , msg));
-
+        this.parentDialog.updateLabel((int)numberOfFilesIndexed, (int)numberOfFilesInEvidenceFolder, msg);
+        
+        FileSystemCrawlingProgressPanel.FileSystemCrawlerData data = 
+                new FileSystemCrawlingProgressPanel.FileSystemCrawlerData(
+            path.getPath(),
+            SizeUtil.getSize(path.getPath()),
+            FileUtil.getExtension(path.getPath()),
+            new Date(new File(path.getPath()).lastModified()).toString(),
+            new ArrayList<String>()
+        );
+        
+        this.parentDialog.showFileSystemPanel(data);
+    }
+    
+    private boolean doFileCrawling(final File path) {
         boolean status = false;
-
+        this.numberOfFilesInEvidenceFolder++;
+        this.sizeOfFilesInEvidenceFolder += path.getPath().length();
+        
         try {
             status = this.luceneIndex.indexFile(path, this.parentDialog);
             this.numberOfFilesIndexed++;
         }
         catch (Exception e) {
-          publish(new ProgressIndexData( numberOfFilesInEvidenceFolder,numberOfFilesIndexed,
-                path.getAbsolutePath(), e.getMessage() , ProgressIndexData.TYPE.TABEL , msg));
-          Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, e);
+            this.numberOfFilesCannotIndexed++;
+            this.parentDialog.addErrorMessage(path, e.getMessage());
+            logger.log(Level.SEVERE, String.format("File %s cannot be indexed", path.getAbsolutePath()));
         }
         
         return status;
-    }
-    
-    private void updateGUIStatus() {
-        
     }
     
     private void doEmailCrawling() throws CancellationException{
@@ -193,34 +191,6 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
                 new OfficeImageExtractor(), this.parentDialog);
         
         logger.log(Level.INFO, String.format("Email Indexing Status: %s", emailIndexer.doIndexing()));
-    }
-    
-    @Override
-    protected void process(List<ProgressIndexData> chunks) {
-        if ( isCancelled() )
-            return; 
-                
-        for (ProgressIndexData pd : chunks) {
-            if ( pd.getType() == ProgressIndexData.TYPE.TABEL ) {
-                Object[] data = { FileUtil.getExtension(pd.getPath()), pd.getPath(), pd.getStatus()};
-                JTableUtil.addRowToJTable(this.parentDialog.getLoggingTable(), data);
-                this.numberOfFilesCannotIndexed++;
-                this.parentDialog.setNumberOfFilesError(String.valueOf(this.numberOfFilesCannotIndexed));
-            }
-            else {
-                FileSystemCrawlingProgressPanel.FileSystemCrawlerData data = new FileSystemCrawlingProgressPanel.FileSystemCrawlerData(
-                        pd.getPath(),
-                        SizeUtil.getSize(pd.getPath()),
-                        FileUtil.getExtension(pd.getPath()),
-                        new Date(new File(pd.getPath()).lastModified()).toString(),
-                        new ArrayList<String>()
-                );
-
-                this.parentDialog.showFileSystemPanel(data);
-                this.parentDialog.setNumberOfFiles(String.valueOf(pd.getIndexCount()));
-                this.parentDialog.setBigSizeLabel(pd.getSizeMsg());
-            }
-        }
     }
 
     @Override
@@ -290,33 +260,5 @@ public final class CrawlerIndexerThread extends SwingWorker<String,ProgressIndex
     private void checkForThreadCancelling() throws CancellationException{
         if ( this.isCancelled() )
             throw new CancellationException("Cralwer is Cancelled by stop button");
-    }
-    
-    static final class ProgressIndexData {
-        enum TYPE {LABEL, TABEL}
-        
-        final String path;
-        final long progressCount ;
-        final long indexCount ;
-        final String status ;
-        final TYPE type ;
-        final String sizeMsg ;
-
-        public ProgressIndexData (long progressCount, long indexCount, String p,
-                String status, TYPE type, String sm) {
-            this.progressCount = progressCount;
-            this.path = p ;
-            this.indexCount = indexCount ;
-            this.status = status ;
-            this.type = type;
-            this.sizeMsg = sm;
-        }
-
-        public String getPath ()        { return this.path   ; }
-        public long getProgressCount ()  { return this.progressCount  ; }
-        public String getStatus()       { return this.status ; }
-        public TYPE getType ()           { return this.type   ; }
-        public long getIndexCount()      { return this.indexCount ;}
-        public String getSizeMsg()      { return this.sizeMsg; }
     }
 }
