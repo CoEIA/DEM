@@ -16,7 +16,6 @@ import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.CrawlerIndexerThread;
 import edu.coeia.util.FileUtil;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -27,7 +26,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTable ;
 
