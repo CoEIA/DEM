@@ -5,7 +5,11 @@
 package edu.coeia.constants;
 
 /**
- *
+ * Containing folder name related to the current JRE
+ * implementation also hold some look and feel names
+ * 
+ * also hold the application name and version
+ * 
  * @author wajdyessam
  */
 

@@ -8,7 +8,7 @@ import edu.coeia.multimedia.MultimediaViewerPanel;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.constants.IndexingConstant;
 import edu.coeia.util.FileUtil;
 import edu.coeia.constants.ApplicationConstants;
 

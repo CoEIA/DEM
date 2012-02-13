@@ -5,7 +5,7 @@
 package edu.coeia.task;
 
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.constants.IndexingConstant;
 import edu.coeia.items.EmailItem;
 import edu.coeia.items.ItemFactory;
 import edu.coeia.offlinemail.EmailBrowsingPanel;

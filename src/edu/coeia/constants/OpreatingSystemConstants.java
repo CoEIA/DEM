@@ -9,7 +9,10 @@ import java.io.File;
 import static edu.coeia.constants.ApplicationConstants.*;
 
 /**
- *
+ * Containing the path for folder related to specific 
+ * operating system
+ * 
+ * 
  * @author wajdyessam
  */
 public class OpreatingSystemConstants {

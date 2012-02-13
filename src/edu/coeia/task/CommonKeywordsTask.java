@@ -5,7 +5,7 @@
 package edu.coeia.task;
 
 import edu.coeia.cases.Case;
-import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.constants.IndexingConstant;
 import edu.coeia.investigation.CommonKeywordsPanel;
 import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.gutil.JTableUtil;

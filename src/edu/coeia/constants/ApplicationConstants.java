@@ -8,7 +8,12 @@ package edu.coeia.constants;
 import java.io.File ;
 
 /**
- *
+ * Containing Constant for Folders and Files Name
+ * that will be used throughout the application
+ * 
+ * also contain the paths for the tools and command lines
+ * that is used throughout the application
+ * 
  * @author wajdyessam
  */
 
@@ -89,7 +94,7 @@ public final class ApplicationConstants {
     public static final String IE_CACHE_PROGRAM = "tools\\IECacheList.exe";
     public static final String IE_PASSWORD_PROGRAM = "tools\\iepv.exe" ;
     
-    // reports constants
+    /** Reports constants **/
     public static final String FILE_SYSTEM_JASPER_FILE = "filesystem_report.jasper";
     public static final String FILE_SYSTEM_X_PATH = "/dem/detail/effectivefiles/file";
     public static final String FILE_SYSTEM_REPORT_NAME = "filesystem";

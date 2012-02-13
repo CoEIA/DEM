@@ -13,7 +13,7 @@ package edu.coeia.searching;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.indexing.IndexingConstant ;
+import edu.coeia.constants.IndexingConstant ;
 import edu.coeia.items.Item;
 import edu.coeia.items.ItemFactory;
 import edu.coeia.searching.SearcherThread.ProgressSearchData;

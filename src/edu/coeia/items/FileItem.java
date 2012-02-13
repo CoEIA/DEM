@@ -4,7 +4,7 @@
  */
 package edu.coeia.items;
 
-import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.constants.IndexingConstant;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;

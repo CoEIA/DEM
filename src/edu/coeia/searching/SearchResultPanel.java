@@ -17,7 +17,7 @@ import edu.coeia.gutil.LabelCellRenderer;
 import edu.coeia.util.HashCalculator;
 import edu.coeia.hashanalysis.HashItem;
 import edu.coeia.hashanalysis.HashSetDialog;
-import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.constants.IndexingConstant;
 import edu.coeia.main.CaseMainFrame;
 import edu.coeia.util.ApplicationLogging;
 import edu.coeia.viewer.SearchResultParamter;

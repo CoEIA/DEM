@@ -7,7 +7,7 @@ package edu.coeia.task;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.charts.PieChartPanel;
-import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.constants.IndexingConstant;
 import edu.coeia.investigation.ExtensionFrequencyPanel;
 import edu.coeia.util.FileUtil;
 import edu.coeia.constants.ApplicationConstants;

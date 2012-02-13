@@ -10,6 +10,7 @@ package edu.coeia.indexing;
  */
 
 
+import edu.coeia.constants.IndexingConstant;
 import org.junit.Test ;
 import static org.junit.Assert.* ;
 

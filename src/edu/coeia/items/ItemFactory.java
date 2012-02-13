@@ -4,11 +4,11 @@
  */
 package edu.coeia.items;
 
-import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.constants.IndexingConstant;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.searching.LuceneSearcher;
-import static edu.coeia.indexing.IndexingConstant.* ;
+import static edu.coeia.constants.IndexingConstant.* ;
 
 import java.util.List;
 import java.util.logging.Level;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.indexing;
+package edu.coeia.constants;
 
 import org.apache.lucene.document.Document;
 

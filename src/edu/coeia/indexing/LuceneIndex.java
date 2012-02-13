@@ -11,6 +11,7 @@ package edu.coeia.indexing;
  *
  */
 
+import edu.coeia.constants.IndexingConstant;
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.ApplicationConstants;

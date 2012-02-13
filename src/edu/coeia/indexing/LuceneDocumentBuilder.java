@@ -4,17 +4,18 @@
  */
 package edu.coeia.indexing;
 
-import static edu.coeia.indexing.IndexingConstant.*;
 import edu.coeia.chat.MSNMessage;
 import edu.coeia.chat.SkypeMessage;
 import edu.coeia.chat.YahooMessage;
 import edu.coeia.chat.YahooMessageDecoder;
 import edu.coeia.util.HashCalculator;
-import edu.coeia.indexing.IndexingConstant.DOCUMENT_GENERAL_TYPE;
 import edu.coeia.onlinemail.OnlineEmailMessage;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
+import edu.coeia.constants.IndexingConstant;
+import static edu.coeia.constants.IndexingConstant.*;
+import edu.coeia.constants.IndexingConstant.DOCUMENT_GENERAL_TYPE;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

@@ -497,8 +497,6 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         }
     }
     
-
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CenterPanel;
     private javax.swing.JPanel LeftPanel;

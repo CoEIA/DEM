@@ -8,7 +8,7 @@ import edu.coeia.multimedia.ImageViewerPanel;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.ImageLabel;
-import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.constants.IndexingConstant;
 import edu.coeia.multimedia.GeoTagging;
 import edu.coeia.multimedia.GeoTagging.GPSData;
 import edu.coeia.constants.ApplicationConstants;

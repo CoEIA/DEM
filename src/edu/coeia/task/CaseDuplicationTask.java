@@ -8,7 +8,7 @@ package edu.coeia.task;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.hashanalysis.HashAnalysisPanel;
-import edu.coeia.indexing.IndexingConstant;
+import edu.coeia.constants.IndexingConstant;
 import edu.coeia.constants.ApplicationConstants;
 
 import java.io.File;

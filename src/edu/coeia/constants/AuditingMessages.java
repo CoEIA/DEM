@@ -5,7 +5,9 @@
 package edu.coeia.constants;
 
 /**
- *
+ * Containing Auditing Message that will 
+ * record the interactions with the application
+ * 
  * @author wajdyessam
  */
 
