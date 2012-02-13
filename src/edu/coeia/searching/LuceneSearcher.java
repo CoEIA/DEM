@@ -33,6 +33,7 @@ import org.apache.lucene.document.Document ;
 import org.apache.lucene.util.Version ;
 import org.apache.lucene.index.Term ;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
+import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.TermQuery;
 
 public class LuceneSearcher {
@@ -59,6 +60,9 @@ public class LuceneSearcher {
         String[] fields = getSupportedFileds(luceneFields);
         
         MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_20, fields, analyzer);
+        
+        // scpaing special characters
+        queryString = QueryParser.escape(queryString);
         
         Query query = parser.parse(queryString);
         results = searcher.search(query, MAX_RESULT);
