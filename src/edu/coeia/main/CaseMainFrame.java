@@ -72,7 +72,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
      */
     public CaseMainFrame(final CaseManagerFrame frame, final CaseFacade caseFacade) {
         initComponents();
-        logger.info("OfflineMining Frame Constructor, Open Case: " + caseFacade.getCase().getCaseName());
+        logger.info(String.format("OfflineMining Frame Constructor, Open Case: %s" , caseFacade.getCase().getCaseName()));
         caseFacade.audit(AuditingMessages.OPEN_CASE);
         
         /*
@@ -122,6 +122,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
         // init user interface components
         this.searchToggleButtonActionPerformed(null);
         this.setTitle(SystemConstant.APPLICATION_NAME + "Case Manager Window");
+        
         GuiUtil.showPanel("caseManagerCard",CardPanel);
     }
     
@@ -564,7 +565,8 @@ public class CaseMainFrame extends javax.swing.JFrame {
         List<EmailConfiguration> emailInfos = this.getCase().getEmailConfigurations();
  
         if (emailInfos.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "There is no Email Information", "No Email in Case", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, 
+                    "There is no Email Information", "No Email in Case", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -612,6 +614,8 @@ public class CaseMainFrame extends javax.swing.JFrame {
 
                 if ( !caseName.isEmpty() )
                     ApplicationManager.Manager.removeCaseFromOpeningCase(caseName);
+                
+                this.caseFacade.closeCaseTags();
             }
         }
         catch (Exception e){

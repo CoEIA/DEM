@@ -245,6 +245,10 @@ public final class CaseFacade {
         this.caseTags.removeTag(index);
     }
     
+    public void closeCaseTags() {
+        this.caseTags.close();
+    }
+    
     private CaseFacade (final Case aCase) throws Exception {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();

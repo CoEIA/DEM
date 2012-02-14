@@ -49,11 +49,9 @@ public final class TagsDBHandler {
      */
     public List<Tag> readTagsFromDataBase() {
         List<Tag> tags = new ArrayList<Tag>();
-        Connection connection = null;
         
         try {
             String select = "SELECT * FROM case_tags";
-            connection = this.getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(select);
             
@@ -64,9 +62,6 @@ public final class TagsDBHandler {
         }
         catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
-            this.closeConnection(connection);
         }
         
         return tags;
@@ -101,11 +96,14 @@ public final class TagsDBHandler {
 
         databasePath = checkNull("database path must be not null", databasePath);
         DB_URL = DB_NAME + databasePath;
+        DATABASE_NAME_PATH = DB_URL;
         
         if (!foundDB) {
             DB_URL += ";create=true";
         }
 
+        this.connection = this.getConnection();
+        
         if (!foundDB) {
             makeDBStructure();
         }
@@ -119,8 +117,6 @@ public final class TagsDBHandler {
      private boolean insertTagRecord(final Tag tag)
             throws Exception {
         
-        Connection connection = this.getConnection();
-        
         String s = "INSERT into case_tags values(?,?,?)";
         PreparedStatement psInsert = connection.prepareStatement(s);
         
@@ -130,8 +126,7 @@ public final class TagsDBHandler {
         
         int ret = psInsert.executeUpdate();
         psInsert.close();
-        
-        this.closeConnection(connection);
+
         return ret > 0 ;
     }
 
@@ -141,15 +136,14 @@ public final class TagsDBHandler {
       */
     private void removeTagRecords() throws Exception{
         String command = "DELETE FROM case_tags";
-        Connection connection = this.getConnection();
         PreparedStatement update = connection.prepareStatement(command);
         update.executeUpdate();
-        this.closeConnection(connection);
     }
     
-    private void closeConnection(final Connection connection) {
+    public void closeConnection() {
         try {
             connection.close();
+            DriverManager.getConnection(String.format("jdbc:derby:;shutdown=true"));
         }
         catch (SQLException e){
             if ( e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState()))
@@ -163,7 +157,6 @@ public final class TagsDBHandler {
 
     private void makeDBStructure() throws ClassNotFoundException,
             InstantiationException, SQLException, IllegalAccessException  {
-        Connection connection = this.getConnection();
         Statement statement = connection.createStatement();
 
         String tagsTable =
@@ -175,18 +168,18 @@ public final class TagsDBHandler {
 
         statement.execute(tagsTable);
         statement.close();
-        this.closeConnection(connection);
     }
     
     private Connection getConnection() throws ClassNotFoundException, InstantiationException,
             SQLException, IllegalAccessException {
-        Class.forName(DB_DRIVER).newInstance();
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
     }
     
     private String DB_URL;
-    private final static String DB_NAME = "jdbc:derby:";
-    private final static String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
-    private final static String DB_USER = "";
-    private final static String DB_PASS = "";
+    private Connection connection;
+    private String DATABASE_NAME_PATH = "";
+    private final String DB_NAME = "jdbc:derby:";
+    private final String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
+    private final String DB_USER = "";
+    private final String DB_PASS = "";
 }

@@ -156,7 +156,6 @@ public final class OnlineEmailDBHandler {
 
     private Connection getConnection() throws ClassNotFoundException, InstantiationException,
             SQLException, IllegalAccessException {
-        Class.forName(DB_DRIVER).newInstance();
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
     }
     
@@ -175,8 +174,8 @@ public final class OnlineEmailDBHandler {
     }
     
     private String DB_URL;
-    private static String DB_NAME = "jdbc:derby:";
-    private static String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
-    private static String DB_USER = "";
-    private static String DB_PASS = "";
+    private String DB_NAME = "jdbc:derby:";
+    private String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
+    private String DB_USER = "";
+    private String DB_PASS = "";
 }

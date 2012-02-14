@@ -121,6 +121,10 @@ final class CaseTags {
         this.tagsCopy.addAll(this.getTags());
     }
     
+    public void close() {
+        this.tagsDataBase.closeConnection();
+    }
+    
     private final List<Tag> tags, tagsCopy;
     private TagsDBHandler tagsDataBase;
 }
