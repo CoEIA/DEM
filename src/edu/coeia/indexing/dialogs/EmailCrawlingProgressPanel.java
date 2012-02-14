@@ -129,6 +129,8 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
     public void setTo(final String to) { this.toTextField.setText(to); }
     
     public void setAttachment(final List<String> attachmentsName) {
+        this.attachmentsTextArea.setText("");
+        
         for(String attachment: attachmentsName) {
             this.attachmentsTextArea.append(attachment);
             this.attachmentsTextArea.append("\n");

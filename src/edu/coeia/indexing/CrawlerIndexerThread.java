@@ -165,7 +165,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         try {
             status = this.luceneIndex.indexFile(path, this);
             this.crawlerStatistics.increaseNumberOfIndexedItems();
-            logger.log(Level.SEVERE, String.format("File %s Indexed Successfully", path.getAbsolutePath()));
+            logger.log(Level.INFO, String.format("File %s Indexed Successfully", path.getAbsolutePath()));
         }
         catch (Exception e) {
             this.crawlerStatistics.increaseNumberOfErrorItems();

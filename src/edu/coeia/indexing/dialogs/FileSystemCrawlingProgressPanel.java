@@ -31,6 +31,8 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel{
     public void setFileDate(final String date) { this.fileDateTextField.setText(date); }
     
     public void setEmbeddedDocuments(final List<String> documents) {
+        this.embeddedDocumentsTextArea.setText("");
+        
         for(String doc: documents) {
             this.embeddedDocumentsTextArea.append(doc);
             this.embeddedDocumentsTextArea.append("\n");

@@ -50,7 +50,7 @@ final class OnlineEmailIndexer extends Indexer {
 
                         for (String sAttachments : msg.getAttachments()) {
                             File attachmentPath = new File(this.getCaseFacade().getCaseOnlineEmailAttachmentLocation() + File.separator + sAttachments);
-                            this.getLuceneIndex().indexFile(attachmentPath, currentId , this.getCrawler());
+                            this.getLuceneIndex().indexFile(attachmentPath, currentId , null);
                         }
                     }
                 } 

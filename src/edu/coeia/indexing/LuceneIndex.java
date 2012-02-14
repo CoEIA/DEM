@@ -57,12 +57,16 @@ public final class LuceneIndex {
             if ( crawler !=  null) 
                 indexType.setCrawler(crawler);
             
-            result =  indexType.doIndexing();
+            result = indexType.doIndexing();
+            // here if true, increase indexed item by one
+            // else increase error by one
         }
         catch(NullPointerException e) {
             throw new UnsupportedOperationException(e.getMessage());
         }
         catch(UnsupportedOperationException e){
+            e.printStackTrace();
+            // here add error item , incease by one
             throw new UnsupportedOperationException(e.getMessage());
         }
         
