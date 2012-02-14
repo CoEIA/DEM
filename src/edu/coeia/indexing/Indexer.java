@@ -41,7 +41,7 @@ public abstract class Indexer {
         int objectId = this.getId();
 
         if (document != null) {
-            this.getLuceneIndex().getWriter().addDocument(document);    // index file
+            this.luceneIndex.addDocument(document);    // index file
             this.increaseId();      // increase the id counter if file indexed successfully
 
             // cache images with id as parent id

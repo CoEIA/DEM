@@ -59,7 +59,7 @@ public final class LuceneIndex {
 	this.writer.setUseCompoundFile(false);
     }
 
-    void writeEvidenceLocation(final List<String> paths) throws CorruptIndexException,
+    public void writeEvidenceLocation(final List<String> paths) throws CorruptIndexException,
             IOException {
         Document document = new Document();
         
@@ -67,18 +67,16 @@ public final class LuceneIndex {
             document.add( new Field(IndexingConstant.EVIDENCE_PATH, path, 
                     Field.Store.YES, Field.Index.NO));
         
+        this.addDocument(document);
+    }
+    
+    public CaseFacade getCaseFacade() { return this.caseFacade; }
+    
+    public void addDocument(final Document document) throws CorruptIndexException, IOException {
         this.writer.addDocument(document);
     }
-    
-    CaseFacade getCaseFacade() { return this.caseFacade; }
-    IndexWriter getWriter () { return this.writer ; }
-    
-    int getIndexNumber () throws IOException {
-        int numIndexed = writer.numDocs();
-        return numIndexed ;
-    }
 
-    void closeIndex () throws IOException {
+    public void closeIndex () throws IOException {
         writer.optimize();
 	writer.close();
     }
