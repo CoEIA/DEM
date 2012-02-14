@@ -12,6 +12,7 @@ package edu.coeia.tags;
 import edu.coeia.util.FileUtil;
 import static edu.coeia.util.PreconditionsChecker.* ;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +30,16 @@ final class TagsDBHandler {
      * @param location
      * @return TagsDBHandler
      */
-    public static TagsDBHandler newInstance(String location) throws Exception {
+    public static TagsDBHandler newInstance(String location) throws ClassNotFoundException,
+            InstantiationException, SQLException, IllegalAccessException {
         checkNull("Location Mush have a value", location);
         checkNotEmptyString("location must be not empty string", location);
         
         return new TagsDBHandler(location);
     }
     
-    private TagsDBHandler(String location) throws Exception {
+    private TagsDBHandler(String location) throws ClassNotFoundException,
+            InstantiationException, SQLException, IllegalAccessException {
         boolean isDBFound = FileUtil.isDirectoryExists(location);
         this.createDB(isDBFound, location);
     }
@@ -94,8 +97,8 @@ final class TagsDBHandler {
         return (status);
     }
     
-    private void createDB(boolean foundDB, String databasePath)
-        throws Exception {
+    private void createDB(boolean foundDB, String databasePath) throws ClassNotFoundException, 
+            InstantiationException, SQLException, IllegalAccessException{
 
         databasePath = checkNull("database path must be not null", databasePath);
         DB_URL = DB_NAME + databasePath;
@@ -159,7 +162,8 @@ final class TagsDBHandler {
         }
     }
 
-    private void makeDBStructure() throws Exception {
+    private void makeDBStructure() throws ClassNotFoundException,
+            InstantiationException, SQLException, IllegalAccessException  {
         Connection connection = this.getConnection();
         Statement statement = connection.createStatement();
 

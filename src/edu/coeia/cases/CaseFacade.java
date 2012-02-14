@@ -8,6 +8,8 @@ import edu.coeia.util.FileUtil;
 import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.constants.AuditingMessages;
 
+import edu.coeia.tags.Tag;
+import edu.coeia.tags.TagsManager;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -32,8 +34,9 @@ public final class CaseFacade {
     private final CaseHistoryHandler caseHistoryHandler;
     private final CasePathMappingHandler casePathHandler; 
     private final CaseAuditing caseAuditing;
+    private final TagsManager caseTags;
     
-    public static CaseFacade newInstance (final Case aCase) throws IOException {
+    public static CaseFacade newInstance (final Case aCase) throws Exception {
         return new CaseFacade(aCase);
     }
     
@@ -217,11 +220,38 @@ public final class CaseFacade {
         this.caseAuditing.auditing(message.toString());
     }
     
-    private CaseFacade (final Case aCase) throws IOException {
+    
+    /** Case Tagging **/
+    public boolean isTagsDatabaseModified() {
+        return this.caseTags.isTagsDbModified();
+    }
+    
+    public void addTag(final Tag tag) {
+        this.caseTags.addTag(tag);
+    }
+    
+    public boolean saveTags() {
+        return this.caseTags.saveTags();
+    }
+    
+    public void updateMonitorChangingList() {
+        this.caseTags.updateMonitorChangingList();
+    }
+    
+    public List<Tag> getTags() {
+        return this.caseTags.getTags();
+    }
+    
+    public void removeTag(int index) {
+        this.caseTags.removeTag(index);
+    }
+    
+    private CaseFacade (final Case aCase) throws Exception {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();
         this.casePathHandler = CasePathMappingHandler.newInstance(this.getCaseConfigurationFileLocation());
         this.caseAuditing = new CaseAuditing(this.aCase, this.getCaseAuditingFileLocation());
+        this.caseTags = TagsManager.getTagsManager(this.getTagDatabaseLocation());
         
         if ( FileUtil.isFileFound(this.getCaseConfigurationFileLocation()))
             this.updateMappingFile();

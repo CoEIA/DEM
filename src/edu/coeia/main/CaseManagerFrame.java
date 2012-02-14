@@ -331,7 +331,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     }
     
     private CaseFacade newFacade(final String caseName) throws FileNotFoundException,
-            IOException, ClassNotFoundException {
+            IOException, ClassNotFoundException, Exception {
         
         return CaseFacade.newInstance(ApplicationManager.Manager.getCaseFromCaseName(caseName));
     }

@@ -896,7 +896,7 @@ public class CaseWizardDialog extends javax.swing.JDialog{
                 }
             }
 
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
         }

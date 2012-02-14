@@ -32,7 +32,6 @@ import javax.swing.JFrame;
 public class ReportPanel extends javax.swing.JPanel {
 
     private final CaseFacade caseFacade ;
-    private final TagsManager tags;
     private final CaseMainFrame caseFrame ;
     private final Case aCase ;
 
@@ -43,7 +42,6 @@ public class ReportPanel extends javax.swing.JPanel {
         this.caseFrame = (CaseMainFrame) frame;
         this.aCase =  this.caseFrame.getCaseFacade().getCase();
         this.caseFacade = this.caseFrame.getCaseFacade();
-        this.tags = this.caseFrame.getTagsManager(); 
     }
 
     /** This method is called from within the constructor to
@@ -296,7 +294,7 @@ public class ReportPanel extends javax.swing.JPanel {
 
     private void taggedItemsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taggedItemsButtonActionPerformed
         ReportOptionDialog dialog = new ReportOptionDialog(this.caseFrame, true,
-                new TaggedItemsReportPanel(this, tags),this);
+                new TaggedItemsReportPanel(this),this);
         dialog.setVisible(true);
     }//GEN-LAST:event_taggedItemsButtonActionPerformed
 

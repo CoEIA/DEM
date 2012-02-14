@@ -53,7 +53,6 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     
     private final String keyword ;
     private final Frame parent ;
-    private final TagsManager tagManger  ;
     private final Case caseObj ;
     private final CaseFacade caseFacade; 
     
@@ -74,7 +73,6 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         this.setLocationRelativeTo(this.parent);
         
         this.parent = parent ;
-        this.tagManger = ((CaseMainFrame) this.parent).getTagsManager();
         this.caseObj  = ((CaseMainFrame) this.parent).getCaseFacade().getCase();
         this.caseFacade = ((CaseMainFrame) this.parent).getCaseFacade();
         this.keyword = searchViewer.getKeyword();
@@ -289,7 +287,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         Tag tag = tagDialog.getTag();
         
         if ( tag !=  null ) {
-            this.tagManger.addTag(tag);
+            this.caseFacade.addTag(tag);
             ((CaseMainFrame)this.parent).refreshTagsList();
         }
     }

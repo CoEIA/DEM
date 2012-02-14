@@ -111,7 +111,7 @@ public class RawResultFile {
         return sourceXml;
     }
         
-    public static DatasourceXml getCasesXmlFile(final List<Case> cases, final CaseFacade caseFacade) throws IOException {
+    public static DatasourceXml getCasesXmlFile(final List<Case> cases, final CaseFacade caseFacade) throws Exception {
         DatasourceXml sourceXml = new DatasourceXml();
         
         sourceXml.m_strJasperFile = ApplicationConstants.CASES_JASPER_FILE;
@@ -150,7 +150,7 @@ public class RawResultFile {
         return sourceXml;
     }
 
-    public static DatasourceXml getTaggedItems(TagsManager tags, final CaseFacade caseFacade) throws IOException {
+    public static DatasourceXml getTaggedItems(final CaseFacade caseFacade) throws IOException {
         DatasourceXml sourceXml = new DatasourceXml();
         
         sourceXml.m_strJasperFile = ApplicationConstants.TAGS_JASPER_FILE;
@@ -158,7 +158,7 @@ public class RawResultFile {
         sourceXml.m_strReportName = ApplicationConstants.TAGS_REPORT_NAME;
         sourceXml.m_strXmlPath = caseFacade.getCaseRawReportFolderLocation() + File.separator + ApplicationConstants.TAGS_XML_FILE;
         
-        List<Tag> taggeditems = tags.getTags();
+        List<Tag> taggeditems = caseFacade.getTags();
 
         StringBuilder result = new StringBuilder();
         

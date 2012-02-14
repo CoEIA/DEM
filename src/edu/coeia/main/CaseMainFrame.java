@@ -24,9 +24,7 @@ import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.constants.AuditingMessages;
 import edu.coeia.constants.SystemConstant;
 import edu.coeia.managers.ApplicationManager;
-import edu.coeia.tags.TagsManager ;
 
-import java.awt.EventQueue;
 import java.awt.Toolkit ;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -55,7 +53,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
     
     private final CaseManagerFrame parentFrame; 
     private final CaseFacade caseFacade;
-    private TagsManager tagsManager ;
     private final String applicationTitle;
     
     // to update the panel after direct indexing 
@@ -90,7 +87,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
          */
         
         this.caseFacade = caseFacade;
-        this.loadTags();
         
         /**
          * Remove Case Name From the list when Frame Closed
@@ -564,21 +560,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
         dialog.setVisible(true);
     }//GEN-LAST:event_caseVerificationMenuItemActionPerformed
     
-    private void loadTags() {
-        try {
-            tagsManager = TagsManager.getTagsManager(caseFacade.getTagDatabaseLocation());
-            logger.info("loading tags complete");
-    //        new Thread(new Runnable() { 
-    //            @Override
-    //            public void run() {
-    //                tagsManager = TagsManager.getTagsManager(caseFacade.getTagDatabaseLocation());
-    //        }).start();
-    //        }).start();
-        } catch (Exception ex) {
-            Logger.getLogger(CaseMainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
     private void emailDownloaderAction() {
         List<EmailConfiguration> emailInfos = this.getCase().getEmailConfigurations();
  
@@ -643,7 +624,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
      * and not save the case
      */
     private void promptUserToSaveCase() {
-        if ( this.tagsManager.isTagsDbModified() ) {
+        if ( this.caseFacade.isTagsDatabaseModified() ) {
             askForSavingMessage();
         }
     }
@@ -670,7 +651,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
     }
     
     private Case getCase() { return this.caseFacade.getCase() ; }
-    public TagsManager getTagsManager() { return this.tagsManager; }
     public CaseFacade getCaseFacade() { return this.caseFacade; }
     public CaseManagerFrame getParentFrame() { return this.parentFrame; }
     

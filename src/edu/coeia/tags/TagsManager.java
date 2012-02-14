@@ -6,6 +6,7 @@ package edu.coeia.tags;
 
 import static edu.coeia.util.PreconditionsChecker.* ;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List; 
 import java.util.ArrayList ;
@@ -25,7 +26,7 @@ import java.util.Collections;
  * 
  * @author wajdyessam
  */
-final public class TagsManager {
+public final class TagsManager {
     
     /**
      * Get New Instance of Tags Manager for this case
@@ -99,7 +100,8 @@ final public class TagsManager {
      * private constructor
      * create new database and then read tags to tags list
      */
-    private TagsManager(String dbLocation) throws Exception {
+    private TagsManager(String dbLocation) throws ClassNotFoundException,
+            InstantiationException, SQLException, IllegalAccessException{
         this.tags = new ArrayList<Tag>();
         this.tagsCopy = new ArrayList<Tag>();
         

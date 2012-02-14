@@ -23,13 +23,11 @@ import java.io.IOException;
  */
 public class TaggedItemsReportPanel extends javax.swing.JPanel implements ReportGenerator {
     private final ReportPanel reportPanel ;
-    private final TagsManager tags;
     
     /** Creates new form TaggedItemsReportPanel */
-    public TaggedItemsReportPanel(ReportPanel panel, TagsManager manager) {
+    public TaggedItemsReportPanel(ReportPanel panel) {
         initComponents();
         this.reportPanel = panel;
-        this.tags  = manager;
     }
 
     /** This method is called from within the constructor to
@@ -67,6 +65,6 @@ public class TaggedItemsReportPanel extends javax.swing.JPanel implements Report
     // End of variables declaration//GEN-END:variables
 
     public DatasourceXml generateReport() throws IOException {
-        return RawResultFile.getTaggedItems(tags, this.reportPanel.getCaseFacade());
+        return RawResultFile.getTaggedItems(this.reportPanel.getCaseFacade());
     }
 }

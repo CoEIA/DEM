@@ -43,7 +43,6 @@ import javax.swing.JOptionPane;
 public final class CaseInformationPanel extends javax.swing.JPanel {
 
     private final CaseMainFrame parent ;
-    private final TagsManager tagsManager ;
     private final CaseFacade caseFacade ;
     
     private int currentTagIndex;
@@ -57,7 +56,6 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         initComponents();
         
         this.parent = frame;
-        this.tagsManager = frame.getTagsManager() ;
         this.caseFacade = frame.getCaseFacade();
                 
         this.filsSystemSourcesModel = new DefaultListModel();
@@ -510,13 +508,13 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
      * Save case modifications
      */
     public void saveCaseModifications() {
-        if ( this.tagsManager.saveTags() ) {
+        if ( this.caseFacade.saveTags() ) {
             Toolkit.getDefaultToolkit().beep();
             JOptionPane.showMessageDialog(this, "Case have been saved", 
                     "Saving Case Message", JOptionPane.INFORMATION_MESSAGE);
             
             // update current
-            this.tagsManager.updateMonitorChangingList();
+            this.caseFacade.updateMonitorChangingList();
         }
     }
     
@@ -534,7 +532,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
      * show the next tag if there is a tag
      */
     public void showNextTag() {
-        if ( this.currentTagIndex < this.tagsManager.getTags().size() ) {
+        if ( this.currentTagIndex < this.caseFacade.getTags().size() ) {
             this.currentTagIndex++;
             displayCurrentTag(currentTagIndex);
         }        
@@ -545,8 +543,8 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
      */
     private void addTag(final Tag tag) {
         if ( tag != null ) {
-            this.tagsManager.addTag(tag);
-            int index = this.tagsManager.getTags().indexOf(tag);
+            this.caseFacade.addTag(tag);
+            int index = this.caseFacade.getTags().indexOf(tag);
             this.currentTagIndex = index;
             displayCurrentTag(currentTagIndex);
         }
@@ -556,7 +554,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
      * remove current tag
      */
     private void removeTag() {
-        this.tagsManager.removeTag(this.currentTagIndex);
+        this.caseFacade.removeTag(this.currentTagIndex);
         this.initializingTagsPanel();
     }
     
@@ -564,7 +562,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
      * initializing tags panel 
      */
     public void initializingTagsPanel() {
-        List<Tag> tags = this.tagsManager.getTags();
+        List<Tag> tags = this.caseFacade.getTags();
         this.currentTagIndex = 0;
         
         if ( !tags.isEmpty() )
@@ -580,7 +578,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
      * display tag specified by current tag index
      */
     private void displayCurrentTag(final int index) {
-        List<Tag> tags = this.tagsManager.getTags();
+        List<Tag> tags = this.caseFacade.getTags();
         Tag tag = tags.get(index);
         displayTagElement(tag);
         this.currentTagLabel.setText("(" + index + "/" + tags.size() + ")");
@@ -607,7 +605,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         this.tagNameTextField.setText("");
         this.tagDateTextField.setText("");
         this.tagContentTextArea.setText("");
-        this.currentTagLabel.setText("(" + 0 + "/" + this.tagsManager.getTags().size() + ")");
+        this.currentTagLabel.setText("(" + 0 + "/" + this.caseFacade.getTags().size() + ")");
     }
     
     /**
@@ -617,7 +615,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         /**
          * disable remove button when their is not tags
          */
-        if ( this.tagsManager.getTags().isEmpty() )
+        if ( this.caseFacade.getTags().isEmpty() )
             this.removeTagsButton.setEnabled(false);
         else
             this.removeTagsButton.setEnabled(true);
@@ -633,7 +631,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         /**
          * disable next button
          */
-        if ( this.currentTagIndex < this.tagsManager.getTags().size()-1)
+        if ( this.currentTagIndex < this.caseFacade.getTags().size()-1)
             this.nextButton.setEnabled(true);
         else
             this.nextButton.setEnabled(false);
