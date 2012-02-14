@@ -10,7 +10,6 @@
  */
 package edu.coeia.chat;
 
-import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.AuditingMessages;
 import edu.coeia.gutil.JTableUtil;
@@ -32,7 +31,6 @@ import javax.swing.event.DocumentListener;
  */
 public class ChatViewerPanel extends javax.swing.JPanel {
 
-    private final Case aCase;
     private final DefaultListModel chatListModel;
     private final String agent;
     private final CaseFacade caseFacade ;
@@ -41,7 +39,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
     /** Creates new form ChatViewerPanel */
     public ChatViewerPanel(final CaseFacade caseFacade, final String agent) {
         initComponents();
-        this.aCase = caseFacade.getCase();
+        
         this.chatListModel = new DefaultListModel();
         this.agent = agent;
         this.caseFacade = caseFacade ;
@@ -178,7 +176,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
             this.caseFacade.audit(AuditingMessages.REFRESHING_CHAT);
             this.chatListModel.removeAllElements();
             
-            ChatRefreshTask task = new ChatRefreshTask(aCase, this);
+            ChatRefreshTask task = new ChatRefreshTask(this);
             task.startTask();
             
         } catch (Exception ex) {
@@ -195,7 +193,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
             
             this.caseFacade.audit(AuditingMessages.LOADING_CHAT);
             String path = String.valueOf(this.chatJList.getSelectedValue());
-            ChatLoadingTask task = new ChatLoadingTask(aCase, this, path);
+            ChatLoadingTask task = new ChatLoadingTask(this, path);
             task.startTask();
         } catch (Exception ex) {
             logger.severe(String.format("Cannot loding chat item $s, Exception is %s",

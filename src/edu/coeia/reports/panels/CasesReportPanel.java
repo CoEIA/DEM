@@ -43,7 +43,7 @@ public class CasesReportPanel extends javax.swing.JPanel implements ReportGenera
         try {
             List<Case> cases = IndexUtil.getAllCases();
             xml =  RawResultFile.getCasesXmlFile(cases, this.reportPanel.getCaseFacade());
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(CasesReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         

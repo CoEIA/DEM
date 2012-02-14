@@ -4,11 +4,9 @@
  */
 package edu.coeia.task;
 
-import edu.coeia.cases.Case;
 import edu.coeia.chat.ChatViewerPanel;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.constants.IndexingConstant;
-import edu.coeia.constants.ApplicationConstants;
 
 import java.awt.EventQueue;
 
@@ -31,12 +29,10 @@ import org.apache.lucene.store.FSDirectory;
 
 public class ChatRefreshTask implements Task{
     private final TaskThread thread;
-    private final Case aCase;
     private final ChatViewerPanel panel;
     
-    public ChatRefreshTask(final Case aCase, final ChatViewerPanel panel) {
+    public ChatRefreshTask(final ChatViewerPanel panel) {
         this.thread = new TaskThread(this);
-        this.aCase = aCase;
         this.panel = panel;
     }
     
@@ -64,7 +60,8 @@ public class ChatRefreshTask implements Task{
     }
     
     private Set<String> getChatFilePath() throws IOException{
-        String indexDir = aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
+        String indexDir = this.panel.getCaseFacade().getCaseIndexFolderLocation();
+        
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         Set<String> aList = new HashSet<String>();

@@ -4,13 +4,11 @@
  */
 package edu.coeia.task;
 
-import edu.coeia.cases.Case;
 import edu.coeia.chat.ChatViewerPanel;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.constants.IndexingConstant;
 import edu.coeia.items.ChatItem;
 import edu.coeia.items.ItemFactory;
-import edu.coeia.constants.ApplicationConstants;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,13 +25,11 @@ import org.apache.lucene.store.FSDirectory;
  */
 public class ChatLoadingTask implements Task{
     private final TaskThread thread;
-    private final Case aCase;
     private final ChatViewerPanel panel;
     private final String fileName;
     
-    public ChatLoadingTask(final Case aCase, final ChatViewerPanel panel, final String fileName) {
+    public ChatLoadingTask(final ChatViewerPanel panel, final String fileName) {
         this.thread = new TaskThread(this);
-        this.aCase = aCase;
         this.panel = panel;
         this.fileName = fileName;
     }
@@ -54,7 +50,7 @@ public class ChatLoadingTask implements Task{
     }
     
     private void displayChatSessions() throws IOException{
-        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
+        String indexDir = this.panel.getCaseFacade().getCaseIndexFolderLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
 
