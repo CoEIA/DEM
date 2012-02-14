@@ -110,7 +110,7 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel{
         fileSizeTextField.setEnabled(false);
         jPanel1.add(fileSizeTextField);
 
-        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel28.setText("File Extension:");
         jPanel1.add(jLabel28);
 
@@ -118,7 +118,7 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel{
         fileExtensionTextField.setEnabled(false);
         jPanel1.add(fileExtensionTextField);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel2.setText("File Last Modification Date:");
         jPanel1.add(jLabel2);
 
@@ -131,7 +131,7 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel{
 
         embeddedDocumentsTextArea.setColumns(20);
         embeddedDocumentsTextArea.setEditable(false);
-        embeddedDocumentsTextArea.setFont(new java.awt.Font("Tahoma", 0, 12));
+        embeddedDocumentsTextArea.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         embeddedDocumentsTextArea.setRows(5);
         embeddedDocumentsTextArea.setEnabled(false);
         jScrollPane1.setViewportView(embeddedDocumentsTextArea);

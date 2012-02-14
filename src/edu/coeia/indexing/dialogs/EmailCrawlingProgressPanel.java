@@ -47,17 +47,17 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
         currentMessageSubjectTextField = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         messageDateTextField = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        hasAttachmentTextField = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         attachmentsTextArea = new javax.swing.JTextArea();
 
-        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
+        setLayout(new java.awt.BorderLayout());
 
+        jPanel2.setMaximumSize(new java.awt.Dimension(2147483647, 241));
+        jPanel2.setMinimumSize(new java.awt.Dimension(160, 241));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText(" Email Agent:");
         jPanel2.add(jLabel8);
 
@@ -105,14 +105,6 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
         messageDateTextField.setEnabled(false);
         jPanel2.add(messageDateTextField);
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel13.setText("Has Attachment:");
-        jPanel2.add(jLabel13);
-
-        hasAttachmentTextField.setText(" ");
-        hasAttachmentTextField.setEnabled(false);
-        jPanel2.add(hasAttachmentTextField);
-
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel14.setText("Attachments Name:");
         jPanel2.add(jLabel14);
@@ -126,14 +118,13 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
 
         jPanel2.add(jScrollPane2);
 
-        add(jPanel2);
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     public void setAgentType(final String name) { this.agentTypeTextField.setText(name); }
     public void setCurrentFolder(final String folder) { this.currentFolderTextField.setText(folder); }
     public void setCurrentMessageSubject(final String subject) { this.currentMessageSubjectTextField.setText(subject); }
     public void setMessageDate(final String date) { this.messageDateTextField.setText(date); }
-    public void setHasAttachment(final String state) { this.hasAttachmentTextField.setText(state); }
     public void setFrom(final String from) { this.fromTextField.setText(from); }
     public void setTo(final String to) { this.toTextField.setText(to); }
     
@@ -183,12 +174,10 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
     private javax.swing.JTextField currentFolderTextField;
     private javax.swing.JTextField currentMessageSubjectTextField;
     private javax.swing.JTextField fromTextField;
-    private javax.swing.JTextField hasAttachmentTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;

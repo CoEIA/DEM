@@ -21,8 +21,6 @@ import edu.coeia.extractors.OfficeImageExtractor;
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.indexing.dialogs.FileSystemCrawlingProgressPanel;
 
-import java.awt.EventQueue;
-
 import javax.swing.SwingWorker ;
 import javax.swing.JOptionPane;
 
@@ -38,11 +36,11 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
 public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
-    private long sizeOfFilesInEvidenceFolder ;
-    private long numberOfFilesInEvidenceFolder;
+    private long sizeOfScannedItems ;
+    private long numberOfScannedItems;
     
-    private long numberOfFilesIndexed;
-    private long numberOfFilesCannotIndexed;
+    private long numberOfItemsIndexed;
+    private long numberOfItemsCannotIndexed;
 
     private boolean indexStatus = false;
     
@@ -57,7 +55,6 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         this.aCase = this.caseFacade.getCase();
         this.parentDialog = parentDialog;
         this.luceneIndex = LuceneIndex.newInstance(this.caseFacade);
-        this.parentDialog.setNumberOfFilesError("0");
         this.parentDialog.setProgressIndetermined(true);
     }
     
@@ -148,9 +145,10 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
     }
     
     private void updateGUIWithFileStatus(final File path) {
-        long size = path.length();
-        String msg = size > 3145728 ? "This file will take some minutes to index, please wait..." : " " ;
-        this.parentDialog.updateLabel((int)numberOfFilesIndexed, (int)numberOfFilesInEvidenceFolder, msg);
+        this.parentDialog.updateStatus(numberOfItemsIndexed, numberOfScannedItems, numberOfScannedItems, sizeOfScannedItems);
+        
+        //long size = path.length();
+        //String msg = size > 3145728 ? "This file will take some minutes to index, please wait..." : " " ;
         
         FileSystemCrawlingProgressPanel.FileSystemCrawlerData data = 
                 new FileSystemCrawlingProgressPanel.FileSystemCrawlerData(
@@ -166,15 +164,15 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
     
     private boolean doFileCrawling(final File path) {
         boolean status = false;
-        this.numberOfFilesInEvidenceFolder++;
-        this.sizeOfFilesInEvidenceFolder += path.getPath().length();
+        this.numberOfScannedItems++;
+        this.sizeOfScannedItems += path.getPath().length();
         
         try {
             status = this.luceneIndex.indexFile(path, this.parentDialog);
-            this.numberOfFilesIndexed++;
+            this.numberOfItemsIndexed++;
         }
         catch (Exception e) {
-            this.numberOfFilesCannotIndexed++;
+            this.numberOfItemsCannotIndexed++;
             this.parentDialog.addErrorMessage(path, e.getMessage());
             logger.log(Level.SEVERE, String.format("File %s cannot be indexed", path.getAbsolutePath()));
         }
@@ -248,8 +246,8 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
     
     private void saveHistory() {
         CaseHistory history = CaseHistory.newInstance(
-            this.aCase.getCaseName(), new Date().toString(), true, this.numberOfFilesIndexed, 
-            this.sizeOfFilesInEvidenceFolder);
+            this.aCase.getCaseName(), new Date().toString(), true, this.numberOfItemsIndexed, 
+            this.sizeOfScannedItems);
 
         this.caseFacade.setCaseHistory(history);
     }

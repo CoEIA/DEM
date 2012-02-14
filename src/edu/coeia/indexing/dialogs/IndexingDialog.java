@@ -12,7 +12,6 @@ package edu.coeia.indexing.dialogs;
 
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.GuiUtil;
-import edu.coeia.gutil.JTableUtil;
 import edu.coeia.indexing.CrawlerIndexerThread;
 import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.FileUtil;
@@ -28,7 +27,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JProgressBar;
-import javax.swing.JTable ;
 
 /**
  *
@@ -45,7 +43,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private final static String FILE_PANEL = "FILE";
     
     private CrawlerIndexerThread indexerThread ;
-    private boolean loggingAppearanceFlag;
+    private boolean detailPanelAppearenceFlag;
     
     private final static Logger logger = ApplicationLogging.getLogger();
     
@@ -63,7 +61,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
         this.addCardsPanel();
         GuiUtil.showPanel(FILE_PANEL, this.objectPanel);
         
-        this.hideLoggingPanel();
+        this.hideDetailsPanel();
         this.resettingButtons(true);
         
         this.closeCralwingWhenCloseTheWindow();
@@ -78,10 +76,9 @@ public final class IndexingDialog extends javax.swing.JDialog {
         this.objectPanel.add(this.fileSystemCrawlingPanel, FILE_PANEL);
     }
     
-    private void hideLoggingPanel() {
-        this.loggingAppearanceFlag = false;
-        this.showLoggingPanel(this.loggingAppearanceFlag);
-        this.pack();
+    private void hideDetailsPanel() {
+        this.detailPanelAppearenceFlag = false;
+        this.showDetailPanel(this.detailPanelAppearenceFlag);
     }
     
     private void closeCralwingWhenCloseTheWindow() {
@@ -116,21 +113,22 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         indexPanel = new javax.swing.JPanel();
-        objectPanel = new javax.swing.JPanel();
         progressStatusPanel = new javax.swing.JPanel();
-        bigSizeMsgLbl = new javax.swing.JLabel();
-        progressBar = new javax.swing.JProgressBar();
         jLabel27 = new javax.swing.JLabel();
-        numberOfFilesLbl = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
-        numberOfErrorFilesLbl = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        numberOfItemsInIndexTextField = new javax.swing.JTextField();
+        numberOfItemsCannotIndexedTextField = new javax.swing.JTextField();
+        numberOfScannedItemsTextField = new javax.swing.JTextField();
+        sizeOfScannedItemsTextField = new javax.swing.JTextField();
+        progressBarPanel = new javax.swing.JPanel();
+        progressBar = new javax.swing.JProgressBar();
         indexControlPanel = new javax.swing.JPanel();
         startIndexButton = new javax.swing.JButton();
         stopIndexingButton = new javax.swing.JButton();
-        displayLoggingButton = new javax.swing.JButton();
-        loggingPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        indexTable = new javax.swing.JTable();
+        displayItemDetialButton = new javax.swing.JButton();
+        objectPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Case Indexing Window");
@@ -139,39 +137,82 @@ public final class IndexingDialog extends javax.swing.JDialog {
         indexPanel.setMaximumSize(new java.awt.Dimension(550, 2147483647));
         indexPanel.setLayout(new javax.swing.BoxLayout(indexPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
-        objectPanel.setLayout(new java.awt.CardLayout());
-        indexPanel.add(objectPanel);
-
         progressStatusPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Index Case", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-        progressStatusPanel.setLayout(new javax.swing.BoxLayout(progressStatusPanel, javax.swing.BoxLayout.PAGE_AXIS));
-
-        bigSizeMsgLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        bigSizeMsgLbl.setForeground(new java.awt.Color(255, 0, 0));
-        bigSizeMsgLbl.setText(" ");
-        progressStatusPanel.add(bigSizeMsgLbl);
-        progressStatusPanel.add(progressBar);
+        progressStatusPanel.setMaximumSize(new java.awt.Dimension(32767, 142));
+        progressStatusPanel.setMinimumSize(new java.awt.Dimension(32767, 142));
 
         jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel27.setText("Number of Items in Index:");
-        progressStatusPanel.add(jLabel27);
-
-        numberOfFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        numberOfFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
-        numberOfFilesLbl.setText(" ");
-        progressStatusPanel.add(numberOfFilesLbl);
 
         jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel41.setText("Number of Items Cannot Indexed:");
-        progressStatusPanel.add(jLabel41);
 
-        numberOfErrorFilesLbl.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        numberOfErrorFilesLbl.setForeground(new java.awt.Color(0, 0, 255));
-        numberOfErrorFilesLbl.setText(" ");
-        progressStatusPanel.add(numberOfErrorFilesLbl);
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText("Number of Scanned Items:");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText("Size of Scanned Items:");
+
+        numberOfItemsInIndexTextField.setEditable(false);
+        numberOfItemsInIndexTextField.setText(" ");
+
+        numberOfItemsCannotIndexedTextField.setEditable(false);
+        numberOfItemsCannotIndexedTextField.setText(" ");
+
+        numberOfScannedItemsTextField.setEditable(false);
+        numberOfScannedItemsTextField.setText(" ");
+
+        sizeOfScannedItemsTextField.setEditable(false);
+        sizeOfScannedItemsTextField.setText(" ");
+
+        javax.swing.GroupLayout progressStatusPanelLayout = new javax.swing.GroupLayout(progressStatusPanel);
+        progressStatusPanel.setLayout(progressStatusPanelLayout);
+        progressStatusPanelLayout.setHorizontalGroup(
+            progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(progressStatusPanelLayout.createSequentialGroup()
+                .addGroup(progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel41)
+                    .addComponent(jLabel27)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(numberOfItemsInIndexTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                    .addComponent(numberOfScannedItemsTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                    .addComponent(sizeOfScannedItemsTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                    .addComponent(numberOfItemsCannotIndexedTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        progressStatusPanelLayout.setVerticalGroup(
+            progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(progressStatusPanelLayout.createSequentialGroup()
+                .addGroup(progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27)
+                    .addComponent(numberOfItemsInIndexTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel41)
+                    .addComponent(numberOfItemsCannotIndexedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addGroup(progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(numberOfScannedItemsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(progressStatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(sizeOfScannedItemsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14))
+        );
 
         indexPanel.add(progressStatusPanel);
 
+        progressBarPanel.setLayout(new javax.swing.BoxLayout(progressBarPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        progressBarPanel.add(progressBar);
+
+        indexPanel.add(progressBarPanel);
+
         indexControlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        indexControlPanel.setMaximumSize(new java.awt.Dimension(32767, 70));
 
         startIndexButton.setFont(new java.awt.Font("Tahoma", 1, 11));
         startIndexButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/new-edit-find-replace.png"))); // NOI18N
@@ -193,53 +234,21 @@ public final class IndexingDialog extends javax.swing.JDialog {
         });
         indexControlPanel.add(stopIndexingButton);
 
-        displayLoggingButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        displayLoggingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274599246_text-x-log.png"))); // NOI18N
-        displayLoggingButton.setText("Display Logging");
-        displayLoggingButton.addActionListener(new java.awt.event.ActionListener() {
+        displayItemDetialButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        displayItemDetialButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274599246_text-x-log.png"))); // NOI18N
+        displayItemDetialButton.setText("Display Details");
+        displayItemDetialButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                displayLoggingButtonActionPerformed(evt);
+                displayItemDetialButtonActionPerformed(evt);
             }
         });
-        indexControlPanel.add(displayLoggingButton);
+        indexControlPanel.add(displayItemDetialButton);
 
         indexPanel.add(indexControlPanel);
 
-        loggingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "logging", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
-        loggingPanel.setLayout(new java.awt.BorderLayout());
-
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(452, 100));
-
-        indexTable.setAutoCreateRowSorter(true);
-        indexTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Item Type", "Item Data", "Error Message"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        indexTable.setFillsViewportHeight(true);
-        jScrollPane1.setViewportView(indexTable);
-
-        loggingPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        indexPanel.add(loggingPanel);
+        objectPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Item Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        objectPanel.setLayout(new java.awt.CardLayout());
+        indexPanel.add(objectPanel);
 
         getContentPane().add(indexPanel, java.awt.BorderLayout.CENTER);
 
@@ -262,10 +271,10 @@ public final class IndexingDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_stopIndexingButtonActionPerformed
 
-    private void displayLoggingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayLoggingButtonActionPerformed
-        this.loggingAppearanceFlag = !loggingAppearanceFlag;
-        this.showLoggingPanel(loggingAppearanceFlag);
-    }//GEN-LAST:event_displayLoggingButtonActionPerformed
+    private void displayItemDetialButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayItemDetialButtonActionPerformed
+        this.detailPanelAppearenceFlag = !detailPanelAppearenceFlag;
+        this.showDetailPanel(detailPanelAppearenceFlag);
+    }//GEN-LAST:event_displayItemDetialButtonActionPerformed
    
     public void hideIndexingDialog() {
         this.dispose();
@@ -279,14 +288,15 @@ public final class IndexingDialog extends javax.swing.JDialog {
      * @param numberOfItemsIndexed
      * @param noItemsCannotIndexed 
      */
-    public void updateLabel(final int numberOfItemsIndexed, final int noItemsCannotIndexed,
-            final String bigSizeMessage) {
+    public void updateStatus(final long numberOfItemsIndexed, final long noItemsCannotIndexed,
+            final long numberOfScannedItems, final long sizeOfScannedItems) {
         Runnable task = new Runnable() {
           @Override
           public void run() {
-              numberOfFilesLbl.setText(String.valueOf(numberOfItemsIndexed));
-              numberOfErrorFilesLbl.setText(String.valueOf(noItemsCannotIndexed));
-              bigSizeMsgLbl.setText(bigSizeMessage);
+              numberOfItemsInIndexTextField.setText(String.valueOf(numberOfItemsIndexed));
+              numberOfItemsCannotIndexedTextField.setText(String.valueOf(noItemsCannotIndexed));
+              numberOfScannedItemsTextField.setText(String.valueOf(numberOfScannedItems));
+              sizeOfScannedItemsTextField.setText(String.valueOf(sizeOfScannedItems));
           }
         };
         
@@ -330,7 +340,6 @@ public final class IndexingDialog extends javax.swing.JDialog {
                 emailCrawlingPanel.setCurrentFolder(data.getCurrentFolder());
                 emailCrawlingPanel.setCurrentMessageSubject(data.getSubject());
                 emailCrawlingPanel.setMessageDate(data.getDate());
-                emailCrawlingPanel.setHasAttachment(data.getHasAttachment());
                 emailCrawlingPanel.setFrom(data.getFrom());
                 emailCrawlingPanel.setTo(data.getTo());
                 emailCrawlingPanel.setAttachment(data.getAttachments());
@@ -358,7 +367,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
                     message
                 };
                 
-                JTableUtil.addRowToJTable(getLoggingTable(), data);    
+                //JTableUtil.addRowToJTable(getLoggingTable(), data);    
             }
         };
         
@@ -369,12 +378,10 @@ public final class IndexingDialog extends javax.swing.JDialog {
     }
    
     public CaseFacade getCaseFacade() { return this.caseFacade; }
-    public JTable getLoggingTable () { return this.indexTable; }
+    //public JTable getLoggingTable () { return this.indexTable; }
     public JProgressBar getProgressBar() { return this.progressBar ; }
-    public void setNumberOfFiles(final String no) { this.numberOfFilesLbl.setText(no); }
-    public void setNumberOfFilesError(final String no) { this.numberOfErrorFilesLbl.setText(no); }
+
     public void setprogressBar(final int value) { this.progressBar.setValue(value); }
-    public void setBigSizeLabel(final String text) { this.bigSizeMsgLbl.setText(text); }
     public void setProgressIndetermined(final boolean status) { this.progressBar.setIndeterminate(status); }
     public void setStartButtonStatus(final boolean status) { this.startIndexButton.setEnabled(status); }
     public void setStopButtonStatus(final boolean status) { this.stopIndexingButton.setEnabled(status); }
@@ -382,7 +389,6 @@ public final class IndexingDialog extends javax.swing.JDialog {
     
     public void clearFields() {
         assert EventQueue.isDispatchThread();
-        this.setBigSizeLabel("");
         this.setprogressBar(0);
         this.getProgressBar().setStringPainted(false);
         this.setProgressIndetermined(false);
@@ -390,13 +396,18 @@ public final class IndexingDialog extends javax.swing.JDialog {
         this.setStopButtonStatus(false);
     }
     
-    private void showLoggingPanel(boolean flag) {
-        this.loggingPanel.setVisible(flag);
+    private void showDetailPanel(boolean flag) {
+        this.objectPanel.setVisible(flag);
+        
+        if ( flag )
+            this.setSize(520,580);
+        else
+            this.setSize(520,280);
     }
     
     private void startIndexerThread () throws IOException{
         resettingButtons(false);
-        JTableUtil.removeAllRows(indexTable);
+        //JTableUtil.removeAllRows(indexTable);
 
         // starting thread
         indexerThread = new CrawlerIndexerThread(this);
@@ -416,20 +427,21 @@ public final class IndexingDialog extends javax.swing.JDialog {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel bigSizeMsgLbl;
-    private javax.swing.JButton displayLoggingButton;
+    private javax.swing.JButton displayItemDetialButton;
     private javax.swing.JPanel indexControlPanel;
     private javax.swing.JPanel indexPanel;
-    private javax.swing.JTable indexTable;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel41;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel loggingPanel;
-    private javax.swing.JLabel numberOfErrorFilesLbl;
-    private javax.swing.JLabel numberOfFilesLbl;
+    private javax.swing.JTextField numberOfItemsCannotIndexedTextField;
+    private javax.swing.JTextField numberOfItemsInIndexTextField;
+    private javax.swing.JTextField numberOfScannedItemsTextField;
     private javax.swing.JPanel objectPanel;
     private javax.swing.JProgressBar progressBar;
+    private javax.swing.JPanel progressBarPanel;
     private javax.swing.JPanel progressStatusPanel;
+    private javax.swing.JTextField sizeOfScannedItemsTextField;
     private javax.swing.JButton startIndexButton;
     private javax.swing.JButton stopIndexingButton;
     // End of variables declaration//GEN-END:variables
