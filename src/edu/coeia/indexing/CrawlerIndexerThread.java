@@ -13,7 +13,7 @@ package edu.coeia.indexing;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.cases.CaseHistory;
-import edu.coeia.cralwers.CrawlerStatistics;
+import edu.coeia.indexing.dialogs.CrawlerStatistics;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.SizeUtil;
 import edu.coeia.util.ApplicationLogging;

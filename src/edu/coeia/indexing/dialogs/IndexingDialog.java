@@ -11,7 +11,6 @@
 package edu.coeia.indexing.dialogs;
 
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.cralwers.CrawlerStatistics;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.indexing.CrawlerIndexerThread;
 import edu.coeia.util.ApplicationLogging;
