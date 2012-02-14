@@ -55,11 +55,11 @@ public class LuceneSearcher {
     
     public int search (String queryString, SearchScope luceneFields) throws Exception {
         // using stop analyzer in search
-        Analyzer analyzer = new StopAnalyzer(Version.LUCENE_20,  new File(ApplicationConstants.STOP_WORD_FILE));
+        Analyzer analyzer = new StopAnalyzer(Version.LUCENE_30,  new File(ApplicationConstants.STOP_WORD_FILE));
         
         String[] fields = getSupportedFileds(luceneFields);
         
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_20, fields, analyzer);
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_30, fields, analyzer);
         
         // scpaing special characters
         queryString = QueryParser.escape(queryString);

@@ -52,7 +52,7 @@ public final class LuceneIndex {
 	this.caseFacade = caseFacade;
       
         // using stop analyzer
-        this.writer = new IndexWriter(FSDirectory.open(indexDir), new StopAnalyzer(Version.LUCENE_20, 
+        this.writer = new IndexWriter(FSDirectory.open(indexDir), new StopAnalyzer(Version.LUCENE_30, 
                     new File(ApplicationConstants.STOP_WORD_FILE)),
                     true, IndexWriter.MaxFieldLength.UNLIMITED);
 
