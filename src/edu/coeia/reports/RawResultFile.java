@@ -8,7 +8,7 @@ import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.tags.Tag;
-import edu.coeia.tags.TagsManager;
+import edu.coeia.cases.CaseTags;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.SizeUtil;

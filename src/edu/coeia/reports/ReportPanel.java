@@ -21,7 +21,7 @@ import edu.coeia.reports.panels.FilesReportPanel;
 import edu.coeia.reports.panels.FilesSizeReportPanel;
 import edu.coeia.reports.panels.FilesTimeReportPanel;
 import edu.coeia.reports.panels.TaggedItemsReportPanel;
-import edu.coeia.tags.TagsManager;
+import edu.coeia.cases.CaseTags;
 
 import javax.swing.JFrame;
 

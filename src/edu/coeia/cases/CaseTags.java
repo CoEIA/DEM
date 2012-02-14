@@ -2,12 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.tags;
+package edu.coeia.cases;
 
+import edu.coeia.tags.Tag;
+import edu.coeia.tags.TagsDBHandler;
 import static edu.coeia.util.PreconditionsChecker.* ;
 
-import java.io.IOException;
 import java.sql.SQLException;
+
 import java.util.List; 
 import java.util.ArrayList ;
 import java.util.Collections;
@@ -15,7 +17,7 @@ import java.util.Collections;
 /**
  * Handle Tags Management by create new tags database
  * and read/write tags to the database
- * TagsManager contain list of current tags
+ * CaseTags contain list of current tags
  * and its written to database when user save the tags
  * using saveTags method
  * 
@@ -26,7 +28,7 @@ import java.util.Collections;
  * 
  * @author wajdyessam
  */
-public final class TagsManager {
+public final class CaseTags {
     
     /**
      * Get New Instance of Tags Manager for this case
@@ -34,13 +36,13 @@ public final class TagsManager {
      * to re-call to with multiple time during case, since its will open the location
      * if there is database in this location
      * @param dbLocation is the database location inside the case
-     * @return TagsManager for this case
+     * @return CaseTags for this case
      */
-    public static TagsManager getTagsManager(String dbLocation) throws Exception {
+    public static CaseTags getTagsManager(String dbLocation) throws Exception {
         checkNull("Case location must have a value", dbLocation);
         checkNotEmptyString("Case Location must not be empty string", dbLocation);
         
-        return new TagsManager(dbLocation);
+        return new CaseTags(dbLocation);
     }
     
     /**
@@ -100,7 +102,7 @@ public final class TagsManager {
      * private constructor
      * create new database and then read tags to tags list
      */
-    private TagsManager(String dbLocation) throws ClassNotFoundException,
+    private CaseTags(String dbLocation) throws ClassNotFoundException,
             InstantiationException, SQLException, IllegalAccessException{
         this.tags = new ArrayList<Tag>();
         this.tagsCopy = new ArrayList<Tag>();

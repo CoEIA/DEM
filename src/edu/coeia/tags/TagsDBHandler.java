@@ -12,7 +12,6 @@ package edu.coeia.tags;
 import edu.coeia.util.FileUtil;
 import static edu.coeia.util.PreconditionsChecker.* ;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
-final class TagsDBHandler {
+public final class TagsDBHandler {
     
     /**
      * Get New Instance of Tags DB Handler
@@ -48,7 +47,7 @@ final class TagsDBHandler {
      * Get all Tags from case database
      * @return 
      */
-    List<Tag> readTagsFromDataBase() {
+    public List<Tag> readTagsFromDataBase() {
         List<Tag> tags = new ArrayList<Tag>();
         Connection connection = null;
         
@@ -78,7 +77,7 @@ final class TagsDBHandler {
      * Remove database records and then add the new tags
      * @param tags 
      */
-    boolean writeTagsToDatabase(final List<Tag> tags) {
+    public boolean writeTagsToDatabase(final List<Tag> tags) {
         boolean status = false; 
         
         try {

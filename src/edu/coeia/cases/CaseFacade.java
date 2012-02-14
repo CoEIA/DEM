@@ -9,7 +9,6 @@ import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.constants.AuditingMessages;
 
 import edu.coeia.tags.Tag;
-import edu.coeia.tags.TagsManager;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -34,7 +33,7 @@ public final class CaseFacade {
     private final CaseHistoryHandler caseHistoryHandler;
     private final CasePathMappingHandler casePathHandler; 
     private final CaseAuditing caseAuditing;
-    private final TagsManager caseTags;
+    private final CaseTags caseTags;
     
     public static CaseFacade newInstance (final Case aCase) throws Exception {
         return new CaseFacade(aCase);
@@ -251,7 +250,7 @@ public final class CaseFacade {
         this.caseHistoryHandler = new CaseHistoryHandler();
         this.casePathHandler = CasePathMappingHandler.newInstance(this.getCaseConfigurationFileLocation());
         this.caseAuditing = new CaseAuditing(this.aCase, this.getCaseAuditingFileLocation());
-        this.caseTags = TagsManager.getTagsManager(this.getTagDatabaseLocation());
+        this.caseTags = CaseTags.getTagsManager(this.getTagDatabaseLocation());
         
         if ( FileUtil.isFileFound(this.getCaseConfigurationFileLocation()))
             this.updateMappingFile();

@@ -21,7 +21,7 @@ import edu.coeia.searching.LuceneSearcher ;
 import edu.coeia.util.FileUtil;
 import edu.coeia.tags.Tag;
 import edu.coeia.tags.TagsDialog;
-import edu.coeia.tags.TagsManager;
+import edu.coeia.cases.CaseTags;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;

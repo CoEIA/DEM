@@ -16,7 +16,7 @@ import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.tags.TagsDialog;
 import edu.coeia.main.CaseMainFrame;
-import edu.coeia.tags.TagsManager;
+import edu.coeia.cases.CaseTags;
 import edu.coeia.tags.Tag ;
 import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.DateUtil;

@@ -4,6 +4,7 @@
  */
 package edu.coeia.tags;
 
+import edu.coeia.cases.CaseTags;
 import edu.coeia.util.FileUtil;
 import org.junit.After;
 import org.junit.Before;
@@ -18,12 +19,12 @@ import java.util.Date;
  */
 public class TagsManagerTest {
 
-    private TagsManager tm;
+    private CaseTags tm;
     private String location = "F:\\tags" ;
     
     @Before
     public void setUp() throws Exception {
-        tm = TagsManager.getTagsManager(location);
+        tm = CaseTags.getTagsManager(location);
     }
 
     @After
@@ -57,7 +58,7 @@ public class TagsManagerTest {
     }
     
     @Test
-    public void createTagsManagerTest4() {
+    public void createTagsManagerTest4() throws Exception {
         tm.addTag(Tag.newInstance("name", new Date(), "this testing comments"));
         tm.addTag(Tag.newInstance("testing", new Date(), "this is testing"));
         
@@ -67,7 +68,7 @@ public class TagsManagerTest {
         
         // close without saving value
         //tm.closeManager();
-        tm = TagsManager.getTagsManager(location);
+        tm = CaseTags.getTagsManager(location);
         assertEquals(0, tm.getTags().size());
         
         // writes tags
@@ -78,18 +79,18 @@ public class TagsManagerTest {
         //tm.closeManager();
         
         // open again
-        tm = TagsManager.getTagsManager(location);
+        tm = CaseTags.getTagsManager(location);
         assertEquals(2, tm.getTags().size());
     }
     
     @Test(expected=NullPointerException.class)
-    public void testNullLocation() {
-        tm = TagsManager.getTagsManager(null);
+    public void testNullLocation() throws Exception {
+        tm = CaseTags.getTagsManager(null);
     }
     
     @Test(expected=IllegalArgumentException.class) 
-    public void testEmptyLocation() {
-        tm = TagsManager.getTagsManager("");
+    public void testEmptyLocation() throws Exception {
+        tm = CaseTags.getTagsManager("");
     }
     
     @Test
