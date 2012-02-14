@@ -14,19 +14,15 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.indexing.CrawlerIndexerThread;
 import edu.coeia.util.ApplicationLogging;
-import edu.coeia.util.FileUtil;
 
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import java.io.File;
 import java.io.IOException;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.JProgressBar;
 
 /**
  *
@@ -68,38 +64,6 @@ public final class IndexingDialog extends javax.swing.JDialog {
         
         if ( startIndexNow ) {
             this.startCrawling();
-        }
-    }
-
-    private void addCardsPanel() {
-        this.objectPanel.add(this.emailCrawlingPanel, EMAIL_PANEL);
-        this.objectPanel.add(this.fileSystemCrawlingPanel, FILE_PANEL);
-    }
-    
-    private void hideDetailsPanel() {
-        this.detailPanelAppearenceFlag = false;
-        this.showDetailPanel(this.detailPanelAppearenceFlag);
-    }
-    
-    private void closeCralwingWhenCloseTheWindow() {
-        this.addWindowListener( new WindowAdapter() {
-            @Override
-            public void windowClosed (WindowEvent event){
-                try {
-                    stopIndexerThread();
-                    hideIndexingDialog();
-                } catch (IOException ex) {
-                    logger.log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-    }
-    
-    private void startCrawling() {
-       try {
-            startIndexerThread();
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
         }
     }
     
@@ -347,53 +311,19 @@ public final class IndexingDialog extends javax.swing.JDialog {
             }
         });
     }
-    
-    /**
-     * Add Error Message to table
-     * 
-     * this method can be called from other thread or EDT thread
-     * so it check if its not in EDT then add the task in the EDT
-     * 
-     * @param filePath
-     * @param message 
-     */
-    public void addErrorMessage(final File filePath, final String message) {
-        Runnable task = new Runnable() { 
-            @Override
-            public void run() {
-                Object[] data = { 
-                    FileUtil.getExtension(filePath.getPath()), 
-                    filePath.getPath(), 
-                    message
-                };
-                
-                //JTableUtil.addRowToJTable(getLoggingTable(), data);    
-            }
-        };
-        
-        if ( EventQueue.isDispatchThread() )
-            task.run();
-        else
-            EventQueue.invokeLater(task);
-    }
    
-    public CaseFacade getCaseFacade() { return this.caseFacade; }
-    //public JTable getLoggingTable () { return this.indexTable; }
-    public JProgressBar getProgressBar() { return this.progressBar ; }
-
-    public void setprogressBar(final int value) { this.progressBar.setValue(value); }
-    public void setProgressIndetermined(final boolean status) { this.progressBar.setIndeterminate(status); }
-    public void setStartButtonStatus(final boolean status) { this.startIndexButton.setEnabled(status); }
-    public void setStopButtonStatus(final boolean status) { this.stopIndexingButton.setEnabled(status); }
-    
+    public CaseFacade getCaseFacade() { 
+        return this.caseFacade;
+    }
     
     public void clearFields() {
         assert EventQueue.isDispatchThread();
-        this.setprogressBar(0);
-        this.getProgressBar().setStringPainted(false);
-        this.setProgressIndetermined(false);
-        this.setStartButtonStatus(true);
-        this.setStopButtonStatus(false);
+        
+        this.progressBar.setValue(0);
+        this.progressBar.setStringPainted(false);
+        this.progressBar.setIndeterminate(false);
+        this.startIndexButton.setEnabled(true);
+        this.stopIndexingButton.setEnabled(false);
     }
     
     private void showDetailPanel(boolean flag) {
@@ -407,7 +337,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
     
     private void startIndexerThread () throws IOException{
         resettingButtons(false);
-        //JTableUtil.removeAllRows(indexTable);
+        this.progressBar.setIndeterminate(true);
 
         // starting thread
         indexerThread = new CrawlerIndexerThread(this);
@@ -424,6 +354,38 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private void resettingButtons(boolean state) {
         startIndexButton.setEnabled(state);
         stopIndexingButton.setEnabled(!state);
+    }
+    
+    private void addCardsPanel() {
+        this.objectPanel.add(this.emailCrawlingPanel, EMAIL_PANEL);
+        this.objectPanel.add(this.fileSystemCrawlingPanel, FILE_PANEL);
+    }
+    
+    private void hideDetailsPanel() {
+        this.detailPanelAppearenceFlag = false;
+        this.showDetailPanel(this.detailPanelAppearenceFlag);
+    }
+    
+    private void closeCralwingWhenCloseTheWindow() {
+        this.addWindowListener( new WindowAdapter() {
+            @Override
+            public void windowClosed (WindowEvent event){
+                try {
+                    stopIndexerThread();
+                    hideIndexingDialog();
+                } catch (IOException ex) {
+                    logger.log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+    
+    private void startCrawling() {
+       try {
+            startIndexerThread();
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

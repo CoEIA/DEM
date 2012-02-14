@@ -13,7 +13,6 @@ package edu.coeia.indexing;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.cases.CaseHistory;
-import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.SizeUtil;
 import edu.coeia.util.ApplicationLogging;
@@ -38,16 +37,15 @@ import java.util.concurrent.ExecutionException;
 public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
     private long sizeOfScannedItems ;
     private long numberOfScannedItems;
-    
     private long numberOfItemsIndexed;
     private long numberOfItemsCannotIndexed;
-
     private boolean indexStatus = false;
     
     private final Case aCase ;
     private final LuceneIndex luceneIndex ;
     private final IndexingDialog parentDialog ;
     private final CaseFacade caseFacade ;
+    
     private final static Logger logger = ApplicationLogging.getLogger();
 
     public CrawlerIndexerThread (final IndexingDialog parentDialog) throws IOException{
@@ -55,7 +53,6 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         this.aCase = this.caseFacade.getCase();
         this.parentDialog = parentDialog;
         this.luceneIndex = LuceneIndex.newInstance(this.caseFacade);
-        this.parentDialog.setProgressIndetermined(true);
     }
     
     @Override
@@ -76,7 +73,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
             FileUtil.removeDirectoryContent(this.caseFacade.getCaseOfflineEmailAttachmentLocation());
             this.caseFacade.updateMappingFile();
         } catch (IOException ex) {
-            Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
         
@@ -145,10 +142,8 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
     }
     
     private void updateGUIWithFileStatus(final File path) {
-        this.parentDialog.updateStatus(numberOfItemsIndexed, numberOfScannedItems, numberOfScannedItems, sizeOfScannedItems);
-        
-        //long size = path.length();
-        //String msg = size > 3145728 ? "This file will take some minutes to index, please wait..." : " " ;
+        this.parentDialog.updateStatus(numberOfItemsIndexed,
+                numberOfItemsCannotIndexed, numberOfScannedItems, sizeOfScannedItems);
         
         FileSystemCrawlingProgressPanel.FileSystemCrawlerData data = 
                 new FileSystemCrawlingProgressPanel.FileSystemCrawlerData(
@@ -173,7 +168,6 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         }
         catch (Exception e) {
             this.numberOfItemsCannotIndexed++;
-            this.parentDialog.addErrorMessage(path, e.getMessage());
             logger.log(Level.SEVERE, String.format("File %s cannot be indexed", path.getAbsolutePath()));
         }
         
@@ -197,23 +191,26 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
             logger.log(Level.INFO, "Done Indexing Process");
             
             String endTime = this.get();
-            String lastIndexDate = DateUtil.formatDateTime(new Date()) ;
 
             // show message box after finish the indexing process if there is problem
-            if ( indexStatus )
-                JOptionPane.showMessageDialog(this.parentDialog, "Indexing Process Completed Successfully","Indexing Process Is Completed",
+            if ( indexStatus ) 
+                JOptionPane.showMessageDialog(this.parentDialog,
+                    String.format("Indexing Completed Successfully in %s Millisecond(s)", endTime),
+                    "Indexing Process Is Completed",
                     JOptionPane.INFORMATION_MESSAGE);
             
-            this.clearFields();
-            this.parentDialog.hideIndexingDialog();
+            this.closeDialog();
         }
-        catch(InterruptedException e) {}
+        catch(InterruptedException e) {
+            logger.log(Level.SEVERE, null, e);
+        }
         catch(CancellationException e) {
-            JOptionPane.showMessageDialog(this.parentDialog, "Indexing Process Stopped","Indexing Process Is Not Completed",
+            JOptionPane.showMessageDialog(this.parentDialog,
+                    "Indexing Process Stopped","Indexing Process Is Not Completed",
                     JOptionPane.ERROR_MESSAGE);
         }
         catch(ExecutionException e) {
-             Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, e);
+             logger.log(Level.SEVERE, null, e);
         }
         finally {
             updateHistory();
@@ -229,15 +226,16 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
                     saveHistory();
                     closeIndex();
                 } catch (IOException ex) {
-                    Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.log(Level.SEVERE, null, ex);
                 }
                }
             }
         ).start();
     }
     
-    private void clearFields() {
+    private void closeDialog() {
         this.parentDialog.clearFields();
+        this.parentDialog.hideIndexingDialog();
     }
     
     public void stopIndexingThread() throws IOException {
