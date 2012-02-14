@@ -12,7 +12,6 @@ package edu.coeia.indexing;
  */
 
 import edu.coeia.constants.IndexingConstant;
-import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.ApplicationConstants;
 
@@ -42,21 +41,32 @@ public final class LuceneIndex {
         return new LuceneIndex(caseFacade);
     }
     
-    private LuceneIndex (final CaseFacade caseFacade) throws IOException {
-        File indexDir = new File(caseFacade.getCaseIndexFolderLocation());
+    public boolean indexFile(File file, CrawlerIndexerThread crawler) throws UnsupportedOperationException{
+        return indexFile(file, 0, crawler);
+    }
+    
+    public boolean indexFile(File file, int parentId, CrawlerIndexerThread crawler) throws UnsupportedOperationException{ 
+        boolean result = false;
         
-        if ( !indexDir.exists() ) {
-            throw new IOException("not found indexing folder");
+        try {
+            Indexer indexType = IndexerFactory.getIndexer(this, file, parentId);
+            
+            if ( indexType == null )
+                return false;
+            
+            if ( crawler !=  null) 
+                indexType.setCrawler(crawler);
+            
+            result =  indexType.doIndexing();
         }
-
-	this.caseFacade = caseFacade;
-      
-        // using stop analyzer
-        this.writer = new IndexWriter(FSDirectory.open(indexDir), new StopAnalyzer(Version.LUCENE_30, 
-                    new File(ApplicationConstants.STOP_WORD_FILE)),
-                    true, IndexWriter.MaxFieldLength.UNLIMITED);
-
-	this.writer.setUseCompoundFile(false);
+        catch(NullPointerException e) {
+            throw new UnsupportedOperationException(e.getMessage());
+        }
+        catch(UnsupportedOperationException e){
+            throw new UnsupportedOperationException(e.getMessage());
+        }
+        
+        return result;
     }
 
     public void writeEvidenceLocation(final List<String> paths) throws CorruptIndexException,
@@ -81,29 +91,20 @@ public final class LuceneIndex {
 	writer.close();
     }
     
-    public boolean indexFile(File file, IndexingDialog dialog) throws UnsupportedOperationException{
-        return indexFile(file, 0, dialog);
-    }
-    
-    public boolean indexFile(File file, int parentId, IndexingDialog dialog) throws UnsupportedOperationException{ 
-        try {
-            Indexer indexType = IndexerFactory.getIndexer(this, file, parentId);
-            
-            if ( indexType == null )
-                return false;
-            
-            if ( dialog !=  null) 
-                indexType.setGUIDialog(dialog);
-            
-            return indexType.doIndexing();
-        }
-        catch(NullPointerException e) {
-            throw new UnsupportedOperationException(e.getMessage());
-        }
-        catch(UnsupportedOperationException e){
-            //throw new UnsupportedOperationException(e.getMessage());
-        }
+    private LuceneIndex (final CaseFacade caseFacade) throws IOException {
+        File indexDir = new File(caseFacade.getCaseIndexFolderLocation());
         
-        return false;
+        if ( !indexDir.exists() ) {
+            throw new IOException("not found indexing folder");
+        }
+
+	this.caseFacade = caseFacade;
+      
+        // using stop analyzer
+        this.writer = new IndexWriter(FSDirectory.open(indexDir), new StopAnalyzer(Version.LUCENE_30, 
+                    new File(ApplicationConstants.STOP_WORD_FILE)),
+                    true, IndexWriter.MaxFieldLength.UNLIMITED);
+
+	this.writer.setUseCompoundFile(false);
     }
 }

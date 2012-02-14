@@ -4,13 +4,12 @@
  */
 package edu.coeia.indexing;
 
-import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.extractors.ImageExtractor;
-import edu.coeia.constants.ApplicationConstants;
 
 import java.io.File ;
 import java.io.IOException;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 
@@ -28,8 +27,8 @@ public abstract class Indexer {
         this.imageCache = this.caseFacade.getCase().getCacheImages();
         this.imageExtractor = imageExtractor;
         this.caseLocation = this.caseFacade.getCase().getCaseLocation();
-        this.imagesLocation = this.caseLocation + "\\" + ApplicationConstants.CASE_IMAGES_FOLDER;
-        this.tmpLocation = this.caseLocation + "\\" + ApplicationConstants.CASE_ARCHIVE_FOLDER;
+        this.imagesLocation = this.caseFacade.getCaseImageFolderLocation();
+        this.tmpLocation = this.caseFacade.getCaseArchiveOutputFolderLocation();
         this.luceneIndex = luceneIndex ;
     }
     
@@ -54,12 +53,6 @@ public abstract class Indexer {
         
         return status;
     }
-        
-    /** to update the current GUI dialog, to display what type of file
-     * the indexer work on it
-     * @param dialog the GUI that have the progress bar and error table
-     */
-    public void setGUIDialog(final IndexingDialog dialog) { this.indexingDialog = dialog; }
     
     public File getFile() { return this.file ; }
     public String getMimeType() { return this.mimeType ;}
@@ -69,7 +62,6 @@ public abstract class Indexer {
     public String getCaseLocation() { return this.caseLocation; }
     public LuceneIndex getLuceneIndex() { return this.luceneIndex; }
     public ImageExtractor getImageExtractor() { return this.imageExtractor; }
-    public IndexingDialog getDialog() { return this.indexingDialog ; }
     public CaseFacade getCaseFacade() { return this.caseFacade ; }
     
     public int getId() { return id ; }
@@ -77,6 +69,9 @@ public abstract class Indexer {
     
     public int getParentId() { return parentId; }
     public void setParentId(int aParentId) { parentId = aParentId; }
+    
+    public void setCrawler(final CrawlerIndexerThread crawler) { this.crawler = crawler; }
+    public CrawlerIndexerThread getCrawler() { return this.crawler; }
     
     private static int id = 1;
     private static int parentId = 0;
@@ -91,5 +86,6 @@ public abstract class Indexer {
     private final ImageExtractor imageExtractor;
     private final LuceneIndex luceneIndex ;
     private final CaseFacade caseFacade ;
-    private IndexingDialog indexingDialog;
+    
+    private CrawlerIndexerThread crawler;
 }

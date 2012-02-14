@@ -18,6 +18,7 @@ import edu.coeia.util.FileUtil;
 import edu.coeia.util.SizeUtil;
 import edu.coeia.util.ApplicationLogging;
 import edu.coeia.extractors.OfficeImageExtractor;
+import edu.coeia.indexing.dialogs.EmailCrawlingProgressPanel;
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.indexing.dialogs.FileSystemCrawlingProgressPanel;
 
@@ -162,8 +163,9 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         this.crawlerStatistics.increaseSizeOfScannedItems(path.getAbsoluteFile().length());
         
         try {
-            status = this.luceneIndex.indexFile(path, this.parentDialog);
+            status = this.luceneIndex.indexFile(path, this);
             this.crawlerStatistics.increaseNumberOfIndexedItems();
+            logger.log(Level.SEVERE, String.format("File %s Indexed Successfully", path.getAbsolutePath()));
         }
         catch (Exception e) {
             this.crawlerStatistics.increaseNumberOfErrorItems();
@@ -179,7 +181,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         logger.log(Level.INFO, String.format("Crawling Email In: %s", dbPath));
         
         OnlineEmailIndexer emailIndexer = new OnlineEmailIndexer(this.luceneIndex, dbPath, "",
-                new OfficeImageExtractor(), this.parentDialog);
+                new OfficeImageExtractor(), this);
         
         logger.log(Level.INFO, String.format("Email Indexing Status: %s", emailIndexer.doIndexing()));
     }
@@ -216,6 +218,19 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         }
     }
 
+    // delegate these method call to parent dialog
+    public void updateStatus(final CrawlerStatistics crawlerStatistics) {
+        this.parentDialog.updateStatus(crawlerStatistics);
+    }
+    
+    public void showFileSystemPanel(final FileSystemCrawlingProgressPanel.FileSystemCrawlerData data) {
+        this.parentDialog.showFileSystemPanel(data);
+    }
+    
+    public void showEmailPanel(final EmailCrawlingProgressPanel.EmailCrawlingData data) {
+        this.parentDialog.showEmailPanel(data);
+    }
+    
     private void updateHistory() {
         new Thread( 
             new Runnable() { 

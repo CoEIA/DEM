@@ -51,9 +51,9 @@ final class IndexerFactory {
                 indexer = getChatIndexer(luceneIndex, file);
             }
             
-            else if ( isInternetPath(file.getAbsolutePath()) )  {
-                indexer = getInternetIndexer(luceneIndex, file);
-            }
+//            else if ( isInternetPath(file.getAbsolutePath()) )  {
+//                indexer = getInternetIndexer(luceneIndex, file);
+//            }
             
             // if its outlook file, then call offline email indexer
             else if ( isOutlookFile(mime, file.getAbsolutePath()) ) {

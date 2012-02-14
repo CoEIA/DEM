@@ -11,7 +11,6 @@ package edu.coeia.indexing;
 
 import edu.coeia.indexing.dialogs.EmailCrawlingProgressPanel;
 import edu.coeia.extractors.ImageExtractor;
-import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.util.Tuple;
@@ -172,12 +171,12 @@ final class OutlookIndexer extends Indexer{
                 sentRepresentingName, displayTo, names
         );
         
-        getDialog().showEmailPanel(data);
+        this.getCrawler().showEmailPanel(data);
     }
     
     private List<String> saveAndGetEmailAttachmentsPath(final List<Tuple<String, PSTAttachment>> attachmentsName) 
             throws PSTException, IOException {
-        File storingPath = new File(this.getCaseLocation() + "\\" + ApplicationConstants.CASE_OFFLINE_EMAIL_ATTACHMENTS_FOLDER);
+        File storingPath = new File(this.getCaseFacade().getCaseOfflineEmailAttachmentLocation());
         
         List<String> filePaths = new ArrayList<String>();
         

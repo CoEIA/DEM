@@ -6,9 +6,7 @@ package edu.coeia.indexing;
 
 import edu.coeia.indexing.dialogs.EmailCrawlingProgressPanel;
 import edu.coeia.extractors.ImageExtractor;
-import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.onlinemail.OnlineEmailMessage;
-import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.onlinemail.OnlineEmailDBHandler;
 import edu.coeia.util.Utilities;
 
@@ -26,10 +24,10 @@ import org.apache.lucene.document.Document;
 final class OnlineEmailIndexer extends Indexer {
 
     public OnlineEmailIndexer(LuceneIndex luceneIndex, File file, String mimeType,
-            ImageExtractor imageExtractor, final IndexingDialog dialog) {
+            ImageExtractor imageExtractor, CrawlerIndexerThread crawler) {
         super(luceneIndex, file, mimeType, imageExtractor);
         this.setParentId(0);
-        this.setGUIDialog(dialog);
+        this.setCrawler(crawler);
     }
 
     @Override
@@ -51,8 +49,8 @@ final class OnlineEmailIndexer extends Indexer {
                         this.indexDocument(doc);
 
                         for (String sAttachments : msg.getAttachments()) {
-                            File attachmentPath = new File(this.getCaseLocation() + "\\" + ApplicationConstants.CASE_ONLINE_EMAIL_ATTACHMENTS_FOLDER + "\\" + sAttachments);
-                            this.getLuceneIndex().indexFile(attachmentPath, currentId , this.getDialog());
+                            File attachmentPath = new File(this.getCaseFacade().getCaseOnlineEmailAttachmentLocation() + File.separator + sAttachments);
+                            this.getLuceneIndex().indexFile(attachmentPath, currentId , this.getCrawler());
                         }
                     }
                 } 
@@ -82,6 +80,6 @@ final class OnlineEmailIndexer extends Indexer {
                 email.getFrom(), Utilities.getCommaSeparatedStringFromCollection(email.getTo()), email.getAttachments()
         );
         
-        getDialog().showEmailPanel(data);
+        this.getCrawler().showEmailPanel(data);
     }
 }

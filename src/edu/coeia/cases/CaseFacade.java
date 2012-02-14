@@ -319,5 +319,7 @@ public final class CaseFacade {
                 + ApplicationConstants.CASE_CONFIG_FILE;
     }
     
-    public Case getCase() { return this.aCase; }
+    public Case getCase() { 
+        return this.aCase; 
+    }
 }

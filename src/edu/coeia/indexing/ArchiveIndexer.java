@@ -70,7 +70,10 @@ final class ArchiveIndexer extends Indexer {
             if ( handler != null ) {
                 for(ExtractedObjectInfo location: handler.getLocations()) {
                     this.getLuceneIndex().indexFile(
-                            new File(location.getFileNewPath()), currentDocumentId, this.getDialog());
+                                new File(location.getFileNewPath()), 
+                                currentDocumentId,
+                                this.getCrawler()
+                            );
                 }
             }
 
@@ -97,6 +100,6 @@ final class ArchiveIndexer extends Indexer {
                 embeddedDocs
         );
         
-        getDialog().showFileSystemPanel(data);
+        this.getCrawler().showFileSystemPanel(data);
     }
 }
