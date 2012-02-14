@@ -11,6 +11,7 @@
 package edu.coeia.indexing.dialogs;
 
 import edu.coeia.cases.CaseFacade;
+import edu.coeia.cralwers.CrawlerStatistics;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.indexing.CrawlerIndexerThread;
 import edu.coeia.util.ApplicationLogging;
@@ -252,15 +253,14 @@ public final class IndexingDialog extends javax.swing.JDialog {
      * @param numberOfItemsIndexed
      * @param noItemsCannotIndexed 
      */
-    public void updateStatus(final long numberOfItemsIndexed, final long noItemsCannotIndexed,
-            final long numberOfScannedItems, final long sizeOfScannedItems) {
+    public void updateStatus(final CrawlerStatistics crawlerStatistics) {
         Runnable task = new Runnable() {
           @Override
           public void run() {
-              numberOfItemsInIndexTextField.setText(String.valueOf(numberOfItemsIndexed));
-              numberOfItemsCannotIndexedTextField.setText(String.valueOf(noItemsCannotIndexed));
-              numberOfScannedItemsTextField.setText(String.valueOf(numberOfScannedItems));
-              sizeOfScannedItemsTextField.setText(String.valueOf(sizeOfScannedItems));
+              numberOfItemsInIndexTextField.setText(String.valueOf(crawlerStatistics.getNumberOfIndexedItems()));
+              numberOfItemsCannotIndexedTextField.setText(String.valueOf(crawlerStatistics.getNumberOfErrorItems()));
+              numberOfScannedItemsTextField.setText(String.valueOf(crawlerStatistics.getNumberOfScannedItems()));
+              sizeOfScannedItemsTextField.setText(String.valueOf(crawlerStatistics.getSizeOfScannedItems()));
           }
         };
         
