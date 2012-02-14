@@ -16,7 +16,6 @@ import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.tags.TagsDialog;
 import edu.coeia.main.CaseMainFrame;
-import edu.coeia.cases.CaseTags;
 import edu.coeia.tags.Tag ;
 import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.DateUtil;
@@ -28,11 +27,11 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.List ;
 
+import java.util.List ;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 

@@ -28,7 +28,7 @@ import java.util.Collections;
  * 
  * @author wajdyessam
  */
-public final class CaseTags {
+final class CaseTags {
     
     /**
      * Get New Instance of Tags Manager for this case

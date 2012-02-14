@@ -13,7 +13,6 @@ package edu.coeia.reports.panels;
 import edu.coeia.reports.ReportPanel;
 import edu.coeia.reports.DatasourceXml;
 import edu.coeia.reports.RawResultFile;
-import edu.coeia.cases.CaseTags;
 
 import java.io.IOException;
 
