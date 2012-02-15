@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.List; 
 import java.util.ArrayList ;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handle Tags Management by create new tags database
@@ -73,7 +75,13 @@ final class CaseTags {
      * write all the current tags to the database
      */
     public boolean saveTags() {
-        return this.tagsDataBase.writeTagsToDatabase(this.tags);
+        try {
+            return this.tagsDataBase.writeTagsToDatabase(this.tags);
+        } catch (Exception ex) {
+            Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
     }
     
     /**
@@ -102,14 +110,33 @@ final class CaseTags {
      * private constructor
      * create new database and then read tags to tags list
      */
-    private CaseTags(String dbLocation) throws ClassNotFoundException,
-            InstantiationException, SQLException, IllegalAccessException{
+    private CaseTags(String dbLocation){
         this.tags = new ArrayList<Tag>();
         this.tagsCopy = new ArrayList<Tag>();
-        
-        this.tagsDataBase = TagsDBHandler.newInstance(dbLocation);
-        this.tags.addAll(this.tagsDataBase.readTagsFromDataBase());
-        this.updateMonitorChangingList();
+        this.dataBaseLocation = dbLocation;
+    }
+    
+    /**
+     * Create new database if their is not existing database
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws SQLException
+     * @throws IllegalAccessException 
+     */
+    public void openDatabase(boolean newDatabase){
+        try {
+            this.tagsDataBase = TagsDBHandler.newInstance(this.dataBaseLocation, newDatabase);
+            this.tags.addAll(this.tagsDataBase.readTagsFromDataBase());
+            this.updateMonitorChangingList();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -122,9 +149,15 @@ final class CaseTags {
     }
     
     public void close() {
-        this.tagsDataBase.closeConnection();
+        try {
+            this.tagsDataBase.closeConnection();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private final List<Tag> tags, tagsCopy;
     private TagsDBHandler tagsDataBase;
+    private final String dataBaseLocation;
 }

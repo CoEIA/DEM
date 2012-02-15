@@ -48,6 +48,7 @@ public final class CaseFacade {
         this.saveCaseInformation();
         this.updateCasesInformationFile();
         this.addCaseMappingInformation();
+        this.caseTags.openDatabase(true);
         return true;
     }
     
@@ -189,6 +190,7 @@ public final class CaseFacade {
         FileUtil.createFolder(this.getCaseAuditingFolderLocation());
         FileUtil.createFolder(this.getCaseRawReportFolderLocation());
         FileUtil.createFolder(this.getCaseReportFolderLocation());
+        FileUtil.createFolder(this.getTagDatabaseFolderLocation());
         
         // create LOG and information (.DAT) file and Configuration File (mapping file)
         FileUtil.createFile(this.getCaseAuditingFileLocation());
@@ -254,13 +256,19 @@ public final class CaseFacade {
         this.caseHistoryHandler = new CaseHistoryHandler();
         this.casePathHandler = CasePathMappingHandler.newInstance(this.getCaseConfigurationFileLocation());
         this.caseAuditing = new CaseAuditing(this.aCase, this.getCaseAuditingFileLocation());
-        this.caseTags = CaseTags.getTagsManager(this.getTagDatabaseLocation());
+        this.caseTags = CaseTags.getTagsManager(this.getTagDatabaseFileLocation());
         
-        if ( FileUtil.isFileFound(this.getCaseConfigurationFileLocation()))
+        if ( FileUtil.isFileFound(this.getTagDatabaseFileLocation())) {
+            this.caseTags.openDatabase(false);
+        }
+        
+        if ( FileUtil.isFileFound(this.getCaseConfigurationFileLocation())) {
             this.updateMappingFile();
+        }
         
-        if ( FileUtil.isFileFound(this.getCaseAuditingFileLocation()))
+        if ( FileUtil.isFileFound(this.getCaseAuditingFileLocation())) {
             this.caseAuditing.init();
+        }
     }
     
         
@@ -340,10 +348,18 @@ public final class CaseFacade {
                 + ApplicationConstants.CASE_REPORTS_FOLDER;
     }
     
-    public String getTagDatabaseLocation() {
+    private String getTagDatabaseFolderLocation() {
+        return this.aCase.getCaseLocation()
+                + File.separator
+                + ApplicationConstants.CASE_TAGS_FOLDER;
+    }
+    
+    public String getTagDatabaseFileLocation() {
         return this.aCase.getCaseLocation() 
                 + File.separator 
-                + ApplicationConstants.CASE_TAGS_FOLDER;
+                + ApplicationConstants.CASE_TAGS_FOLDER
+                + File.separator
+                + ApplicationConstants.CASE_TAG_DATABASE_FILE;
     }
     
     public String getCaseConfigurationFileLocation() {

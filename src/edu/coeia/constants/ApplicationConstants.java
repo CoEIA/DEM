@@ -39,6 +39,7 @@ public final class ApplicationConstants {
     public final static String CASE_AUDITING_FOLDER = "CASE_AUDITING";
     public final static String CASE_CONFIG_FILE = "config.dat";
     public final static String CASE_TAGS_FOLDER = "CASE_TAGS" ;
+    public final static String CASE_TAG_DATABASE_FILE = "CASE_DB.db";
     public final static String CASE_ONLINE_EMAIL_ATTACHMENTS_FOLDER = "ONLINE_EMAIL_ATTACHMENTS" ;
     public final static String CASE_OFFLINE_EMAIL_ATTACHMENTS_FOLDER = "OFFLINE_EMAIL_ATTACHMENTS";
     public final static String CASE_EMAIL_DB_FOLDER = "ONELINE_EMAILS_DATABASE" ;

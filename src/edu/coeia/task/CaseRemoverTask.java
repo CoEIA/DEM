@@ -42,6 +42,8 @@ public class CaseRemoverTask implements Task{
     private void removeCaseAction() throws Exception{
         Case aCase = ApplicationManager.Manager.getCaseFromCaseName(caseName);
         CaseFacade caseFacade = CaseFacade.newInstance(aCase);
+        // close the db
+        caseFacade.closeCaseTags();
         boolean status = caseFacade.removeCase();
         this.frame.readCases(); // update view table
     }

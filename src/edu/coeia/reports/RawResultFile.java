@@ -124,7 +124,7 @@ public class RawResultFile {
         for (Case aCase : cases) {
             String caseLocation = aCase.getCaseLocation().replace(':', '\\');
             String caseCreatingTime = DateUtil.formatedDateWithTime(aCase.getCreateTime()); 
-            long caseSize = CaseFacade.newInstance(aCase).getCaseHistory().getCaseSize();
+            long caseSize = caseFacade.getCaseHistory().getCaseSize();
             
             casesBuffer.append("<case>" + "<path>")
                     .append(caseLocation)
