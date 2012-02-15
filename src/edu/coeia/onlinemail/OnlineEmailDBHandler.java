@@ -35,13 +35,9 @@ public final class OnlineEmailDBHandler {
         databasePath = checkNull("database path must be not null", databasePath);
         DB_URL = DB_NAME + databasePath;
 
-        if (!isFoundDatabase) {
+        if (!isFoundDatabase)
             DB_URL += ";create=true";
-            System.out.println("Creating Database ");
-        } else {
-            System.out.println("Opening Existing Database ");
-        }
-
+        
         connectDB();
         
         if (!isFoundDatabase) {

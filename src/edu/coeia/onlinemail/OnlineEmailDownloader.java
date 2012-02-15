@@ -440,8 +440,17 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         
         try {
             store.close();
+            try {
+                this.db.closeDB();
+            } catch (SQLException e) {
+                if (e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState())) {
+                    System.out.println("Derby Shutdown normally");
+                } else {
+                    System.out.println("Derby Did not shutdown normally");
+                    e.printStackTrace();
+                }
+            }
         } catch (MessagingException ex) {
-            ex.printStackTrace();
             Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
