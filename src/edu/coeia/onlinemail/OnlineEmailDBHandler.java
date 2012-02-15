@@ -42,6 +42,8 @@ public final class OnlineEmailDBHandler {
             System.out.println("Opening Existing Database ");
         }
 
+        connectDB();
+        
         if (!isFoundDatabase) {
             makeDBStructure();
         }
@@ -49,9 +51,7 @@ public final class OnlineEmailDBHandler {
 
     public List<OnlineEmailMessage> getAllMessages() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         String select = "SELECT * FROM emails ";
-        
-        Connection connection = this.getConnection();
-        
+
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(select);
         
@@ -89,17 +89,12 @@ public final class OnlineEmailDBHandler {
 
         resultSet.close();
         statement.close();
-        
-        this.closeConnection(connection);
 
         return mEmails;
     }
  
     public void inserteEmail(final OnlineEmailMessage msg) throws SQLException, UnsupportedEncodingException,
              IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        
-        Connection connection = this.getConnection();
-        
         String ccBuilder = Utilities.getCommaSeparatedStringFromCollection(msg.getCC());
         String bccBuilder = Utilities.getCommaSeparatedStringFromCollection(msg.getBCC());
         String toBuilder = Utilities.getCommaSeparatedStringFromCollection(msg.getTo());
@@ -123,12 +118,9 @@ public final class OnlineEmailDBHandler {
 
         psInsert.executeUpdate();
         psInsert.close();
-        
-        this.closeConnection(connection);
     }
 
     private void makeDBStructure() throws Exception {
-        Connection connection = getConnection();
         Statement statement_ = connection.createStatement();
 
         String emailTables =
@@ -150,32 +142,27 @@ public final class OnlineEmailDBHandler {
 
         statement_.execute(emailTables);
         statement_.close();
-        
-        this.closeConnection(connection);
     }
 
-    private Connection getConnection() throws ClassNotFoundException, InstantiationException,
-            SQLException, IllegalAccessException {
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+    public Connection getConnection(){
+        return connection;
     }
     
-    private void closeConnection(final Connection connection) {
-        try {
-            connection.close();
-        }
-        catch (SQLException e){
-            if ( e.getErrorCode() == 50000 && ("XJ015").equals(e.getSQLState()))
-                System.out.println("Derby Shutdown normally");
-            else {
-                System.out.println("Derby Did not shutdown normally");
-                e.printStackTrace();
-            }
-        }
+    public void connectDB() throws ClassNotFoundException, InstantiationException,
+            SQLException, IllegalAccessException {
+        Class.forName(DB_DRIVER).newInstance();
+        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+    }
+       
+    public void closeDB() throws SQLException {
+        connection.close();
+        DriverManager.getConnection("jdbc:derby:;shutdown=true");
     }
     
     private String DB_URL;
-    private String DB_NAME = "jdbc:derby:";
-    private String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
-    private String DB_USER = "";
-    private String DB_PASS = "";
+    private static String DB_NAME = "jdbc:derby:";
+    private static String DB_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
+    private static String DB_USER = "";
+    private static String DB_PASS = "";
+    private Connection connection;
 }
