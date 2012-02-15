@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 import edu.coeia.multimedia.ImageViewerPanel;
 import edu.coeia.cases.Case;
@@ -58,13 +58,13 @@ import org.imgscalr.Scalr;
  * @author wajdyessam
  */
 public class ImageLoadingTask implements Task{
-    private final ProgressDialog dialog ;
+    private final BackgroundProgressDialog dialog ;
     private final Case aCase;
     private final ImageViewerPanel panel;
     private final CaseFacade caseFacade; 
     
     public ImageLoadingTask(final CaseFacade caseFacade, final ImageViewerPanel panel) {
-        this.dialog = new ProgressDialog(null, true, this);
+        this.dialog = new BackgroundProgressDialog(null, true, this);
         this.caseFacade = caseFacade;
         this.aCase = this.caseFacade.getCase();
         this.panel = panel;

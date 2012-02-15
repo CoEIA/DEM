@@ -17,7 +17,7 @@ import edu.coeia.gutil.GuiUtil;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.searching.AdvancedSearchPanel;
 import edu.coeia.searching.InvestigateDialog;
-import edu.coeia.task.CommonKeywordsTask;
+import edu.coeia.tasks.CommonKeywordsTask;
 import edu.coeia.util.ApplicationLogging;
 
 import java.awt.event.MouseAdapter;

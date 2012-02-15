@@ -16,7 +16,7 @@ import edu.coeia.items.FileItem;
 import edu.coeia.items.ItemFactory;
 import edu.coeia.main.CaseMainFrame;
 import edu.coeia.searching.LuceneSearcher;
-import edu.coeia.task.ImageLoadingTask;
+import edu.coeia.tasks.ImageLoadingTask;
 
 import java.awt.Color;
 import java.awt.Component;

@@ -2,19 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 import edu.coeia.chat.ChatViewerPanel;
-import edu.coeia.gutil.JListUtil;
+import edu.coeia.gutil.JTableUtil;
 import edu.coeia.constants.IndexingConstant;
-
-import java.awt.EventQueue;
+import edu.coeia.items.ChatItem;
+import edu.coeia.items.ItemFactory;
 
 import java.io.File;
 import java.io.IOException;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -26,14 +23,15 @@ import org.apache.lucene.store.FSDirectory;
  *
  * @author wajdyessam
  */
-
-public class ChatRefreshTask implements Task{
-    private final ProgressDialog dialog ;
+public class ChatLoadingTask implements Task{
     private final ChatViewerPanel panel;
+    private final String fileName;
+    private final BackgroundProgressDialog dialog ;
     
-    public ChatRefreshTask(final ChatViewerPanel panel) {
-        this.dialog = new ProgressDialog(null, true, this);
+    public ChatLoadingTask(final ChatViewerPanel panel, final String fileName) {
         this.panel = panel;
+        this.fileName = fileName;
+        this.dialog = new BackgroundProgressDialog(null, true, this);
     }
     
     @Override
@@ -43,15 +41,7 @@ public class ChatRefreshTask implements Task{
     
     @Override
     public void doTask() throws Exception {
-        Set<String> set = this.getChatFilePath();
-        for(final String item: set) {
-            EventQueue.invokeLater(new Runnable() {
-               @Override
-               public void run() { 
-                   JListUtil.addToList(item, panel.getListModel(), panel.getList());
-               }
-            });
-        }
+        this.displayChatSessions();
     }
     
     @Override
@@ -59,31 +49,30 @@ public class ChatRefreshTask implements Task{
         return this.dialog.isCancelledThread();
     }
     
-    private Set<String> getChatFilePath() throws IOException{
+    private void displayChatSessions() throws IOException{
         String indexDir = this.panel.getCaseFacade().getCaseIndexFolderLocation();
-        
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
-        Set<String> aList = new HashSet<String>();
 
         for (int i=0; i<indexReader.maxDoc(); i++) {
             if ( this.isCancelledTask() )
-                return aList;
-            
+                return;
+                        
             Document document = indexReader.document(i);
             if ( document != null ) {
                 Field field = document.getField(IndexingConstant.CHAT_FILE);
                 if ( field != null && field.stringValue() != null) {
-                   if ( document.getField(IndexingConstant.CHAT_AGENT).stringValue().equals(panel.getAgent())) {
-                       String chatFile = field.stringValue();
-                       final File path = new File(chatFile);
-                       aList.add(path.getName());
+                    
+                   if ( field.stringValue().endsWith(fileName)) {
+                       ChatItem item = (ChatItem) ItemFactory.newInstance(document, panel.getCaseFacade());
+                       Object[] data = new Object[] {item.getFrom(), item.getTo(), item.getMessageText(),
+                            item.getDate()};
+                       JTableUtil.addRowToJTable(panel.getTable(), data);
+                       
                    }
                 }
             }
         }
         indexReader.close();
-
-        return aList;
     }
 }

@@ -18,8 +18,8 @@ import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.searching.LuceneSearcher;
 import edu.coeia.filesystem.FileSystemPanel;
-import edu.coeia.task.CaseDuplicationTask;
-import edu.coeia.task.HashLibraryDuplicationTask;
+import edu.coeia.tasks.CaseDuplicationTask;
+import edu.coeia.tasks.HashLibraryDuplicationTask;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.LabelCellRenderer;
 

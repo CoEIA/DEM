@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.constants.IndexingConstant;
@@ -32,14 +32,14 @@ import org.apache.lucene.store.FSDirectory;
  * @author wajdyessam
  */
 public class EmailProcessingTask implements Task{
-    private final ProgressDialog dialog ;
+    private final BackgroundProgressDialog dialog ;
     private final EmailBrowsingPanel panel;
     private final EMAIL_PROCESSING_TYPE type; 
     
     public EmailProcessingTask(final EMAIL_PROCESSING_TYPE type, 
             final EmailBrowsingPanel panel) {
         
-        this.dialog = new ProgressDialog(null, true, this);
+        this.dialog = new BackgroundProgressDialog(null, true, this);
         this.panel = panel;
         this.type = type;
     }

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 import edu.coeia.multimedia.MultimediaViewerPanel;
 import edu.coeia.cases.Case;
@@ -28,7 +28,7 @@ import org.apache.lucene.document.Field;
  * @author wajdyessam
  */
 public class MultimediaLoadingTask implements Task{
-    private final ProgressDialog dialog ;
+    private final BackgroundProgressDialog dialog ;
     private final Case aCase;
     private final MultimediaViewerPanel panel;
     private final MultimediaViewerPanel.TYPE type;
@@ -36,7 +36,7 @@ public class MultimediaLoadingTask implements Task{
     
     public MultimediaLoadingTask(final CaseFacade caseFacade, final MultimediaViewerPanel panel,
             final MultimediaViewerPanel.TYPE type) {
-        this.dialog = new ProgressDialog(null, true, this);
+        this.dialog = new BackgroundProgressDialog(null, true, this);
         this.caseFacade = caseFacade ;
         this.aCase = this.caseFacade.getCase();
         this.panel = panel;

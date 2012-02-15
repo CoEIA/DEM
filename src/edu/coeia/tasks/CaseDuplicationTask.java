@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 
 import edu.coeia.cases.Case;
@@ -30,12 +30,12 @@ import org.apache.lucene.document.Field;
  * @author wajdyessam
  */
 public class CaseDuplicationTask implements Task{
-    private final ProgressDialog dialog ;
+    private final BackgroundProgressDialog dialog ;
     private final Case aCase;
     private final HashAnalysisPanel panel;
     
     public CaseDuplicationTask(final Case aCase, final HashAnalysisPanel panel) {
-        this.dialog = new ProgressDialog(null, true, this);
+        this.dialog = new BackgroundProgressDialog(null, true, this);
         this.aCase = aCase;
         this.panel = panel;
     }

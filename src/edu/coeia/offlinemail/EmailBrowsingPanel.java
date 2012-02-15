@@ -19,9 +19,9 @@ import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
-import edu.coeia.task.EmailLoadingTask;
-import edu.coeia.task.EmailRefreshTask;
-import edu.coeia.task.EmailProcessingTask;
+import edu.coeia.tasks.EmailLoadingTask;
+import edu.coeia.tasks.EmailRefreshTask;
+import edu.coeia.tasks.EmailProcessingTask;
 
 import java.util.ArrayList;
 import java.util.Collections;

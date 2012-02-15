@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
@@ -19,12 +19,12 @@ import javax.swing.JFileChooser;
  */
 public class CaseExporterTask implements Task{
     private final Case aCase;
-    private final ProgressDialog dialog ;
+    private final BackgroundProgressDialog dialog ;
     private File file ;
     
     public CaseExporterTask(final Case aCase) {
         this.aCase = aCase;
-        this.dialog = new ProgressDialog(null, true, this);
+        this.dialog = new BackgroundProgressDialog(null, true, this);
     }
     
     @Override

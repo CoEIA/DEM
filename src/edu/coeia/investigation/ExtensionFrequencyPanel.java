@@ -12,7 +12,7 @@ package edu.coeia.investigation;
 
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.searching.InvestigateDialog;
-import edu.coeia.task.ExtensionFrequencyTask;
+import edu.coeia.tasks.ExtensionFrequencyTask;
 import edu.coeia.util.ApplicationLogging;
 
 import java.awt.BorderLayout;

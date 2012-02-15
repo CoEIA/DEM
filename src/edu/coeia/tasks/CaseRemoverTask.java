@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 import edu.coeia.cases.Case;
 import edu.coeia.managers.ApplicationManager;
@@ -14,12 +14,12 @@ import edu.coeia.main.CaseManagerFrame;
  * @author wajdyessam
  */
 public class CaseRemoverTask implements Task{
-    private final ProgressDialog dialog ;
+    private final BackgroundProgressDialog dialog ;
     private final CaseManagerFrame frame;
     private final String caseName ;
     
     public CaseRemoverTask(final CaseManagerFrame frame, final String caseName) {
-        this.dialog = new ProgressDialog(null, true, this);
+        this.dialog = new BackgroundProgressDialog(null, true, this);
         this.frame = frame;
         this.caseName = caseName;
     }

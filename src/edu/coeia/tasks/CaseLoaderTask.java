@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 import edu.coeia.managers.ApplicationManager;
 import edu.coeia.cases.CaseFacade;
@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  * @author wajdyessam
  */
 public class CaseLoaderTask implements Task {
-    private final ProgressDialog dialog ;
+    private final BackgroundProgressDialog dialog ;
     private final CaseManagerFrame frame;
     private final String caseName ;
     private final boolean startIndex;
@@ -29,7 +29,7 @@ public class CaseLoaderTask implements Task {
     public CaseLoaderTask( final CaseManagerFrame frame,
             final CaseFacade caseFacade, final boolean indexNow) {
         
-        this.dialog = new ProgressDialog(null, true, this);
+        this.dialog = new BackgroundProgressDialog(null, true, this);
         this.frame = frame;
         this.caseFacade = caseFacade;
         this.caseName = caseFacade.getCase().getCaseName();

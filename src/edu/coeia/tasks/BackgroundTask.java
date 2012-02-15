@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 import javax.swing.SwingWorker;
 
@@ -10,11 +10,11 @@ import javax.swing.SwingWorker;
  *
  * @author wajdyessam
  */
-final class TaskThread extends SwingWorker<Void, String> {
+final class BackgroundTask extends SwingWorker<Void, String> {
     private final Task task;
-    private final ProgressDialog dialog;
+    private final BackgroundProgressDialog dialog;
     
-    public TaskThread (final ProgressDialog dialog) {
+    public BackgroundTask (final BackgroundProgressDialog dialog) {
         this.dialog = dialog;
         this.task = dialog.getTask();
     }

@@ -4,24 +4,24 @@
  */
 
 /*
- * ProgressDialog.java
+ * BackgroundProgressDialog.java
  *
  * Created on Jan 22, 2012, 11:42:24 AM
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 
 /**
  *
  * @author wajdyessam
  */
-final class ProgressDialog extends javax.swing.JDialog{
+final class BackgroundProgressDialog extends javax.swing.JDialog{
 
-    private TaskThread thread;
+    private BackgroundTask thread;
     private final Task task;
     
-    /** Creates new form ProgressDialog */
-    public ProgressDialog(java.awt.Frame parent,
+    /** Creates new form BackgroundProgressDialog */
+    public BackgroundProgressDialog(java.awt.Frame parent,
             boolean modal, final Task task) {
         
         super(parent, modal);
@@ -99,7 +99,7 @@ final class ProgressDialog extends javax.swing.JDialog{
     
     public void startThread (){
         this.progressBar.setIndeterminate(true);
-        this.thread = new TaskThread(this);
+        this.thread = new BackgroundTask(this);
         this.thread.execute();
         this.setVisible(true);
     }

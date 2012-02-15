@@ -12,7 +12,7 @@ package edu.coeia.reports;
 
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.reports.panels.ReportGenerator;
-import edu.coeia.task.ReportGeneratorTask;
+import edu.coeia.tasks.ReportGeneratorTask;
 
 import javax.swing.JPanel;
 

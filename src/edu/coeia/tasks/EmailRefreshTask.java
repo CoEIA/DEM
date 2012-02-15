@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 import edu.coeia.cases.Case;
 import edu.coeia.wizard.EmailConfiguration;
@@ -32,12 +32,12 @@ import org.apache.lucene.store.FSDirectory;
  * @author wajdyessam
  */
 public class EmailRefreshTask implements Task{
-    private final ProgressDialog dialog ;
+    private final BackgroundProgressDialog dialog ;
     private final Case aCase;
     private final EmailBrowsingPanel panel;
     
     public EmailRefreshTask(final Case aCase, final EmailBrowsingPanel panel) {
-        this.dialog = new ProgressDialog(null, true, this);
+        this.dialog = new BackgroundProgressDialog(null, true, this);
         this.aCase = aCase;
         this.panel = panel;
     }

@@ -13,8 +13,8 @@ package edu.coeia.chat;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.AuditingMessages;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.task.ChatLoadingTask;
-import edu.coeia.task.ChatRefreshTask;
+import edu.coeia.tasks.ChatLoadingTask;
+import edu.coeia.tasks.ChatRefreshTask;
 import edu.coeia.util.ApplicationLogging;
 
 import java.util.logging.Logger;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.ApplicationConstants;
@@ -28,11 +28,11 @@ public class ReportGeneratorTask implements Task{
     private final CaseFacade caseFacade ;
     private final ReportOptionDialog reportDialog;
     private final ReportGenerator report;
-    private final ProgressDialog dialog ;
+    private final BackgroundProgressDialog dialog ;
     
      public ReportGeneratorTask(final CaseFacade caseFacade, final ReportOptionDialog dialog,
             final ReportGenerator report) {
-        this.dialog = new ProgressDialog(null, true, this);
+        this.dialog = new BackgroundProgressDialog(null, true, this);
         this.caseFacade = caseFacade ;
         this.reportDialog = dialog;
         this.report = report;

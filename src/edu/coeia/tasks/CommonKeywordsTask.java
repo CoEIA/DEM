@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 import edu.coeia.cases.Case;
 import edu.coeia.constants.IndexingConstant;
@@ -35,12 +35,12 @@ import org.mcavallo.opencloud.Tag;
  * @author wajdyessam
  */
 public class CommonKeywordsTask implements Task{
-    private final ProgressDialog dialog ;
+    private final BackgroundProgressDialog dialog ;
     private final Case aCase;
     private final CommonKeywordsPanel panel;
     
     public CommonKeywordsTask(final Case aCase, final CommonKeywordsPanel panel) {
-        this.dialog = new ProgressDialog(null, true, this);
+        this.dialog = new BackgroundProgressDialog(null, true, this);
         this.aCase = aCase;
         this.panel = panel;
     }

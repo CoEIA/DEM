@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.task;
+package edu.coeia.tasks;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
@@ -31,13 +31,13 @@ import org.apache.lucene.store.FSDirectory;
  * @author wajdyessam
  */
 public class ExtensionFrequencyTask implements Task{
-    private final ProgressDialog dialog ;
+    private final BackgroundProgressDialog dialog ;
     private final Case aCase;
     private final ExtensionFrequencyPanel panel;
     private final CaseFacade caseFacade ;
     
     public ExtensionFrequencyTask(final CaseFacade caseFacade, final ExtensionFrequencyPanel panel) {
-        this.dialog = new ProgressDialog(null, true, this);
+        this.dialog = new BackgroundProgressDialog(null, true, this);
         this.caseFacade = caseFacade;
         this.aCase = this.caseFacade.getCase();
         this.panel = panel;
