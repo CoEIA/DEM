@@ -12,8 +12,11 @@ import edu.coeia.util.Utilities;
 
 import java.io.File;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.lucene.document.Document;
 
 
@@ -33,9 +36,10 @@ final class OnlineEmailIndexer extends Indexer {
     @Override
     public boolean doIndexing() {
         boolean status = false;
-
+        OnlineEmailDBHandler db = null;
+        
         try {
-            OnlineEmailDBHandler db = new OnlineEmailDBHandler(this.getFile().getAbsolutePath());
+            db = new OnlineEmailDBHandler(this.getFile().getAbsolutePath());
             List<OnlineEmailMessage> AllMsgs = db.getAllMessages();
 
             for (OnlineEmailMessage msg : AllMsgs) {
@@ -63,6 +67,13 @@ final class OnlineEmailIndexer extends Indexer {
         } 
         catch (Exception ex) {
             throw new UnsupportedOperationException("Error in Email Reading");
+        }
+        finally {
+            try {
+                db.closeDB();
+            } catch (SQLException ex) {
+                Logger.getLogger(OnlineEmailIndexer.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         return status;

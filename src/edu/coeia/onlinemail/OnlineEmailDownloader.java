@@ -351,7 +351,7 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                         OnlineEmailMessage msg = OnlineEmailMessage.newInstance(messageId, this.Username,
                                 from, to, bcclist, cclist, subject, body, sentDate.toString(), receiveDate.toString(), Paths, folder.getFullName());
                         db.inserteEmail(msg);
-                        db.getConnection().commit();
+                        db.commit();
 
                         // Publish Data To Thread
                         ProgressData PData = new ProgressData(msg);

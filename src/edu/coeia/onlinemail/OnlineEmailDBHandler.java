@@ -31,7 +31,7 @@ public final class OnlineEmailDBHandler {
         this.createDB(isDBFound, databasePath);
     }
 
-    public void createDB( boolean isFoundDatabase, String databasePath) throws Exception {
+    private void createDB( boolean isFoundDatabase, String databasePath) throws Exception {
         databasePath = checkNull("database path must be not null", databasePath);
         DB_URL = DB_NAME + databasePath;
 
@@ -140,11 +140,11 @@ public final class OnlineEmailDBHandler {
         statement_.close();
     }
 
-    public Connection getConnection(){
-        return connection;
+    public void commit() throws SQLException{
+        connection.commit();
     }
     
-    public void connectDB() throws ClassNotFoundException, InstantiationException,
+    private void connectDB() throws ClassNotFoundException, InstantiationException,
             SQLException, IllegalAccessException {
         Class.forName(DB_DRIVER).newInstance();
         connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
