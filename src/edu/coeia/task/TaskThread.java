@@ -4,47 +4,25 @@
  */
 package edu.coeia.task;
 
-import java.util.List;
-
 import javax.swing.SwingWorker;
 
 /**
  *
  * @author wajdyessam
  */
-public class TaskThread extends SwingWorker<Void, String> {
+final class TaskThread extends SwingWorker<Void, String> {
     private final Task task;
     private final ProgressDialog dialog;
-    private boolean isCancelledThread ;
     
-    public TaskThread (final Task task) {
-        this.task = task;
-        this.dialog = new ProgressDialog(null, false, this);
-    }
-    
-    public void stopThread() {
-        this.cancel(true);
-        this.isCancelledThread = true;
-        this.dialog.dispose();
+    public TaskThread (final ProgressDialog dialog) {
+        this.dialog = dialog;
+        this.task = dialog.getTask();
     }
         
     @Override
     public Void doInBackground() throws Exception {
-        this.dialog.setVisible(true);
         this.task.doTask();
         return null;
-    }
-        
-    @Override
-    public void process(List<String> data) {
-//        if ( isCancelled() ) {
-//            return; 
-//        }
-//        else {
-//            for(String item: data) {
-//                this.dialog.appendMessage(item);
-//            }
-//        }
     }
     
     @Override
@@ -52,9 +30,5 @@ public class TaskThread extends SwingWorker<Void, String> {
         this.dialog.setVisible(false);
         this.dialog.dispose();
         return;
-    }
-    
-    public boolean isCancelledThread() { 
-        return this.isCancelledThread;
     }
 }

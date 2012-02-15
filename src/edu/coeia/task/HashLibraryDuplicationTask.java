@@ -24,19 +24,19 @@ import org.apache.lucene.document.Document ;
  * @author wajdyessam
  */
 public class HashLibraryDuplicationTask implements Task{
-    private final TaskThread thread;
+    private final ProgressDialog dialog ;
     private final Case aCase;
     private final HashAnalysisPanel panel;
     
     public HashLibraryDuplicationTask(final Case aCase, final HashAnalysisPanel panel) {
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
         this.aCase = aCase;
         this.panel = panel;
     }
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -46,7 +46,7 @@ public class HashLibraryDuplicationTask implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
     
     private void doHashLibraryDuplicationAnalysis() {

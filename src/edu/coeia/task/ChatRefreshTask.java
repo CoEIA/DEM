@@ -28,17 +28,17 @@ import org.apache.lucene.store.FSDirectory;
  */
 
 public class ChatRefreshTask implements Task{
-    private final TaskThread thread;
+    private final ProgressDialog dialog ;
     private final ChatViewerPanel panel;
     
     public ChatRefreshTask(final ChatViewerPanel panel) {
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
         this.panel = panel;
     }
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -56,7 +56,7 @@ public class ChatRefreshTask implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
     
     private Set<String> getChatFilePath() throws IOException{

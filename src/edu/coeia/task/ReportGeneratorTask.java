@@ -25,22 +25,22 @@ import java.util.logging.Logger;
  * @author wajdyessam
  */
 public class ReportGeneratorTask implements Task{
-    private final TaskThread thread;
     private final CaseFacade caseFacade ;
-    private final ReportOptionDialog dialog;
+    private final ReportOptionDialog reportDialog;
     private final ReportGenerator report;
+    private final ProgressDialog dialog ;
     
      public ReportGeneratorTask(final CaseFacade caseFacade, final ReportOptionDialog dialog,
             final ReportGenerator report) {
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
         this.caseFacade = caseFacade ;
-        this.dialog = dialog;
+        this.reportDialog = dialog;
         this.report = report;
     }
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -50,7 +50,7 @@ public class ReportGeneratorTask implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
     
     private void generateReport(final DatasourceXml objXmlSource) throws Exception {

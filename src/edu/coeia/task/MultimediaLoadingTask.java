@@ -28,7 +28,7 @@ import org.apache.lucene.document.Field;
  * @author wajdyessam
  */
 public class MultimediaLoadingTask implements Task{
-    private final TaskThread thread;
+    private final ProgressDialog dialog ;
     private final Case aCase;
     private final MultimediaViewerPanel panel;
     private final MultimediaViewerPanel.TYPE type;
@@ -36,7 +36,7 @@ public class MultimediaLoadingTask implements Task{
     
     public MultimediaLoadingTask(final CaseFacade caseFacade, final MultimediaViewerPanel panel,
             final MultimediaViewerPanel.TYPE type) {
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
         this.caseFacade = caseFacade ;
         this.aCase = this.caseFacade.getCase();
         this.panel = panel;
@@ -45,7 +45,7 @@ public class MultimediaLoadingTask implements Task{
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -55,7 +55,7 @@ public class MultimediaLoadingTask implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
     
     private void loadItems() throws IOException {

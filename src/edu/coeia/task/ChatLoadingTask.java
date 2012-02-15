@@ -24,19 +24,19 @@ import org.apache.lucene.store.FSDirectory;
  * @author wajdyessam
  */
 public class ChatLoadingTask implements Task{
-    private final TaskThread thread;
     private final ChatViewerPanel panel;
     private final String fileName;
+    private final ProgressDialog dialog ;
     
     public ChatLoadingTask(final ChatViewerPanel panel, final String fileName) {
-        this.thread = new TaskThread(this);
         this.panel = panel;
         this.fileName = fileName;
+        this.dialog = new ProgressDialog(null, true, this);
     }
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -46,7 +46,7 @@ public class ChatLoadingTask implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
     
     private void displayChatSessions() throws IOException{

@@ -14,19 +14,19 @@ import edu.coeia.main.CaseManagerFrame;
  * @author wajdyessam
  */
 public class CaseRemoverTask implements Task{
-    private final TaskThread thread;
+    private final ProgressDialog dialog ;
     private final CaseManagerFrame frame;
     private final String caseName ;
     
     public CaseRemoverTask(final CaseManagerFrame frame, final String caseName) {
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
         this.frame = frame;
         this.caseName = caseName;
     }
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -36,7 +36,7 @@ public class CaseRemoverTask implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
   
     private void removeCaseAction() throws Exception{

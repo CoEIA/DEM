@@ -58,13 +58,13 @@ import org.imgscalr.Scalr;
  * @author wajdyessam
  */
 public class ImageLoadingTask implements Task{
-    private final TaskThread thread;
+    private final ProgressDialog dialog ;
     private final Case aCase;
     private final ImageViewerPanel panel;
     private final CaseFacade caseFacade; 
     
     public ImageLoadingTask(final CaseFacade caseFacade, final ImageViewerPanel panel) {
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
         this.caseFacade = caseFacade;
         this.aCase = this.caseFacade.getCase();
         this.panel = panel;
@@ -72,7 +72,7 @@ public class ImageLoadingTask implements Task{
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -89,7 +89,7 @@ public class ImageLoadingTask implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
     
     private void displayImages(final List<Tuple<String, Integer>> images) throws IOException {

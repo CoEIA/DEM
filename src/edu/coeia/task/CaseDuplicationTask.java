@@ -30,19 +30,19 @@ import org.apache.lucene.document.Field;
  * @author wajdyessam
  */
 public class CaseDuplicationTask implements Task{
-    private final TaskThread thread;
+    private final ProgressDialog dialog ;
     private final Case aCase;
     private final HashAnalysisPanel panel;
     
     public CaseDuplicationTask(final Case aCase, final HashAnalysisPanel panel) {
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
         this.aCase = aCase;
         this.panel = panel;
     }
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -52,7 +52,7 @@ public class CaseDuplicationTask implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
     
     private void doCaseDuplicationAnalysis() {

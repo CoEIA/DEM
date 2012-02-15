@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  * @author wajdyessam
  */
 public class CaseLoaderTask implements Task {
-    private final TaskThread thread;
+    private final ProgressDialog dialog ;
     private final CaseManagerFrame frame;
     private final String caseName ;
     private final boolean startIndex;
@@ -29,7 +29,7 @@ public class CaseLoaderTask implements Task {
     public CaseLoaderTask( final CaseManagerFrame frame,
             final CaseFacade caseFacade, final boolean indexNow) {
         
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
         this.frame = frame;
         this.caseFacade = caseFacade;
         this.caseName = caseFacade.getCase().getCaseName();
@@ -38,7 +38,7 @@ public class CaseLoaderTask implements Task {
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -48,7 +48,7 @@ public class CaseLoaderTask implements Task {
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
     
     private void loadCase () throws FileNotFoundException, IOException, ClassNotFoundException, Exception{

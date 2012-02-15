@@ -35,19 +35,19 @@ import org.mcavallo.opencloud.Tag;
  * @author wajdyessam
  */
 public class CommonKeywordsTask implements Task{
-    private final TaskThread thread;
+    private final ProgressDialog dialog ;
     private final Case aCase;
     private final CommonKeywordsPanel panel;
     
     public CommonKeywordsTask(final Case aCase, final CommonKeywordsPanel panel) {
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
         this.aCase = aCase;
         this.panel = panel;
     }
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -58,7 +58,7 @@ public class CommonKeywordsTask implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
     
     public Map<String, Integer> getAllTermFreqFromItems() throws IOException {

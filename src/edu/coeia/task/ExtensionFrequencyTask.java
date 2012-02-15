@@ -31,13 +31,13 @@ import org.apache.lucene.store.FSDirectory;
  * @author wajdyessam
  */
 public class ExtensionFrequencyTask implements Task{
-    private final TaskThread thread;
+    private final ProgressDialog dialog ;
     private final Case aCase;
     private final ExtensionFrequencyPanel panel;
     private final CaseFacade caseFacade ;
     
     public ExtensionFrequencyTask(final CaseFacade caseFacade, final ExtensionFrequencyPanel panel) {
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
         this.caseFacade = caseFacade;
         this.aCase = this.caseFacade.getCase();
         this.panel = panel;
@@ -45,7 +45,7 @@ public class ExtensionFrequencyTask implements Task{
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -62,7 +62,7 @@ public class ExtensionFrequencyTask implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
     
     public Map<String,Double> getExtensionFreq () throws IOException {

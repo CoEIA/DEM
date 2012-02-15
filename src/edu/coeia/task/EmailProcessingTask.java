@@ -32,21 +32,21 @@ import org.apache.lucene.store.FSDirectory;
  * @author wajdyessam
  */
 public class EmailProcessingTask implements Task{
-    private final TaskThread thread;
+    private final ProgressDialog dialog ;
     private final EmailBrowsingPanel panel;
     private final EMAIL_PROCESSING_TYPE type; 
     
     public EmailProcessingTask(final EMAIL_PROCESSING_TYPE type, 
             final EmailBrowsingPanel panel) {
         
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
         this.panel = panel;
         this.type = type;
     }
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -56,7 +56,7 @@ public class EmailProcessingTask implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
     
     private void loadEmail() {

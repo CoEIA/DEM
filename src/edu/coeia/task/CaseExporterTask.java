@@ -19,12 +19,12 @@ import javax.swing.JFileChooser;
  */
 public class CaseExporterTask implements Task{
     private final Case aCase;
-    private final TaskThread thread;
+    private final ProgressDialog dialog ;
     private File file ;
     
     public CaseExporterTask(final Case aCase) {
         this.aCase = aCase;
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
     }
     
     @Override
@@ -35,7 +35,7 @@ public class CaseExporterTask implements Task{
         int result = fileChooser.showSaveDialog(null);
         if ( result == JFileChooser.APPROVE_OPTION ) {
             this.file = fileChooser.getSelectedFile();
-            this.thread.execute();
+            this.dialog.startThread();
         }
     }
     
@@ -46,7 +46,7 @@ public class CaseExporterTask implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
         
     private void exportCaseAction() throws Exception { 

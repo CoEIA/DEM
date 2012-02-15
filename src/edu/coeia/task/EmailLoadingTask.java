@@ -30,19 +30,19 @@ import org.apache.lucene.store.FSDirectory;
  * @author wajdyessam
  */
 public class EmailLoadingTask  implements Task{
-    private final TaskThread thread;
+    private final ProgressDialog dialog ;
     private final Case aCase;
     private final EmailBrowsingPanel panel;
     
     public EmailLoadingTask(final Case aCase, final EmailBrowsingPanel panel) {
-        this.thread = new TaskThread(this);
+        this.dialog = new ProgressDialog(null, true, this);
         this.aCase = aCase;
         this.panel = panel;
     }
     
     @Override
     public void startTask() {
-        this.thread.execute();
+        this.dialog.startThread();
     }
     
     @Override
@@ -52,7 +52,7 @@ public class EmailLoadingTask  implements Task{
     
     @Override
     public boolean isCancelledTask() {
-        return this.thread.isCancelledThread();
+        return this.dialog.isCancelledThread();
     }
     
     private void loadEmail() throws Exception {

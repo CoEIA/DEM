@@ -10,7 +10,6 @@ package edu.coeia.searching;
  * @author wajdyessam
  */
 
-import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.constants.IndexingConstant ;
@@ -19,16 +18,14 @@ import edu.coeia.items.ItemFactory;
 import edu.coeia.searching.SearcherThread.ProgressSearchData;
 
 import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.SwingWorker ;
+import javax.swing.JOptionPane;
 
 import java.util.Date ;
 import java.util.List ;
 import java.util.ArrayList ;
 
-import javax.swing.JOptionPane;
 import org.apache.lucene.document.Document;
 
 class SearcherThread extends SwingWorker<String,ProgressSearchData> {

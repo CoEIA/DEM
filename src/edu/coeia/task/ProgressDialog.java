@@ -15,26 +15,21 @@ package edu.coeia.task;
  *
  * @author wajdyessam
  */
-public class ProgressDialog extends javax.swing.JDialog{
+final class ProgressDialog extends javax.swing.JDialog{
 
-    private final TaskThread thread;
+    private TaskThread thread;
+    private final Task task;
     
     /** Creates new form ProgressDialog */
-    public ProgressDialog(java.awt.Frame parent, boolean modal, final TaskThread thread) {
+    public ProgressDialog(java.awt.Frame parent,
+            boolean modal, final Task task) {
+        
         super(parent, modal);
         this.initComponents();
         this.setLocationRelativeTo(parent);
         
-        this.thread = thread;
+        this.task = task;
         this.progressBar.setIndeterminate(true);
-    }
-    
-    public void setMax(int max) {
-        this.progressBar.setMaximum(max);
-    }
-    
-    public void setValue(int progress) {
-        this.progressBar.setValue(progress);
     }
     
     /** This method is called from within the constructor to
@@ -99,8 +94,29 @@ public class ProgressDialog extends javax.swing.JDialog{
     }// </editor-fold>//GEN-END:initComponents
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
-        this.thread.stopThread();
+        this.stopThread();
     }//GEN-LAST:event_stopButtonActionPerformed
+    
+    public void startThread (){
+        this.progressBar.setIndeterminate(true);
+        this.thread = new TaskThread(this);
+        this.thread.execute();
+        this.setVisible(true);
+    }
+        
+    private void stopThread() {
+        this.progressBar.setIndeterminate(false);
+        this.thread.cancel(true);
+        this.dispose();
+    }
+    
+    public Task getTask() { 
+        return this.task;
+    }
+    
+    public boolean isCancelledThread() {
+        return this.thread.isCancelled();
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
