@@ -85,9 +85,9 @@ public class CaseLoaderTask implements Task {
     }
     
     private boolean askAndUpdateNewCaseSource(final CaseFacade caseFacade) throws IOException {
-        UpdatingCaseEvidenceSourceDialog dialog = new UpdatingCaseEvidenceSourceDialog(this.frame, true, caseFacade);
-        dialog.setVisible(true);
+        UpdatingCaseEvidenceSourceDialog updateDialog = new UpdatingCaseEvidenceSourceDialog(this.frame, true, caseFacade);
+        updateDialog.setVisible(true);
         
-        return dialog.getResult();
+        return updateDialog.getResult();
     }
 }

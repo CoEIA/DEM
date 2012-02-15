@@ -107,6 +107,7 @@ final class BackgroundProgressDialog extends javax.swing.JDialog{
     private void stopThread() {
         this.progressBar.setIndeterminate(false);
         this.thread.cancel(true);
+        this.setVisible(false);
         this.dispose();
     }
     
