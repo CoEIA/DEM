@@ -13,14 +13,11 @@ import edu.coeia.items.ItemFactory;
 import java.io.File;
 import java.io.IOException;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -61,7 +58,6 @@ public class ChatLoadingTask implements Task{
     }
     
     private void displayChatSessionFast() throws IOException {
-
         try {
             Directory directory = FSDirectory.open(new File(
                     this.panel.getCaseFacade().getCaseIndexFolderLocation()

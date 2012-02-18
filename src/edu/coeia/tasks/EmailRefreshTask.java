@@ -9,23 +9,27 @@ import edu.coeia.wizard.EmailConfiguration;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.constants.IndexingConstant;
 import edu.coeia.offlinemail.EmailBrowsingPanel;
-import edu.coeia.constants.ApplicationConstants;
 
 import java.awt.EventQueue;
+
 import java.io.File;
 import java.io.IOException;
 
 import java.util.HashSet;
-import java.util.List;
-
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
 
 /**
  *
@@ -59,7 +63,7 @@ public class EmailRefreshTask implements Task{
     
     private void fillTable() throws IOException {
         final Set<String> paths = getOfflineEmailsPaths();
-        
+
         EventQueue.invokeLater(new Runnable() { 
             @Override
             public void run() {
@@ -75,31 +79,35 @@ public class EmailRefreshTask implements Task{
     }
     
     private Set<String> getOfflineEmailsPaths() throws IOException {
-        Set<String> offlineEmailPaths = new HashSet<String>();
+        Set<String> result = new HashSet<String>();
         
-        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        int max = indexReader.maxDoc();
-        
-        for (int i=0; i<max ; i++) {
-            if ( this.isCancelledTask() )
-                return offlineEmailPaths;
-                        
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(IndexingConstant.OFFLINE_EMAIL_PATH);
-                if ( field != null && field.stringValue() != null) {
-                   String path = field.stringValue();
-                   offlineEmailPaths.add(path);
+        try {
+            Directory directory = FSDirectory.open(new File(
+                    this.panel.getCaseFacade().getCaseIndexFolderLocation()
+                    ));
+            
+            IndexSearcher searcher = new IndexSearcher(directory);
+            QueryParser parser = new QueryParser(Version.LUCENE_30, 
+                    IndexingConstant.OFFLINE_EMAIL_PATH, new StopAnalyzer(Version.LUCENE_30));
+            parser.setAllowLeadingWildcard(true);
+            Query query = parser.parse("*");
+            
+            TopDocs topDocs = searcher.search(query, 5000);
+
+            for(int i=0; i<topDocs.totalHits; i++) {
+                Document document = searcher.doc(i);
+                String offlineEmailPath = document.get(IndexingConstant.OFFLINE_EMAIL_PATH);
+                
+                if ( offlineEmailPath != null && !offlineEmailPath.trim().isEmpty()) {
+                    result.add(offlineEmailPath);
                 }
             }
             
-            document = null;
+            searcher.close();
+        } catch (ParseException ex) {
+            Logger.getLogger(ChatRefreshTask.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        indexReader.close();
-        
-        return offlineEmailPaths;
+        return result;
     }
 }

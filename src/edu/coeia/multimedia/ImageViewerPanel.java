@@ -453,7 +453,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
         this.pageLabel.setText(String.format("(%d/%d)", this.currentImagePage, this.totalNumberOfPages));
     }
     
-    public void computeNumberOfPages() { 
+   public void computeNumberOfPages() { 
         this.currentImageNo = 0;
         this.currentImagePage = 0 ;
         this.totalNumberOfPages = this.totalNumberOfImages / this.IMAGE_PER_PAGE ;

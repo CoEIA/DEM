@@ -44,11 +44,19 @@ import java.io.IOException;
 
 import java.net.URI;
 
-import org.apache.lucene.index.IndexReader ;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.lucene.store.Directory ;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.util.Version;
 
 import static org.imgscalr.Scalr.*;
 import org.imgscalr.Scalr;
@@ -78,13 +86,16 @@ public class ImageLoadingTask implements Task{
     @Override
     public void doTask() throws Exception {
         if ( !this.panel.isImageSizeIsComputed()) {
-            int total = this.getNumberOfImages();
+            int total = this.getNumberOfImagesFast();
             this.panel.setTotalNumberOfImages(total);
             this.panel.setImageSizeFlag();
             this.panel.computeNumberOfPages();
         }
-        
-        this.displayImages(this.loadItems(this.panel.getCurrentImageNo(), this.panel.getImagePerPage()));
+
+        List<Tuple<String, Integer>> items = this.loadItemsFast(this.panel.getCurrentImageNo(),
+                this.panel.getImagePerPage());
+
+        this.displayImages(items);
     }
     
     @Override
@@ -99,27 +110,7 @@ public class ImageLoadingTask implements Task{
         List<ImageViewerPanel.ImageIconWithDocumentId> icons = new ArrayList<ImageViewerPanel.ImageIconWithDocumentId>();
         List<Integer> ids = new ArrayList<Integer>();
         
-        for(Tuple<String, Integer> document: images) {
-            try {
-                String image = document.getA();
-                int id = document.getB();
-                
-                File imageFile = new File(image);
-                BufferedImage bufferedImage = ImageIO.read(imageFile);
-                BufferedImage scaledImage = createThumbnail(bufferedImage);
-                ImageViewerPanel.ImageIconWithDocumentId icon = new ImageViewerPanel.ImageIconWithDocumentId(scaledImage, imageFile.getName(), id);
-                icons.add(icon);
-                
-                ids.add(id);
-            }
-            catch(Exception e) {
-                System.out.println(document.getA() + " cannot be veweing");
-            }
-        }
-        
-        panel.setIds(ids);
-        
-        final ImageViewerPanel.FilteredList  list = new ImageViewerPanel.FilteredList(this.panel.getFilterTextField());
+        final ImageViewerPanel.FilteredList list = new ImageViewerPanel.FilteredList(this.panel.getFilterTextField());
         list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         list.setCellRenderer(new ImageViewerPanel.MyCellRenderer());
         list.setVisibleRowCount(this.panel.getRowsNumber());
@@ -132,10 +123,26 @@ public class ImageLoadingTask implements Task{
             }
         });
         
-        for(ImageViewerPanel.ImageIconWithDocumentId icon: icons) {
-            list.addItem(icon);
+        for(Tuple<String, Integer> document: images) {
+            try {
+                String image = document.getA();
+                int id = document.getB();
+                
+                File imageFile = new File(image);
+                BufferedImage bufferedImage = ImageIO.read(imageFile);
+                BufferedImage scaledImage = createThumbnail(bufferedImage);
+                ImageViewerPanel.ImageIconWithDocumentId icon =
+                        new ImageViewerPanel.ImageIconWithDocumentId(scaledImage, imageFile.getName(), id);
+                icons.add(icon);
+                list.addItem(icon);
+                ids.add(id);
+            }
+            catch(Exception e) {
+                System.out.println(document.getA() + " cannot be veweing");
+            }
         }
         
+        panel.setIds(ids);
         list.update();
         
         list.addMouseListener(new MouseAdapter() {
@@ -161,68 +168,31 @@ public class ImageLoadingTask implements Task{
             }
         });
     }
-        
-    private List<Tuple<String, Integer> > loadItems(int from, int size) throws IOException {
+    
+    private List<Tuple<String, Integer> > loadItemsFast(int from, int size) throws IOException {
         List<Tuple<String, Integer> > files = new ArrayList<Tuple<String, Integer> >();
-        
-        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        
         int counter = 0;
         
-        for (int i=0; i < indexReader.maxDoc(); i++) {
-            if ( this.isCancelledTask() )
-                return files;
+        try {
+            Directory directory = FSDirectory.open(new File(
+                this.caseFacade.getCaseIndexFolderLocation()
+            ));
             
-            Document document = indexReader.document(i);
+            IndexSearcher searcher = new IndexSearcher(directory);
+            QueryParser parser = new QueryParser(Version.LUCENE_30, 
+                    IndexingConstant.DOCUMENT_TYPE, new StopAnalyzer(Version.LUCENE_30));
+            //parser.setAllowLeadingWildcard(true);
+            Query query = parser.parse("IMAGE");
             
-            if (document != null) {
-                Field field = document.getField(IndexingConstant.FILE_MIME);
+            TopDocs topDocs = searcher.search(query, 5000);
+
+            for(int i=0; i<topDocs.totalHits; i++) {
+                Document document = searcher.doc(i);
+                String imagePath = document.get(IndexingConstant.FILE_MIME);
                 
-                if (field != null && field.stringValue() != null) {
+                if ( imagePath != null && !imagePath.trim().isEmpty()) {
                     String fullpath = "";
                     int id = Integer.parseInt(document.get(IndexingConstant.DOCUMENT_ID));
-                    
-                    if (IndexingConstant.isImageDocument(document)) {
-                        String path = document.get(IndexingConstant.FILE_PATH);
-                        if ( path.contains(this.aCase.getCaseName() + File.separator + ApplicationConstants.CASE_ARCHIVE_FOLDER) ) 
-                            fullpath = path;
-                        else
-                            fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
-                    }
-                    
-                    if ( !fullpath.isEmpty()) {
-                        counter++;
-                        
-                        if ( files.size() >= size) 
-                            break;
-                        
-                        if ( counter >= from )
-                            files.add(new Tuple<String, Integer>(fullpath, Integer.valueOf(id)));
-                    }
-                }
-            }
-        }
-        
-        indexReader.close();
-        return files;
-    }
-    
-    private int getNumberOfImages() throws IOException {
-        int counter = 0;
-        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-                            
-        for (int i = 0; i < indexReader.maxDoc(); i++) {
-            Document document = indexReader.document(i);
-            
-            if (document != null) {
-                Field field = document.getField(IndexingConstant.FILE_MIME);
-                
-                if (field != null && field.stringValue() != null) {
-                    String fullpath = "";
                     
                     if ( IndexingConstant.isImageDocument(document) ) {
                         String path = document.get(IndexingConstant.FILE_PATH);
@@ -234,15 +204,69 @@ public class ImageLoadingTask implements Task{
                     
                     if ( ! fullpath.isEmpty() ) {
                         counter++;
+                        
+                        if ( files.size() >= size) 
+                            break;
+                        
+                        if ( counter >= from )
+                            files.add(new Tuple<String, Integer>(fullpath, Integer.valueOf(id)));
                     }
                 }
             }
+            
+            searcher.close();
+        } catch (ParseException ex) {
+            Logger.getLogger(ChatRefreshTask.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        indexReader.close();
-        return counter;
+        return files;
     }
         
+    private int getNumberOfImagesFast() throws IOException {
+        int numberOfImages = 0;
+        
+        try {
+            Directory directory = FSDirectory.open(new File(
+                this.caseFacade.getCaseIndexFolderLocation()
+            ));
+            
+            IndexSearcher searcher = new IndexSearcher(directory);
+            QueryParser parser = new QueryParser(Version.LUCENE_30, 
+                    IndexingConstant.DOCUMENT_TYPE, new StopAnalyzer(Version.LUCENE_30));
+            //parser.setAllowLeadingWildcard(true);
+            Query query = parser.parse("IMAGE");
+            
+            TopDocs topDocs = searcher.search(query, 5000);
+
+            for(int i=0; i<topDocs.totalHits; i++) {
+                Document document = searcher.doc(i);
+                String imagePath = document.get(IndexingConstant.FILE_MIME);
+                
+                if ( imagePath != null && !imagePath.trim().isEmpty()) {
+                    String fullpath = "";
+                    
+                    if ( IndexingConstant.isImageDocument(document) ) {
+                        String path = document.get(IndexingConstant.FILE_PATH);
+                        if ( path.contains(this.aCase.getCaseName() + File.separator + ApplicationConstants.CASE_ARCHIVE_FOLDER) ) 
+                            fullpath = path;
+                        else
+                            fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                    }
+                    
+                    if ( ! fullpath.isEmpty() ) {
+                        numberOfImages++;
+                    }
+                }
+            }
+            
+            searcher.close();
+        } catch (ParseException ex) {
+            Logger.getLogger(ChatRefreshTask.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return numberOfImages;
+    }
+
     private BufferedImage createThumbnail(BufferedImage img) {
         img = Scalr.resize(img, this.panel.getScaleFactor());
         return pad(img, this.panel.getPadFactor());
