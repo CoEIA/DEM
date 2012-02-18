@@ -15,7 +15,6 @@ import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.InfiniteProgressPanel;
 import edu.coeia.gutil.JTableUtil;
-//import edu.coeia.gutil.LabelCellRenderer;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
@@ -35,7 +34,6 @@ import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.TableColumn;
 
 import com.pff.PSTFile;
 

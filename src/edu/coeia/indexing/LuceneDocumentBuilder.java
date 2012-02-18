@@ -136,7 +136,7 @@ final class LuceneDocumentBuilder {
         doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.NORMAL_CHAT)));
         
         // specific lucene fileds
-        doc.add(getNotAnlyzedField(CHAT_AGENT, agent));
+        doc.add(getAnalyzedField(CHAT_AGENT, agent));
         doc.add(getNotAnlyzedField(CHAT_FILE, indexer.getCaseFacade().getRelativePath(path)));
         doc.add(getNotAnlyzedField(CHAT_FROM, msg.getFrom()));
         doc.add(getNotAnlyzedField(CHAT_TO, msg.getTo()));
@@ -158,7 +158,7 @@ final class LuceneDocumentBuilder {
         doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.NORMAL_CHAT)));
         
         // specific lucene fileds
-        doc.add(getNotAnlyzedField(CHAT_AGENT, agent));
+        doc.add(getAnalyzedField(CHAT_AGENT, agent));
         doc.add(getNotAnlyzedField(CHAT_FILE, indexer.getCaseFacade().getRelativePath(indexer.getFile().getAbsolutePath())));
         doc.add(getNotAnlyzedField(CHAT_FROM, msg.getFrom()));
         doc.add(getNotAnlyzedField(CHAT_TO, Utilities.getEmptyStringWhenNullString(msg.getTo())));
@@ -202,7 +202,7 @@ final class LuceneDocumentBuilder {
         doc.add(getNotAnlyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(DOCUMENT_DESCRIPTION_TYPE.NORMAL_CHAT)));
         
         // specific lucene fileds
-        doc.add(getNotAnlyzedField(CHAT_AGENT, agent));
+        doc.add(getAnalyzedField(CHAT_AGENT, agent));
         doc.add(getNotAnlyzedField(CHAT_FILE, indexer.getCaseFacade().getRelativePath(path)));
         doc.add(getNotAnlyzedField(CHAT_FROM, from));
         doc.add(getNotAnlyzedField(CHAT_TO, to));

@@ -15,12 +15,19 @@ import java.io.IOException;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
 
 /**
  *
@@ -43,8 +50,9 @@ public class ChatRefreshTask implements Task{
     
     @Override
     public void doTask() throws Exception {
-        Set<String> set = this.getChatFilePath();
-        for(final String item: set) {
+        Set<String> files = this.getChatFilePathFast(); 
+        
+        for(final String item: files) {
             EventQueue.invokeLater(new Runnable() {
                @Override
                public void run() { 
@@ -59,31 +67,38 @@ public class ChatRefreshTask implements Task{
         return this.dialog.isCancelledThread();
     }
     
-    private Set<String> getChatFilePath() throws IOException{
-        String indexDir = this.panel.getCaseFacade().getCaseIndexFolderLocation();
+    private Set<String> getChatFilePathFast() throws IOException {
+        Set<String> result = new HashSet<String>();
         
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        Set<String> aList = new HashSet<String>();
-
-        for (int i=0; i<indexReader.maxDoc(); i++) {
-            if ( this.isCancelledTask() )
-                return aList;
+        try {
+            Directory directory = FSDirectory.open(new File(
+                    this.panel.getCaseFacade().getCaseIndexFolderLocation()
+                    ));
             
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(IndexingConstant.CHAT_FILE);
-                if ( field != null && field.stringValue() != null) {
-                   if ( document.getField(IndexingConstant.CHAT_AGENT).stringValue().equals(panel.getAgent())) {
-                       String chatFile = field.stringValue();
-                       final File path = new File(chatFile);
-                       aList.add(path.getName());
-                   }
+            IndexSearcher searcher = new IndexSearcher(directory);
+            QueryParser parser = new QueryParser(Version.LUCENE_30, 
+                    IndexingConstant.CHAT_AGENT, new StopAnalyzer(Version.LUCENE_30));
+            parser.setAllowLeadingWildcard(true);
+            Query query = parser.parse(panel.getAgent());
+            
+            TopDocs topDocs = searcher.search(query, 5000);
+
+            for(int i=0; i<topDocs.totalHits; i++) {
+                Document document = searcher.doc(i);
+                String chatFile = document.get(IndexingConstant.CHAT_FILE);
+                
+                if ( chatFile != null && !chatFile.trim().isEmpty()) {
+                    chatFile = this.panel.getCaseFacade().getFullPath(chatFile);
+                    final File path = new File(chatFile);
+                    result.add(path.getName());
                 }
             }
+            
+            searcher.close();
+        } catch (ParseException ex) {
+            Logger.getLogger(ChatRefreshTask.class.getName()).log(Level.SEVERE, null, ex);
         }
-        indexReader.close();
-
-        return aList;
+        
+        return result;
     }
 }
