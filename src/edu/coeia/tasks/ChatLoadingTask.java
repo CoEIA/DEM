@@ -13,11 +13,22 @@ import edu.coeia.items.ItemFactory;
 import java.io.File;
 import java.io.IOException;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
 
 /**
  *
@@ -41,7 +52,7 @@ public class ChatLoadingTask implements Task{
     
     @Override
     public void doTask() throws Exception {
-        this.displayChatSessions();
+        this.displayChatSessionFast();
     }
     
     @Override
@@ -49,30 +60,39 @@ public class ChatLoadingTask implements Task{
         return this.dialog.isCancelledThread();
     }
     
-    private void displayChatSessions() throws IOException{
-        String indexDir = this.panel.getCaseFacade().getCaseIndexFolderLocation();
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
+    private void displayChatSessionFast() throws IOException {
 
-        for (int i=0; i<indexReader.maxDoc(); i++) {
-            if ( this.isCancelledTask() )
-                return;
-                        
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(IndexingConstant.CHAT_FILE);
-                if ( field != null && field.stringValue() != null) {
+        try {
+            Directory directory = FSDirectory.open(new File(
+                    this.panel.getCaseFacade().getCaseIndexFolderLocation()
+                    ));
+            
+            IndexSearcher searcher = new IndexSearcher(directory);
+            QueryParser parser = new QueryParser(Version.LUCENE_30, 
+                    IndexingConstant.CHAT_AGENT, new StopAnalyzer(Version.LUCENE_30));
+            parser.setAllowLeadingWildcard(true);
+            Query query = parser.parse(panel.getAgent());
+            
+            TopDocs topDocs = searcher.search(query, 5000);
+
+            for(int i=0; i<topDocs.totalHits; i++) {
+                Document document = searcher.doc(i);
+                String chatFile = document.get(IndexingConstant.CHAT_FILE);
+                
+                if ( chatFile != null && !chatFile.trim().isEmpty()) {
                     
-                   if ( field.stringValue().endsWith(fileName)) {
+                    if ( chatFile.endsWith(this.fileName) ) {
                        ChatItem item = (ChatItem) ItemFactory.newInstance(document, panel.getCaseFacade());
                        Object[] data = new Object[] {item.getFrom(), item.getTo(), item.getMessageText(),
                             item.getDate()};
                        JTableUtil.addRowToJTable(panel.getTable(), data);
-                       
-                   }
+                    }
                 }
             }
+            
+            searcher.close();
+        } catch (ParseException ex) {
+            Logger.getLogger(ChatRefreshTask.class.getName()).log(Level.SEVERE, null, ex);
         }
-        indexReader.close();
     }
 }
