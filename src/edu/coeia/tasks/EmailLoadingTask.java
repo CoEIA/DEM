@@ -77,47 +77,7 @@ public class EmailLoadingTask  implements Task{
             type = IndexingConstant.ONLINE_EMAIL_USER_NAME;
         }
         
-        long start = System.currentTimeMillis();
-        this.getAllEmailMessages(path, type);
-        long end = System.currentTimeMillis();
-        
-        System.out.println("finish task1 in: " + (end-start));
-        
-        start = System.currentTimeMillis();
         this.getAllEmailMessagesFast(path, type);
-        end = System.currentTimeMillis();
-        System.out.println("finish task2 in:  " + (end-start));
-    }
-    
-    private void getAllEmailMessages(final String path, final String constant) throws IOException, ParseException {
-        List<Integer> ids = new ArrayList<Integer>();
-        
-        String indexDir = this.panel.getCaseFacade().getCaseIndexFolderLocation();
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        
-        for (int i=0; i<indexReader.maxDoc(); i++) {
-            if ( this.isCancelledTask() )
-                return ;
-                     
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(constant);
-                if ( field != null && field.stringValue() != null) {
-                   String tmp = field.stringValue();
-                   
-                   if ( tmp.endsWith(path)) {
-                        EmailItem item = (EmailItem) ItemFactory.newInstance(document, panel.getCaseFacade());
-                        JTableUtil.addRowToJTable(panel.getTable(), item.getFullDisplayData());
-                        ids.add(Integer.valueOf(item.getDocumentId()));
-                   }
-                }
-            }
-        }
-        
-        System.out.println("task 1 size: " + ids.size());
-        this.panel.setResultIds(ids);
-        indexReader.close();
     }
     
     private void getAllEmailMessagesFast(final String path, final String constant) throws IOException {
@@ -131,7 +91,6 @@ public class EmailLoadingTask  implements Task{
             IndexSearcher searcher = new IndexSearcher(directory);
             QueryParser parser = new QueryParser(Version.LUCENE_30, 
                     IndexingConstant.DOCUMENT_DESCRIPTION, new StopAnalyzer(Version.LUCENE_30));
-            //parser.setAllowLeadingWildcard(true);
             Query query = parser.parse("EMAIL_MESSAGE");
             
             TopDocs topDocs = searcher.search(query, 5000);
@@ -155,7 +114,6 @@ public class EmailLoadingTask  implements Task{
             Logger.getLogger(ChatRefreshTask.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        System.out.println("task 2 size: " + ids.size());
         this.panel.setResultIds(ids);
     }
 }

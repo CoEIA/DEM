@@ -76,7 +76,7 @@ public class ExtensionFrequencyTask implements Task{
         
         for (int i=0; i<max; i++) {
             if ( this.isCancelledTask() )
-                return map;;
+                return map;
                         
             Document document = indexReader.document(i);
             if ( document != null ) {

@@ -69,6 +69,8 @@ public class CommonKeywordsTask implements Task{
         IndexReader indexReader = IndexReader.open(dir);
         TermEnum terms = indexReader.terms();
         
+        int factor = indexReader.maxDoc() / 100;
+        
         while(terms.next()) {
             if ( isCancelledTask() )
                 return map;
@@ -79,10 +81,12 @@ public class CommonKeywordsTask implements Task{
                 String termText = term.text();
                 int frequency = indexReader.docFreq(term);
 
-                map.put(termText, frequency);
+                if ( frequency >= factor) 
+                    map.put(termText, frequency);
             }
         }
         
+        System.out.println("map size: " + map.size());
         indexReader.close();
         return map;
     }
