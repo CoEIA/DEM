@@ -10,21 +10,28 @@ import edu.coeia.charts.PieChartPanel;
 import edu.coeia.constants.IndexingConstant;
 import edu.coeia.investigation.ExtensionFrequencyPanel;
 import edu.coeia.util.FileUtil;
-import edu.coeia.constants.ApplicationConstants;
 
 import java.io.File;
 import java.io.IOException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 
+import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
 
 /**
  *
@@ -50,14 +57,10 @@ public class ExtensionFrequencyTask implements Task{
     
     @Override
     public void doTask() throws Exception {
-        try {
-            Map<String, Double> extensionFrequncyMap = this.getExtensionFreq();
-            JPanel chartPanel = PieChartPanel.newInstance(extensionFrequncyMap, "Extension Frequency for: " + this.aCase.getCaseName());
-            this.panel.setIndexVisualizationPanel(chartPanel);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
+        Map<String, Double> result = this.getExtensionFreqFast();
+        JPanel chartPanel = PieChartPanel.newInstance(result,
+                "Extension Frequency for: " + this.aCase.getCaseName(), getFactor());
+        this.panel.setIndexVisualizationPanel(chartPanel);
     }
     
     @Override
@@ -65,26 +68,39 @@ public class ExtensionFrequencyTask implements Task{
         return this.dialog.isCancelledThread();
     }
     
-    public Map<String,Double> getExtensionFreq () throws IOException {
+    private int getFactor() throws IOException {
+        Directory directory = FSDirectory.open(new File(
+            this.caseFacade.getCaseIndexFolderLocation()
+        ));
+        
+        IndexReader indexReader = IndexReader.open(directory);
+        
+        return indexReader.maxDoc() / 200; 
+    }
+    
+    private Map<String,Double> getExtensionFreqFast() throws IOException {
         Map<String,Double> map = new HashMap<String,Double>();
         
-        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
-        Directory dir = FSDirectory.open(new File(indexDir));
-        IndexReader indexReader = IndexReader.open(dir);
-        
-        int max = indexReader.maxDoc();
-        
-        for (int i=0; i<max; i++) {
-            if ( this.isCancelledTask() )
-                return map;
-                        
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(IndexingConstant.FILE_PATH);
-                if ( field != null && field.stringValue() != null) {
-                    String path = field.stringValue();
-                    String fullPath = this.caseFacade.getFullPath(path);
-                    String ext = FileUtil.getExtension(fullPath);
+        try {
+            Directory directory = FSDirectory.open(new File(
+                    this.caseFacade.getCaseIndexFolderLocation()
+                    ));
+            
+            IndexSearcher searcher = new IndexSearcher(directory);
+            QueryParser parser = new QueryParser(Version.LUCENE_30, 
+                    IndexingConstant.FILE_PATH, new StopAnalyzer(Version.LUCENE_30));
+            parser.setAllowLeadingWildcard(true);
+            Query query = parser.parse("*");
+            
+            TopDocs topDocs = searcher.search(query, 5000);
+
+            for(int i=0; i<topDocs.totalHits; i++) {
+                Document document = searcher.doc(i);
+                String filePath = document.get(IndexingConstant.FILE_PATH);
+                
+                if ( filePath != null && !filePath.trim().isEmpty()) {
+                    final File path = new File(filePath);
+                    String ext = FileUtil.getExtension(path);
 
                     if ( ext == null || ext.length() > 6) // no more extension than 5 character!
                         continue;
@@ -99,11 +115,11 @@ public class ExtensionFrequencyTask implements Task{
                 }
             }
             
-            document = null;
+            searcher.close();
+        } catch (ParseException ex) {
+            Logger.getLogger(ChatRefreshTask.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        indexReader.close();
-
         return map ;
     }
 }

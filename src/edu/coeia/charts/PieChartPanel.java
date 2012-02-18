@@ -29,8 +29,9 @@ import java.io.IOException ;
 
 public class PieChartPanel {
 
-    public static JPanel newInstance (final Map<String,Double> map, String title) throws IOException {
-        final PieDataset dataset = createSampleDataset(map);
+    public static JPanel newInstance (final Map<String,Double> map, String title,
+            int factor) throws IOException {
+        final PieDataset dataset = createSampleDataset(map, factor);
         final JFreeChart chart = createChart(dataset,title);
         final ChartPanel chartPanel = new ChartPanel(chart);
         
@@ -38,7 +39,7 @@ public class PieChartPanel {
         return chartPanel ;
     }
     
-    private static PieDataset createSampleDataset(final Map<String,Double> map) {
+    private static PieDataset createSampleDataset(final Map<String,Double> map, int factor) {
         final DefaultPieDataset result = new DefaultPieDataset();
 
         Set set = map.entrySet();
@@ -49,6 +50,10 @@ public class PieChartPanel {
 
             String str = me.getValue().toString();
             double counts = Double.valueOf(str).doubleValue();
+            
+            if ( counts < factor)
+                continue;
+            
             double per = (counts/map.size()) * 100 ;
 
             result.setValue((String)me.getKey(),per);
