@@ -7,8 +7,8 @@ package edu.coeia.cases;
 import edu.coeia.util.FileUtil;
 import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.constants.AuditingMessages;
-
 import edu.coeia.tags.Tag;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -279,6 +279,12 @@ public final class CaseFacade {
         
     public String getCasesInformationFileLocation() {
         return ApplicationConstants.APPLICATION_CASES_FILE;
+    }
+    
+    public String getCasePreferenceFileLocation() {
+          return this.aCase.getCaseLocation() 
+                 + File.separator
+                 + ApplicationConstants.CASE_PREFERENCE_EXTENSION;
     }
     
     public String getCaseFolderLocation() { 

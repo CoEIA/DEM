@@ -46,6 +46,7 @@ public class CaseExporterTask implements Task{
         try {
             exportCaseAction();
         } catch (Exception ex) {
+            ex.printStackTrace();
             Logger.getLogger(CaseExporterTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -58,11 +59,9 @@ public class CaseExporterTask implements Task{
     private void exportCaseAction() throws Exception { 
         String caseName = this.file.getAbsolutePath();
 
-        String prefLocation = this.aCase.getCaseLocation() + File.separator +  ApplicationConstants.CASE_PREFERENCE_EXTENSION;
         CaseFacade caseFacade = CaseFacade.newInstance(aCase);
         caseFacade.closeCaseAuditing();
-        
-        caseFacade.exportHistory(this.aCase.getCaseName(), prefLocation);
+        caseFacade.exportHistory(this.aCase.getCaseName(), caseFacade.getCasePreferenceFileLocation());
 
         ZipUtil zipper = new ZipUtil(this);
         zipper.compress(this.aCase.getCaseLocation(), caseName);

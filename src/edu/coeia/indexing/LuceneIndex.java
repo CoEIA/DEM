@@ -65,7 +65,6 @@ public final class LuceneIndex {
             throw new UnsupportedOperationException(e.getMessage());
         }
         catch(UnsupportedOperationException e){
-            e.printStackTrace();
             // here add error item , incease by one
             throw new UnsupportedOperationException(e.getMessage());
         }
