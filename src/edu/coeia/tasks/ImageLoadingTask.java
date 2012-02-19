@@ -151,6 +151,8 @@ public class ImageLoadingTask implements Task{
             public void mouseClicked(MouseEvent event) {
                 if ( event.getClickCount() == 2 ) {
                     ImageViewerPanel.ImageIconWithDocumentId document = (ImageViewerPanel.ImageIconWithDocumentId) list.getSelectedValue();
+                    if ( document == null ) 
+                        return ;
                     int id = document.getId();
                     SearchResultParamter searchResultParamter = new SearchResultParamter("", id, panel.getIds());
                     SourceViewerDialog dialog = new SourceViewerDialog(panel.getCaseFrame(), true, searchResultParamter);

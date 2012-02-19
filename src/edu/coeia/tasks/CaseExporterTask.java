@@ -11,6 +11,8 @@ import edu.coeia.util.ZipUtil;
 
 import java.io.File;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
@@ -40,8 +42,12 @@ public class CaseExporterTask implements Task{
     }
     
     @Override
-    public void doTask() throws Exception {
-        exportCaseAction();
+    public void doTask() {
+        try {
+            exportCaseAction();
+        } catch (Exception ex) {
+            Logger.getLogger(CaseExporterTask.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
@@ -54,6 +60,8 @@ public class CaseExporterTask implements Task{
 
         String prefLocation = this.aCase.getCaseLocation() + File.separator +  ApplicationConstants.CASE_PREFERENCE_EXTENSION;
         CaseFacade caseFacade = CaseFacade.newInstance(aCase);
+        caseFacade.closeCaseAuditing();
+        
         caseFacade.exportHistory(this.aCase.getCaseName(), prefLocation);
 
         ZipUtil zipper = new ZipUtil(this);

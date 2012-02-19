@@ -50,8 +50,10 @@ public class ZipUtil {
         String[] files = dir.list();
         
         for(String file: files) {
-            if ( task.isCancelledTask() )
+            if ( task.isCancelledTask() ) {
+                System.out.println("canceled");
                 return;
+            }
             
             String newPath = path + File.separator + dir.getName();
             String newFilePath = srcFile + File.separator + file;

@@ -80,7 +80,8 @@ public final class CaseFacade {
      * @throws Exception 
      */
     public boolean removeCase() throws Exception {
-        this.caseAuditing.close();
+        this.closeCaseAuditing();
+        this.closeCaseTags();
         
         boolean status = FileUtil.removeDirectory(this.getCaseFolderLocation());
         
@@ -249,6 +250,10 @@ public final class CaseFacade {
     
     public void closeCaseTags() {
         this.caseTags.close();
+    }
+   
+    public void closeCaseAuditing() {
+        this.caseAuditing.close();
     }
     
     private CaseFacade (final Case aCase) throws Exception {

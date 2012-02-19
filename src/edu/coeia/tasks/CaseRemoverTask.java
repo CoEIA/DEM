@@ -8,6 +8,8 @@ import edu.coeia.cases.Case;
 import edu.coeia.managers.ApplicationManager;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.main.CaseManagerFrame;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,8 +32,12 @@ public class CaseRemoverTask implements Task{
     }
     
     @Override
-    public void doTask() throws Exception {
-        removeCaseAction();
+    public void doTask()  {
+        try {
+            removeCaseAction();
+        } catch (Exception ex) {
+            Logger.getLogger(CaseRemoverTask.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
@@ -42,8 +48,7 @@ public class CaseRemoverTask implements Task{
     private void removeCaseAction() throws Exception{
         Case aCase = ApplicationManager.Manager.getCaseFromCaseName(caseName);
         CaseFacade caseFacade = CaseFacade.newInstance(aCase);
-        // close the db
-        caseFacade.closeCaseTags();
+        
         boolean status = caseFacade.removeCase();
         this.frame.readCases(); // update view table
     }
