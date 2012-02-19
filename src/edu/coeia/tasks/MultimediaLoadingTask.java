@@ -59,7 +59,7 @@ public class MultimediaLoadingTask implements Task{
     }
     
     private void loadItems() throws IOException {
-        String indexDir = this.aCase.getCaseLocation() + File.separator + ApplicationConstants.CASE_INDEX_FOLDER;
+        String indexDir = this.caseFacade.getCaseIndexFolderLocation();
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
                             
