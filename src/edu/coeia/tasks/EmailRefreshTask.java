@@ -63,7 +63,6 @@ public class EmailRefreshTask implements Task{
     
     private void fillTable() throws IOException {
         final Set<String> paths = getOfflineEmailsPaths();
-
         EventQueue.invokeLater(new Runnable() { 
             @Override
             public void run() {
@@ -88,7 +87,7 @@ public class EmailRefreshTask implements Task{
             
             IndexSearcher searcher = new IndexSearcher(directory);
             QueryParser parser = new QueryParser(Version.LUCENE_30, 
-                    IndexingConstant.OFFLINE_EMAIL_PATH, new StopAnalyzer(Version.LUCENE_30));
+                    IndexingConstant.DOCUMENT_TYPE, new StopAnalyzer(Version.LUCENE_30));
             parser.setAllowLeadingWildcard(true);
             Query query = parser.parse("*");
             

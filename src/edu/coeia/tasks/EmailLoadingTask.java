@@ -64,23 +64,26 @@ public class EmailLoadingTask  implements Task{
     }
     
     private void loadEmail() throws Exception {
-        String type = "";
+        String user = "";
         String path = "";
+        String desc = "";
         
         if ( this.panel.isOfflineEmailSelected() ) {
             path = String.valueOf(this.panel.getList().getSelectedValue());
-            type = IndexingConstant.OFFLINE_EMAIL_PATH;
+            user = IndexingConstant.OFFLINE_EMAIL_PATH;
+            desc = IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.OFFLINE_EMAIL);
             
         }
         else if ( this.panel.isOnlineEmailSelected() ) {
             path = String.valueOf(this.panel.getList().getSelectedValue());
-            type = IndexingConstant.ONLINE_EMAIL_USER_NAME;
+            user = IndexingConstant.ONLINE_EMAIL_USER_NAME;
+            desc = IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.ONLINE_EMAIL);
         }
         
-        this.getAllEmailMessagesFast(path, type);
+        this.getAllEmailMessagesFast(path, user, desc);
     }
     
-    private void getAllEmailMessagesFast(final String path, final String constant) throws IOException {
+    private void getAllEmailMessagesFast(final String path, final String constant, final String type) throws IOException {
         List<Integer> ids = new ArrayList<Integer>();
         
         try {
@@ -91,7 +94,8 @@ public class EmailLoadingTask  implements Task{
             IndexSearcher searcher = new IndexSearcher(directory);
             QueryParser parser = new QueryParser(Version.LUCENE_30, 
                     IndexingConstant.DOCUMENT_DESCRIPTION, new StopAnalyzer(Version.LUCENE_30));
-            Query query = parser.parse("EMAIL_MESSAGE");
+            parser.setAllowLeadingWildcard(true);
+            Query query = parser.parse("*");
             
             TopDocs topDocs = searcher.search(query, 5000);
 

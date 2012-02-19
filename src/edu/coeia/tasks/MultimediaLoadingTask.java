@@ -63,7 +63,7 @@ public class MultimediaLoadingTask implements Task{
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
                             
-        for (int i = 0; i < indexReader.maxDoc(); i++) {
+        for (int i=0; i<indexReader.maxDoc(); i++) {
             if ( this.isCancelledTask() )
                 return;
             
