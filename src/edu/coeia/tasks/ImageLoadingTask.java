@@ -181,8 +181,8 @@ public class ImageLoadingTask implements Task{
             IndexSearcher searcher = new IndexSearcher(directory);
             QueryParser parser = new QueryParser(Version.LUCENE_30, 
                     IndexingConstant.DOCUMENT_TYPE, new StopAnalyzer(Version.LUCENE_30));
-            //parser.setAllowLeadingWildcard(true);
-            Query query = parser.parse("IMAGE");
+            parser.setAllowLeadingWildcard(true);
+            Query query = parser.parse("*");
             
             TopDocs topDocs = searcher.search(query, 5000);
 
@@ -233,8 +233,8 @@ public class ImageLoadingTask implements Task{
             IndexSearcher searcher = new IndexSearcher(directory);
             QueryParser parser = new QueryParser(Version.LUCENE_30, 
                     IndexingConstant.DOCUMENT_TYPE, new StopAnalyzer(Version.LUCENE_30));
-            //parser.setAllowLeadingWildcard(true);
-            Query query = parser.parse("IMAGE");
+            parser.setAllowLeadingWildcard(true);
+            Query query = parser.parse("*");
             
             TopDocs topDocs = searcher.search(query, 5000);
 
