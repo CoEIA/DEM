@@ -54,6 +54,7 @@ public class CaseLoaderTask implements Task {
     private void loadCase () throws FileNotFoundException, IOException, ClassNotFoundException, Exception{
         if ( caseName != null ) {
             if ( !ApplicationManager.Manager.isRunningCase(caseName)) {
+
                 // check here for case evience chnaging
                 // and update the file before opening the case
                 boolean caseSourceIsUptoDate = true;
@@ -68,6 +69,11 @@ public class CaseLoaderTask implements Task {
                     CaseMainFrame mainFrame = new CaseMainFrame(this.frame, this.caseFacade);
                     mainFrame.setLocationRelativeTo(this.frame);
                     mainFrame.setVisible(true);
+                    
+                    // close current dialog
+                    this.dialog.setVisible(false);
+                    mainFrame.toFront();
+                    mainFrame.repaint();
                     
                     if ( ! caseFacade.getCaseHistory().getIsCaseIndexed() ) {
                         mainFrame.showIndexDialog(startIndex);

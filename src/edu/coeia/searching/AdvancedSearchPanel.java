@@ -17,6 +17,8 @@ import edu.coeia.searching.CaseSearchPanel.SearchHistory;
 import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.DateUtil;
 
+import java.awt.EventQueue;
+
 import javax.swing.JProgressBar;
 import javax.swing.JTable;
 import javax.swing.JOptionPane ;
@@ -433,20 +435,35 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         }
     }
     
-    private void saveSearchResult() throws Exception {
-        String query = this.getQueryText();
-        SearchScope scope = this.getSearchScope();
-        String time = DateUtil.getCurrentDate();
+    private void saveSearchResult() {
+        final String query = this.getQueryText();
+        final SearchScope scope = this.getSearchScope();
+        final String time = DateUtil.getCurrentDate();
         
         if ( this.resultId.isEmpty() ) {
             JOptionPane.showMessageDialog(this.caseSearchPanel, "Please do search then try to save the result");
             return;
         }
         
-        SearchHistory option = new SearchHistory(query, time, scope, this.getDocuments());
-        this.caseSearchPanel.addSearchOption(option);
-        
-        JOptionPane.showMessageDialog(this.caseSearchPanel, "Search Result is Saved Succesfully");
+        new Thread(new Runnable() { 
+            @Override
+            public void run() {
+                try {
+                    final SearchHistory option = new SearchHistory(query, time, scope, getDocuments());
+                    
+                    EventQueue.invokeLater(new Runnable() { 
+                        @Override
+                        public void run() {
+                            caseSearchPanel.addSearchOption(option);
+                            JOptionPane.showMessageDialog(caseSearchPanel, "Search Result is Saved Succesfully"); 
+                        }
+                    });
+
+                } catch (Exception ex) {
+                    Logger.getLogger(AdvancedSearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }).start();
     }
     
     private List<Item> getDocuments() throws Exception {
