@@ -309,11 +309,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_advancedSearchLabelButtonMouseClicked
 
     private void resultSavingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultSavingButtonActionPerformed
-        try {
-            this.saveSearchResult();
-        } catch (Exception ex) {
-            Logger.getLogger(AdvancedSearchPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.saveSearchResult();
     }//GEN-LAST:event_resultSavingButtonActionPerformed
 
     private void fileSystemCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSystemCheckBoxActionPerformed
