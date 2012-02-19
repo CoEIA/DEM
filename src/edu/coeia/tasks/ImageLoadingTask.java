@@ -12,7 +12,6 @@ import edu.coeia.constants.IndexingConstant;
 import edu.coeia.multimedia.GeoTagging;
 import edu.coeia.multimedia.GeoTagging.GPSData;
 import edu.coeia.constants.ApplicationConstants;
-import edu.coeia.util.Tuple;
 import edu.coeia.util.Utilities;
 import edu.coeia.viewer.SearchResultParamter;
 import edu.coeia.viewer.SourceViewerDialog;
@@ -44,6 +43,8 @@ import java.io.IOException;
 
 import java.net.URI;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -92,7 +93,7 @@ public class ImageLoadingTask implements Task{
             this.panel.computeNumberOfPages();
         }
 
-        List<Tuple<String, Integer>> items = this.loadItemsFast(this.panel.getCurrentImageNo(),
+        Set<ImagePathAndId> items = this.loadItemsFast(this.panel.getCurrentImageNo(),
                 this.panel.getImagePerPage());
 
         this.displayImages(items);
@@ -103,7 +104,7 @@ public class ImageLoadingTask implements Task{
         return this.dialog.isCancelledThread();
     }
     
-    private void displayImages(final List<Tuple<String, Integer>> images) throws IOException {
+    private void displayImages(final Set<ImagePathAndId> images) throws IOException {
         this.panel.getRenderPanel().removeAll();
         this.panel.checkImageControllingButtons();
         
@@ -123,10 +124,10 @@ public class ImageLoadingTask implements Task{
             }
         });
         
-        for(Tuple<String, Integer> document: images) {
+        for(ImagePathAndId document: images) {
             try {
-                String image = document.getA();
-                int id = document.getB();
+                String image = document.imagePath;
+                int id = document.imageId;
                 
                 File imageFile = new File(image);
                 BufferedImage bufferedImage = ImageIO.read(imageFile);
@@ -138,7 +139,7 @@ public class ImageLoadingTask implements Task{
                 ids.add(id);
             }
             catch(Exception e) {
-                System.out.println(document.getA() + " cannot be veweing");
+                System.out.println(document.imagePath + " cannot be veweing");
             }
         }
         
@@ -169,8 +170,35 @@ public class ImageLoadingTask implements Task{
         });
     }
     
-    private List<Tuple<String, Integer> > loadItemsFast(int from, int size) throws IOException {
-        List<Tuple<String, Integer> > files = new ArrayList<Tuple<String, Integer> >();
+    private class ImagePathAndId {
+        final String imagePath;
+        final int imageId;
+
+        public ImagePathAndId(final String path, final int id) {
+            this.imagePath = path;
+            this.imageId = id;
+        }
+        
+        @Override
+        public boolean equals(Object otherObject) {
+            if ( this == otherObject )
+                return true;
+            
+            if ( !(otherObject instanceof ImagePathAndId) )
+                return false;
+            
+            ImagePathAndId other = (ImagePathAndId) otherObject;
+            return other.imagePath.equals(this.imagePath);
+        }
+        
+        @Override
+        public int hashCode() {
+            return 7 * this.imagePath.hashCode();
+        }
+    }
+    
+    private Set<ImagePathAndId> loadItemsFast(int from, int size) throws IOException {
+        Set<ImagePathAndId> files = new HashSet<ImagePathAndId>();
         int counter = 0;
         
         try {
@@ -209,7 +237,7 @@ public class ImageLoadingTask implements Task{
                             break;
                         
                         if ( counter >= from )
-                            files.add(new Tuple<String, Integer>(fullpath, Integer.valueOf(id)));
+                            files.add(new ImagePathAndId(fullpath, Integer.valueOf(id)));
                     }
                 }
             }
