@@ -389,8 +389,6 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         boolean b = false;
         try {
             if ((folder.getType() & javax.mail.Folder.HOLDS_MESSAGES) != 0) {
-                
-                System.out.println(folder.getFullName() + ": " + folder.getMessageCount());
                 folder.open(Folder.READ_ONLY);
                 b = true;
             } else if (javax.mail.Folder.HOLDS_FOLDERS != 0) {
@@ -649,7 +647,6 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
                 }
                 
                 filename = id + "-" + filename;
-                System.out.println("file name" + filename);
                 FileUtil.saveObject(bodyPart.getInputStream(), filename, attachmentsPath);
                 attachments.add(filename);
             }
