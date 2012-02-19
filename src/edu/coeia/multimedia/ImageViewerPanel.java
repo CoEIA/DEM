@@ -390,6 +390,9 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_applyOptionButtonActionPerformed
 
     private void nextLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextLabelMouseClicked
+        if ( this.currentImagePage == this.totalNumberOfPages )
+            return ;
+                
         this.currentImagePage++;
         this.currentImageNo += this.IMAGE_PER_PAGE;
 
@@ -398,6 +401,9 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_nextLabelMouseClicked
 
     private void backLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backLabelMouseClicked
+        if ( this.currentImagePage == 0 )
+            return ;
+        
         this.currentImagePage--;
         this.currentImageNo -= this.IMAGE_PER_PAGE;
 
@@ -436,10 +442,17 @@ public class ImageViewerPanel extends javax.swing.JPanel {
     }
     
     public void checkImageControllingButtons() {
-        if ( this.currentImagePage == 0 ) {
+        if ( this.currentImagePage == 0 && 
+             this.currentImagePage == this.totalNumberOfPages ) {
+            nextLabel.setEnabled(false);
+            backLabel.setEnabled(false);
+        }
+        
+        else if ( this.currentImagePage == 0  ) {
             nextLabel.setEnabled(true);
             backLabel.setEnabled(false);
         }
+        
         else if ( this.currentImagePage == this.totalNumberOfPages ) {
             nextLabel.setEnabled(false);
             backLabel.setEnabled(true);
