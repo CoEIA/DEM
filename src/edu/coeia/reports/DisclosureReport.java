@@ -12,6 +12,7 @@ import java.io.File;
 
 import java.util.HashMap;
 
+import java.util.Map;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -134,7 +135,7 @@ public class DisclosureReport {
             throw new Exception("Root XPath is required.");
         }
 
-        HashMap hm = new HashMap();
+        Map<String, Object> hm = new HashMap<String, Object>();
         File file = new File(m_strDataSourceFile);
 
         if (!file.canRead()) {

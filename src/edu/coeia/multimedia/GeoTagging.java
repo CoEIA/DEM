@@ -21,6 +21,7 @@ public class GeoTagging {
 
     public static GPSData getGPS(String fileName) throws Exception {
         Metadata metadata = new ExifReader(new File(fileName)).extract();
+        
         Directory gpsDir = metadata.getDirectory(GpsDirectory.class);
         GpsDescriptor gps = new GpsDescriptor(gpsDir);
         GPSData data = new GPSData();

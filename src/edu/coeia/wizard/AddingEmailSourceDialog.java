@@ -167,7 +167,7 @@ private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         return;
     }
 
-    if (PasswordTextField.getText().isEmpty()) {
+    if (PasswordTextField.getPassword().length == 0) {
         JOptionPane.showMessageDialog(this, " Please Write Password", "Error", JOptionPane.ERROR_MESSAGE);
         visible = true;
         return;
@@ -214,7 +214,7 @@ private void CancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     }
 
     public String getPassword() {
-        return PasswordTextField.getText().toString().trim();
+        return new String(PasswordTextField.getPassword());
     }
 
     public EmailConfiguration.ONLINE_EMAIL_AGENT getProvider() {
