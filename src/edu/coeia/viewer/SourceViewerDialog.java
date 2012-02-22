@@ -117,7 +117,6 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         exportButton = new javax.swing.JButton();
         viewItemButton = new javax.swing.JButton();
         embeddedPanel = new javax.swing.JPanel();
-        displayParentButton = new javax.swing.JButton();
         viewerPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -173,16 +172,6 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         getContentPane().add(controlPanel, java.awt.BorderLayout.NORTH);
 
         embeddedPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Attachments and Embedded Files"));
-
-        displayParentButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274599246_text-x-log.png"))); // NOI18N
-        displayParentButton.setText("Display Document Parent");
-        displayParentButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                displayParentButtonActionPerformed(evt);
-            }
-        });
-        embeddedPanel.add(displayParentButton);
-
         getContentPane().add(embeddedPanel, java.awt.BorderLayout.SOUTH);
 
         viewerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Viewer"));
@@ -195,7 +184,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         );
         viewerPanelLayout.setVerticalGroup(
             viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 507, Short.MAX_VALUE)
+            .addGap(0, 548, Short.MAX_VALUE)
         );
 
         getContentPane().add(viewerPanel, java.awt.BorderLayout.CENTER);
@@ -225,7 +214,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         this.viewDocument(this.currentDocument);
     }//GEN-LAST:event_viewItemButtonActionPerformed
 
-    private void displayParentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayParentButtonActionPerformed
+    private void viewParentDocument() {
         Item item = this.getItemForDocument(this.currentDocument);
         
         if ( item.getDocumentParentId() != 0 ) {
@@ -240,8 +229,8 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         else {
             System.out.println("this document have no parent");
         }
-    }//GEN-LAST:event_displayParentButtonActionPerformed
-
+    }
+    
     private void viewDocument(final Document document) {
         if ( IndexingConstant.isFileDocument(document) ) {
             try {
@@ -384,7 +373,6 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel controlPanel;
-    private javax.swing.JButton displayParentButton;
     private javax.swing.JPanel embeddedPanel;
     private javax.swing.JButton exportButton;
     private javax.swing.JButton nextButton;

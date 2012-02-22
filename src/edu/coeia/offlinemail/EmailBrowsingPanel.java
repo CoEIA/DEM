@@ -109,7 +109,6 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         jLabel20 = new javax.swing.JLabel();
         typeComboBox = new javax.swing.JComboBox();
         processEmailButton = new javax.swing.JButton();
-        visualizationButton = new javax.swing.JButton();
         cardsPanel = new javax.swing.JPanel();
         messagesResultPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -244,7 +243,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
 
         factorSelectionPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel20.setForeground(new java.awt.Color(0, 70, 213));
         jLabel20.setText("Statistics For:");
         factorSelectionPanel.add(jLabel20);
@@ -264,14 +263,6 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             }
         });
         factorSelectionPanel.add(processEmailButton);
-
-        visualizationButton.setText("Visualization");
-        visualizationButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                visualizationButtonActionPerformed(evt);
-            }
-        });
-        factorSelectionPanel.add(visualizationButton);
 
         cardsPanel.setLayout(new java.awt.CardLayout());
 
@@ -404,10 +395,6 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_typeComboBoxActionPerformed
 
-    private void visualizationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visualizationButtonActionPerformed
-        this.doVisualization();
-    }//GEN-LAST:event_visualizationButtonActionPerformed
-
     private void doVisualization() {
         
     }
@@ -502,6 +489,5 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
     private javax.swing.JPanel statisticsPanel;
     private javax.swing.JComboBox typeComboBox;
     private javax.swing.JPanel vewingPanel;
-    private javax.swing.JButton visualizationButton;
     // End of variables declaration//GEN-END:variables
 }
