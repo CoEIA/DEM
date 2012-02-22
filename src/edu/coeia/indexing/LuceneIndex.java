@@ -90,6 +90,7 @@ public final class LuceneIndex {
     }
 
     public void closeIndex () throws IOException {
+        writer.commit();
         writer.optimize();
 	writer.close();
     }

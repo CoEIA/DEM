@@ -55,13 +55,7 @@ public final class TikaExtractor {
     }
     
     public String getContent() {
-        String tmp = this.content.toString();
-        try {
-            this.content.close();
-        } catch (IOException ex) {
-            Logger.getLogger(TikaExtractor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return tmp;
+        return this.contentHandler.toString();
     }
     
     public Map<String, String> getMetadata() {
@@ -95,15 +89,9 @@ public final class TikaExtractor {
             final ParseContext parseContext = new ParseContext();
             parseContext.set(Parser.class, parser);
 
-            final StringWriter stringWriter = new StringWriter();
-            ContentHandler contentHandler = new BodyContentHandler(stringWriter);
+            contentHandler = new BodyContentHandler(100*1024*1024);
 
             parser.parse(inputStream, contentHandler, metadata, parseContext);
-            
-            // save content
-            this.content = stringWriter;
-            stringWriter.close();
-
             // save metadata
             for(String name: metadata.names()) {
                 metadataMap.put(name, metadata.get(name));
@@ -128,8 +116,7 @@ public final class TikaExtractor {
             final ParseContext parseContext = new ParseContext();
             parseContext.set(Parser.class, parser);
 
-            ContentHandler contentHandler = new DefaultHandler();
-
+            contentHandler = new DefaultHandler();
             parser.parse(inputStream, contentHandler, metadata, parseContext);
    
             // save metadata
@@ -145,6 +132,6 @@ public final class TikaExtractor {
     private File file ;
     private String mimeType ;
     private EXTRACT_TYPE type;
-    private StringWriter content ;
+    private ContentHandler contentHandler;
     private Map<String, String> metadataMap = new HashMap<String, String>();
 }
