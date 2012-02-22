@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
 
+import javax.swing.JButton;
 import org.apache.lucene.document.Document;
 
 /**
@@ -417,6 +418,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         }
 
         this.searchProgressBard.setIndeterminate(true);
+        this.resultSavingButton.setEnabled(false);
         
         SearcherThread sThread = new SearcherThread(this);
         sThread.execute();
@@ -496,6 +498,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     JFrame getParentFrame() { return this.parentFrame ; }
     JProgressBar getSearchProgressBar () { return this.searchProgressBard ; }
     JTable getSearchTable() { return this.searchResultPanel.getSearchTable(); }
+    JButton getResultSaveButton() { return this.resultSavingButton; }
     
     // query text filed accessing
     public void setQueryText(final String queryText) {  this.queryTextField.setText(queryText); }

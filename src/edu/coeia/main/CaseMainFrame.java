@@ -25,7 +25,11 @@ import edu.coeia.constants.AuditingMessages;
 import edu.coeia.constants.SystemConstant;
 import edu.coeia.managers.ApplicationManager;
 
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.EventQueue;
 import java.awt.Toolkit ;
+import java.awt.event.MouseAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -164,7 +168,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
         ravenStyleRadioButton = new javax.swing.JRadioButtonMenuItem();
         toolsMenu = new javax.swing.JMenu();
         windowsMenuItem = new javax.swing.JMenuItem();
-        recentMenuItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         viewLogMenuItem = new javax.swing.JMenuItem();
         aboutMenu = new javax.swing.JMenu();
@@ -311,7 +314,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
         mainMenuBar.add(fileMenu);
 
         optionsMenu.setText("Options");
-        optionsMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        optionsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
 
         hashLibraryMenuItem.setText("Hash Library");
         hashLibraryMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -349,7 +352,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
         mainMenuBar.add(optionsMenu);
 
         viewMenu.setText("View");
-        viewMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        viewMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
 
         styleMenu.setText("Application Style");
 
@@ -404,14 +407,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
             }
         });
         toolsMenu.add(windowsMenuItem);
-
-        recentMenuItem.setText("Recent Documents");
-        recentMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                recentMenuItemActionPerformed(evt);
-            }
-        });
-        toolsMenu.add(recentMenuItem);
         toolsMenu.add(jSeparator2);
 
         viewLogMenuItem.setText("View Logs");
@@ -456,11 +451,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
     private void windowsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_windowsMenuItemActionPerformed
         this.displayWindowsInformation();
     }//GEN-LAST:event_windowsMenuItemActionPerformed
-
-    private void recentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recentMenuItemActionPerformed
-        RecentDialog rd = new RecentDialog(CaseMainFrame.this, true);
-        rd.setVisible(true);
-    }//GEN-LAST:event_recentMenuItemActionPerformed
     
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         this.closeCaseFrame();
@@ -582,14 +572,32 @@ public class CaseMainFrame extends javax.swing.JFrame {
     }
 
     private void displayWindowsInformation() {
-        try {
-            List<String> data = FileUtil.readProgramOutputStream("systeminfo.exe");
-            WindowsInfoDialog wid = new WindowsInfoDialog(CaseMainFrame.this, true, data);
-            wid.setVisible(true);
-        }
-        catch (IOException e) {
-            logger.log(Level.SEVERE, "Uncaught exception", e);
-        }
+        this.getRootPane().getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        this.getRootPane().getGlassPane().setVisible(true);
+        this.getRootPane().getGlassPane().requestFocusInWindow();
+        
+        new Thread(new Runnable() { 
+            @Override
+            public void run() {
+                try {
+                    final List<String> data = FileUtil.readProgramOutputStream("systeminfo.exe");
+                    
+                    EventQueue.invokeLater(new Runnable() { 
+                        @Override
+                        public void run() {
+                            WindowsInfoDialog wid = new WindowsInfoDialog(CaseMainFrame.this, true, data);
+                            wid.setVisible(true);
+                            
+                            CaseMainFrame.this.getRootPane().getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                        }
+                    });
+                }
+                catch (IOException e) {
+                    logger.log(Level.SEVERE, "Uncaught exception", e);
+                }
+            }
+        }).start();
+
     }
     
     public void showIndexDialog(boolean startIndex) {
@@ -689,7 +697,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu optionsMenu;
     private javax.swing.JRadioButtonMenuItem ravenStyleRadioButton;
     private javax.swing.JMenuItem reDownloadingEmailMenuItem;
-    private javax.swing.JMenuItem recentMenuItem;
     private javax.swing.JToggleButton reportToggleButton;
     private javax.swing.JToggleButton searchToggleButton;
     private javax.swing.JMenu styleMenu;

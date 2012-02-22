@@ -90,6 +90,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         this.panel.getSearchProgressBar().setIndeterminate(false);
         this.panel.getSearchTable().setEnabled(true);
         this.panel.getSearchTable().setForeground(Color.BLACK);
+        this.panel.getResultSaveButton().setEnabled(true);
         
         JOptionPane.showMessageDialog(this.panel, "Searching process is complete");
     }
