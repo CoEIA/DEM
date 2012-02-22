@@ -160,12 +160,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         caseIndexingMenuItem = new javax.swing.JMenuItem();
         reDownloadingEmailMenuItem = new javax.swing.JMenuItem();
-        viewMenu = new javax.swing.JMenu();
-        styleMenu = new javax.swing.JMenu();
-        windowsStyleRadioButton = new javax.swing.JRadioButtonMenuItem();
-        businessStyleRadioButton = new javax.swing.JRadioButtonMenuItem();
-        dustStyleRadioButton = new javax.swing.JRadioButtonMenuItem();
-        ravenStyleRadioButton = new javax.swing.JRadioButtonMenuItem();
         toolsMenu = new javax.swing.JMenu();
         windowsMenuItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -351,52 +345,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
 
         mainMenuBar.add(optionsMenu);
 
-        viewMenu.setText("View");
-        viewMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
-
-        styleMenu.setText("Application Style");
-
-        styleRadioGroup.add(windowsStyleRadioButton);
-        windowsStyleRadioButton.setSelected(true);
-        windowsStyleRadioButton.setText("Windows Style");
-        windowsStyleRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                windowsStyleRadioButtonActionPerformed(evt);
-            }
-        });
-        styleMenu.add(windowsStyleRadioButton);
-
-        styleRadioGroup.add(businessStyleRadioButton);
-        businessStyleRadioButton.setText("Business Style");
-        businessStyleRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                businessStyleRadioButtonActionPerformed(evt);
-            }
-        });
-        styleMenu.add(businessStyleRadioButton);
-
-        styleRadioGroup.add(dustStyleRadioButton);
-        dustStyleRadioButton.setText("Dust Style");
-        dustStyleRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dustStyleRadioButtonActionPerformed(evt);
-            }
-        });
-        styleMenu.add(dustStyleRadioButton);
-
-        styleRadioGroup.add(ravenStyleRadioButton);
-        ravenStyleRadioButton.setText("Black Style");
-        ravenStyleRadioButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ravenStyleRadioButtonActionPerformed(evt);
-            }
-        });
-        styleMenu.add(ravenStyleRadioButton);
-
-        viewMenu.add(styleMenu);
-
-        mainMenuBar.add(viewMenu);
-
         toolsMenu.setText("Tools");
         toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
 
@@ -525,22 +473,6 @@ public class CaseMainFrame extends javax.swing.JFrame {
         HashLibraryManagerDialog dailog = new HashLibraryManagerDialog(this, true);
         dailog.setVisible(true);
     }//GEN-LAST:event_hashLibraryMenuItemActionPerformed
-
-    private void windowsStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_windowsStyleRadioButtonActionPerformed
-        GuiUtil.changeLookAndFeel(SystemConstant.WINDOWS_LOOK_AND_FEEL, this);
-    }//GEN-LAST:event_windowsStyleRadioButtonActionPerformed
-
-    private void businessStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_businessStyleRadioButtonActionPerformed
-        GuiUtil.changeLookAndFeel(SystemConstant.BUSINESS_LOOK_AND_FEEL, this);
-    }//GEN-LAST:event_businessStyleRadioButtonActionPerformed
-
-    private void dustStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dustStyleRadioButtonActionPerformed
-        GuiUtil.changeLookAndFeel(SystemConstant.DUSK_LOOK_AND_FEEL, this); 
-    }//GEN-LAST:event_dustStyleRadioButtonActionPerformed
-
-    private void ravenStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ravenStyleRadioButtonActionPerformed
-        GuiUtil.changeLookAndFeel(SystemConstant.RAVEN_LOOK_AND_FEEL, this); 
-    }//GEN-LAST:event_ravenStyleRadioButtonActionPerformed
 
     private void reDownloadingEmailMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reDownloadingEmailMenuItemActionPerformed
         this.emailDownloaderAction();
@@ -674,12 +606,10 @@ public class CaseMainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel CardPanel;
     private javax.swing.JMenu aboutMenu;
     private javax.swing.JMenuItem aboutMenuItem;
-    private javax.swing.JRadioButtonMenuItem businessStyleRadioButton;
     private javax.swing.JMenuItem caseIndexingMenuItem;
     private javax.swing.JToggleButton caseManagerToggleButton;
     private javax.swing.JMenuItem caseVerificationMenuItem;
     private javax.swing.JToggleButton chatToggleButton;
-    private javax.swing.JRadioButtonMenuItem dustStyleRadioButton;
     private javax.swing.JToggleButton emailToggleButton;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
@@ -695,16 +625,12 @@ public class CaseMainFrame extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuBar mainMenuBar;
     private javax.swing.JMenu optionsMenu;
-    private javax.swing.JRadioButtonMenuItem ravenStyleRadioButton;
     private javax.swing.JMenuItem reDownloadingEmailMenuItem;
     private javax.swing.JToggleButton reportToggleButton;
     private javax.swing.JToggleButton searchToggleButton;
-    private javax.swing.JMenu styleMenu;
     private javax.swing.ButtonGroup styleRadioGroup;
     private javax.swing.JMenu toolsMenu;
     private javax.swing.JMenuItem viewLogMenuItem;
-    private javax.swing.JMenu viewMenu;
     private javax.swing.JMenuItem windowsMenuItem;
-    private javax.swing.JRadioButtonMenuItem windowsStyleRadioButton;
     // End of variables declaration//GEN-END:variables
 }
