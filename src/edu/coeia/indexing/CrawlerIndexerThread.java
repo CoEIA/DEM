@@ -22,6 +22,7 @@ import edu.coeia.indexing.dialogs.EmailCrawlingProgressPanel;
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.indexing.dialogs.FileSystemCrawlingProgressPanel;
 
+import java.awt.EventQueue;
 import javax.swing.SwingWorker ;
 import javax.swing.JOptionPane;
 
@@ -35,27 +36,63 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
 
     private boolean indexStatus = false;
     
     private final Case aCase ;
-    private final IndexerManager luceneIndex ;
+    private final IndexerManager indexerManager ;
     private final IndexingDialog parentDialog ;
     private final CaseFacade caseFacade ;
     private final CrawlerStatistics crawlerStatistics;
     
     private final static Logger logger = ApplicationLogging.getLogger();
 
+    private final static int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
+    private final static ExecutorService crawlerService = Executors.newSingleThreadExecutor();
+    private final static ExecutorService indexerService = Executors.newFixedThreadPool(NUMBER_OF_THREADS * 2);
+        
     public CrawlerIndexerThread (final IndexingDialog parentDialog) throws IOException{
         this.caseFacade = parentDialog.getCaseFacade();
         this.aCase = this.caseFacade.getCase();
         this.parentDialog = parentDialog;
-        this.luceneIndex = IndexerManager.newInstance(this.caseFacade);
+        this.indexerManager = IndexerManager.newInstance(this.caseFacade);
         this.crawlerStatistics = new CrawlerStatistics();
+        this.addListeners();
     }
     
+    private void addListeners() {
+        this.indexerManager.addListener(
+            new IndexerListener() {
+                @Override
+                public void indexerStarted(final IndexerEvent event) {
+                    EventQueue.invokeLater(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                            }
+                        }
+                    );
+                }
+                
+                @Override
+                public void indexerCompleted(final IndexerEvent event) {
+                    EventQueue.invokeLater(
+                        new Runnable() {
+                            @Override
+                                public void run() {
+                                    System.out.println(event.getResult() + " For: " + event.getPath());
+                            }
+                        }
+                    );
+                }
+            }
+        );
+    }
+        
     @Override
     public String doInBackground() {
         this.checkForRemovingOldStatus();
@@ -116,7 +153,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
     }
     
     private void writeEvidenceLocation(final List<String> paths) throws IOException{
-        this.luceneIndex.writeEvidenceLocation(paths);
+        this.indexerManager.writeEvidenceLocation(paths);
     }
     
     private void doDirectoryCrawling(final File path) throws CancellationException{
@@ -163,7 +200,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         this.crawlerStatistics.increaseSizeOfScannedItems(path.getAbsoluteFile().length());
         
         try {
-            status = this.luceneIndex.indexFile(path, this);
+            status = this.indexerManager.indexFile(path, this);
             this.crawlerStatistics.increaseNumberOfIndexedItems();
             logger.log(Level.INFO, String.format("File %s Indexed Successfully", path.getAbsolutePath()));
         }
@@ -180,7 +217,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         
         logger.log(Level.INFO, String.format("Crawling Email In: %s", dbPath));
         
-        OnlineEmailIndexer emailIndexer = new OnlineEmailIndexer(this.luceneIndex, dbPath, "",
+        OnlineEmailIndexer emailIndexer = new OnlineEmailIndexer(this.indexerManager, dbPath, "",
                 new OfficeImageExtractor(), this);
         
         logger.log(Level.INFO, String.format("Email Indexing Status: %s", emailIndexer.doIndexing()));
@@ -266,7 +303,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
     }
 
     private void closeIndex () throws IOException {
-        this.luceneIndex.closeIndex();
+        this.indexerManager.closeIndex();
     }
     
     private void checkForThreadCancelling() throws CancellationException{
