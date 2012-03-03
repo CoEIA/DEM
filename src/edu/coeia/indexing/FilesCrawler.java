@@ -14,8 +14,9 @@ import java.util.concurrent.TimeUnit;
  *
  * @author wajdyessam
  */
-public class FilesCrawler implements Runnable{
-    private final List<File> tasks;
+
+final class FilesCrawler implements Runnable{
+    private final List<String> tasks;
     private final ExecutorService consumerService;
     private final ExecutorService producerService;
     private final IndexerManager indexerManager;
@@ -28,7 +29,7 @@ public class FilesCrawler implements Runnable{
         public boolean accept(File file) { return true; }
     };
 
-    public FilesCrawler(final List<File> tasks, final ExecutorService consumerService, 
+    public FilesCrawler(final List<String> tasks, final ExecutorService consumerService, 
             final ExecutorService producerService, final IndexerManager luceneInexer) {
         this.tasks = tasks;
         this.consumerService = consumerService;
@@ -39,8 +40,8 @@ public class FilesCrawler implements Runnable{
     @Override
     public void run() {
         long start = System.currentTimeMillis();
-        for (File task: tasks) 
-            crawl(task);
+        for (String task: tasks) 
+            crawl(new File(task));
 
         try {
             consumerService.shutdown();
@@ -66,10 +67,10 @@ public class FilesCrawler implements Runnable{
         if ( entries != null ) {
             if ( !Thread.currentThread().isInterrupted() ) {
                 for(File entry: entries) {
-                    if ( entry.isDirectory() )  {
+                    if ( entry.isDirectory() && entry.canRead() )  {
                         this.crawl(entry);
                     }
-                    else  {
+                    else if ( entry.isFile() && entry.canRead()) {
                         this.numberOfFiles++;
                         this.sizeOfFiles += entry.length();
 

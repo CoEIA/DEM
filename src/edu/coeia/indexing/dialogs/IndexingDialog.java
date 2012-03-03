@@ -13,6 +13,7 @@ package edu.coeia.indexing.dialogs;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.indexing.CrawlerIndexerThread;
+import edu.coeia.indexing.IndexingService;
 import edu.coeia.util.ApplicationLogging;
 
 import java.awt.EventQueue;
@@ -38,7 +39,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private final static String EMAIL_PANEL = "EMAIL";
     private final static String FILE_PANEL = "FILE";
     
-    private CrawlerIndexerThread indexerThread ;
+    //private CrawlerIndexerThread indexerThread ;
     private boolean detailPanelAppearenceFlag;
     
     private final static Logger logger = ApplicationLogging.getLogger();
@@ -222,7 +223,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private void startIndexButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startIndexButtonActionPerformed
         try {
             startIndexerThread();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             logger.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_startIndexButtonActionPerformed
@@ -334,20 +335,38 @@ public final class IndexingDialog extends javax.swing.JDialog {
             this.setSize(520,280);
     }
     
-    private void startIndexerThread () throws IOException{
+    private void startIndexerThread () throws Exception{
         resettingButtons(false);
         this.progressBar.setIndeterminate(true);
 
+        Thread thread = new Thread(
+            new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        IndexingService service = new IndexingService(IndexingDialog.this);
+                        service.startService();
+                    } catch (Exception ex) {
+                        Logger.getLogger(IndexingDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        );
+        
+        thread.start();
+        //thread.join();
+        
+        
         // starting thread
-        indexerThread = new CrawlerIndexerThread(this);
-        indexerThread.execute();
+        //indexerThread = new CrawlerIndexerThread(this);
+        //indexerThread.execute();
     }
     
     private void stopIndexerThread() throws IOException {
-        if ( indexerThread != null) {
-            this.clearFields();
-            indexerThread.stopIndexingThread();
-        }
+//        if ( indexerThread != null) {
+//            this.clearFields();
+//            indexerThread.stopIndexingThread();
+//        }
     }
     
     private void resettingButtons(boolean state) {
@@ -382,7 +401,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private void startCrawling() {
        try {
             startIndexerThread();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             logger.log(Level.SEVERE, null, ex);
         }
     }

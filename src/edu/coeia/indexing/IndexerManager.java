@@ -65,11 +65,11 @@ public final class IndexerManager {
             // else increase error by one
         }
         catch(NullPointerException e) {
-            throw new UnsupportedOperationException(e.getMessage());
+            //throw new UnsupportedOperationException(e.getMessage());
         }
         catch(UnsupportedOperationException e){
             // here add error item , incease by one
-            throw new UnsupportedOperationException(e.getMessage());
+            //throw new UnsupportedOperationException(e.getMessage());
         }
         
         fireIndexerCompleted(file.getAbsolutePath(), result);

@@ -34,10 +34,13 @@ import java.util.Date ;
 import java.util.List ;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
 
@@ -95,12 +98,19 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         
     @Override
     public String doInBackground() {
-        this.checkForRemovingOldStatus();
-        long start = new Date().getTime();
-        this.indexStatus = startCrawling();
-        long end = new Date().getTime();
-        long totalTimeOfIndexingProcess = end-start ;
-        return String.valueOf(totalTimeOfIndexingProcess);
+        try {
+            this.checkForRemovingOldStatus();
+            long start = new Date().getTime();
+            this.startService();
+            //this.indexStatus = startCrawling();
+            long end = new Date().getTime();
+            long totalTimeOfIndexingProcess = end-start ;
+            return String.valueOf(totalTimeOfIndexingProcess);
+        } catch (Exception ex) {
+            Logger.getLogger(CrawlerIndexerThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return "";
     }
     
     private void checkForRemovingOldStatus() {
@@ -113,6 +123,26 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
         }
+    }
+        
+    private void startService() throws Exception{
+        if ( !crawlerService.isShutdown() ) {
+            try {
+                // write evidence location information on index
+                this.writeEvidenceLocation(this.aCase.getEvidenceSourceLocation());
+            
+                FilesCrawler crawler = new FilesCrawler(this.aCase.getEvidenceSourceLocation(),
+                        indexerService, crawlerService, indexerManager);
+                crawlerService.submit(crawler);
+            }
+            catch(RejectedExecutionException e) {
+                logger.severe("Task Submission Rejected");
+            }
+        }
+
+        crawlerService.shutdown();
+        crawlerService.awaitTermination(Long.MAX_VALUE, TimeUnit.HOURS);
+        logger.info("End Crawling Service");
     }
         
     /**

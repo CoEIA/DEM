@@ -13,13 +13,13 @@ import java.util.concurrent.Callable;
  * @author wajdyessam
  */
 
-public class FileIndexer implements Callable<Void>{
+final class FileIndexer implements Callable<Void>{
     private final File task;
-    private final IndexerManager luceneIndexer;
+    private final IndexerManager indexerManager;
 
-    FileIndexer(final File task, final IndexerManager indexer) {
+    public FileIndexer(final File task, final IndexerManager indexer) {
         this.task = task;
-        this.luceneIndexer = indexer;
+        this.indexerManager = indexer;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class FileIndexer implements Callable<Void>{
 
     private void indexFile(final File file) {
         try {
-            this.luceneIndexer.indexFile(file, null);
+            this.indexerManager.indexFile(file, null);
         }
         catch(Exception e) {
             e.printStackTrace();
