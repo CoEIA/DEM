@@ -30,12 +30,12 @@ final class ChatIndexer extends Indexer{
     
     public static enum CHAT_TYPE { MSN, YAHOO, SKYPE };
     
-    public static ChatIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType, 
+    public static ChatIndexer newInstance(IndexerManager luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor, CHAT_TYPE type) {
         return new ChatIndexer(luceneIndex, file, mimeType, imageExtractor, type, 0);
     }
         
-    private ChatIndexer(LuceneIndex luceneIndex, File file, String mimeType, ImageExtractor imageExtractor,
+    private ChatIndexer(IndexerManager luceneIndex, File file, String mimeType, ImageExtractor imageExtractor,
             CHAT_TYPE type, int parentId) {
         super(luceneIndex, file, mimeType, imageExtractor);
         this.type = type;

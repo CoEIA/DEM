@@ -28,7 +28,7 @@ final class IndexerFactory {
      * so we can know later if this document embedded in other document
      * or not
      */
-    public static Indexer getIndexer (LuceneIndex luceneIndex, File file){
+    public static Indexer getIndexer (IndexerManager luceneIndex, File file){
         return getIndexer(luceneIndex, file, 0);
     }
         
@@ -39,7 +39,7 @@ final class IndexerFactory {
      * @param parentId
      * @return 
      */
-    public static Indexer getIndexer (LuceneIndex luceneIndex, File file, int parentId) {
+    public static Indexer getIndexer (IndexerManager luceneIndex, File file, int parentId) {
         Indexer indexer  = null;
         
         try {
@@ -110,7 +110,7 @@ final class IndexerFactory {
      * @param chatFile
      * @return 
      */
-    public static Indexer getChatIndexer (LuceneIndex luceneIndex, File chatFile) {        
+    public static Indexer getChatIndexer (IndexerManager luceneIndex, File chatFile) {        
         String path = chatFile.getAbsolutePath();
         Indexer indexer = null;
         
@@ -132,7 +132,7 @@ final class IndexerFactory {
         return indexer;
     }
     
-    private static Indexer getInternetIndexer(final LuceneIndex index, final File file) {
+    private static Indexer getInternetIndexer(final IndexerManager index, final File file) {
         String path = file.getAbsolutePath();
         Indexer indexer = null;
         

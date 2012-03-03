@@ -26,7 +26,7 @@ import org.apache.lucene.document.Document;
  */
 final class OnlineEmailIndexer extends Indexer {
 
-    public OnlineEmailIndexer(LuceneIndex luceneIndex, File file, String mimeType,
+    public OnlineEmailIndexer(IndexerManager luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor, CrawlerIndexerThread crawler) {
         super(luceneIndex, file, mimeType, imageExtractor);
         this.setParentId(0);

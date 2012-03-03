@@ -23,12 +23,12 @@ final class DocumentIndexer extends Indexer {
     /*
      * static factory method to get an instance of DocumentIndexer
      */
-    public static DocumentIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
+    public static DocumentIndexer newInstance (IndexerManager luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor, int parentId) {
         return new DocumentIndexer(luceneIndex, file, mimeType, imageExtractor, parentId);
     }
     
-    private DocumentIndexer(LuceneIndex luceneIndex, File file, String mimeType, 
+    private DocumentIndexer(IndexerManager luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor,int parentId) {
         super(luceneIndex, file,mimeType, imageExtractor);
         this.setParentId(parentId);

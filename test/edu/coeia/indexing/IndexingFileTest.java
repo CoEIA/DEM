@@ -31,7 +31,7 @@ public class IndexingFileTest extends CaseBaseSource{
     @Test
     public void indexZipFileTest() {
         try {  
-            LuceneIndex luceneIndexer = LuceneIndex.newInstance(CaseFacade.newInstance(fackCaseObject));
+            IndexerManager luceneIndexer = IndexerManager.newInstance(CaseFacade.newInstance(fackCaseObject));
             
             File file = new File(zipFiles.get(0));
             
@@ -46,7 +46,7 @@ public class IndexingFileTest extends CaseBaseSource{
     @Test
     public void indexTxtFileTest() {
         try {
-            LuceneIndex luceneIndexer = LuceneIndex.newInstance(CaseFacade.newInstance(fackCaseObject));
+            IndexerManager luceneIndexer = IndexerManager.newInstance(CaseFacade.newInstance(fackCaseObject));
             
             File file = new File(textFiles.get(0));
             
@@ -62,7 +62,7 @@ public class IndexingFileTest extends CaseBaseSource{
     @Test
     public void indexDOCXFileTest() {
         try {
-            LuceneIndex luceneIndexer = LuceneIndex.newInstance(CaseFacade.newInstance(fackCaseObject));
+            IndexerManager luceneIndexer = IndexerManager.newInstance(CaseFacade.newInstance(fackCaseObject));
             
             File file = new File(docFiles.get(1));
             
@@ -78,7 +78,7 @@ public class IndexingFileTest extends CaseBaseSource{
     @Test
     public void indexDOCFileTest1() {
         try {
-            LuceneIndex luceneIndexer = LuceneIndex.newInstance(CaseFacade.newInstance(fackCaseObject));
+            IndexerManager luceneIndexer = IndexerManager.newInstance(CaseFacade.newInstance(fackCaseObject));
             
             File file = new File(docFiles.get(0));
             

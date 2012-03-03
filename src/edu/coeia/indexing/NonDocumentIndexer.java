@@ -22,7 +22,7 @@ final class NonDocumentIndexer extends Indexer{
     /*
      * static factory method to get an instance of DocumentIndexer
      */
-    public static NonDocumentIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
+    public static NonDocumentIndexer newInstance (IndexerManager luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor) {
         return new NonDocumentIndexer(luceneIndex, file, mimeType, imageExtractor, 0);
     }
@@ -30,12 +30,12 @@ final class NonDocumentIndexer extends Indexer{
     /*
      * static factory method to get an instance of DocumentIndexer
      */
-    public static NonDocumentIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
+    public static NonDocumentIndexer newInstance (IndexerManager luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor, int parentId) {
         return new NonDocumentIndexer(luceneIndex, file, mimeType, imageExtractor, parentId);
     }
     
-    private NonDocumentIndexer(LuceneIndex luceneIndex, File file, String mimeType, 
+    private NonDocumentIndexer(IndexerManager luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor,int parentId) {
         super(luceneIndex, file,mimeType, imageExtractor);
         this.setParentId(parentId);

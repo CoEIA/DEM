@@ -20,7 +20,7 @@ import org.apache.lucene.index.CorruptIndexException;
 
 public abstract class Indexer {
     
-    public Indexer(LuceneIndex luceneIndex, File file, String mimeType, ImageExtractor imageExtractor) {
+    public Indexer(IndexerManager luceneIndex, File file, String mimeType, ImageExtractor imageExtractor) {
         this.file = file ;
         this.mimeType = mimeType; 
         this.caseFacade = luceneIndex.getCaseFacade();
@@ -60,7 +60,7 @@ public abstract class Indexer {
     public String getImagesLocation() { return this.imagesLocation ;}
     public String getTmpLocation() { return this.tmpLocation ; }
     public String getCaseLocation() { return this.caseLocation; }
-    public LuceneIndex getLuceneIndex() { return this.luceneIndex; }
+    public IndexerManager getLuceneIndex() { return this.luceneIndex; }
     public ImageExtractor getImageExtractor() { return this.imageExtractor; }
     public CaseFacade getCaseFacade() { return this.caseFacade ; }
     
@@ -84,7 +84,7 @@ public abstract class Indexer {
     private final String caseLocation;
     
     private final ImageExtractor imageExtractor;
-    private final LuceneIndex luceneIndex ;
+    private final IndexerManager luceneIndex ;
     private final CaseFacade caseFacade ;
     
     private CrawlerIndexerThread crawler;

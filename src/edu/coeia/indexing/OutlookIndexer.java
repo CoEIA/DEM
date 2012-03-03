@@ -42,17 +42,17 @@ final class OutlookIndexer extends Indexer{
     /*
      * static factory method to get an instance of outlook indexer
      */
-    public static OutlookIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
+    public static OutlookIndexer newInstance (IndexerManager luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor) {
         return new OutlookIndexer(luceneIndex, file, mimeType, imageExtractor, 0);
     }
 
-    public static OutlookIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
+    public static OutlookIndexer newInstance (IndexerManager luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor, int parentId) {
         return new OutlookIndexer(luceneIndex, file, mimeType, imageExtractor, parentId);
     }
     
-    private OutlookIndexer(LuceneIndex luceneIndex, File file, String mimeType,
+    private OutlookIndexer(IndexerManager luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor, int parentId) {
         super(luceneIndex, file, mimeType, imageExtractor);
         this.setParentId(parentId);

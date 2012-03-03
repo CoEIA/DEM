@@ -41,7 +41,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
     private boolean indexStatus = false;
     
     private final Case aCase ;
-    private final LuceneIndex luceneIndex ;
+    private final IndexerManager luceneIndex ;
     private final IndexingDialog parentDialog ;
     private final CaseFacade caseFacade ;
     private final CrawlerStatistics crawlerStatistics;
@@ -52,7 +52,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         this.caseFacade = parentDialog.getCaseFacade();
         this.aCase = this.caseFacade.getCase();
         this.parentDialog = parentDialog;
-        this.luceneIndex = LuceneIndex.newInstance(this.caseFacade);
+        this.luceneIndex = IndexerManager.newInstance(this.caseFacade);
         this.crawlerStatistics = new CrawlerStatistics();
     }
     

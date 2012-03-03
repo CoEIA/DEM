@@ -28,7 +28,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.FSDirectory ;
 import org.apache.lucene.util.Version ;
 
-public final class LuceneIndex {
+public final class IndexerManager {
 
     private final IndexWriter writer ;
     private final CaseFacade caseFacade;
@@ -37,8 +37,8 @@ public final class LuceneIndex {
      * Static Factory Method 
      * Create New Instance of Lucene Indexer
      */
-    public static LuceneIndex newInstance(final CaseFacade caseFacade) throws IOException{ 
-        return new LuceneIndex(caseFacade);
+    public static IndexerManager newInstance(final CaseFacade caseFacade) throws IOException{ 
+        return new IndexerManager(caseFacade);
     }
     
     public boolean indexFile(File file, CrawlerIndexerThread crawler) throws UnsupportedOperationException{
@@ -95,7 +95,7 @@ public final class LuceneIndex {
 	writer.close();
     }
     
-    private LuceneIndex (final CaseFacade caseFacade) throws IOException {
+    private IndexerManager (final CaseFacade caseFacade) throws IOException {
         File indexDir = new File(caseFacade.getCaseIndexFolderLocation());
         
         if ( !indexDir.exists() ) {
@@ -109,6 +109,7 @@ public final class LuceneIndex {
                     new File(ApplicationConstants.STOP_WORD_FILE)),
                     true, IndexWriter.MaxFieldLength.UNLIMITED);
 
+        this.writer.setRAMBufferSizeMB(50);
 	this.writer.setUseCompoundFile(false);
     }
 }

@@ -21,17 +21,17 @@ import org.apache.lucene.document.Document ;
 
 final class ImageIndexer extends Indexer{
     
-    public static ImageIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType,
+    public static ImageIndexer newInstance(IndexerManager luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor) {
         return new ImageIndexer(luceneIndex, file,mimeType, imageExtractor, 0);
     }
         
-    public static ImageIndexer newInstance(LuceneIndex luceneIndex, File file, String mimeType,
+    public static ImageIndexer newInstance(IndexerManager luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor, int parentId) {
         return new ImageIndexer(luceneIndex, file,mimeType, imageExtractor, parentId);
     }
     
-    private ImageIndexer(LuceneIndex luceneIndex, File file, String mimeType,
+    private ImageIndexer(IndexerManager luceneIndex, File file, String mimeType,
             ImageExtractor imageExtractor, int parentId) {
         super(luceneIndex, file,mimeType, imageExtractor);
         this.setParentId(parentId);

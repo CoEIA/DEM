@@ -26,17 +26,17 @@ import java.util.List;
 
 final class ArchiveIndexer extends Indexer {
     
-    public static ArchiveIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
+    public static ArchiveIndexer newInstance (IndexerManager luceneIndex, File file, String mimeType, 
            ImageExtractor imageExtractor, int parentId) {
         return new ArchiveIndexer(luceneIndex, file, mimeType, imageExtractor, parentId);
     }
         
-    public static ArchiveIndexer newInstance (LuceneIndex luceneIndex, File file, String mimeType, 
+    public static ArchiveIndexer newInstance (IndexerManager luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor) {
         return new ArchiveIndexer(luceneIndex, file, mimeType, imageExtractor, 0);
     }
         
-    private ArchiveIndexer(LuceneIndex luceneIndex, File file, String mimeType, 
+    private ArchiveIndexer(IndexerManager luceneIndex, File file, String mimeType, 
             ImageExtractor imageExtractor,int parentId) {
         super(luceneIndex, file,mimeType, imageExtractor);
         this.setParentId(parentId);
