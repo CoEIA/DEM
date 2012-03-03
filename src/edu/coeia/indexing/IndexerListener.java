@@ -9,7 +9,7 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
-interface IndexerListener {
+public interface IndexerListener {
     public void indexerStarted(IndexerEvent event);
     public void indexerCompleted(IndexerEvent event);
 }

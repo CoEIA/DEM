@@ -18,6 +18,7 @@ import edu.coeia.constants.ApplicationConstants;
 import java.io.File;
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.analysis.StopAnalyzer;
@@ -32,6 +33,7 @@ public final class IndexerManager {
 
     private final IndexWriter writer ;
     private final CaseFacade caseFacade;
+    private final List<IndexerListener> listeners = new ArrayList<IndexerListener>();
     
     /*
      * Static Factory Method 
@@ -47,6 +49,7 @@ public final class IndexerManager {
     
     public boolean indexFile(File file, int parentId, CrawlerIndexerThread crawler) throws UnsupportedOperationException{ 
         boolean result = false;
+        fireIndexerStarted(file.getAbsolutePath());
         
         try {
             Indexer indexType = IndexerFactory.getIndexer(this, file, parentId);
@@ -69,6 +72,7 @@ public final class IndexerManager {
             throw new UnsupportedOperationException(e.getMessage());
         }
         
+        fireIndexerCompleted(file.getAbsolutePath(), result);
         return result;
     }
 
@@ -95,6 +99,30 @@ public final class IndexerManager {
 	writer.close();
     }
     
+    public void addListener(final IndexerListener listener) {
+        listeners.add(listener);
+    }
+
+    public void removeListner(final IndexerListener listener) {
+        listeners.remove(listener);
+    }
+
+    private void fireIndexerStarted(final String path) {
+        IndexerEvent event = new IndexerEvent(path);
+
+        for (IndexerListener listener : this.listeners) {
+            listener.indexerStarted(event);
+        }
+    }
+
+    private void fireIndexerCompleted(final String path, final boolean result) {
+        IndexerEvent event = new IndexerEvent(path, result);
+
+        for (IndexerListener listener : this.listeners) {
+            listener.indexerCompleted(event);
+        }
+    }
+        
     private IndexerManager (final CaseFacade caseFacade) throws IOException {
         File indexDir = new File(caseFacade.getCaseIndexFolderLocation());
         
@@ -105,11 +133,13 @@ public final class IndexerManager {
 	this.caseFacade = caseFacade;
       
         // using stop analyzer
-        this.writer = new IndexWriter(FSDirectory.open(indexDir), new StopAnalyzer(Version.LUCENE_30, 
-                    new File(ApplicationConstants.STOP_WORD_FILE)),
-                    true, IndexWriter.MaxFieldLength.UNLIMITED);
+        this.writer = new IndexWriter(
+            FSDirectory.open(indexDir),
+            new StopAnalyzer(Version.LUCENE_30, new File(ApplicationConstants.STOP_WORD_FILE)),
+            true,
+            IndexWriter.MaxFieldLength.UNLIMITED
+        );
 
-        this.writer.setRAMBufferSizeMB(50);
 	this.writer.setUseCompoundFile(false);
     }
 }

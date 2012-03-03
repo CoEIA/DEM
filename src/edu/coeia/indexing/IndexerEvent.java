@@ -9,7 +9,7 @@ package edu.coeia.indexing;
  * @author wajdyessam
  */
 
-class IndexerEvent {
+public final class IndexerEvent {
     private final String path;
     private final boolean result;
 
