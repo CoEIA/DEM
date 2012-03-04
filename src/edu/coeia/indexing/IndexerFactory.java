@@ -34,12 +34,12 @@ final class IndexerFactory {
         
     /**
      * Get Indexer for Simple, Container, Images Document Files
-     * @param luceneIndex
+     * @param indexerManager
      * @param file
      * @param parentId
      * @return 
      */
-    public static Indexer getIndexer (IndexerManager luceneIndex, File file, int parentId) {
+    public static Indexer getIndexer (IndexerManager indexerManager, File file, int parentId) {
         Indexer indexer  = null;
         
         try {
@@ -48,7 +48,7 @@ final class IndexerFactory {
             String mime = tika.detect(file);
             
             if ( isChatPath(file.getAbsolutePath()) ) {
-                indexer = getChatIndexer(luceneIndex, file);
+                indexer = getChatIndexer(indexerManager, file);
             }
             
 //            else if ( isInternetPath(file.getAbsolutePath()) )  {
@@ -57,35 +57,35 @@ final class IndexerFactory {
             
             // if its outlook file, then call offline email indexer
             else if ( isOutlookFile(mime, file.getAbsolutePath()) ) {
-                indexer = OutlookIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor());
+                indexer = OutlookIndexer.newInstance(indexerManager, file, mime, new NoneImageExtractor());
             }
             
             // if found office file and user select extract images, then do it
             // else it will indexed without images extractors
-            else if ( isOfficeFile(mime) && luceneIndex.getCaseFacade().getCase().getCacheImages())
-                indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
+            else if ( isOfficeFile(mime) && indexerManager.getCaseFacade().getCase().getCacheImages())
+                indexer = DocumentIndexer.newInstance(indexerManager, file, mime, new OfficeImageExtractor(), parentId);
                          
             // simple file (html, txt, xml) is file that have not images
             // inside it
             else if ( isSimpleFile(mime))
-                indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
+                indexer = DocumentIndexer.newInstance(indexerManager, file, mime, new NoneImageExtractor(), parentId);
                         
             // pdf files
             else if ( isPDFFile(mime))
-                indexer = DocumentIndexer.newInstance(luceneIndex, file, mime, new PDFImageExtractor(), parentId);
+                indexer = DocumentIndexer.newInstance(indexerManager, file, mime, new PDFImageExtractor(), parentId);
                         
             // if found archive files and user select to index archive files
             // else consider them as normal file
-            else if (isArchiveFile(mime) && luceneIndex.getCaseFacade().getCase().getCheckCompressed())
-                indexer = ArchiveIndexer.newInstance(luceneIndex, file, mime, new OfficeImageExtractor(), parentId);
+            else if (isArchiveFile(mime) && indexerManager.getCaseFacade().getCase().getCheckCompressed())
+                indexer = ArchiveIndexer.newInstance(indexerManager, file, mime, new OfficeImageExtractor(), parentId);
              
             // images type
             else if ( isImage(mime) )
-                indexer = ImageIndexer.newInstance(luceneIndex, file, mime, new ExternalImageExtractor(), parentId); 
+                indexer = ImageIndexer.newInstance(indexerManager, file, mime, new ExternalImageExtractor(), parentId); 
             
             // Unkown file Format
             else
-                indexer = NonDocumentIndexer.newInstance(luceneIndex, file, mime, new NoneImageExtractor(), parentId);
+                indexer = NonDocumentIndexer.newInstance(indexerManager, file, mime, new NoneImageExtractor(), parentId);
         }
         catch(IOException e){
             e.printStackTrace();

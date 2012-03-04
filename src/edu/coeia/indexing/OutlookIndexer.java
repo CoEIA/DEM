@@ -67,7 +67,7 @@ final class OutlookIndexer extends Indexer{
             
             this.outlookId = this.getId();
             
-            NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
+            NonDocumentIndexer.newInstance(this.getIndexerManager(), this.getFile(), this.getMimeType(),
                 new NoneImageExtractor(), this.getParentId()).doIndexing();
             
             this.processOutlookFolder(pstFile.getRootFolder());
@@ -125,7 +125,7 @@ final class OutlookIndexer extends Indexer{
             for(String path: filePaths) {
                 try {
                     File file = new File(path);
-                    boolean status = this.getLuceneIndex().indexFile(file, emailId, null);
+                    boolean status = this.getIndexerManager().indexFile(file, emailId);
                 }
                 catch(Exception e) {
                     //TODO: update gui with these error file
@@ -170,8 +170,6 @@ final class OutlookIndexer extends Indexer{
                 agent, folderName, subject, date, String.valueOf(hasAttachment), 
                 sentRepresentingName, displayTo, names
         );
-        
-        this.getCrawler().showEmailPanel(data);
     }
     
     private List<String> saveAndGetEmailAttachmentsPath(final List<Tuple<String, PSTAttachment>> attachmentsName) 

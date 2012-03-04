@@ -230,7 +230,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         this.crawlerStatistics.increaseSizeOfScannedItems(path.getAbsoluteFile().length());
         
         try {
-            status = this.indexerManager.indexFile(path, this);
+            status = this.indexerManager.indexFile(path);
             this.crawlerStatistics.increaseNumberOfIndexedItems();
             logger.log(Level.INFO, String.format("File %s Indexed Successfully", path.getAbsolutePath()));
         }
@@ -248,7 +248,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
         logger.log(Level.INFO, String.format("Crawling Email In: %s", dbPath));
         
         OnlineEmailIndexer emailIndexer = new OnlineEmailIndexer(this.indexerManager, dbPath, "",
-                new OfficeImageExtractor(), this);
+                new OfficeImageExtractor());
         
         logger.log(Level.INFO, String.format("Email Indexing Status: %s", emailIndexer.doIndexing()));
     }

@@ -27,10 +27,9 @@ import org.apache.lucene.document.Document;
 final class OnlineEmailIndexer extends Indexer {
 
     public OnlineEmailIndexer(IndexerManager luceneIndex, File file, String mimeType,
-            ImageExtractor imageExtractor, CrawlerIndexerThread crawler) {
+            ImageExtractor imageExtractor) {
         super(luceneIndex, file, mimeType, imageExtractor);
         this.setParentId(0);
-        this.setCrawler(crawler);
     }
 
     @Override
@@ -54,7 +53,7 @@ final class OnlineEmailIndexer extends Indexer {
 
                         for (String sAttachments : msg.getAttachments()) {
                             File attachmentPath = new File(this.getCaseFacade().getCaseOnlineEmailAttachmentLocation() + File.separator + sAttachments);
-                            this.getLuceneIndex().indexFile(attachmentPath, currentId , null);
+                            this.getIndexerManager().indexFile(attachmentPath, currentId);
                         }
                     }
                 } 
@@ -90,7 +89,5 @@ final class OnlineEmailIndexer extends Indexer {
                 agent, folderName, subject, date, String.valueOf(hasAttachment), 
                 email.getFrom(), Utilities.getCommaSeparatedStringFromCollection(email.getTo()), email.getAttachments()
         );
-        
-        this.getCrawler().showEmailPanel(data);
     }
 }

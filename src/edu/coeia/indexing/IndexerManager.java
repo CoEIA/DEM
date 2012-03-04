@@ -43,11 +43,11 @@ public final class IndexerManager {
         return new IndexerManager(caseFacade);
     }
     
-    public boolean indexFile(File file, CrawlerIndexerThread crawler) throws UnsupportedOperationException{
-        return indexFile(file, 0, crawler);
+    public boolean indexFile(File file) throws UnsupportedOperationException{
+        return indexFile(file, 0);
     }
     
-    public boolean indexFile(File file, int parentId, CrawlerIndexerThread crawler) throws UnsupportedOperationException{ 
+    public boolean indexFile(File file, int parentId) throws UnsupportedOperationException{ 
         boolean result = false;
         fireIndexerStarted(file.getAbsolutePath());
         
@@ -57,12 +57,7 @@ public final class IndexerManager {
             if ( indexType == null )
                 return false;
             
-            if ( crawler !=  null) 
-                indexType.setCrawler(crawler);
-            
             result = indexType.doIndexing();
-            // here if true, increase indexed item by one
-            // else increase error by one
         }
         catch(NullPointerException e) {
             //throw new UnsupportedOperationException(e.getMessage());

@@ -51,7 +51,7 @@ final class ArchiveIndexer extends Indexer {
             int currentDocumentId = this.getId();
             
             // index the document itslef, without text extraction
-            NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
+            NonDocumentIndexer.newInstance(this.getIndexerManager(), this.getFile(), this.getMimeType(),
                     new NoneImageExtractor(), this.getParentId()).doIndexing();
             
             // then extract its content with parent id to zip id
@@ -69,10 +69,9 @@ final class ArchiveIndexer extends Indexer {
             // then index each file inside archive file
             if ( handler != null ) {
                 for(ExtractedObjectInfo location: handler.getLocations()) {
-                    this.getLuceneIndex().indexFile(
+                    this.getIndexerManager().indexFile(
                                 new File(location.getFileNewPath()), 
-                                currentDocumentId,
-                                this.getCrawler()
+                                currentDocumentId
                             );
                 }
             }
@@ -99,7 +98,5 @@ final class ArchiveIndexer extends Indexer {
                 new Date(getFile().lastModified()).toString(),
                 embeddedDocs
         );
-        
-        this.getCrawler().showFileSystemPanel(data);
     }
 }

@@ -32,7 +32,7 @@ public final class OfficeImageExtractor implements ImageExtractor{
             
             for(TikaObjectExtractor.ExtractedObjectInfo location: handler.getLocations()) {
                 try {
-                    indexer.getLuceneIndex().indexFile(new File(location.getFileNewPath()), parentId, indexer.getCrawler());
+                    indexer.getIndexerManager().indexFile(new File(location.getFileNewPath()), parentId);
                 }
                 catch(Exception e) {
                     e.printStackTrace();

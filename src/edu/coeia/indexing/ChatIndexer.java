@@ -49,7 +49,7 @@ final class ChatIndexer extends Indexer{
         try {     
             int currentDocumentId = this.getId();
             
-            NonDocumentIndexer.newInstance(this.getLuceneIndex(), this.getFile(), this.getMimeType(),
+            NonDocumentIndexer.newInstance(this.getIndexerManager(), this.getFile(), this.getMimeType(),
                 new NoneImageExtractor(), this.getParentId()).doIndexing();            
             
             ChatReader reader = getChatReader();

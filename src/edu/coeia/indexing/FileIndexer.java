@@ -33,7 +33,7 @@ final class FileIndexer implements Callable<Void>{
 
     private void indexFile(final File file) {
         try {
-            this.indexerManager.indexFile(file, null);
+            this.indexerManager.indexFile(file);
         }
         catch(Exception e) {
             e.printStackTrace();
