@@ -47,7 +47,7 @@ final class OnlineEmailIndexer extends Indexer {
                     Document doc = LuceneDocumentBuilder.getDocumentForOnlineEmailMessage(this, msg);
 
                     if (doc != null) {
-                        this.updateGUI(msg);
+                        //this.updateGUI(msg);
                         
                         int currentId = this.getId();
                         this.indexDocument(doc);

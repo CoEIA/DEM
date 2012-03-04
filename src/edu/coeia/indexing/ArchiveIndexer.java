@@ -64,7 +64,7 @@ final class ArchiveIndexer extends Indexer {
                     TikaObjectExtractor.OBJECT_TYPE.ARCHIVE).extract();
 
             // update gui with content
-            this.updateGUI(handler);
+            //this.updateGUI(handler);
             
             // then index each file inside archive file
             if ( handler != null ) {

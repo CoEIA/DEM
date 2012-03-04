@@ -113,7 +113,7 @@ final class OutlookIndexer extends Indexer{
     private void processEmail(final PSTMessage email, final String folderName) {
         try {
             List<Tuple<String, PSTAttachment>> attachmentsName = this.getAttachments(email);
-            this.updateGuiWithAttachmentsName(email, folderName, attachmentsName);
+            //this.updateGuiWithAttachmentsName(email, folderName, attachmentsName);
             List<String> filePaths = this.saveAndGetEmailAttachmentsPath(attachmentsName);
             
             // index the email message
