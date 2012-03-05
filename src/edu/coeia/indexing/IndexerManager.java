@@ -33,7 +33,8 @@ public final class IndexerManager {
 
     private final IndexWriter writer ;
     private final CaseFacade caseFacade;
-    private final List<IndexerListener> listeners = new ArrayList<IndexerListener>();
+    private final List<IndexerListener> indexerListeners = new ArrayList<IndexerListener>();
+    private final List<ScanningListener> scanningListeners = new ArrayList<ScanningListener>();
     
     /*
      * Static Factory Method 
@@ -49,7 +50,7 @@ public final class IndexerManager {
     
     public boolean indexFile(File file, int parentId) throws UnsupportedOperationException{ 
         boolean result = false;
-        fireIndexerStarted(file.getAbsolutePath());
+        fireItemIndexerStarted(file.getAbsolutePath());
         
         try {
             Indexer indexType = IndexerFactory.getIndexer(this, file, parentId);
@@ -67,10 +68,18 @@ public final class IndexerManager {
             //throw new UnsupportedOperationException(e.getMessage());
         }
         
-        fireIndexerCompleted(file.getAbsolutePath(), result);
+        fireItemIndexerCompleted(file.getAbsolutePath(), result);
         return result;
     }
 
+    public void fireItemIndexerStarted(final String msg) {
+        fireIndexerStarted(msg);
+    }
+    
+    public void fireItemIndexerCompleted(final String msg, final boolean result) {
+        fireIndexerCompleted(msg, result);
+    }
+    
     public void writeEvidenceLocation(final List<String> paths) throws CorruptIndexException,
             IOException {
         Document document = new Document();
@@ -94,18 +103,33 @@ public final class IndexerManager {
 	writer.close();
     }
     
-    public void addListener(final IndexerListener listener) {
-        listeners.add(listener);
+    public void addScanningListener(final ScanningListener listener) {
+        this.scanningListeners.add(listener);
+    }
+    
+    public void removeScanningListener(final ScanningListener listener) {
+        this.scanningListeners.add(listener);
+    }
+    
+    public void fireScanningStarted(final String path, final long size) {
+       ScanningEvent event = new ScanningEvent(path, size);
+       for(ScanningListener listener: this.scanningListeners) {
+           listener.scanningStarted(event);
+       }
+    }
+    
+    public void addIndexerListener(final IndexerListener listener) {
+        indexerListeners.add(listener);
     }
 
-    public void removeListner(final IndexerListener listener) {
-        listeners.remove(listener);
+    public void removeIndexerListener(final IndexerListener listener) {
+        indexerListeners.remove(listener);
     }
 
     private void fireIndexerStarted(final String path) {
         IndexerEvent event = new IndexerEvent(path);
 
-        for (IndexerListener listener : this.listeners) {
+        for (IndexerListener listener : this.indexerListeners) {
             listener.indexerStarted(event);
         }
     }
@@ -113,7 +137,7 @@ public final class IndexerManager {
     private void fireIndexerCompleted(final String path, final boolean result) {
         IndexerEvent event = new IndexerEvent(path, result);
 
-        for (IndexerListener listener : this.listeners) {
+        for (IndexerListener listener : this.indexerListeners) {
             listener.indexerCompleted(event);
         }
     }

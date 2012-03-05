@@ -12,7 +12,6 @@ package edu.coeia.indexing.dialogs;
 
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.GuiUtil;
-import edu.coeia.indexing.CrawlerIndexerThread;
 import edu.coeia.indexing.IndexingService;
 import edu.coeia.util.ApplicationLogging;
 
@@ -40,6 +39,8 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private final static String FILE_PANEL = "FILE";
     
     //private CrawlerIndexerThread indexerThread ;
+    private IndexingService indexingService;
+    
     private boolean detailPanelAppearenceFlag;
     
     private final static Logger logger = ApplicationLogging.getLogger();
@@ -231,7 +232,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private void stopIndexingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopIndexingButtonActionPerformed
         try {
             stopIndexerThread();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             logger.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_stopIndexingButtonActionPerformed
@@ -344,8 +345,8 @@ public final class IndexingDialog extends javax.swing.JDialog {
                 @Override
                 public void run() {
                     try {
-                        IndexingService service = new IndexingService(IndexingDialog.this);
-                        service.startService();
+                        indexingService = new IndexingService(IndexingDialog.this);
+                        indexingService.startService();
                     } catch (Exception ex) {
                         Logger.getLogger(IndexingDialog.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -362,11 +363,13 @@ public final class IndexingDialog extends javax.swing.JDialog {
         //indexerThread.execute();
     }
     
-    private void stopIndexerThread() throws IOException {
-//        if ( indexerThread != null) {
-//            this.clearFields();
-//            indexerThread.stopIndexingThread();
-//        }
+    private void stopIndexerThread() throws Exception {
+        if ( indexingService != null) {
+            this.clearFields();
+            indexingService.stopService();
+            indexingService.updateHistory(false, "time");
+            indexingService = null;
+        }
     }
     
     private void resettingButtons(boolean state) {
@@ -391,7 +394,7 @@ public final class IndexingDialog extends javax.swing.JDialog {
                 try {
                     stopIndexerThread();
                     hideIndexingDialog();
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     logger.log(Level.SEVERE, null, ex);
                 }
             }

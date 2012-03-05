@@ -53,8 +53,8 @@ public class IndexingService {
     private final static Logger logger = ApplicationLogging.getLogger();
 
     private final static int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
-    private final static ExecutorService crawlerService = Executors.newSingleThreadExecutor();
-    private final static ExecutorService indexerService = Executors.newFixedThreadPool(NUMBER_OF_THREADS * 2);
+    private final ExecutorService crawlerService = Executors.newSingleThreadExecutor();
+    private final ExecutorService indexerService = Executors.newFixedThreadPool(NUMBER_OF_THREADS * 2);
     
     public IndexingService (final IndexingDialog parentDialog) throws IOException{
         this.caseFacade = parentDialog.getCaseFacade();
@@ -64,16 +64,7 @@ public class IndexingService {
         this.crawlerStatistics = new CrawlerStatistics();
         this.addListeners();
     }
-     
-    private void saveHistory() {
-        CaseHistory history = CaseHistory.newInstance(
-            this.aCase.getCaseName(), new Date().toString(), true, 
-            this.crawlerStatistics.getNumberOfIndexedItems(), 
-            this.crawlerStatistics.getNumberOfScannedItems());
-
-        this.caseFacade.setCaseHistory(history);
-    }
-        
+   
     private void checkForRemovingOldStatus() {
         try {
             FileUtil.removeDirectoryContent(this.caseFacade.getCaseIndexFolderLocation());
@@ -93,7 +84,7 @@ public class IndexingService {
                 this.writeEvidenceLocation(this.aCase.getEvidenceSourceLocation());
             
                 FilesCrawler crawler = new FilesCrawler(this.aCase.getEvidenceSourceLocation(),
-                        indexerService, crawlerService, indexerManager);
+                        indexerService, indexerManager, this);
                 crawlerService.submit(crawler);
             }
             catch(RejectedExecutionException e) {
@@ -106,36 +97,98 @@ public class IndexingService {
         logger.info("End Crawling Service");
     }
     
+    public void stopService() throws Exception {
+        crawlerService.shutdownNow();
+        indexerService.shutdownNow();
+    }
+    
     private void writeEvidenceLocation(final List<String> paths) throws IOException{
         this.indexerManager.writeEvidenceLocation(paths);
     }
         
     private void addListeners() {
-        this.indexerManager.addListener(
+        this.indexerManager.addIndexerListener(
             new IndexerListener() {
                 @Override
                 public void indexerStarted(final IndexerEvent event) {
-                    EventQueue.invokeLater(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                            }
-                        }
-                    );
+                    System.out.println("index: " + event.getPath());
                 }
                 
                 @Override
                 public void indexerCompleted(final IndexerEvent event) {
-                    EventQueue.invokeLater(
-                        new Runnable() {
-                            @Override
-                                public void run() {
-                                    System.out.println(event.getResult() + " For: " + event.getPath());
-                            }
-                        }
-                    );
+                    boolean result = event.getResult();
+                    if ( result )
+                        crawlerStatistics.increaseNumberOfIndexedItems();
+                    else
+                        crawlerStatistics.increaseNumberOfErrorItems();
+                    
+                    updateGUI();
                 }
             }
         );
+        
+        this.indexerManager.addScanningListener(
+            new ScanningListener() {
+                @Override
+                public void scanningStarted(ScanningEvent event) {
+                    crawlerStatistics.incraseNumberOfScannedItems();
+                    crawlerStatistics.increaseSizeOfScannedItems(event.getSize());
+                    System.out.println("scanning: " + event.getPath());
+                    updateGUI();
+                }
+            }
+        );
+    }
+    
+    public void updateHistory(final boolean flag, final String time) {
+        new Thread( 
+            new Runnable() { 
+               @Override
+               public void run() {
+                try {
+                    saveHistory();
+                    closeIndex();
+                    showMessage(flag, time);
+                    closeDialog();
+                } catch (IOException ex) {
+                    logger.log(Level.SEVERE, null, ex);
+                }
+               }
+            }
+        ).start();
+    }
+    
+    private void showMessage(boolean flag, final String endTime) {
+        if ( flag ) 
+            JOptionPane.showMessageDialog(this.parentDialog,
+                String.format("Indexing Completed Successfully in %s Millisecond(s)", endTime),
+                "Indexing Process Is Completed",
+                JOptionPane.INFORMATION_MESSAGE);
+        else
+            JOptionPane.showMessageDialog(this.parentDialog,
+                "Indexing Process Stopped","Indexing Process Is Not Completed",
+                JOptionPane.ERROR_MESSAGE);
+    }
+    
+    private void saveHistory() {
+        CaseHistory history = CaseHistory.newInstance(
+            this.aCase.getCaseName(), new Date().toString(), true, 
+            this.crawlerStatistics.getNumberOfIndexedItems(), 
+            this.crawlerStatistics.getNumberOfScannedItems());
+
+        this.caseFacade.setCaseHistory(history);
+    }
+     
+    private void updateGUI() {
+        parentDialog.updateStatus(crawlerStatistics);
+    }
+    
+    public void closeIndex () throws IOException {
+        this.indexerManager.closeIndex();
+    }
+        
+    public void closeDialog() {
+        this.parentDialog.clearFields();
+        this.parentDialog.hideIndexingDialog();
     }
 }

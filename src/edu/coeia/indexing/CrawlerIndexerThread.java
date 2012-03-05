@@ -68,7 +68,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
     }
     
     private void addListeners() {
-        this.indexerManager.addListener(
+        this.indexerManager.addIndexerListener(
             new IndexerListener() {
                 @Override
                 public void indexerStarted(final IndexerEvent event) {
@@ -132,7 +132,7 @@ public final class CrawlerIndexerThread extends SwingWorker<String,Void> {
                 this.writeEvidenceLocation(this.aCase.getEvidenceSourceLocation());
             
                 FilesCrawler crawler = new FilesCrawler(this.aCase.getEvidenceSourceLocation(),
-                        indexerService, crawlerService, indexerManager);
+                        indexerService, indexerManager, null);
                 crawlerService.submit(crawler);
             }
             catch(RejectedExecutionException e) {

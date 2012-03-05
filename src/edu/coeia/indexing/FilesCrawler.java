@@ -17,47 +17,38 @@ import java.util.concurrent.TimeUnit;
 
 final class FilesCrawler implements Runnable{
     private final List<String> tasks;
-    private final ExecutorService consumerService;
-    private final ExecutorService producerService;
+    private final ExecutorService indexerService;
     private final IndexerManager indexerManager;
-
-    private long numberOfFiles; 
-    private long sizeOfFiles;
-
+    private final IndexingService indexingService;
+    
     private final FileFilter fileFilter = new FileFilter() { 
         @Override
         public boolean accept(File file) { return true; }
     };
 
-    public FilesCrawler(final List<String> tasks, final ExecutorService consumerService, 
-            final ExecutorService producerService, final IndexerManager luceneInexer) {
+    public FilesCrawler(final List<String> tasks, final ExecutorService consumerService
+            , final IndexerManager luceneInexer, final IndexingService indexingService) {
         this.tasks = tasks;
-        this.consumerService = consumerService;
-        this.producerService = producerService;
+        this.indexerService = consumerService;
         this.indexerManager = luceneInexer;
+        this.indexingService = indexingService;
     }
 
     @Override
     public void run() {
-        long start = System.currentTimeMillis();
         for (String task: tasks) 
             crawl(new File(task));
 
+        boolean isTerm = false;
         try {
-            consumerService.shutdown();
-            boolean isTerm = consumerService.awaitTermination(Long.MAX_VALUE, TimeUnit.HOURS);
-            long end = System.currentTimeMillis();
+            indexerService.shutdown();
+            isTerm = indexerService.awaitTermination(Long.MAX_VALUE, TimeUnit.HOURS);
         }
         catch(InterruptedException e) {
             e.printStackTrace();
         }
         finally {
-            try {
-                indexerManager.closeIndex();
-            }
-            catch(Exception e) { 
-                e.printStackTrace();
-            }
+            this.indexingService.updateHistory(true, "time");
         }
     }
 
@@ -71,11 +62,10 @@ final class FilesCrawler implements Runnable{
                         this.crawl(entry);
                     }
                     else if ( entry.isFile() && entry.canRead()) {
-                        this.numberOfFiles++;
-                        this.sizeOfFiles += entry.length();
-
+                        indexerManager.fireScanningStarted(entry.getAbsolutePath(), entry.length());
+                        
                         FileIndexer indexer = new FileIndexer(entry, indexerManager);
-                        consumerService.submit(indexer);
+                        indexerService.submit(indexer);
                     }
                 }
             }
