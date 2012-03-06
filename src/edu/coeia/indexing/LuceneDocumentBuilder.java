@@ -38,88 +38,12 @@ import org.apache.lucene.document.Field;
  */
 final class LuceneDocumentBuilder {
     
-    private static boolean insideOfflineEmailAttachmentFolder(final Indexer indexer) {
+    public static boolean insideOfflineEmailAttachmentFolder(final Indexer indexer) {
         return indexer.getFile().getAbsolutePath().contains(indexer.getCaseFacade().getCaseOfflineEmailAttachmentLocation());
     }
     
-    private static boolean insideOnlineEmailAttachmentFolder(final Indexer indexer) {
+    public static boolean insideOnlineEmailAttachmentFolder(final Indexer indexer) {
         return indexer.getFile().getAbsolutePath().contains(indexer.getCaseFacade().getCaseOnlineEmailAttachmentLocation());
-    }
-        
-    // provide lucene document for images format (JPEG, PNG.. etc)
-    public static Document getDocumentForImage(final Indexer indexer, Map<String, String> metadata) {
-        
-        Document doc = new Document();
-        
-        DOCUMENT_DESCRIPTION_TYPE type = indexer.getParentId() != 0 ? DOCUMENT_DESCRIPTION_TYPE.EMBEDDED_IMAGE: DOCUMENT_DESCRIPTION_TYPE.IMAGE;
-        
-        if ( insideOfflineEmailAttachmentFolder(indexer) || insideOnlineEmailAttachmentFolder(indexer) )
-            type = DOCUMENT_DESCRIPTION_TYPE.EMAIL_ATTACHMENT;
-        
-        // generic lucene fileds
-        doc.add(getAnalyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.IMAGE)));
-        doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
-        doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(indexer.getParentId())));
-        doc.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateFileHash(indexer.getFile().getAbsolutePath())));
-        doc.add(getAnalyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(type)));
-        
-        // specific document fields
-        String path = indexer.getCaseFacade().getRelativePath(indexer.getFile().getPath());
-        if ( path.isEmpty() )
-            path = indexer.getFile().getAbsolutePath(); // this is for file inside TMP, we cannot get relative path for it
-
-        doc.add(getNotAnlyzedField(FILE_PATH, path));
-        doc.add(getNotAnlyzedField(FILE_NAME, indexer.getFile().getName()));
-        doc.add(getNotAnlyzedField(FILE_DATE, DateTools.timeToString(indexer.getFile().lastModified(), DateTools.Resolution.MINUTE)));
-        doc.add(getNotAnlyzedField(FILE_MIME, FileUtil.getExtension(indexer.getFile())));
-
-        // unknown image metadata extracted by Tika
-        for(Map.Entry<String, String> entry: metadata.entrySet()) {
-            String name =  entry.getKey();
-            String value = entry.getValue();
-            
-            doc.add(getAnalyzedField(name, value));
-        }
-        
-        return doc;
-    }
-    
-    public static Document getDocumentForFile(Indexer indexer, String content, Map<String, String> metadata) {
-        Document doc = new Document();
-        
-        DOCUMENT_DESCRIPTION_TYPE type = indexer.getParentId() != 0 ? DOCUMENT_DESCRIPTION_TYPE.EMBEDDED_FILE: DOCUMENT_DESCRIPTION_TYPE.NORMAL_FILE;
-        
-        if ( insideOfflineEmailAttachmentFolder(indexer) || insideOnlineEmailAttachmentFolder(indexer) )
-            type = DOCUMENT_DESCRIPTION_TYPE.EMAIL_ATTACHMENT;
-                
-        // generic lucene fileds
-        doc.add(getAnalyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.FILE)));
-        doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(indexer.getId())));
-        doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(indexer.getParentId())));
-        doc.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateFileHash(indexer.getFile().getAbsolutePath())));
-        doc.add(getAnalyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(type)));
-        
-        // specific document fields
-        String path = indexer.getCaseFacade().getRelativePath(indexer.getFile().getPath());
-        if ( path.isEmpty() )
-            path = indexer.getFile().getAbsolutePath(); // this is for file inside TMP, we cannot get relative path for it
-
-        doc.add(getNotAnlyzedField(FILE_PATH, path));
-        doc.add(getNotAnlyzedField(FILE_NAME, indexer.getFile().getName()));
-        doc.add(getNotAnlyzedField(FILE_DATE, DateTools.timeToString(indexer.getFile().lastModified(), DateTools.Resolution.MINUTE)));
-        doc.add(getNotAnlyzedField(FILE_MIME, FileUtil.getExtension(indexer.getFile())));
-        doc.add(getAnalyzedField(FILE_CONTENT, content));
-        content = null;
-        
-        // unkown metadata extracted by Tika
-        for(Map.Entry<String, String> entry: metadata.entrySet()) {
-            String name =  Utilities.getEmptyStringWhenNullString(entry.getKey());
-            String value = Utilities.getEmptyStringWhenNullString(entry.getValue());
-
-            doc.add(getAnalyzedField(name, value));
-        }
-        
-        return doc;
     }
     
     public static Document getDocumentForMSNMessage(
