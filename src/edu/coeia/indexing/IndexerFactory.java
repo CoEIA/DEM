@@ -28,8 +28,8 @@ final class IndexerFactory {
      * so we can know later if this document embedded in other document
      * or not
      */
-    public static Indexer getIndexer (IndexerManager luceneIndex, File file){
-        return getIndexer(luceneIndex, file, 0);
+    public static Indexer getIndexer (IndexerManager luceneIndex, Tika tika, File file){
+        return getIndexer(luceneIndex, tika, file, 0);
     }
         
     /**
@@ -39,12 +39,11 @@ final class IndexerFactory {
      * @param parentId
      * @return 
      */
-    public static Indexer getIndexer (IndexerManager indexerManager, File file, int parentId) {
+    public static Indexer getIndexer (IndexerManager indexerManager, final Tika tika, 
+            File file, int parentId) {
         Indexer indexer  = null;
         
         try {
-            Tika tika = new Tika();
-
             String mime = tika.detect(file);
             
             if ( isChatPath(file.getAbsolutePath()) ) {

@@ -28,6 +28,7 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.store.FSDirectory ;
 import org.apache.lucene.util.Version ;
+import org.apache.tika.Tika;
 
 public final class IndexerManager {
 
@@ -35,6 +36,7 @@ public final class IndexerManager {
     private final CaseFacade caseFacade;
     private final List<IndexerListener> indexerListeners = new ArrayList<IndexerListener>();
     private final List<ScanningListener> scanningListeners = new ArrayList<ScanningListener>();
+    private final Tika tika = new Tika();
     
     /*
      * Static Factory Method 
@@ -53,7 +55,7 @@ public final class IndexerManager {
         fireItemIndexerStarted(file.getAbsolutePath());
         
         try {
-            Indexer indexType = IndexerFactory.getIndexer(this, file, parentId);
+            Indexer indexType = IndexerFactory.getIndexer(this, tika, file, parentId);
             
             if ( indexType == null )
                 return false;
