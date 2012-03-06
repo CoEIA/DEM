@@ -20,6 +20,7 @@ import java.util.Map;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.tika.Tika;
 import org.apache.tika.detect.DefaultDetector;
 import org.apache.tika.detect.Detector;
 import org.apache.tika.io.TikaInputStream;
@@ -30,6 +31,7 @@ import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
 
 import org.xml.sax.ContentHandler;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  *
@@ -84,9 +86,9 @@ final class DocumentIndexer extends Indexer {
             final ParseContext parseContext = new ParseContext();
             parseContext.set(Parser.class, parser);
 
-            StringWriter writer = new StringWriter();
-            contentHandler = new BodyContentHandler(writer);
-
+            //StringWriter writer = new StringWriter();
+            //contentHandler = new BodyContentHandler(writer);
+            contentHandler = new DefaultHandler();
             parser.parse(inputStream, contentHandler, metadata, parseContext);
             
             // save metadata
@@ -117,7 +119,8 @@ final class DocumentIndexer extends Indexer {
             doc.add(getNotAnlyzedField(FILE_NAME, this.getFile().getName()));
             doc.add(getNotAnlyzedField(FILE_DATE, DateTools.timeToString(this.getFile().lastModified(), DateTools.Resolution.MINUTE)));
             doc.add(getNotAnlyzedField(FILE_MIME, FileUtil.getExtension(this.getFile())));
-            doc.add(getAnalyzedField(FILE_CONTENT, writer.toString()));
+            //doc.add(getAnalyzedField(FILE_CONTENT, writer.toString()));
+            doc.add(new Field(FILE_CONTENT,  new Tika().parse(file)));
 
             // unkown metadata extracted by Tika
             for(Map.Entry<String, String> entry: metadataMap.entrySet()) {
