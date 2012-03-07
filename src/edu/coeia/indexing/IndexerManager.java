@@ -97,6 +97,7 @@ public final class IndexerManager {
     
     public void addDocument(final Document document) throws CorruptIndexException, IOException {
         this.writer.addDocument(document);
+        this.writer.commit();
     }
 
     public void closeIndex () throws IOException {
