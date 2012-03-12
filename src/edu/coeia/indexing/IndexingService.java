@@ -31,15 +31,10 @@ import java.io.IOException ;
 import java.util.ArrayList;
 import java.util.Date ;
 import java.util.List ;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.TimeUnit;
 
 public class IndexingService {
     private boolean indexStatus = false;
@@ -53,6 +48,7 @@ public class IndexingService {
     private final static Logger logger = ApplicationLogging.getLogger();
 
     private final static int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors();
+    
     private final ExecutorService crawlerService = Executors.newSingleThreadExecutor();
     private final ExecutorService indexerService = Executors.newFixedThreadPool(NUMBER_OF_THREADS * 2);
     
@@ -95,6 +91,12 @@ public class IndexingService {
         crawlerService.shutdown();
         crawlerService.awaitTermination(Long.MAX_VALUE, TimeUnit.HOURS);
         logger.info("End Crawling Service");
+        
+        indexerService.shutdown();
+        indexerService.awaitTermination(Long.MAX_VALUE, TimeUnit.HOURS);
+        logger.info("End Indexing Service Service");
+        
+        this.updateHistory(true, "time");
     }
     
     public void stopService() throws Exception {
@@ -111,7 +113,7 @@ public class IndexingService {
             new IndexerListener() {
                 @Override
                 public void indexerStarted(final IndexerEvent event) {
-                    System.out.println("index: " + event.getPath());
+                    //System.out.println("index: " + event.getPath());
                 }
                 
                 @Override
@@ -121,7 +123,8 @@ public class IndexingService {
                         crawlerStatistics.increaseNumberOfIndexedItems();
                     else
                         crawlerStatistics.increaseNumberOfErrorItems();
-                    
+
+                    System.out.println("index: " + event.getPath());
                     updateGUI();
                 }
             }

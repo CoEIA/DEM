@@ -9,6 +9,9 @@ import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.searching.LuceneSearcher;
 import static edu.coeia.constants.IndexingConstant.* ;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -16,6 +19,17 @@ import java.util.logging.Logger;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Fieldable;
+import org.apache.tika.detect.DefaultDetector;
+import org.apache.tika.detect.Detector;
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.io.TikaInputStream;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
+import org.apache.tika.sax.BodyContentHandler;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -75,13 +89,23 @@ public class ItemFactory {
         
         String filePath = document.get(FILE_PATH);
         String fileName = document.get(FILE_NAME);
-        String fileContent = document.get(FILE_CONTENT);
+        //String fileContent = document.get(FILE_CONTENT);
+        
         String fileDate = document.get(FILE_DATE);
         String fileMime = document.get(FILE_MIME);
         String description = document.get(DOCUMENT_DESCRIPTION);
         String metadata = getMetadataForFile(documentId, caseFacade.getCase());
         
         filePath = caseFacade.getFullPath(filePath);
+        
+        String fileContent = "";
+        
+        try {
+            fileContent = getFullText(filePath);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
         
         FileItem item = new FileItem(documentId, documentParentId, documentHash, description,
             fileName, filePath, fileContent, fileDate, fileMime, metadata);
@@ -197,5 +221,28 @@ public class ItemFactory {
         }
         
         return metadataBuilder.toString();
+    }
+    
+    private static String getFullText(final String filepath) throws IOException, SAXException, TikaException {
+        StringWriter writer = new StringWriter();
+        
+        final TikaInputStream inputStream =  TikaInputStream.get(new File(filepath));
+        try {
+            final Detector detector = new DefaultDetector();
+            final Parser parser = new AutoDetectParser(detector);
+
+            final Metadata metadata = new Metadata();
+            final ParseContext parseContext = new ParseContext();
+            parseContext.set(Parser.class, parser);
+
+            
+            ContentHandler contentHandler = new BodyContentHandler(writer);
+            parser.parse(inputStream, contentHandler, metadata, parseContext);
+        }
+        finally {
+            inputStream.close();
+        }
+        
+        return writer.toString();
     }
 }

@@ -124,8 +124,10 @@ public class Utilities {
      * @return highlighted string 
      */
     public static String highlightString(final String content, final String keyword) {
+        final String filteredContent = Utilities.getEmptyStringWhenNullString(content);
+        
         String highlither = "<span style=\"background-color: #FFFF00\">" + keyword + "</span>";
-        String highlitedString = content.replace(keyword, highlither);
+        String highlitedString = filteredContent.replace(keyword, highlither);
 
         return highlitedString;
     }

@@ -57,22 +57,22 @@ public final class IndexerManager {
         try {
             Indexer indexType = IndexerFactory.getIndexer(this, tika, file, parentId);
             
-            if ( indexType == null )
-                return false;
-            
-            result = indexType.doIndexing();
+            if ( indexType != null ) {
+                result = indexType.doIndexing();
+            }
         }
         catch(NullPointerException e) {
-            //throw new UnsupportedOperationException(e.getMessage());
+            result = false;
         }
         catch(UnsupportedOperationException e){
-            // here add error item , incease by one
-            //throw new UnsupportedOperationException(e.getMessage());
+            result = false;
         }
         
         fireItemIndexerCompleted(file.getAbsolutePath(), result);
         return result;
     }
+    
+    public Tika getTika() { return this.tika; }
 
     public void fireItemIndexerStarted(final String msg) {
         fireIndexerStarted(msg);
@@ -97,10 +97,11 @@ public final class IndexerManager {
     
     public void addDocument(final Document document) throws CorruptIndexException, IOException {
         this.writer.addDocument(document);
-        this.writer.commit();
+        //this.writer.commit();
     }
 
     public void closeIndex () throws IOException {
+        System.out.println("closing index righ now");
         writer.commit();
         writer.optimize();
 	writer.close();
@@ -163,5 +164,6 @@ public final class IndexerManager {
         );
 
 	this.writer.setUseCompoundFile(false);
+        this.writer.setRAMBufferSizeMB(500);
     }
 }

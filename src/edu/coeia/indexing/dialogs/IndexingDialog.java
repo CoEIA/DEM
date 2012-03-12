@@ -255,20 +255,25 @@ public final class IndexingDialog extends javax.swing.JDialog {
      * @param noItemsCannotIndexed 
      */
     public void updateStatus(final CrawlerStatistics crawlerStatistics) {
-        Runnable task = new Runnable() {
-          @Override
-          public void run() {
-              numberOfItemsInIndexTextField.setText(String.valueOf(crawlerStatistics.getNumberOfIndexedItems()));
-              numberOfItemsCannotIndexedTextField.setText(String.valueOf(crawlerStatistics.getNumberOfErrorItems()));
-              numberOfScannedItemsTextField.setText(String.valueOf(crawlerStatistics.getNumberOfScannedItems()));
-              sizeOfScannedItemsTextField.setText(String.valueOf(crawlerStatistics.getSizeOfScannedItems()));
-          }
-        };
+//        Runnable task = new Runnable() {
+//          @Override
+//          public void run() {
+//              numberOfItemsInIndexTextField.setText(String.valueOf(crawlerStatistics.getNumberOfIndexedItems()));
+//              numberOfItemsCannotIndexedTextField.setText(String.valueOf(crawlerStatistics.getNumberOfErrorItems()));
+//              numberOfScannedItemsTextField.setText(String.valueOf(crawlerStatistics.getNumberOfScannedItems()));
+//              sizeOfScannedItemsTextField.setText(String.valueOf(crawlerStatistics.getSizeOfScannedItems()));
+//          }
+//        };
+//        
+//        if ( EventQueue.isDispatchThread() )
+//            task.run();
+//        else
+//            EventQueue.invokeLater(task);
         
-        if ( EventQueue.isDispatchThread() )
-            task.run();
-        else
-            EventQueue.invokeLater(task);
+        numberOfItemsInIndexTextField.setText(String.valueOf(crawlerStatistics.getNumberOfIndexedItems()));
+        numberOfItemsCannotIndexedTextField.setText(String.valueOf(crawlerStatistics.getNumberOfErrorItems()));
+        numberOfScannedItemsTextField.setText(String.valueOf(crawlerStatistics.getNumberOfScannedItems()));
+        sizeOfScannedItemsTextField.setText(String.valueOf(crawlerStatistics.getSizeOfScannedItems()));
     }
     
     /**
@@ -355,19 +360,13 @@ public final class IndexingDialog extends javax.swing.JDialog {
         );
         
         thread.start();
-        //thread.join();
-        
-        
-        // starting thread
-        //indexerThread = new CrawlerIndexerThread(this);
-        //indexerThread.execute();
     }
     
     private void stopIndexerThread() throws Exception {
         if ( indexingService != null) {
             this.clearFields();
             indexingService.stopService();
-            indexingService.updateHistory(false, "time");
+            //indexingService.updateHistory(false, "time");
             indexingService = null;
         }
     }

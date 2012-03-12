@@ -33,6 +33,7 @@ final class FileIndexer implements Callable<Void>{
 
     private void indexFile(final File file) {
         try {
+            //System.out.println("index: " + file.getAbsolutePath());
             this.indexerManager.indexFile(file);
         }
         catch(Exception e) {

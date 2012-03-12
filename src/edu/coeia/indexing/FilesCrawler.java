@@ -9,6 +9,8 @@ import java.io.FileFilter;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -38,18 +40,6 @@ final class FilesCrawler implements Runnable{
     public void run() {
         for (String task: tasks) 
             crawl(new File(task));
-
-        boolean isTerm = false;
-        try {
-            indexerService.shutdown();
-            isTerm = indexerService.awaitTermination(Long.MAX_VALUE, TimeUnit.HOURS);
-        }
-        catch(InterruptedException e) {
-            e.printStackTrace();
-        }
-        finally {
-            this.indexingService.updateHistory(true, "time");
-        }
     }
 
     private void crawl(final File root) {
