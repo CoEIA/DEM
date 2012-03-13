@@ -82,6 +82,11 @@ public class IndexingService {
                 FilesCrawler crawler = new FilesCrawler(this.aCase.getEvidenceSourceLocation(),
                         indexerService, indexerManager, this);
                 crawlerService.submit(crawler);
+                
+                // email crawler
+                if ( !aCase.getEmailConfigurations().isEmpty()) {
+                    this.doEmailCrawling();
+                }
             }
             catch(RejectedExecutionException e) {
                 logger.severe("Task Submission Rejected");
@@ -97,6 +102,18 @@ public class IndexingService {
         logger.info("End Indexing Service Service");
         
         this.updateHistory(true, "time");
+    }
+    
+        
+    private void doEmailCrawling() throws CancellationException{
+        File dbPath = new File(this.caseFacade.getCaseOnlineDatabaseLocation());
+        
+        logger.log(Level.INFO, String.format("Crawling Email In: %s", dbPath));
+        
+        OnlineEmailIndexer emailIndexer = new OnlineEmailIndexer(this.indexerManager, dbPath, "",
+                new OfficeImageExtractor());
+        
+        logger.log(Level.INFO, String.format("Email Indexing Status: %s", emailIndexer.doIndexing()));
     }
     
     public void stopService() throws Exception {
