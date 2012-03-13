@@ -34,6 +34,11 @@ public class MultimediaLoadingTask implements Task{
     private final MultimediaViewerPanel.TYPE type;
     private final CaseFacade caseFacade ;
     
+    private final static String[] imageExtensions = {"jpg", "bmp", "gif", "tif", "png","psd"};
+    private final static String[] audioExtensions = {"mp3", "rm", "ra", "wav", "3gp","amr","ogg","wma","raw","m4p","flac"};
+    private final static String[] archiveExtensions = {"rar", "zip", "7z"};
+    private final static String[] videoExtensions = {"avi", "mp4", "asf","mpeg","3gp"};
+    
     public MultimediaLoadingTask(final CaseFacade caseFacade, final MultimediaViewerPanel panel,
             final MultimediaViewerPanel.TYPE type) {
         this.dialog = new BackgroundProgressDialog(null, true, this);
@@ -101,24 +106,20 @@ public class MultimediaLoadingTask implements Task{
         
         indexReader.close();
     }
-   
+    
     private boolean isImage(String extension) {
-        String[] extensions = {"jpg", "bmp", "gif", "tif", "png","psd"};
-        return Arrays.asList(extensions).contains(extension);
+        return Arrays.asList(imageExtensions).contains(extension);
     }
     
     private boolean isAudio(String extension) {
-        String[] extensions = {"mp3", "rm", "ra", "wav", "3gp","amr","ogg","wma","raw","m4p","flac"};
-        return Arrays.asList(extensions).contains(extension);
+        return Arrays.asList(audioExtensions).contains(extension);
     }
     
     private boolean isArchieve(String extension) {
-        String[] extensions = {"rar", "zip", "7z"};
-        return Arrays.asList(extensions).contains(extension);
+        return Arrays.asList(archiveExtensions).contains(extension);
     }
     
     private boolean isVideo(String extension) {
-        String[] extensions = {"avi", "mp4", "asf","mpeg","3gp"};
-        return Arrays.asList(extensions).contains(extension);
+        return Arrays.asList(videoExtensions).contains(extension);
     }
 }

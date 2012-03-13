@@ -100,37 +100,35 @@ final class NonDocumentIndexer extends Indexer{
                 metadataMap.put(name, metadata.get(name));
             }
 
-            Document doc = new Document();
-
             DOCUMENT_DESCRIPTION_TYPE type = this.getParentId() != 0 ? DOCUMENT_DESCRIPTION_TYPE.EMBEDDED_FILE: DOCUMENT_DESCRIPTION_TYPE.NORMAL_FILE;
 
             if ( LuceneDocumentBuilder.insideOfflineEmailAttachmentFolder(this) || LuceneDocumentBuilder.insideOnlineEmailAttachmentFolder(this) )
                 type = DOCUMENT_DESCRIPTION_TYPE.EMAIL_ATTACHMENT;
 
             // generic lucene fileds
-            doc.add(getAnalyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.FILE)));
-            doc.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(this.getId())));
-            doc.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(this.getParentId())));
-            doc.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateFileHash(this.getFile().getAbsolutePath())));
-            doc.add(getAnalyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(type)));
+            document.add(getAnalyzedField(DOCUMENT_TYPE, fromDocumentTypeToString(DOCUMENT_GENERAL_TYPE.FILE)));
+            document.add(getNotAnlyzedField(DOCUMENT_ID, String.valueOf(this.getId())));
+            document.add(getNotAnlyzedField(DOCUMENT_PARENT_ID, String.valueOf(this.getParentId())));
+            document.add(getNotAnlyzedField(DOCUMENT_HASH, HashCalculator.calculateFileHash(this.getFile().getAbsolutePath())));
+            document.add(getAnalyzedField(DOCUMENT_DESCRIPTION, fromDocumentTypeToString(type)));
 
             // specific document fields
             String path = this.getCaseFacade().getRelativePath(this.getFile().getPath());
             if ( path.isEmpty() )
                 path = this.getFile().getAbsolutePath(); // this is for file inside TMP, we cannot get relative path for it
 
-            doc.add(getNotAnlyzedField(FILE_PATH, path));
-            doc.add(getNotAnlyzedField(FILE_NAME, this.getFile().getName()));
-            doc.add(getNotAnlyzedField(FILE_DATE, DateTools.timeToString(this.getFile().lastModified(), DateTools.Resolution.MINUTE)));
-            doc.add(getNotAnlyzedField(FILE_MIME, FileUtil.getExtension(this.getFile())));
-            doc.add(getAnalyzedField(FILE_CONTENT, ""));
+            document.add(getNotAnlyzedField(FILE_PATH, path));
+            document.add(getNotAnlyzedField(FILE_NAME, this.getFile().getName()));
+            document.add(getNotAnlyzedField(FILE_DATE, DateTools.timeToString(this.getFile().lastModified(), DateTools.Resolution.MINUTE)));
+            document.add(getNotAnlyzedField(FILE_MIME, FileUtil.getExtension(this.getFile())));
+            document.add(getAnalyzedField(FILE_CONTENT, ""));
 
             // unkown metadata extracted by Tika
             for(Map.Entry<String, String> entry: metadataMap.entrySet()) {
                 String name =  Utilities.getEmptyStringWhenNullString(entry.getKey());
                 String value = Utilities.getEmptyStringWhenNullString(entry.getValue());
 
-                doc.add(getAnalyzedField(name, value));
+                document.add(getAnalyzedField(name, value));
             }
         
         }

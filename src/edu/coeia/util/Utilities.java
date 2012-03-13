@@ -178,10 +178,21 @@ public class Utilities {
     }
 
     public static String getFireFoxUserName(String path) {
-        int sIndex = path.indexOf("Settings\\") + "Settings".length() + 1;
-        int eIndex = path.indexOf("Application Data") - 1;
+        String user = "";
+        
+        if ( path.contains("Application Data") ) { // windows XP
+            int sIndex = path.indexOf("Settings\\") + "Settings".length() + 1;
+            int eIndex = path.indexOf("Application Data") - 1;
 
-        String user = path.substring(sIndex, eIndex);
+            user = path.substring(sIndex, eIndex);
+        }
+        else { // Winsows 7
+            int sIndex = path.indexOf("Users\\") + "Users".length() + 1;
+            int eIndex = path.indexOf("AppData") - 1;
+
+            user = path.substring(sIndex, eIndex);
+        }
+        
         return user;
     }
 
