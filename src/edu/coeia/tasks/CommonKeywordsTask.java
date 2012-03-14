@@ -73,7 +73,7 @@ public class CommonKeywordsTask implements Task{
         
         while(terms.next()) {
             if ( isCancelledTask() )
-                return map;
+                break;
             
             Term term = terms.term();
             

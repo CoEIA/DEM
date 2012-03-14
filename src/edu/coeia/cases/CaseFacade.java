@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 
 /**
  * Case Manger Faced will create, update and remove cases and their histories 
@@ -84,7 +85,7 @@ public final class CaseFacade {
         this.closeCaseTags();
         
         boolean status = FileUtil.removeDirectory(this.getCaseFolderLocation());
-        
+        //FileUtils.forceDelete(null);
         List<String> otherCasesGroup = this.getOtherCases(this.aCase.getCaseName(), this.getCaseFolderLocation());
         FileUtil.writeToFile(otherCasesGroup, getCasesInformationFileLocation());
 

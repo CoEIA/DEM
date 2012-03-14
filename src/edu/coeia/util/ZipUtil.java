@@ -40,7 +40,7 @@ public class ZipUtil {
         if ( srcFile.isDirectory() ) {
             FileOutputStream dest = new FileOutputStream(destZipFile);
             ZipOutputStream out = new ZipOutputStream(dest);
-            this.compresFolderContent("DEM", srcFolder, out);
+            this.compresFolderContent("", srcFolder, out);
             out.close();
         }
     }
@@ -49,15 +49,27 @@ public class ZipUtil {
         File dir = new File(srcFile);
         String[] files = dir.list();
         
-        for(String file: files) {
-            if ( task.isCancelledTask() ) {
-                System.out.println("canceled");
-                return;
+        if (files.length > 0) {
+            for (String file : files) {
+                if ( task.isCancelledTask() ) {
+                    break;
+                }
+                
+                String newPath = "";
+
+                if (path.isEmpty()) {
+                    newPath += dir.getName();
+                } else {
+                    newPath += path + File.separator + dir.getName();
+                }
+
+                String newFilePath = srcFile + File.separator + file;
+                this.compressObject(newPath, newFilePath, out);
             }
-            
-            String newPath = path + File.separator + dir.getName();
-            String newFilePath = srcFile + File.separator + file;
-            this.compressObject(newPath, newFilePath, out);
+        } else { // empty folder, zip it
+            ZipEntry entry = new ZipEntry(path + File.separator + dir.getName() + File.separator );
+            out.putNextEntry(entry);
+            out.closeEntry(); 
         }
     }
         
@@ -106,13 +118,19 @@ public class ZipUtil {
         ZipEntry zipEntry;
         while( (zipEntry = zInputStream.getNextEntry())  != null ) {
             if ( task.isCancelledTask() )
-                return;
+                break;
             
             if ( zipEntry.isDirectory() ) {
                 File newFolder = new File(destDir + File.separator + zipEntry.getName());
-                newFolder.mkdir();
+                newFolder.mkdirs();
             }
             else {
+                if ( zipEntry.getName().endsWith(File.separator) ) { // empty dir
+                    File emptyDirectory = new File(destDir + File.separator + zipEntry.getName());
+                    emptyDirectory.mkdirs();
+                    continue;
+                }
+                
                 String newPath = destDir + File.separator + zipEntry.getName();
                 File newFile = new File(newPath);
                 

@@ -71,16 +71,17 @@ public class EmailProcessingTask implements Task{
     }
     
     private void getAllMessageInEmailSource(final String value, final String constant) {
+        IndexReader indexReader = null;
+        
         try {
             List<Integer> ids = new ArrayList<Integer>();
             
             Directory dir = FSDirectory.open(new File(this.panel.getCaseFacade().getCaseIndexFolderLocation()));
-            IndexReader indexReader = IndexReader.open(dir);
+            indexReader = IndexReader.open(dir);
             Map<Entry, Integer> messageCounter = new HashMap<Entry, Integer>();
             
             for (int i=0; i<indexReader.maxDoc(); i++) {
                 if ( this.isCancelledTask() ) {
-                    System.out.println("cancelling");
                     break ;
                 }
                          
@@ -119,8 +120,6 @@ public class EmailProcessingTask implements Task{
                 }
             }
             
-            indexReader.close();
-            
             if ( this.type == EMAIL_PROCESSING_TYPE.INBOX || this.type == EMAIL_PROCESSING_TYPE.SEND_ITEM)
                 addResultToTable(messageCounter);
             else
@@ -133,13 +132,20 @@ public class EmailProcessingTask implements Task{
             ex.printStackTrace();
             Logger.getLogger(EmailProcessingTask.class.getName()).log(Level.SEVERE, null, ex);
         }
+        finally {
+            try {
+                indexReader.close();
+            } catch (IOException ex) {
+                Logger.getLogger(EmailProcessingTask.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     private void addResultToTable(final Map<Entry, Integer> messageCounter) {
         // add mapping to table
         for(Map.Entry<Entry, Integer> item: messageCounter.entrySet()) {
             if ( this.isCancelledTask() )
-                return ;
+                break ;
             
             JTableUtil.addRowToJTable(this.panel.getEmailProcessingTable(), 
                 new Object[] {item.getKey().getFrom(), item.getKey().getTo(),  item.getValue()});
@@ -150,7 +156,7 @@ public class EmailProcessingTask implements Task{
         // add mapping to table
         for(Map.Entry<Entry, Integer> item: messageCounter.entrySet()) {
             if ( this.isCancelledTask() )
-                return ;
+                break ;
 
             JTableUtil.addRowToJTable(this.panel.getEmailDateProcessingTable(), 
                 new Object[] {item.getKey().getFrom(), item.getKey().getTo(), item.getKey().getDate(), item.getValue()});

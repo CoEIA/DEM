@@ -21,7 +21,6 @@ final class FilesCrawler implements Runnable{
     private final List<String> tasks;
     private final ExecutorService indexerService;
     private final IndexerManager indexerManager;
-    private final IndexingService indexingService;
     
     private final FileFilter fileFilter = new FileFilter() { 
         @Override
@@ -29,11 +28,10 @@ final class FilesCrawler implements Runnable{
     };
 
     public FilesCrawler(final List<String> tasks, final ExecutorService consumerService
-            , final IndexerManager luceneInexer, final IndexingService indexingService) {
+            , final IndexerManager luceneInexer) {
         this.tasks = tasks;
         this.indexerService = consumerService;
         this.indexerManager = luceneInexer;
-        this.indexingService = indexingService;
     }
 
     @Override
@@ -58,6 +56,9 @@ final class FilesCrawler implements Runnable{
                         indexerService.submit(indexer);
                     }
                 }
+            }
+            else {
+                System.out.println("interrupted now");
             }
         }
     }

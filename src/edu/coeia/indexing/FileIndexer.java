@@ -27,6 +27,9 @@ final class FileIndexer implements Callable<Void>{
         if ( !Thread.currentThread().isInterrupted()  ) {
             indexFile(this.task);
         }
+        else {
+            System.out.println("interrupted");
+        }
 
         return null;
     }

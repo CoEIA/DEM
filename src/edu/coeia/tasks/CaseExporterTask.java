@@ -62,6 +62,8 @@ public class CaseExporterTask implements Task{
 
         CaseFacade caseFacade = CaseFacade.newInstance(aCase);
         caseFacade.closeCaseAuditing();
+        caseFacade.closeCaseTags();
+        
         caseFacade.exportHistory(this.aCase.getCaseName(), caseFacade.getCasePreferenceFileLocation());
 
         ZipUtil zipper = new ZipUtil(this);

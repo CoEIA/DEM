@@ -95,17 +95,21 @@ public class CaseDuplicationTask implements Task{
         Directory dir = FSDirectory.open(new File(indexDir));
         IndexReader indexReader = IndexReader.open(dir);
         
-        for (int i=0; i<indexReader.maxDoc(); i++) {
-            Document document = indexReader.document(i);
-            if ( document != null ) {
-                Field field = document.getField(IndexingConstant.DOCUMENT_HASH);
-                if ( field != null && field.stringValue() != null) {
-                   String documentHash = field.stringValue();
-                   this.panel.getCaseDuplicationMap().put(documentHash, document.get(IndexingConstant.DOCUMENT_ID));
+        try {
+            for (int i=0; i<indexReader.maxDoc(); i++) {
+                Document document = indexReader.document(i);
+                if ( document != null ) {
+                    Field field = document.getField(IndexingConstant.DOCUMENT_HASH);
+                    if ( field != null && field.stringValue() != null) {
+                    String documentHash = field.stringValue();
+                    this.panel.getCaseDuplicationMap().put(documentHash, document.get(IndexingConstant.DOCUMENT_ID));
+                    }
                 }
             }
         }
-        indexReader.close();
+        finally {
+            indexReader.close();
+        }
     }
     
 }

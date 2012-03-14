@@ -1368,6 +1368,8 @@ private void loadFFButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         return;
     }
     
+    ffComboBox.removeAllItems();
+    
     ffSummaryButtton.setEnabled(true);
     bookmarButton.setEnabled(true);
     cookiesButton.setEnabled(true);
@@ -1601,11 +1603,15 @@ private void IELogginsTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-F
             GuiUtil.showErrorMessage(this, "Cannot Found Any IE Files","Error");
             return;
         }
+        
+        ieComboBox.removeAllItems();
+        
         cacheButton.setEnabled(true);
         bookmarButton1.setEnabled(true);
         cookiesButton1.setEnabled(true);
         logginsButton1.setEnabled(true);
         webHistoryButton1.setEnabled(true);
+        
         for (String path : iePaths) {
            ieComboBox.addItem(path);
         }

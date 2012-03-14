@@ -76,11 +76,13 @@ public class IndexingService {
     public void startService() throws Exception{
         if ( !crawlerService.isShutdown() ) {
             try {
+                checkForRemovingOldStatus();
+                
                 // write evidence location information on index
                 this.writeEvidenceLocation(this.aCase.getEvidenceSourceLocation());
             
                 FilesCrawler crawler = new FilesCrawler(this.aCase.getEvidenceSourceLocation(),
-                        indexerService, indexerManager, this);
+                        indexerService, indexerManager);
                 crawlerService.submit(crawler);
                 
                 // email crawler
@@ -104,7 +106,7 @@ public class IndexingService {
         this.updateHistory(true, "time");
     }
     
-        
+    
     private void doEmailCrawling() throws CancellationException{
         File dbPath = new File(this.caseFacade.getCaseOnlineDatabaseLocation());
         

@@ -75,7 +75,8 @@ public final class IndexUtil {
         }
 
         te.close();
-        
+        indexReader.close();
+                
         return map ;
     }
     

@@ -1,5 +1,6 @@
 package edu.coeia.onlinemail;
 
+import com.sun.mail.util.MailSSLSocketFactory;
 import edu.coeia.cases.Case;
 import edu.coeia.util.ApplicationLogging;
 import edu.coeia.wizard.EmailConfiguration;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.List;
@@ -488,18 +490,26 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         this.Username = UserName;
         this.Password = Password;
         
-        Properties props = System.getProperties();
-        String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
-        props.setProperty("mail.pop3.socketFactory.class", SSL_FACTORY);
-        props.setProperty("mail.pop3.socketFactory.fallback", "false");
-        props.setProperty("mail.pop3.port", "995");
-        props.setProperty("mail.pop3.socketFactory.port", "995");
-        props.setProperty("mail.pop3.connectiontimeout", "10000");
-        props.setProperty("mail.pop3.timeout", "10000");
-        
-        Session session = Session.getDefaultInstance(props, null);
         try {
+            
+            Properties props = System.getProperties();
+            String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
+            props.setProperty("mail.pop3.socketFactory.class", SSL_FACTORY);
+            MailSSLSocketFactory socketFactory= new MailSSLSocketFactory();
+            socketFactory.setTrustAllHosts(true);
+            props.put("mail.pop3.ssl.socketFactory", socketFactory);
+    
+            props.setProperty("mail.pop3.socketFactory.fallback", "false");
+            props.setProperty("mail.pop3.port", "995");
+            props.setProperty("mail.pop3.socketFactory.port", "995");
+            props.setProperty("mail.pop3.connectiontimeout", "10000");
+            props.setProperty("mail.pop3.timeout", "10000");
+
+            Session session = Session.getDefaultInstance(props, null);
+
             store = session.getStore("pop3");
+        } catch (GeneralSecurityException ex) {
+            Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchProviderException ex) {
             
             JOptionPane.showMessageDialog(this.emaildialogue, "Error Connecting to Hotmail", "Bad Such Provider", JOptionPane.ERROR_MESSAGE);
@@ -534,7 +544,12 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         
         Session session = Session.getDefaultInstance(props, null);
         try {
+            MailSSLSocketFactory socketFactory= new MailSSLSocketFactory();
+            socketFactory.setTrustAllHosts(true);
+            props.put("mail.pop3.ssl.socketFactory", socketFactory);
             store = session.getStore("pop3");
+        } catch (GeneralSecurityException ex) {
+            Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchProviderException ex) {
             
             JOptionPane.showMessageDialog(this.emaildialogue, "Error Connecting to Hotmail", "Bad Such Provider", JOptionPane.ERROR_MESSAGE);
@@ -558,15 +573,22 @@ public class OnlineEmailDownloader extends SwingWorker<Void, ProgressData> {
         this.Username = UserName;
         this.Password = Password;
         
-        Properties props = System.getProperties();
-        props.setProperty("mail.store.protocol", "imaps");
-        props.setProperty("mail.imaps.partialfetch", "false");
-        props.setProperty("mail.pop3.connectiontimeout", "10000");
-        props.setProperty("mail.pop3.timeout", "10000");
-        
-        Session session = Session.getDefaultInstance(props, null);
         try {
+            Properties props = System.getProperties();
+            props.setProperty("mail.store.protocol", "imaps");
+            props.setProperty("mail.imaps.partialfetch", "false");
+            props.setProperty("mail.pop3.connectiontimeout", "10000");
+            props.setProperty("mail.pop3.timeout", "10000");
+
+            MailSSLSocketFactory socketFactory= new MailSSLSocketFactory();
+            socketFactory.setTrustAllHosts(true);
+            props.put("mail.imaps.ssl.socketFactory", socketFactory);
+
+            Session session = Session.getDefaultInstance(props, null);
+        
             store = session.getStore("imaps");
+        } catch (GeneralSecurityException ex) {
+            Logger.getLogger(OnlineEmailDownloader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchProviderException ex) {
             JOptionPane.showMessageDialog(this.emaildialogue, "Error Connecting to Gmail", "Bad Such Provider", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();

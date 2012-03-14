@@ -75,7 +75,10 @@ public class ExtensionFrequencyTask implements Task{
         
         IndexReader indexReader = IndexReader.open(directory);
         
-        return indexReader.maxDoc() / 200; 
+        int factor = indexReader.maxDoc() / 200; 
+        indexReader.close();
+        
+        return factor;
     }
     
     private Map<String,Double> getExtensionFreqFast() throws IOException {

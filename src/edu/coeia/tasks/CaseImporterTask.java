@@ -66,18 +66,18 @@ public class CaseImporterTask implements Task{
         ZipUtil zipper = new ZipUtil(this);
         String fileNameWithOutExt = file.getName().toString().replaceFirst("[.][^.]+$", "");
         String destPath = ApplicationManager.Manager.getCasesPath() + File.separator + fileNameWithOutExt;
-        zipper.decompress(file.getAbsolutePath(), destPath);
+        zipper.decompress(file.getAbsolutePath(), ApplicationManager.Manager.getCasesPath() );
 
-        File filePath = new File(destPath).listFiles()[0];
-        String path = filePath.listFiles()[0].getAbsolutePath();
+        //File filePath = new File(destPath).listFiles()[0];
+        //String path = filePath.listFiles()[0].getAbsolutePath();
 
-        String line = fileNameWithOutExt + " - " + path;
+        String line = fileNameWithOutExt + " - " + destPath;
         Case aCase = ApplicationManager.Manager.getCase(line);
-        aCase.setCaseLocation(path);
+        aCase.setCaseLocation(destPath);
         
         String prefLocation = aCase.getCaseLocation() + File.separator +  ApplicationConstants.CASE_PREFERENCE_EXTENSION;
         CaseFacade caseManger = CaseFacade.newInstance(aCase);
-        caseManger.updateCase(aCase.getCaseName(), path);
+        caseManger.updateCase(aCase.getCaseName(), destPath);
         caseManger.importHistory(prefLocation);
         
         this.frame.readCases();

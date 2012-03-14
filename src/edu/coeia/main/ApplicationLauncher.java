@@ -29,8 +29,7 @@ public class ApplicationLauncher {
     
     private static void logSystemInformation() {
         logger.info("Luanching DEM Application....");
-        logger.info(String.format("Operating System: %s %s",
-                SystemConstant.OS_NAME, SystemConstant.OS_VERSION));
+        logger.info(String.format("Operating System: %s %s", SystemConstant.OS_NAME, SystemConstant.OS_VERSION));
         logger.info(String.format("JRE: %s", SystemConstant.JRE_VERSION));
         logger.info(String.format("Java Launched From: %s", SystemConstant.JRE_HOME));
         logger.info(String.format("Application Name: %s", SystemConstant.APPLICATION_NAME_VERSION));

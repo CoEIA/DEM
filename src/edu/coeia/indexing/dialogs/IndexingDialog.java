@@ -14,6 +14,7 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.indexing.IndexingService;
 import edu.coeia.util.ApplicationLogging;
+import java.awt.Cursor;
 
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
@@ -365,10 +366,29 @@ public final class IndexingDialog extends javax.swing.JDialog {
     private void stopIndexerThread() throws Exception {
         if ( indexingService != null) {
             this.clearFields();
+            this.preventClickOnAnyComponents();
+            
             indexingService.stopService();
             //indexingService.updateHistory(false, "time");
             indexingService = null;
+                        
+            this.enableClickOnAnyComponents();
         }
+    }
+    
+    private void preventClickOnAnyComponents() {
+        this.startIndexButton.setEnabled(false);
+        this.displayItemDetialButton.setEnabled(false);
+        
+        this.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        this.getGlassPane().setVisible(true);
+        this.getGlassPane().requestFocusInWindow();
+    }
+    
+    private void enableClickOnAnyComponents() {
+        //this.startIndexButton.setEnabled(true);
+        //this.displayItemDetialButton.setEnabled(true);
+        this.getRootPane().getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
     
     private void resettingButtons(boolean state) {

@@ -70,7 +70,7 @@ public class MultimediaLoadingTask implements Task{
                             
         for (int i=0; i<indexReader.maxDoc(); i++) {
             if ( this.isCancelledTask() )
-                return;
+                break;
             
             Document document = indexReader.document(i);
             

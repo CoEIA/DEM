@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <NonVisualComponents>
@@ -49,14 +49,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jSeparator1" alignment="0" pref="569" max="32767" attributes="3"/>
+                  <Component id="jSeparator1" alignment="0" max="32767" attributes="3"/>
                   <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Component id="indexFooterPanel" min="-2" pref="508" max="-2" attributes="1"/>
-                      <EmptySpace pref="51" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
-                  <Component id="indexWizardPanel" alignment="0" pref="569" max="32767" attributes="3"/>
+                  <Component id="indexWizardPanel" alignment="0" pref="0" max="32767" attributes="3"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -69,9 +69,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="indexWizardPanel" min="-2" pref="366" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jSeparator1" pref="2" max="32767" attributes="0"/>
+              <Component id="jSeparator1" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="indexFooterPanel" min="-2" pref="63" max="-2" attributes="0"/>
+              <Component id="indexFooterPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -269,7 +269,7 @@
                           <Component id="jPanel5" alignment="0" min="0" max="32767" attributes="1"/>
                           <Component id="jPanel4" alignment="0" max="32767" attributes="1"/>
                       </Group>
-                      <EmptySpace pref="31" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -314,7 +314,7 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jButton3" max="32767" attributes="1"/>
                               <Component id="addDriverButton" alignment="1" max="32767" attributes="1"/>
-                              <Component id="removeButton" alignment="1" pref="119" max="32767" attributes="1"/>
+                              <Component id="removeButton" alignment="1" max="32767" attributes="1"/>
                           </Group>
                       </Group>
                   </Group>
@@ -412,8 +412,8 @@
                           <Component id="jScrollPane3" min="-2" pref="379" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jButton1" pref="123" max="32767" attributes="1"/>
-                              <Component id="jButton2" pref="123" max="32767" attributes="1"/>
+                              <Component id="jButton1" max="32767" attributes="1"/>
+                              <Component id="jButton2" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -542,7 +542,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel16" alignment="0" pref="513" max="32767" attributes="0"/>
+                              <Component id="jLabel16" alignment="0" pref="517" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="YesMD5RadioButton" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="157" max="-2" attributes="0"/>
@@ -734,7 +734,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="38" max="32767" attributes="0"/>
+                          <EmptySpace pref="42" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -769,18 +769,8 @@
                                   <Component id="IndexEmbeddedFilesCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="DetectBrowserCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="CacheImageCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="ExcludeSystemFilesCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="178" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="27" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="ProgramFilesRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="WindowsFilesRadioButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -797,15 +787,7 @@
                               <Component id="DetectBrowserCheckBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="CacheImageCheckBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="ExcludeSystemFilesCheckBox" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="ProgramFilesRadioButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="WindowsFilesRadioButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -820,17 +802,6 @@
                         <Property name="text" type="java.lang.String" value="Cache Images to view on Multimedia Viewer"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JCheckBox" name="ExcludeSystemFilesCheckBox">
-                      <Properties>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Tahoma" size="11" style="1"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Exclude Windows System Files from Indexing: "/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ExcludeSystemFilesCheckBoxActionPerformed"/>
-                      </Events>
-                    </Component>
                     <Component class="javax.swing.JCheckBox" name="IndexZipCheckBox">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -840,16 +811,6 @@
                         <Property name="text" type="java.lang.String" value="Index archieved folders (ZIP, RAR)"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JRadioButton" name="WindowsFilesRadioButton">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Windows Files"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JRadioButton" name="ProgramFilesRadioButton">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Program Files"/>
-                      </Properties>
-                    </Component>
                     <Component class="javax.swing.JCheckBox" name="IndexEmbeddedFilesCheckBox">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -857,14 +818,6 @@
                         </Property>
                         <Property name="selected" type="boolean" value="true"/>
                         <Property name="text" type="java.lang.String" value="Index embedded files on MS Office and Attachments"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="jLabel6">
-                      <Properties>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="0" green="0" red="ff" type="rgb"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="(Warning: Only choose this when you know that no evidences could be found within System Files)"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="IndexChatCheckBox">

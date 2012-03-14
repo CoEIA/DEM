@@ -231,10 +231,7 @@ public final class FileUtil {
                 if ( file.isDirectory() )
                     removeDirectory(file);
                 else {
-                    boolean status = file.delete() ;
-
-                    if ( ! status )
-                        return false ;
+                   file.delete() ;
                 }
             }
         }

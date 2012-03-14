@@ -27,7 +27,7 @@ public final class Case implements Serializable {
     private final Date createTime;
 
     // Required (can be changed) paramaters for case
-    private final List<String> evidenceSourceLocation;
+    private final List<String> evidenceSourceLocation = new ArrayList<String>();
     private String caseName;
     private String caseLocation;
     
@@ -50,7 +50,7 @@ public final class Case implements Serializable {
         this.investigatorName = builder.investigatorName;
         this.description = builder.description;
         this.createTime = builder.createTime;
-        this.evidenceSourceLocation = builder.evidenceSourceLocation;
+        this.evidenceSourceLocation.addAll(builder.evidenceSourceLocation);
         this.emaiConfigurations = builder.emaiConfigurations;
         this.doIndexingAfterCaseCreating = builder.doIndexingAfterCaseCreating;
         this.computeHashForEveryItem = builder.computeHashForEveryItem;
@@ -113,7 +113,7 @@ public final class Case implements Serializable {
     }
 
     public List<String> getEvidenceSourceLocation() {
-        return Collections.unmodifiableList(this.evidenceSourceLocation);
+        return (this.evidenceSourceLocation);
     }
 
     public Date getCreateTime() {
@@ -182,7 +182,8 @@ public final class Case implements Serializable {
             this.caseLocation = indexLocation;
             this.investigatorName = investigatorName;
             this.description = description;
-            this.evidenceSourceLocation = Collections.unmodifiableList(evidenceFolders);
+            this.evidenceSourceLocation = new ArrayList<String>();
+            this.evidenceSourceLocation.addAll(evidenceFolders);
             this.createTime = new Date(createTime.getTime());
             this.emaiConfigurations = new ArrayList<EmailConfiguration>();
         }
