@@ -68,17 +68,18 @@ public class CaseImporterTask implements Task{
         String destPath = ApplicationManager.Manager.getCasesPath() + File.separator + fileNameWithOutExt;
         zipper.decompress(file.getAbsolutePath(), ApplicationManager.Manager.getCasesPath() );
 
-        //File filePath = new File(destPath).listFiles()[0];
-        //String path = filePath.listFiles()[0].getAbsolutePath();
-
         String line = fileNameWithOutExt + " - " + destPath;
         Case aCase = ApplicationManager.Manager.getCase(line);
         aCase.setCaseLocation(destPath);
         
         String prefLocation = aCase.getCaseLocation() + File.separator +  ApplicationConstants.CASE_PREFERENCE_EXTENSION;
-        CaseFacade caseManger = CaseFacade.newInstance(aCase);
-        caseManger.updateCase(aCase.getCaseName(), destPath);
-        caseManger.importHistory(prefLocation);
+        
+        CaseFacade caseFacade = CaseFacade.newInstance(aCase);
+        caseFacade.updateCase(aCase.getCaseName(), destPath);
+        caseFacade.importHistory(prefLocation);
+        
+        caseFacade.closeCaseAuditing();
+        caseFacade.closeCaseTags();
         
         this.frame.readCases();
     }

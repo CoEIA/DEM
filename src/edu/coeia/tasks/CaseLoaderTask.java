@@ -79,8 +79,9 @@ public class CaseLoaderTask implements Task {
                         mainFrame.showIndexDialog(startIndex);
                     }
                 }
-                else {
-                    System.out.println("case folder in changed, and you should provide the correct path");
+                else { // close new created facde, so user can remove it later on
+                    this.caseFacade.closeCaseAuditing();
+                    this.caseFacade.closeCaseTags();
                 }
             }
             else {

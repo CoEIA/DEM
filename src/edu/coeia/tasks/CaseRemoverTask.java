@@ -51,6 +51,9 @@ public class CaseRemoverTask implements Task{
         Case aCase = ApplicationManager.Manager.getCaseFromCaseName(caseName);
         CaseFacade caseFacade = CaseFacade.newInstance(aCase);
         
+        caseFacade.closeCaseAuditing();
+        caseFacade.closeCaseTags();
+        
         boolean status = caseFacade.removeCase();
         this.frame.readCases(); // update view table
     }
