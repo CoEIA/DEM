@@ -84,7 +84,6 @@ public final class CaseFacade {
         this.closeCaseTags();
         
         boolean status = FileUtil.removeDirectory(this.getCaseFolderLocation());
-        //FileUtils.forceDelete(null);
         List<String> otherCasesGroup = this.getOtherCases(this.aCase.getCaseName(), this.getCaseFolderLocation());
         FileUtil.writeToFile(otherCasesGroup, getCasesInformationFileLocation());
 

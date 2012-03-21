@@ -38,6 +38,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     private AdvancedSearchPanel panel ;
     private SearchScope searchScope; 
     private List<Integer> resultIds;
+    private List<Item> items = new ArrayList<Item>();
     
     public SearcherThread (AdvancedSearchPanel panel) {
         this.queryString = panel.getQueryText();
@@ -66,7 +67,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
                     Document document = this.searcher.getDocHits(i);
                     Item item = ItemFactory.newInstance(document, this.caseFacade);
                     resultIds.add(Integer.parseInt(document.get(IndexingConstant.DOCUMENT_ID)));
-                    publish(new ProgressSearchData(i, item));
+                    items.add(item);
                 }
                 catch(Exception e) { 
                     e.printStackTrace();
@@ -84,6 +85,13 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     
     @Override
     public void done() {
+        // render search result
+        for(Item item: this.items ) {
+            JTableUtil.addRowToJTable(this.panel.getSearchTable(), item.getDisplayData());
+        }
+        
+        this.items.clear();
+        
         this.panel.setResultId(this.resultIds);
         this.panel.setResultTableText(this.queryString);
         this.panel.setSearchTableFocusable();
@@ -95,15 +103,15 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         JOptionPane.showMessageDialog(this.panel, "Searching process is complete");
     }
     
-    @Override
-    protected void process(List<ProgressSearchData> chunks) {
-        if ( isCancelled() )
-            return; 
-                
-        for(ProgressSearchData pd: chunks) {
-            JTableUtil.addRowToJTable(this.panel.getSearchTable(), pd.getItem().getDisplayData());
-        }
-    }
+//    @Override
+//    protected void process(List<ProgressSearchData> chunks) {
+//        if ( isCancelled() )
+//            return; 
+//                
+//        for(ProgressSearchData pd: chunks) {
+//            JTableUtil.addRowToJTable(this.panel.getSearchTable(), pd.getItem().getDisplayData());
+//        }
+//    }
     
     class ProgressSearchData {
         private final int count ;

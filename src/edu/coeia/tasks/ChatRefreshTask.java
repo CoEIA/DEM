@@ -24,6 +24,7 @@ import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -83,8 +84,8 @@ public class ChatRefreshTask implements Task{
             
             TopDocs topDocs = searcher.search(query, 5000);
 
-            for(int i=0; i<topDocs.totalHits; i++) {
-                Document document = searcher.doc(i);
+            for(ScoreDoc scoreDoc: topDocs.scoreDocs) {
+                Document document = searcher.doc(scoreDoc.doc);
                 String chatFile = document.get(IndexingConstant.CHAT_FILE);
                 
                 if ( chatFile != null && !chatFile.trim().isEmpty()) {

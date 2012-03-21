@@ -56,6 +56,7 @@ import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.Version;
 
@@ -214,10 +215,10 @@ public class ImageLoadingTask implements Task{
             parser.setAllowLeadingWildcard(true);
             Query query = parser.parse(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.IMAGE));
             
-            TopDocs topDocs = searcher.search(query, 5000);
+            TopDocs topDocs = searcher.search(query, 500000);
 
-            for(int i=0; i<topDocs.totalHits; i++) {
-                Document document = searcher.doc(i);
+            for(ScoreDoc scoreDoc: topDocs.scoreDocs) {
+                Document document = searcher.doc(scoreDoc.doc);
                 String imagePath = document.get(IndexingConstant.FILE_MIME);
                 
                 if ( imagePath != null && !imagePath.trim().isEmpty()) {
@@ -266,10 +267,10 @@ public class ImageLoadingTask implements Task{
             parser.setAllowLeadingWildcard(true);
             Query query = parser.parse(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.IMAGE));
             
-            TopDocs topDocs = searcher.search(query, 5000);
+            TopDocs topDocs = searcher.search(query, 500000);
 
-            for(int i=0; i<topDocs.totalHits; i++) {
-                Document document = searcher.doc(i);
+            for(ScoreDoc scoreDoc: topDocs.scoreDocs) {
+                Document document = searcher.doc(scoreDoc.doc);
                 String imagePath = document.get(IndexingConstant.FILE_MIME);
                 
                 if ( imagePath != null && !imagePath.trim().isEmpty()) {

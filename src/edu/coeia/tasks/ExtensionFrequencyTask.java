@@ -28,6 +28,7 @@ import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -91,14 +92,14 @@ public class ExtensionFrequencyTask implements Task{
             
             IndexSearcher searcher = new IndexSearcher(directory);
             QueryParser parser = new QueryParser(Version.LUCENE_30, 
-                    IndexingConstant.FILE_PATH, new StopAnalyzer(Version.LUCENE_30));
+                    IndexingConstant.DOCUMENT_TYPE, new StopAnalyzer(Version.LUCENE_30));
             parser.setAllowLeadingWildcard(true);
-            Query query = parser.parse("*");
+            Query query = parser.parse("file");
             
-            TopDocs topDocs = searcher.search(query, 5000);
+            TopDocs topDocs = searcher.search(query, 100000);
 
-            for(int i=0; i<topDocs.totalHits; i++) {
-                Document document = searcher.doc(i);
+            for(ScoreDoc scoreDoc: topDocs.scoreDocs) {
+                Document document = searcher.doc(scoreDoc.doc);
                 String filePath = document.get(IndexingConstant.FILE_PATH);
                 
                 if ( filePath != null && !filePath.trim().isEmpty()) {

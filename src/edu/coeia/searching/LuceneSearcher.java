@@ -71,6 +71,8 @@ public class LuceneSearcher {
         return filterTotalHist;
     }
     
+    public TopDocs getTopDocs() { return this.results; }
+    
     private String[] getSupportedFileds(SearchScope luceneFields) {
         Collection<String> fields = new ArrayList<String>();
         

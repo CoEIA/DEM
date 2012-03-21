@@ -245,7 +245,7 @@ public final class FileUtil {
         if ( directory.isDirectory() ) {
             for(File file: directory.listFiles()) {
                 if ( file.isDirectory() )
-                    removeDirectoryContent(file.getAbsolutePath());
+                    removeDirectory(file.getAbsolutePath());
                 else {
                     file.delete();
                 }

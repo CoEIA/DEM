@@ -17,19 +17,16 @@ import java.io.IOException;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
 
 /**
  *
@@ -79,33 +76,26 @@ public class EmailRefreshTask implements Task{
     
     private Set<String> getOfflineEmailsPaths() throws IOException {
         Set<String> result = new HashSet<String>();
-        
-        try {
-            Directory directory = FSDirectory.open(new File(
-                    this.panel.getCaseFacade().getCaseIndexFolderLocation()
-                    ));
-            
-            IndexSearcher searcher = new IndexSearcher(directory);
-            QueryParser parser = new QueryParser(Version.LUCENE_30, 
-                    IndexingConstant.DOCUMENT_TYPE, new StopAnalyzer(Version.LUCENE_30));
-            parser.setAllowLeadingWildcard(true);
-            Query query = parser.parse(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.OFFLINE_EMAIL));
-            
-            TopDocs topDocs = searcher.search(query, 5000);
+  
+         Directory directory = FSDirectory.open(new File(
+            this.panel.getCaseFacade().getCaseIndexFolderLocation()
+            ));
 
-            for(int i=0; i<topDocs.totalHits; i++) {
-                Document document = searcher.doc(i);
-                String offlineEmailPath = document.get(IndexingConstant.OFFLINE_EMAIL_PATH);
-                
-                if ( offlineEmailPath != null && !offlineEmailPath.trim().isEmpty()) {
-                    result.add(offlineEmailPath);
-                }
+        IndexSearcher searcher = new IndexSearcher(directory);
+
+        Query query = new TermQuery(new Term(IndexingConstant.DOCUMENT_TYPE, "email"));
+        TopDocs topDocs = searcher.search(query, 5000);
+
+        for(ScoreDoc scoreDoc: topDocs.scoreDocs) {
+            Document document = searcher.doc(scoreDoc.doc);
+            String offlineEmailPath = document.get(IndexingConstant.OFFLINE_EMAIL_PATH);
+
+            if ( offlineEmailPath != null && !offlineEmailPath.trim().isEmpty()) {
+                result.add(offlineEmailPath);
             }
-            
-            searcher.close();
-        } catch (ParseException ex) {
-            Logger.getLogger(ChatRefreshTask.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        searcher.close();
         
         return result;
     }

@@ -14,21 +14,17 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.cases.CaseHistory;
 import edu.coeia.indexing.dialogs.CrawlerStatistics;
 import edu.coeia.util.FileUtil;
-import edu.coeia.util.SizeUtil;
 import edu.coeia.util.ApplicationLogging;
 import edu.coeia.extractors.OfficeImageExtractor;
-import edu.coeia.indexing.dialogs.EmailCrawlingProgressPanel;
-import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.indexing.dialogs.FileSystemCrawlingProgressPanel;
-
-import java.awt.EventQueue;
-import javax.swing.SwingWorker ;
+import edu.coeia.indexing.dialogs.IndexingDialog;
+import edu.coeia.util.DateUtil;
 import javax.swing.JOptionPane;
 
 import java.io.File ;
 import java.io.IOException ;
+import java.util.Collections;
 
-import java.util.ArrayList;
 import java.util.Date ;
 import java.util.List ;
 import java.util.concurrent.*;
@@ -143,8 +139,9 @@ public class IndexingService {
                     else
                         crawlerStatistics.increaseNumberOfErrorItems();
 
-                    System.out.println("index: " + event.getPath());
+                    //System.out.println("[" + crawlerStatistics.getNumberOfIndexedItems() + "] index: " + event.getPath());
                     updateGUI();
+                    updateIndexGUI(event.getPath());
                 }
             }
         );
@@ -155,7 +152,7 @@ public class IndexingService {
                 public void scanningStarted(ScanningEvent event) {
                     crawlerStatistics.incraseNumberOfScannedItems();
                     crawlerStatistics.increaseSizeOfScannedItems(event.getSize());
-                    System.out.println("scanning: " + event.getPath());
+                    //System.out.println("[" + crawlerStatistics.getNumberOfScannedItems() + "] scanning: " + event.getPath());
                     updateGUI();
                 }
             }
@@ -203,6 +200,18 @@ public class IndexingService {
      
     private void updateGUI() {
         parentDialog.updateStatus(crawlerStatistics);
+    }
+    
+    private void updateIndexGUI(final String path) {
+        File file = new File(path);
+        FileSystemCrawlingProgressPanel.FileSystemCrawlerData data = new FileSystemCrawlingProgressPanel.FileSystemCrawlerData(
+                path,
+                String.valueOf(file.length()),
+                FileUtil.getExtension(path),
+                DateUtil.formatedDateWithTime(new Date(file.lastModified())),
+                null);
+        
+        parentDialog.showFileSystemPanel(data);
     }
     
     public void closeIndex () throws IOException {

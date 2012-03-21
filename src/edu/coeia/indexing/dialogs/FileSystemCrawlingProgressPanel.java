@@ -60,7 +60,7 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel{
             this.fileExtension = fileExtension;
             this.fileDate = fileDate;
             this.embeddedDocs = new ArrayList<String>();
-            this.embeddedDocs.addAll(Collections.unmodifiableList(embeddedDocs));
+            //this.embeddedDocs.addAll(Collections.unmodifiableList(embeddedDocs));
         }
         
         public String getFileName() { return this.fileName; }

@@ -7,10 +7,10 @@ package edu.coeia.tasks;
 import edu.coeia.cases.Case;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.constants.IndexingConstant;
-import edu.coeia.items.ChatItem;
 import edu.coeia.items.EmailItem;
 import edu.coeia.items.ItemFactory;
 import edu.coeia.offlinemail.EmailBrowsingPanel;
+import java.awt.EventQueue;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,12 +22,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -93,21 +92,28 @@ public class EmailLoadingTask  implements Task{
             
             IndexSearcher searcher = new IndexSearcher(directory);
             QueryParser parser = new QueryParser(Version.LUCENE_30, 
-                    IndexingConstant.DOCUMENT_DESCRIPTION, new StopAnalyzer(Version.LUCENE_30));
+                    IndexingConstant.DOCUMENT_TYPE, new StopAnalyzer(Version.LUCENE_30));
             parser.setAllowLeadingWildcard(true);
-            Query query = parser.parse("*");
+            Query query = parser.parse("email");
             
-            TopDocs topDocs = searcher.search(query, 5000);
+            TopDocs topDocs = searcher.search(query, 100000);
 
-            for(int i=0; i<topDocs.totalHits; i++) {
-                Document document = searcher.doc(i);
+            for(ScoreDoc scoreDocs: topDocs.scoreDocs) {
+                Document document = searcher.doc(scoreDocs.doc);
                 String emailPath = document.get(constant);
                 
                 if ( emailPath != null && !emailPath.trim().isEmpty()) {
                     
                     if ( emailPath.endsWith(path) ) {
-                        EmailItem item = (EmailItem) ItemFactory.newInstance(document, panel.getCaseFacade());
-                        JTableUtil.addRowToJTable(panel.getTable(), item.getFullDisplayData());
+                        final EmailItem item = (EmailItem) ItemFactory.newInstance(document, panel.getCaseFacade());
+                        
+                        EventQueue.invokeLater(new Runnable() { 
+                            @Override
+                            public void run() {
+                                JTableUtil.addRowToJTable(panel.getTable(), item.getFullDisplayData());
+                            }
+                        });
+                        
                         ids.add(Integer.valueOf(item.getDocumentId()));
                     }
                 }

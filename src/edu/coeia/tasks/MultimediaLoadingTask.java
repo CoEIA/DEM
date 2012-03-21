@@ -10,7 +10,8 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.constants.IndexingConstant;
 import edu.coeia.util.FileUtil;
-import edu.coeia.constants.ApplicationConstants;
+
+import java.awt.EventQueue;
 
 import java.io.File;
 import java.io.IOException;
@@ -79,26 +80,31 @@ public class MultimediaLoadingTask implements Task{
                 
                 if (field != null && field.stringValue() != null) {
                     String documentExtension = field.stringValue();
-                    String fullpath = "";
+                    final StringBuilder fullpath = new StringBuilder();
                     
                     if (type == MultimediaViewerPanel.TYPE.IMAGE && isImage(documentExtension) ) {
-                        fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                        fullpath.append(this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH)));
                     }
                     else if (type == MultimediaViewerPanel.TYPE.AUDIO && isAudio(documentExtension)) {
-                        fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                        fullpath.append(this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH)));
                     }
                     else if (type == MultimediaViewerPanel.TYPE.ARCHIVE && isArchieve(documentExtension)) {
-                        fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                        fullpath.append(this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH)));
                     }
                     else if (type == MultimediaViewerPanel.TYPE.VIDEO && isVideo(documentExtension)) {
-                        fullpath = this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH));
+                        fullpath.append(this.caseFacade.getFullPath(document.get(IndexingConstant.FILE_PATH)));
                     }
                     
-                    if ( ! fullpath.isEmpty() ) {
-                        File file = new File(fullpath);
-                        Object[] data = {file.getAbsolutePath(), FileUtil.getExtension(file),
+                    if ( ! fullpath.toString().isEmpty() ) {
+                        EventQueue.invokeLater(new Runnable() { 
+                            @Override
+                            public void run() {
+                                File file = new File(fullpath.toString());
+                                Object[] data = {file.getAbsolutePath(), FileUtil.getExtension(file),
                                         file.lastModified(), file.isHidden(), file.length()};
-                        JTableUtil.addRowToJTable(panel.getTable(), data);
+                                JTableUtil.addRowToJTable(panel.getTable(), data);
+                            }
+                        });
                     }
                 }
             }
