@@ -180,7 +180,7 @@ public class IndexingService {
     private void showMessage(boolean flag, final String endTime) {
         if ( flag ) 
             JOptionPane.showMessageDialog(this.parentDialog,
-                String.format("Indexing Completed Successfully in %s Millisecond(s)", endTime),
+                String.format("Indexing Completed Successfully"),
                 "Indexing Process Is Completed",
                 JOptionPane.INFORMATION_MESSAGE);
         else
