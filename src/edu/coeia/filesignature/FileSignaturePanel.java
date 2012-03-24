@@ -234,8 +234,6 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         buttonPanel = new javax.swing.JPanel();
         analyzeButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
-        generateAnalysisReportButton = new javax.swing.JButton();
-        generateDetabaseReportButton = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -335,24 +333,6 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
             }
         });
         buttonPanel.add(stopButton);
-
-        generateAnalysisReportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274599246_text-x-log.png"))); // NOI18N
-        generateAnalysisReportButton.setText("Generate File Analysis Report");
-        generateAnalysisReportButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                generateAnalysisReportButtonActionPerformed(evt);
-            }
-        });
-        buttonPanel.add(generateAnalysisReportButton);
-
-        generateDetabaseReportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/binary.png"))); // NOI18N
-        generateDetabaseReportButton.setText("Generate Database Report");
-        generateDetabaseReportButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                generateDetabaseReportButtonActionPerformed(evt);
-            }
-        });
-        buttonPanel.add(generateDetabaseReportButton);
 
         add(buttonPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
@@ -486,32 +466,6 @@ private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
 }//GEN-LAST:event_stopButtonActionPerformed
 
-private void generateAnalysisReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateAnalysisReportButtonActionPerformed
-// TODO add your handling code here:
-  
-//    int rows = FileAnalysisTable.getRowCount();
-//    if (rows <=0) 
-//    {
-//      JOptionPane.showMessageDialog(this, "No Analaysis has been Performed", " Error Generating Report", JOptionPane.INFORMATION_MESSAGE);  
-//      return;
-//    }
-//    FileSignatureReportsPanel report = new FileSignatureReportsPanel();
-//    DatasourceXml source = report.generateReport(FileAnalysisTable, aCase );
-//    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
-//    dialogue.SetDataSource(source);
-//    dialogue.RunProgressDialogue();
-    
-}//GEN-LAST:event_generateAnalysisReportButtonActionPerformed
-
-private void generateDetabaseReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateDetabaseReportButtonActionPerformed
-//// TODO add your handling code here:
-//    DatasourceXml objXmlSource = new DatasourceXml();
-//    objXmlSource = RawResultFile.getDatabaseSignatures(SignatureTableDB, aCase);
-//    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
-//    dialogue.SetDataSource(objXmlSource);
-//    dialogue.RunProgressDialogue();
-}//GEN-LAST:event_generateDetabaseReportButtonActionPerformed
-
     public void run() {
         ft = new FolderTraversar(selectedFile);
         analyzeButton.setEnabled(false);
@@ -528,8 +482,6 @@ private void generateDetabaseReportButtonActionPerformed(java.awt.event.ActionEv
     private javax.swing.JButton analyzeButton;
     private javax.swing.JPanel buttonPanel;
     private javax.swing.JPanel databasePanel;
-    private javax.swing.JButton generateAnalysisReportButton;
-    private javax.swing.JButton generateDetabaseReportButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
