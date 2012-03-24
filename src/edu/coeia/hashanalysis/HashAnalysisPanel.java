@@ -95,7 +95,6 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         hashSetJList = new javax.swing.JList();
         hashAnalysisButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         resultPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         analysisResultTable = new javax.swing.JTable();
@@ -107,7 +106,6 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         jScrollPane5 = new javax.swing.JScrollPane();
         caseDuplicationTable = new javax.swing.JTable();
         findDuplicationButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         matchedFilesPanel1 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         caseDuplicationResultTable = new javax.swing.JTable();
@@ -125,32 +123,19 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setText("Generate Report");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout hashSetPanelLayout = new javax.swing.GroupLayout(hashSetPanel);
         hashSetPanel.setLayout(hashSetPanelLayout);
         hashSetPanelLayout.setHorizontalGroup(
             hashSetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(hashSetPanelLayout.createSequentialGroup()
-                .addComponent(hashAnalysisButton, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addContainerGap())
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+            .addComponent(hashAnalysisButton, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
         );
         hashSetPanelLayout.setVerticalGroup(
             hashSetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hashSetPanelLayout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(hashSetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(hashAnalysisButton)
-                    .addComponent(jButton1)))
+                .addComponent(hashAnalysisButton))
         );
 
         hashLibraryDuplicationPanel.add(hashSetPanel, java.awt.BorderLayout.WEST);
@@ -295,31 +280,20 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setText("Generate Report");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout resultPanel1Layout = new javax.swing.GroupLayout(resultPanel1);
         resultPanel1.setLayout(resultPanel1Layout);
         resultPanel1Layout.setHorizontalGroup(
             resultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, resultPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(resultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(findDuplicationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(findDuplicationButton))
         );
         resultPanel1Layout.setVerticalGroup(
             resultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resultPanel1Layout.createSequentialGroup()
                 .addComponent(findDuplicationButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
             .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
         );
 
@@ -436,35 +410,6 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_caseDuplicationTableMouseClicked
 
-private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-//    int rows = analysisResultTable.getRowCount();
-//    if (rows <= 0) {
-//        JOptionPane.showMessageDialog(this, "No Analaysis has been Performed", " Error Generating Report", JOptionPane.INFORMATION_MESSAGE);
-//        return;
-//    }
-//    DatasourceXml objXmlSource = new DatasourceXml();
-//    objXmlSource = RawResultFile.getHashAnalysisHashLibrary(analysisResultTable, aCase);
-//    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
-//    dialogue.SetDataSource(objXmlSource);
-//    dialogue.RunProgressDialogue();
-}//GEN-LAST:event_jButton1ActionPerformed
-
-private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//// TODO add your handling code here:
-//    
-//    int rows = caseDuplicationResultTable.getRowCount();
-//    if (rows <= 0) {
-//        JOptionPane.showMessageDialog(this, "No Analaysis has been Performed", " Error Generating Report", JOptionPane.INFORMATION_MESSAGE);
-//        return;
-//    }
-//    DatasourceXml objXmlSource = new DatasourceXml();
-//    objXmlSource = RawResultFile.getHashAnalysisinCase(caseDuplicationResultTable, aCase);
-//    ReportOptionDialog dialogue = new ReportOptionDialog(aCase);
-//    dialogue.SetDataSource(objXmlSource);
-//    dialogue.RunProgressDialogue();
-}//GEN-LAST:event_jButton2ActionPerformed
-
     private void caseDuplicationResultTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_caseDuplicationResultTableMouseClicked
         if ( JTableUtil.isDoubleClick(evt) ) {
             this.showSourceViewerDialog(this.caseDuplicationResultTable);
@@ -548,8 +493,6 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JPanel hashLibraryDuplicationPanel;
     private javax.swing.JList hashSetJList;
     private javax.swing.JPanel hashSetPanel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
