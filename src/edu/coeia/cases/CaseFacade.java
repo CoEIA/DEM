@@ -83,11 +83,16 @@ public final class CaseFacade {
         this.closeCaseAuditing();
         this.closeCaseTags();
         
-        boolean status = FileUtil.removeDirectory(this.getCaseFolderLocation());
+        // remove pointer first
         List<String> otherCasesGroup = this.getOtherCases(this.aCase.getCaseName(), this.getCaseFolderLocation());
         FileUtil.writeToFile(otherCasesGroup, getCasesInformationFileLocation());
 
+        // remove history
         this.caseHistoryHandler.removeHistory(aCase.getCaseName());
+        
+        // remove all cases file
+        boolean status = FileUtil.removeDirectory(this.getCaseFolderLocation());
+
         return status;
     }
     

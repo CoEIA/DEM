@@ -47,9 +47,10 @@ final class BackgroundProgressDialog extends javax.swing.JDialog{
         stopButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Progress Dialog");
+        setTitle("Processing....");
 
-        jLabel1.setText("please wait while the task is ending");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText("please wait while the end of currently working task....");
 
         stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
         stopButton.setText("Cancel");
