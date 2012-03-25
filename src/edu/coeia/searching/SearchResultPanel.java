@@ -184,7 +184,10 @@ public class SearchResultPanel extends javax.swing.JPanel {
                     for(int i: indexes) {
                         int id = Integer.valueOf(String.valueOf(table.getValueAt(table.convertRowIndexToView(i), 0)));
                         Document currentDocument = searcher.getLuceneDocumentById(String.valueOf(id));
-                        hashItems.add(getHashItemFromDocument(currentDocument));
+                        
+                        HashItem item = getHashItemFromDocument(currentDocument);  
+                        if ( item != null)
+                            hashItems.add(item);
                     }
                     
                     // display hash set dialog
