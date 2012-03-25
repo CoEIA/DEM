@@ -51,8 +51,14 @@ public enum ApplicationManager {
         List<String> casesPath  = FileUtil.getFileContentInList(indexesInfo);
 
         for(String path: casesPath) {
-            Case aCase = this.getCase(path);
-            cases.add(aCase);
+            try {
+                Case aCase = this.getCase(path);
+                cases.add(aCase);
+            }
+            catch(Exception e) {
+                // this case cannot be reading becuase it was removing
+                // the the pointer still exist to it
+            }
         }
         
         return cases;
@@ -67,10 +73,17 @@ public enum ApplicationManager {
         List<String> indexesInfoContent  = FileUtil.getFileContentInList(indexesInfo);
 
         for(String path: indexesInfoContent) {
-            Case index = this.getCase(path);
+            try {
+                Case index = this.getCase(path);
 
-            if ( index.getCaseName().equals(indexName))
-                return index ;
+                if ( index.getCaseName().equals(indexName))
+                    return index ;
+            }
+            catch(Exception e) {
+                // this case cannot be reading becuase it was removing
+                // the the pointer still exist to it
+            }
+            
         }
 
         return null ;
@@ -95,10 +108,16 @@ public enum ApplicationManager {
         List<String> casesInfoContent = FileUtil.getFileContentInList(casesInfo);
 
         for (String path : casesInfoContent) {
-            Case aCase = this.getCase(path);
+            try {
+              Case aCase = this.getCase(path);
 
-            if (aCase.getCaseName().equalsIgnoreCase(caseName)) {
-                return true;
+                if (aCase.getCaseName().equalsIgnoreCase(caseName)) {
+                    return true;
+                }
+            }
+            catch(Exception e) {
+                // this case cannot be reading becuase it was removing
+                // the the pointer still exist to it
             }
         }
 
