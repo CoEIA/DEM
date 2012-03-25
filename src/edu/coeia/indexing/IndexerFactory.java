@@ -169,8 +169,14 @@ final class IndexerFactory {
      * @return true if path is correct and false if not
      */
     private static boolean isValidMSNChatFile(String path) {
+        // windows XP path
         if ( path.contains("My Documents\\My Received Files") &&
              path.contains("History") && path.endsWith(".xml") )
+            return true;
+        
+        // windows 7 msn path
+        if ( path.contains("Documents\\My Recieved Files") &&
+              path.contains("History") && path.endsWith(".xml"))
             return true;
         
         return false;
@@ -182,8 +188,14 @@ final class IndexerFactory {
      * @return true if path is correct and false if not
      */
     private static boolean isValidSkypeChatFile(String path) {
+        // windows XP paths
         if ( path.contains("Application Data\\Skype") &&
               path.endsWith("main.db"))
+            return true;
+        
+        // windows 7 paths
+        if ( path.contains("AppData\\Roaming\\Skype") &&
+             path.endsWith("main.db"))
             return true;
         
         return false;
