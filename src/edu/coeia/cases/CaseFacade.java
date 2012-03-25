@@ -80,8 +80,18 @@ public final class CaseFacade {
      * @throws Exception 
      */
     public boolean removeCase() throws Exception {
-        this.closeCaseAuditing();
-        this.closeCaseTags();
+       
+        try {
+            this.closeCaseAuditing();
+            this.closeCaseTags();
+        }
+        catch(Exception e) {
+            /** some cases after importing and cancel this operation
+             * will not be in good state and the db files will not exists
+             * so closing not exists file will make null pointer exception
+             * here we ignore this
+             */
+        }
         
         // remove pointer first
         List<String> otherCasesGroup = this.getOtherCases(this.aCase.getCaseName(), this.getCaseFolderLocation());

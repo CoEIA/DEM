@@ -37,7 +37,6 @@ public class CaseRemoverTask implements Task{
         try {
             removeCaseAction();
         } catch (Exception ex) {
-            ex.printStackTrace();
             Logger.getLogger(CaseRemoverTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -50,10 +49,7 @@ public class CaseRemoverTask implements Task{
     private void removeCaseAction() throws Exception{
         Case aCase = ApplicationManager.Manager.getCaseFromCaseName(caseName);
         CaseFacade caseFacade = CaseFacade.newInstance(aCase);
-        
-        caseFacade.closeCaseAuditing();
-        caseFacade.closeCaseTags();
-        
+
         boolean status = caseFacade.removeCase();
         this.frame.readCases(); // update view table
     }
