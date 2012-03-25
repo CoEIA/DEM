@@ -152,7 +152,6 @@ final class CaseTags {
         try {
             this.tagsDataBase.closeConnection();
         } catch (SQLException ex) {
-            ex.printStackTrace();
             Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

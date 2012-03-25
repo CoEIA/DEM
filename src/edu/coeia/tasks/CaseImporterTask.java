@@ -12,11 +12,13 @@ import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.util.GUIFileFilter;
 import edu.coeia.util.ZipUtil;
 
+import java.awt.EventQueue;
 import java.io.File;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -52,7 +54,14 @@ public class CaseImporterTask implements Task{
         try {
             importCaseAction();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    JOptionPane.showMessageDialog(frame, "Cannot Importing Case File",
+                            "Case file is currept", JOptionPane.ERROR_MESSAGE);
+                }
+            } );
+            
             Logger.getLogger(CaseImporterTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -75,11 +84,15 @@ public class CaseImporterTask implements Task{
         String prefLocation = aCase.getCaseLocation() + File.separator +  ApplicationConstants.CASE_PREFERENCE_EXTENSION;
         
         CaseFacade caseFacade = CaseFacade.newInstance(aCase);
-        caseFacade.updateCase(aCase.getCaseName(), destPath);
-        caseFacade.importHistory(prefLocation);
         
         caseFacade.closeCaseAuditing();
         caseFacade.closeCaseTags();
+        
+        // updating case pointer after closing db
+        // so we know here if db is not found, this is file is currpted so 
+        // ignore it and not added in casees list
+        caseFacade.updateCase(aCase.getCaseName(), destPath);
+        caseFacade.importHistory(prefLocation);
         
         this.frame.readCases();
     }
