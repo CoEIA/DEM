@@ -38,14 +38,9 @@ final class CasePathMappingHandler {
     
     /**
      * make new case path handler and set the configuration path
-     * @param caseLocation the path to current case
-     * @return new instance of case path handler
+     * @param caseConfigurationFilePath the path to current case
      */
-    public static CasePathMappingHandler newInstance(final String caseLocation) {
-        return new CasePathMappingHandler(caseLocation);
-    }
-    
-    private CasePathMappingHandler(final String caseConfigurationFilePath) {
+    public CasePathMappingHandler(final String caseConfigurationFilePath) {
         this.casePathsMapping = new ArrayList<PathMapping>();
         this.configurationFileLocation = caseConfigurationFilePath ;
     }

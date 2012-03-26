@@ -273,9 +273,9 @@ public final class CaseFacade {
     private CaseFacade (final Case aCase) throws Exception {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();
-        this.casePathHandler = CasePathMappingHandler.newInstance(this.getCaseConfigurationFileLocation());
+        this.casePathHandler = new CasePathMappingHandler(this.getCaseConfigurationFileLocation());
         this.caseAuditing = new CaseAuditing(this.aCase, this.getCaseAuditingFileLocation());
-        this.caseTags = CaseTags.getTagsManager(this.getTagDatabaseFileLocation());
+        this.caseTags = new CaseTags(this.getTagDatabaseFileLocation());
         
         if ( FileUtil.isFileFound(this.getTagDatabaseFileLocation())) {
             this.caseTags.openDatabase(false);

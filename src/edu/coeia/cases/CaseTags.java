@@ -32,19 +32,13 @@ import java.util.logging.Logger;
  */
 final class CaseTags {
     
-    /**
-     * Get New Instance of Tags Manager for this case
-     * its will be calling one time during case opening, but there is no harm
-     * to re-call to with multiple time during case, since its will open the location
-     * if there is database in this location
-     * @param dbLocation is the database location inside the case
-     * @return CaseTags for this case
-     */
-    public static CaseTags getTagsManager(String dbLocation) throws Exception {
+    public CaseTags(final String dbLocation){
         checkNull("Case location must have a value", dbLocation);
         checkNotEmptyString("Case Location must not be empty string", dbLocation);
         
-        return new CaseTags(dbLocation);
+        this.tags = new ArrayList<Tag>();
+        this.tagsCopy = new ArrayList<Tag>();
+        this.dataBaseLocation = dbLocation;
     }
     
     /**
@@ -107,36 +101,16 @@ final class CaseTags {
     }
     
     /**
-     * private constructor
-     * create new database and then read tags to tags list
-     */
-    private CaseTags(String dbLocation){
-        this.tags = new ArrayList<Tag>();
-        this.tagsCopy = new ArrayList<Tag>();
-        this.dataBaseLocation = dbLocation;
-    }
-    
-    /**
      * Create new database if their is not existing database
-     * @throws ClassNotFoundException
-     * @throws InstantiationException
-     * @throws SQLException
-     * @throws IllegalAccessException 
      */
     public void openDatabase(boolean newDatabase){
         try {
             this.tagsDataBase = TagsDBHandler.newInstance(this.dataBaseLocation, newDatabase);
             this.tags.addAll(this.tagsDataBase.readTagsFromDataBase());
             this.updateMonitorChangingList();
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
     
     /**

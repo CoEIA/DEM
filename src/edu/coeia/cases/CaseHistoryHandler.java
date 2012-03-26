@@ -26,6 +26,10 @@ import java.util.prefs.BackingStoreException;
 
 final class CaseHistoryHandler {
    
+    public CaseHistoryHandler() {
+        
+    }
+    
     /**
      * constant used for storing variable into registry (the default
      * implementations for java preferences API
