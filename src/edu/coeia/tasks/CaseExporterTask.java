@@ -60,7 +60,8 @@ public class CaseExporterTask implements Task{
     private void exportCaseAction() throws Exception { 
         String caseName = this.file.getAbsolutePath();
 
-        CaseFacade caseFacade = CaseFacade.newInstance(aCase);
+        // open resoucres
+        CaseFacade caseFacade = CaseFacade.openCase(aCase);
         caseFacade.closeCaseAuditing();
         caseFacade.closeCaseTags();
         

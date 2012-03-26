@@ -330,16 +330,16 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         }
     }
     
-    private CaseFacade newFacade(final String caseName) throws FileNotFoundException,
+    private CaseFacade getCaseFacade(final String caseName) throws FileNotFoundException,
             IOException, ClassNotFoundException, Exception {
         
-        return CaseFacade.newInstance(ApplicationManager.Manager.getCaseFromCaseName(caseName));
+        return CaseFacade.openCase(ApplicationManager.Manager.getCaseFromCaseName(caseName));
     }
     
     private void loadCaseAction() {
         try {
             String caseName = getSelectedCase();
-            loadCase(newFacade(caseName), false);
+            loadCase(getCaseFacade(caseName), false);
         }
         catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to open",
@@ -355,7 +355,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     private void caseTableDoubleClickedAction() {
         try {
             String caseName = getSelectedCase();
-            loadCase(newFacade(caseName), false);
+            loadCase(getCaseFacade(caseName), false);
         }
         catch(NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to open",

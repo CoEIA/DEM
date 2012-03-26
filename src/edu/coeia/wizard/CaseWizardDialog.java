@@ -841,11 +841,8 @@ public class CaseWizardDialog extends javax.swing.JDialog{
                     .addEmailConfiguration(emailInfos)
             .build();
             
-            this.caseFacade = CaseFacade.newInstance(currentCase);
-            if (!caseFacade.createCase()) {     
-                showErrorMessage("Cannot Create New Case", "Error in Creating new Case");
-                return;
-            }
+            // create new instance & write resources files
+            this.caseFacade = CaseFacade.newCase(currentCase);
 
             // download emails
             for (EmailConfiguration s : emailInfos) {

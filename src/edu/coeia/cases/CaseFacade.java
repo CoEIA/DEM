@@ -35,21 +35,26 @@ public final class CaseFacade {
     private final CaseAuditing caseAuditing;
     private final CaseTags caseTags;
     
-    public static CaseFacade newInstance (final Case aCase) throws Exception {
-        return new CaseFacade(aCase);
-    }
-    
     /**
-     * create the folder structure for the current case object
-     * options and return true if their is no problems
+     * create case folder structures and save serialized case object
+     * into .DAT file and handle the file path mapping
+     * 
+     * @param aCase
+     * @return
+     * @throws Exception 
      */
-    public boolean createCase() throws IOException {
-        this.createCaseFoldersStructure();
-        this.saveCaseInformation();
-        this.updateCasesInformationFile();
-        this.addCaseMappingInformation();
-        this.caseTags.openDatabase(true);
-        return true;
+    public static CaseFacade newCase (final Case aCase) throws Exception {
+        return new CaseFacade(aCase, true);
+    }
+        
+    /**
+     * open case resources like tagging database, auditing files
+     * @param aCase
+     * @return
+     * @throws Exception 
+     */
+    public static CaseFacade openCase(final Case aCase) throws Exception {
+        return new CaseFacade(aCase, false);
     }
     
     /**
@@ -270,13 +275,32 @@ public final class CaseFacade {
         this.caseAuditing.close();
     }
     
-    private CaseFacade (final Case aCase) throws Exception {
+    private CaseFacade (final Case aCase, final boolean createCase) throws Exception {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();
         this.casePathHandler = new CasePathMappingHandler(this.getCaseConfigurationFileLocation());
         this.caseAuditing = new CaseAuditing(this.aCase, this.getCaseAuditingFileLocation());
         this.caseTags = new CaseTags(this.getTagDatabaseFileLocation());
         
+        if ( createCase )
+            saveCase();
+        else
+            openCase();
+    }
+        
+    /**
+     * create the folder structure for the current case object
+     * options and return true if their is no problems
+     */
+    private void saveCase() throws IOException {
+        this.createCaseFoldersStructure();
+        this.saveCaseInformation();
+        this.updateCasesInformationFile();
+        this.addCaseMappingInformation();
+        this.caseTags.openDatabase(true);
+    }
+    
+    private void openCase() throws Exception{
         if ( FileUtil.isFileFound(this.getTagDatabaseFileLocation())) {
             this.caseTags.openDatabase(false);
         }
@@ -289,8 +313,7 @@ public final class CaseFacade {
             this.caseAuditing.init();
         }
     }
-    
-        
+      
     public String getCasesInformationFileLocation() {
         return ApplicationConstants.APPLICATION_CASES_FILE;
     }
