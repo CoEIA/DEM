@@ -4,12 +4,6 @@
  */
 package edu.coeia.cases;
 
-/**
- *
- * @author wajdyessam
- *
- */
-
 import edu.coeia.wizard.EmailConfiguration;
 
 import java.util.List;
@@ -19,9 +13,32 @@ import java.util.Collections;
 
 import java.io.Serializable;
 
+/**
+ * Case object have collections of attribute that define 
+ * what user options he need when defining case
+ * 
+ * when saved case object it will be saving the whole state
+ * so we make the case Serializable for easy saving and retrieving
+ * the attributes
+ * 
+ * some of these attributes cannot be changed when the case object is 
+ * constructed ( Immutable attributes) and some of them will be modified
+ * later on, even after serializable and de-serializable it
+ * 
+ * also some attributes is needed when constructing the object
+ * and its marked as final attributes, and some attributes the Case
+ * object can constructed with the default value of it (non-final) fields
+ * 
+ * because the case non-final fields and the finality of Case object
+ * the case object will be build from inner CaseBuilder class
+ * that will set default value for non-final fields and set these fields
+ * in the Case constructor
+ * 
+ * @author wajdyessam
+ */
 public final class Case implements Serializable {
 
-    // Requaired (constant) paramters for case
+    // Required (Immutable fields) paramters for case
     private final String investigatorName;
     private final String description;
     private final Date createTime;
@@ -31,18 +48,19 @@ public final class Case implements Serializable {
     private String caseName;
     private String caseLocation;
     
-    // Optional Paramaters for case
+    // Optional Paramaters for case, cannot be changed
     private final List<EmailConfiguration> emaiConfigurations;
+    
     private final boolean doIndexingAfterCaseCreating;
     private final boolean computeHashForEveryItem;
     private final boolean detectDuplicationInCase;
     private final boolean detectDuplicationWithHashLibrary;
+    
     private final boolean indexArchiveFiles;
     private final boolean indexChatSessions;
     private final boolean indexEmbeddedDocuments;
     private final boolean indexBroswers;
     private final boolean cacheImage;
-    private final boolean execludeFileSystem;
 
     private Case(final CaseBuilder builder) {
         this.caseName = builder.caseName;
@@ -59,7 +77,6 @@ public final class Case implements Serializable {
         this.indexArchiveFiles = builder.indexArchiveFiles;
         this.indexEmbeddedDocuments = builder.indexEmbeddedDocuments;
         this.cacheImage = builder.cacheImage;
-        this.execludeFileSystem = builder.execludeFileSystem;
         this.indexChatSessions  = builder.indexChatSessions;
         this.indexBroswers  = builder.indexBroswers;
     }
@@ -88,10 +105,6 @@ public final class Case implements Serializable {
        return this.indexBroswers;
     }
 
-    public boolean execludeFileSystem() {
-        return this.execludeFileSystem;
-    }
-
     public List<EmailConfiguration> getEmailConfigurations() {
         return Collections.unmodifiableList(this.emaiConfigurations);
     }
@@ -113,7 +126,7 @@ public final class Case implements Serializable {
     }
 
     public List<String> getEvidenceSourceLocation() {
-        return (this.evidenceSourceLocation);
+        return Collections.unmodifiableList(this.evidenceSourceLocation);
     }
 
     public Date getCreateTime() {
@@ -162,22 +175,22 @@ public final class Case implements Serializable {
 
         // Optional Paramaters for case
         private List<EmailConfiguration> emaiConfigurations;
+        
         private boolean doIndexingAfterCaseCreating;
         private boolean computeHashForEveryItem;
         private boolean detectDuplicationInCase;
         private boolean detectDuplicationWithHashLibrary;
+        
         private boolean indexArchiveFiles;
         private boolean indexChatSessions;
         private boolean indexEmbeddedDocuments;
         private boolean indexBroswers;
         private boolean cacheImage;
-        private boolean execludeFileSystem;
     
          public CaseBuilder(final String indexName, final String indexLocation, 
                  final String investigatorName, final String description,
                  final List<String> evidenceFolders,
-                 final Date createTime, final long caseSize) {
-             
+                 final Date createTime, final long caseSize) {   
             this.caseName = indexName;
             this.caseLocation = indexLocation;
             this.investigatorName = investigatorName;
@@ -230,11 +243,6 @@ public final class Case implements Serializable {
         public CaseBuilder detectInternetBrowsers(boolean val) {
            this.indexBroswers = val;
            return this;
-        }
-
-        public CaseBuilder execludeFileSystem(boolean val) {
-            this.execludeFileSystem = val;
-            return this;
         }
 
         public CaseBuilder getCacheImages(boolean val) {

@@ -74,9 +74,9 @@ public class CaseImporterTask implements Task{
     private void importCaseAction() throws Exception{
         ZipUtil zipper = new ZipUtil(this);
         String fileNameWithOutExt = file.getName().toString().replaceFirst("[.][^.]+$", "");
-        String destPath = ApplicationManager.Manager.getCasesPath() + File.separator + fileNameWithOutExt;
         zipper.decompress(file.getAbsolutePath(), ApplicationManager.Manager.getCasesPath() );
 
+        String destPath = ApplicationManager.Manager.getCasesPath() + File.separator + fileNameWithOutExt;
         String line = fileNameWithOutExt + " - " + destPath;
         Case aCase = ApplicationManager.Manager.getCase(line);
         aCase.setCaseLocation(destPath);

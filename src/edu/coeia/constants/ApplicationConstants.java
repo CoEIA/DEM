@@ -25,8 +25,7 @@ public final class ApplicationConstants {
     private final static String APPLICATION_TMP_FOLDER = "TMP";
     private final static String APPLICATION_HASH_LIBRARY_FOLDER = "HASH_LIBRARY";
     private final static String APPLICATION_LOG_FOLDER = "LOG";
-    private final static String APPLICATION_CASES_INFORMATION_FILE = "INDEXES.txt";
-    
+    private final static String APPLICATION_CASES_INFORMATION_FILE = "INDEXES.txt";    
     
     /** Case Folders/Files name and extension */
     public final static String CASE_HASH_SET_EXTENSION = ".HASH_SET";
