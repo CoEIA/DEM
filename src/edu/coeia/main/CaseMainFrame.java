@@ -25,11 +25,9 @@ import edu.coeia.constants.AuditingMessages;
 import edu.coeia.constants.SystemConstant;
 import edu.coeia.managers.ApplicationManager;
 
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Toolkit ;
-import java.awt.event.MouseAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 

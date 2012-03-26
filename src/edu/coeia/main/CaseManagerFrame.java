@@ -327,12 +327,6 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         }
     }
     
-//    private CaseFacade getCaseFacade(final String caseName) throws FileNotFoundException,
-//            IOException, ClassNotFoundException, Exception {
-//        
-//        return CaseFacade.openCase(ApplicationManager.Manager.getCaseFromCaseName(caseName));
-//    }
-    
     private void loadCaseAction() {
         try {
             String caseName = getSelectedCase();

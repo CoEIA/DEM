@@ -47,7 +47,6 @@ public class CaseExporterTask implements Task{
         try {
             exportCaseAction();
         } catch (Exception ex) {
-            ex.printStackTrace();
             Logger.getLogger(CaseExporterTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
