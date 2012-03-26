@@ -17,9 +17,6 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.SystemConstant;
 
 /* import sun classes */
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import javax.swing.JOptionPane ;
 
 import java.util.List ;
@@ -316,8 +313,8 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     private void exportCaseAction() { 
         try {
             String caseName = getSelectedCase();
-            Case aCase = ApplicationManager.Manager.getCaseFromCaseName(caseName);
-            CaseExporterTask task = new CaseExporterTask(aCase);
+            CaseFacade caseFacade = ApplicationManager.Manager.openCase(caseName);
+            CaseExporterTask task = new CaseExporterTask(caseFacade);
             task.startTask();
             
         }
@@ -330,16 +327,16 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         }
     }
     
-    private CaseFacade getCaseFacade(final String caseName) throws FileNotFoundException,
-            IOException, ClassNotFoundException, Exception {
-        
-        return CaseFacade.openCase(ApplicationManager.Manager.getCaseFromCaseName(caseName));
-    }
+//    private CaseFacade getCaseFacade(final String caseName) throws FileNotFoundException,
+//            IOException, ClassNotFoundException, Exception {
+//        
+//        return CaseFacade.openCase(ApplicationManager.Manager.getCaseFromCaseName(caseName));
+//    }
     
     private void loadCaseAction() {
         try {
             String caseName = getSelectedCase();
-            loadCase(getCaseFacade(caseName), false);
+            loadCase(ApplicationManager.Manager.openCase(caseName), false);
         }
         catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to open",
@@ -355,7 +352,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     private void caseTableDoubleClickedAction() {
         try {
             String caseName = getSelectedCase();
-            loadCase(getCaseFacade(caseName), false);
+            loadCase(ApplicationManager.Manager.openCase(caseName), false);
         }
         catch(NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to open",

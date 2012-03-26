@@ -21,19 +21,19 @@ import javax.swing.JFileChooser;
  * @author wajdyessam
  */
 public class CaseExporterTask implements Task{
-    private final Case aCase;
+    private final CaseFacade caseFacade;
     private final BackgroundProgressDialog dialog ;
     private File file ;
     
-    public CaseExporterTask(final Case aCase) {
-        this.aCase = aCase;
+    public CaseExporterTask(final CaseFacade caseFacade) {
+        this.caseFacade = caseFacade;
         this.dialog = new BackgroundProgressDialog(null, true, this);
     }
     
     @Override
     public void startTask() {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setSelectedFile(new File(aCase.getCaseName() + ApplicationConstants.CASE_EXPORT_EXTENSION) );
+        fileChooser.setSelectedFile(new File(caseFacade.getCase().getCaseName() + ApplicationConstants.CASE_EXPORT_EXTENSION) );
 
         int result = fileChooser.showSaveDialog(null);
         if ( result == JFileChooser.APPROVE_OPTION ) {
@@ -60,14 +60,13 @@ public class CaseExporterTask implements Task{
     private void exportCaseAction() throws Exception { 
         String caseName = this.file.getAbsolutePath();
 
-        // open resoucres
-        CaseFacade caseFacade = CaseFacade.openCase(aCase);
+        // close resoucres
         caseFacade.closeCaseAuditing();
         caseFacade.closeCaseTags();
         
-        caseFacade.exportHistory(this.aCase.getCaseName(), caseFacade.getCasePreferenceFileLocation());
+        caseFacade.exportHistory(this.caseFacade.getCase().getCaseName(), caseFacade.getCasePreferenceFileLocation());
 
         ZipUtil zipper = new ZipUtil(this);
-        zipper.compress(this.aCase.getCaseLocation(), caseName);
+        zipper.compress(this.caseFacade.getCase().getCaseLocation(), caseName);
     }
 }

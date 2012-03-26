@@ -4,9 +4,7 @@
  */
 package edu.coeia.tasks;
 
-import edu.coeia.cases.Case;
 import edu.coeia.managers.ApplicationManager;
-import edu.coeia.cases.CaseFacade;
 import edu.coeia.main.CaseManagerFrame;
 
 import java.util.logging.Level;
@@ -47,11 +45,8 @@ public class CaseRemoverTask implements Task{
     }
   
     private void removeCaseAction() throws Exception{
-        Case aCase = ApplicationManager.Manager.getCaseFromCaseName(caseName);
+        ApplicationManager.Manager.removeCase(caseName);
         
-        CaseFacade caseFacade = CaseFacade.openCase(aCase);
-
-        boolean status = caseFacade.removeCase();
         this.frame.readCases(); // update view table
     }
 }

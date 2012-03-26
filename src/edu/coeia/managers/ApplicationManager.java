@@ -1,6 +1,7 @@
 package edu.coeia.managers;
 
 import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.util.FileUtil;
 import edu.coeia.constants.ApplicationConstants ;
 
@@ -92,7 +93,7 @@ public enum ApplicationManager {
      * Get index path from index name 
      * @return IndexInformation 
      */
-    public Case getCaseFromCaseName (final String caseName) throws FileNotFoundException {
+    private Case getCaseFromCaseName (final String caseName) throws FileNotFoundException {
         List<Case> cases = this.getCases();
         
         for(Case caseObject: cases) {
@@ -160,6 +161,25 @@ public enum ApplicationManager {
         Case caseObject = FileUtil.readObject(caseInfoDatFile);
         
         return caseObject;
+    }
+    
+    public CaseFacade openCase(final String caseName) throws Exception{
+        return CaseFacade.openCase(ApplicationManager.Manager.getCaseFromCaseName(caseName));
+    }
+    
+    public boolean removeCase(final String caseName) throws Exception {
+        Case caseToRemove = this.getCaseFromCaseName(caseName);
+        CaseFacade caseFacade = CaseFacade.openCase(caseToRemove);
+        
+        return caseFacade.removeCase();
+    }
+    
+    public void importCase(final String caseName) {
+        
+    }
+    
+    public void exoprtCase(final String caseName) {
+        
     }
     
     /**
