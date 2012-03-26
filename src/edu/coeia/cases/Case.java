@@ -51,7 +51,6 @@ public final class Case implements Serializable {
     // Optional Paramaters for case, cannot be changed
     private final List<EmailConfiguration> emaiConfigurations;
     
-    private final boolean doIndexingAfterCaseCreating;
     private final boolean computeHashForEveryItem;
     private final boolean detectDuplicationInCase;
     private final boolean detectDuplicationWithHashLibrary;
@@ -70,7 +69,6 @@ public final class Case implements Serializable {
         this.createTime = builder.createTime;
         this.evidenceSourceLocation.addAll(builder.evidenceSourceLocation);
         this.emaiConfigurations = builder.emaiConfigurations;
-        this.doIndexingAfterCaseCreating = builder.doIndexingAfterCaseCreating;
         this.computeHashForEveryItem = builder.computeHashForEveryItem;
         this.detectDuplicationInCase = builder.detectDuplicationInCase;
         this.detectDuplicationWithHashLibrary = builder.detectDuplicationWithHashLibrary;
@@ -83,10 +81,6 @@ public final class Case implements Serializable {
 
     public boolean computeHashForEveryItem() {
         return this.computeHashForEveryItem;
-    }
-
-    public boolean doIndexingAfterCaseCreation() {
-        return this.doIndexingAfterCaseCreating;
     }
 
     public boolean detectDuplicationWithinCase() {
@@ -176,7 +170,6 @@ public final class Case implements Serializable {
         // Optional Paramaters for case
         private List<EmailConfiguration> emaiConfigurations;
         
-        private boolean doIndexingAfterCaseCreating;
         private boolean computeHashForEveryItem;
         private boolean detectDuplicationInCase;
         private boolean detectDuplicationWithHashLibrary;
@@ -190,7 +183,7 @@ public final class Case implements Serializable {
          public CaseBuilder(final String indexName, final String indexLocation, 
                  final String investigatorName, final String description,
                  final List<String> evidenceFolders,
-                 final Date createTime, final long caseSize) {   
+                 final Date createTime) {   
             this.caseName = indexName;
             this.caseLocation = indexLocation;
             this.investigatorName = investigatorName;
@@ -217,11 +210,6 @@ public final class Case implements Serializable {
                 
         public CaseBuilder computeHashForEveryItem(boolean value) {
             this.computeHashForEveryItem = value;
-            return this;
-        }
-
-        public CaseBuilder doIndexingAfterCaseCreation(boolean val) {
-            this.doIndexingAfterCaseCreating = val;
             return this;
         }
 

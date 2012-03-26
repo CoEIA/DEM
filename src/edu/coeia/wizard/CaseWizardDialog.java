@@ -829,12 +829,11 @@ public class CaseWizardDialog extends javax.swing.JDialog{
                     caseLocationTextField.getText().trim(),
                     investigatorTextField.getText().trim(),
                     descriptionTextArea.getText().trim(),
-                    evidencePathLocations, new Date(), 0)
+                    evidencePathLocations, new Date())
                     .getCacheImages(CacheImageCheckBox.isSelected())
                     .detectDuplicationWithinCase(DetectClusterCaseRadioButton.isSelected())
                     .detectDuplicationWithHashLibrary(DetectClusterLibraryRadioButton.isSelected())
                     .computeHashForEveryItem(YesMD5RadioButton.isSelected())
-                    .doIndexingAfterCaseCreation(YesIndexRadioButton.isSelected())
                     .indexArchiveFiles(IndexZipCheckBox.isSelected())
                     .indexEmbeddedDocuments(IndexEmbeddedFilesCheckBox.isSelected())
                     .isIndexChatSessions(IndexChatCheckBox.isSelected())
