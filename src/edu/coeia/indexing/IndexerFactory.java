@@ -175,7 +175,7 @@ final class IndexerFactory {
             return true;
         
         // windows 7 msn path
-        if ( path.contains("Documents\\My Recieved Files") &&
+        if ( path.contains("Documents\\My Received Files") &&
               path.contains("History") && path.endsWith(".xml"))
             return true;
         
