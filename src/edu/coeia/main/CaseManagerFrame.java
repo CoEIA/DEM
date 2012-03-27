@@ -344,7 +344,9 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     private void caseTableDoubleClickedAction() {
         try {
             String caseName = getSelectedCase();
-            loadCase(ApplicationManager.Manager.openCase(caseName), false);
+            //loadCase(ApplicationManager.Manager.openCase(caseName), false);
+            CaseOperations operation = new CaseOperations(this, caseName, CASE_OPERATION_TYPE.LOAD);
+            operation.start();
         }
         catch(NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to open",

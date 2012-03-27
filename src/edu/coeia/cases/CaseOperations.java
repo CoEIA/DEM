@@ -5,7 +5,9 @@
 package edu.coeia.cases;
 
 import edu.coeia.constants.ApplicationConstants;
+import edu.coeia.main.CaseMainFrame;
 import edu.coeia.main.CaseManagerFrame;
+import edu.coeia.main.UpdatingCaseEvidenceSourceDialog;
 import edu.coeia.managers.ApplicationManager;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.GUIFileFilter;
@@ -15,6 +17,7 @@ import java.awt.EventQueue;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import java.util.List;
@@ -81,9 +84,106 @@ public class CaseOperations {
             case IMPORT:
                 worker = new CaseImporterWorker();
                 break;
+                
+            case LOAD:
+                worker = new CaseLoadWorker();
+                break;
         }
         
         return worker;
+    }
+    
+    private final class CaseLoadWorker extends SwingWorker<Boolean, ProgressData> {
+        @Override
+        public Boolean doInBackground() {
+            if ( caseName != null ) {
+                if ( !ApplicationManager.Manager.isRunningCase(caseName)) {
+                    try {
+                        CaseFacade caseFacade = ApplicationManager.Manager.openCase(caseName);
+                        //caseFacade.closeCase();
+                    
+                        // check here for case evience chnaging
+                        // and update the file before opening the case
+                        boolean caseSourceIsUptoDate = true;
+
+                        if ( caseFacade.isCaseHaveChangedSource() )  {
+                            caseSourceIsUptoDate = askAndUpdateNewCaseSource(caseFacade);
+                        }
+
+                        if ( caseSourceIsUptoDate ) {                    
+                            ApplicationManager.Manager.addCase(caseName);
+
+                            CaseMainFrame mainFrame = new CaseMainFrame((CaseManagerFrame)parentFrame,
+                                    caseFacade);
+                            mainFrame.setLocationRelativeTo(parentFrame);
+                            mainFrame.setVisible(true);
+
+                            // close current dialog
+                            caseOperationDialog.setVisible(false);
+                            mainFrame.toFront();
+                            mainFrame.repaint();
+
+                            if ( ! caseFacade.getCaseHistory().getIsCaseIndexed() ) {
+                                mainFrame.showIndexDialog(true);
+                            }
+                        }
+                        else { // close new created facde, so user can remove it later on
+                            caseFacade.closeCase();
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(CaseOperations.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(parentFrame, "This case is already opening",
+                            "Already Openining Case", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+            
+            
+            return true;
+        }
+        
+        private boolean askAndUpdateNewCaseSource(final CaseFacade caseFacade) throws IOException {
+            UpdatingCaseEvidenceSourceDialog updateDialog = new UpdatingCaseEvidenceSourceDialog(
+                    parentFrame, true, caseFacade);
+            updateDialog.setVisible(true);
+
+            return updateDialog.getResult();
+        }
+        
+        @Override
+        public void process(final List<ProgressData> items) {
+            if ( isCancelled() )
+                return;
+            
+            for(ProgressData item: items) {
+                CaseOperations.this.caseOperationDialog.addLine(item.fileName);
+            }
+        }
+        
+        @Override
+        public void done() {
+            try {
+                Boolean result = get();
+                
+                if ( !result ) {
+                    JOptionPane.showMessageDialog(parentFrame, "The task is canclled by the user");
+                }
+            } 
+            catch (InterruptedException ex) {
+                Logger.getLogger(CaseOperations.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+            catch (ExecutionException ex) {
+                Logger.getLogger(CaseOperations.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            finally {
+                caseOperationDialog.dispose();
+                ((CaseManagerFrame)parentFrame).readCases();
+                
+                return;
+            }
+        }
     }
     
     private final class CaseImporterWorker extends SwingWorker<Boolean, ProgressData> {
@@ -105,6 +205,9 @@ public class CaseOperations {
                     String fileNameWithOutExt = file.getName().toString().replaceFirst("[.][^.]+$", "");
                     decompress(file.getAbsolutePath(), ApplicationManager.Manager.getCasesPath() );
 
+                    if ( isCancelled() )
+                        return false;
+                    
                     String destPath = ApplicationManager.Manager.getCasesPath() + File.separator + fileNameWithOutExt;
                     String line = fileNameWithOutExt + " - " + destPath;
                     Case aCase = ApplicationManager.Manager.getCase(line);
