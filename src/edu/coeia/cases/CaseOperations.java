@@ -7,15 +7,16 @@ package edu.coeia.cases;
 import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.main.CaseManagerFrame;
 import edu.coeia.managers.ApplicationManager;
-
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.GUIFileFilter;
+
 import java.awt.EventQueue;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-
 import java.io.InputStream;
+
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
@@ -57,6 +58,7 @@ public class CaseOperations {
         
         this.caseOperationDialog = new CaseOperationDialog(parentFrame, true, this);
         this.caseOperationDialog.getProgressBar().setIndeterminate(true);
+        this.caseOperationDialog.setTitle("Process Task: " + type.name() + " Case");
         this.caseOperationDialog.setVisible(true);
     }
     
