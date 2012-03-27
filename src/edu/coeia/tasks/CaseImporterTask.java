@@ -84,9 +84,7 @@ public class CaseImporterTask implements Task{
         String prefLocation = aCase.getCaseLocation() + File.separator +  ApplicationConstants.CASE_PREFERENCE_EXTENSION;
         
         CaseFacade caseFacade = CaseFacade.openCase(aCase);
-        
-        caseFacade.closeCaseAuditing();
-        caseFacade.closeCaseTags();
+        caseFacade.closeCase();
         
         // updating case pointer after closing db
         // so we know here if db is not found, this is file is currpted so 

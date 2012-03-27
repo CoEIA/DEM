@@ -49,6 +49,8 @@ public final class CaseFacade {
         
     /**
      * open case resources like tagging database, auditing files
+     * these resources should be closed after finishing with closeCase
+     * 
      * @param aCase
      * @return
      * @throws Exception 
@@ -85,18 +87,7 @@ public final class CaseFacade {
      * @throws Exception 
      */
     public boolean removeCase() throws Exception {
-       
-        try {
-            this.closeCaseAuditing();
-            this.closeCaseTags();
-        }
-        catch(Exception e) {
-            /** some cases after importing and cancel this operation
-             * will not be in good state and the db files will not exists
-             * so closing not exists file will make null pointer exception
-             * here we ignore this
-             */
-        }
+        closeCase();
         
         // remove pointer first
         List<String> otherCasesGroup = this.getOtherCases(this.aCase.getCaseName(), this.getCaseFolderLocation());
@@ -109,6 +100,20 @@ public final class CaseFacade {
         boolean status = FileUtil.removeDirectory(this.getCaseFolderLocation());
 
         return status;
+    }
+    
+    public void closeCase() {
+        try {
+            this.closeCaseAuditing();
+            this.closeCaseTags();
+        }
+        catch(Exception e) {
+            /** some cases after importing and cancel this operation
+             * will not be in good state and the db files will not exists
+             * so closing not exists file will make null pointer exception
+             * here we ignore this
+             */
+        }
     }
     
     // Case History Simplified Methods
@@ -267,11 +272,11 @@ public final class CaseFacade {
         this.caseTags.removeTag(index);
     }
     
-    public void closeCaseTags() {
+    private void closeCaseTags() {
         this.caseTags.close();
     }
    
-    public void closeCaseAuditing() {
+    private void closeCaseAuditing() {
         this.caseAuditing.close();
     }
     

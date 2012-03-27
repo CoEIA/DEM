@@ -60,8 +60,7 @@ public class CaseExporterTask implements Task{
         String caseName = this.file.getAbsolutePath();
 
         // close resoucres
-        caseFacade.closeCaseAuditing();
-        caseFacade.closeCaseTags();
+        caseFacade.closeCase();
         
         caseFacade.exportHistory(this.caseFacade.getCase().getCaseName(), caseFacade.getCasePreferenceFileLocation());
 

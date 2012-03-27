@@ -553,7 +553,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
                 if ( !caseName.isEmpty() )
                     ApplicationManager.Manager.removeCaseFromOpeningCase(caseName);
                 
-                this.caseFacade.closeCaseTags();
+                this.caseFacade.closeCase();
             }
         }
         catch (Exception e){

@@ -80,8 +80,7 @@ public class CaseLoaderTask implements Task {
                     }
                 }
                 else { // close new created facde, so user can remove it later on
-                    this.caseFacade.closeCaseAuditing();
-                    this.caseFacade.closeCaseTags();
+                    this.caseFacade.closeCase();
                 }
             }
             else {

@@ -88,22 +88,6 @@ public enum ApplicationManager {
         
         return cases;
     }
-
-    /*
-     * Get index path from index name 
-     * @return IndexInformation 
-     */
-    private Case getCaseFromCaseName (final String caseName) throws FileNotFoundException {
-        List<Case> cases = this.getCases();
-        
-        for(Case caseObject: cases) {
-            if (caseObject.getCaseName().equals(caseName)) {
-                return caseObject;
-            }
-        }
-        
-        return null ;
-    }
     
     /*
      * Check if the caseName is exist in the system and
@@ -164,7 +148,10 @@ public enum ApplicationManager {
     }
     
     public CaseFacade openCase(final String caseName) throws Exception{
-        return CaseFacade.openCase(ApplicationManager.Manager.getCaseFromCaseName(caseName));
+        Case caseToOpen = this.getCaseFromCaseName(caseName);
+        CaseFacade caseFacade = CaseFacade.openCase(caseToOpen);
+        
+        return caseFacade;
     }
     
     public boolean removeCase(final String caseName) throws Exception {
@@ -224,6 +211,23 @@ public enum ApplicationManager {
         return ApplicationConstants.APPLICATION_CASES_PATH;
     }
        
+    /*
+     * retreive the case that have this caseName
+     * 
+     * @return the case matched the caseName 
+     */
+    private Case getCaseFromCaseName (final String caseName) throws FileNotFoundException {
+        List<Case> cases = this.getCases();
+        
+        for(Case caseObject: cases) {
+            if (caseObject.getCaseName().equals(caseName)) {
+                return caseObject;
+            }
+        }
+        
+        return null ;
+    }
+    
     /**
      * Check that application folder structure is valid
      * and no missing files or folder found
