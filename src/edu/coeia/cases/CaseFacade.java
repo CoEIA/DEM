@@ -77,29 +77,26 @@ public final class CaseFacade {
     }
     
     /**
-     *  Remove the case folder then
+     *  Remove case information (case database .txt files )
+     *  and remove the case history 
+     * 
      *  update information file and also history
      *  the update will occur even if their is problems when deleting some files
      *  inside the case, so we can know that we read completed case
      *  and no exception occur during reading not-removed correctly case
      * 
-     * @return the status of removing case folder
+     * @return the status of removing case history and pointer in db file
      * @throws Exception 
      */
     public boolean removeCase() throws Exception {
-        closeCase();
-        
         // remove pointer first
         List<String> otherCasesGroup = this.getOtherCases(this.aCase.getCaseName(), this.getCaseFolderLocation());
         FileUtil.writeToFile(otherCasesGroup, getCasesInformationFileLocation());
 
         // remove history
         this.caseHistoryHandler.removeHistory(aCase.getCaseName());
-        
-        // remove all cases file
-        boolean status = FileUtil.removeDirectory(this.getCaseFolderLocation());
 
-        return status;
+        return true;
     }
     
     public void closeCase() {

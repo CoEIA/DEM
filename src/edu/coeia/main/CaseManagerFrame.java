@@ -10,10 +10,10 @@ import edu.coeia.util.DateUtil;
 import edu.coeia.util.ApplicationLogging;
 import edu.coeia.tasks.CaseExporterTask;
 import edu.coeia.tasks.CaseImporterTask;
-import edu.coeia.tasks.CaseRemoverTask;
 import edu.coeia.tasks.CaseLoaderTask;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
+import edu.coeia.cases.CaseOperations;
 import edu.coeia.constants.SystemConstant;
 
 /* import sun classes */
@@ -366,8 +366,8 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             String caseName = getSelectedCase();
             
             if ( !applicationManager.isRunningCase(caseName)) {
-                CaseRemoverTask task = new CaseRemoverTask(this, caseName);
-                task.startTask();
+                CaseOperations deleteCase = new CaseOperations(this, caseName);
+                deleteCase.start();
             }
             else {
                 JOptionPane.showMessageDialog(this, "This case is already opening, close it first to remove it",

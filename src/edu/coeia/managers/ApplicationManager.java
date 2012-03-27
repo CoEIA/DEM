@@ -154,12 +154,14 @@ public enum ApplicationManager {
         return caseFacade;
     }
     
-    public boolean removeCase(final String caseName) throws Exception {
-        Case caseToRemove = this.getCaseFromCaseName(caseName);
-        CaseFacade caseFacade = CaseFacade.openCase(caseToRemove);
-        
-        return caseFacade.removeCase();
-    }
+//    public boolean removeCase(final String caseName) throws Exception {
+//        Case caseToRemove = this.getCaseFromCaseName(caseName);
+//        
+//        CaseFacade caseFacade = CaseFacade.openCase(caseToRemove);
+//        caseFacade.closeCase();
+//        
+//        return caseFacade.removeCase();
+//    }
     
     public void importCase(final String caseName) {
         
