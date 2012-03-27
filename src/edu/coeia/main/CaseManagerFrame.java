@@ -8,12 +8,11 @@ import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.ApplicationLogging;
-import edu.coeia.tasks.CaseExporterTask;
-import edu.coeia.tasks.CaseImporterTask;
 import edu.coeia.tasks.CaseLoaderTask;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.cases.CaseOperations;
+import edu.coeia.cases.CaseOperations.CASE_OPERATION_TYPE;
 import edu.coeia.constants.SystemConstant;
 
 /* import sun classes */
@@ -306,16 +305,15 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     }
     
     private void importCaseAction(){
-        CaseImporterTask task = new CaseImporterTask(this);
-        task.startTask();
+        CaseOperations operation = new CaseOperations(this, "", CASE_OPERATION_TYPE.IMPORT);
+        operation.start();
     }
     
     private void exportCaseAction() { 
         try {
             String caseName = getSelectedCase();
-            CaseFacade caseFacade = ApplicationManager.Manager.openCase(caseName);
-            CaseExporterTask task = new CaseExporterTask(caseFacade);
-            task.startTask();
+            CaseOperations operation = new CaseOperations(this, caseName, CASE_OPERATION_TYPE.EXPORT);
+            operation.start();
             
         }
         catch (NullPointerException e) {
@@ -366,7 +364,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             String caseName = getSelectedCase();
             
             if ( !applicationManager.isRunningCase(caseName)) {
-                CaseOperations deleteCase = new CaseOperations(this, caseName);
+                CaseOperations deleteCase = new CaseOperations(this, caseName, CASE_OPERATION_TYPE.REMOVE);
                 deleteCase.start();
             }
             else {
