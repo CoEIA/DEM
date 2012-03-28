@@ -63,6 +63,12 @@ public class CaseOperations {
         this.caseOperationDialog = new CaseOperationDialog(parentFrame, true, this);
         this.caseOperationDialog.getProgressBar().setIndeterminate(true);
         this.caseOperationDialog.setTitle("Process Task: " + type.name() + " Case");
+        
+        if ( type == CASE_OPERATION_TYPE.LOAD || type == CASE_OPERATION_TYPE.LOAD_AND_INDEX ) {
+            this.caseOperationDialog.hideDataPanel();
+            this.caseOperationDialog.pack();
+        }
+        
         this.caseOperationDialog.setVisible(true);
     }
     
@@ -111,7 +117,6 @@ public class CaseOperations {
                 if ( !ApplicationManager.Manager.isRunningCase(caseName)) {
                     try {
                         CaseFacade caseFacade = ApplicationManager.Manager.openCase(caseName);
-                        //caseFacade.closeCase();
                     
                         // check here for case evience chnaging
                         // and update the file before opening the case

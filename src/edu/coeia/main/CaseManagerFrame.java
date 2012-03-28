@@ -8,7 +8,6 @@ import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.GuiUtil;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.ApplicationLogging;
-import edu.coeia.tasks.CaseLoaderTask;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.cases.CaseOperations;
@@ -276,7 +275,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
 
     private void recentCaseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recentCaseTableMouseClicked
         if ( evt.getClickCount() == 2 ) { // double click
-            this.caseTableDoubleClickedAction();
+            this.loadCaseAction();
         }
     }//GEN-LAST:event_recentCaseTableMouseClicked
 
@@ -328,6 +327,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     private void loadCaseAction() {
         try {
             String caseName = getSelectedCase();
+            System.out.println("case name: " +  caseName);
             
             CaseOperations operation = new CaseOperations(this, caseName, CASE_OPERATION_TYPE.LOAD);
             operation.start();
@@ -338,25 +338,6 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         }
         catch (Exception e) {
             logger.severe(String.format("Exception - Cannot Load The Case: %s", e.getMessage()));
-            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
-                JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    private void caseTableDoubleClickedAction() {
-        try {
-            String caseName = getSelectedCase();
-            CaseOperations operation = new CaseOperations(this, caseName, CASE_OPERATION_TYPE.LOAD);
-            operation.start();
-        }
-        catch(NullPointerException e) {
-            JOptionPane.showMessageDialog(this, "please select the case you want to open",
-                "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
-
-            return ;
-        }
-        catch (Exception e){
-            logger.severe(String.format("Exception - Cannot Openining The Case: %s", e.getMessage()));
             JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
                 JOptionPane.ERROR_MESSAGE);
         }
