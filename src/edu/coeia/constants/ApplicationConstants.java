@@ -30,7 +30,7 @@ public final class ApplicationConstants {
     /** Case Folders/Files name and extension */
     public final static String CASE_HASH_SET_EXTENSION = ".HASH_SET";
     public final static String CASE_EXPORT_EXTENSION = ".DEM_CASE";
-    public final static String CASE_PREFERENCE_EXTENSION = "CASE.pref";
+    public final static String CASE_PREFERENCE_FILE = "CASE.pref";
     public final static String CASE_AUDITING_EXTENSION = ".LOG";
     public final static String CASE_SERIALIZED_INFORMATION_EXTENSION = ".DAT";
     public final static String CASE_IMAGES_FOLDER = "IMAGES" ;

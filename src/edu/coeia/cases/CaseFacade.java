@@ -31,7 +31,7 @@ import java.util.List;
 public final class CaseFacade {
     private final Case aCase ;
     private final CaseHistoryHandler caseHistoryHandler;
-    private final CasePathMappingHandler casePathHandler; 
+    private final CasePathConfiguration casePathConfiguration; 
     private final CaseAuditing caseAuditing;
     private final CaseTags caseTags;
     
@@ -132,32 +132,32 @@ public final class CaseFacade {
     
     // Case File path mapping simplified methods
     public void updateMappingFile() throws IOException { 
-        this.casePathHandler.reloadFileMapping();
+        this.casePathConfiguration.reloadFileMapping();
     }
     
     public String getFullPath(final String relativePath) {
-        return this.casePathHandler.getFullPath(relativePath);
+        return this.casePathConfiguration.getFullPath(relativePath);
     }
     
     public String getRelativePath(final String fullPath) {
-        return this.casePathHandler.getRelativePath(fullPath);
+        return this.casePathConfiguration.getRelativePath(fullPath);
     }
     
     public boolean isCaseHaveChangedSource() throws IOException {
-        return !this.casePathHandler.getChangedEntries().isEmpty();
+        return !this.casePathConfiguration.getChangedEntries().isEmpty();
     }
     
     public void updateMapping(final String oldFullPath, final String newFullPath) throws IOException {
         String oldRelativePath = getRelativeMarkForPath(oldFullPath);
-        CasePathMappingHandler.PathMapping entry = new CasePathMappingHandler.PathMapping(oldRelativePath, newFullPath);
-        this.casePathHandler.updateFullPath(entry);
+        CasePathConfiguration.PathMapping entry = new CasePathConfiguration.PathMapping(oldRelativePath, newFullPath);
+        this.casePathConfiguration.updateFullPath(entry);
     }
     
     public List<String> getChangedEntries() throws IOException {
-        List<CasePathMappingHandler.PathMapping> mapping = this.casePathHandler.getChangedEntries();
+        List<CasePathConfiguration.PathMapping> mapping = this.casePathConfiguration.getChangedEntries();
         List<String> fullPaths = new ArrayList<String>();
         
-        for(CasePathMappingHandler.PathMapping pathMapping: mapping) {
+        for(CasePathConfiguration.PathMapping pathMapping: mapping) {
             fullPaths.add(pathMapping.absolutePath);
         }
         
@@ -165,7 +165,7 @@ public final class CaseFacade {
     }
     
     private String getRelativeMarkForPath(final String fullPath) throws IOException{
-        for(CasePathMappingHandler.PathMapping entry: this.casePathHandler.getChangedEntries()) {
+        for(CasePathConfiguration.PathMapping entry: this.casePathConfiguration.getChangedEntries()) {
              String data = entry.absolutePath;
              String relative = entry.relativePath;
              
@@ -204,20 +204,20 @@ public final class CaseFacade {
     }
         
     private void createCaseFoldersStructure () throws IOException {
-        FileUtil.createFolder(this.getCaseFolderLocation());    // CASE Parent Folder
-        FileUtil.createFolder(this.getCaseIndexFolderLocation());   // INDEX folder
-        FileUtil.createFolder(this.getCaseImageFolderLocation());   // IMAGE folder
-        FileUtil.createFolder(this.getCaseArchiveOutputFolderLocation());   // ARCHIVE folder
+        FileUtil.createFolder(this.getCaseFolderLocation());                 // CASE Parent Folder
+        FileUtil.createFolder(this.getCaseIndexFolderLocation());            // INDEX folder
+        FileUtil.createFolder(this.getCaseImageFolderLocation());            // IMAGE folder
+        FileUtil.createFolder(this.getCaseArchiveOutputFolderLocation());    // ARCHIVE folder
         FileUtil.createFolder(this.getCaseOfflineEmailAttachmentLocation()); // OFFLINE Email Attachments
-        FileUtil.createFolder(this.getCaseAuditingFolderLocation());
-        FileUtil.createFolder(this.getCaseRawReportFolderLocation());
-        FileUtil.createFolder(this.getCaseReportFolderLocation());
-        FileUtil.createFolder(this.getTagDatabaseFolderLocation());
+        FileUtil.createFolder(this.getCaseAuditingFolderLocation());         // AUDITING folder
+        FileUtil.createFolder(this.getCaseRawReportFolderLocation());        // RAW FOLDER
+        FileUtil.createFolder(this.getCaseReportFolderLocation());           // REPORTS FOLDER
+        FileUtil.createFolder(this.getTagDatabaseFolderLocation());          // TAGS Folder
         
-        // create LOG and information (.DAT) file and Configuration File (mapping file)
-        FileUtil.createFile(this.getCaseAuditingFileLocation());
-        FileUtil.createFile(this.getCaseInformationFileLocation()); 
-        FileUtil.createFile(this.getCaseConfigurationFileLocation());
+        FileUtil.createFile(this.getCaseAuditingFileLocation());        // CASE LOG
+        FileUtil.createFile(this.getCaseInformationFileLocation());     // CASE-NAME.DAT
+        FileUtil.createFile(this.getCaseConfigurationFileLocation());   // CONFIG.DAT
+        FileUtil.createFile(this.getCasePreferenceFileLocation());      // CASE.PREF
         
         // initialize case auditing
         this.caseAuditing.init();
@@ -225,10 +225,10 @@ public final class CaseFacade {
     
     private void addCaseMappingInformation() throws IOException {
         for(String path: aCase.getEvidenceSourceLocation()) {
-            this.casePathHandler.add(new File(path));
+            this.casePathConfiguration.add(new File(path));
         }
         
-        this.casePathHandler.saveConfiguration();
+        this.casePathConfiguration.saveConfiguration();
     }
     
     private void replaceCaseLocation(final String oldCaseName, final String oldCaseLocation) throws IOException {
@@ -280,7 +280,7 @@ public final class CaseFacade {
     private CaseFacade (final Case aCase, final boolean createCase) throws Exception {
         this.aCase = aCase;
         this.caseHistoryHandler = new CaseHistoryHandler();
-        this.casePathHandler = new CasePathMappingHandler(this.getCaseConfigurationFileLocation());
+        this.casePathConfiguration = new CasePathConfiguration(this.getCaseConfigurationFileLocation());
         this.caseAuditing = new CaseAuditing(this.aCase, this.getCaseAuditingFileLocation());
         this.caseTags = new CaseTags(this.getTagDatabaseFileLocation());
         
@@ -323,7 +323,7 @@ public final class CaseFacade {
     public String getCasePreferenceFileLocation() {
           return this.aCase.getCaseLocation() 
                  + File.separator
-                 + ApplicationConstants.CASE_PREFERENCE_EXTENSION;
+                 + ApplicationConstants.CASE_PREFERENCE_FILE;
     }
     
     public String getCaseFolderLocation() { 

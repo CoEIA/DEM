@@ -244,7 +244,7 @@ public class CaseOperations {
                     Case aCase = ApplicationManager.Manager.getCase(line);
                     aCase.setCaseLocation(destPath);
 
-                    String prefLocation = aCase.getCaseLocation() + File.separator +  ApplicationConstants.CASE_PREFERENCE_EXTENSION;
+                    String prefLocation = aCase.getCaseLocation() + File.separator +  ApplicationConstants.CASE_PREFERENCE_FILE;
 
                     CaseFacade caseFacade = CaseFacade.openCase(aCase);
                     caseFacade.closeCase();
