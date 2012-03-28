@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.managers;
+package edu.coeia.licence;
 
 import edu.coeia.util.DateUtil ;
 
@@ -15,10 +15,10 @@ import java.util.prefs.Preferences;
  * @author wajdyessam
  */
 
-public enum LicenseManager {
+public enum LicenceManager {
     FULL_LICENSE(true), BETA_LICENSE(false);
     
-    private LicenseManager(boolean state) {
+    private LicenceManager(boolean state) {
         isFullVersion = state;
     }
     

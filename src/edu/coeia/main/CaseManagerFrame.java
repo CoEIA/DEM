@@ -1,8 +1,8 @@
 package edu.coeia.main;
 
 /* import internal classes */
-import edu.coeia.managers.ApplicationManager;
-import edu.coeia.managers.LicenseManager;
+import edu.coeia.cases.management.ApplicationManager;
+import edu.coeia.licence.LicenceManager;
 import edu.coeia.wizard.CaseWizardDialog;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.gutil.GuiUtil;
@@ -10,8 +10,8 @@ import edu.coeia.util.DateUtil;
 import edu.coeia.util.ApplicationLogging;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.cases.CaseOperations;
-import edu.coeia.cases.CaseOperations.CASE_OPERATION_TYPE;
+import edu.coeia.cases.management.CaseOperations;
+import edu.coeia.cases.management.CaseOperations.CASE_OPERATION_TYPE;
 import edu.coeia.constants.SystemConstant;
 
 /* import sun classes */
@@ -41,7 +41,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
      *  BETA_LICENSE will work 60 days
      *  Full_LICENSE will require smart card filled with the number of case required
      */
-    private static final LicenseManager licenseManager = LicenseManager.BETA_LICENSE; // select beta version
+    private static final LicenceManager licenseManager = LicenceManager.BETA_LICENSE; // select beta version
     
     /**
      * Application Manager Singleton object will create folder structures for the cases

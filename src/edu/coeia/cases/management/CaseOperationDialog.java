@@ -8,7 +8,7 @@
  *
  * Created on Mar 27, 2012, 11:13:21 AM
  */
-package edu.coeia.cases;
+package edu.coeia.cases.management;
 
 import edu.coeia.util.DateUtil;
 import java.io.File;
@@ -67,7 +67,7 @@ public class CaseOperationDialog extends javax.swing.JDialog {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel1.setText("Please wait until finishing the current task....");
 
         javax.swing.GroupLayout progressPanelLayout = new javax.swing.GroupLayout(progressPanel);
@@ -100,7 +100,7 @@ public class CaseOperationDialog extends javax.swing.JDialog {
         dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Case Operation Progress"));
         dataPanel.setLayout(new javax.swing.BoxLayout(dataPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
-        fileLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        fileLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         fileLabel.setText("File:");
         dataPanel.add(fileLabel);
 
@@ -108,7 +108,7 @@ public class CaseOperationDialog extends javax.swing.JDialog {
         fileTextField.setText(" ");
         dataPanel.add(fileTextField);
 
-        sizeLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        sizeLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         sizeLabel.setText("Size:");
         dataPanel.add(sizeLabel);
 
@@ -116,7 +116,7 @@ public class CaseOperationDialog extends javax.swing.JDialog {
         sizeTextField.setText(" ");
         dataPanel.add(sizeTextField);
 
-        dateLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        dateLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
         dateLabel.setText("Date:");
         dataPanel.add(dateLabel);
 

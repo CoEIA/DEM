@@ -23,7 +23,7 @@ import edu.coeia.searching.CaseSearchPanel;
 import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.constants.AuditingMessages;
 import edu.coeia.constants.SystemConstant;
-import edu.coeia.managers.ApplicationManager;
+import edu.coeia.cases.management.ApplicationManager;
 
 import java.awt.Cursor;
 import java.awt.EventQueue;

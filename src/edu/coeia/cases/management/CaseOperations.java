@@ -2,13 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.coeia.cases;
+package edu.coeia.cases.management;
 
+import edu.coeia.cases.Case;
+import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.main.CaseMainFrame;
 import edu.coeia.main.CaseManagerFrame;
 import edu.coeia.main.UpdatingCaseEvidenceSourceDialog;
-import edu.coeia.managers.ApplicationManager;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.GUIFileFilter;
 

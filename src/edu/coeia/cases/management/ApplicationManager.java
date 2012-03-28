@@ -1,4 +1,4 @@
-package edu.coeia.managers;
+package edu.coeia.cases.management;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;

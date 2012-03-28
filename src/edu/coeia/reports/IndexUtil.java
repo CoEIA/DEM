@@ -5,7 +5,7 @@
 package edu.coeia.reports;
 
 import edu.coeia.cases.Case;
-import edu.coeia.managers.ApplicationManager;
+import edu.coeia.cases.management.ApplicationManager;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.IndexingConstant;
 import edu.coeia.util.FileUtil;
