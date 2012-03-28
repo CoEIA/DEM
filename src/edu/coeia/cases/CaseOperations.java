@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.util.List;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,7 +48,7 @@ public class CaseOperations {
     private CaseOperationDialog caseOperationDialog;
     private SwingWorker<Boolean, ProgressData> workerThread;
     
-    public static enum CASE_OPERATION_TYPE {REMOVE, EXPORT, IMPORT, LOAD};
+    public static enum CASE_OPERATION_TYPE {REMOVE, EXPORT, IMPORT, LOAD, LOAD_AND_INDEX};
     
     public CaseOperations(final JFrame frame, final String caseName, final CASE_OPERATION_TYPE type) {
         this.caseName = caseName;
@@ -86,7 +87,11 @@ public class CaseOperations {
                 break;
                 
             case LOAD:
-                worker = new CaseLoadWorker();
+                worker = new CaseLoadWorker(false);
+                break;
+                
+            case LOAD_AND_INDEX:
+                worker = new CaseLoadWorker(true);
                 break;
         }
         
@@ -94,6 +99,12 @@ public class CaseOperations {
     }
     
     private final class CaseLoadWorker extends SwingWorker<Boolean, ProgressData> {
+        private final boolean toIndex;
+        
+        public CaseLoadWorker(final boolean startIndex) {
+            this.toIndex = startIndex;
+        }
+        
         @Override
         public Boolean doInBackground() {
             if ( caseName != null ) {
@@ -124,19 +135,32 @@ public class CaseOperations {
                             mainFrame.repaint();
 
                             if ( ! caseFacade.getCaseHistory().getIsCaseIndexed() ) {
-                                mainFrame.showIndexDialog(true);
+                                mainFrame.showIndexDialog(this.toIndex);
                             }
                         }
                         else { // close new created facde, so user can remove it later on
                             caseFacade.closeCase();
                         }
                     } catch (Exception ex) {
+                        EventQueue.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                JOptionPane.showMessageDialog(parentFrame, "Cannot Openning this case",
+                                    "Case file is currept and missing files", JOptionPane.ERROR_MESSAGE);
+                            }
+                        });
+                        
                         Logger.getLogger(CaseOperations.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(parentFrame, "This case is already opening",
-                            "Already Openining Case", JOptionPane.INFORMATION_MESSAGE);
+                    EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            JOptionPane.showMessageDialog(parentFrame, "This case is already opening",
+                                "Already Openining Case", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    });
                 }
             }
             
@@ -191,6 +215,7 @@ public class CaseOperations {
         public Boolean doInBackground() {
          
             boolean result = false;
+            
             try {
              final GUIFileFilter SWING_DEM_FILTER = new GUIFileFilter("DEM CASE", 
                 ApplicationConstants.CASE_EXPORT_EXTENSION);
@@ -218,6 +243,9 @@ public class CaseOperations {
                     CaseFacade caseFacade = CaseFacade.openCase(aCase);
                     caseFacade.closeCase();
 
+                    if ( isCancelled() )
+                        return false;
+                                        
                     // updating case pointer after closing db
                     // so we know here if db is not found, this is file is currpted so 
                     // ignore it and not added in casees list
@@ -225,6 +253,7 @@ public class CaseOperations {
                     caseFacade.importHistory(prefLocation);
 
                     ((CaseManagerFrame)parentFrame).readCases();
+                    result = true;
                 }
             }
             catch(Exception e) {
@@ -236,6 +265,7 @@ public class CaseOperations {
                     }
                 });
             }
+            
             return result;
         }
         
@@ -297,15 +327,24 @@ public class CaseOperations {
         @Override
         public void done() {
             try {
+                
                 Boolean result = get();
                 
                 if ( result ) {
                     JOptionPane.showMessageDialog(parentFrame, "Finishing Task Seccesfully");
+                    ((CaseManagerFrame)parentFrame).readCases();
                 }
                 else {
-                    JOptionPane.showMessageDialog(parentFrame, "The task is canclled by the user");
+                     JOptionPane.showMessageDialog(parentFrame,
+                        "Importing Prcess Canclled by user","The task is canclled by the user",
+                        JOptionPane.ERROR_MESSAGE);
                 }
             } 
+            catch(CancellationException e) {
+                JOptionPane.showMessageDialog(parentFrame,
+                        "Importing Prcess Canclled by user","The task is canclled by the user",
+                        JOptionPane.ERROR_MESSAGE);
+            }
             catch (InterruptedException ex) {
                 Logger.getLogger(CaseOperations.class.getName()).log(Level.SEVERE, null, ex);
             } 
@@ -314,8 +353,6 @@ public class CaseOperations {
             }
             finally {
                 caseOperationDialog.dispose();
-                ((CaseManagerFrame)parentFrame).readCases();
-                
                 return;
             }
         }
@@ -474,6 +511,7 @@ public class CaseOperations {
             try {
                 CaseFacade caseFacade = ApplicationManager.Manager.openCase(caseName);
                 caseFacade.closeCase();
+                caseFacade.removeCase();
                 removeCase = removeDirectory(new File(caseFacade.getCaseFolderLocation()));
             } catch (Exception ex) {
                 Logger.getLogger(CaseOperations.class.getName()).log(Level.SEVERE, null, ex);

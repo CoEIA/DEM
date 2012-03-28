@@ -328,7 +328,9 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     private void loadCaseAction() {
         try {
             String caseName = getSelectedCase();
-            loadCase(ApplicationManager.Manager.openCase(caseName), false);
+            
+            CaseOperations operation = new CaseOperations(this, caseName, CASE_OPERATION_TYPE.LOAD);
+            operation.start();
         }
         catch (NullPointerException e) {
             JOptionPane.showMessageDialog(this, "please select the case you want to open",
@@ -344,7 +346,6 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     private void caseTableDoubleClickedAction() {
         try {
             String caseName = getSelectedCase();
-            //loadCase(ApplicationManager.Manager.openCase(caseName), false);
             CaseOperations operation = new CaseOperations(this, caseName, CASE_OPERATION_TYPE.LOAD);
             operation.start();
         }
@@ -399,7 +400,8 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
 
         if ( indexWizard.checkDirectIndex()) {
             try {
-                loadCase(facade, true);
+                CaseOperations operation = new CaseOperations(this, facade.getCase().getCaseName(), CASE_OPERATION_TYPE.LOAD_AND_INDEX);
+                operation.start();
             }
             catch(Exception e){
                 logger.severe("Cannot Index the case directly after create it");
@@ -503,11 +505,6 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
 
         String indexName = (String) recentCaseTable.getValueAt(row, 0);
         return indexName; 
-    }
-
-    private void loadCase (final CaseFacade facade, boolean startIndex){
-        CaseLoaderTask task = new CaseLoaderTask(this, facade, startIndex);
-        task.startTask();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
