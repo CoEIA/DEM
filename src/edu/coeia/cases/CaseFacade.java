@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Case Manger Faced will create, update and remove cases and their histories 
- * from application
+ * Case Facade hide all the detail of creating, opening, removing and updating
+ * case also for importing and exporting case history
  * 
- * also hide the complexity of path mapping conversion
- * between full and relative path
+ * also hide the complexity of path mapping conversion between full
+ * and relative path
  * 
  * @author wajdyessam
  */
@@ -71,9 +71,12 @@ public final class CaseFacade {
      * @throws IOException 
      */
     public void updateCase(final String oldCaseName, final String oldCaseLocation) throws IOException {
+        // update case information file .DAT
         FileUtil.createFile(this.getCaseInformationFileLocation()); 
         this.saveCaseInformation();
-        this.replaceCaseLocation(oldCaseName, oldCaseLocation);
+        
+        // update cases database information file INDEXES.txt
+        this.replaceOldCaseInformation(oldCaseName, oldCaseLocation);
     }
     
     /**
@@ -99,6 +102,17 @@ public final class CaseFacade {
         return true;
     }
     
+    private void replaceOldCaseInformation(final String oldCaseName, final String oldCaseLocation) throws IOException {
+        List<String> otherCasesGroup = this.getOtherCases(oldCaseName, oldCaseLocation);
+        
+        // new case information
+        String newLine = aCase.getCaseName() + " - " + aCase.getCaseLocation();
+        otherCasesGroup.add(newLine);
+        
+        // add to to indexes.text database information file
+        FileUtil.writeToFile(otherCasesGroup, this.getCasesInformationFileLocation());
+    }
+        
     public void closeCase() {
         try {
             this.closeCaseAuditing();
@@ -229,14 +243,6 @@ public final class CaseFacade {
         }
         
         this.casePathConfiguration.saveConfiguration();
-    }
-    
-    private void replaceCaseLocation(final String oldCaseName, final String oldCaseLocation) throws IOException {
-        List<String> otherCasesGroup = this.getOtherCases(oldCaseName, oldCaseLocation);
-        String newLine = aCase.getCaseName() + " - " + aCase.getCaseLocation();
-        otherCasesGroup.add(newLine);
-        
-        FileUtil.writeToFile(otherCasesGroup, this.getCasesInformationFileLocation());
     }
         
     public void audit(final AuditingMessages message) {
