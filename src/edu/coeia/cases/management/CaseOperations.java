@@ -518,7 +518,8 @@ public class CaseOperations {
                 CaseFacade caseFacade = ApplicationManager.Manager.openCase(caseName);
                 caseFacade.closeCase();
                 caseFacade.removeCase();
-                removeCase = removeDirectory(new File(caseFacade.getCaseFolderLocation()));
+                removeDirectory(new File(caseFacade.getCaseFolderLocation()));
+                removeCase = true;
             } catch (Exception ex) {
                 Logger.getLogger(CaseOperations.class.getName()).log(Level.SEVERE, null, ex);
             }

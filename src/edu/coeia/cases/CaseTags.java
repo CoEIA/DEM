@@ -100,14 +100,32 @@ final class CaseTags {
         return result ;
     }
     
+
     /**
-     * Create new database if their is not existing database
+     * open connections to existing database
+     * the connection should be closed after finishing the 
+     * database operation
      */
-    public void openDatabase(boolean newDatabase){
+    public void openDatabase(){
         try {
-            this.tagsDataBase = TagsDBHandler.newInstance(this.dataBaseLocation, newDatabase);
+            this.tagsDataBase = new TagsDBHandler(this.dataBaseLocation, false);
             this.tags.addAll(this.tagsDataBase.readTagsFromDataBase());
             this.updateMonitorChangingList();
+        } catch (Exception ex) {
+            Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+    /**
+     * create new tags database (make table structure)
+     * no connection is created after calling this method,
+     * user should not call close database after this method
+     * because it will already closed after creating the database 
+     * file
+     */
+    public void createDatabase() {
+        try {
+            this.tagsDataBase = new TagsDBHandler(this.dataBaseLocation, true);
         } catch (Exception ex) {
             Logger.getLogger(CaseTags.class.getName()).log(Level.SEVERE, null, ex);
         } 

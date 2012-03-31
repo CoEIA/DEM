@@ -285,7 +285,7 @@ public final class CaseFacade {
         this.caseTags = new CaseTags(this.getTagDatabaseFileLocation());
         
         if ( createCase )
-            saveCase();
+            createNewCase();
         else
             openCase();
     }
@@ -294,17 +294,17 @@ public final class CaseFacade {
      * create the folder structure for the current case object
      * options and return true if their is no problems
      */
-    private void saveCase() throws IOException {
+    private void createNewCase() throws IOException {
         this.createCaseFoldersStructure();
         this.saveCaseInformation();
         this.updateCasesInformationFile();
         this.addCaseMappingInformation();
-        this.caseTags.openDatabase(true);
+        this.caseTags.createDatabase();
     }
     
     private void openCase() throws Exception{
         if ( FileUtil.isFileFound(this.getTagDatabaseFileLocation())) {
-            this.caseTags.openDatabase(false);
+            this.caseTags.openDatabase();
         }
         
         if ( FileUtil.isFileFound(this.getCaseConfigurationFileLocation())) {

@@ -23,22 +23,22 @@ import java.sql.PreparedStatement;
 
 public final class TagsDBHandler {
     
-    /**
-     * Get New Instance of Tags DB Handler
-     * @param location
-     * @return TagsDBHandler
-     */
-    public static TagsDBHandler newInstance(String location, boolean newDb) throws ClassNotFoundException,
+    public TagsDBHandler(final String databasePath, final boolean createNewDatabase) throws ClassNotFoundException,
             InstantiationException, SQLException, IllegalAccessException {
-        checkNull("Location Mush have a value", location);
-        checkNotEmptyString("location must be not empty string", location);
         
-        return new TagsDBHandler(location, newDb);
-    }
-    
-    private TagsDBHandler(String location, boolean newDb) throws ClassNotFoundException,
-            InstantiationException, SQLException, IllegalAccessException {
-        this.createDB(newDb, location);
+        checkNull("Location Mush have a value", databasePath);
+        checkNotEmptyString("location must be not empty string", databasePath);
+        
+        DB_URL = DB_NAME + databasePath;
+        
+        if ( createNewDatabase ) {
+            this.connection = this.getConnection();
+            makeDBStructure();
+            this.closeConnection();
+        }
+        else {
+            this.connection = this.getConnection();
+        }
     }
     
     /**
@@ -77,19 +77,6 @@ public final class TagsDBHandler {
         status = true;
         
         return (status);
-    }
-    
-    private void createDB(boolean newDb, String databasePath) throws ClassNotFoundException, 
-            InstantiationException, SQLException, IllegalAccessException{
-
-        databasePath = checkNull("database path must be not null", databasePath);
-        DB_URL = DB_NAME + databasePath;
-        
-        this.connection = this.getConnection();
-        
-        if ( newDb ) {
-            makeDBStructure();
-        }
     }
 
     /**
