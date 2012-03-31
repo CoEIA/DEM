@@ -37,9 +37,10 @@ import org.xml.sax.SAXException;
  */
 public class ItemFactory {
     
-    public static Item newInstance (final Document document, final CaseFacade caseFacade) {       
+    public static Item newInstance (final Document document, final CaseFacade caseFacade
+            , boolean readContent) {       
         if ( isFileDocument(document)) {
-            return buildFileItem(document, caseFacade);
+            return buildFileItem(document, caseFacade, readContent);
         }
 
         if ( isEmailDocument(document)) {
@@ -82,7 +83,8 @@ public class ItemFactory {
         return item;
     }
     
-    private static Item buildFileItem(final Document document, final CaseFacade caseFacade) {
+    private static Item buildFileItem(final Document document, final CaseFacade caseFacade,
+            final boolean readContent) {
         int documentId = Integer.parseInt(document.get(DOCUMENT_ID));
         int documentParentId = Integer.parseInt(document.get(DOCUMENT_PARENT_ID));
         String documentHash = document.get(DOCUMENT_HASH);
@@ -100,11 +102,13 @@ public class ItemFactory {
         
         String fileContent = "";
         
-        try {
-            fileContent = getFullText(filePath);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
+        if ( readContent ) {
+            try {
+                fileContent = getFullText(filePath);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
         }
         
         FileItem item = new FileItem(documentId, documentParentId, documentHash, description,

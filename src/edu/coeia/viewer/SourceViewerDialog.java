@@ -220,7 +220,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         if ( item.getDocumentParentId() != 0 ) {
             System.out.println("have parent: " + item.getDocumentParentId());
             Item perentItem = ItemFactory.newInstance(getCurrentDocument(item.getDocumentParentId()),
-                    this.caseFacade);
+                    this.caseFacade, false);
             System.out.println("parent id: " + perentItem.getDocumentId());
             FileItem parentFileItem = (FileItem) perentItem;
             
@@ -333,7 +333,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
     }
     
     private Item getItemForDocument(final Document document) {
-        return ItemFactory.newInstance(document, this.caseFacade);
+        return ItemFactory.newInstance(document, this.caseFacade, true);
     }
     
    

@@ -56,16 +56,16 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             this.searcher = new LuceneSearcher(this.panel.getCaseFacade().getCase());
             
             long start = new Date().getTime();
-            this.count = searcher.search(queryString, this.searchScope);
+            List<Document> documents = searcher.search(queryString, this.searchScope);
             long end = new Date().getTime();
             this.time = end-start ;
            
             this.resultIds = new ArrayList<Integer>();
             
-            for (int i=0 ; i<this.count; i++) {
+            for (Document document: documents) {
                 try {
-                    Document document = this.searcher.getDocHits(i);
-                    Item item = ItemFactory.newInstance(document, this.caseFacade);
+                    Item item = ItemFactory.newInstance(document, this.caseFacade, false);
+                    publish(new ProgressSearchData(item));
                     resultIds.add(Integer.parseInt(document.get(IndexingConstant.DOCUMENT_ID)));
                     items.add(item);
                 }
@@ -103,26 +103,23 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
         JOptionPane.showMessageDialog(this.panel, "Searching process is complete");
     }
     
-//    @Override
-//    protected void process(List<ProgressSearchData> chunks) {
-//        if ( isCancelled() )
-//            return; 
-//                
-//        for(ProgressSearchData pd: chunks) {
-//            JTableUtil.addRowToJTable(this.panel.getSearchTable(), pd.getItem().getDisplayData());
-//        }
-//    }
+    @Override
+    protected void process(List<ProgressSearchData> chunks) {
+        if ( isCancelled() )
+            return; 
+                
+        for(ProgressSearchData pd: chunks) {
+            JTableUtil.addRowToJTable(this.panel.getSearchTable(), pd.getItem().getDisplayData());
+        }
+    }
     
     class ProgressSearchData {
-        private final int count ;
         private final Item item ;
 
-        public ProgressSearchData (int count, Item item) {
-            this.count = count ;
+        public ProgressSearchData (Item item) {
             this.item = item;
         }
 
-        int getCount () { return this.count  ; }
         Item getItem () { return this.item ; }
     }
 }

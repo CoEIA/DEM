@@ -470,7 +470,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         
         for(Integer id: this.resultId) {
             Document currentDocument = searcher.getLuceneDocumentById(String.valueOf(id));
-            Item fileItem = ItemFactory.newInstance(currentDocument, this.caseFacade);
+            Item fileItem = ItemFactory.newInstance(currentDocument, this.caseFacade, false);
             items.add(fileItem);
         }
         

@@ -93,7 +93,7 @@ public class EmailProcessingTask implements Task{
                        String tmp = field.stringValue();
                        
                        if ( tmp.endsWith(value)) {
-                            EmailItem item = (EmailItem) ItemFactory.newInstance(document, panel.getCaseFacade());
+                            EmailItem item = (EmailItem) ItemFactory.newInstance(document, panel.getCaseFacade(), false);
                             
                             String to = "";
                             if ( item.getTo() == null || item.getTo().trim().isEmpty() )

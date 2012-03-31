@@ -85,7 +85,8 @@ public class ChatLoadingTask implements Task{
                         EventQueue.invokeLater(new Runnable() { 
                             @Override
                             public void run() {
-                                ChatItem item = (ChatItem) ItemFactory.newInstance(document, panel.getCaseFacade());
+                                ChatItem item = (ChatItem) ItemFactory.newInstance(document, panel.getCaseFacade()
+                                        , false);
                                 Object[] data = new Object[] {item.getFrom(), item.getTo(), item.getMessageText(),
                                         item.getDate()};
                                 JTableUtil.addRowToJTable(panel.getTable(), data);

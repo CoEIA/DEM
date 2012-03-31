@@ -423,7 +423,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
             LuceneSearcher searcher = new LuceneSearcher(this.aCase);
             Document currentDocument = searcher.getLuceneDocumentById(String.valueOf(selectedImage.getId()));
             
-            FileItem item = (FileItem) ItemFactory.newInstance(currentDocument, caseFacade);
+            FileItem item = (FileItem) ItemFactory.newInstance(currentDocument, caseFacade, false);
             String fileName = item.getFileName();
             String filePath = item.getFilePath();
             String date = item.getFileDate();

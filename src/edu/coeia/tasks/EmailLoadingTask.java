@@ -105,7 +105,7 @@ public class EmailLoadingTask  implements Task{
                 if ( emailPath != null && !emailPath.trim().isEmpty()) {
                     
                     if ( emailPath.endsWith(path) ) {
-                        final EmailItem item = (EmailItem) ItemFactory.newInstance(document, panel.getCaseFacade());
+                        final EmailItem item = (EmailItem) ItemFactory.newInstance(document, panel.getCaseFacade(), false);
                         
                         EventQueue.invokeLater(new Runnable() { 
                             @Override

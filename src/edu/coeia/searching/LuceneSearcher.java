@@ -20,6 +20,7 @@ import java.io.File ;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import java.util.List;
 import org.apache.lucene.search.TopDocs ;
 import org.apache.lucene.search.IndexSearcher ;
 import org.apache.lucene.search.Query ;
@@ -53,7 +54,7 @@ public class LuceneSearcher {
         searcher = new IndexSearcher(indexReader);
     }
     
-    public int search (String queryString, SearchScope luceneFields) throws Exception {
+    public List<Document> search (String queryString, SearchScope luceneFields) throws Exception {
         // using stop analyzer in search
         Analyzer analyzer = new StopAnalyzer(Version.LUCENE_30,  new File(ApplicationConstants.STOP_WORD_FILE));
         
@@ -65,10 +66,15 @@ public class LuceneSearcher {
         queryString = QueryParser.escape(queryString);
         
         Query query = parser.parse(queryString);
-        results = searcher.search(query, MAX_RESULT);
+        TopDocs topDocs = searcher.search(query, MAX_RESULT);
 
-        int filterTotalHist = results.totalHits > MAX_RESULT ? MAX_RESULT: results.totalHits;
-        return filterTotalHist;
+        List<Document> documents = new ArrayList<Document>();
+        for(ScoreDoc scoreDocs: topDocs.scoreDocs) {
+            Document document = searcher.doc(scoreDocs.doc);
+            documents.add(document);
+        }
+        
+        return documents;
     }
     
     public TopDocs getTopDocs() { return this.results; }
