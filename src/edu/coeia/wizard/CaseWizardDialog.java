@@ -965,7 +965,8 @@ private void mountImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//
             System.out.println("Mounting " + selectedImagePath + " into " + letter + " Drive");
         }
         catch(Exception e) {
-            JOptionPane.showMessageDialog(this, "Error mounting image file", "Cannot mount this image file", JOptionPane.ERROR_MESSAGE); 
+            JOptionPane.showMessageDialog(this, "Error mounting image file",
+                    "Cannot mount this image file", JOptionPane.ERROR_MESSAGE); 
             System.out.println("Cannot Mounting " + selectedImagePath );
         }
     }

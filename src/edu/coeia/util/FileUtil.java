@@ -63,7 +63,7 @@ public final class FileUtil {
             return result.toString();
         
         try {
-            BufferedReader input = new BufferedReader(new InputStreamReader(stream));
+            BufferedReader input = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
             try {
                 String line = null;
                 while ( (line = input.readLine()) != null ) {
