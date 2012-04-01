@@ -94,6 +94,10 @@ public final class ApplicationConstants {
     public static final String IE_CACHE_PROGRAM = "tools\\IECacheList.exe";
     public static final String IE_PASSWORD_PROGRAM = "tools\\iepv.exe" ;
     
+    // mounting tool and mounting command luncher
+    public final static String mountToolPath = "tools\\OSFMount.com";
+    public final static String mountLuncher = mountToolPath + " -a -t file -f \"%s\" -m #:";
+    
     /** Reports constants **/
     public static final String FILE_SYSTEM_JASPER_FILE = "filesystem_report.jasper";
     public static final String FILE_SYSTEM_X_PATH = "/dem/detail/effectivefiles/file";

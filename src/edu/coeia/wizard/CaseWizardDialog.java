@@ -24,15 +24,11 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Component;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.List;
@@ -50,7 +46,6 @@ import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
  */
 
 public class CaseWizardDialog extends javax.swing.JDialog{
- 
     private String PATH = ApplicationConstants.APPLICATION_CASES_PATH;
     private final List<String> evidencePathLocations;
     private final DefaultListModel sourcesListModel;
@@ -136,7 +131,7 @@ public class CaseWizardDialog extends javax.swing.JDialog{
         jScrollPane2 = new javax.swing.JScrollPane();
         sourcesJList = new javax.swing.JList();
         removeButton = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        mountImageButton = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         EmailTable = new javax.swing.JTable();
@@ -299,10 +294,10 @@ public class CaseWizardDialog extends javax.swing.JDialog{
             }
         });
 
-        jButton3.setText("Unmount Encase Image");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        mountImageButton.setText("Mount Binary Image");
+        mountImageButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                mountImageButtonActionPerformed(evt);
             }
         });
 
@@ -311,12 +306,11 @@ public class CaseWizardDialog extends javax.swing.JDialog{
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel9)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(mountImageButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addDriverButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(removeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -327,14 +321,13 @@ public class CaseWizardDialog extends javax.swing.JDialog{
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(addDriverButton))
+                        .addComponent(addDriverButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(removeButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
-                        .addContainerGap())))
+                        .addComponent(mountImageButton)
+                        .addContainerGap())
+                    .addComponent(jLabel9)))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Would you like to import online e-mail accounts:"));
@@ -553,7 +546,7 @@ public class CaseWizardDialog extends javax.swing.JDialog{
         CacheImageCheckBox.setSelected(true);
         CacheImageCheckBox.setText("Cache Images to view on Multimedia Viewer");
 
-        IndexZipCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        IndexZipCheckBox.setFont(new java.awt.Font("Tahoma", 1, 11));
         IndexZipCheckBox.setSelected(true);
         IndexZipCheckBox.setText("Index archieved folders (ZIP, GZIP)");
 
@@ -959,54 +952,24 @@ private void DetectClusterLibraryRadioButtonActionPerformed(java.awt.event.Actio
 // TODO add your handling code here:
 }//GEN-LAST:event_DetectClusterLibraryRadioButtonActionPerformed
 
-private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-// TODO add your handling code here:
-    //Handle open button action.
-    final JFileChooser fc = new JFileChooser();
-    File file = null;
-    int returnVal = fc.showOpenDialog(this);
+private void mountImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mountImageButtonActionPerformed
+    JFileChooser fileChooser = new JFileChooser();
+    if ( fileChooser.showOpenDialog(parentFrame) == JFileChooser.APPROVE_OPTION ) {
+        String selectedImagePath = fileChooser.getSelectedFile().getAbsolutePath();
+        
+        MountingImage mounter = new MountingImage(selectedImagePath);
 
-    if (returnVal == JFileChooser.APPROVE_OPTION) {
-        file = fc.getSelectedFile();
-        Runtime rt = Runtime.getRuntime();
-        String output = "tools\\mount_ewf.exe" + " " + file.getPath();
-        Pattern pattern = Pattern.compile("\\s");
-        Matcher matcher = pattern.matcher(file.getName());
-        boolean found = matcher.find();
-        if (found) {
-            JOptionPane.showMessageDialog(this, "Please Remove White Spaces from case file name", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         try {
-            Process pr = rt.exec(output);
-            BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-            String line = null;
-            if(input.readLine() == null){
-            JOptionPane.showMessageDialog(this, "Error Unmounting the Case", "Error", JOptionPane.ERROR_MESSAGE);    
-            return;
-            }
-            
-            int i = 0;
-            while ((line = input.readLine()) != null) {
-                i++;
-                if (i > 0) {
-                    break;
-                }
-                System.out.println(line);
-            }   
-            String[] splitedLine = line.split("\\:");
-            String Path = splitedLine[1]+":\\";
-            JListUtil.addToList(Path.trim(), sourcesListModel, sourcesJList);
-           
-
-        } catch (IOException ex) {
-            Logger.getLogger(CaseWizardDialog.class.getName()).log(Level.SEVERE, null, ex);
+            String letter = mounter.mount();
+            JListUtil.addToList(letter, sourcesListModel, sourcesJList);
+            System.out.println("Mounting " + selectedImagePath + " into " + letter + " Drive");
+        }
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(this, "Error mounting image file", "Cannot mount this image file", JOptionPane.ERROR_MESSAGE); 
+            System.out.println("Cannot Mounting " + selectedImagePath );
         }
     }
-     else {
-    }
-
-}//GEN-LAST:event_jButton3ActionPerformed
+}//GEN-LAST:event_mountImageButtonActionPerformed
 
     public boolean checkDirectIndex() {
         return indexTheCase;
@@ -1054,7 +1017,6 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     }
 
     private boolean checkWizardSecondPanel() {
-     
        JListUtil.AddFromModelToList(sourcesListModel, evidencePathLocations);
         if (evidencePathLocations.isEmpty()) {
             showErrorMessage("You must choose a Case Source", "Empty Source");
@@ -1229,7 +1191,6 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JTextField investigatorTextField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1251,6 +1212,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JButton mountImageButton;
     private javax.swing.JButton nextButton;
     private javax.swing.JButton removeButton;
     private javax.swing.JList sourcesJList;
