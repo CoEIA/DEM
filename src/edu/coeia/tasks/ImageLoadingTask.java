@@ -94,9 +94,7 @@ public class ImageLoadingTask implements Task{
             this.panel.computeNumberOfPages();
         }
 
-        Set<ImagePathAndId> items = this.loadItemsFast(this.panel.getCurrentImageNo(),
-                this.panel.getImagePerPage());
-
+        Set<ImagePathAndId> items = this.loadItemsFast(this.panel.getCurrentImageNo(),this.panel.getImagePerPage());
         this.displayImages(items);
     }
     
@@ -205,13 +203,9 @@ public class ImageLoadingTask implements Task{
         int counter = 0;
         
         try {
-            Directory directory = FSDirectory.open(new File(
-                this.caseFacade.getCaseIndexFolderLocation()
-            ));
-            
+            Directory directory = FSDirectory.open(new File(this.caseFacade.getCaseIndexFolderLocation()));   
             IndexSearcher searcher = new IndexSearcher(directory);
-            QueryParser parser = new QueryParser(Version.LUCENE_30, 
-                    IndexingConstant.DOCUMENT_TYPE, new StopAnalyzer(Version.LUCENE_30));
+            QueryParser parser = new QueryParser(Version.LUCENE_30, IndexingConstant.DOCUMENT_TYPE, new StopAnalyzer(Version.LUCENE_30));     
             parser.setAllowLeadingWildcard(true);
             Query query = parser.parse(IndexingConstant.fromDocumentTypeToString(IndexingConstant.DOCUMENT_GENERAL_TYPE.IMAGE));
             
@@ -239,8 +233,9 @@ public class ImageLoadingTask implements Task{
                         if ( files.size() >= size) 
                             break;
                         
-                        if ( counter >= from )
+                        if ( counter >= from ) {
                             files.add(new ImagePathAndId(fullpath, Integer.valueOf(id)));
+                        }
                     }
                 }
             }
