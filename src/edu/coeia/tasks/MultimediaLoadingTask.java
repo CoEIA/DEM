@@ -35,7 +35,7 @@ public class MultimediaLoadingTask implements Task{
     private final MultimediaViewerPanel.TYPE type;
     private final CaseFacade caseFacade ;
     
-    private final static String[] imageExtensions = {"jpg", "bmp", "gif", "tif", "png","psd"};
+    private final static String[] imageExtensions = {"jpg", "jpeg", "bmp", "gif", "tif", "png","psd"};
     private final static String[] audioExtensions = {"mp3", "rm", "ra", "wav", "3gp","amr","ogg","wma","raw","m4p","flac"};
     private final static String[] archiveExtensions = {"rar", "zip", "7z"};
     private final static String[] videoExtensions = {"avi", "mp4", "asf","mpeg","3gp"};

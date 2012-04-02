@@ -43,6 +43,7 @@ import java.io.IOException;
 
 import java.net.URI;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -213,14 +214,17 @@ public class ImageLoadingTask implements Task{
 
             for(ScoreDoc scoreDoc: topDocs.scoreDocs) {
                 Document document = searcher.doc(scoreDoc.doc);
-                String imagePath = document.get(IndexingConstant.FILE_MIME);
+                String imageExtension = document.get(IndexingConstant.FILE_MIME);
                 
-                if ( imagePath != null && !imagePath.trim().isEmpty()) {
+                if ( imageExtension != null && !imageExtension.trim().isEmpty() &&
+                        Arrays.asList(imageExtensions).contains(imageExtension ) ) {
+                    
                     String fullpath = "";
                     int id = Integer.parseInt(document.get(IndexingConstant.DOCUMENT_ID));
                     
                     if ( IndexingConstant.isImageDocument(document) ) {
                         String path = document.get(IndexingConstant.FILE_PATH);
+                        
                         if ( path.contains(this.aCase.getCaseName() + File.separator + ApplicationConstants.CASE_ARCHIVE_FOLDER) ) 
                             fullpath = path;
                         else
@@ -266,9 +270,10 @@ public class ImageLoadingTask implements Task{
 
             for(ScoreDoc scoreDoc: topDocs.scoreDocs) {
                 Document document = searcher.doc(scoreDoc.doc);
-                String imagePath = document.get(IndexingConstant.FILE_MIME);
+                String imageExtension = document.get(IndexingConstant.FILE_MIME);
                 
-                if ( imagePath != null && !imagePath.trim().isEmpty()) {
+                if ( imageExtension != null && !imageExtension.trim().isEmpty() &&
+                        Arrays.asList(imageExtensions).contains(imageExtension )  ) {
                     String fullpath = "";
                     
                     if ( IndexingConstant.isImageDocument(document) ) {
@@ -373,4 +378,9 @@ public class ImageLoadingTask implements Task{
 
         lbl.setComponentPopupMenu(popup);
     }
+    
+    private final static String[] imageExtensions = {
+        "jpg", "jpeg", "bmp", "gif", "png", 
+        "JPG", "JPEG", "BMP", "GIF", "PNG" 
+    };
 }

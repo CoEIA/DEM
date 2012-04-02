@@ -589,7 +589,9 @@ public class ImageViewerPanel extends javax.swing.JPanel {
             this.setIcon(icon);
             this.setVerticalTextPosition(SwingConstants.BOTTOM);
             this.setHorizontalTextPosition(SwingConstants.CENTER);
-
+            this.setAlignmentX(20);
+            this.setAlignmentY(20);
+            
             if (isSelected) {
                 this.setBackground(Color.GRAY);
                 this.setForeground(Color.WHITE);
