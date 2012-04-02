@@ -8,7 +8,6 @@ import edu.coeia.cases.Case;
 import edu.coeia.cases.management.ApplicationManager;
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.IndexingConstant;
-import edu.coeia.tasks.ChatRefreshTask;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
 
@@ -23,25 +22,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
 
-import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.lucene.index.TermEnum ;
 import org.apache.lucene.index.Term ;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
 
 /**
  *
@@ -88,49 +77,6 @@ public final class IndexUtil {
         te.close();
         indexReader.close();
                 
-        return map ;
-    }
-    
-    private Map<String,Double> getExtensionFreqFast(final CaseFacade caseFacade) throws IOException {
-        Map<String,Double> map = new HashMap<String,Double>();
-        
-        try {
-            Directory directory = FSDirectory.open(new File(caseFacade.getCaseIndexFolderLocation()));
-    
-            IndexSearcher searcher = new IndexSearcher(directory);
-            QueryParser parser = new QueryParser(Version.LUCENE_30, 
-                    IndexingConstant.DOCUMENT_TYPE, new StopAnalyzer(Version.LUCENE_30));
-            parser.setAllowLeadingWildcard(true);
-            Query query = parser.parse("file");
-            
-            TopDocs topDocs = searcher.search(query, 100000);
-
-            for(ScoreDoc scoreDoc: topDocs.scoreDocs) {
-                Document document = searcher.doc(scoreDoc.doc);
-                String filePath = document.get(IndexingConstant.FILE_PATH);
-                
-                if ( filePath != null && !filePath.trim().isEmpty()) {
-                    final File path = new File(filePath);
-                    String ext = FileUtil.getExtension(path);
-
-                    if ( ext == null || ext.length() > 6) // no more extension than 5 character!
-                        continue;
-
-                    ext = ext.toLowerCase();
-
-                    if ( map.get(ext) == null ){
-                        map.put(ext, 1.0);
-                    }
-                    else
-                        map.put(ext, map.get(ext) + 1);
-                }
-            }
-            
-            searcher.close();
-        } catch (ParseException ex) {
-            Logger.getLogger(ChatRefreshTask.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
         return map ;
     }
     

@@ -16,7 +16,6 @@ import edu.coeia.gutil.GuiUtil;
 import edu.coeia.main.CaseMainFrame;
 import edu.coeia.reports.panels.CasesReportPanel;
 import edu.coeia.reports.panels.FilesAutherReportPanel;
-import edu.coeia.reports.panels.FilesExtensionReportPanel;
 import edu.coeia.reports.panels.FilesReportPanel;
 import edu.coeia.reports.panels.FilesSizeReportPanel;
 import edu.coeia.reports.panels.FilesTimeReportPanel;
