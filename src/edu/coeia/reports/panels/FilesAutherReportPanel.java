@@ -15,6 +15,7 @@ import edu.coeia.gutil.JListUtil;
 import edu.coeia.reports.DatasourceXml;
 import edu.coeia.reports.IndexUtil;
 import edu.coeia.reports.RawResultFile;
+import java.awt.EventQueue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +44,16 @@ public class FilesAutherReportPanel extends javax.swing.JPanel implements Report
     
     private void fillList() {
         try {
-            List<String> authers = IndexUtil.getAllAuthers(this.reportPanel.getCaseFacade());
-            for(String auther: authers) {
-                JListUtil.addToList(auther, srcListModel, srcList);
-            }
+            final List<String> authers = IndexUtil.getAllAuthers(this.reportPanel.getCaseFacade());
+            EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    for(String auther: authers) {
+                        JListUtil.addToList(auther, srcListModel, srcList);
+                    }
+                }
+            });
+            
         } catch (IOException ex) {
             Logger.getLogger(FilesAutherReportPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
