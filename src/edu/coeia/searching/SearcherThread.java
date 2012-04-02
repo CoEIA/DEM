@@ -26,6 +26,8 @@ import java.util.Date ;
 import java.util.List ;
 import java.util.ArrayList ;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.lucene.document.Document;
 
 class SearcherThread extends SwingWorker<String,ProgressSearchData> {
@@ -37,7 +39,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     private LuceneSearcher searcher ;
     private AdvancedSearchPanel panel ;
     private SearchScope searchScope; 
-    private List<Integer> resultIds;
+    private Set<Integer> resultIds;
     private List<Item> items = new ArrayList<Item>();
     
     public SearcherThread (AdvancedSearchPanel panel) {
@@ -60,7 +62,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             long end = new Date().getTime();
             this.time = end-start ;
            
-            this.resultIds = new ArrayList<Integer>();
+            this.resultIds = new HashSet<Integer>();
             
             for (Document document: documents) {
                 try {
@@ -85,11 +87,6 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     
     @Override
     public void done() {
-        // render search result
-        for(Item item: this.items ) {
-            JTableUtil.addRowToJTable(this.panel.getSearchTable(), item.getDisplayData());
-        }
-        
         this.items.clear();
         
         this.panel.setResultId(this.resultIds);

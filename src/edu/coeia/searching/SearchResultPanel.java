@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
@@ -239,9 +240,9 @@ public class SearchResultPanel extends javax.swing.JPanel {
         this.keyword = query;
     }
     
-    void setResultIds(final List<Integer> ids) {
+    void setResultIds(final Collection<Integer> ids) {
         this.documentIds.clear();
-        this.documentIds.addAll(Collections.unmodifiableList(ids));
+        this.documentIds.addAll(Collections.unmodifiableCollection(ids));
     }
             
     // Variables declaration - do not modify//GEN-BEGIN:variables

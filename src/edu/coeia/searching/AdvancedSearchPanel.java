@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
@@ -479,13 +480,13 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }
     
     //methods for handling the current document id, and the result id
-    void setResultId (final List<Integer> ids) { 
+    void setResultId (final Set<Integer> ids) { 
         this.resultId.clear();
-        this.resultId.addAll(Collections.unmodifiableList(ids)); 
+        this.resultId.addAll(Collections.unmodifiableSet(ids)); 
         this.setResultTableIds(ids);
     }
     
-    void setResultTableIds(final List<Integer> ids) { this.searchResultPanel.setResultIds(ids); }
+    void setResultTableIds(final Set<Integer> ids) { this.searchResultPanel.setResultIds(ids); }
     void setSearchTableFocusable() { this.searchResultPanel.setSearchTableFocusable(); }
     void setResultTableText(final String text) { this.searchResultPanel.setQueryText(text); }
     
