@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  *
@@ -76,7 +77,7 @@ public class RawResultFile {
         
         for(String strPath: dataList) {
             File file = new File(strPath);
-            strPath.replace(':', '/');
+            strPath = StringEscapeUtils.escapeXml(strPath);
 
             long filesizeInKB = (long) SizeUtil.toKB((double)file.length());
             Date date = new Date(file.lastModified());
@@ -122,18 +123,19 @@ public class RawResultFile {
         casesBuffer.append("<dem><cases>");
         
         for (Case aCase : cases) {
-            String caseLocation = aCase.getCaseLocation().replace(':', '\\');
+            String caseLocation = aCase.getCaseLocation(); //.replace(':', '\\');
+            caseLocation = StringEscapeUtils.escapeXml(caseLocation);
             String caseCreatingTime = DateUtil.formatedDateWithTime(aCase.getCreateTime()); 
             long caseSize = caseFacade.getCaseHistory().getCaseSize();
             
             casesBuffer.append("<case>" + "<path>")
-                    .append(caseLocation)
+                    .append(StringEscapeUtils.escapeXml(caseLocation))
                     .append("</path>" + "<creator>")
-                    .append(aCase.getInvestigatorName())
+                    .append(StringEscapeUtils.escapeXml(aCase.getInvestigatorName()))
                     .append("</creator>" + "<name>")
-                    .append( aCase.getCaseName())
+                    .append( StringEscapeUtils.escapeXml(aCase.getCaseName()))
                     .append("</name>" + "<description>")
-                    .append(aCase.getDescription())
+                    .append(StringEscapeUtils.escapeXml(aCase.getDescription()))
                     .append("</description>" + "<size>")
                     .append(caseSize)
                     .append("</size>" + "<date>")
@@ -166,11 +168,11 @@ public class RawResultFile {
         
         for (Tag tag : taggeditems) {
             result.append("<tag><name>")
-                    .append(tag.getName())
+                    .append(StringEscapeUtils.escapeXml(tag.getName()))
                     .append("</name>" + "<moddate>")
-                    .append(tag.getDate())
+                    .append(StringEscapeUtils.escapeXml(tag.getDate().toString()))
                     .append("</moddate>" + "<message>")
-                    .append(tag.getMessage())
+                    .append(StringEscapeUtils.escapeXml(tag.getMessage()))
                     .append("</message>" + "</tag>");
         }
 
@@ -402,9 +404,9 @@ public class RawResultFile {
     
     private static String getGenericCaseInformation(final Case currentCase) {
         String result = "<dem><case>"
-                + "<name>" + currentCase.getCaseName() + "</name>"
-                + "<author>" + currentCase.getDescription() + "</author>"
-                + "<source> " +  currentCase.getCaseLocation() + "</source>"
+                + "<name>" + StringEscapeUtils.escapeXml(currentCase.getCaseName()) + "</name>"
+                + "<author>" + StringEscapeUtils.escapeXml(currentCase.getInvestigatorName())  + "</author>"
+                + "<source> " +  StringEscapeUtils.escapeXml(currentCase.getCaseLocation())  + "</source>"
                 + "</case>";
         
         return result;
