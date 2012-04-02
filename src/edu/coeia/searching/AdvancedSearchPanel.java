@@ -480,13 +480,13 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
     }
     
     //methods for handling the current document id, and the result id
-    void setResultId (final Set<Integer> ids) { 
+    void setResultId (final List<Integer> ids) { 
         this.resultId.clear();
-        this.resultId.addAll(Collections.unmodifiableSet(ids)); 
+        this.resultId.addAll(Collections.unmodifiableList(ids)); 
         this.setResultTableIds(ids);
     }
     
-    void setResultTableIds(final Set<Integer> ids) { this.searchResultPanel.setResultIds(ids); }
+    void setResultTableIds(final List<Integer> ids) { this.searchResultPanel.setResultIds(ids); }
     void setSearchTableFocusable() { this.searchResultPanel.setSearchTableFocusable(); }
     void setResultTableText(final String text) { this.searchResultPanel.setQueryText(text); }
     

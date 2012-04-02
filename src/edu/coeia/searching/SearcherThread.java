@@ -39,7 +39,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
     private LuceneSearcher searcher ;
     private AdvancedSearchPanel panel ;
     private SearchScope searchScope; 
-    private Set<Integer> resultIds;
+    private List<Integer> resultIds;
     private List<Item> items = new ArrayList<Item>();
     
     public SearcherThread (AdvancedSearchPanel panel) {
@@ -62,7 +62,7 @@ class SearcherThread extends SwingWorker<String,ProgressSearchData> {
             long end = new Date().getTime();
             this.time = end-start ;
            
-            this.resultIds = new HashSet<Integer>();
+            this.resultIds = new ArrayList<Integer>();
             
             for (Document document: documents) {
                 try {
