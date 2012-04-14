@@ -217,6 +217,8 @@ public class CaseOperations {
     }
     
     private final class CaseImporterWorker extends SwingWorker<Boolean, ProgressData> {
+        private boolean notVlaidCase = false;
+        
         @Override
         public Boolean doInBackground() {
          
@@ -263,11 +265,13 @@ public class CaseOperations {
                 }
             }
             catch(Exception e) {
+                this.notVlaidCase = true;
+                
                 EventQueue.invokeLater(new Runnable() {
                     @Override
                     public void run() {
                         JOptionPane.showMessageDialog(parentFrame, "Cannot Importing Case File",
-                                "Case file is currept", JOptionPane.ERROR_MESSAGE);
+                                "Case file is not valid", JOptionPane.ERROR_MESSAGE);
                     }
                 });
             }
@@ -333,29 +337,25 @@ public class CaseOperations {
         @Override
         public void done() {
             try {
-                
                 Boolean result = get();
                 
-                if ( result ) {
-                    JOptionPane.showMessageDialog(parentFrame, "Finishing Task Seccesfully");
-                    ((CaseManagerFrame)parentFrame).readCases();
+                if ( !this.notVlaidCase ) {
+                    if ( result ) {
+                        JOptionPane.showMessageDialog(parentFrame, "Finishing Task Seccesfully");
+                        ((CaseManagerFrame)parentFrame).readCases();
+                    }
+                    else {
+                         JOptionPane.showMessageDialog(parentFrame,
+                            "Importing Prcess Cancelled by user","The task is canclled by the user",
+                            JOptionPane.ERROR_MESSAGE);
+                    }
                 }
-                else {
-                     JOptionPane.showMessageDialog(parentFrame,
-                        "Importing Prcess Canclled by user","The task is canclled by the user",
-                        JOptionPane.ERROR_MESSAGE);
-                }
+                
             } 
-            catch(CancellationException e) {
+            catch(Exception e) {
                 JOptionPane.showMessageDialog(parentFrame,
                         "Importing Prcess Canclled by user","The task is canclled by the user",
                         JOptionPane.ERROR_MESSAGE);
-            }
-            catch (InterruptedException ex) {
-                Logger.getLogger(CaseOperations.class.getName()).log(Level.SEVERE, null, ex);
-            } 
-            catch (ExecutionException ex) {
-                Logger.getLogger(CaseOperations.class.getName()).log(Level.SEVERE, null, ex);
             }
             finally {
                 caseOperationDialog.dispose();
@@ -363,7 +363,6 @@ public class CaseOperations {
             }
         }
     }
-    
     
     private final class CaseExporterWorker extends SwingWorker<Boolean, ProgressData> {
         @Override
