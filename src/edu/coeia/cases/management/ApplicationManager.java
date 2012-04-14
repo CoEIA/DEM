@@ -154,23 +154,6 @@ public enum ApplicationManager {
         return caseFacade;
     }
     
-//    public boolean removeCase(final String caseName) throws Exception {
-//        Case caseToRemove = this.getCaseFromCaseName(caseName);
-//        
-//        CaseFacade caseFacade = CaseFacade.openCase(caseToRemove);
-//        caseFacade.closeCase();
-//        
-//        return caseFacade.removeCase();
-//    }
-    
-    public void importCase(final String caseName) {
-        
-    }
-    
-    public void exoprtCase(final String caseName) {
-        
-    }
-    
     /**
      * the user can ask this class to remove the case name
      * from the current working cases when the user has finished 
