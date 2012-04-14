@@ -19,11 +19,11 @@ import edu.coeia.extractors.OfficeImageExtractor;
 import edu.coeia.indexing.dialogs.FileSystemCrawlingProgressPanel;
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.util.DateUtil;
+
 import javax.swing.JOptionPane;
 
 import java.io.File ;
 import java.io.IOException ;
-import java.util.Collections;
 
 import java.util.Date ;
 import java.util.List ;
@@ -33,7 +33,6 @@ import java.util.logging.Logger;
 
 
 public class IndexingService {
-    private boolean indexStatus = false;
     
     private final Case aCase ;
     private final IndexerManager indexerManager ;

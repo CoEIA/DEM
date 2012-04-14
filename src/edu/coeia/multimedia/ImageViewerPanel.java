@@ -597,7 +597,7 @@ public class ImageViewerPanel extends javax.swing.JPanel {
                 this.setForeground(Color.WHITE);
             } else {
                 this.setBackground(Color.WHITE);
-                this.setForeground(Color.BLACK);
+                this.setForeground(Color.GRAY);
             }
 
             return this;
