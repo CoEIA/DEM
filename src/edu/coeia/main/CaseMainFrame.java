@@ -1,46 +1,42 @@
 
 package edu.coeia.main;
 
-import edu.coeia.verification.CaseVerificationDialog;
-import edu.coeia.reports.ReportPanel;
-import edu.coeia.filesystem.FileSystemPanel;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
-import edu.coeia.filesystem.CaseInformationPanel;
-import edu.coeia.wizard.EmailConfiguration;
+import edu.coeia.cases.management.ApplicationManager;
 import edu.coeia.chat.ChatPanel;
-import edu.coeia.util.Utilities;
-import edu.coeia.util.FileUtil;
-import edu.coeia.util.ApplicationLogging;
-import edu.coeia.gutil.GuiUtil ;
+import edu.coeia.constants.ApplicationConstants;
+import edu.coeia.constants.AuditingMessages;
+import edu.coeia.constants.ResourceManager;
+import edu.coeia.constants.SystemConstant;
+import edu.coeia.filesystem.CaseInformationPanel;
+import edu.coeia.filesystem.FileSystemPanel;
+import edu.coeia.gutil.GuiUtil;
 import edu.coeia.hashanalysis.HashLibraryManagerDialog;
 import edu.coeia.indexing.dialogs.IndexingDialog;
 import edu.coeia.internet.InternetSurfingPanel;
 import edu.coeia.multimedia.MultimediaPanel;
 import edu.coeia.offlinemail.EmailBrowsingPanel;
 import edu.coeia.onlinemail.DownloadEmail;
+import edu.coeia.reports.ReportPanel;
 import edu.coeia.searching.CaseSearchPanel;
-import edu.coeia.constants.ApplicationConstants;
-import edu.coeia.constants.AuditingMessages;
-import edu.coeia.constants.SystemConstant;
-import edu.coeia.cases.management.ApplicationManager;
-import edu.coeia.constants.ResourceManager;
+import edu.coeia.util.ApplicationLogging;
+import edu.coeia.util.FileUtil;
+import edu.coeia.util.Utilities;
+import edu.coeia.verification.CaseVerificationDialog;
+import edu.coeia.wizard.EmailConfiguration;
 import java.awt.ComponentOrientation;
-
 import java.awt.Cursor;
 import java.awt.EventQueue;
-import java.awt.Toolkit ;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import javax.swing.JOptionPane;
-
-import java.io.IOException ;
-
+import java.io.IOException;
 import java.util.List; 
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  * For Historical Memo :)
