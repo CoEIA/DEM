@@ -99,13 +99,14 @@ public class MultimediaViewerPanel extends javax.swing.JPanel {
 
         filterPanel.setLayout(new javax.swing.BoxLayout(filterPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel1.setText("Filter Table:");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/multimedia/Bundle"); // NOI18N
+        jLabel1.setText(bundle.getString("MultimediaViewerPanel.jLabel1.text")); // NOI18N
         filterPanel.add(jLabel1);
 
-        filterTableTextField.setText(" ");
+        filterTableTextField.setText(bundle.getString("MultimediaViewerPanel.filterTableTextField.text")); // NOI18N
         filterPanel.add(filterTableTextField);
 
-        loadItemsButton.setText("Load Items");
+        loadItemsButton.setText(bundle.getString("MultimediaViewerPanel.loadItemsButton.text")); // NOI18N
         loadItemsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadItemsButtonActionPerformed(evt);

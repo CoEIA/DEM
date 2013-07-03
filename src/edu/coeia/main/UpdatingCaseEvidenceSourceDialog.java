@@ -62,13 +62,14 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
         closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Updating Case Evidence Location");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/main/Bundle"); // NOI18N
+        setTitle(bundle.getString("UpdatingCaseEvidenceSourceDialog.title")); // NOI18N
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Not Founded Case Sources"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("UpdatingCaseEvidenceSourceDialog.jPanel1.border.title"))); // NOI18N
 
         jScrollPane1.setViewportView(sourcesList);
 
-        newSourceButton.setText("Browse New Source...");
+        newSourceButton.setText(bundle.getString("UpdatingCaseEvidenceSourceDialog.newSourceButton.text")); // NOI18N
         newSourceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newSourceButtonActionPerformed(evt);
@@ -95,7 +96,7 @@ public final class UpdatingCaseEvidenceSourceDialog extends javax.swing.JDialog 
                 .addContainerGap())
         );
 
-        closeButton.setText("Close");
+        closeButton.setText(bundle.getString("UpdatingCaseEvidenceSourceDialog.closeButton.text")); // NOI18N
         closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 closeButtonActionPerformed(evt);
