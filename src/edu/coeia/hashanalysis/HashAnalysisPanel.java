@@ -112,11 +112,12 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
         hashLibraryDuplicationPanel.setLayout(new java.awt.BorderLayout());
 
-        hashSetPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Hash Library"));
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/hashanalysis/Bundle"); // NOI18N
+        hashSetPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("HashAnalysisPanel.hashSetPanel.border.title"))); // NOI18N
 
         jScrollPane2.setViewportView(hashSetJList);
 
-        hashAnalysisButton.setText("Hash Analysis");
+        hashAnalysisButton.setText(bundle.getString("HashAnalysisPanel.hashAnalysisButton.text")); // NOI18N
         hashAnalysisButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hashAnalysisButtonActionPerformed(evt);
@@ -133,14 +134,14 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         hashSetPanelLayout.setVerticalGroup(
             hashSetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, hashSetPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(hashAnalysisButton))
         );
 
         hashLibraryDuplicationPanel.add(hashSetPanel, java.awt.BorderLayout.WEST);
 
-        resultPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Anlaysis Result"));
+        resultPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("HashAnalysisPanel.resultPanel.border.title"))); // NOI18N
 
         analysisResultTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -178,17 +179,17 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         resultPanelLayout.setHorizontalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, resultPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
                 .addContainerGap())
         );
         resultPanelLayout.setVerticalGroup(
             resultPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
         );
 
         hashLibraryDuplicationPanel.add(resultPanel, java.awt.BorderLayout.CENTER);
 
-        matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Matched Files in Case"));
+        matchedFilesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("HashAnalysisPanel.matchedFilesPanel.border.title"))); // NOI18N
 
         matchedTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -226,7 +227,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         matchedFilesPanelLayout.setHorizontalGroup(
             matchedFilesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(matchedFilesPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
                 .addContainerGap())
         );
         matchedFilesPanelLayout.setVerticalGroup(
@@ -236,11 +237,11 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
         hashLibraryDuplicationPanel.add(matchedFilesPanel, java.awt.BorderLayout.PAGE_END);
 
-        jTabbedPane1.addTab("Files Duplication within Hash Library", hashLibraryDuplicationPanel);
+        jTabbedPane1.addTab(bundle.getString("HashAnalysisPanel.hashLibraryDuplicationPanel.TabConstraints.tabTitle"), hashLibraryDuplicationPanel); // NOI18N
 
         caseDuplicationPanel.setLayout(new java.awt.BorderLayout());
 
-        resultPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Anlaysis Result"));
+        resultPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("HashAnalysisPanel.resultPanel1.border.title"))); // NOI18N
 
         caseDuplicationTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -273,7 +274,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         });
         jScrollPane5.setViewportView(caseDuplicationTable);
 
-        findDuplicationButton.setText("Find Duplication");
+        findDuplicationButton.setText(bundle.getString("HashAnalysisPanel.findDuplicationButton.text")); // NOI18N
         findDuplicationButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 findDuplicationButtonActionPerformed(evt);
@@ -285,7 +286,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         resultPanel1Layout.setHorizontalGroup(
             resultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, resultPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(findDuplicationButton))
         );
@@ -293,13 +294,13 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
             resultPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(resultPanel1Layout.createSequentialGroup()
                 .addComponent(findDuplicationButton)
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addContainerGap(146, Short.MAX_VALUE))
             .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
         );
 
         caseDuplicationPanel.add(resultPanel1, java.awt.BorderLayout.CENTER);
 
-        matchedFilesPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Matched Files in Case"));
+        matchedFilesPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("HashAnalysisPanel.matchedFilesPanel1.border.title"))); // NOI18N
 
         caseDuplicationResultTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -337,7 +338,7 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
         matchedFilesPanel1Layout.setHorizontalGroup(
             matchedFilesPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(matchedFilesPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
                 .addContainerGap())
         );
         matchedFilesPanel1Layout.setVerticalGroup(
@@ -347,18 +348,18 @@ public class HashAnalysisPanel extends javax.swing.JPanel {
 
         caseDuplicationPanel.add(matchedFilesPanel1, java.awt.BorderLayout.PAGE_END);
 
-        jTabbedPane1.addTab("Files Duplication in the same Case", caseDuplicationPanel);
+        jTabbedPane1.addTab(bundle.getString("HashAnalysisPanel.caseDuplicationPanel.TabConstraints.tabTitle"), caseDuplicationPanel); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

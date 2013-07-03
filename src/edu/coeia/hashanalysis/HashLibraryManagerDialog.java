@@ -65,35 +65,36 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
         loadButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Hash Library Manager");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/hashanalysis/Bundle"); // NOI18N
+        setTitle(bundle.getString("HashLibraryManagerDialog.title")); // NOI18N
 
-        viewPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Hash Set Items"));
+        viewPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("HashLibraryManagerDialog.viewPanel.border.title"))); // NOI18N
         viewPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Controls"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("HashLibraryManagerDialog.jPanel2.border.title"))); // NOI18N
 
-        importButton.setText("Import");
+        importButton.setText(bundle.getString("HashLibraryManagerDialog.importButton.text")); // NOI18N
         importButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 importButtonActionPerformed(evt);
             }
         });
 
-        exportButton.setText("Export");
+        exportButton.setText(bundle.getString("HashLibraryManagerDialog.exportButton.text")); // NOI18N
         exportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exportButtonActionPerformed(evt);
             }
         });
 
-        removeButton.setText("Remove");
+        removeButton.setText(bundle.getString("HashLibraryManagerDialog.removeButton.text")); // NOI18N
         removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeButtonActionPerformed(evt);
             }
         });
 
-        closeButton.setText("Close");
+        closeButton.setText(bundle.getString("HashLibraryManagerDialog.closeButton.text")); // NOI18N
         closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 closeButtonActionPerformed(evt);
@@ -127,12 +128,12 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Hash Set Selection"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("HashLibraryManagerDialog.jPanel3.border.title"))); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel1.setText("Select Hash Set:");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText(bundle.getString("HashLibraryManagerDialog.jLabel1.text")); // NOI18N
 
-        loadButton.setText("Load");
+        loadButton.setText(bundle.getString("HashLibraryManagerDialog.loadButton.text")); // NOI18N
         loadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadButtonActionPerformed(evt);
@@ -172,7 +173,7 @@ public class HashLibraryManagerDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(viewPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
+                        .addComponent(viewPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())

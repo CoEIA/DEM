@@ -56,18 +56,19 @@ public class NewHashSetDialog extends javax.swing.JDialog {
         cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Creating New Hash Set");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/hashanalysis/Bundle"); // NOI18N
+        setTitle(bundle.getString("NewHashSetDialog.title")); // NOI18N
 
-        hashItemsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Items in Current Hash Set"));
+        hashItemsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("NewHashSetDialog.hashItemsPanel.border.title"))); // NOI18N
         hashItemsPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("New Hash Set Information"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("NewHashSetDialog.jPanel2.border.title"))); // NOI18N
 
-        jLabel1.setText("Hash Set New Name:");
+        jLabel1.setText(bundle.getString("NewHashSetDialog.jLabel1.text")); // NOI18N
 
-        hashSetNameTextField.setText(" ");
+        hashSetNameTextField.setText(bundle.getString("NewHashSetDialog.hashSetNameTextField.text")); // NOI18N
 
-        jLabel2.setText("Notes:");
+        jLabel2.setText(bundle.getString("NewHashSetDialog.jLabel2.text")); // NOI18N
 
         hashSetNotesTextArea.setColumns(20);
         hashSetNotesTextArea.setRows(5);
@@ -102,7 +103,7 @@ public class NewHashSetDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        addButton.setText("Add");
+        addButton.setText(bundle.getString("NewHashSetDialog.addButton.text")); // NOI18N
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
@@ -110,7 +111,7 @@ public class NewHashSetDialog extends javax.swing.JDialog {
         });
         jPanel3.add(addButton);
 
-        cancelButton.setText("Cancel");
+        cancelButton.setText(bundle.getString("NewHashSetDialog.cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
