@@ -28,7 +28,7 @@
         <Container class="javax.swing.JPanel" name="mozillaPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Mozilla FireFox Browser">
+              <JTabbedPaneConstraints tabName="&#x645;&#x62a;&#x635;&#x641;&#x62d; &#x641;&#x627;&#x64a;&#x631;&#x641;&#x648;&#x643;&#x633;">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.mozillaPanel.TabConstraints.tabTitle" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
@@ -42,7 +42,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Browser Information">
+                    <TitledBorder title="&#x645;&#x639;&#x644;&#x648;&#x645;&#x627;&#x62a; &#x627;&#x644;&#x645;&#x62a;&#x635;&#x641;&#x62d;">
                       <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.mozillaButtonsPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                       <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
                     </TitledBorder>
@@ -197,7 +197,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Browser Information">
+                        <TitledBorder title="&#x645;&#x639;&#x644;&#x648;&#x645;&#x627;&#x62a; &#x627;&#x644;&#x645;&#x62a;&#x635;&#x641;&#x62d;">
                           <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.mozillaButtonsPanel1.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                           <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
                         </TitledBorder>
@@ -346,7 +346,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Web History">
+                        <TitledBorder title="&#x633;&#x62c;&#x644;&#x627;&#x62a; &#x627;&#x644;&#x645;&#x62a;&#x635;&#x641;&#x62d;">
                           <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.webHistoryPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                           <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
                         </TitledBorder>
@@ -407,7 +407,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Bookmark">
+                        <TitledBorder title="&#x627;&#x644;&#x645;&#x641;&#x636;&#x644;&#x629;">
                           <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.bookmarkHistory.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
@@ -467,7 +467,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Cookies">
+                        <TitledBorder title="&#x627;&#x644;&#x643;&#x639;&#x643;&#x627;&#x62a;">
                           <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.cookiesPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
@@ -527,7 +527,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Download">
+                        <TitledBorder title="&#x627;&#x644;&#x62a;&#x62d;&#x645;&#x64a;&#x644;&#x627;&#x62a;">
                           <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.downloadPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
@@ -590,7 +590,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Loggins">
+                        <TitledBorder title="&#x639;&#x645;&#x644;&#x64a;&#x627;&#x62a; &#x627;&#x644;&#x62f;&#x62e;&#x648;&#x644;">
                           <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.logginsPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
@@ -704,7 +704,7 @@
                             <Container class="javax.swing.JPanel" name="topHostPanel">
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                                  <JTabbedPaneConstraints tabName="Top 20 Visitied Host">
+                                  <JTabbedPaneConstraints tabName="&#x623;&#x643;&#x62b;&#x631; 20 &#x645;&#x648;&#x642;&#x639; &#x62a;&#x645;&#x62a; &#x632;&#x64a;&#x627;&#x631;&#x62a;&#x647;">
                                     <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                                       <ResourceString bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.topHostPanel.TabConstraints.tabTitle" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                                     </Property>
@@ -746,7 +746,7 @@
                             <Container class="javax.swing.JPanel" name="topURLPanel">
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                                  <JTabbedPaneConstraints tabName="Top 20 Visited url">
+                                  <JTabbedPaneConstraints tabName="&#x623;&#x643;&#x62b;&#x631; 20 &#x631;&#x627;&#x628;&#x637; &#x62a;&#x645;&#x62a; &#x632;&#x64a;&#x627;&#x631;&#x62a;&#x647;">
                                     <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                                       <ResourceString bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.topURLPanel.TabConstraints.tabTitle" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                                     </Property>
@@ -788,7 +788,7 @@
                             <Container class="javax.swing.JPanel" name="searchEnginePanel">
                               <Constraints>
                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                                  <JTabbedPaneConstraints tabName="Searching on search engine">
+                                  <JTabbedPaneConstraints tabName="&#x627;&#x644;&#x628;&#x62d;&#x62b; &#x641;&#x64a; &#x645;&#x62d;&#x631;&#x643; &#x627;&#x644;&#x628;&#x62d;&#x62b;">
                                     <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                                       <ResourceString bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.searchEnginePanel.TabConstraints.tabTitle" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                                     </Property>
@@ -896,7 +896,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Searching and Sorting">
+                    <TitledBorder title="&#x627;&#x644;&#x628;&#x62d;&#x62b; &#x648;&#x627;&#x644;&#x62a;&#x631;&#x62a;&#x64a;&#x628;">
                       <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.mozillaSearchPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                       <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
                     </TitledBorder>
@@ -923,7 +923,7 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="mozillaFilterComboBox" alignment="0" pref="651" max="32767" attributes="0"/>
+                              <Component id="mozillaFilterComboBox" alignment="0" pref="639" max="32767" attributes="0"/>
                               <Component id="mozillaSearchField" alignment="0" pref="647" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1055,7 +1055,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Microsoft Internet Explorer Broswer">
+              <JTabbedPaneConstraints tabName="&#x645;&#x62a;&#x635;&#x641;&#x62d; &#x627;&#x646;&#x62a;&#x631;&#x646;&#x62a; &#x627;&#x643;&#x633;&#x628;&#x644;&#x648;&#x631;">
                 <Property name="tabTitle" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
                   <ResourceString bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.IEPanel.TabConstraints.tabTitle" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
@@ -1069,7 +1069,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Browser Information">
+                    <TitledBorder title="&#x645;&#x639;&#x644;&#x648;&#x645;&#x627;&#x62a; &#x627;&#x644;&#x645;&#x62a;&#x635;&#x641;&#x62d;">
                       <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.IEButtonsPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                       <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
                     </TitledBorder>
@@ -1199,7 +1199,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Searching and Sorting">
+                    <TitledBorder title="&#x627;&#x644;&#x628;&#x62d;&#x62b; &#x648;&#x627;&#x644;&#x62a;&#x631;&#x62a;&#x64a;&#x628;">
                       <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.IESearchPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                       <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
                     </TitledBorder>
@@ -1223,7 +1223,7 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="IEFilterComboBox" alignment="0" pref="651" max="32767" attributes="0"/>
+                              <Component id="IEFilterComboBox" alignment="0" pref="639" max="32767" attributes="0"/>
                               <Component id="IESearchField" alignment="0" pref="647" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -1294,7 +1294,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Web History">
+                        <TitledBorder title="&#x633;&#x62c;&#x644;&#x627;&#x62a; &#x627;&#x644;&#x645;&#x62a;&#x635;&#x641;&#x62d;">
                           <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.IEWebHistoryPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                           <Font PropertyName="font" name="Tahoma" size="11" style="1"/>
                         </TitledBorder>
@@ -1355,7 +1355,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Bookmark">
+                        <TitledBorder title="&#x627;&#x644;&#x645;&#x641;&#x636;&#x644;&#x629;">
                           <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.IEBookmarkPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
@@ -1418,7 +1418,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Cookies">
+                        <TitledBorder title="&#x627;&#x644;&#x643;&#x639;&#x643;&#x627;&#x62a;">
                           <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.IECookiesPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
@@ -1484,7 +1484,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Cache">
+                        <TitledBorder title="&#x627;&#x644;&#x643;&#x64a;&#x634;">
                           <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.IECachePanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>
@@ -1550,7 +1550,7 @@
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                        <TitledBorder title="Loggins">
+                        <TitledBorder title="&#x639;&#x645;&#x644;&#x64a;&#x627;&#x62a; &#x627;&#x644;&#x62f;&#x62e;&#x648;&#x644;">
                           <ResourceString PropertyName="titleX" bundle="edu/coeia/internet/Bundle.properties" key="InternetSurfingPanel.IELogginsPanel.border.title" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                         </TitledBorder>
                       </Border>

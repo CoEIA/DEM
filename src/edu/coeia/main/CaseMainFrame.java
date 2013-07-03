@@ -73,7 +73,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
      */
     public CaseMainFrame(final CaseManagerFrame frame, final CaseFacade caseFacade) {       
         initComponents();        
-        this.applyComponentOrientation(ComponentOrientation.getOrientation(ResourceManager.getLanguage()));
+        
         logger.info(String.format("OfflineMining Frame Constructor, Open Case: %s" , caseFacade.getCase().getCaseName()));
         caseFacade.audit(AuditingMessages.OPEN_CASE);
         
@@ -125,6 +125,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
         this.searchToggleButtonActionPerformed(null);
         this.setTitle(SystemConstant.APPLICATION_NAME + "Case Manager Window");
         
+        this.applyComponentOrientation(ComponentOrientation.getOrientation(ResourceManager.getLanguage()));        
         GuiUtil.showPanel("caseManagerCard",CardPanel);
     }
     

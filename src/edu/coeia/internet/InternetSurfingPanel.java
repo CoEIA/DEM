@@ -7,38 +7,35 @@
 package edu.coeia.internet;
 
 import edu.coeia.cases.Case;
+import edu.coeia.constants.ApplicationConstants;
+import edu.coeia.constants.OpreatingSystemConstants;
+import edu.coeia.constants.ResourceManager;
 import edu.coeia.detector.FirefoxDetector;
 import edu.coeia.detector.UsersDetector;
 import edu.coeia.gutil.GuiUtil;
-import edu.coeia.util.Utilities;
-import edu.coeia.constants.ApplicationConstants ;
-import edu.coeia.constants.OpreatingSystemConstants;
-import edu.coeia.visualization.CorrelationDialog;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.main.CaseMainFrame;
 import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.FileUtil;
-
-import java.awt.Desktop ;
-
-import javax.swing.JTextField ;
-import javax.swing.JComboBox ;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JFrame ;
-import javax.swing.event.DocumentEvent ;
-import javax.swing.event.DocumentListener ;
-
-import java.io.File ;
-import java.io.IOException ;
-
+import edu.coeia.util.Utilities;
+import edu.coeia.visualization.CorrelationDialog;
+import java.awt.ComponentOrientation;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList ;
-import java.util.HashMap ;
-import java.util.Date ;
-import java.util.logging.Logger;
 import java.util.logging.Level;
-
-import java.sql.SQLException ;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * InternetSurfingPanel.java
@@ -56,14 +53,14 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
     
     /** Creates new form InternetSurfingPanel */
     public InternetSurfingPanel(final JFrame frame) {
-        initComponents();
+        initComponents();        
         
         this.caseFrame = (CaseMainFrame) frame;
         this.aCase =  this.caseFrame.getCaseFacade().getCase();
         
         this.mozillaSearchField.getDocument().addDocumentListener(new MozillaInputListener());
         this.IESearchField.getDocument().addDocumentListener(new IEInputListener());                  
-        this.disableNotIndexedComponent();
+        this.disableNotIndexedComponent();                
     }
 
     /** This method is called from within the constructor to

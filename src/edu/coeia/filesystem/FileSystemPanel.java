@@ -1,11 +1,12 @@
 
 package edu.coeia.filesystem;
 
-import edu.coeia.hashanalysis.HashAnalysisPanel;
 import edu.coeia.cases.Case;
-import edu.coeia.cases.CaseFacade;
+import edu.coeia.constants.ResourceManager;
 import edu.coeia.filesignature.FileSignaturePanel;
+import edu.coeia.hashanalysis.HashAnalysisPanel;
 import edu.coeia.main.CaseMainFrame;
+import java.awt.ComponentOrientation;
 import javax.swing.JFrame;
 
 /*
@@ -38,6 +39,7 @@ public class FileSystemPanel extends javax.swing.JPanel {
         //this.fileSystemTappedPane.add("Browse", fileBrowsingPanel);
         this.fileSystemTappedPane.add("File Signature", fileSignaturePanel);
         this.fileSystemTappedPane.add("Hash Analysis", hashAnalysisPanel);
+        this.applyComponentOrientation(ComponentOrientation.getOrientation(ResourceManager.getLanguage())); 
     }
 
     public void showSearchWithKeyword (String text) {
