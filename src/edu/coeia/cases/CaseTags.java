@@ -6,13 +6,11 @@ package edu.coeia.cases;
 
 import edu.coeia.tags.Tag;
 import edu.coeia.tags.TagsDBHandler;
-import static edu.coeia.util.PreconditionsChecker.* ;
-
+import static edu.coeia.util.PreconditionsChecker.*;
 import java.sql.SQLException;
-
-import java.util.List; 
-import java.util.ArrayList ;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -84,8 +82,9 @@ final class CaseTags {
     public boolean isTagsDbModified() {
         boolean result = false;
         
-        if ( this.tags.size() != this.tagsCopy.size() )
+        if ( this.tags.size() != this.tagsCopy.size() ) {
             return !result ;
+        }
         
         for(int i=0; i<this.tags.size(); i++) {
             Tag tag1 = this.tags.get(i);

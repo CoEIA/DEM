@@ -5,13 +5,11 @@
 package edu.coeia.cases;
 
 import edu.coeia.wizard.EmailConfiguration;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Collections;
-
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Case object have collections of attribute that define 

@@ -4,17 +4,15 @@
  */
 package edu.coeia.cases;
 
-import edu.coeia.util.FileUtil;
 import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.constants.AuditingMessages;
 import edu.coeia.tags.Tag;
-
+import edu.coeia.util.FileUtil;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import java.util.ArrayList;
 import java.util.List;
 
