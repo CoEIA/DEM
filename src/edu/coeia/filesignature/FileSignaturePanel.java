@@ -237,7 +237,8 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
         setLayout(new java.awt.BorderLayout());
 
-        treePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Select Folder"));
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/filesignature/Bundle"); // NOI18N
+        treePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("FileSignaturePanel.treePanel.border.title"))); // NOI18N
 
         jScrollPane1.setAutoscrolls(true);
 
@@ -257,14 +258,14 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         );
         treePanelLayout.setVerticalGroup(
             treePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
         );
 
         add(treePanel, java.awt.BorderLayout.WEST);
 
         tablePanel.setLayout(new java.awt.BorderLayout());
 
-        resultPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("File Analysis "));
+        resultPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("FileSignaturePanel.resultPanel.border.title"))); // NOI18N
         resultPanel.setLayout(new java.awt.BorderLayout());
 
         FileAnalysisTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -289,7 +290,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
 
         tablePanel.add(resultPanel, java.awt.BorderLayout.NORTH);
 
-        databasePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("DEM FileSignature DataBase:"));
+        databasePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("FileSignaturePanel.databasePanel.border.title"))); // NOI18N
         databasePanel.setLayout(new java.awt.BorderLayout());
 
         SignatureTableDB.setModel(new javax.swing.table.DefaultTableModel(
@@ -317,7 +318,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         add(tablePanel, java.awt.BorderLayout.CENTER);
 
         analyzeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/dem-icon.png"))); // NOI18N
-        analyzeButton.setText("Analyse");
+        analyzeButton.setText(bundle.getString("FileSignaturePanel.analyzeButton.text")); // NOI18N
         analyzeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 analyzeButtonActionPerformed(evt);
@@ -326,7 +327,7 @@ public class FileSignaturePanel extends javax.swing.JPanel implements Runnable {
         buttonPanel.add(analyzeButton);
 
         stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
-        stopButton.setText("Stop");
+        stopButton.setText(bundle.getString("FileSignaturePanel.stopButton.text")); // NOI18N
         stopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stopButtonActionPerformed(evt);
