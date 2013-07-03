@@ -176,7 +176,8 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
 
         mozillaPanel.setLayout(new java.awt.BorderLayout());
 
-        mozillaButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Browser Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/internet/Bundle"); // NOI18N
+        mozillaButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("InternetSurfingPanel.mozillaButtonsPanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         mozillaButtonsPanel.setPreferredSize(new java.awt.Dimension(200, 459));
 
         jToolBar2.setFloatable(false);
@@ -184,7 +185,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar2.setRollover(true);
 
         ffSummaryButtton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/view_text.png"))); // NOI18N
-        ffSummaryButtton.setText("Summary");
+        ffSummaryButtton.setText(bundle.getString("InternetSurfingPanel.ffSummaryButtton.text")); // NOI18N
         ffSummaryButtton.setEnabled(false);
         ffSummaryButtton.setPreferredSize(new java.awt.Dimension(55, 55));
         ffSummaryButtton.addActionListener(new java.awt.event.ActionListener() {
@@ -196,7 +197,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar2.add(jSeparator2);
 
         webHistoryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
-        webHistoryButton.setText("Web History");
+        webHistoryButton.setText(bundle.getString("InternetSurfingPanel.webHistoryButton.text")); // NOI18N
         webHistoryButton.setEnabled(false);
         webHistoryButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -206,7 +207,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar2.add(webHistoryButton);
 
         bookmarButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/bookmarks.png"))); // NOI18N
-        bookmarButton.setText("Bookmark");
+        bookmarButton.setText(bundle.getString("InternetSurfingPanel.bookmarButton.text")); // NOI18N
         bookmarButton.setEnabled(false);
         bookmarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,7 +217,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar2.add(bookmarButton);
 
         cookiesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/autostart.png"))); // NOI18N
-        cookiesButton.setText("Cookies");
+        cookiesButton.setText(bundle.getString("InternetSurfingPanel.cookiesButton.text")); // NOI18N
         cookiesButton.setEnabled(false);
         cookiesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,7 +227,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar2.add(cookiesButton);
 
         downloadButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/download.png"))); // NOI18N
-        downloadButton.setText("Download");
+        downloadButton.setText(bundle.getString("InternetSurfingPanel.downloadButton.text")); // NOI18N
         downloadButton.setEnabled(false);
         downloadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -236,7 +237,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar2.add(downloadButton);
 
         logginsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/lists.png"))); // NOI18N
-        logginsButton.setText("Loggins");
+        logginsButton.setText(bundle.getString("InternetSurfingPanel.logginsButton.text")); // NOI18N
         logginsButton.setEnabled(false);
         logginsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -247,7 +248,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
 
         jScrollPane1.setViewportView(jToolBar2);
 
-        mozillaButtonsPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Browser Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        mozillaButtonsPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("InternetSurfingPanel.mozillaButtonsPanel1.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         mozillaButtonsPanel1.setPreferredSize(new java.awt.Dimension(200, 459));
 
         jToolBar4.setFloatable(false);
@@ -255,7 +256,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar4.setRollover(true);
 
         ffSummaryButtton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/view_text.png"))); // NOI18N
-        ffSummaryButtton1.setText("Summary");
+        ffSummaryButtton1.setText(bundle.getString("InternetSurfingPanel.ffSummaryButtton1.text")); // NOI18N
         ffSummaryButtton1.setEnabled(false);
         ffSummaryButtton1.setPreferredSize(new java.awt.Dimension(55, 55));
         ffSummaryButtton1.addActionListener(new java.awt.event.ActionListener() {
@@ -267,7 +268,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar4.add(jSeparator3);
 
         webHistoryButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
-        webHistoryButton2.setText("Web History");
+        webHistoryButton2.setText(bundle.getString("InternetSurfingPanel.webHistoryButton2.text")); // NOI18N
         webHistoryButton2.setEnabled(false);
         webHistoryButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -277,7 +278,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar4.add(webHistoryButton2);
 
         bookmarButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/bookmarks.png"))); // NOI18N
-        bookmarButton2.setText("Bookmark");
+        bookmarButton2.setText(bundle.getString("InternetSurfingPanel.bookmarButton2.text")); // NOI18N
         bookmarButton2.setEnabled(false);
         bookmarButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -287,7 +288,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar4.add(bookmarButton2);
 
         cookiesButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/autostart.png"))); // NOI18N
-        cookiesButton2.setText("Cookies");
+        cookiesButton2.setText(bundle.getString("InternetSurfingPanel.cookiesButton2.text")); // NOI18N
         cookiesButton2.setEnabled(false);
         cookiesButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -297,7 +298,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar4.add(cookiesButton2);
 
         downloadButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/download.png"))); // NOI18N
-        downloadButton1.setText("Download");
+        downloadButton1.setText(bundle.getString("InternetSurfingPanel.downloadButton1.text")); // NOI18N
         downloadButton1.setEnabled(false);
         downloadButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,7 +308,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar4.add(downloadButton1);
 
         logginsButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/lists.png"))); // NOI18N
-        logginsButton2.setText("Loggins");
+        logginsButton2.setText(bundle.getString("InternetSurfingPanel.logginsButton2.text")); // NOI18N
         logginsButton2.setEnabled(false);
         logginsButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -322,11 +323,11 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         mozillaButtonsPanel1.setLayout(mozillaButtonsPanel1Layout);
         mozillaButtonsPanel1Layout.setHorizontalGroup(
             mozillaButtonsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
         );
         mozillaButtonsPanel1Layout.setVerticalGroup(
             mozillaButtonsPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout mozillaButtonsPanelLayout = new javax.swing.GroupLayout(mozillaButtonsPanel);
@@ -342,19 +343,19 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         );
         mozillaButtonsPanelLayout.setVerticalGroup(
             mozillaButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
             .addGroup(mozillaButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(mozillaButtonsPanelLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 9, Short.MAX_VALUE)
                     .addComponent(mozillaButtonsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 9, Short.MAX_VALUE)))
         );
 
         mozillaPanel.add(mozillaButtonsPanel, java.awt.BorderLayout.WEST);
 
         mozillaResultPanel.setLayout(new java.awt.CardLayout());
 
-        webHistoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Web History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        webHistoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("InternetSurfingPanel.webHistoryPanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         webHistoryTable.setAutoCreateRowSorter(true);
         webHistoryTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -398,19 +399,19 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
             webHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(webHistoryPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(webHistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addComponent(webHistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                 .addContainerGap())
         );
         webHistoryPanelLayout.setVerticalGroup(
             webHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(webHistoryPanelLayout.createSequentialGroup()
-                .addComponent(webHistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addComponent(webHistoryScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         mozillaResultPanel.add(webHistoryPanel, "webHistoryCard");
 
-        bookmarkHistory.setBorder(javax.swing.BorderFactory.createTitledBorder("Bookmark"));
+        bookmarkHistory.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("InternetSurfingPanel.bookmarkHistory.border.title"))); // NOI18N
 
         bookmarkTable.setAutoCreateRowSorter(true);
         bookmarkTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -437,19 +438,19 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
             bookmarkHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bookmarkHistoryLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(bookmarkScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addComponent(bookmarkScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                 .addContainerGap())
         );
         bookmarkHistoryLayout.setVerticalGroup(
             bookmarkHistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bookmarkHistoryLayout.createSequentialGroup()
-                .addComponent(bookmarkScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addComponent(bookmarkScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         mozillaResultPanel.add(bookmarkHistory, "bookmarkCard");
 
-        cookiesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cookies"));
+        cookiesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("InternetSurfingPanel.cookiesPanel.border.title"))); // NOI18N
 
         cookiesTable.setAutoCreateRowSorter(true);
         cookiesTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -477,19 +478,19 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
             cookiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cookiesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cookiesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addComponent(cookiesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                 .addContainerGap())
         );
         cookiesPanelLayout.setVerticalGroup(
             cookiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(cookiesPanelLayout.createSequentialGroup()
-                .addComponent(cookiesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addComponent(cookiesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         mozillaResultPanel.add(cookiesPanel, "cookiesCard");
 
-        downloadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Download"));
+        downloadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("InternetSurfingPanel.downloadPanel.border.title"))); // NOI18N
 
         downloadTable.setAutoCreateRowSorter(true);
         downloadTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -516,19 +517,19 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
             downloadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(downloadPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(downloadScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addComponent(downloadScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                 .addContainerGap())
         );
         downloadPanelLayout.setVerticalGroup(
             downloadPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(downloadPanelLayout.createSequentialGroup()
-                .addComponent(downloadScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addComponent(downloadScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         mozillaResultPanel.add(downloadPanel, "downloadCard");
 
-        logginsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Loggins"));
+        logginsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("InternetSurfingPanel.logginsPanel.border.title"))); // NOI18N
 
         logginsTable.setAutoCreateRowSorter(true);
         logginsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -556,13 +557,13 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
             logginsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(logginsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(logginsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addComponent(logginsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                 .addContainerGap())
         );
         logginsPanelLayout.setVerticalGroup(
             logginsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(logginsPanelLayout.createSequentialGroup()
-                .addComponent(logginsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addComponent(logginsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -585,10 +586,10 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         );
         topHostPanelLayout.setVerticalGroup(
             topHostPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane24, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+            .addComponent(jScrollPane24, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
         );
 
-        ffSumarryTappnedPane.addTab("Top 20 Visitied Host", topHostPanel);
+        ffSumarryTappnedPane.addTab(bundle.getString("InternetSurfingPanel.topHostPanel.TabConstraints.tabTitle"), topHostPanel); // NOI18N
 
         topURLTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -607,10 +608,10 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         );
         topURLPanelLayout.setVerticalGroup(
             topURLPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane25, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+            .addComponent(jScrollPane25, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
         );
 
-        ffSumarryTappnedPane.addTab("Top 20 Visited url", topURLPanel);
+        ffSumarryTappnedPane.addTab(bundle.getString("InternetSurfingPanel.topURLPanel.TabConstraints.tabTitle"), topURLPanel); // NOI18N
 
         searchEngineTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -629,32 +630,32 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         );
         searchEnginePanelLayout.setVerticalGroup(
             searchEnginePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane26, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+            .addComponent(jScrollPane26, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
         );
 
-        ffSumarryTappnedPane.addTab("Searching on search engine", searchEnginePanel);
+        ffSumarryTappnedPane.addTab(bundle.getString("InternetSurfingPanel.searchEnginePanel.TabConstraints.tabTitle"), searchEnginePanel); // NOI18N
 
         javax.swing.GroupLayout ffSummaryDataPanelLayout = new javax.swing.GroupLayout(ffSummaryDataPanel);
         ffSummaryDataPanel.setLayout(ffSummaryDataPanelLayout);
         ffSummaryDataPanelLayout.setHorizontalGroup(
             ffSummaryDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ffSumarryTappnedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
+            .addComponent(ffSumarryTappnedPane)
         );
         ffSummaryDataPanelLayout.setVerticalGroup(
             ffSummaryDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(ffSumarryTappnedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+            .addComponent(ffSumarryTappnedPane)
         );
 
         ffSummaryButtonsPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        ffViewHTMLReportButton.setText("View HTML Report");
+        ffViewHTMLReportButton.setText(bundle.getString("InternetSurfingPanel.ffViewHTMLReportButton.text")); // NOI18N
         ffViewHTMLReportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ffViewHTMLReportButtonActionPerformed(evt);
             }
         });
 
-        ffVisualizingVisitedHostButton.setText("Visualizing Visited Host");
+        ffVisualizingVisitedHostButton.setText(bundle.getString("InternetSurfingPanel.ffVisualizingVisitedHostButton.text")); // NOI18N
         ffVisualizingVisitedHostButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ffVisualizingVisitedHostButtonActionPerformed(evt);
@@ -668,7 +669,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
             .addGroup(ffSummaryButtonsPanelLayout.createSequentialGroup()
                 .addGap(113, 113, 113)
                 .addComponent(ffViewHTMLReportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ffVisualizingVisitedHostButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(113, 113, 113))
         );
@@ -707,14 +708,14 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
 
         mozillaPanel.add(mozillaResultPanel, java.awt.BorderLayout.CENTER);
 
-        mozillaSearchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Searching and Sorting", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        mozillaSearchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("InternetSurfingPanel.mozillaSearchPanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         mozillaSearchPanel.setPreferredSize(new java.awt.Dimension(1194, 92));
 
-        jLabel15.setText("Search String:");
+        jLabel15.setText(bundle.getString("InternetSurfingPanel.jLabel15.text")); // NOI18N
 
-        mozillaSearchField.setText(" ");
+        mozillaSearchField.setText(bundle.getString("InternetSurfingPanel.mozillaSearchField.text")); // NOI18N
 
-        jLabel16.setText("URL Filter:");
+        jLabel16.setText(bundle.getString("InternetSurfingPanel.jLabel16.text")); // NOI18N
 
         mozillaFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
             "Filter By Date",
@@ -737,7 +738,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
                     .addComponent(jLabel15))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mozillaFilterComboBox, 0, 647, Short.MAX_VALUE)
+                    .addComponent(mozillaFilterComboBox, 0, 651, Short.MAX_VALUE)
                     .addComponent(mozillaSearchField, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -751,7 +752,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
                 .addGroup(mozillaSearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(mozillaFilterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         mozillaPanel.add(mozillaSearchPanel, java.awt.BorderLayout.SOUTH);
@@ -759,9 +760,9 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         mozillaLoadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         mozillaLoadPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 70, 213));
-        jLabel3.setText("Select FireFox File From Index:");
+        jLabel3.setText(bundle.getString("InternetSurfingPanel.jLabel3.text")); // NOI18N
         mozillaLoadPanel.add(jLabel3, java.awt.BorderLayout.WEST);
 
         ffComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -771,8 +772,8 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         });
         mozillaLoadPanel.add(ffComboBox, java.awt.BorderLayout.CENTER);
 
-        loadFFButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        loadFFButton.setText("Load Profile");
+        loadFFButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        loadFFButton.setText(bundle.getString("InternetSurfingPanel.loadFFButton.text")); // NOI18N
         loadFFButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadFFButtonActionPerformed(evt);
@@ -782,12 +783,12 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
 
         mozillaPanel.add(mozillaLoadPanel, java.awt.BorderLayout.NORTH);
 
-        internetSurfingTappedPane.addTab("Mozilla FireFox Browser", mozillaPanel);
+        internetSurfingTappedPane.addTab(bundle.getString("InternetSurfingPanel.mozillaPanel.TabConstraints.tabTitle"), mozillaPanel); // NOI18N
 
         IEPanel.setPreferredSize(new java.awt.Dimension(853, 796));
         IEPanel.setLayout(new java.awt.BorderLayout());
 
-        IEButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Browser Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        IEButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("InternetSurfingPanel.IEButtonsPanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         IEButtonsPanel.setPreferredSize(new java.awt.Dimension(200, 459));
 
         jToolBar3.setFloatable(false);
@@ -795,7 +796,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar3.setRollover(true);
 
         webHistoryButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
-        webHistoryButton1.setText("Web History");
+        webHistoryButton1.setText(bundle.getString("InternetSurfingPanel.webHistoryButton1.text")); // NOI18N
         webHistoryButton1.setEnabled(false);
         webHistoryButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -805,7 +806,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar3.add(webHistoryButton1);
 
         bookmarButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/bookmarks.png"))); // NOI18N
-        bookmarButton1.setText("Bookmark");
+        bookmarButton1.setText(bundle.getString("InternetSurfingPanel.bookmarButton1.text")); // NOI18N
         bookmarButton1.setEnabled(false);
         bookmarButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -815,7 +816,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar3.add(bookmarButton1);
 
         cookiesButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/autostart.png"))); // NOI18N
-        cookiesButton1.setText("Cookies");
+        cookiesButton1.setText(bundle.getString("InternetSurfingPanel.cookiesButton1.text")); // NOI18N
         cookiesButton1.setEnabled(false);
         cookiesButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -825,7 +826,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar3.add(cookiesButton1);
 
         cacheButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/download.png"))); // NOI18N
-        cacheButton.setText("Cache");
+        cacheButton.setText(bundle.getString("InternetSurfingPanel.cacheButton.text")); // NOI18N
         cacheButton.setEnabled(false);
         cacheButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -835,7 +836,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         jToolBar3.add(cacheButton);
 
         logginsButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/lists.png"))); // NOI18N
-        logginsButton1.setText("Loggins");
+        logginsButton1.setText(bundle.getString("InternetSurfingPanel.logginsButton1.text")); // NOI18N
         logginsButton1.setEnabled(false);
         logginsButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -856,18 +857,18 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         );
         IEButtonsPanelLayout.setVerticalGroup(
             IEButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
         );
 
         IEPanel.add(IEButtonsPanel, java.awt.BorderLayout.WEST);
 
-        IESearchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Searching and Sorting", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        IESearchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("InternetSurfingPanel.IESearchPanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        jLabel17.setText("Search String:");
+        jLabel17.setText(bundle.getString("InternetSurfingPanel.jLabel17.text")); // NOI18N
 
-        IESearchField.setText(" ");
+        IESearchField.setText(bundle.getString("InternetSurfingPanel.IESearchField.text")); // NOI18N
 
-        jLabel18.setText("URL Filter:");
+        jLabel18.setText(bundle.getString("InternetSurfingPanel.jLabel18.text")); // NOI18N
 
         IEFilterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
             "Filter By Date",
@@ -890,7 +891,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
                     .addComponent(jLabel17))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(IESearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(IEFilterComboBox, 0, 647, Short.MAX_VALUE)
+                    .addComponent(IEFilterComboBox, 0, 651, Short.MAX_VALUE)
                     .addComponent(IESearchField, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -911,7 +912,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
 
         IEResultPanel.setLayout(new java.awt.CardLayout());
 
-        IEWebHistoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Web History", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        IEWebHistoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("InternetSurfingPanel.IEWebHistoryPanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         IEWebHistoryTable.setAutoCreateRowSorter(true);
         IEWebHistoryTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -940,17 +941,17 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
             IEWebHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(IEWebHistoryPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                 .addContainerGap())
         );
         IEWebHistoryPanelLayout.setVerticalGroup(
             IEWebHistoryPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
         );
 
         IEResultPanel.add(IEWebHistoryPanel, "IEWebHisrotyCard");
 
-        IEBookmarkPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Bookmark"));
+        IEBookmarkPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("InternetSurfingPanel.IEBookmarkPanel.border.title"))); // NOI18N
 
         IEBookmarkTable.setAutoCreateRowSorter(true);
         IEBookmarkTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -976,19 +977,19 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
             IEBookmarkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(IEBookmarkPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                 .addContainerGap())
         );
         IEBookmarkPanelLayout.setVerticalGroup(
             IEBookmarkPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(IEBookmarkPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         IEResultPanel.add(IEBookmarkPanel, "IEBookmarkCard");
 
-        IECookiesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cookies"));
+        IECookiesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("InternetSurfingPanel.IECookiesPanel.border.title"))); // NOI18N
 
         IECookiesTable.setAutoCreateRowSorter(true);
         IECookiesTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -1015,19 +1016,19 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
             IECookiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(IECookiesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                 .addContainerGap())
         );
         IECookiesPanelLayout.setVerticalGroup(
             IECookiesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(IECookiesPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         IEResultPanel.add(IECookiesPanel, "IECookiesCard");
 
-        IECachePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Cache"));
+        IECachePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("InternetSurfingPanel.IECachePanel.border.title"))); // NOI18N
 
         IECacheTable.setAutoCreateRowSorter(true);
         IECacheTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -1054,19 +1055,19 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
             IECachePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(IECachePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                 .addContainerGap())
         );
         IECachePanelLayout.setVerticalGroup(
             IECachePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(IECachePanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         IEResultPanel.add(IECachePanel, "IECacheCard");
 
-        IELogginsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Loggins"));
+        IELogginsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("InternetSurfingPanel.IELogginsPanel.border.title"))); // NOI18N
 
         IELogginsTable.setAutoCreateRowSorter(true);
         IELogginsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -1093,13 +1094,13 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
             IELogginsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(IELogginsPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                 .addContainerGap())
         );
         IELogginsPanelLayout.setVerticalGroup(
             IELogginsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(IELogginsPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1110,14 +1111,14 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
         IELoadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         IELoadPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 70, 213));
-        jLabel4.setText("Select IE File From Index:");
+        jLabel4.setText(bundle.getString("InternetSurfingPanel.jLabel4.text")); // NOI18N
         IELoadPanel.add(jLabel4, java.awt.BorderLayout.WEST);
         IELoadPanel.add(ieComboBox, java.awt.BorderLayout.CENTER);
 
-        loadIEButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        loadIEButton.setText("Load Profile");
+        loadIEButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        loadIEButton.setText(bundle.getString("InternetSurfingPanel.loadIEButton.text")); // NOI18N
         loadIEButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadIEButtonActionPerformed(evt);
@@ -1127,7 +1128,7 @@ public class InternetSurfingPanel extends javax.swing.JPanel {
 
         IEPanel.add(IELoadPanel, java.awt.BorderLayout.NORTH);
 
-        internetSurfingTappedPane.addTab("Microsoft Internet Explorer Broswer", IEPanel);
+        internetSurfingTappedPane.addTab(bundle.getString("InternetSurfingPanel.IEPanel.TabConstraints.tabTitle"), IEPanel); // NOI18N
 
         add(internetSurfingTappedPane, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
