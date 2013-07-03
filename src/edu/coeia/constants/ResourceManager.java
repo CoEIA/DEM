@@ -27,8 +27,12 @@ public final class ResourceManager {
         }
     }
     
-    public static String getText(final String key) {
-        bundle = ResourceBundle.getBundle("dem_messages", currentLocale);
+    public static Locale getLanguage() {
+        return currentLocale;
+    }
+    
+    public static String getText(final String bundlePath, final String key) {
+        bundle = ResourceBundle.getBundle(bundlePath, currentLocale);
         return bundle.getString(key);
     }
 }

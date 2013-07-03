@@ -1,32 +1,29 @@
 package edu.coeia.main;
 
 /* import internal classes */
-import edu.coeia.cases.management.ApplicationManager;
-import edu.coeia.licence.LicenceManager;
-import edu.coeia.wizard.CaseWizardDialog;
-import edu.coeia.gutil.JTableUtil;
-import edu.coeia.gutil.GuiUtil;
-import edu.coeia.util.DateUtil;
-import edu.coeia.util.ApplicationLogging;
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
+import edu.coeia.cases.management.ApplicationManager;
 import edu.coeia.cases.management.CaseOperations;
 import edu.coeia.cases.management.CaseOperations.CASE_OPERATION_TYPE;
+import edu.coeia.constants.ResourceManager;
 import edu.coeia.constants.SystemConstant;
+import edu.coeia.gutil.GuiUtil;
+import edu.coeia.gutil.JTableUtil;
+import edu.coeia.licence.LicenceManager;
+import edu.coeia.util.ApplicationLogging;
+import edu.coeia.util.DateUtil;
+import edu.coeia.wizard.CaseWizardDialog;
 import java.awt.ComponentOrientation;
-
-/* import sun classes */
-import javax.swing.JOptionPane ;
-
-import java.util.List ;
-import java.util.logging.Logger;
-
-import java.awt.Toolkit ;
-import java.awt.Dimension ;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.EventQueue;
+import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /*
  * CaseManagerFrame the main window in DEM
@@ -354,13 +351,14 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_exportCaseButtonActionPerformed
 
     private void englishRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_englishRadioButtonActionPerformed
-        System.out.println("Select English Language");
-        changeLanguage(Locale.ENGLISH);
+        ResourceManager.setLanguage(ResourceManager.Language.ENGLISH);
+        changeLanguage(ResourceManager.getLanguage());
+        
     }//GEN-LAST:event_englishRadioButtonActionPerformed
 
     private void arabicRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arabicRadioButtonActionPerformed
-        System.out.println("Select Arabic Language");
-        changeLanguage(new Locale("ar", "SA"));        
+        ResourceManager.setLanguage(ResourceManager.Language.ARABIC);
+        changeLanguage(ResourceManager.getLanguage());
     }//GEN-LAST:event_arabicRadioButtonActionPerformed
 
     
@@ -387,9 +385,11 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             SmartCardDialog scd = new SmartCardDialog(this, true, true);
             scd.setVisible(true);
         }
-        else {
+        else {            
             int diff = licenseManager.getRemainingDays();
-            JOptionPane.showMessageDialog(this, "Remaining days: " + diff, "Trial Version",
+            JOptionPane.showMessageDialog(this,
+                    java.text.MessageFormat.format(ResourceManager.getText("edu/coeia/main/Bundle", "REMAINING DAYS"), new Object[] {diff, "Trial Version",}),
+                    java.text.MessageFormat.format(ResourceManager.getText("edu/coeia/main/Bundle", "REMAINING DAYS"), new Object[] {diff, "Trial Version",}),
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -407,29 +407,35 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             
         }
         catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(this, "please select the case you want to open",
-                    "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,                                        
+                    ResourceManager.getText("edu/coeia/main/Bundle", "PLEASE SELECT THE CASE YOU WANT TO OPEN"),
+                    ResourceManager.getText("edu/coeia/main/Bundle", "NO CASE IS SELECTED"),
+                    JOptionPane.INFORMATION_MESSAGE);
         }
         catch(Exception e) {
-            logger.severe(String.format("Exception - Cannot Export The Case: %s", e.getMessage()));
+            logger.severe(String.format(java.util.ResourceBundle.getBundle("edu/coeia/main/Bundle").getString("EXCEPTION - CANNOT EXPORT THE CASE"), e.getMessage()));
         }
     }
     
     private void loadCaseAction() {
         try {
             String caseName = getSelectedCase();
-            System.out.println("case name: " +  caseName);
             
             CaseOperations operation = new CaseOperations(this, caseName, CASE_OPERATION_TYPE.LOAD);
             operation.start();
         }
         catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(this, "please select the case you want to open",
-                    "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,                                        
+                    ResourceManager.getText("edu/coeia/main/Bundle", "PLEASE SELECT THE CASE YOU WANT TO OPEN"),
+                    ResourceManager.getText("edu/coeia/main/Bundle", "NO CASE IS SELECTED"),
+                    JOptionPane.INFORMATION_MESSAGE);
         }
         catch (Exception e) {
-            logger.severe(String.format("Exception - Cannot Load The Case: %s", e.getMessage()));
-            JOptionPane.showMessageDialog(this, "the location for this index is not founded, please recreate the case again", "Index File not Found!",
+            logger.severe(String.format(java.util.ResourceBundle.getBundle("edu/coeia/main/Bundle").getString("EXCEPTION - CANNOT LOAD THE CASE"), e.getMessage()));
+            
+            JOptionPane.showMessageDialog(this,                                        
+                ResourceManager.getText("edu/coeia/main/Bundle", "THE LOCATION FOR THIS INDEX IS NOT FOUNDED, PLEASE RECREATE THE CASE AGAIN"),
+                ResourceManager.getText("edu/coeia/main/Bundle", "INDEX FILE NOT FOUND!"),
                 JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -443,13 +449,17 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
                 deleteCase.start();
             }
             else {
-                JOptionPane.showMessageDialog(this, "This case is already opening, close it first to remove it",
-                        "Please close the openining Case", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this,                                        
+                    ResourceManager.getText("edu/coeia/main/Bundle", "THIS CASE IS ALREADY OPENING, CLOSE IT FIRST TO REMOVE IT"),
+                    ResourceManager.getText("edu/coeia/main/Bundle", "PLEASE CLOSE THE OPENINING CASE"),
+                    JOptionPane.INFORMATION_MESSAGE);
             }
         }
         catch(NullPointerException e) {
-            JOptionPane.showMessageDialog(this, "please select the case you want to remove",
-                "No Case is Selected", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,                                        
+                    ResourceManager.getText("edu/coeia/main/Bundle", "PLEASE SELECT THE CASE YOU WANT TO OPEN"),
+                    ResourceManager.getText("edu/coeia/main/Bundle", "NO CASE IS SELECTED"),
+                    JOptionPane.INFORMATION_MESSAGE);
 
             return ;
         }
@@ -477,10 +487,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             }
             catch(Exception e){
                 logger.severe("Cannot Index the case directly after create it");
-                logger.severe(String.format
-                            ("Exception - Cannot Load the Case After Creation: %s",
-                            e.getMessage())
-                        );
+                logger.severe(String.format("Exception - Cannot Load the Case After Creation: %s",e.getMessage()));
             }
         }
     }
@@ -492,8 +499,10 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
      */
     private void checkBetaLicense() {
         if ( ! licenseManager.isFullVersion() && licenseManager.isExpireNow() ) {
-            JOptionPane.showMessageDialog(this, "Your software has been expired!",
-                    "please purchase the full version...",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, 
+                    ResourceManager.getText("edu/coeia/main/Bundle", "YOUR SOFTWARE HAS BEEN EXPIRED!"),
+                    ResourceManager.getText("edu/coeia/main/Bundle", "PLEASE PURCHASE THE FULL VERSION..."),
+                    JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         }
     }
@@ -513,9 +522,13 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         int width = screenSize.width ;
         int height = screenSize.height;
 
+        // set default application language
+        ResourceManager.setLanguage(ResourceManager.Language.ENGLISH);
+        this.englishRadioButton.setSelected(true);
+        
         // set application title and default location when startup
-        this.setLocation( width / 4, height / 4);
-        this.setTitle("Digital Evidence Miner: Case Manager Window");
+        this.setLocation( width / 4, height / 4);        
+        this.setTitle(ResourceManager.getText("edu/coeia/main/Bundle", "DIGITAL EVIDENCE MINER: CASE MANAGER WINDOW"));
         
         // add close event
         this.addWindowListener( new WindowAdapter() {
