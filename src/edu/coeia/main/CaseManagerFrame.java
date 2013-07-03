@@ -71,6 +71,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         caseManagerDataPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         recentCaseTable = new javax.swing.JTable() { public boolean isCellEditable(int rowIndex, int vColIndex) { return false; } }
@@ -84,6 +85,9 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         exportCaseButton = new javax.swing.JButton();
         jToolBar1 = new javax.swing.JToolBar();
         jLabel2 = new javax.swing.JLabel();
+        langaugePanel = new javax.swing.JPanel();
+        englishRadioButton = new javax.swing.JRadioButton();
+        arabicRadioButton = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Digital Evidence Miner: Case Manager");
@@ -130,19 +134,19 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             caseManagerDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(caseManagerDataPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         caseManagerDataPanelLayout.setVerticalGroup(
             caseManagerDataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(caseManagerDataPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         caseManagerButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Case Operations", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        newCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        newCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         newCaseButton.setText("Create New Case");
         newCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -150,7 +154,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             }
         });
 
-        loadCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        loadCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         loadCaseButton.setText("Activiate Selected Case");
         loadCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,7 +162,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             }
         });
 
-        removeCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        removeCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         removeCaseButton.setText("Remove Selected Case");
         removeCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,7 +170,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             }
         });
 
-        checkLicenseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        checkLicenseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         checkLicenseButton.setText("Check License");
         checkLicenseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,7 +178,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             }
         });
 
-        importCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        importCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         importCaseButton.setText("Import Existing Case");
         importCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,7 +186,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             }
         });
 
-        exportCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        exportCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         exportCaseButton.setText("Export Selected Case");
         exportCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -197,14 +201,20 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             .addGroup(caseManagerButtonsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(caseManagerButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(newCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                    .addComponent(loadCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(removeCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                    .addComponent(checkLicenseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                    .addComponent(exportCaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                    .addComponent(importCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
+                    .addComponent(newCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(loadCaseButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(removeCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(importCaseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(caseManagerButtonsPanelLayout.createSequentialGroup()
+                        .addGroup(caseManagerButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(checkLicenseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(exportCaseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
+
+        caseManagerButtonsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {checkLicenseButton, exportCaseButton, importCaseButton, loadCaseButton, newCaseButton, removeCaseButton});
+
         caseManagerButtonsPanelLayout.setVerticalGroup(
             caseManagerButtonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(caseManagerButtonsPanelLayout.createSequentialGroup()
@@ -219,7 +229,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
                 .addComponent(exportCaseButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(checkLicenseButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         jToolBar1.setFloatable(false);
@@ -230,27 +240,76 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/caseManager.jpg"))); // NOI18N
         jToolBar1.add(jLabel2);
 
+        langaugePanel.setBackground(new java.awt.Color(0, 0, 0));
+
+        englishRadioButton.setBackground(new java.awt.Color(0, 0, 0));
+        buttonGroup1.add(englishRadioButton);
+        englishRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        englishRadioButton.setForeground(new java.awt.Color(255, 255, 255));
+        englishRadioButton.setText("English");
+        englishRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                englishRadioButtonActionPerformed(evt);
+            }
+        });
+
+        arabicRadioButton.setBackground(new java.awt.Color(0, 0, 0));
+        buttonGroup1.add(arabicRadioButton);
+        arabicRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        arabicRadioButton.setForeground(new java.awt.Color(255, 255, 255));
+        arabicRadioButton.setText("Arabic");
+        arabicRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                arabicRadioButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout langaugePanelLayout = new javax.swing.GroupLayout(langaugePanel);
+        langaugePanel.setLayout(langaugePanelLayout);
+        langaugePanelLayout.setHorizontalGroup(
+            langaugePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(langaugePanelLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(englishRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(arabicRadioButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        langaugePanelLayout.setVerticalGroup(
+            langaugePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(langaugePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(langaugePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(englishRadioButton)
+                    .addComponent(arabicRadioButton)))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(caseManagerButtonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(caseManagerDataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(langaugePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(caseManagerDataPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(caseManagerButtonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(caseManagerDataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(caseManagerButtonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(langaugePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -290,6 +349,14 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     private void exportCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportCaseButtonActionPerformed
         this.exportCaseAction();
     }//GEN-LAST:event_exportCaseButtonActionPerformed
+
+    private void englishRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_englishRadioButtonActionPerformed
+        System.out.println("Select English Language");
+    }//GEN-LAST:event_englishRadioButtonActionPerformed
+
+    private void arabicRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arabicRadioButtonActionPerformed
+        System.out.println("Select Arabic Language");
+    }//GEN-LAST:event_arabicRadioButtonActionPerformed
 
     private void checkLicenseAction() {
         if ( licenseManager.isFullVersion() ) { // show smart card inserting/usage dialog
@@ -489,14 +556,18 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton arabicRadioButton;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel caseManagerButtonsPanel;
     private javax.swing.JPanel caseManagerDataPanel;
     private javax.swing.JButton checkLicenseButton;
+    private javax.swing.JRadioButton englishRadioButton;
     private javax.swing.JButton exportCaseButton;
     private javax.swing.JButton importCaseButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JPanel langaugePanel;
     private javax.swing.JButton loadCaseButton;
     private javax.swing.JButton newCaseButton;
     private javax.swing.JTable recentCaseTable;
