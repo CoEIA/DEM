@@ -10,28 +10,26 @@
  */
 package edu.coeia.filesystem;
 
-import edu.coeia.cases.CaseHistory;
 import edu.coeia.cases.CaseFacade;
+import edu.coeia.cases.CaseHistory;
+import edu.coeia.constants.ResourceManager;
 import edu.coeia.gutil.JListUtil;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.tags.TagsDialog;
 import edu.coeia.main.CaseMainFrame;
-import edu.coeia.tags.Tag ;
+import edu.coeia.tags.Tag;
+import edu.coeia.tags.TagsDialog;
 import edu.coeia.util.ApplicationLogging;
 import edu.coeia.util.DateUtil;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.Utilities;
 import edu.coeia.wizard.EmailConfiguration;
-
+import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
-
 import java.io.File;
-
-import java.util.List ;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -68,6 +66,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         this.displayMutableCaseInformationPanel();
         this.loadCaseAuditing();
         
+        this.applyComponentOrientation(ComponentOrientation.getOrientation(ResourceManager.getLanguage()));
         logger.info("building case information panel");
     }
 
@@ -130,56 +129,57 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        caseInformationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Case Information"));
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/filesystem/Bundle"); // NOI18N
+        caseInformationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("CaseInformationPanel.caseInformationPanel.border.title"))); // NOI18N
 
-        jLabel1.setText("Case Name:");
+        jLabel1.setText(bundle.getString("CaseInformationPanel.jLabel1.text")); // NOI18N
 
         caseNameTextField.setEditable(false);
-        caseNameTextField.setText(" ");
+        caseNameTextField.setText(bundle.getString("CaseInformationPanel.caseNameTextField.text")); // NOI18N
 
-        jLabel2.setText("Created Date:");
+        jLabel2.setText(bundle.getString("CaseInformationPanel.jLabel2.text")); // NOI18N
 
         createdDateTextField.setEditable(false);
-        createdDateTextField.setText(" ");
+        createdDateTextField.setText(bundle.getString("CaseInformationPanel.createdDateTextField.text")); // NOI18N
 
-        jLabel3.setText("Last Modified:");
+        jLabel3.setText(bundle.getString("CaseInformationPanel.jLabel3.text")); // NOI18N
 
         lastModifiedTextField.setEditable(false);
-        lastModifiedTextField.setText(" ");
+        lastModifiedTextField.setText(bundle.getString("CaseInformationPanel.lastModifiedTextField.text")); // NOI18N
 
-        jLabel4.setText("Case Path:");
+        jLabel4.setText(bundle.getString("CaseInformationPanel.jLabel4.text")); // NOI18N
 
         casePathTextField.setEditable(false);
-        casePathTextField.setText(" ");
+        casePathTextField.setText(bundle.getString("CaseInformationPanel.casePathTextField.text")); // NOI18N
 
-        jLabel5.setText("Indexed:");
+        jLabel5.setText(bundle.getString("CaseInformationPanel.jLabel5.text")); // NOI18N
 
         indexedTextField.setEditable(false);
-        indexedTextField.setText(" ");
+        indexedTextField.setText(bundle.getString("CaseInformationPanel.indexedTextField.text")); // NOI18N
 
-        jLabel6.setText("#of item indexed:");
+        jLabel6.setText(bundle.getString("CaseInformationPanel.jLabel6.text")); // NOI18N
 
         itemIndexedTextField.setEditable(false);
-        itemIndexedTextField.setText(" ");
+        itemIndexedTextField.setText(bundle.getString("CaseInformationPanel.itemIndexedTextField.text")); // NOI18N
 
-        jLabel7.setText("Case Description:");
+        jLabel7.setText(bundle.getString("CaseInformationPanel.jLabel7.text")); // NOI18N
 
         caseDescriptionTextField.setEditable(false);
-        caseDescriptionTextField.setText(" ");
+        caseDescriptionTextField.setText(bundle.getString("CaseInformationPanel.caseDescriptionTextField.text")); // NOI18N
 
-        jLabel8.setText("Created By:");
+        jLabel8.setText(bundle.getString("CaseInformationPanel.jLabel8.text")); // NOI18N
 
         createdByTextField.setEditable(false);
-        createdByTextField.setText(" ");
+        createdByTextField.setText(bundle.getString("CaseInformationPanel.createdByTextField.text")); // NOI18N
 
-        jLabel10.setText("Case Size:");
+        jLabel10.setText(bundle.getString("CaseInformationPanel.jLabel10.text")); // NOI18N
 
         caseSizeTextField.setEditable(false);
-        caseSizeTextField.setText(" ");
+        caseSizeTextField.setText(bundle.getString("CaseInformationPanel.caseSizeTextField.text")); // NOI18N
 
-        jLabel11.setText("Case Sources:");
+        jLabel11.setText(bundle.getString("CaseInformationPanel.jLabel11.text")); // NOI18N
 
-        jLabel9.setText("Email Sources:");
+        jLabel9.setText(bundle.getString("CaseInformationPanel.jLabel9.text")); // NOI18N
 
         jScrollPane5.setViewportView(emailSourcesList);
 
@@ -270,7 +270,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
 
         tagsLogsPanel.setLayout(new java.awt.BorderLayout());
 
-        caseLogsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Case Log(s)"));
+        caseLogsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("CaseInformationPanel.caseLogsPanel.border.title"))); // NOI18N
         caseLogsPanel.setLayout(new java.awt.BorderLayout());
 
         caseLogsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -304,32 +304,32 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
 
         tagsLogsPanel.add(caseLogsPanel, java.awt.BorderLayout.CENTER);
 
-        caseTagsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Case Tag(s)"));
+        caseTagsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("CaseInformationPanel.caseTagsPanel.border.title"))); // NOI18N
         caseTagsPanel.setLayout(new java.awt.BorderLayout());
 
         caseTagsViewerPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel12.setText("By:");
+        jLabel12.setText(bundle.getString("CaseInformationPanel.jLabel12.text")); // NOI18N
 
         tagNameTextField.setEditable(false);
-        tagNameTextField.setText(" ");
+        tagNameTextField.setText(bundle.getString("CaseInformationPanel.tagNameTextField.text")); // NOI18N
 
-        jLabel13.setText("Date:");
+        jLabel13.setText(bundle.getString("CaseInformationPanel.jLabel13.text")); // NOI18N
 
         tagDateTextField.setEditable(false);
-        tagDateTextField.setText(" ");
+        tagDateTextField.setText(bundle.getString("CaseInformationPanel.tagDateTextField.text")); // NOI18N
 
-        jLabel14.setText("Content:");
+        jLabel14.setText(bundle.getString("CaseInformationPanel.jLabel14.text")); // NOI18N
 
         tagContentTextArea.setColumns(20);
         tagContentTextArea.setEditable(false);
-        tagContentTextArea.setFont(new java.awt.Font("Courier New", 0, 14));
+        tagContentTextArea.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
         tagContentTextArea.setRows(5);
         jScrollPane3.setViewportView(tagContentTextArea);
 
         caseTagControllerPanel.setLayout(new java.awt.BorderLayout());
 
-        nextButton.setText("Next");
+        nextButton.setText(bundle.getString("CaseInformationPanel.nextButton.text")); // NOI18N
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextButtonActionPerformed(evt);
@@ -337,7 +337,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         });
         caseTagControllerPanel.add(nextButton, java.awt.BorderLayout.CENTER);
 
-        prevButton.setText("prev");
+        prevButton.setText(bundle.getString("CaseInformationPanel.prevButton.text")); // NOI18N
         prevButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 prevButtonActionPerformed(evt);
@@ -345,7 +345,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
         });
         caseTagControllerPanel.add(prevButton, java.awt.BorderLayout.WEST);
 
-        currentTagLabel.setText("1/N");
+        currentTagLabel.setText(bundle.getString("CaseInformationPanel.currentTagLabel.text")); // NOI18N
 
         javax.swing.GroupLayout caseTagVeiwerPanelLayout = new javax.swing.GroupLayout(caseTagVeiwerPanel);
         caseTagVeiwerPanel.setLayout(caseTagVeiwerPanelLayout);
@@ -364,7 +364,7 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tagDateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
                     .addGroup(caseTagVeiwerPanelLayout.createSequentialGroup()
                         .addComponent(caseTagControllerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
@@ -397,21 +397,21 @@ public final class CaseInformationPanel extends javax.swing.JPanel {
 
         caseTagsButtonsPanel.setPreferredSize(new java.awt.Dimension(100, 100));
 
-        newTagsButton.setText("New");
+        newTagsButton.setText(bundle.getString("CaseInformationPanel.newTagsButton.text")); // NOI18N
         newTagsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newTagsButtonActionPerformed(evt);
             }
         });
 
-        removeTagsButton.setText("Remove");
+        removeTagsButton.setText(bundle.getString("CaseInformationPanel.removeTagsButton.text")); // NOI18N
         removeTagsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeTagsButtonActionPerformed(evt);
             }
         });
 
-        saveCaseButton.setText("Save...");
+        saveCaseButton.setText(bundle.getString("CaseInformationPanel.saveCaseButton.text")); // NOI18N
         saveCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveCaseButtonActionPerformed(evt);
