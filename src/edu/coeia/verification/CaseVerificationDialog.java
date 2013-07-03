@@ -56,21 +56,22 @@ public final class CaseVerificationDialog extends javax.swing.JDialog {
         evidenceList = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Please Select the Evidence Folder and enter its hash value");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/verification/Bundle"); // NOI18N
+        setTitle(bundle.getString("CaseVerificationDialog.title")); // NOI18N
         setResizable(false);
 
-        jLabel9.setText("Evidence Folder Hash Value:");
+        jLabel9.setText(bundle.getString("CaseVerificationDialog.jLabel9.text")); // NOI18N
 
-        evidenceHashValueTextField.setText(" ");
+        evidenceHashValueTextField.setText(bundle.getString("CaseVerificationDialog.evidenceHashValueTextField.text")); // NOI18N
 
-        verifyButton.setText("Verifey");
+        verifyButton.setText(bundle.getString("CaseVerificationDialog.verifyButton.text")); // NOI18N
         verifyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 verifyButtonActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("Select The Evidence Folder:");
+        jLabel1.setText(bundle.getString("CaseVerificationDialog.jLabel1.text")); // NOI18N
 
         jScrollPane1.setViewportView(evidenceList);
 
@@ -79,23 +80,18 @@ public final class CaseVerificationDialog extends javax.swing.JDialog {
         caseHashVerifyPanelLayout.setHorizontalGroup(
             caseHashVerifyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(caseHashVerifyPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(caseHashVerifyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(caseHashVerifyPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
-                    .addGroup(caseHashVerifyPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1))
-                    .addGroup(caseHashVerifyPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(caseHashVerifyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(evidenceHashValueTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING))))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caseHashVerifyPanelLayout.createSequentialGroup()
-                .addContainerGap(165, Short.MAX_VALUE)
-                .addComponent(verifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(155, 155, 155))
+                        .addGroup(caseHashVerifyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                            .addComponent(jLabel1)
+                            .addComponent(evidenceHashValueTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                            .addComponent(jLabel9))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, caseHashVerifyPanelLayout.createSequentialGroup()
+                        .addComponent(verifyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(155, 155, 155))))
         );
         caseHashVerifyPanelLayout.setVerticalGroup(
             caseHashVerifyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,7 +99,7 @@ public final class CaseVerificationDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
                 .addGap(19, 19, 19)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

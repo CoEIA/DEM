@@ -55,21 +55,22 @@ final class HashVerifierDialog extends javax.swing.JDialog {
         stopButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Evidence Files Verification");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/verification/Bundle"); // NOI18N
+        setTitle(bundle.getString("HashVerifierDialog.title")); // NOI18N
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Scanning Progress"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("HashVerifierDialog.jPanel1.border.title"))); // NOI18N
 
-        jLabel1.setText("File:");
+        jLabel1.setText(bundle.getString("HashVerifierDialog.jLabel1.text")); // NOI18N
 
         fileTextField.setEditable(false);
-        fileTextField.setText(" ");
+        fileTextField.setText(bundle.getString("HashVerifierDialog.fileTextField.text")); // NOI18N
 
-        jLabel2.setText("Hash:");
+        jLabel2.setText(bundle.getString("HashVerifierDialog.jLabel2.text")); // NOI18N
 
         hashTextField.setEditable(false);
-        hashTextField.setText(" ");
+        hashTextField.setText(bundle.getString("HashVerifierDialog.hashTextField.text")); // NOI18N
 
-        jLabel5.setText("Progress:");
+        jLabel5.setText(bundle.getString("HashVerifierDialog.jLabel5.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -106,17 +107,17 @@ final class HashVerifierDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Result Panel"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("HashVerifierDialog.jPanel2.border.title"))); // NOI18N
 
-        jLabel3.setText("Hash to Be Tested:");
+        jLabel3.setText(bundle.getString("HashVerifierDialog.jLabel3.text")); // NOI18N
 
         sourceHashTextField.setEditable(false);
-        sourceHashTextField.setText(" ");
+        sourceHashTextField.setText(bundle.getString("HashVerifierDialog.sourceHashTextField.text")); // NOI18N
 
-        jLabel4.setText("Hash Result:");
+        jLabel4.setText(bundle.getString("HashVerifierDialog.jLabel4.text")); // NOI18N
 
         resultHashTextField.setEditable(false);
-        resultHashTextField.setText(" ");
+        resultHashTextField.setText(bundle.getString("HashVerifierDialog.resultHashTextField.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -148,7 +149,7 @@ final class HashVerifierDialog extends javax.swing.JDialog {
         );
 
         stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
-        stopButton.setText("Stop");
+        stopButton.setText(bundle.getString("HashVerifierDialog.stopButton.text")); // NOI18N
         stopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stopButtonActionPerformed(evt);

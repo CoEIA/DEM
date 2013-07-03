@@ -56,16 +56,17 @@ public class TagsDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Add New Tag Dialog");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/tags/Bundle"); // NOI18N
+        setTitle(bundle.getString("TagsDialog.title")); // NOI18N
 
-        okButton.setText("Ok");
+        okButton.setText(bundle.getString("TagsDialog.okButton.text")); // NOI18N
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okButtonActionPerformed(evt);
             }
         });
 
-        cancelButton.setText("Cancel");
+        cancelButton.setText(bundle.getString("TagsDialog.cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
@@ -94,20 +95,20 @@ public class TagsDialog extends javax.swing.JDialog {
         );
 
         tagContentTextArea.setColumns(20);
-        tagContentTextArea.setFont(new java.awt.Font("Courier New", 0, 14));
+        tagContentTextArea.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
         tagContentTextArea.setRows(5);
         jScrollPane1.setViewportView(tagContentTextArea);
 
-        jLabel1.setText("Creator Name:");
+        jLabel1.setText(bundle.getString("TagsDialog.jLabel1.text")); // NOI18N
 
-        createNameTextField.setText(" ");
+        createNameTextField.setText(bundle.getString("TagsDialog.createNameTextField.text")); // NOI18N
 
         creatorDateTextField.setEditable(false);
-        creatorDateTextField.setText(" ");
+        creatorDateTextField.setText(bundle.getString("TagsDialog.creatorDateTextField.text")); // NOI18N
 
-        jLabel2.setText("Creator Date:");
+        jLabel2.setText(bundle.getString("TagsDialog.jLabel2.text")); // NOI18N
 
-        jLabel3.setText("Tag Content:");
+        jLabel3.setText(bundle.getString("TagsDialog.jLabel3.text")); // NOI18N
 
         javax.swing.GroupLayout tagsAddingPanelLayout = new javax.swing.GroupLayout(tagsAddingPanel);
         tagsAddingPanel.setLayout(tagsAddingPanelLayout);

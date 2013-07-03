@@ -11,23 +11,17 @@ package edu.coeia.searching;
  */
 
 import edu.coeia.cases.CaseFacade;
+import edu.coeia.constants.IndexingConstant;
 import edu.coeia.gutil.JTableUtil;
-import edu.coeia.constants.IndexingConstant ;
 import edu.coeia.items.Item;
 import edu.coeia.items.ItemFactory;
 import edu.coeia.searching.SearcherThread.ProgressSearchData;
-
 import java.awt.Color;
-
-import javax.swing.SwingWorker ;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
-
-import java.util.Date ;
-import java.util.List ;
-import java.util.ArrayList ;
-
-import java.util.HashSet;
-import java.util.Set;
+import javax.swing.SwingWorker;
 import org.apache.lucene.document.Document;
 
 class SearcherThread extends SwingWorker<String,ProgressSearchData> {
