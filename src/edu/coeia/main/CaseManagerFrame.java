@@ -13,6 +13,7 @@ import edu.coeia.cases.CaseFacade;
 import edu.coeia.cases.management.CaseOperations;
 import edu.coeia.cases.management.CaseOperations.CASE_OPERATION_TYPE;
 import edu.coeia.constants.SystemConstant;
+import java.awt.ComponentOrientation;
 
 /* import sun classes */
 import javax.swing.JOptionPane ;
@@ -25,6 +26,7 @@ import java.awt.Dimension ;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.EventQueue;
+import java.util.Locale;
 
 /*
  * CaseManagerFrame the main window in DEM
@@ -90,10 +92,11 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         arabicRadioButton = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Digital Evidence Miner: Case Manager");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/main/Bundle"); // NOI18N
+        setTitle(bundle.getString("CaseManagerFrame.title")); // NOI18N
         setResizable(false);
 
-        caseManagerDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Recent Cases Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        caseManagerDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("CaseManagerFrame.caseManagerDataPanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         recentCaseTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -144,10 +147,10 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        caseManagerButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Case Operations", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        caseManagerButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("CaseManagerFrame.caseManagerButtonsPanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         newCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        newCaseButton.setText("Create New Case");
+        newCaseButton.setText(bundle.getString("CaseManagerFrame.newCaseButton.text")); // NOI18N
         newCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newCaseButtonActionPerformed(evt);
@@ -155,7 +158,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         });
 
         loadCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        loadCaseButton.setText("Activiate Selected Case");
+        loadCaseButton.setText(bundle.getString("CaseManagerFrame.loadCaseButton.text")); // NOI18N
         loadCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadCaseButtonActionPerformed(evt);
@@ -163,7 +166,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         });
 
         removeCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        removeCaseButton.setText("Remove Selected Case");
+        removeCaseButton.setText(bundle.getString("CaseManagerFrame.removeCaseButton.text")); // NOI18N
         removeCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeCaseButtonActionPerformed(evt);
@@ -171,7 +174,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         });
 
         checkLicenseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        checkLicenseButton.setText("Check License");
+        checkLicenseButton.setText(bundle.getString("CaseManagerFrame.checkLicenseButton.text")); // NOI18N
         checkLicenseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkLicenseButtonActionPerformed(evt);
@@ -179,7 +182,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         });
 
         importCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        importCaseButton.setText("Import Existing Case");
+        importCaseButton.setText(bundle.getString("CaseManagerFrame.importCaseButton.text")); // NOI18N
         importCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 importCaseButtonActionPerformed(evt);
@@ -187,7 +190,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         });
 
         exportCaseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        exportCaseButton.setText("Export Selected Case");
+        exportCaseButton.setText(bundle.getString("CaseManagerFrame.exportCaseButton.text")); // NOI18N
         exportCaseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exportCaseButtonActionPerformed(evt);
@@ -246,7 +249,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         buttonGroup1.add(englishRadioButton);
         englishRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         englishRadioButton.setForeground(new java.awt.Color(255, 255, 255));
-        englishRadioButton.setText("English");
+        englishRadioButton.setText(bundle.getString("CaseManagerFrame.englishRadioButton.text")); // NOI18N
         englishRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 englishRadioButtonActionPerformed(evt);
@@ -257,7 +260,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
         buttonGroup1.add(arabicRadioButton);
         arabicRadioButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         arabicRadioButton.setForeground(new java.awt.Color(255, 255, 255));
-        arabicRadioButton.setText("Arabic");
+        arabicRadioButton.setText(bundle.getString("CaseManagerFrame.arabicRadioButton.text")); // NOI18N
         arabicRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 arabicRadioButtonActionPerformed(evt);
@@ -270,9 +273,9 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
             langaugePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(langaugePanelLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(englishRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(arabicRadioButton)
+                .addComponent(englishRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(arabicRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         langaugePanelLayout.setVerticalGroup(
@@ -352,12 +355,33 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
 
     private void englishRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_englishRadioButtonActionPerformed
         System.out.println("Select English Language");
+        changeLanguage(Locale.ENGLISH);
     }//GEN-LAST:event_englishRadioButtonActionPerformed
 
     private void arabicRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arabicRadioButtonActionPerformed
         System.out.println("Select Arabic Language");
+        changeLanguage(new Locale("ar", "SA"));        
     }//GEN-LAST:event_arabicRadioButtonActionPerformed
 
+    
+    private void changeLanguage(Locale locale) {
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/main/Bundle", locale); // NOI18N
+        
+        setTitle(bundle.getString("CaseManagerFrame.title")); // NOI18N
+        caseManagerDataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("CaseManagerFrame.caseManagerDataPanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        caseManagerButtonsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("CaseManagerFrame.caseManagerButtonsPanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        newCaseButton.setText(bundle.getString("CaseManagerFrame.newCaseButton.text")); // NOI18N
+        loadCaseButton.setText(bundle.getString("CaseManagerFrame.loadCaseButton.text")); // NOI18N
+        removeCaseButton.setText(bundle.getString("CaseManagerFrame.removeCaseButton.text")); // NOI18N
+        checkLicenseButton.setText(bundle.getString("CaseManagerFrame.checkLicenseButton.text")); // NOI18N
+        importCaseButton.setText(bundle.getString("CaseManagerFrame.importCaseButton.text")); // NOI18N
+        exportCaseButton.setText(bundle.getString("CaseManagerFrame.exportCaseButton.text")); // NOI18N
+        englishRadioButton.setText(bundle.getString("CaseManagerFrame.englishRadioButton.text")); // NOI18N
+        arabicRadioButton.setText(bundle.getString("CaseManagerFrame.arabicRadioButton.text")); // NOI18N
+        
+        this.applyComponentOrientation(ComponentOrientation.getOrientation(locale));
+    }
+    
     private void checkLicenseAction() {
         if ( licenseManager.isFullVersion() ) { // show smart card inserting/usage dialog
             SmartCardDialog scd = new SmartCardDialog(this, true, true);

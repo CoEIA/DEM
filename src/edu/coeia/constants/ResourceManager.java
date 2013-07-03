@@ -12,13 +12,13 @@ import java.util.ResourceBundle;
  * @author wajdyessam
  */
 public final class ResourceManager {
-    private Locale[] supportedLocale = { Locale.ENGLISH, new Locale("ar", "SA") };
-    private Locale currentLocale;
-    private ResourceBundle bundle;
+    private static Locale[] supportedLocale = { Locale.ENGLISH, new Locale("ar", "SA") };
+    private static Locale currentLocale;
+    private static ResourceBundle bundle;
     
-    public enum Language { ENGLISH, ARABIC } ;
+    public static enum Language { ENGLISH, ARABIC } ;
     
-    public void setLanguage(Language language) {
+    public static void setLanguage(Language language) {
         if ( language == Language.ARABIC ) {
             currentLocale = supportedLocale[1];
         }
@@ -27,8 +27,8 @@ public final class ResourceManager {
         }
     }
     
-    public String getText(final String key) {
-        this.bundle = ResourceBundle.getBundle("dem_messages", currentLocale);
-        return this.bundle.getString(key);
+    public static String getText(final String key) {
+        bundle = ResourceBundle.getBundle("dem_messages", currentLocale);
+        return bundle.getString(key);
     }
 }
