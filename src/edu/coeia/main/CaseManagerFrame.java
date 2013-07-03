@@ -363,6 +363,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
 
     
     private void changeLanguage(Locale locale) {
+        Locale.setDefault(locale);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/main/Bundle", locale); // NOI18N
         
         setTitle(bundle.getString("CaseManagerFrame.title")); // NOI18N

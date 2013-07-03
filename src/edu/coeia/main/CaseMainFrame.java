@@ -24,6 +24,8 @@ import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.constants.AuditingMessages;
 import edu.coeia.constants.SystemConstant;
 import edu.coeia.cases.management.ApplicationManager;
+import edu.coeia.constants.ResourceManager;
+import java.awt.ComponentOrientation;
 
 import java.awt.Cursor;
 import java.awt.EventQueue;
@@ -36,6 +38,7 @@ import javax.swing.JOptionPane;
 import java.io.IOException ;
 
 import java.util.List; 
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -73,7 +76,9 @@ public class CaseMainFrame extends javax.swing.JFrame {
      * @param list a list of all openings case
      */
     public CaseMainFrame(final CaseManagerFrame frame, final CaseFacade caseFacade) {
-        initComponents();
+        Locale.setDefault(ResourceManager.getLanguage());        
+        initComponents();        
+        this.applyComponentOrientation(ComponentOrientation.getOrientation(ResourceManager.getLanguage()));
         logger.info(String.format("OfflineMining Frame Constructor, Open Case: %s" , caseFacade.getCase().getCaseName()));
         caseFacade.audit(AuditingMessages.OPEN_CASE);
         
@@ -168,16 +173,17 @@ public class CaseMainFrame extends javax.swing.JFrame {
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Digital Evidence Miner ");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/main/Bundle"); // NOI18N
+        setTitle(bundle.getString("CaseMainFrame.title")); // NOI18N
         setIconImages(null);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
         headerGroupButton.add(caseManagerToggleButton);
-        caseManagerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        caseManagerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         caseManagerToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274612774_kservices.png"))); // NOI18N
-        caseManagerToggleButton.setText("Case Manager");
+        caseManagerToggleButton.setText(bundle.getString("CaseMainFrame.caseManagerToggleButton.text")); // NOI18N
         caseManagerToggleButton.setFocusable(false);
         caseManagerToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         caseManagerToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -189,9 +195,9 @@ public class CaseMainFrame extends javax.swing.JFrame {
         jToolBar1.add(caseManagerToggleButton);
 
         headerGroupButton.add(searchToggleButton);
-        searchToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        searchToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         searchToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/Copy of search.png"))); // NOI18N
-        searchToggleButton.setText("Case Search");
+        searchToggleButton.setText(bundle.getString("CaseMainFrame.searchToggleButton.text")); // NOI18N
         searchToggleButton.setFocusable(false);
         searchToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         searchToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -203,9 +209,9 @@ public class CaseMainFrame extends javax.swing.JFrame {
         jToolBar1.add(searchToggleButton);
 
         headerGroupButton.add(fileSystemToggleButton);
-        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        fileSystemToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         fileSystemToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/file-manager.png"))); // NOI18N
-        fileSystemToggleButton.setText("File System");
+        fileSystemToggleButton.setText(bundle.getString("CaseMainFrame.fileSystemToggleButton.text")); // NOI18N
         fileSystemToggleButton.setFocusable(false);
         fileSystemToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         fileSystemToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -217,9 +223,9 @@ public class CaseMainFrame extends javax.swing.JFrame {
         jToolBar1.add(fileSystemToggleButton);
 
         headerGroupButton.add(emailToggleButton);
-        emailToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        emailToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         emailToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325574974_message-already-read.png"))); // NOI18N
-        emailToggleButton.setText("Online and Offline Email");
+        emailToggleButton.setText(bundle.getString("CaseMainFrame.emailToggleButton.text")); // NOI18N
         emailToggleButton.setFocusable(false);
         emailToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         emailToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -231,9 +237,9 @@ public class CaseMainFrame extends javax.swing.JFrame {
         jToolBar1.add(emailToggleButton);
 
         headerGroupButton.add(internetSurfingToggleButton);
-        internetSurfingToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        internetSurfingToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         internetSurfingToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/web.png"))); // NOI18N
-        internetSurfingToggleButton.setText("Internet Browsing");
+        internetSurfingToggleButton.setText(bundle.getString("CaseMainFrame.internetSurfingToggleButton.text")); // NOI18N
         internetSurfingToggleButton.setFocusable(false);
         internetSurfingToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         internetSurfingToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -245,9 +251,9 @@ public class CaseMainFrame extends javax.swing.JFrame {
         jToolBar1.add(internetSurfingToggleButton);
 
         headerGroupButton.add(chatToggleButton);
-        chatToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        chatToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         chatToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325574948_amsn.png"))); // NOI18N
-        chatToggleButton.setText("Instant Chat  IM");
+        chatToggleButton.setText(bundle.getString("CaseMainFrame.chatToggleButton.text")); // NOI18N
         chatToggleButton.setFocusable(false);
         chatToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         chatToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -259,9 +265,9 @@ public class CaseMainFrame extends javax.swing.JFrame {
         jToolBar1.add(chatToggleButton);
 
         headerGroupButton.add(imageViewerToggleButton);
-        imageViewerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        imageViewerToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         imageViewerToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325574870_iPhoto.png"))); // NOI18N
-        imageViewerToggleButton.setText("Multimedia Viewer");
+        imageViewerToggleButton.setText(bundle.getString("CaseMainFrame.imageViewerToggleButton.text")); // NOI18N
         imageViewerToggleButton.setFocusable(false);
         imageViewerToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         imageViewerToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -273,9 +279,9 @@ public class CaseMainFrame extends javax.swing.JFrame {
         jToolBar1.add(imageViewerToggleButton);
 
         headerGroupButton.add(reportToggleButton);
-        reportToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        reportToggleButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         reportToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1274614668_filesave.png"))); // NOI18N
-        reportToggleButton.setText("Report");
+        reportToggleButton.setText(bundle.getString("CaseMainFrame.reportToggleButton.text")); // NOI18N
         reportToggleButton.setFocusable(false);
         reportToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         reportToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -292,10 +298,10 @@ public class CaseMainFrame extends javax.swing.JFrame {
         CardPanel.setLayout(new java.awt.CardLayout());
         getContentPane().add(CardPanel, java.awt.BorderLayout.CENTER);
 
-        fileMenu.setText("File");
-        fileMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        fileMenu.setText(bundle.getString("CaseMainFrame.fileMenu.text")); // NOI18N
+        fileMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
-        exitMenuItem.setText(" Exit");
+        exitMenuItem.setText(bundle.getString("CaseMainFrame.exitMenuItem.text")); // NOI18N
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exitMenuItemActionPerformed(evt);
@@ -305,10 +311,10 @@ public class CaseMainFrame extends javax.swing.JFrame {
 
         mainMenuBar.add(fileMenu);
 
-        optionsMenu.setText("Options");
-        optionsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        optionsMenu.setText(bundle.getString("CaseMainFrame.optionsMenu.text")); // NOI18N
+        optionsMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
-        hashLibraryMenuItem.setText("Hash Library");
+        hashLibraryMenuItem.setText(bundle.getString("CaseMainFrame.hashLibraryMenuItem.text")); // NOI18N
         hashLibraryMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hashLibraryMenuItemActionPerformed(evt);
@@ -316,7 +322,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
         });
         optionsMenu.add(hashLibraryMenuItem);
 
-        caseVerificationMenuItem.setText("Case Verification");
+        caseVerificationMenuItem.setText(bundle.getString("CaseMainFrame.caseVerificationMenuItem.text")); // NOI18N
         caseVerificationMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 caseVerificationMenuItemActionPerformed(evt);
@@ -325,7 +331,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
         optionsMenu.add(caseVerificationMenuItem);
         optionsMenu.add(jSeparator3);
 
-        caseIndexingMenuItem.setText("Case Indexing");
+        caseIndexingMenuItem.setText(bundle.getString("CaseMainFrame.caseIndexingMenuItem.text")); // NOI18N
         caseIndexingMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 caseIndexingMenuItemActionPerformed(evt);
@@ -333,7 +339,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
         });
         optionsMenu.add(caseIndexingMenuItem);
 
-        reDownloadingEmailMenuItem.setText("ReDownload Email");
+        reDownloadingEmailMenuItem.setText(bundle.getString("CaseMainFrame.reDownloadingEmailMenuItem.text")); // NOI18N
         reDownloadingEmailMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reDownloadingEmailMenuItemActionPerformed(evt);
@@ -343,10 +349,10 @@ public class CaseMainFrame extends javax.swing.JFrame {
 
         mainMenuBar.add(optionsMenu);
 
-        toolsMenu.setText("Tools");
-        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        toolsMenu.setText(bundle.getString("CaseMainFrame.toolsMenu.text")); // NOI18N
+        toolsMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
-        windowsMenuItem.setText("Windows Information");
+        windowsMenuItem.setText(bundle.getString("CaseMainFrame.windowsMenuItem.text")); // NOI18N
         windowsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 windowsMenuItemActionPerformed(evt);
@@ -355,7 +361,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
         toolsMenu.add(windowsMenuItem);
         toolsMenu.add(jSeparator2);
 
-        viewLogMenuItem.setText("View Logs");
+        viewLogMenuItem.setText(bundle.getString("CaseMainFrame.viewLogMenuItem.text")); // NOI18N
         viewLogMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewLogMenuItemActionPerformed(evt);
@@ -365,10 +371,10 @@ public class CaseMainFrame extends javax.swing.JFrame {
 
         mainMenuBar.add(toolsMenu);
 
-        aboutMenu.setText("About");
-        aboutMenu.setFont(new java.awt.Font("Tahoma", 1, 11));
+        aboutMenu.setText(bundle.getString("CaseMainFrame.aboutMenu.text")); // NOI18N
+        aboutMenu.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
-        helpMenuItem.setText("Help");
+        helpMenuItem.setText(bundle.getString("CaseMainFrame.helpMenuItem.text")); // NOI18N
         helpMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 helpMenuItemActionPerformed(evt);
@@ -377,7 +383,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
         aboutMenu.add(helpMenuItem);
         aboutMenu.add(jSeparator1);
 
-        aboutMenuItem.setText("About");
+        aboutMenuItem.setText(bundle.getString("CaseMainFrame.aboutMenuItem.text")); // NOI18N
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aboutMenuItemActionPerformed(evt);
@@ -389,7 +395,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
 
         setJMenuBar(mainMenuBar);
 
-        getAccessibleContext().setAccessibleName("DEM");
+        getAccessibleContext().setAccessibleName(bundle.getString("CaseMainFrame.AccessibleContext.accessibleName")); // NOI18N
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
