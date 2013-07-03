@@ -80,52 +80,53 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
         advancedSearchButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Advanced Search Options");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/searching/Bundle"); // NOI18N
+        setTitle(bundle.getString("AdvancedSearchDialog.title")); // NOI18N
         setModal(true);
         setResizable(false);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel1.setText("Advanced Search Options");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText(bundle.getString("AdvancedSearchDialog.jLabel1.text")); // NOI18N
         jToolBar1.add(jLabel1);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel2.setText("Found documents that have...");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText(bundle.getString("AdvancedSearchDialog.jLabel2.text")); // NOI18N
 
-        jLabel3.setText("all these words:");
-        jLabel3.setToolTipText("the result will be connected by AND operator");
+        jLabel3.setText(bundle.getString("AdvancedSearchDialog.jLabel3.text")); // NOI18N
+        jLabel3.setToolTipText(bundle.getString("AdvancedSearchDialog.jLabel3.toolTipText")); // NOI18N
 
-        andTextField.setText(" ");
+        andTextField.setText(bundle.getString("AdvancedSearchDialog.andTextField.text")); // NOI18N
 
-        jLabel4.setText("this exact phrase:");
-        jLabel4.setToolTipText("the result will be connected by phrase \" operator");
+        jLabel4.setText(bundle.getString("AdvancedSearchDialog.jLabel4.text")); // NOI18N
+        jLabel4.setToolTipText(bundle.getString("AdvancedSearchDialog.jLabel4.toolTipText")); // NOI18N
 
-        phraseTextField.setText(" ");
+        phraseTextField.setText(bundle.getString("AdvancedSearchDialog.phraseTextField.text")); // NOI18N
 
-        jLabel5.setText("one or more of these words:");
-        jLabel5.setToolTipText("the result will be connected by OR operator");
+        jLabel5.setText(bundle.getString("AdvancedSearchDialog.jLabel5.text")); // NOI18N
+        jLabel5.setToolTipText(bundle.getString("AdvancedSearchDialog.jLabel5.toolTipText")); // NOI18N
 
-        orTextField1.setText(" ");
+        orTextField1.setText(bundle.getString("AdvancedSearchDialog.orTextField1.text")); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel8.setText("But not show documents that have...");
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel8.setText(bundle.getString("AdvancedSearchDialog.jLabel8.text")); // NOI18N
 
-        jLabel9.setText("any of these unwanted words:");
-        jLabel9.setToolTipText("the string will be excluded from the result");
+        jLabel9.setText(bundle.getString("AdvancedSearchDialog.jLabel9.text")); // NOI18N
+        jLabel9.setToolTipText(bundle.getString("AdvancedSearchDialog.jLabel9.toolTipText")); // NOI18N
 
-        notTextField.setText(" ");
+        notTextField.setText(bundle.getString("AdvancedSearchDialog.notTextField.text")); // NOI18N
 
-        jLabel10.setText("OR from List file:");
-        jLabel10.setToolTipText("the result will be connected by OR operator");
+        jLabel10.setText(bundle.getString("AdvancedSearchDialog.jLabel10.text")); // NOI18N
+        jLabel10.setToolTipText(bundle.getString("AdvancedSearchDialog.jLabel10.toolTipText")); // NOI18N
 
-        orFileTextField.setText(" ");
+        orFileTextField.setText(bundle.getString("AdvancedSearchDialog.orFileTextField.text")); // NOI18N
 
-        selectFileButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        selectFileButton.setText("select file...");
+        selectFileButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        selectFileButton.setText(bundle.getString("AdvancedSearchDialog.selectFileButton.text")); // NOI18N
         selectFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectFileButtonActionPerformed(evt);
@@ -206,13 +207,13 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
         jToolBar2.setFloatable(false);
         jToolBar2.setRollover(true);
 
-        resultLabel.setText("                                       ");
+        resultLabel.setText(bundle.getString("AdvancedSearchDialog.resultLabel.text")); // NOI18N
         resultLabel.setMaximumSize(new java.awt.Dimension(500, 14));
         resultLabel.setMinimumSize(new java.awt.Dimension(10, 14));
         jToolBar2.add(resultLabel);
 
-        advancedSearchButton.setFont(new java.awt.Font("Tahoma", 1, 11));
-        advancedSearchButton.setText("Advanced Search");
+        advancedSearchButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        advancedSearchButton.setText(bundle.getString("AdvancedSearchDialog.advancedSearchButton.text")); // NOI18N
         advancedSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 advancedSearchButtonActionPerformed(evt);
@@ -236,7 +237,7 @@ class AdvancedSearchDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );

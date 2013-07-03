@@ -127,7 +127,8 @@ public class SearchResultPanel extends javax.swing.JPanel {
 
         jPanel22.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane4.addTab("Search Result", jPanel22);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/searching/Bundle"); // NOI18N
+        jTabbedPane4.addTab(bundle.getString("SearchResultPanel.jPanel22.TabConstraints.tabTitle"), jPanel22); // NOI18N
 
         add(jTabbedPane4, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents

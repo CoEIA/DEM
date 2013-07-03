@@ -100,36 +100,37 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        searchScopePanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Search Scope"));
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/searching/Bundle"); // NOI18N
+        searchScopePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("AdvancedSearchPanel.searchScopePanel.border.title"))); // NOI18N
 
         fileSystemCheckBox.setSelected(true);
-        fileSystemCheckBox.setText("File System:");
+        fileSystemCheckBox.setText(bundle.getString("AdvancedSearchPanel.fileSystemCheckBox.text")); // NOI18N
         fileSystemCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fileSystemCheckBoxActionPerformed(evt);
             }
         });
 
-        fileSystemMetadataCheckBox.setText("Metadata");
+        fileSystemMetadataCheckBox.setText(bundle.getString("AdvancedSearchPanel.fileSystemMetadataCheckBox.text")); // NOI18N
 
         fileSystemContentCheckBox.setSelected(true);
-        fileSystemContentCheckBox.setText("Content");
+        fileSystemContentCheckBox.setText(bundle.getString("AdvancedSearchPanel.fileSystemContentCheckBox.text")); // NOI18N
 
         emailCheckBox.setSelected(true);
-        emailCheckBox.setText("Email:");
+        emailCheckBox.setText(bundle.getString("AdvancedSearchPanel.emailCheckBox.text")); // NOI18N
         emailCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailCheckBoxActionPerformed(evt);
             }
         });
 
-        emailHeaderCheckBox.setText("Headers");
+        emailHeaderCheckBox.setText(bundle.getString("AdvancedSearchPanel.emailHeaderCheckBox.text")); // NOI18N
 
         emailContentCheckBox.setSelected(true);
-        emailContentCheckBox.setText("Content");
+        emailContentCheckBox.setText(bundle.getString("AdvancedSearchPanel.emailContentCheckBox.text")); // NOI18N
 
         chatCheckBox.setSelected(true);
-        chatCheckBox.setText("Instant Messaging:");
+        chatCheckBox.setText(bundle.getString("AdvancedSearchPanel.chatCheckBox.text")); // NOI18N
         chatCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chatCheckBoxActionPerformed(evt);
@@ -137,7 +138,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         });
 
         chatContentCheckBox.setSelected(true);
-        chatContentCheckBox.setText("Content");
+        chatContentCheckBox.setText(bundle.getString("AdvancedSearchPanel.chatContentCheckBox.text")); // NOI18N
 
         javax.swing.GroupLayout searchScopePanelLayout = new javax.swing.GroupLayout(searchScopePanel);
         searchScopePanel.setLayout(searchScopePanelLayout);
@@ -148,21 +149,20 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
                 .addGroup(searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(fileSystemCheckBox)
                     .addComponent(emailCheckBox)
+                    .addComponent(chatCheckBox)
                     .addGroup(searchScopePanelLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addGroup(searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, searchScopePanelLayout.createSequentialGroup()
-                                .addComponent(emailHeaderCheckBox)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(emailContentCheckBox))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, searchScopePanelLayout.createSequentialGroup()
-                                .addComponent(fileSystemMetadataCheckBox)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fileSystemContentCheckBox))))
-                    .addGroup(searchScopePanelLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(chatContentCheckBox))
-                    .addComponent(chatCheckBox))
+                        .addGroup(searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(searchScopePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, searchScopePanelLayout.createSequentialGroup()
+                                    .addComponent(emailHeaderCheckBox)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(emailContentCheckBox))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, searchScopePanelLayout.createSequentialGroup()
+                                    .addComponent(fileSystemMetadataCheckBox)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(fileSystemContentCheckBox)))
+                            .addComponent(chatContentCheckBox))))
                 .addContainerGap(70, Short.MAX_VALUE))
         );
         searchScopePanelLayout.setVerticalGroup(
@@ -187,9 +187,9 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        headerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Search Options"));
+        headerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("AdvancedSearchPanel.headerPanel.border.title"))); // NOI18N
 
-        queryTextField.setText(" ");
+        queryTextField.setText(bundle.getString("AdvancedSearchPanel.queryTextField.text")); // NOI18N
         queryTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 queryTextFieldActionPerformed(evt);
@@ -197,14 +197,14 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         });
 
         advancedSearchLabelButton.setForeground(new java.awt.Color(0, 51, 255));
-        advancedSearchLabelButton.setText("Advanced Search..");
+        advancedSearchLabelButton.setText(bundle.getString("AdvancedSearchPanel.advancedSearchLabelButton.text")); // NOI18N
         advancedSearchLabelButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 advancedSearchLabelButtonMouseClicked(evt);
             }
         });
 
-        startSearchingButton.setText("Search");
+        startSearchingButton.setText(bundle.getString("AdvancedSearchPanel.startSearchingButton.text")); // NOI18N
         startSearchingButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startSearchingButtonActionPerformed(evt);
@@ -212,7 +212,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         });
 
         clearLabelButton.setForeground(new java.awt.Color(0, 0, 255));
-        clearLabelButton.setText("Clear");
+        clearLabelButton.setText(bundle.getString("AdvancedSearchPanel.clearLabelButton.text")); // NOI18N
         clearLabelButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 clearLabelButtonMouseClicked(evt);
@@ -220,7 +220,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
         });
 
         investigateButton.setForeground(new java.awt.Color(0, 0, 255));
-        investigateButton.setText("Investigate..");
+        investigateButton.setText(bundle.getString("AdvancedSearchPanel.investigateButton.text")); // NOI18N
         investigateButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 investigateButtonMouseClicked(evt);
@@ -260,7 +260,7 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
 
         jPanel1.add(searchProgressBard);
 
-        resultSavingButton.setText("Save Results");
+        resultSavingButton.setText(bundle.getString("AdvancedSearchPanel.resultSavingButton.text")); // NOI18N
         resultSavingButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resultSavingButtonActionPerformed(evt);
@@ -284,11 +284,11 @@ public class AdvancedSearchPanel extends javax.swing.JPanel {
             LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LeftPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(searchScopePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

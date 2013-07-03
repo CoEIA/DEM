@@ -81,7 +81,8 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        headerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Saved Search Result"));
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/searching/Bundle"); // NOI18N
+        headerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("ConnectedSearchPanel.headerPanel.border.title"))); // NOI18N
 
         savedSearchTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -122,37 +123,37 @@ public class ConnectedSearchPanel extends javax.swing.JPanel {
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Search Options"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("ConnectedSearchPanel.jPanel1.border.title"))); // NOI18N
 
-        connectedSearchButton.setText("Connected Search");
+        connectedSearchButton.setText(bundle.getString("ConnectedSearchPanel.connectedSearchButton.text")); // NOI18N
         connectedSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connectedSearchButtonActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("Search Name:");
+        jLabel1.setText(bundle.getString("ConnectedSearchPanel.jLabel1.text")); // NOI18N
 
         searchNameTextField.setEditable(false);
-        searchNameTextField.setText(" ");
+        searchNameTextField.setText(bundle.getString("ConnectedSearchPanel.searchNameTextField.text")); // NOI18N
 
-        jLabel2.setText("Scope:");
+        jLabel2.setText(bundle.getString("ConnectedSearchPanel.jLabel2.text")); // NOI18N
 
         scopeTextField.setEditable(false);
-        scopeTextField.setText(" ");
+        scopeTextField.setText(bundle.getString("ConnectedSearchPanel.scopeTextField.text")); // NOI18N
 
-        jLabel3.setText("# of Items:");
+        jLabel3.setText(bundle.getString("ConnectedSearchPanel.jLabel3.text")); // NOI18N
 
         noOfItemsTextField.setEditable(false);
-        noOfItemsTextField.setText(" ");
+        noOfItemsTextField.setText(bundle.getString("ConnectedSearchPanel.noOfItemsTextField.text")); // NOI18N
 
-        jLabel4.setText("Date:");
+        jLabel4.setText(bundle.getString("ConnectedSearchPanel.jLabel4.text")); // NOI18N
 
         dateTextField.setEditable(false);
-        dateTextField.setText(" ");
+        dateTextField.setText(bundle.getString("ConnectedSearchPanel.dateTextField.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
