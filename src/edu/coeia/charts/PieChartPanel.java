@@ -10,22 +10,19 @@ package edu.coeia.charts;
  * @author wajdyessam
  */
 
+import java.io.IOException ;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jfree.chart.labels.StandardPieSectionLabelGenerator ;
 import org.jfree.util.Rotation;
-
-import javax.swing.JPanel ;
-
-import java.util.Set ;
-import java.util.Iterator ;
-import java.util.Map ;
-
-import java.io.IOException ;
 
 public class PieChartPanel {
 

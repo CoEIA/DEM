@@ -12,7 +12,6 @@ package edu.coeia.chat;
 
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.main.CaseMainFrame;
-
 import javax.swing.JFrame;
 
 /**

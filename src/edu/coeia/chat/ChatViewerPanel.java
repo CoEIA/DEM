@@ -12,13 +12,13 @@ package edu.coeia.chat;
 
 import edu.coeia.cases.CaseFacade;
 import edu.coeia.constants.AuditingMessages;
+import edu.coeia.constants.ResourceManager;
 import edu.coeia.gutil.JTableUtil;
 import edu.coeia.tasks.ChatLoadingTask;
 import edu.coeia.tasks.ChatRefreshTask;
 import edu.coeia.util.ApplicationLogging;
-
+import java.awt.ComponentOrientation;
 import java.util.logging.Logger;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JTable;
@@ -39,6 +39,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
     /** Creates new form ChatViewerPanel */
     public ChatViewerPanel(final CaseFacade caseFacade, final String agent) {
         initComponents();
+        this.applyComponentOrientation(ComponentOrientation.getOrientation(ResourceManager.getLanguage()));
         
         this.chatListModel = new DefaultListModel();
         this.agent = agent;
@@ -83,7 +84,8 @@ public class ChatViewerPanel extends javax.swing.JPanel {
 
         selectionPanel.setLayout(new javax.swing.BoxLayout(selectionPanel, javax.swing.BoxLayout.Y_AXIS));
 
-        refreshButton.setText("Refresh List");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/chat/Bundle"); // NOI18N
+        refreshButton.setText(bundle.getString("ChatViewerPanel.refreshButton.text")); // NOI18N
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshButtonActionPerformed(evt);
@@ -91,7 +93,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
         });
         chatLoadingPanel.add(refreshButton);
 
-        loadItemButton.setText("Load Selected Item");
+        loadItemButton.setText(bundle.getString("ChatViewerPanel.loadItemButton.text")); // NOI18N
         loadItemButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadItemButtonActionPerformed(evt);
@@ -141,7 +143,7 @@ public class ChatViewerPanel extends javax.swing.JPanel {
 
         tablePanel.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
-        jLabel1.setText("Filter Table:");
+        jLabel1.setText(bundle.getString("ChatViewerPanel.jLabel1.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

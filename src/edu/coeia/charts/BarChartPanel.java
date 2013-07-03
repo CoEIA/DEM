@@ -10,6 +10,9 @@ package edu.coeia.charts;
  * @author wajdyessam
  */
 
+import java.io.IOException ;
+import java.util.Map;
+import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -17,6 +20,7 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPosition;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.CategoryLabelWidthType;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
@@ -24,12 +28,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.text.TextBlockAnchor;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.TextAnchor;
-import org.jfree.chart.axis.NumberAxis;
-
-import javax.swing.JPanel ;
-import java.util.Map ;
-
-import java.io.IOException ;
 
 public class BarChartPanel {
     private Map<String,Double> map ;
