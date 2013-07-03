@@ -52,39 +52,40 @@ final class AddingEmailSourceDialog extends javax.swing.JDialog {
         PasswordTextField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Add New Email");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/wizard/Bundle"); // NOI18N
+        setTitle(bundle.getString("AddingEmailSourceDialog.title")); // NOI18N
 
         ProviderGroupButton.add(GmailRadioButton);
         GmailRadioButton.setSelected(true);
-        GmailRadioButton.setText("Gmail");
+        GmailRadioButton.setText(bundle.getString("AddingEmailSourceDialog.GmailRadioButton.text")); // NOI18N
 
         ProviderGroupButton.add(HotmailRadioButton);
-        HotmailRadioButton.setText("Hotmail");
+        HotmailRadioButton.setText(bundle.getString("AddingEmailSourceDialog.HotmailRadioButton.text")); // NOI18N
 
         ProviderGroupButton.add(YahooRadioButton);
-        YahooRadioButton.setText("Yahoo Plus!");
+        YahooRadioButton.setText(bundle.getString("AddingEmailSourceDialog.YahooRadioButton.text")); // NOI18N
 
-        jLabel1.setText("Username:");
+        jLabel1.setText(bundle.getString("AddingEmailSourceDialog.jLabel1.text")); // NOI18N
 
-        jLabel2.setText("Password:");
+        jLabel2.setText(bundle.getString("AddingEmailSourceDialog.jLabel2.text")); // NOI18N
 
-        UsernameTextField.setText("s2v2012@gmail.com");
+        UsernameTextField.setText(bundle.getString("AddingEmailSourceDialog.UsernameTextField.text")); // NOI18N
 
-        OKButton.setText("OK");
+        OKButton.setText(bundle.getString("AddingEmailSourceDialog.OKButton.text")); // NOI18N
         OKButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OKButtonActionPerformed(evt);
             }
         });
 
-        CancelButton.setText("CANCEL");
+        CancelButton.setText(bundle.getString("AddingEmailSourceDialog.CancelButton.text")); // NOI18N
         CancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CancelButtonActionPerformed(evt);
             }
         });
 
-        PasswordTextField.setText("s2v123456789");
+        PasswordTextField.setText(bundle.getString("AddingEmailSourceDialog.PasswordTextField.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
