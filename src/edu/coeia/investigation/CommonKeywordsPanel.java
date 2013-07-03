@@ -100,29 +100,30 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
         textCloudsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         textCloudsPanel.setLayout(new java.awt.BorderLayout());
 
-        jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Controling the Common Keywords ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/investigation/Bundle"); // NOI18N
+        jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("CommonKeywordsPanel.jPanel15.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
-        tagSelectButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        tagSelectButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         tagSelectButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/textCloud.png"))); // NOI18N
-        tagSelectButton.setText("Display Common Keywords");
+        tagSelectButton.setText(bundle.getString("CommonKeywordsPanel.tagSelectButton.text")); // NOI18N
         tagSelectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tagSelectButtonActionPerformed(evt);
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel2.setText("Number Of Keywords: ");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText(bundle.getString("CommonKeywordsPanel.jLabel2.text")); // NOI18N
 
-        tagsNumberTextField.setText(" 200");
+        tagsNumberTextField.setText(bundle.getString("CommonKeywordsPanel.tagsNumberTextField.text")); // NOI18N
 
-        jLabel36.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel36.setText("Exclude Keywords Less Than:");
+        jLabel36.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel36.setText(bundle.getString("CommonKeywordsPanel.jLabel36.text")); // NOI18N
 
-        tagsExcludeTextField.setText("1");
+        tagsExcludeTextField.setText(bundle.getString("CommonKeywordsPanel.tagsExcludeTextField.text")); // NOI18N
 
-        jLabel37.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel37.setText("Display Type:");
+        jLabel37.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel37.setText(bundle.getString("CommonKeywordsPanel.jLabel37.text")); // NOI18N
 
         tagsDisplayComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Alphabetically Sort - Ascending", "Alphabetically Sort - descending ", "Score Sort - Ascending", "Score Sort - descending" }));
 
@@ -143,7 +144,7 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
                         .addComponent(jLabel36)
                         .addGap(18, 18, 18)
                         .addComponent(tagsExcludeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(tagsDisplayComboBox, 0, 357, Short.MAX_VALUE))
+                    .addComponent(tagsDisplayComboBox, 0, 373, Short.MAX_VALUE))
                 .addGap(19, 19, 19)
                 .addComponent(tagSelectButton))
         );
@@ -179,11 +180,11 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
 
         jScrollPane10.setViewportView(tagsPanel);
 
-        jTabbedPane2.addTab("Common Keywords Cloud", jScrollPane10);
+        jTabbedPane2.addTab(bundle.getString("CommonKeywordsPanel.jScrollPane10.TabConstraints.tabTitle"), jScrollPane10); // NOI18N
 
         jScrollPane22.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        cloudsTable.setFont(new java.awt.Font("Tahoma", 1, 11));
+        cloudsTable.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         cloudsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -217,11 +218,11 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
         });
         jScrollPane22.setViewportView(cloudsTable);
 
-        jLabel33.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel33.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel33.setForeground(new java.awt.Color(0, 70, 213));
-        jLabel33.setText("Filter Table:");
+        jLabel33.setText(bundle.getString("CommonKeywordsPanel.jLabel33.text")); // NOI18N
 
-        cloudsFilterTextField.setText(" ");
+        cloudsFilterTextField.setText(bundle.getString("CommonKeywordsPanel.cloudsFilterTextField.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -230,7 +231,7 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 729, Short.MAX_VALUE)
+                    .addComponent(jScrollPane22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addComponent(jLabel33)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -241,7 +242,7 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
             jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+                .addComponent(jScrollPane22, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel33)
@@ -249,20 +250,20 @@ public class CommonKeywordsPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jTabbedPane2.addTab("Common Keywords Frequency Table", jPanel19);
+        jTabbedPane2.addTab(bundle.getString("CommonKeywordsPanel.jPanel19.TabConstraints.tabTitle"), jPanel19); // NOI18N
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
         jPanel16Layout.setHorizontalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 766, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

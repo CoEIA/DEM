@@ -55,11 +55,12 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        indexVisualizationButtonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Files Extensions Chart", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/investigation/Bundle"); // NOI18N
+        indexVisualizationButtonPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("ExtensionFrequencyPanel.indexVisualizationButtonPanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
         indexVisulizingButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         indexVisulizingButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/chart_pie.png"))); // NOI18N
-        indexVisulizingButton.setText("Display File's Extensions Chart");
+        indexVisulizingButton.setText(bundle.getString("ExtensionFrequencyPanel.indexVisulizingButton.text")); // NOI18N
         indexVisulizingButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 indexVisulizingButtonActionPerformed(evt);
@@ -69,7 +70,7 @@ public class ExtensionFrequencyPanel extends javax.swing.JPanel {
 
         add(indexVisualizationButtonPanel, java.awt.BorderLayout.NORTH);
 
-        indexVisualizingPiePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Statistical Chart", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        indexVisualizingPiePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("ExtensionFrequencyPanel.indexVisualizingPiePanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         indexVisualizingPiePanel.setLayout(new java.awt.BorderLayout());
         add(indexVisualizingPiePanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
