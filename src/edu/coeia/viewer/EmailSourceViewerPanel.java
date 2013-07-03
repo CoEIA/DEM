@@ -121,7 +121,8 @@ public class EmailSourceViewerPanel extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         messagePanel.setLayout(new java.awt.BorderLayout());
-        jTabbedPane2.addTab("Message Content", messagePanel);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/viewer/Bundle"); // NOI18N
+        jTabbedPane2.addTab(bundle.getString("EmailSourceViewerPanel.messagePanel.TabConstraints.tabTitle"), messagePanel); // NOI18N
 
         emailHeaderTextArea.setColumns(20);
         emailHeaderTextArea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -139,7 +140,7 @@ public class EmailSourceViewerPanel extends javax.swing.JPanel {
             .addComponent(jScrollPane28, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
         );
 
-        jTabbedPane2.addTab("Message Header", emailHeaderJPanel);
+        jTabbedPane2.addTab(bundle.getString("EmailSourceViewerPanel.emailHeaderJPanel.TabConstraints.tabTitle"), emailHeaderJPanel); // NOI18N
 
         javax.swing.GroupLayout viewPanelLayout = new javax.swing.GroupLayout(viewPanel);
         viewPanel.setLayout(viewPanelLayout);
@@ -147,58 +148,58 @@ public class EmailSourceViewerPanel extends javax.swing.JPanel {
             viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2)
                 .addContainerGap())
         );
         viewPanelLayout.setVerticalGroup(
             viewPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(viewPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2)
                 .addContainerGap())
         );
 
         add(viewPanel, java.awt.BorderLayout.CENTER);
 
-        jLabel1.setText("Email Agent:");
+        jLabel1.setText(bundle.getString("EmailSourceViewerPanel.jLabel1.text")); // NOI18N
 
         emailAgentTextField.setEditable(false);
-        emailAgentTextField.setText(" ");
+        emailAgentTextField.setText(bundle.getString("EmailSourceViewerPanel.emailAgentTextField.text")); // NOI18N
 
-        jLabel2.setText("Email Source:");
+        jLabel2.setText(bundle.getString("EmailSourceViewerPanel.jLabel2.text")); // NOI18N
 
         emailSourceTextField.setEditable(false);
-        emailSourceTextField.setText(" ");
+        emailSourceTextField.setText(bundle.getString("EmailSourceViewerPanel.emailSourceTextField.text")); // NOI18N
 
-        jLabel3.setText(" Date:");
+        jLabel3.setText(bundle.getString("EmailSourceViewerPanel.jLabel3.text")); // NOI18N
 
         messageDateTextFeild.setEditable(false);
-        messageDateTextFeild.setText(" ");
+        messageDateTextFeild.setText(bundle.getString("EmailSourceViewerPanel.messageDateTextFeild.text")); // NOI18N
 
-        jLabel4.setText("Subject:");
+        jLabel4.setText(bundle.getString("EmailSourceViewerPanel.jLabel4.text")); // NOI18N
 
         messageTextField.setEditable(false);
-        messageTextField.setText(" ");
+        messageTextField.setText(bundle.getString("EmailSourceViewerPanel.messageTextField.text")); // NOI18N
 
-        jLabel5.setText(" From:");
+        jLabel5.setText(bundle.getString("EmailSourceViewerPanel.jLabel5.text")); // NOI18N
 
         emailFromTextField.setEditable(false);
-        emailFromTextField.setText(" ");
+        emailFromTextField.setText(bundle.getString("EmailSourceViewerPanel.emailFromTextField.text")); // NOI18N
 
-        jLabel6.setText(" To:");
+        jLabel6.setText(bundle.getString("EmailSourceViewerPanel.jLabel6.text")); // NOI18N
 
         emailToTextField.setEditable(false);
-        emailToTextField.setText(" ");
+        emailToTextField.setText(bundle.getString("EmailSourceViewerPanel.emailToTextField.text")); // NOI18N
 
-        jLabel7.setText("CC:");
+        jLabel7.setText(bundle.getString("EmailSourceViewerPanel.jLabel7.text")); // NOI18N
 
         ccTextField.setEditable(false);
-        ccTextField.setText(" ");
+        ccTextField.setText(bundle.getString("EmailSourceViewerPanel.ccTextField.text")); // NOI18N
 
-        jLabel8.setText("BCC:");
+        jLabel8.setText(bundle.getString("EmailSourceViewerPanel.jLabel8.text")); // NOI18N
 
         bccTextField.setEditable(false);
-        bccTextField.setText(" ");
+        bccTextField.setText(bundle.getString("EmailSourceViewerPanel.bccTextField.text")); // NOI18N
 
         javax.swing.GroupLayout properitiesPanelLayout = new javax.swing.GroupLayout(properitiesPanel);
         properitiesPanel.setLayout(properitiesPanelLayout);

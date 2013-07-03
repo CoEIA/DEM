@@ -78,31 +78,32 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         fileRenderPanel.setLayout(new java.awt.BorderLayout());
-        jTabbedPane2.addTab("HTML Viewer", fileRenderPanel);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/viewer/Bundle"); // NOI18N
+        jTabbedPane2.addTab(bundle.getString("FileSourceViewerPanel.fileRenderPanel.TabConstraints.tabTitle"), fileRenderPanel); // NOI18N
 
         textViewerPanel.setLayout(new java.awt.BorderLayout());
 
         planTextArea.setColumns(20);
         planTextArea.setEditable(false);
-        planTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14));
+        planTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         planTextArea.setRows(5);
         jScrollPane1.setViewportView(planTextArea);
 
         textViewerPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane2.addTab("Plan Text Viewer", textViewerPanel);
+        jTabbedPane2.addTab(bundle.getString("FileSourceViewerPanel.textViewerPanel.TabConstraints.tabTitle"), textViewerPanel); // NOI18N
 
         FileMetaDataPanel.setLayout(new java.awt.BorderLayout());
 
         metaDataTextArea.setColumns(20);
         metaDataTextArea.setEditable(false);
-        metaDataTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14));
+        metaDataTextArea.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         metaDataTextArea.setRows(5);
         jScrollPane28.setViewportView(metaDataTextArea);
 
         FileMetaDataPanel.add(jScrollPane28, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane2.addTab("MetaData", FileMetaDataPanel);
+        jTabbedPane2.addTab(bundle.getString("FileSourceViewerPanel.FileMetaDataPanel.TabConstraints.tabTitle"), FileMetaDataPanel); // NOI18N
 
         javax.swing.GroupLayout viewPanelLayout = new javax.swing.GroupLayout(viewPanel);
         viewPanel.setLayout(viewPanelLayout);
@@ -123,25 +124,25 @@ class FileSourceViewerPanel extends javax.swing.JPanel {
 
         add(viewPanel, java.awt.BorderLayout.CENTER);
 
-        jLabel1.setText("File Name:");
+        jLabel1.setText(bundle.getString("FileSourceViewerPanel.jLabel1.text")); // NOI18N
 
         fileNameTextField.setEditable(false);
-        fileNameTextField.setText(" ");
+        fileNameTextField.setText(bundle.getString("FileSourceViewerPanel.fileNameTextField.text")); // NOI18N
 
-        jLabel2.setText("File Path:");
+        jLabel2.setText(bundle.getString("FileSourceViewerPanel.jLabel2.text")); // NOI18N
 
         filePathTextField.setEditable(false);
-        filePathTextField.setText(" ");
+        filePathTextField.setText(bundle.getString("FileSourceViewerPanel.filePathTextField.text")); // NOI18N
 
-        jLabel3.setText("Last Modification:");
+        jLabel3.setText(bundle.getString("FileSourceViewerPanel.jLabel3.text")); // NOI18N
 
         dateTextField.setEditable(false);
-        dateTextField.setText(" ");
+        dateTextField.setText(bundle.getString("FileSourceViewerPanel.dateTextField.text")); // NOI18N
 
-        jLabel4.setText("File Type:");
+        jLabel4.setText(bundle.getString("FileSourceViewerPanel.jLabel4.text")); // NOI18N
 
         mimeTextField.setEditable(false);
-        mimeTextField.setText(" ");
+        mimeTextField.setText(bundle.getString("FileSourceViewerPanel.mimeTextField.text")); // NOI18N
 
         javax.swing.GroupLayout properitiesPanelLayout = new javax.swing.GroupLayout(properitiesPanel);
         properitiesPanel.setLayout(properitiesPanelLayout);

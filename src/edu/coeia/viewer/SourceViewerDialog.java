@@ -120,12 +120,13 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         viewerPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Previewer Items Dialog");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/viewer/Bundle"); // NOI18N
+        setTitle(bundle.getString("SourceViewerDialog.title")); // NOI18N
 
-        controlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Navigation"));
+        controlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("SourceViewerDialog.controlPanel.border.title"))); // NOI18N
 
         previousButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/back.png"))); // NOI18N
-        previousButton.setText("Previous");
+        previousButton.setText(bundle.getString("SourceViewerDialog.previousButton.text")); // NOI18N
         previousButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 previousButtonActionPerformed(evt);
@@ -134,7 +135,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         controlPanel.add(previousButton);
 
         nextButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/next.png"))); // NOI18N
-        nextButton.setText("Next");
+        nextButton.setText(bundle.getString("SourceViewerDialog.nextButton.text")); // NOI18N
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextButtonActionPerformed(evt);
@@ -143,7 +144,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         controlPanel.add(nextButton);
 
         tagButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325657694_marked_price.png"))); // NOI18N
-        tagButton.setText("Tag Item");
+        tagButton.setText(bundle.getString("SourceViewerDialog.tagButton.text")); // NOI18N
         tagButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tagButtonActionPerformed(evt);
@@ -152,7 +153,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         controlPanel.add(tagButton);
 
         exportButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325657666_Export.png"))); // NOI18N
-        exportButton.setText("Export Item");
+        exportButton.setText(bundle.getString("SourceViewerDialog.exportButton.text")); // NOI18N
         exportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exportButtonActionPerformed(evt);
@@ -161,7 +162,7 @@ public class SourceViewerDialog extends javax.swing.JDialog {
         controlPanel.add(exportButton);
 
         viewItemButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/1325657843_folderopen1.png"))); // NOI18N
-        viewItemButton.setText("View Item");
+        viewItemButton.setText(bundle.getString("SourceViewerDialog.viewItemButton.text")); // NOI18N
         viewItemButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewItemButtonActionPerformed(evt);
@@ -171,20 +172,20 @@ public class SourceViewerDialog extends javax.swing.JDialog {
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.NORTH);
 
-        embeddedPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Attachments and Embedded Files"));
+        embeddedPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("SourceViewerDialog.embeddedPanel.border.title"))); // NOI18N
         getContentPane().add(embeddedPanel, java.awt.BorderLayout.SOUTH);
 
-        viewerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Viewer"));
+        viewerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("SourceViewerDialog.viewerPanel.border.title"))); // NOI18N
 
         javax.swing.GroupLayout viewerPanelLayout = new javax.swing.GroupLayout(viewerPanel);
         viewerPanel.setLayout(viewerPanelLayout);
         viewerPanelLayout.setHorizontalGroup(
             viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 717, Short.MAX_VALUE)
+            .addGap(0, 721, Short.MAX_VALUE)
         );
         viewerPanelLayout.setVerticalGroup(
             viewerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 548, Short.MAX_VALUE)
+            .addGap(0, 569, Short.MAX_VALUE)
         );
 
         getContentPane().add(viewerPanel, java.awt.BorderLayout.CENTER);

@@ -77,35 +77,36 @@ class ChatSourceViewerPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("Chat Agent:");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/viewer/Bundle"); // NOI18N
+        jLabel1.setText(bundle.getString("ChatSourceViewerPanel.jLabel1.text")); // NOI18N
 
         chatAgentTextField.setEditable(false);
-        chatAgentTextField.setText(" ");
+        chatAgentTextField.setText(bundle.getString("ChatSourceViewerPanel.chatAgentTextField.text")); // NOI18N
 
-        jLabel2.setText("Chat Path:");
+        jLabel2.setText(bundle.getString("ChatSourceViewerPanel.jLabel2.text")); // NOI18N
 
         chatPathTextField.setEditable(false);
-        chatPathTextField.setText(" ");
+        chatPathTextField.setText(bundle.getString("ChatSourceViewerPanel.chatPathTextField.text")); // NOI18N
 
-        jLabel3.setText("Last Modification:");
+        jLabel3.setText(bundle.getString("ChatSourceViewerPanel.jLabel3.text")); // NOI18N
 
         dateTextField.setEditable(false);
-        dateTextField.setText(" ");
+        dateTextField.setText(bundle.getString("ChatSourceViewerPanel.dateTextField.text")); // NOI18N
 
-        jLabel4.setText("Message:");
+        jLabel4.setText(bundle.getString("ChatSourceViewerPanel.jLabel4.text")); // NOI18N
 
         messageTextField.setEditable(false);
-        messageTextField.setText(" ");
+        messageTextField.setText(bundle.getString("ChatSourceViewerPanel.messageTextField.text")); // NOI18N
 
-        jLabel5.setText("Message From:");
+        jLabel5.setText(bundle.getString("ChatSourceViewerPanel.jLabel5.text")); // NOI18N
 
         chatFromTextField.setEditable(false);
-        chatFromTextField.setText(" ");
+        chatFromTextField.setText(bundle.getString("ChatSourceViewerPanel.chatFromTextField.text")); // NOI18N
 
-        jLabel6.setText("Chat To:");
+        jLabel6.setText(bundle.getString("ChatSourceViewerPanel.jLabel6.text")); // NOI18N
 
         chatToTextField.setEditable(false);
-        chatToTextField.setText(" ");
+        chatToTextField.setText(bundle.getString("ChatSourceViewerPanel.chatToTextField.text")); // NOI18N
 
         javax.swing.GroupLayout properitiesPanelLayout = new javax.swing.GroupLayout(properitiesPanel);
         properitiesPanel.setLayout(properitiesPanelLayout);

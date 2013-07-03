@@ -84,25 +84,26 @@ public class ImageSourceViewerPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("File Name:");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/viewer/Bundle"); // NOI18N
+        jLabel1.setText(bundle.getString("ImageSourceViewerPanel.jLabel1.text")); // NOI18N
 
         fileNameTextField.setEditable(false);
-        fileNameTextField.setText(" ");
+        fileNameTextField.setText(bundle.getString("ImageSourceViewerPanel.fileNameTextField.text")); // NOI18N
 
-        jLabel2.setText("File Path:");
+        jLabel2.setText(bundle.getString("ImageSourceViewerPanel.jLabel2.text")); // NOI18N
 
         filePathTextField.setEditable(false);
-        filePathTextField.setText(" ");
+        filePathTextField.setText(bundle.getString("ImageSourceViewerPanel.filePathTextField.text")); // NOI18N
 
-        jLabel3.setText("Last Modification:");
+        jLabel3.setText(bundle.getString("ImageSourceViewerPanel.jLabel3.text")); // NOI18N
 
         dateTextField.setEditable(false);
-        dateTextField.setText(" ");
+        dateTextField.setText(bundle.getString("ImageSourceViewerPanel.dateTextField.text")); // NOI18N
 
-        jLabel4.setText("File Type:");
+        jLabel4.setText(bundle.getString("ImageSourceViewerPanel.jLabel4.text")); // NOI18N
 
         mimeTextField.setEditable(false);
-        mimeTextField.setText(" ");
+        mimeTextField.setText(bundle.getString("ImageSourceViewerPanel.mimeTextField.text")); // NOI18N
 
         javax.swing.GroupLayout properitiesPanelLayout = new javax.swing.GroupLayout(properitiesPanel);
         properitiesPanel.setLayout(properitiesPanelLayout);
@@ -148,7 +149,7 @@ public class ImageSourceViewerPanel extends javax.swing.JPanel {
         add(properitiesPanel, java.awt.BorderLayout.NORTH);
 
         imageRenderPanel.setLayout(new java.awt.BorderLayout());
-        jTabbedPane2.addTab("Image Viewer", imageRenderPanel);
+        jTabbedPane2.addTab(bundle.getString("ImageSourceViewerPanel.imageRenderPanel.TabConstraints.tabTitle"), imageRenderPanel); // NOI18N
 
         FileMetaDataPanel.setLayout(new java.awt.BorderLayout());
 
@@ -160,7 +161,7 @@ public class ImageSourceViewerPanel extends javax.swing.JPanel {
 
         FileMetaDataPanel.add(jScrollPane28, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane2.addTab("MetaData", FileMetaDataPanel);
+        jTabbedPane2.addTab(bundle.getString("ImageSourceViewerPanel.FileMetaDataPanel.TabConstraints.tabTitle"), FileMetaDataPanel); // NOI18N
 
         javax.swing.GroupLayout viewPanelLayout = new javax.swing.GroupLayout(viewPanel);
         viewPanel.setLayout(viewPanelLayout);
