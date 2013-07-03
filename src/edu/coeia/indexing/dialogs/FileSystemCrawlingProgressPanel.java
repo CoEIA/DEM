@@ -10,6 +10,8 @@
  */
 package edu.coeia.indexing.dialogs;
 
+import edu.coeia.constants.ResourceManager;
+import java.awt.ComponentOrientation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +25,7 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel{
     /** Creates new form FileSystemCrawlingProgressPanel */
     public FileSystemCrawlingProgressPanel() {
         initComponents();
+        this.applyComponentOrientation(ComponentOrientation.getOrientation(ResourceManager.getLanguage()));
     }
 
     public void setCurrentFile(final String fileName) { this.currentFileTextField.setText(fileName); }
@@ -97,38 +100,39 @@ public class FileSystemCrawlingProgressPanel extends javax.swing.JPanel{
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel26.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel26.setText("Current File:");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/indexing/dialogs/Bundle"); // NOI18N
+        jLabel26.setText(bundle.getString("FileSystemCrawlingProgressPanel.jLabel26.text")); // NOI18N
         jPanel1.add(jLabel26);
 
-        currentFileTextField.setText(" ");
+        currentFileTextField.setText(bundle.getString("FileSystemCrawlingProgressPanel.currentFileTextField.text")); // NOI18N
         currentFileTextField.setEnabled(false);
         jPanel1.add(currentFileTextField);
 
-        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel27.setText("File Size:");
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel27.setText(bundle.getString("FileSystemCrawlingProgressPanel.jLabel27.text")); // NOI18N
         jPanel1.add(jLabel27);
 
-        fileSizeTextField.setText(" ");
+        fileSizeTextField.setText(bundle.getString("FileSystemCrawlingProgressPanel.fileSizeTextField.text")); // NOI18N
         fileSizeTextField.setEnabled(false);
         jPanel1.add(fileSizeTextField);
 
-        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel28.setText("File Extension:");
+        jLabel28.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel28.setText(bundle.getString("FileSystemCrawlingProgressPanel.jLabel28.text")); // NOI18N
         jPanel1.add(jLabel28);
 
-        fileExtensionTextField.setText(" ");
+        fileExtensionTextField.setText(bundle.getString("FileSystemCrawlingProgressPanel.fileExtensionTextField.text")); // NOI18N
         fileExtensionTextField.setEnabled(false);
         jPanel1.add(fileExtensionTextField);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel2.setText("File Last Modification Date:");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText(bundle.getString("FileSystemCrawlingProgressPanel.jLabel2.text")); // NOI18N
         jPanel1.add(jLabel2);
 
         fileDateTextField.setEditable(false);
         jPanel1.add(fileDateTextField);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel1.setText("Embedded Documents:");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText(bundle.getString("FileSystemCrawlingProgressPanel.jLabel1.text")); // NOI18N
         jPanel1.add(jLabel1);
 
         embeddedDocumentsTextArea.setColumns(20);

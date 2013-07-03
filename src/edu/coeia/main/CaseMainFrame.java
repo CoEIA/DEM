@@ -71,8 +71,7 @@ public class CaseMainFrame extends javax.swing.JFrame {
      * @param aCase case opened in CaseFacade
      * @param list a list of all openings case
      */
-    public CaseMainFrame(final CaseManagerFrame frame, final CaseFacade caseFacade) {
-        Locale.setDefault(ResourceManager.getLanguage());        
+    public CaseMainFrame(final CaseManagerFrame frame, final CaseFacade caseFacade) {       
         initComponents();        
         this.applyComponentOrientation(ComponentOrientation.getOrientation(ResourceManager.getLanguage()));
         logger.info(String.format("OfflineMining Frame Constructor, Open Case: %s" , caseFacade.getCase().getCaseName()));

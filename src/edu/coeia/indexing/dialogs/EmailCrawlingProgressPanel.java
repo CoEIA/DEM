@@ -58,60 +58,61 @@ public class EmailCrawlingProgressPanel extends javax.swing.JPanel {
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel8.setText(" Email Agent:");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/indexing/dialogs/Bundle"); // NOI18N
+        jLabel8.setText(bundle.getString("EmailCrawlingProgressPanel.jLabel8.text")); // NOI18N
         jPanel2.add(jLabel8);
 
-        agentTypeTextField.setText(" ");
+        agentTypeTextField.setText(bundle.getString("EmailCrawlingProgressPanel.agentTypeTextField.text")); // NOI18N
         agentTypeTextField.setEnabled(false);
         jPanel2.add(agentTypeTextField);
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel10.setText("Current Folder:");
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel10.setText(bundle.getString("EmailCrawlingProgressPanel.jLabel10.text")); // NOI18N
         jPanel2.add(jLabel10);
 
-        currentFolderTextField.setText(" ");
+        currentFolderTextField.setText(bundle.getString("EmailCrawlingProgressPanel.currentFolderTextField.text")); // NOI18N
         currentFolderTextField.setEnabled(false);
         jPanel2.add(currentFolderTextField);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel1.setText("From:");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText(bundle.getString("EmailCrawlingProgressPanel.jLabel1.text")); // NOI18N
         jPanel2.add(jLabel1);
 
-        fromTextField.setText(" ");
+        fromTextField.setText(bundle.getString("EmailCrawlingProgressPanel.fromTextField.text")); // NOI18N
         fromTextField.setEnabled(false);
         jPanel2.add(fromTextField);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel2.setText("To:");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText(bundle.getString("EmailCrawlingProgressPanel.jLabel2.text")); // NOI18N
         jPanel2.add(jLabel2);
 
-        toTextField.setText(" ");
+        toTextField.setText(bundle.getString("EmailCrawlingProgressPanel.toTextField.text")); // NOI18N
         toTextField.setEnabled(false);
         jPanel2.add(toTextField);
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel11.setText("Current Message Subject:");
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel11.setText(bundle.getString("EmailCrawlingProgressPanel.jLabel11.text")); // NOI18N
         jPanel2.add(jLabel11);
 
-        currentMessageSubjectTextField.setText(" ");
+        currentMessageSubjectTextField.setText(bundle.getString("EmailCrawlingProgressPanel.currentMessageSubjectTextField.text")); // NOI18N
         currentMessageSubjectTextField.setEnabled(false);
         jPanel2.add(currentMessageSubjectTextField);
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel12.setText("Message Date:");
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel12.setText(bundle.getString("EmailCrawlingProgressPanel.jLabel12.text")); // NOI18N
         jPanel2.add(jLabel12);
 
-        messageDateTextField.setText(" ");
+        messageDateTextField.setText(bundle.getString("EmailCrawlingProgressPanel.messageDateTextField.text")); // NOI18N
         messageDateTextField.setEnabled(false);
         jPanel2.add(messageDateTextField);
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel14.setText("Attachments Name:");
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel14.setText(bundle.getString("EmailCrawlingProgressPanel.jLabel14.text")); // NOI18N
         jPanel2.add(jLabel14);
 
         attachmentsTextArea.setColumns(20);
         attachmentsTextArea.setEditable(false);
-        attachmentsTextArea.setFont(new java.awt.Font("Tahoma", 0, 12));
+        attachmentsTextArea.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         attachmentsTextArea.setRows(5);
         attachmentsTextArea.setEnabled(false);
         jScrollPane2.setViewportView(attachmentsTextArea);
