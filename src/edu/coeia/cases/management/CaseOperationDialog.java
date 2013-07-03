@@ -10,7 +10,9 @@
  */
 package edu.coeia.cases.management;
 
+import edu.coeia.constants.ResourceManager;
 import edu.coeia.util.DateUtil;
+import java.awt.ComponentOrientation;
 import java.io.File;
 import java.util.Date;
 import javax.swing.JProgressBar;
@@ -30,6 +32,7 @@ public class CaseOperationDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
+        this.applyComponentOrientation(ComponentOrientation.getOrientation(ResourceManager.getLanguage()));
         this.setLocationRelativeTo(parent);
         this.caseOperations = caseOperations;
     }
@@ -60,15 +63,16 @@ public class CaseOperationDialog extends javax.swing.JDialog {
         progressPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/delete.png"))); // NOI18N
-        cancelButton.setText("Cancel ");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/cases/management/Bundle"); // NOI18N
+        cancelButton.setText(bundle.getString("CaseOperationDialog.cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel1.setText("Please wait until finishing the current task....");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText(bundle.getString("CaseOperationDialog.jLabel1.text")); // NOI18N
 
         javax.swing.GroupLayout progressPanelLayout = new javax.swing.GroupLayout(progressPanel);
         progressPanel.setLayout(progressPanelLayout);
@@ -97,31 +101,31 @@ public class CaseOperationDialog extends javax.swing.JDialog {
                 .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Case Operation Progress"));
+        dataPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("CaseOperationDialog.dataPanel.border.title"))); // NOI18N
         dataPanel.setLayout(new javax.swing.BoxLayout(dataPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
-        fileLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        fileLabel.setText("File:");
+        fileLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        fileLabel.setText(bundle.getString("CaseOperationDialog.fileLabel.text")); // NOI18N
         dataPanel.add(fileLabel);
 
         fileTextField.setEditable(false);
-        fileTextField.setText(" ");
+        fileTextField.setText(bundle.getString("CaseOperationDialog.fileTextField.text")); // NOI18N
         dataPanel.add(fileTextField);
 
-        sizeLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        sizeLabel.setText("Size:");
+        sizeLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        sizeLabel.setText(bundle.getString("CaseOperationDialog.sizeLabel.text")); // NOI18N
         dataPanel.add(sizeLabel);
 
         sizeTextField.setEditable(false);
-        sizeTextField.setText(" ");
+        sizeTextField.setText(bundle.getString("CaseOperationDialog.sizeTextField.text")); // NOI18N
         dataPanel.add(sizeTextField);
 
-        dateLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        dateLabel.setText("Date:");
+        dateLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        dateLabel.setText(bundle.getString("CaseOperationDialog.dateLabel.text")); // NOI18N
         dataPanel.add(dateLabel);
 
         dateTextField.setEditable(false);
-        dateTextField.setText(" ");
+        dateTextField.setText(bundle.getString("CaseOperationDialog.dateTextField.text")); // NOI18N
         dataPanel.add(dateTextField);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

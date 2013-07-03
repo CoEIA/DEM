@@ -2,15 +2,13 @@ package edu.coeia.cases.management;
 
 import edu.coeia.cases.Case;
 import edu.coeia.cases.CaseFacade;
+import edu.coeia.constants.ApplicationConstants;
 import edu.coeia.util.FileUtil;
-import edu.coeia.constants.ApplicationConstants ;
-
-import java.io.File ;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException ;
-
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList ;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

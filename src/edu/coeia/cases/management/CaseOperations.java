@@ -12,17 +12,13 @@ import edu.coeia.main.CaseManagerFrame;
 import edu.coeia.main.UpdatingCaseEvidenceSourceDialog;
 import edu.coeia.util.FileUtil;
 import edu.coeia.util.GUIFileFilter;
-
 import java.awt.EventQueue;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.List;
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +26,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
