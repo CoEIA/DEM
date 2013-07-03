@@ -163,58 +163,59 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         pauseButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Email Downloading ");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/onlinemail/Bundle"); // NOI18N
+        setTitle(bundle.getString("EmailDownloaderDialog.title")); // NOI18N
 
-        progresLabelPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Downloading"));
+        progresLabelPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("EmailDownloaderDialog.progresLabelPanel.border.title"))); // NOI18N
         progresLabelPanel.setForeground(new java.awt.Color(0, 51, 255));
-        progresLabelPanel.setFont(new java.awt.Font("Tahoma", 1, 12));
+        progresLabelPanel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         progresLabelPanel.setLayout(new javax.swing.BoxLayout(progresLabelPanel, javax.swing.BoxLayout.PAGE_AXIS));
 
-        FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        FromjLabel.setText("From:");
+        FromjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        FromjLabel.setText(bundle.getString("EmailDownloaderDialog.FromjLabel.text")); // NOI18N
         progresLabelPanel.add(FromjLabel);
 
         from.setEditable(false);
         from.setPreferredSize(new java.awt.Dimension(20, 20));
         progresLabelPanel.add(from);
 
-        TojLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        TojLabel.setText("To:");
+        TojLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        TojLabel.setText(bundle.getString("EmailDownloaderDialog.TojLabel.text")); // NOI18N
         progresLabelPanel.add(TojLabel);
 
         to.setEditable(false);
         progresLabelPanel.add(to);
 
-        SubjectjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        SubjectjLabel.setText("Subject:");
+        SubjectjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        SubjectjLabel.setText(bundle.getString("EmailDownloaderDialog.SubjectjLabel.text")); // NOI18N
         progresLabelPanel.add(SubjectjLabel);
 
         subject.setEditable(false);
         progresLabelPanel.add(subject);
 
-        SentDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        SentDatejLabel.setText("Sent Date:");
+        SentDatejLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        SentDatejLabel.setText(bundle.getString("EmailDownloaderDialog.SentDatejLabel.text")); // NOI18N
         progresLabelPanel.add(SentDatejLabel);
 
         sdate.setEditable(false);
         progresLabelPanel.add(sdate);
 
-        CCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        CCjLabel.setText("CC:");
+        CCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        CCjLabel.setText(bundle.getString("EmailDownloaderDialog.CCjLabel.text")); // NOI18N
         progresLabelPanel.add(CCjLabel);
 
         cc.setEditable(false);
         progresLabelPanel.add(cc);
 
-        BCCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        BCCjLabel.setText("BCC:");
+        BCCjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        BCCjLabel.setText(bundle.getString("EmailDownloaderDialog.BCCjLabel.text")); // NOI18N
         progresLabelPanel.add(BCCjLabel);
 
         bcc.setEditable(false);
         progresLabelPanel.add(bcc);
 
-        AttachjLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        AttachjLabel.setText("Attachment Files:");
+        AttachjLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        AttachjLabel.setText(bundle.getString("EmailDownloaderDialog.AttachjLabel.text")); // NOI18N
         progresLabelPanel.add(AttachjLabel);
 
         attachments.setColumns(20);
@@ -224,16 +225,16 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
 
         progresLabelPanel.add(jScrollPane1);
 
-        pregressLabel.setFont(new java.awt.Font("Tahoma", 1, 11));
-        pregressLabel.setText("Downloading Progress:");
+        pregressLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        pregressLabel.setText(bundle.getString("EmailDownloaderDialog.pregressLabel.text")); // NOI18N
         progresLabelPanel.add(pregressLabel);
         progresLabelPanel.add(DownloadProgressBar);
 
         getContentPane().add(progresLabelPanel, java.awt.BorderLayout.PAGE_START);
 
-        cancelButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        cancelButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         cancelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
-        cancelButton.setText("Cancel");
+        cancelButton.setText(bundle.getString("EmailDownloaderDialog.cancelButton.text")); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
@@ -241,20 +242,20 @@ public class EmailDownloaderDialog extends javax.swing.JDialog {
         });
         controllPanel.add(cancelButton);
 
-        pauseButton.setFont(new java.awt.Font("Tahoma", 1, 11));
+        pauseButton.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         pauseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/mail.png"))); // NOI18N
-        pauseButton.setText("Pause");
+        pauseButton.setText(bundle.getString("EmailDownloaderDialog.pauseButton.text")); // NOI18N
         pauseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pauseButtonActionPerformed(evt);
             }
         });
         controllPanel.add(pauseButton);
-        pauseButton.getAccessibleContext().setAccessibleName("Resume");
+        pauseButton.getAccessibleContext().setAccessibleName(bundle.getString("EmailDownloaderDialog.pauseButton.AccessibleContext.accessibleName")); // NOI18N
 
         getContentPane().add(controllPanel, java.awt.BorderLayout.SOUTH);
 
-        getAccessibleContext().setAccessibleName("Email Indexing");
+        getAccessibleContext().setAccessibleName(bundle.getString("EmailDownloaderDialog.AccessibleContext.accessibleName")); // NOI18N
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

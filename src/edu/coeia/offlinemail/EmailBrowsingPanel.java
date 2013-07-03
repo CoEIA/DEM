@@ -119,18 +119,19 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        loadingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Sources"));
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/offlinemail/Bundle"); // NOI18N
+        loadingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("EmailBrowsingPanel.loadingPanel.border.title"))); // NOI18N
 
         jScrollPane1.setViewportView(emailSourceJList);
 
-        loadEmailSourceButton.setText("Load Selected Email Source");
+        loadEmailSourceButton.setText(bundle.getString("EmailBrowsingPanel.loadEmailSourceButton.text")); // NOI18N
         loadEmailSourceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loadEmailSourceButtonActionPerformed(evt);
             }
         });
 
-        refreshEmailSourceButton.setText("Refresh Email Source");
+        refreshEmailSourceButton.setText(bundle.getString("EmailBrowsingPanel.refreshEmailSourceButton.text")); // NOI18N
         refreshEmailSourceButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshEmailSourceButtonActionPerformed(evt);
@@ -144,14 +145,14 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             .addGroup(loadingPanelLayout.createSequentialGroup()
                 .addGroup(loadingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(loadEmailSourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(refreshEmailSourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
+                    .addComponent(refreshEmailSourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         loadingPanelLayout.setVerticalGroup(
             loadingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loadingPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(refreshEmailSourceButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -160,7 +161,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
 
         add(loadingPanel, java.awt.BorderLayout.WEST);
 
-        vewingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Content"));
+        vewingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("EmailBrowsingPanel.vewingPanel.border.title"))); // NOI18N
 
         emailsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -193,9 +194,9 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(emailsTable);
 
-        jLabel1.setText("Filter:");
+        jLabel1.setText(bundle.getString("EmailBrowsingPanel.jLabel1.text")); // NOI18N
 
-        filterEmailsTextField.setText(" ");
+        filterEmailsTextField.setText(bundle.getString("EmailBrowsingPanel.filterEmailsTextField.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -225,27 +226,27 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
             .addGroup(vewingPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(vewingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         vewingPanelLayout.setVerticalGroup(
             vewingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, vewingPanelLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         add(vewingPanel, java.awt.BorderLayout.CENTER);
 
-        statisticsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Email Statistics"));
+        statisticsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("EmailBrowsingPanel.statisticsPanel.border.title"))); // NOI18N
 
         factorSelectionPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11));
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(0, 70, 213));
-        jLabel20.setText("Statistics For:");
+        jLabel20.setText(bundle.getString("EmailBrowsingPanel.jLabel20.text")); // NOI18N
         factorSelectionPanel.add(jLabel20);
 
         typeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Inbox", "Send Items", "Frequency" }));
@@ -256,7 +257,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         });
         factorSelectionPanel.add(typeComboBox);
 
-        processEmailButton.setText("Process Email");
+        processEmailButton.setText(bundle.getString("EmailBrowsingPanel.processEmailButton.text")); // NOI18N
         processEmailButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 processEmailButtonActionPerformed(evt);
@@ -335,7 +336,7 @@ public class EmailBrowsingPanel extends javax.swing.JPanel {
         statisticsPanelLayout.setHorizontalGroup(
             statisticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statisticsPanelLayout.createSequentialGroup()
-                .addComponent(cardsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 568, Short.MAX_VALUE)
+                .addComponent(cardsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 572, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(factorSelectionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
         );

@@ -75,7 +75,8 @@ public class ReportPanel extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        ReportOptionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Report Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/reports/Bundle"); // NOI18N
+        ReportOptionsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, bundle.getString("ReportPanel.ReportOptionsPanel.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         ReportOptionsPanel.setPreferredSize(new java.awt.Dimension(200, 459));
 
         jToolBar4.setFloatable(false);
@@ -83,7 +84,7 @@ public class ReportPanel extends javax.swing.JPanel {
         jToolBar4.setRollover(true);
 
         fileSystemOptionButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/view_text.png"))); // NOI18N
-        fileSystemOptionButton.setText("File System Option");
+        fileSystemOptionButton.setText(bundle.getString("ReportPanel.fileSystemOptionButton.text")); // NOI18N
         fileSystemOptionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fileSystemOptionButtonActionPerformed(evt);
@@ -97,67 +98,67 @@ public class ReportPanel extends javax.swing.JPanel {
         ReportOptionsPanel.setLayout(ReportOptionsPanelLayout);
         ReportOptionsPanelLayout.setHorizontalGroup(
             ReportOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
         );
         ReportOptionsPanelLayout.setVerticalGroup(
             ReportOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
         );
 
         add(ReportOptionsPanel, java.awt.BorderLayout.WEST);
 
         OptionsPanels.setLayout(new java.awt.CardLayout());
 
-        fileSystemPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("File System Options"));
+        fileSystemPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("ReportPanel.fileSystemPanel.border.title"))); // NOI18N
 
-        jLabel2.setText("Report about all files inside the case");
+        jLabel2.setText(bundle.getString("ReportPanel.jLabel2.text")); // NOI18N
 
-        filesButton.setText("Options...");
+        filesButton.setText(bundle.getString("ReportPanel.filesButton.text")); // NOI18N
         filesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 filesButtonActionPerformed(evt);
             }
         });
 
-        jLabel4.setText("Report about all files size inside the case");
+        jLabel4.setText(bundle.getString("ReportPanel.jLabel4.text")); // NOI18N
 
-        filesSizeButton.setText("Options...");
+        filesSizeButton.setText(bundle.getString("ReportPanel.filesSizeButton.text")); // NOI18N
         filesSizeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 filesSizeButtonActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("Report about all files date inside the case");
+        jLabel5.setText(bundle.getString("ReportPanel.jLabel5.text")); // NOI18N
 
-        filesDateButton.setText("Options...");
+        filesDateButton.setText(bundle.getString("ReportPanel.filesDateButton.text")); // NOI18N
         filesDateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 filesDateButtonActionPerformed(evt);
             }
         });
 
-        jLabel6.setText("Report about all files authers inside the case");
+        jLabel6.setText(bundle.getString("ReportPanel.jLabel6.text")); // NOI18N
 
-        fileAuthersButton.setText("Options...");
+        fileAuthersButton.setText(bundle.getString("ReportPanel.fileAuthersButton.text")); // NOI18N
         fileAuthersButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fileAuthersButtonActionPerformed(evt);
             }
         });
 
-        jLabel7.setText("Report about all cases in this machine");
+        jLabel7.setText(bundle.getString("ReportPanel.jLabel7.text")); // NOI18N
 
-        casesButton.setText("Options...");
+        casesButton.setText(bundle.getString("ReportPanel.casesButton.text")); // NOI18N
         casesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 casesButtonActionPerformed(evt);
             }
         });
 
-        jLabel8.setText("Report about all tagged items in the case");
+        jLabel8.setText(bundle.getString("ReportPanel.jLabel8.text")); // NOI18N
 
-        taggedItemsButton.setText("Options...");
+        taggedItemsButton.setText(bundle.getString("ReportPanel.taggedItemsButton.text")); // NOI18N
         taggedItemsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 taggedItemsButtonActionPerformed(evt);
@@ -172,29 +173,29 @@ public class ReportPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(38, 38, 38)
-                        .addComponent(filesSizeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                        .addComponent(filesSizeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(35, 35, 35)
-                        .addComponent(taggedItemsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                        .addComponent(taggedItemsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(52, 52, 52)
-                        .addComponent(casesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                        .addComponent(casesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(19, 19, 19)
-                        .addComponent(fileAuthersButton, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                        .addComponent(fileAuthersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(34, 34, 34)
-                        .addComponent(filesDateButton, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                        .addComponent(filesDateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(59, 59, 59)
-                        .addComponent(filesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)))
+                        .addComponent(filesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -240,7 +241,7 @@ public class ReportPanel extends javax.swing.JPanel {
         fileSystemPanelLayout.setVerticalGroup(
             fileSystemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fileSystemPanelLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

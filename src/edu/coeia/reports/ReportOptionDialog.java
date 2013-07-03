@@ -58,14 +58,15 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         generateButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("DEM Report Options");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/reports/Bundle"); // NOI18N
+        setTitle(bundle.getString("ReportOptionDialog.title")); // NOI18N
 
         centerPanel.setLayout(new java.awt.BorderLayout());
         getContentPane().add(centerPanel, java.awt.BorderLayout.CENTER);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 204));
-        jLabel1.setText("Reports Options");
+        jLabel1.setText(bundle.getString("ReportOptionDialog.jLabel1.text")); // NOI18N
 
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
@@ -87,7 +88,7 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         getContentPane().add(headerPanel, java.awt.BorderLayout.PAGE_START);
 
         cencelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
-        cencelButton.setText("Cancel");
+        cencelButton.setText(bundle.getString("ReportOptionDialog.cencelButton.text")); // NOI18N
         cencelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cencelButtonActionPerformed(evt);
@@ -96,7 +97,7 @@ public class ReportOptionDialog extends javax.swing.JDialog {
         footerPanel.add(cencelButton);
 
         generateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/save.png"))); // NOI18N
-        generateButton.setText("Generate Report");
+        generateButton.setText(bundle.getString("ReportOptionDialog.generateButton.text")); // NOI18N
         generateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 generateButtonActionPerformed(evt);
