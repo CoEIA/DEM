@@ -35,4 +35,8 @@ public final class ResourceManager {
         bundle = ResourceBundle.getBundle(bundlePath, currentLocale);
         return bundle.getString(key);
     }
+        
+    private ResourceManager() {
+        throw new AssertionError("Cannot create object from this class");
+    }
 }
