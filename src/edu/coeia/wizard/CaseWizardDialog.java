@@ -35,6 +35,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 import chrriis.dj.nativeswing.swtimpl.components.JDirectoryDialog;
+import edu.coeia.constants.ResourceManager;
+import java.awt.ComponentOrientation;
 
 /*
  * IndexWizard.java
@@ -65,7 +67,8 @@ public class CaseWizardDialog extends javax.swing.JDialog{
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
-       
+        this.applyComponentOrientation(ComponentOrientation.getOrientation(ResourceManager.getLanguage()));
+        
         this.parentFrame = parent;
         backButton.setEnabled(false);
         finishButton.setEnabled(false);

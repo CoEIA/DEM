@@ -47,13 +47,14 @@ final class BackgroundProgressDialog extends javax.swing.JDialog{
         stopButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Processing....");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("edu/coeia/tasks/Bundle"); // NOI18N
+        setTitle(bundle.getString("BackgroundProgressDialog.title")); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setText("please wait while the end of currently working task....");
+        jLabel1.setText(bundle.getString("BackgroundProgressDialog.jLabel1.text")); // NOI18N
 
         stopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/coeia/main/resources/cancel.png"))); // NOI18N
-        stopButton.setText("Cancel");
+        stopButton.setText(bundle.getString("BackgroundProgressDialog.stopButton.text")); // NOI18N
         stopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stopButtonActionPerformed(evt);
@@ -82,7 +83,7 @@ final class BackgroundProgressDialog extends javax.swing.JDialog{
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(stopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
