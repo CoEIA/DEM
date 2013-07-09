@@ -7,8 +7,6 @@ package edu.coeia.main;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import edu.coeia.constants.SystemConstant;
 import edu.coeia.util.ApplicationLogging;
-import java.awt.Graphics2D;
-import java.awt.SplashScreen;
 import java.util.logging.Logger;
 
 /**
@@ -23,35 +21,15 @@ public class ApplicationLauncher {
     public static void main(String args[]) {
         NativeInterface.open(); // used for swing DJ Library
 
-        ApplicationLauncher.showSplashScreen();
+        Splasher.splashScreenWithProgressBar();        
+    }
+
+    // this is called from splash screen after finishing
+    public static void lunch() {
         ApplicationLauncher.logSystemInformation();
         ApplicationLauncher.showMainWindow();
     }
-
-    private static void showSplashScreen() {
-        SplashScreen splash = SplashScreen.getSplashScreen();
-        if (splash == null) {
-            System.out.println("No Splash Screen");
-            return;
-        }
-
-        Graphics2D g = splash.createGraphics();
-        if (g == null) {
-            System.out.println("Cannot create graphics");
-            return;
-        }
-
-        for (int i = 0; i < 50; i++) {
-            splash.update();
-            try {
-                Thread.sleep(90);
-            } catch (InterruptedException e) {
-            }
-        }
-
-        splash.close();
-    }
-
+    
     private static void logSystemInformation() {
         logger.info("Luanching DEM Application....");
         logger.info(String.format("Operating System: %s %s", SystemConstant.OS_NAME, SystemConstant.OS_VERSION));
@@ -71,5 +49,6 @@ public class ApplicationLauncher {
             }
         });
     }
+    
     private final static Logger logger = ApplicationLogging.getLogger();
 }
