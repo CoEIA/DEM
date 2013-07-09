@@ -15,7 +15,9 @@ package edu.coeia.tags;
  * @author wajdyessam
  */
 
-import java.util.Date ;
+import edu.coeia.constants.ResourceManager;
+import java.awt.ComponentOrientation;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class TagsDialog extends javax.swing.JDialog {
@@ -28,6 +30,7 @@ public class TagsDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
+        this.applyComponentOrientation(ComponentOrientation.getOrientation(ResourceManager.getLanguage()));
         
         // set defualt date
         this.time = new Date();
