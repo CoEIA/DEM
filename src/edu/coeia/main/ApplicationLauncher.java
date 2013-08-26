@@ -22,11 +22,8 @@ public class ApplicationLauncher {
      */
     public static void main(String args[]) {
         JarLoader.loadSWTLibrary();
-        
         UIUtils.setPreferredLookAndFeel();
-
         Splasher.splashScreenWithProgressBar();
-
         NativeInterface.open(); // used for swing DJ Library
         NativeInterface.runEventPump();
     }
