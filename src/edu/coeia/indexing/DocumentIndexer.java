@@ -12,7 +12,7 @@ import edu.coeia.util.HashCalculator;
 import edu.coeia.util.Utilities;
 
 import java.io.File;
-import java.io.StringWriter;
+import java.io.Reader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,6 @@ import java.util.Map;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.tika.Tika;
 import org.apache.tika.detect.DefaultDetector;
 import org.apache.tika.detect.Detector;
 import org.apache.tika.io.TikaInputStream;
@@ -28,7 +27,6 @@ import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
-import org.apache.tika.sax.BodyContentHandler;
 
 import org.xml.sax.ContentHandler;
 import org.xml.sax.helpers.DefaultHandler;
@@ -71,6 +69,8 @@ final class DocumentIndexer extends Indexer {
     private Document getFullTextAndMetadataDocument(final File file) throws Exception{
         Map<String, String> metadataMap = new HashMap<String, String>();
 
+        //System.out.println("Start: " + file.getAbsolutePath());
+        
         ContentHandler contentHandler;
         Document document = new Document();
 
@@ -118,8 +118,11 @@ final class DocumentIndexer extends Indexer {
             document.add(getNotAnlyzedField(FILE_DATE, DateTools.timeToString(this.getFile().lastModified(), DateTools.Resolution.MINUTE)));
             document.add(getNotAnlyzedField(FILE_MIME, FileUtil.getExtension(this.getFile())));
             //document.add(getAnalyzedField(FILE_CONTENT, writer.toString()));
-            document.add(new Field(FILE_CONTENT,  this.getIndexerManager().getTika().parse(file)));
-
+            
+            Reader reader = this.getIndexerManager().getTika().parse(file);
+            document.add(new Field(FILE_CONTENT,  reader));
+            //reader.close();
+            
             // unkown metadata extracted by Tika
             for(Map.Entry<String, String> entry: metadataMap.entrySet()) {
                 String name =  Utilities.getEmptyStringWhenNullString(entry.getKey());
@@ -133,6 +136,8 @@ final class DocumentIndexer extends Indexer {
             inputStream.close();
         }
 
+        //System.out.println("End: " + file.getAbsolutePath());
+        
         return document;
     }
     

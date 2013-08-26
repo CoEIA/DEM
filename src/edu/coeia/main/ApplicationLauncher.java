@@ -4,6 +4,7 @@
  */
 package edu.coeia.main;
 
+import chrriis.common.UIUtils;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import edu.coeia.constants.SystemConstant;
 import edu.coeia.util.ApplicationLogging;
@@ -19,9 +20,12 @@ public class ApplicationLauncher {
      * Main Entry Point Launch the application and display this main window
      */
     public static void main(String args[]) {
-        NativeInterface.open(); // used for swing DJ Library
+        UIUtils.setPreferredLookAndFeel();
 
-        Splasher.splashScreenWithProgressBar();        
+        Splasher.splashScreenWithProgressBar();
+
+        NativeInterface.open(); // used for swing DJ Library
+        NativeInterface.runEventPump();
     }
 
     // this is called from splash screen after finishing

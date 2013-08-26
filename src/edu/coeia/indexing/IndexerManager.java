@@ -44,7 +44,7 @@ public final class IndexerManager {
      */
     public static IndexerManager newInstance(final CaseFacade caseFacade) throws IOException{ 
         return new IndexerManager(caseFacade);
-    }
+    } 
     
     public boolean indexFile(File file) throws UnsupportedOperationException{
         return indexFile(file, 0);

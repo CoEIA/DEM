@@ -1422,4 +1422,10 @@ is divided into following sections:
             </propertyset>
         </ant>
     </target>
+    
+    <manifest file="MANIFEST.MF">
+      <!--<attribute name="Bundle-Name" value="${project.name}" />-->           
+      <!--<attribute name="Implementation-URL" value="http://coeia.edu.sa" />-->
+      <attribute name="SplashScreen-Image" value="edu/coeia/main/resources/loading.gif" /> 
+   </manifest>
 </project>

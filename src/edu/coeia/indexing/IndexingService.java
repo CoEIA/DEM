@@ -46,6 +46,7 @@ public class IndexingService {
     
     private final ExecutorService crawlerService = Executors.newSingleThreadExecutor();
     private final ExecutorService indexerService = Executors.newFixedThreadPool(NUMBER_OF_THREADS * 2);
+    //private final ExecutorService indexerService = Executors.newSingleThreadExecutor();
     
     public IndexingService (final IndexingDialog parentDialog) throws IOException{
         this.caseFacade = parentDialog.getCaseFacade();
