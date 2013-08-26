@@ -8,6 +8,7 @@ import chrriis.common.UIUtils;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import edu.coeia.constants.SystemConstant;
 import edu.coeia.util.ApplicationLogging;
+import edu.coeia.util.JarLoader;
 import java.util.logging.Logger;
 
 /**
@@ -20,6 +21,8 @@ public class ApplicationLauncher {
      * Main Entry Point Launch the application and display this main window
      */
     public static void main(String args[]) {
+        JarLoader.loadSWTLibrary();
+        
         UIUtils.setPreferredLookAndFeel();
 
         Splasher.splashScreenWithProgressBar();
