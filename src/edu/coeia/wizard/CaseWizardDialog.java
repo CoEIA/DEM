@@ -79,7 +79,7 @@ public class CaseWizardDialog extends javax.swing.JDialog{
     private CaseFacade caseFacade; 
 
     /** Creates new form IndexWizard */
-    public CaseWizardDialog(JFrame parent, boolean modal, boolean isFullVersion) {
+    public CaseWizardDialog(JFrame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);

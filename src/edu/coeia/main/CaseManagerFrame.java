@@ -58,7 +58,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
      * Full_LICENSE will require smart card filled with the number of case
      * required
      */
-    private static final LicenceManager licenseManager = LicenceManager.BETA_LICENSE; // select beta version
+    private static final LicenceManager licenseManager = LicenceManager.FULL_LICENSE; // select beta version
     /**
      * Application Manager Singleton object will create folder structures for
      * the cases and handle the list of all opening case to prevent opening the
@@ -396,8 +396,16 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
 
     private void checkLicenseAction() {
         if (licenseManager.isFullVersion()) { // show smart card inserting/usage dialog
-            SmartCardDialog scd = new SmartCardDialog(this, true, true);
-            scd.setVisible(true);
+            
+            //Fix for GPL!
+            //SmartCardDialog scd = new SmartCardDialog(this, true, true);
+            //scd.setVisible(true);
+            
+             JOptionPane.showMessageDialog(this,
+                    "This program is free software: you can redistribute it and/or modify\n it under the terms of the GNU General Public License as published by\n the Free Software Foundation, either version 3 of the License, or\n (at your option) any later version.\n" +
+                    "\n" + "This program is distributed in the hope that it will be useful\n,but WITHOUT ANY WARRANTY; without even the implied warranty of\n MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n GNU General Public License for more details.",
+                    "Copyright (C) 2014 - Center of Excellence in Information Assurance",
+                    JOptionPane.INFORMATION_MESSAGE);
         } else {
             int diff = licenseManager.getRemainingDays();
             JOptionPane.showMessageDialog(this,
@@ -473,8 +481,7 @@ public final class CaseManagerFrame extends javax.swing.JFrame {
     }
 
     private void createNewCaseAction() throws Exception {
-        CaseWizardDialog indexWizard = new CaseWizardDialog(CaseManagerFrame.this, true,
-                licenseManager.isFullVersion());
+        CaseWizardDialog indexWizard = new CaseWizardDialog(CaseManagerFrame.this, true);
         indexWizard.setVisible(true);
 
         CaseFacade facade = indexWizard.getCaseFacade();
