@@ -11,10 +11,13 @@ It is designed and developed to be used by intelligence analysts and crime inves
 Features:
 Capable of searching inside simple file format ( text files, html and html files, XML files ).
 Capable of searching inside MS-office programs 2003 to 2007 (MS-word, MS-power point and MS-excel).
-Capable of searching inside Archive Files (support  zip, gzip ) .
+Capable of searching inside Archive Files (support zip, gzip ) .
 Extracting All Images inside MS-Office documents and archive files.
 Extract all the metadata from images, documents, archive files.
 Capable of searching inside content and metadata.
 Advanced search options (AND, OR, NOT).
 Capable of searching in chat sessions (yahoo, Skype and windows live messenger).
 Capable of Searching inside online email (windows live, Gmail and Yahoo plus).
+
+for more information:
+http://coeia.github.io/DEM
