@@ -1,0 +1,20 @@
+Center of Excellence in Information Assurance - 2014
+http://coeia.ksu.edu.sa/
+====================================================
+
+Introduction:
+Digital Evidence Miner (DEM) is a forensic tool that combines information retrieval, information extraction, and data mining techniques to discover the digital evidences present in data or log files stored on the storage devices of your personal computer.
+	
+It is designed and developed to be used by intelligence analysts and crime investigators during forensics acquisition process. In addition to analyzing digital data stored in different file formats, it also analyzes images, e-mails, and online-chat logs for digital evidence extraction
+
+
+Features:
+Capable of searching inside simple file format ( text files, html and html files, XML files ).
+Capable of searching inside MS-office programs 2003 to 2007 (MS-word, MS-power point and MS-excel).
+Capable of searching inside Archive Files (support  zip, gzip ) .
+Extracting All Images inside MS-Office documents and archive files.
+Extract all the metadata from images, documents, archive files.
+Capable of searching inside content and metadata.
+Advanced search options (AND, OR, NOT).
+Capable of searching in chat sessions (yahoo, Skype and windows live messenger).
+Capable of Searching inside online email (windows live, Gmail and Yahoo plus).
